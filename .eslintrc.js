@@ -1,11 +1,16 @@
 module.exports = {
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended', //this plugin is required to use eslint for react, otherwise we will get errors for 'React' import, as 'no-unused-vars'
-  ],
   parser: 'babel-eslint',
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  plugins: ['react', 'react-hooks'],
   rules: {
     'react/jsx-filename-extension': 'off',
     'no-use-before-define': ['error', { variables: false }],
+    'no-unused-vars': 'error',
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
+  },
+  env: {
+    jest: true,
+    node: true,
   },
 };
