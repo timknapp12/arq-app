@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScreenContainer, H2 } from '../Common';
 
 const HomeScreen = () => {
   return (
-    <View>
-      <Text>HomeScreen Page</Text>
-    </View>
+    <ScreenContainer>
+      <H2>Home Screen</H2>
+    </ScreenContainer>
   );
 };
 
