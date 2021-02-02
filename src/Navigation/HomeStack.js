@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../components/HomeScreen';
-import ProfileScreen from '../components/ProfileScreen';
+import HomeScreen from '../Components/HomeScreen';
+import ProfileScreen from '../Components/ProfileScreen';
 
 const Home = createStackNavigator();
 
-export const HomeStack = () => {
+const HomeStack = () => {
   return (
     <Home.Navigator
       screenOptions={{
@@ -26,3 +26,4 @@ export const HomeStack = () => {
     </Home.Navigator>
   );
 };
+export default HomeStack;

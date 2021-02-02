@@ -1,30 +1,22 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import AppContext from './src/Contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from './src/Styles/themes';
+import LoginStack from './src/Navigation/LoginStack';
+import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <AppContext.Provider value={{ theme: darkTheme }}>
-        <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
-          <StatusBar style="auto" />
-        </View>
+        <StatusBar style="auto" />
+        <NavigationContainer>
+          <LoginStack />
+        </NavigationContainer>
       </AppContext.Provider>
     </ThemeProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;

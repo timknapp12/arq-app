@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // TODO replace IonIcons with real icons
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeStack from './HomeStack';
-import ProfileScreen from '../components/ProfileScreen';
-import AppContext from '../Contexts';
+import ProfileScreen from '../Components/ProfileScreen';
+import AppContext from '../Contexts/AppContext';
 
 const Tab = createBottomTabNavigator();
 
