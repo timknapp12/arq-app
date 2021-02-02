@@ -1,6 +1,7 @@
 export const lightTheme = {
   color: 'blue',
-  background: 'white',
+  invertedColor: 'white',
+  backgroundColor: 'white',
   activeBackground: 'blue',
   inactiveBackground: 'white',
   activeTint: 'white',
@@ -10,7 +11,8 @@ export const lightTheme = {
 
 export const darkTheme = {
   color: 'white',
-  background: 'darkBlue',
+  invertedColor: 'black',
+  backgroundColor: 'black',
   activeBackground: 'darkBlue',
   inactiveBackground: 'black',
   activeTint: 'white',
