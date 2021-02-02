@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4 } from './Texts';
 
+const InvertedH4 = styled(H4)`
+  color: ${(props) => props.theme.invertedColor};
+  text-align: center;
+`;
+
 const ThemedPrimaryButton = styled.TouchableOpacity`
-  background-color: ${(props) => props.theme.backgroundColor};
+  background-color: ${(props) => props.theme.color};
+  padding: 8px;
+  width: 100%;
 `;
 
 export const PrimaryButton = ({ children = 'Button', ...props }) => (
   <ThemedPrimaryButton {...props}>
-    <H4>{children}</H4>
+    <InvertedH4>{children}</InvertedH4>
   </ThemedPrimaryButton>
 );
 
