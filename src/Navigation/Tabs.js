@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // TODO replace IonIcons with real icons
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeStack from './HomeStack';
-import ProfileScreen from '../Components/ProfileScreen';
+import FeedScreen from '../Components/FeedScreen';
 import AppContext from '../Contexts/AppContext';
 
 const Tab = createBottomTabNavigator();
@@ -19,8 +19,8 @@ const Tabs = () => {
           let iconName;
           if (route.name === 'HomeScreen') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'ProfileScreen') {
-            iconName = focused ? 'account' : 'account-outline';
+          } else if (route.name === 'FeedScreen') {
+            iconName = focused ? 'message-text' : 'message-text-outline';
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -45,9 +45,9 @@ const Tabs = () => {
         options={{ title: 'Home' }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ title: 'Profile' }}
+        name="FeedScreen"
+        component={FeedScreen}
+        options={{ title: 'Feed' }}
       />
     </Tab.Navigator>
   );
