@@ -11,9 +11,9 @@ const HomeStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Home.Screen name="LoadingScreen" component={HomeScreen} />
+      <Home.Screen name="HomeScreen" component={HomeScreen} />
       <Home.Screen
-        name="HomeScreen"
+        name="ProfileScreen"
         component={ProfileScreen}
         options={{
           title: 'Please Home',

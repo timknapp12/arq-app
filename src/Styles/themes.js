@@ -4,8 +4,8 @@ export const lightTheme = {
   backgroundColor: 'white',
   activeBackground: 'blue',
   inactiveBackground: 'white',
-  activeTint: 'white',
-  inactiveTint: 'blue',
+  activeTint: 'orange',
+  inactiveTint: 'green',
   statusBar: 'dark-content',
 };
 
@@ -13,9 +13,9 @@ export const darkTheme = {
   color: 'white',
   invertedColor: 'black',
   backgroundColor: 'black',
-  activeBackground: 'darkBlue',
+  activeBackground: 'blue',
   inactiveBackground: 'black',
   activeTint: 'white',
-  inactiveTint: 'lightBlue',
+  inactiveTint: 'yellow',
   statusBar: 'light-content',
 };
