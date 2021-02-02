@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Home = () => {
+const FeedScreen = () => {
   return (
     <View>
-      <Text>Home Page</Text>
+      <Text>FeedScreen Page</Text>
     </View>
   );
 };
 
-export default Home;
+export default FeedScreen;
