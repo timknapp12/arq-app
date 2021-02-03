@@ -42,7 +42,7 @@ const Tabs = () => {
       <Tab.Screen
         name="HomeScreen"
         component={HomeStack}
-        options={{ title: 'Home' }}
+        options={{ title: 'Home', tabBarBadge: 3 }}
       />
       <Tab.Screen
         name="FeedScreen"

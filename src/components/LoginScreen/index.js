@@ -1,20 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { ScreenContainer, H2, PrimaryButton } from '../Common';
+import AppContext from '../../Contexts/AppContext';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
+  const { setIsSignedIn } = useContext(AppContext);
   return (
     <ScreenContainer>
       <H2>Login Screen</H2>
-      <PrimaryButton onPress={() => navigation.navigate('Tabs')}>
-        Go To Tabs
-      </PrimaryButton>
+      <PrimaryButton onPress={() => setIsSignedIn(true)}>Sign In</PrimaryButton>
     </ScreenContainer>
   );
-};
-
-LoginScreen.propTypes = {
-  navigation: PropTypes.object,
 };
 
 export default LoginScreen;

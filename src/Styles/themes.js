@@ -16,6 +16,6 @@ export const darkTheme = {
   activeBackground: 'blue',
   inactiveBackground: 'black',
   activeTint: 'white',
-  inactiveTint: 'yellow',
+  inactiveTint: 'red',
   statusBar: 'light-content',
 };

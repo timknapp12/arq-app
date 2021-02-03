@@ -8,7 +8,7 @@ const LoadingScreen = ({ navigation }) => {
     <ScreenContainer>
       <ActivityIndicator size="large" color="lightblue" />
       <H1>Loading...</H1>
-      <PrimaryButton onPress={() => navigation.navigate('LoginScreen')}>
+      <PrimaryButton onPress={() => navigation.navigate('Login Screen')}>
         Go to login screen
       </PrimaryButton>
     </ScreenContainer>
