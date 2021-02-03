@@ -7,20 +7,13 @@ const Home = createStackNavigator();
 
 const HomeStack = () => {
   return (
-    <Home.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Home.Screen name="HomeScreen" component={HomeScreen} />
+    <Home.Navigator>
+      <Home.Screen name="Home Screen" component={HomeScreen} />
       <Home.Screen
         name="ProfileScreen"
         component={ProfileScreen}
         options={{
-          title: 'Please Home',
-          gestureEnabled: false,
-          headerLeft: () => {
-            return null;
-          },
+          title: 'Profile',
         }}
       />
     </Home.Navigator>
