@@ -7,8 +7,10 @@ const HomeScreen = ({ navigation }) => {
   const { setIsSignedIn } = useContext(AppContext);
   return (
     <ScreenContainer>
-      <H2>Home Screen</H2>
-      <PrimaryButton onPress={() => navigation.navigate('ProfileScreen')}>
+      <H2 testID="home-screen-title">Home Screen</H2>
+      <PrimaryButton
+        testID="go-to-profile-button"
+        onPress={() => navigation.navigate('ProfileScreen')}>
         See Profile
       </PrimaryButton>
       <PrimaryButton
