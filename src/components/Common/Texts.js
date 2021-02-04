@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 
+// source for themes with styled components: https://styled-components.com/docs/advanced#theming
+
 export const H1 = styled.Text`
   font-size: 36px;
   color: ${(props) => props.theme.color};

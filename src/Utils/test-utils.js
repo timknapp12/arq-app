@@ -5,6 +5,8 @@ import AppContext from '../Contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from '../Styles/themes';
 
+// source for set up of config: https://testing-library.com/docs/react-native-testing-library/setup
+
 const setIsSignedIn = jest.fn();
 
 const AllTheProviders = ({ children }) => {

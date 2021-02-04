@@ -8,8 +8,11 @@ const HomeScreen = ({ navigation }) => {
   const { setIsSignedIn } = useContext(AppContext);
 
   const onPressProfile = () => {
-    console.log('tapped');
     navigation.navigate('ProfileScreen');
+    // source for analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
+    Analytics.setUserProperties({
+      rank: 'Platinum',
+    });
     Analytics.setUserId('test-user');
     Analytics.logEvent('Tapped button to go to profile screen', {
       screen: 'Home Screen',

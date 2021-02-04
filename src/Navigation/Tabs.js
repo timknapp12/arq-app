@@ -8,6 +8,7 @@ import FeedScreen from '../Components/FeedScreen';
 import AppContext from '../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 
+// source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
 const getActiveRouteName = (navigationState) => {
   if (!navigationState) return null;
   const route = navigationState.routes[navigationState.index];
@@ -16,6 +17,7 @@ const getActiveRouteName = (navigationState) => {
   return route.routeName;
 };
 
+// source for tab navigation: https://reactnavigation.org/docs/tab-based-navigation
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4 } from './Texts';
 
+// source for themes with styled components: https://styled-components.com/docs/advanced#theming
+
 const InvertedH4 = styled(H4)`
   color: ${(props) => props.theme.invertedColor};
   text-align: center;

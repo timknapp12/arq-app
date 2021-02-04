@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../Components/HomeScreen';
 import ProfileScreen from '../Components/ProfileScreen';
 
+// source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Home = createStackNavigator();
 
 const HomeStack = () => {

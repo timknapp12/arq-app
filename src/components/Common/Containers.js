@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 
+// source for themes with styled components: https://styled-components.com/docs/advanced#theming
+
 const sharedCss = {
   flex: 1,
   paddingTop: 60,

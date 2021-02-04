@@ -1,3 +1,4 @@
+// source for themes with styled components: https://styled-components.com/docs/advanced#theming
 export const lightTheme = {
   color: 'blue',
   invertedColor: 'white',
