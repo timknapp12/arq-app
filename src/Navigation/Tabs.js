@@ -6,6 +6,15 @@ import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeStack from './HomeStack';
 import FeedScreen from '../Components/FeedScreen';
 import AppContext from '../Contexts/AppContext';
+import * as Analytics from 'expo-firebase-analytics';
+
+const getActiveRouteName = (navigationState) => {
+  if (!navigationState) return null;
+  const route = navigationState.routes[navigationState.index];
+  // Parse the nested navigators
+  if (route.routes) return getActiveRouteName(route);
+  return route.routeName;
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -13,6 +22,14 @@ const Tabs = () => {
   const { theme } = useContext(AppContext);
   return (
     <Tab.Navigator
+      onNavigationStateChange={(prevState, currentState) => {
+        const currentScreen = getActiveRouteName(currentState);
+        const prevScreen = getActiveRouteName(prevState);
+        if (prevScreen !== currentScreen) {
+          // Update Firebase with the name of your screen
+          Analytics.setCurrentScreen(currentScreen);
+        }
+      }}
       screenOptions={({ route }) => ({
         // eslint-disable-next-line react/display-name
         tabBarIcon: ({ focused, color, size }) => {

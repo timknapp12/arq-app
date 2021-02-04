@@ -9,6 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 .eslintcache
+firebase.config.js
 
 # macOS
 .DS_Store

@@ -6,6 +6,12 @@ import { darkTheme } from './src/Styles/themes';
 import LoginStack from './src/Navigation/LoginStack';
 import Tabs from './src/Navigation/Tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import firebaseConfig from './firebase.config';
+import * as firebase from 'firebase';
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);

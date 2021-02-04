@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDWnLzYz2gq7BH4UhBD22A1ttPeSvDeVOo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>348281014348</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.qsciences.q-connect-pro-staging</string>
+	<key>PROJECT_ID</key>
+	<string>q-connect-pro-staging</string>
+	<key>STORAGE_BUCKET</key>
+	<string>q-connect-pro-staging.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:348281014348:ios:28b0e855f12e4e03594ce9</string>
+</dict>
+</plist>

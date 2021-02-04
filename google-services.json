@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "348281014348",
+    "project_id": "q-connect-pro-staging",
+    "storage_bucket": "q-connect-pro-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348281014348:android:e67bd1992b0630a4594ce9",
+        "android_client_info": {
+          "package_name": "com.qsciences.q_connect_pro_staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348281014348-lplk3ptkokcjse46og4uc5ektcnago28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE1nEF_ttwCmiVp0BCiSwq_M2ee4HA9bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348281014348-lplk3ptkokcjse46og4uc5ektcnago28.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
