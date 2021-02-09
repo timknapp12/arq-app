@@ -1,0 +1,12 @@
+{
+  "welcome": "sp Welcome to translation tutorial",
+  "login-instructions": "sp Log in if you already have a username and password",
+  "username": "sp Username",
+  "password": "sp Password",
+  "login-error": "sp Sorry, we couldn't log you in. Please re-enter your username and password",
+  "forgot-password": "sp Forgot password?",
+  "login-text": "sp Log In",
+  "terms": "sp Terms",
+  "privacy": "sp Privacy",
+  "data": "sp Data"
+}

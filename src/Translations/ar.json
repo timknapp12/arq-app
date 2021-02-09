@@ -1,0 +1,12 @@
+{
+  "welcome": "ar Welcome to translation tutorial",
+  "login-instructions": "ar Log in if you already have a username and password",
+  "username": "ar Username",
+  "password": "ar Password",
+  "login-error": "ar Sorry, we couldn't log you in. Please re-enter your username and password",
+  "forgot-password": "ar Forgot password?",
+  "login-text": "ar Log In",
+  "terms": "ar Terms",
+  "privacy": "ar Privacy",
+  "data": "ar Data"
+}
