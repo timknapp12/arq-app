@@ -11,6 +11,8 @@ const languageCodes = {
   french: 'fr',
   arabic: 'ar',
   japanese: 'ja',
+  norweigan: 'no',
+  german: 'de',
 };
 // TODO - transform path dynamically - can you use template literals in paths???
 //TODO - may have to add Localization.getLocalizationAsync() for Android to reset locale https://docs.expo.io/versions/latest/sdk/localization/
@@ -20,6 +22,8 @@ export const translationGetters = {
   fr: () => require('./fr.json'),
   ar: () => require('./ar.json'),
   ja: () => require('./ja.json'),
+  no: () => require('./no.json'),
+  de: () => require('./de.json'),
 };
 export const Localized = memoize(
   (key, config) =>

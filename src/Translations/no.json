@@ -1,0 +1,12 @@
+{
+  "welcome": "no Welcome to translation tutorial",
+  "login-instructions": "no Log in if you already have a username and password",
+  "username": "no Username",
+  "password": "no Password",
+  "login-error": "no Sorry, we couldn't log you in. Please re-enter your username and password",
+  "forgot-password": "no Forgot password?",
+  "login-text": "no Log In",
+  "terms": "no Terms",
+  "privacy": "no Privacy",
+  "data": "no Data"
+}
