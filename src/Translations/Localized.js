@@ -13,7 +13,6 @@ const languageCodes = {
   japanese: 'ja',
 };
 // TODO - transform path dynamically - can you use template literals in paths???
-
 //TODO - may have to add Localization.getLocalizationAsync() for Android to reset locale https://docs.expo.io/versions/latest/sdk/localization/
 export const translationGetters = {
   es: () => require('./es.json'),
@@ -29,7 +28,6 @@ export const Localized = memoize(
 );
 
 const mapToCode = (languageTag) => {
-  //   console.log('languageTag', languageTag);
   for (const property in languageCodes) {
     if (languageTag === languageCodes[property]) {
       return languageCodes[property];
@@ -38,7 +36,6 @@ const mapToCode = (languageTag) => {
 };
 export const init = () => {
   let localeLanguageTag = Localization.locale.substring(0, 2);
-  //   console.log('localeLanguageTag', localeLanguageTag);
   const filteredTag = mapToCode(localeLanguageTag) || 'en';
   let isRTL = Localization.isRTL;
   Localized.cache.clear();
