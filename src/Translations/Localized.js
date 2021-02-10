@@ -11,7 +11,7 @@ const languageCodes = {
   french: 'fr',
   arabic: 'ar',
   japanese: 'ja',
-  norweigan: 'no',
+  norweigan: 'nb',
   german: 'de',
 };
 // TODO - transform path dynamically - can you use template literals in paths???
@@ -22,7 +22,7 @@ export const translationGetters = {
   fr: () => require('./fr.json'),
   ar: () => require('./ar.json'),
   ja: () => require('./ja.json'),
-  no: () => require('./no.json'),
+  nb: () => require('./nb.json'),
   de: () => require('./de.json'),
 };
 export const Localized = memoize(
