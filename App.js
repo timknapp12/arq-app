@@ -10,6 +10,8 @@ import firebaseConfig from './firebase.config';
 import * as firebase from 'firebase';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -23,6 +25,15 @@ i18n.fallbacks = true;
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [loaded] = useFonts({
+    'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
+    'Nunito-Black': require('./assets/fonts/Nunito/Nunito-Black.ttf'),
+    'Nunito-Regular': require('./assets/fonts/Nunito/Nunito-Regular.ttf'),
+  });
+
+  if (!loaded) {
+    return <AppLoading />;
+  }
   return (
     <ThemeProvider theme={theme}>
       <AppContext.Provider value={{ theme, setTheme, setIsSignedIn }}>
