@@ -1,0 +1,15 @@
+{
+  "welcome": "fr Welcome to translation tutorial",
+  "login-instructions": "fr Log in if you already have a username and password",
+  "username": "fr Username",
+  "password": "fr Password",
+  "login-error": "fr Sorry, we couldn't log you in. Please re-enter your username and password",
+  "forgot-password": "fr Forgot password?",
+  "login-text": "fr Log In",
+  "terms": "fr Terms",
+  "privacy": "fr Privacy",
+  "data": "fr Data",
+  "recover-password-instructions": "fr Enter your email address or distributor ID to receive a link for log in.",
+  "send-email-text": "fr Send Email",
+  "email-address-placeholder": "fr Email address or distributor ID"
+}

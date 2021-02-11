@@ -1,0 +1,15 @@
+{
+  "welcome": "Welcome to Dasboard",
+  "login-instructions": "Log in if you already have a username and password",
+  "username": "Username",
+  "password": "Password",
+  "login-error": "Sorry, we couldn't log you in. Please re-enter your username and password",
+  "forgot-password": "Forgot password?",
+  "login-text": "Log In",
+  "terms": "Terms",
+  "privacy": "Privacy",
+  "data": "Data",
+  "recover-password-instructions": "Enter your email address or distributor ID to receive a link for log in.",
+  "send-email-text": "Send Email",
+  "email-address-placeholder": "Email address or distributor ID"
+}
