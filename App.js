@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import AppContext from './src/Contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from './src/Styles/themes';
@@ -39,7 +39,7 @@ const App = () => {
       <AppContext.Provider value={{ theme, setTheme, setIsSignedIn }}>
         <StatusBar
           backgroundColor={theme.backgroundColor}
-          barStyle={theme.statusBar}
+          style={theme.statusBar}
         />
         <NavigationContainer>
           {isSignedIn ? <Tabs /> : <LoginStack />}
