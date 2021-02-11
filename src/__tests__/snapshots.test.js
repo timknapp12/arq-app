@@ -29,7 +29,7 @@ describe.skip('snapshots for each screen', () => {
     const { toJSON } = render(<ProfileScreen />);
     expect(toJSON()).toMatchSnapshot();
   });
-  it('snapshot for ProfileScreen', () => {
+  it('snapshot for PasswordRecoveryScreen', () => {
     const { toJSON } = render(<PasswordRecoveryScreen />);
     expect(toJSON()).toMatchSnapshot();
   });
