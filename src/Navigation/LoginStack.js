@@ -37,7 +37,6 @@ const LoginStack = () => {
             fontSize: 24,
             fontFamily: 'Nunito-Regular',
           },
-          // headerBackTitleVisible: false,
         }}
       />
       <Login.Screen name="Loading Screen" component={LoadingScreen} />

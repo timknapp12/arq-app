@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
+import PropTypes from 'prop-types';
 import {
   ScreenContainer,
   Flexbox,
@@ -26,7 +27,7 @@ const LoginInstructions = styled(H4)`
   margin-bottom: 22px;
 `;
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   init();
   const { setIsSignedIn, theme } = useContext(AppContext);
   const [username, setUsername] = useState('');
@@ -40,6 +41,9 @@ const LoginScreen = () => {
     passwordRef.current.focus();
   };
   const onSubmit = () => {
+    if (isButtonDisabled) {
+      return;
+    }
     setIsSignedIn(true);
     Analytics.logEvent('Login_button_tapped', {
       screen: 'Login Screen',
@@ -65,7 +69,7 @@ const LoginScreen = () => {
           <Flexbox
             accessibilityLabel="Login Form"
             justify="space-between"
-            height="85%"
+            height="80%"
             padding={20}>
             <TouchableOpacity
               style={{ marginBottom: 10 }}
@@ -114,12 +118,14 @@ const LoginScreen = () => {
                   {Localized('login-error')}
                 </AlertText>
               )}
-              <TouchableOpacity testID="forgot-password-button">
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Password Recovery Screen')}
+                testID="forgot-password-button">
                 <H6>{Localized('forgot-password')}</H6>
               </TouchableOpacity>
             </Flexbox>
 
-            <Flexbox width="85%" accessibilityLabel="Login Button">
+            <Flexbox width="85%">
               <PrimaryButton
                 testID="login-button"
                 disabled={isButtonDisabled}
@@ -161,6 +167,10 @@ const LoginScreen = () => {
       </Flexbox>
     </ScreenContainer>
   );
+};
+
+LoginScreen.propTypes = {
+  navigation: PropTypes.object.isRequired,
 };
 
 export default LoginScreen;
