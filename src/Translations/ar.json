@@ -8,5 +8,8 @@
   "login-text": "ar Log In",
   "terms": "ar Terms",
   "privacy": "ar Privacy",
-  "data": "ar Data"
+  "data": "ar Data",
+  "recover-password-instructions": "ar Enter your email address or distributor ID to receive a link for log in.",
+  "send-email-text": "ar Send Email",
+  "email-address-placeholder": "ar Email address or distributor ID"
 }

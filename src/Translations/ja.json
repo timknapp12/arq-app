@@ -8,5 +8,8 @@
   "login-text": "ja Log In",
   "terms": "ja Terms",
   "privacy": "ja Privacy",
-  "data": "ja Data"
+  "data": "ja Data",
+  "recover-password-instructions": "ja Enter your email address or distributor ID to receive a link for log in.",
+  "send-email-text": "ja Send Email",
+  "email-address-placeholder": "ja Email address or distributor ID"
 }

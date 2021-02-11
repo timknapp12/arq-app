@@ -8,5 +8,8 @@
   "login-text": "sp Log In",
   "terms": "sp Terms",
   "privacy": "sp Privacy",
-  "data": "sp Data"
+  "data": "sp Data",
+  "recover-password-instructions": "sp Enter your email address or distributor ID to receive a link for log in.",
+  "send-email-text": "sp Send Email",
+  "email-address-placeholder": "sp Email address or distributor ID"
 }

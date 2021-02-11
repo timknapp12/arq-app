@@ -8,5 +8,8 @@
   "login-text": "fr Log In",
   "terms": "fr Terms",
   "privacy": "fr Privacy",
-  "data": "fr Data"
+  "data": "fr Data",
+  "recover-password-instructions": "fr Enter your email address or distributor ID to receive a link for log in.",
+  "send-email-text": "fr Send Email",
+  "email-address-placeholder": "fr Email address or distributor ID"
 }
