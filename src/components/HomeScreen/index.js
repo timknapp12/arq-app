@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ScreenContainer, H1, H2, PrimaryButton } from '../Common';
 import AppContext from '../../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
+import { useIsFocused } from '@react-navigation/native';
 
 const HomeScreen = ({ navigation }) => {
   init();
@@ -16,10 +17,19 @@ const HomeScreen = ({ navigation }) => {
     });
     Analytics.setUserId('test-user');
     Analytics.logEvent('go_to_profile_screen_button_tapped', {
-      screen: 'Home Screen',
+      screen: 'Dashboard Screen',
       purpose: 'View personal profile',
     });
   };
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) {
+      Analytics.logEvent('Dashboard_Screen_Visited', {
+        screen: 'Dashboard Screen',
+        purpose: 'User navigated to Dashboard Screen',
+      });
+    }
+  }, [isFocused]);
 
   return (
     <ScreenContainer>
