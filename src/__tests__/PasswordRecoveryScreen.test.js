@@ -4,7 +4,9 @@ import PasswordRecoveryScreen from '../Components/PasswordRecoveryScreen';
 
 describe('Testing react navigation', () => {
   test('screeen contains the intructions, 1 input fields and Submit Button', () => {
-    const { queryByTestId } = render(<PasswordRecoveryScreen />);
+    const { queryByTestId } = render(
+      <PasswordRecoveryScreen navigation={{}} />,
+    );
 
     const title = queryByTestId('recover-password-instructions');
     const emailInput = queryByTestId('email-input');

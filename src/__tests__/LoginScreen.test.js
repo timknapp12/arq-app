@@ -4,7 +4,7 @@ import LoginScreen from '../Components/LoginScreen';
 
 describe('Testing react navigation', () => {
   test('screeen contains the log in instructions, 2 input fields and Log in Button', () => {
-    const { queryByTestId } = render(<LoginScreen />);
+    const { queryByTestId } = render(<LoginScreen navigation={{}} />);
 
     const title = queryByTestId('login-instructions');
     const usernameInput = queryByTestId('username-input');

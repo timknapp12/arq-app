@@ -6,9 +6,8 @@ import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from '../Styles/themes';
 
 // source for set up of config: https://testing-library.com/docs/react-native-testing-library/setup
-
+jest.mock('@react-navigation/native');
 const setIsSignedIn = jest.fn();
-
 const AllTheProviders = ({ children }) => {
   return (
     <ThemeProvider theme={darkTheme}>

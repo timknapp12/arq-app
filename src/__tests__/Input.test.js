@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
-import { fireEvent, render, waitFor } from '../../Utils/test-utils';
-import { Input } from '../../Components/Common';
+import { fireEvent, render, waitFor } from '../Utils/test-utils';
+import { Input } from '../Components/Common';
 
 // example from https://testing-library.com/docs/react-native-testing-library/example-intro
 function Example() {
