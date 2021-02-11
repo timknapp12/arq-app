@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '../Utils/test-utils';
 
-import FeedScreen from '../Components/FeedScreen';
+import NewsScreen from '../Components/NewsScreen';
 import HomeScreen from '../Components/HomeScreen';
 import LoadingScreen from '../Components/LoadingScreen';
 import LoginScreen from '../Components/LoginScreen';
@@ -9,8 +9,8 @@ import ProfileScreen from '../Components/ProfileScreen';
 import PasswordRecoveryScreen from '../Components/PasswordRecoveryScreen';
 
 describe.skip('snapshots for each screen', () => {
-  it('snapshot for FeedScreen', () => {
-    const { toJSON } = render(<FeedScreen />);
+  it('snapshot for NewsScreen', () => {
+    const { toJSON } = render(<NewsScreen />);
     expect(toJSON()).toMatchSnapshot();
   });
   it('snapshot for HomeScreen', () => {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshots for each screen snapshot for FeedScreen 1`] = `
+exports[`snapshots for each screen snapshot for NewsScreen 1`] = `
 <View
   style={
     Array [

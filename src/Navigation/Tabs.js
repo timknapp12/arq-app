@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// TODO replace IonIcons with real icons
-import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Image } from 'react-native';
 import HomeStack from './HomeStack';
-import FeedScreen from '../Components/FeedScreen';
+import NewsScreen from '../Components/NewsScreen';
+import ResourcesScreen from '../Components/ResourcesScreen';
 import AppContext from '../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
+import business from '../../assets/icons/business.png';
+import resources from '../../assets/icons/resources.png';
+import news from '../../assets/icons/news.png';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
 const getActiveRouteName = (navigationState) => {
@@ -34,14 +37,16 @@ const Tabs = () => {
       }}
       screenOptions={({ route }) => ({
         // eslint-disable-next-line react/display-name
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+        tabBarIcon: () => {
+          let source;
           if (route.name === 'HomeScreen') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'FeedScreen') {
-            iconName = focused ? 'message-text' : 'message-text-outline';
+            source = business;
+          } else if (route.name === 'ResourcesScreen') {
+            source = resources;
+          } else if (route.name === 'NewsScreen') {
+            source = news;
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Image source={source} style={{ width: 20, height: 20 }} />;
         },
       })}
       tabBarOptions={{
@@ -54,19 +59,28 @@ const Tabs = () => {
         },
         tabStyle: {
           paddingBottom: 20,
-          paddingTop: 4,
+          paddingTop: 8,
         },
-        style: { height: 60 },
+        style: { height: 70 },
+        labelStyle: {
+          fontFamily: 'Nunito-Black',
+          fontSize: 14,
+        },
       }}>
       <Tab.Screen
         name="HomeScreen"
         component={HomeStack}
-        options={{ title: 'Home', tabBarBadge: 3 }}
+        options={{ title: 'Business' }}
       />
       <Tab.Screen
-        name="FeedScreen"
-        component={FeedScreen}
-        options={{ title: 'Feed' }}
+        name="ResourcesScreen"
+        component={ResourcesScreen}
+        options={{ title: 'Resources' }}
+      />
+      <Tab.Screen
+        name="NewsScreen"
+        component={NewsScreen}
+        options={{ title: 'News' }}
       />
     </Tab.Navigator>
   );
