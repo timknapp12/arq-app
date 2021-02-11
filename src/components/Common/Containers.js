@@ -7,17 +7,30 @@ import styled from 'styled-components/native';
 
 const sharedCss = {
   flex: 1,
-  paddingTop: 10,
+  paddingTop: 40,
+  paddingBottom: 40,
   alignItems: 'center',
   justifyContent: 'center',
   height: '100%',
   width: '100%',
 };
 
-export const ScreenContainer = styled.SafeAreaView`
+const ThemedScreenContainer = styled.SafeAreaView`
   ${sharedCss};
   background-color: ${(props) => props.theme.backgroundColor};
 `;
+
+export const ScreenContainer = ({ children, ...props }) => (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <ThemedScreenContainer accessible={true} {...props}>
+      {children}
+    </ThemedScreenContainer>
+  </TouchableWithoutFeedback>
+);
+
+ScreenContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 // Flexbox
 const StyledView = styled.View`
@@ -31,11 +44,9 @@ const StyledView = styled.View`
 `;
 
 export const Flexbox = ({ children, ...props }) => (
-  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <StyledView accessible={true} {...props}>
-      {children}
-    </StyledView>
-  </TouchableWithoutFeedback>
+  <StyledView accessible={true} {...props}>
+    {children}
+  </StyledView>
 );
 
 Flexbox.propTypes = {
