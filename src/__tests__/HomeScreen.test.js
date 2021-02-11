@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '../Utils/test-utils';
 
-import HomeScreen from '../Components/HomeScreen';
+import HomeScreen from '../components/HomeScreen';
 
 describe('<HomeScreen />', () => {
   it('Home Screen has a title called Home Screen', async () => {

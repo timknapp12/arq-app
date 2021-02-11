@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '../Utils/test-utils';
-import LoginScreen from '../Components/LoginScreen';
+import LoginScreen from '../components/LoginScreen';
 
 describe('Testing react navigation', () => {
   test('screeen contains the log in instructions, 2 input fields and Log in Button', () => {

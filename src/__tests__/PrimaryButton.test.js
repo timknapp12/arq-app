@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '../Utils/test-utils';
-import { PrimaryButton } from '../Components/Common';
+import { PrimaryButton } from '../components/Common';
 
 describe('Primary Button', () => {
   it('onPress works nad has required children props', async () => {

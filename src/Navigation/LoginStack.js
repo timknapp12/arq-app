@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoadingScreen from '../Components/LoadingScreen';
-import LoginScreen from '../Components/LoginScreen';
-import PasswordRecoveryScreen from '../Components/PasswordRecoveryScreen';
+import LoadingScreen from '../components/LoadingScreen';
+import LoginScreen from '../components/LoginScreen';
+import PasswordRecoveryScreen from '../components/PasswordRecoveryScreen';
 import { white, blue } from '../Styles/colors';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation

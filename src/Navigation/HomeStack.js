@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../Components/HomeScreen';
-import ProfileScreen from '../Components/ProfileScreen';
+import HomeScreen from '../components/HomeScreen';
+import ProfileScreen from '../components/ProfileScreen';
 import { white, blue } from '../Styles/colors';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation

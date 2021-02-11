@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '../Utils/test-utils';
-import PasswordRecoveryScreen from '../Components/PasswordRecoveryScreen';
+import PasswordRecoveryScreen from '../components/PasswordRecoveryScreen';
 
 describe('Testing react navigation', () => {
   test('screeen contains the intructions, 1 input fields and Submit Button', () => {

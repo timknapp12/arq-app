@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '../Utils/test-utils';
 
-import NewsScreen from '../Components/NewsScreen';
-import HomeScreen from '../Components/HomeScreen';
-import LoadingScreen from '../Components/LoadingScreen';
-import LoginScreen from '../Components/LoginScreen';
-import ProfileScreen from '../Components/ProfileScreen';
-import PasswordRecoveryScreen from '../Components/PasswordRecoveryScreen';
+import NewsScreen from '../components/NewsScreen';
+import HomeScreen from '../components/HomeScreen';
+import LoadingScreen from '../components/LoadingScreen';
+import LoginScreen from '../components/LoginScreen';
+import ProfileScreen from '../components/ProfileScreen';
+import PasswordRecoveryScreen from '../components/PasswordRecoveryScreen';
 
 describe.skip('snapshots for each screen', () => {
   it('snapshot for NewsScreen', () => {
