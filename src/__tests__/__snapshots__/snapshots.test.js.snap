@@ -1,18 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshots for each screen snapshot for NewsScreen 1`] = `
-<View
+exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
+<RCTSafeAreaView
+  accessible={true}
+  emulateUnlessSupported={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "black",
+        "backgroundColor": "#000000",
         "flexBasis": 0,
         "flexGrow": 1,
         "flexShrink": 1,
         "height": "100%",
         "justifyContent": "center",
-        "paddingTop": 60,
+        "paddingBottom": 40,
+        "paddingTop": 40,
         "width": "100%",
       },
     ]
@@ -22,40 +33,21 @@ exports[`snapshots for each screen snapshot for NewsScreen 1`] = `
     style={
       Array [
         Object {
-          "color": "white",
-          "fontSize": 24,
+          "color": "#ffffff",
+          "fontSize": 36,
         },
       ]
     }
+    testID="home-screen-welcome"
   >
-    Feed Screen
+    welcome
   </Text>
-</View>
-`;
-
-exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
-<View
-  style={
-    Array [
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "black",
-        "flexBasis": 0,
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "height": "100%",
-        "justifyContent": "center",
-        "paddingTop": 60,
-        "width": "100%",
-      },
-    ]
-  }
->
   <Text
     style={
       Array [
         Object {
-          "color": "white",
+          "color": "#ffffff",
+          "fontFamily": "Nunito-Black",
           "fontSize": 24,
         },
       ]
@@ -76,12 +68,15 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "backgroundColor": "white",
+        "alignItems": "center",
+        "backgroundColor": "#006699",
+        "borderColor": "#006699",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "display": "flex",
+        "height": 40,
+        "justifyContent": "center",
         "opacity": 1,
-        "paddingBottom": 8,
-        "paddingLeft": 8,
-        "paddingRight": 8,
-        "paddingTop": 8,
         "width": "100%",
       }
     }
@@ -91,9 +86,9 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
       style={
         Array [
           Object {
-            "color": "black",
-            "fontSize": 18,
-            "textAlign": "center",
+            "color": "#ffffff",
+            "fontFamily": "Nunito-Black",
+            "fontSize": 24,
           },
         ]
       }
@@ -113,13 +108,16 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "backgroundColor": "white",
+        "alignItems": "center",
+        "backgroundColor": "#006699",
+        "borderColor": "#006699",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "display": "flex",
+        "height": 40,
+        "justifyContent": "center",
         "marginTop": 12,
         "opacity": 1,
-        "paddingBottom": 8,
-        "paddingLeft": 8,
-        "paddingRight": 8,
-        "paddingTop": 8,
         "width": "100%",
       }
     }
@@ -128,9 +126,9 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
       style={
         Array [
           Object {
-            "color": "black",
-            "fontSize": 18,
-            "textAlign": "center",
+            "color": "#ffffff",
+            "fontFamily": "Nunito-Black",
+            "fontSize": 24,
           },
         ]
       }
@@ -138,22 +136,33 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
       Sign out
     </Text>
   </View>
-</View>
+</RCTSafeAreaView>
 `;
 
 exports[`snapshots for each screen snapshot for LoadingScreen 1`] = `
-<View
+<RCTSafeAreaView
+  accessible={true}
+  emulateUnlessSupported={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "black",
+        "backgroundColor": "#000000",
         "flexBasis": 0,
         "flexGrow": 1,
         "flexShrink": 1,
         "height": "100%",
         "justifyContent": "center",
-        "paddingTop": 60,
+        "paddingBottom": 40,
+        "paddingTop": 40,
         "width": "100%",
       },
     ]
@@ -169,7 +178,7 @@ exports[`snapshots for each screen snapshot for LoadingScreen 1`] = `
     style={
       Array [
         Object {
-          "color": "white",
+          "color": "#ffffff",
           "fontSize": 36,
         },
       ]
@@ -189,12 +198,15 @@ exports[`snapshots for each screen snapshot for LoadingScreen 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "backgroundColor": "white",
+        "alignItems": "center",
+        "backgroundColor": "#006699",
+        "borderColor": "#006699",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "display": "flex",
+        "height": 40,
+        "justifyContent": "center",
         "opacity": 1,
-        "paddingBottom": 8,
-        "paddingLeft": 8,
-        "paddingRight": 8,
-        "paddingTop": 8,
         "width": "100%",
       }
     }
@@ -203,9 +215,9 @@ exports[`snapshots for each screen snapshot for LoadingScreen 1`] = `
       style={
         Array [
           Object {
-            "color": "black",
-            "fontSize": 18,
-            "textAlign": "center",
+            "color": "#ffffff",
+            "fontFamily": "Nunito-Black",
+            "fontSize": 24,
           },
         ]
       }
@@ -213,22 +225,622 @@ exports[`snapshots for each screen snapshot for LoadingScreen 1`] = `
       Go to login screen
     </Text>
   </View>
-</View>
+</RCTSafeAreaView>
 `;
 
 exports[`snapshots for each screen snapshot for LoginScreen 1`] = `
-<View
+<RCTSafeAreaView
+  accessible={true}
+  emulateUnlessSupported={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "black",
+        "backgroundColor": "#000000",
         "flexBasis": 0,
         "flexGrow": 1,
         "flexShrink": 1,
         "height": "100%",
         "justifyContent": "center",
-        "paddingTop": 60,
+        "paddingBottom": 40,
+        "paddingTop": 40,
+        "width": "100%",
+      },
+    ]
+  }
+>
+  <View
+    accessible={true}
+    height="100%"
+    justify="space-between"
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "column",
+          "height": "100%",
+          "justifyContent": "space-between",
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        Array [
+          Object {
+            "flex": 1,
+            "width": "100%",
+          },
+          Object {
+            "paddingBottom": 0,
+          },
+        ]
+      }
+    >
+      <View
+        accessibilityLabel="Login Form"
+        accessible={true}
+        height="80%"
+        justify="space-between"
+        padding={20}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+              "flexDirection": "column",
+              "height": "80%",
+              "justifyContent": "space-between",
+              "paddingBottom": 20,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "paddingTop": 20,
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "marginBottom": 10,
+              "opacity": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#FF0000",
+                  "fontSize": 14,
+                },
+              ]
+            }
+          >
+            Toggle Error
+          </Text>
+        </View>
+        <Image
+          source={1}
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#ffffff",
+                "fontFamily": "Nunito-Regular",
+                "fontSize": 18,
+                "marginBottom": 22,
+                "paddingBottom": 0,
+                "paddingLeft": 22,
+                "paddingRight": 22,
+                "paddingTop": 0,
+                "textAlign": "center",
+              },
+            ]
+          }
+          testID="login-instructions"
+        >
+          login-instructions
+        </Text>
+        <View
+          accessible={true}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "column",
+                "height": "auto",
+                "justifyContent": "space-between",
+                "paddingBottom": 0,
+                "paddingLeft": 0,
+                "paddingRight": 0,
+                "paddingTop": 0,
+                "width": "100%",
+              },
+              Object {
+                "marginBottom": 22,
+              },
+            ]
+          }
+        >
+          <View
+            focused={false}
+            style={
+              Array [
+                Object {
+                  "alignItems": "flex-end",
+                  "borderBottomColor": "#979797",
+                  "borderBottomWidth": 1,
+                  "flexDirection": "row",
+                  "height": 28,
+                  "paddingBottom": 4,
+                  "width": "100%",
+                },
+              ]
+            }
+          >
+            <TextInput
+              allowFontScaling={true}
+              keyboardType="email-address"
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              placeholder="username"
+              placeholderTextColor="#979797"
+              rejectResponderTermination={true}
+              returnKeyType="next"
+              secureTextEntry={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#ffffff",
+                    "flexBasis": 0,
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 16,
+                  },
+                  Object {
+                    "fontFamily": "Roboto-Regular",
+                  },
+                ]
+              }
+              testID="username-input"
+              underlineColorAndroid="transparent"
+              value=""
+            />
+          </View>
+        </View>
+        <View
+          accessible={true}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "column",
+                "height": "auto",
+                "justifyContent": "space-between",
+                "paddingBottom": 0,
+                "paddingLeft": 0,
+                "paddingRight": 0,
+                "paddingTop": 0,
+                "width": "100%",
+              },
+              Object {
+                "marginBottom": 12,
+              },
+            ]
+          }
+        >
+          <View
+            focused={false}
+            style={
+              Array [
+                Object {
+                  "alignItems": "flex-end",
+                  "borderBottomColor": "#979797",
+                  "borderBottomWidth": 1,
+                  "flexDirection": "row",
+                  "height": 28,
+                  "paddingBottom": 4,
+                  "width": "100%",
+                },
+              ]
+            }
+          >
+            <TextInput
+              allowFontScaling={true}
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              placeholder="password"
+              placeholderTextColor="#979797"
+              rejectResponderTermination={true}
+              returnKeyType="go"
+              secureTextEntry={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#ffffff",
+                    "flexBasis": 0,
+                    "flexGrow": 1,
+                    "flexShrink": 1,
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 16,
+                  },
+                  Object {
+                    "fontFamily": "Roboto-Regular",
+                  },
+                ]
+              }
+              testID="password-input"
+              underlineColorAndroid="transparent"
+              value=""
+            />
+            <View
+              accessible={true}
+              focusable={true}
+              hitSlop={
+                Object {
+                  "bottom": 8,
+                  "left": 8,
+                  "right": 8,
+                  "top": 8,
+                }
+              }
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              testID="show-passord-button"
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+        <View
+          accessible={true}
+          height="60px"
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "column",
+                "height": 60,
+                "justifyContent": "space-between",
+                "paddingBottom": 0,
+                "paddingLeft": 0,
+                "paddingRight": 0,
+                "paddingTop": 0,
+                "width": "100%",
+              },
+              Object {
+                "marginBottom": 20,
+              },
+            ]
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+            testID="forgot-password-button"
+          >
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#ffffff",
+                    "fontFamily": "Roboto-Regular",
+                    "fontSize": 14,
+                  },
+                ]
+              }
+            >
+              forgot-password
+            </Text>
+          </View>
+        </View>
+        <View
+          accessible={true}
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "column",
+                "height": "auto",
+                "justifyContent": "space-between",
+                "paddingBottom": 0,
+                "paddingLeft": 0,
+                "paddingRight": 0,
+                "paddingTop": 0,
+                "width": "85%",
+              },
+            ]
+          }
+          width="85%"
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#D8D8D8",
+                "borderColor": "#D8D8D8",
+                "borderRadius": 5,
+                "borderWidth": 1,
+                "display": "flex",
+                "height": 40,
+                "justifyContent": "center",
+                "marginTop": 12,
+                "opacity": 1,
+                "width": "100%",
+              }
+            }
+            testID="login-button"
+          >
+            <Text
+              disabled={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#979797",
+                    "fontFamily": "Nunito-Black",
+                    "fontSize": 24,
+                  },
+                ]
+              }
+            >
+              login-text
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        Object {
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Terms Privacy Data"
+        accessible={true}
+        direction="row"
+        justify="center"
+        padding={14}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+              "flexDirection": "row",
+              "height": "auto",
+              "justifyContent": "center",
+              "paddingBottom": 14,
+              "paddingLeft": 14,
+              "paddingRight": 14,
+              "paddingTop": 14,
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID="terms-button"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#ffffff",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 18,
+                },
+              ]
+            }
+          >
+            terms
+          </Text>
+        </View>
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#ffffff",
+                "fontFamily": "Nunito-Regular",
+                "fontSize": 18,
+              },
+              Object {
+                "marginStart": 8,
+              },
+            ]
+          }
+        >
+          |
+        </Text>
+        <View
+          accessible={true}
+          focusable={false}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "marginStart": 8,
+              "opacity": 1,
+            }
+          }
+          testID="privacy-button"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#ffffff",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 18,
+                },
+              ]
+            }
+          >
+            privacy
+          </Text>
+        </View>
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#ffffff",
+                "fontFamily": "Nunito-Regular",
+                "fontSize": 18,
+              },
+              Object {
+                "marginStart": 8,
+              },
+            ]
+          }
+        >
+          |
+        </Text>
+        <View
+          accessible={true}
+          focusable={false}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "marginStart": 8,
+              "opacity": 1,
+            }
+          }
+          testID="data-button"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#ffffff",
+                  "fontFamily": "Nunito-Regular",
+                  "fontSize": 18,
+                },
+              ]
+            }
+          >
+            data
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTSafeAreaView>
+`;
+
+exports[`snapshots for each screen snapshot for NewsScreen 1`] = `
+<RCTSafeAreaView
+  accessible={true}
+  emulateUnlessSupported={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#000000",
+        "flexBasis": 0,
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "height": "100%",
+        "justifyContent": "center",
+        "paddingBottom": 40,
+        "paddingTop": 40,
         "width": "100%",
       },
     ]
@@ -238,66 +850,282 @@ exports[`snapshots for each screen snapshot for LoginScreen 1`] = `
     style={
       Array [
         Object {
-          "color": "white",
+          "color": "#ffffff",
+          "fontFamily": "Nunito-Black",
           "fontSize": 24,
         },
       ]
     }
   >
-    Login Screen
+    News Screen
   </Text>
-  <View
-    accessible={true}
-    focusable={true}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      Object {
-        "backgroundColor": "white",
-        "opacity": 1,
-        "paddingBottom": 8,
-        "paddingLeft": 8,
-        "paddingRight": 8,
-        "paddingTop": 8,
-        "width": "100%",
-      }
-    }
-  >
-    <Text
-      style={
-        Array [
-          Object {
-            "color": "black",
-            "fontSize": 18,
-            "textAlign": "center",
-          },
-        ]
-      }
-    >
-      Sign In
-    </Text>
-  </View>
-</View>
+</RCTSafeAreaView>
 `;
 
-exports[`snapshots for each screen snapshot for ProfileScreen 1`] = `
-<View
+exports[`snapshots for each screen snapshot for PasswordRecoveryScreen 1`] = `
+<RCTSafeAreaView
+  accessible={true}
+  emulateUnlessSupported={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
   style={
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "black",
+        "backgroundColor": "#000000",
         "flexBasis": 0,
         "flexGrow": 1,
         "flexShrink": 1,
         "height": "100%",
         "justifyContent": "center",
-        "paddingTop": 60,
+        "paddingBottom": 40,
+        "paddingTop": 40,
+        "width": "100%",
+      },
+      Object {
+        "justifyContent": "flex-start",
+      },
+    ]
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "height": "90%",
+          "justifyContent": "center",
+          "width": "100%",
+        },
+        Object {
+          "paddingBottom": 0,
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityLabel="Password Recovery Form"
+      accessible={true}
+      height="100%"
+      justify="space-around"
+      padding={20}
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+            "justifyContent": "space-around",
+            "paddingBottom": 20,
+            "paddingLeft": 20,
+            "paddingRight": 20,
+            "paddingTop": 20,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View />
+      <Image
+        source={1}
+      />
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#ffffff",
+              "fontFamily": "Nunito-Regular",
+              "fontSize": 18,
+              "marginBottom": 22,
+              "marginLeft": 0,
+              "marginRight": 0,
+              "marginTop": 22,
+              "paddingBottom": 0,
+              "paddingLeft": 22,
+              "paddingRight": 22,
+              "paddingTop": 0,
+              "textAlign": "center",
+            },
+          ]
+        }
+        testID="recover-password-instructions"
+      >
+        recover-password-instructions
+      </Text>
+      <View
+        accessible={true}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+              "flexDirection": "column",
+              "height": "auto",
+              "justifyContent": "space-between",
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "width": "100%",
+            },
+            Object {
+              "marginBottom": 22,
+            },
+          ]
+        }
+      >
+        <View
+          focused={false}
+          style={
+            Array [
+              Object {
+                "alignItems": "flex-end",
+                "borderBottomColor": "#979797",
+                "borderBottomWidth": 1,
+                "flexDirection": "row",
+                "height": 28,
+                "paddingBottom": 4,
+                "width": "100%",
+              },
+            ]
+          }
+        >
+          <TextInput
+            allowFontScaling={true}
+            keyboardType="email-address"
+            onBlur={[Function]}
+            onChangeText={[Function]}
+            onFocus={[Function]}
+            onSubmitEditing={[Function]}
+            placeholder="email-address-placeholder"
+            placeholderTextColor="#979797"
+            rejectResponderTermination={true}
+            returnKeyType="go"
+            secureTextEntry={false}
+            style={
+              Array [
+                Object {
+                  "color": "#ffffff",
+                  "flexBasis": 0,
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "fontFamily": "Roboto-Regular",
+                  "fontSize": 16,
+                },
+                Object {
+                  "fontFamily": "Roboto-Regular",
+                },
+              ]
+            }
+            testID="email-input"
+            underlineColorAndroid="transparent"
+            value=""
+          />
+        </View>
+      </View>
+      <View
+        accessible={true}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "display": "flex",
+              "flexDirection": "column",
+              "height": "auto",
+              "justifyContent": "space-between",
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "width": "85%",
+            },
+          ]
+        }
+        width="85%"
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#D8D8D8",
+              "borderColor": "#D8D8D8",
+              "borderRadius": 5,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 40,
+              "justifyContent": "center",
+              "marginTop": 12,
+              "opacity": 1,
+              "width": "100%",
+            }
+          }
+          testID="password-recovery-button"
+        >
+          <Text
+            disabled={true}
+            style={
+              Array [
+                Object {
+                  "color": "#979797",
+                  "fontFamily": "Nunito-Black",
+                  "fontSize": 24,
+                },
+              ]
+            }
+          >
+            send-email-text
+          </Text>
+        </View>
+      </View>
+      <View />
+      <View />
+      <View />
+      <View />
+    </View>
+  </View>
+</RCTSafeAreaView>
+`;
+
+exports[`snapshots for each screen snapshot for ProfileScreen 1`] = `
+<RCTSafeAreaView
+  accessible={true}
+  emulateUnlessSupported={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#000000",
+        "flexBasis": 0,
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "height": "100%",
+        "justifyContent": "center",
+        "paddingBottom": 40,
+        "paddingTop": 40,
         "width": "100%",
       },
     ]
@@ -307,7 +1135,8 @@ exports[`snapshots for each screen snapshot for ProfileScreen 1`] = `
     style={
       Array [
         Object {
-          "color": "white",
+          "color": "#ffffff",
+          "fontFamily": "Nunito-Black",
           "fontSize": 24,
         },
       ]
@@ -319,7 +1148,8 @@ exports[`snapshots for each screen snapshot for ProfileScreen 1`] = `
     style={
       Array [
         Object {
-          "color": "white",
+          "color": "#ffffff",
+          "fontFamily": "Nunito-Regular",
           "fontSize": 18,
         },
       ]
@@ -328,5 +1158,5 @@ exports[`snapshots for each screen snapshot for ProfileScreen 1`] = `
   >
     Welcome to the Profile Screen
   </Text>
-</View>
+</RCTSafeAreaView>
 `;

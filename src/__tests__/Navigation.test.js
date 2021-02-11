@@ -20,7 +20,7 @@ describe('Testing react navigation', () => {
     const title = await getAllByText('Home Screen');
     const button = await findAllByText('See Profile');
 
-    expect(title.length).toBe(2);
+    expect(title.length).toBe(1);
     expect(button.length).toBe(1);
   });
 
