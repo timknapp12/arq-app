@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import { Image } from 'react-native';
 import { ScreenContainer, Flexbox, Input, H4, PrimaryButton } from '../Common';
@@ -47,52 +46,39 @@ const PasswordRecoveryScreen = ({ navigation }) => {
       style={{
         justifyContent: 'flex-start',
       }}>
-      <KeyboardAvoidingView
-        style={{
-          width: '100%',
-          height: '90%',
-          justifyContent: 'center',
-        }}
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-        <Flexbox
-          height="100%"
-          justify="space-around"
-          accessibilityLabel="Password Recovery Form"
-          padding={20}>
-          <View />
-          <Image source={logo} />
+      <Flexbox
+        height="60%"
+        justify="space-around"
+        accessibilityLabel="Password Recovery Form"
+        padding={20}>
+        <Image source={logo} />
 
-          <RecoverPasswordInstructions testID="recover-password-instructions">
-            {Localized('recover-password-instructions')}
-          </RecoverPasswordInstructions>
-          <Flexbox style={{ marginBottom: 22 }}>
-            <Input
-              testID="email-input"
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              keyboardType="email-address"
-              placeholder={Localized('email-address-placeholder')}
-              placeholderTextColor={theme.disabledTextColor}
-              returnKeyType="go"
-              onSubmitEditing={onSubmit}
-            />
-          </Flexbox>
-
-          <Flexbox width="85%">
-            <PrimaryButton
-              testID="password-recovery-button"
-              disabled={isButtonDisabled}
-              style={{ marginTop: 12 }}
-              onPress={onSubmit}>
-              {Localized('send-email-text')}
-            </PrimaryButton>
-          </Flexbox>
-          <View />
-          <View />
-          <View />
-          <View />
+        <RecoverPasswordInstructions testID="recover-password-instructions">
+          {Localized('recover-password-instructions')}
+        </RecoverPasswordInstructions>
+        <Flexbox style={{ marginBottom: 22 }}>
+          <Input
+            testID="email-input"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            keyboardType="email-address"
+            placeholder={Localized('email-address-placeholder')}
+            placeholderTextColor={theme.disabledTextColor}
+            returnKeyType="go"
+            onSubmitEditing={onSubmit}
+          />
         </Flexbox>
-      </KeyboardAvoidingView>
+
+        <Flexbox width="85%">
+          <PrimaryButton
+            testID="password-recovery-button"
+            disabled={isButtonDisabled}
+            style={{ marginTop: 12 }}
+            onPress={onSubmit}>
+            {Localized('send-email-text')}
+          </PrimaryButton>
+        </Flexbox>
+      </Flexbox>
     </ScreenContainer>
   );
 };
