@@ -35,7 +35,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
       return;
     }
     navigation.navigate('Login Screen');
-    Analytics.logEvent('Login_button_tapped', {
+    Analytics.logEvent('Recover_password__button_tapped', {
       screen: 'Password Recovery Screen',
       email: email,
       purpose:

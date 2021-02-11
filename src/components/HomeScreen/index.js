@@ -15,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
       rank: 'Platinum',
     });
     Analytics.setUserId('test-user');
-    Analytics.logEvent('Tapped_button_to_go_to_profile_screen', {
+    Analytics.logEvent('go_to_profile_screen_button_tapped', {
       screen: 'Home Screen',
       purpose: 'View personal profile',
     });
