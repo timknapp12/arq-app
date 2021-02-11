@@ -21,15 +21,16 @@ const ThemedButton = styled.TouchableOpacity`
   background-color: ${(props) =>
     props.disabled
       ? props.theme.disabledBackgroundColor
-      : props.theme.activeTint};
+      : props.theme.activeBackground};
   border-color: ${(props) =>
     props.disabled
       ? props.theme.disabledBackgroundColor
-      : props.theme.activeTint};
+      : props.theme.activeBackground};
 `;
 
 const ThemedText = styled(H2)`
-  color: ${(props) => (props.disabled ? 'gray' : 'white')};
+  color: ${(props) =>
+    props.disabled ? props.theme.disabledTextColor : props.theme.color};
 `;
 
 export const PrimaryButton = ({ disabled, children, ...props }) => (
