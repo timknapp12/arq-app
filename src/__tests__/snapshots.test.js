@@ -6,6 +6,7 @@ import HomeScreen from '../Components/HomeScreen';
 import LoadingScreen from '../Components/LoadingScreen';
 import LoginScreen from '../Components/LoginScreen';
 import ProfileScreen from '../Components/ProfileScreen';
+import PasswordRecoveryScreen from '../Components/PasswordRecoveryScreen';
 
 describe.skip('snapshots for each screen', () => {
   it('snapshot for FeedScreen', () => {
@@ -26,6 +27,10 @@ describe.skip('snapshots for each screen', () => {
   });
   it('snapshot for ProfileScreen', () => {
     const { toJSON } = render(<ProfileScreen />);
+    expect(toJSON()).toMatchSnapshot();
+  });
+  it('snapshot for ProfileScreen', () => {
+    const { toJSON } = render(<PasswordRecoveryScreen />);
     expect(toJSON()).toMatchSnapshot();
   });
 });
