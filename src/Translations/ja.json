@@ -11,5 +11,8 @@
   "data": "ja Data",
   "recover-password-instructions": "ja Enter your email address or distributor ID to receive a link for log in.",
   "send-email-text": "ja Send Email",
-  "email-address-placeholder": "ja Email address or distributor ID"
+  "email-address-placeholder": "ja Email address or distributor ID",
+  "business": "ja Business",
+  "resources": "ja Resources",
+  "news": "ja News"
 }

@@ -11,5 +11,8 @@
   "data": "sp Data",
   "recover-password-instructions": "sp Enter your email address or distributor ID to receive a link for log in.",
   "send-email-text": "sp Send Email",
-  "email-address-placeholder": "sp Email address or distributor ID"
+  "email-address-placeholder": "sp Email address or distributor ID",
+  "business": "sp Business",
+  "resources": "sp Resources",
+  "news": "sp News"
 }

@@ -11,5 +11,8 @@
   "data": "ar Data",
   "recover-password-instructions": "ar Enter your email address or distributor ID to receive a link for log in.",
   "send-email-text": "ar Send Email",
-  "email-address-placeholder": "ar Email address or distributor ID"
+  "email-address-placeholder": "ar Email address or distributor ID",
+  "business": "ar Business",
+  "resources": "ar Resources",
+  "news": "ar News"
 }

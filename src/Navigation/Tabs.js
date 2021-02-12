@@ -10,6 +10,7 @@ import * as Analytics from 'expo-firebase-analytics';
 import business from '../../assets/icons/business.png';
 import resources from '../../assets/icons/resources.png';
 import news from '../../assets/icons/news.png';
+import { Localized, init } from '../Translations/Localized';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
 const getActiveRouteName = (navigationState) => {
@@ -24,6 +25,7 @@ const getActiveRouteName = (navigationState) => {
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+  init();
   const { theme } = useContext(AppContext);
   return (
     <Tab.Navigator
@@ -70,17 +72,17 @@ const Tabs = () => {
       <Tab.Screen
         name="HomeScreen"
         component={HomeStack}
-        options={{ title: 'Business' }}
+        options={{ title: Localized('business') }}
       />
       <Tab.Screen
         name="ResourcesScreen"
         component={ResourcesScreen}
-        options={{ title: 'Resources' }}
+        options={{ title: Localized('resources') }}
       />
       <Tab.Screen
         name="NewsScreen"
         component={NewsScreen}
-        options={{ title: 'News' }}
+        options={{ title: Localized('news') }}
       />
     </Tab.Navigator>
   );

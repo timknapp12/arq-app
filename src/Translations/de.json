@@ -11,5 +11,8 @@
   "data": "de Data",
   "recover-password-instructions": "de Enter your email address or distributor ID to receive a link for log in.",
   "send-email-text": "de Send Email",
-  "email-address-placeholder": "de Email address or distributor ID"
+  "email-address-placeholder": "de Email address or distributor ID",
+  "business": "de Business",
+  "resources": "de Resources",
+  "news": "de News"
 }
