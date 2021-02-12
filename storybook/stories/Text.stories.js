@@ -22,4 +22,7 @@ storiesOf('Texts', module)
     <AlertText>
       Sorry, we couldnt log you in. Please re-enter your username and password
     </AlertText>
+  ))
+  .add('Label Text for Tabs', () => (
+    <H6 style={{ fontFamily: 'Nunito-Black' }}>Business</H6>
   ));
