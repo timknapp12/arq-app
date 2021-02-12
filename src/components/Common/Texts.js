@@ -41,6 +41,7 @@ export const H6 = styled.Text`
 `;
 
 export const AlertText = styled.Text`
+  font-family: 'Roboto-Regular';
   font-size: 14px;
   color: ${(props) => props.theme.error};
 `;

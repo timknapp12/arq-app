@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
@@ -10,6 +10,9 @@ import * as Analytics from 'expo-firebase-analytics';
 import business from '../../assets/icons/business.png';
 import resources from '../../assets/icons/resources.png';
 import news from '../../assets/icons/news.png';
+import storybook from '../../assets/icons/storybook.png';
+import { Localized, init } from '../Translations/Localized';
+import StorybookUI from '../../storybook/';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
 const getActiveRouteName = (navigationState) => {
@@ -24,6 +27,8 @@ const getActiveRouteName = (navigationState) => {
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+  const [showStorybook] = useState(true);
+  init();
   const { theme } = useContext(AppContext);
   return (
     <Tab.Navigator
@@ -45,6 +50,8 @@ const Tabs = () => {
             source = resources;
           } else if (route.name === 'NewsScreen') {
             source = news;
+          } else if (route.name === 'Storybook') {
+            source = storybook;
           }
           return <Image source={source} style={{ width: 20, height: 20 }} />;
         },
@@ -70,18 +77,22 @@ const Tabs = () => {
       <Tab.Screen
         name="HomeScreen"
         component={HomeStack}
-        options={{ title: 'Business' }}
+        options={{ title: Localized('business') }}
       />
       <Tab.Screen
         name="ResourcesScreen"
         component={ResourcesScreen}
-        options={{ title: 'Resources' }}
+        options={{ title: Localized('resources') }}
       />
       <Tab.Screen
         name="NewsScreen"
         component={NewsScreen}
-        options={{ title: 'News' }}
+        options={{ title: Localized('news') }}
       />
+      {/* eslint-disable-next-line no-undef */}
+      {__DEV__ && showStorybook && (
+        <Tab.Screen name="Storybook" component={StorybookUI} />
+      )}
     </Tab.Navigator>
   );
 };

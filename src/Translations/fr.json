@@ -11,5 +11,8 @@
   "data": "fr Data",
   "recover-password-instructions": "fr Enter your email address or distributor ID to receive a link for log in.",
   "send-email-text": "fr Send Email",
-  "email-address-placeholder": "fr Email address or distributor ID"
+  "email-address-placeholder": "fr Email address or distributor ID",
+  "business": "fr Business",
+  "resources": "fr Resources",
+  "news": "fr News"
 }
