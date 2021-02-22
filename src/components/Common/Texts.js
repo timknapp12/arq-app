@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { blue } from '../../Styles/colors';
 
 // Font families:
 // 'Roboto-Regular'
@@ -44,4 +45,13 @@ export const AlertText = styled.Text`
   font-family: 'Roboto-Regular';
   font-size: 14px;
   color: ${(props) => props.theme.error};
+`;
+
+export const Link = styled.Text`
+  font-family: 'Nunito-Black';
+  color: ${blue};
+  font-size: 14px;
+  text-decoration: underline;
+  text-decoration-color: ${blue};
+  line-height: 19px;
 `;

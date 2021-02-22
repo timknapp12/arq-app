@@ -9,12 +9,14 @@ import {
   H6,
   PrimaryButton,
   AlertText,
+  Link,
 } from '../Common';
 import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Linking,
 } from 'react-native';
 import AppContext from '../../Contexts/AppContext';
 import logo from '../../../assets/q-sciences-logo-white.png';
@@ -64,12 +66,15 @@ const LoginScreen = ({ navigation }) => {
     <ScreenContainer>
       <Flexbox justify="space-between" height="100%">
         <KeyboardAvoidingView
-          style={{ flex: 1, width: '100%' }}
+          style={{
+            width: '100%',
+            height: '60%',
+          }}
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
           <Flexbox
             accessibilityLabel="Login Form"
             justify="space-between"
-            height="80%"
+            height="100%"
             padding={20}>
             <TouchableOpacity
               style={{ marginBottom: 10 }}
@@ -109,7 +114,7 @@ const LoginScreen = ({ navigation }) => {
               />
             </Flexbox>
 
-            <Flexbox height="60px" style={{ marginBottom: 20 }}>
+            <Flexbox height="60px" style={{ marginBottom: 8 }}>
               {isError && (
                 <AlertText
                   style={{
@@ -136,6 +141,23 @@ const LoginScreen = ({ navigation }) => {
             </Flexbox>
           </Flexbox>
         </KeyboardAvoidingView>
+
+        <Flexbox
+          accessibilityLabel="Become an Ambassador"
+          justify="flex-start"
+          padding={20}
+          style={{
+            flex: 1,
+          }}>
+          <H6 style={{ textAlign: 'center' }}>
+            {Localized('become-ambassador')}
+          </H6>
+          <TouchableOpacity
+            onPress={() => Linking.openURL('https://qsciences.com')}
+            style={{ marginTop: 12 }}>
+            <Link>{Localized('find-out-more')}</Link>
+          </TouchableOpacity>
+        </Flexbox>
 
         <KeyboardAvoidingView
           style={{
