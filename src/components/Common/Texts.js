@@ -13,7 +13,7 @@ export const H1 = styled.Text`
   color: ${(props) => props.theme.color};
 `;
 
-export const H2 = styled.Text`
+export const H2Bold = styled.Text`
   font-family: 'Nunito-Black';
   font-size: 24px;
   color: ${(props) => props.theme.color};

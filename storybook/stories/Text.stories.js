@@ -3,15 +3,18 @@ import { storiesOf } from '@storybook/react-native';
 
 import {
   ScreenContainer,
-  H2,
+  H2Bold,
   H4,
   H6,
   AlertText,
+  Link,
 } from '../../src/components/Common';
 
 storiesOf('Texts', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
-  .add('H2 with Nunito-Black (for inside button)', () => <H2>Send Email</H2>)
+  .add('H2Bold with Nunito-Black (for inside button)', () => (
+    <H2Bold>Send Email</H2Bold>
+  ))
   .add('H4 with Nunito-Regular font', () => (
     <H4>Log in if you already have a username and password</H4>
   ))
@@ -23,6 +26,4 @@ storiesOf('Texts', module)
       Sorry, we couldnt log you in. Please re-enter your username and password
     </AlertText>
   ))
-  .add('Label Text for Tabs', () => (
-    <H6 style={{ fontFamily: 'Nunito-Black' }}>Business</H6>
-  ));
+  .add('Link Text', () => <Link>Find Out More</Link>);

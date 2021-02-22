@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ScreenContainer, H1, H2, PrimaryButton } from '../Common';
+import { ScreenContainer, H1, H2Bold, PrimaryButton } from '../Common';
 import AppContext from '../../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <ScreenContainer>
       <H1 testID="home-screen-welcome">{Localized('welcome')}</H1>
-      <H2 testID="home-screen-title">Home Screen</H2>
+      <H2Bold testID="home-screen-title">Home Screen</H2Bold>
       <PrimaryButton testID="go-to-profile-button" onPress={onPressProfile}>
         See Profile
       </PrimaryButton>

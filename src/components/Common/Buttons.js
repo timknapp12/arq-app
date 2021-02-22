@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { H2 } from './Texts';
+import { H2Bold } from './Texts';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 
@@ -28,7 +28,7 @@ const ThemedButton = styled.TouchableOpacity`
       : props.theme.activeBackground};
 `;
 
-const ThemedText = styled(H2)`
+const ThemedText = styled(H2Bold)`
   color: ${(props) =>
     props.disabled ? props.theme.disabledTextColor : props.theme.color};
 `;
