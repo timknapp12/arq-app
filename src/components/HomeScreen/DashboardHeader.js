@@ -12,7 +12,9 @@ import {
 const DashboardHeader = ({ badgeValue }) => {
   return (
     <Header>
-      <SmallQIcon />
+      <Flexbox width="60px" align="flex-start">
+        <SmallQIcon />
+      </Flexbox>
       <H2Normal>Business</H2Normal>
       <Flexbox width="60px" direction="row">
         <BellIcon badgeValue={badgeValue} />

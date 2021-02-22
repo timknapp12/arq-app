@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <ScreenContainer style={{ justifyContent: 'flex-start' }}>
-      <DashboardHeader />
+      <DashboardHeader badgeValue={2} />
       <Flexbox style={{ marginTop: 200 }}>
         <H1 testID="home-screen-welcome">{Localized('welcome')}</H1>
         <H2Bold testID="home-screen-title">Home Screen</H2Bold>
