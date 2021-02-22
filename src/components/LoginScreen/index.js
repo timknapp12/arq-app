@@ -153,9 +153,10 @@ const LoginScreen = ({ navigation }) => {
         <Flexbox
           accessibilityLabel="Become an Ambassador"
           justify="flex-start"
-          padding={40}
+          padding={20}
           style={{
             flex: 1,
+            marginTop: 20,
           }}>
           <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
             {Localized('become-ambassador')}
