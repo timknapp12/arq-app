@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react-native';
 import {
   ScreenContainer,
   H2Bold,
+  H2Normal,
   H4,
   H6,
   AlertText,
@@ -15,6 +16,7 @@ storiesOf('Texts', module)
   .add('H2Bold with Nunito-Black (for inside button)', () => (
     <H2Bold>Send Email</H2Bold>
   ))
+  .add('H2Normal with Nunito-Regular', () => <H2Normal>Business</H2Normal>)
   .add('H4 with Nunito-Regular font', () => (
     <H4>Log in if you already have a username and password</H4>
   ))
