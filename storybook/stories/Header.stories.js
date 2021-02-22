@@ -1,10 +1,14 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
 import Header from '../../src/components/Header';
-import { H2Normal, ScreenContainer } from '../../src/components/Common';
-import smallLogo from '../../assets/icons/Q-Sciences-small-logo.png';
-import accountIcon from '../../assets/icons/account_circle.png';
+import {
+  H2Normal,
+  ScreenContainer,
+  AccountIcon,
+  SmallQIcon,
+} from '../../src/components/Common';
+import DashboardHeader from '../../src/components/HomeScreen/DashboardHeader';
 
 storiesOf('Header', module)
   .addDecorator((getStory) => (
@@ -14,20 +18,23 @@ storiesOf('Header', module)
   ))
   .add('with text', () => (
     <Header>
+      <View />
       <H2Normal>Business</H2Normal>
+      <View />
     </Header>
   ))
   .add('with text and logo', () => (
     <Header>
-      <Image source={smallLogo} style={{ height: 24 }} />
+      <SmallQIcon />
       <H2Normal>Business</H2Normal>
       <View />
     </Header>
   ))
   .add('with account icon and logo', () => (
     <Header>
-      <Image source={smallLogo} style={{ height: 24 }} />
+      <SmallQIcon />
       <H2Normal>Business</H2Normal>
-      <Image source={accountIcon} style={{ height: 24, width: 24 }} />
+      <AccountIcon />
     </Header>
-  ));
+  ))
+  .add('Dashboard Header', () => <DashboardHeader />);

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ScreenContainer, H1, H2Bold, PrimaryButton } from '../Common';
+import { ScreenContainer, H1, H2Bold, PrimaryButton, Flexbox } from '../Common';
+import DashboardHeader from './DashboardHeader';
 import AppContext from '../../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
@@ -32,17 +33,20 @@ const HomeScreen = ({ navigation }) => {
   }, [isFocused]);
 
   return (
-    <ScreenContainer>
-      <H1 testID="home-screen-welcome">{Localized('welcome')}</H1>
-      <H2Bold testID="home-screen-title">Home Screen</H2Bold>
-      <PrimaryButton testID="go-to-profile-button" onPress={onPressProfile}>
-        See Profile
-      </PrimaryButton>
-      <PrimaryButton
-        style={{ marginTop: 12 }}
-        onPress={() => setIsSignedIn(false)}>
-        Sign out
-      </PrimaryButton>
+    <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+      <DashboardHeader />
+      <Flexbox style={{ marginTop: 200 }}>
+        <H1 testID="home-screen-welcome">{Localized('welcome')}</H1>
+        <H2Bold testID="home-screen-title">Home Screen</H2Bold>
+        <PrimaryButton testID="go-to-profile-button" onPress={onPressProfile}>
+          See Profile
+        </PrimaryButton>
+        <PrimaryButton
+          style={{ marginTop: 12 }}
+          onPress={() => setIsSignedIn(false)}>
+          Sign out
+        </PrimaryButton>
+      </Flexbox>
     </ScreenContainer>
   );
 };

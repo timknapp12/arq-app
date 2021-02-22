@@ -15,3 +15,5 @@ export const blue = '#006699';
 export const darkblue = '#2196F3';
 
 export const red = '#FF0000';
+
+export const darkred = '#993300';
