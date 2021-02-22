@@ -62,6 +62,14 @@ const LoginScreen = ({ navigation }) => {
       setIsButtonDisabled(true);
     };
   }, [username, password]);
+
+  const onFindOutMore = () => {
+    Linking.openURL('https://qsciences.com');
+    Analytics.logEvent('Find_Out_More_Link_tapped', {
+      screen: 'Login Screen',
+      purpose: 'follow link to find out how to become an ambassador',
+    });
+  };
   return (
     <ScreenContainer>
       <Flexbox justify="space-between" height="100%">
@@ -145,15 +153,16 @@ const LoginScreen = ({ navigation }) => {
         <Flexbox
           accessibilityLabel="Become an Ambassador"
           justify="flex-start"
-          padding={20}
+          padding={40}
           style={{
             flex: 1,
           }}>
-          <H6 style={{ textAlign: 'center' }}>
+          <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
             {Localized('become-ambassador')}
           </H6>
           <TouchableOpacity
-            onPress={() => Linking.openURL('https://qsciences.com')}
+            testID="become-ambassador-link"
+            onPress={onFindOutMore}
             style={{ marginTop: 12 }}>
             <Link>{Localized('find-out-more')}</Link>
           </TouchableOpacity>
