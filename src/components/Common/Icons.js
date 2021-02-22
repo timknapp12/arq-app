@@ -52,8 +52,10 @@ BellIcon.propTypes = {
   badgeValue: PropTypes.number,
 };
 
-export const AccountIcon = () => <ThemedImage source={accountIcon} />;
+export const AccountIcon = ({ ...props }) => (
+  <ThemedImage {...props} source={accountIcon} />
+);
 
-export const SmallQIcon = () => (
-  <Image source={smallQ} style={{ height: 24 }} />
+export const SmallQIcon = ({ ...props }) => (
+  <Image {...props} source={smallQ} style={{ height: 24 }} />
 );

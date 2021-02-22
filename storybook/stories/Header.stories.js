@@ -37,4 +37,4 @@ storiesOf('Header', module)
       <AccountIcon />
     </Header>
   ))
-  .add('Dashboard Header', () => <DashboardHeader />);
+  .add('Dashboard Header', () => <DashboardHeader badgeValue={3} />);
