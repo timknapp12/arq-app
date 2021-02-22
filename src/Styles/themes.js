@@ -23,6 +23,7 @@ export const lightTheme = {
   disabledTextColor: gray,
   highlight: darkblue,
   error: red,
+  headerBackgroundColor: blue,
   statusBar: 'dark',
 };
 
@@ -38,5 +39,6 @@ export const darkTheme = {
   disabledTextColor: gray,
   highlight: darkblue,
   error: red,
+  headerBackgroundColor: blue,
   statusBar: 'light',
 };
