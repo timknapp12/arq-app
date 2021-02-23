@@ -7,7 +7,7 @@ import NewsScreen from '../components/NewsScreen';
 import ResourcesScreen from '../components/ResourcesScreen';
 import AppContext from '../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
-import business from '../../assets/icons/business.png';
+import dashboard from '../../assets/icons/ic_dashboard.png';
 import resources from '../../assets/icons/resources.png';
 import news from '../../assets/icons/news.png';
 import storybook from '../../assets/icons/storybook.png';
@@ -45,7 +45,7 @@ const Tabs = () => {
         tabBarIcon: () => {
           let source;
           if (route.name === 'DashboardScreen') {
-            source = business;
+            source = dashboard;
           } else if (route.name === 'ResourcesScreen') {
             source = resources;
           } else if (route.name === 'NewsScreen') {
@@ -53,7 +53,7 @@ const Tabs = () => {
           } else if (route.name === 'Storybook') {
             source = storybook;
           }
-          return <Image source={source} style={{ width: 20, height: 20 }} />;
+          return <Image source={source} style={{ height: 24 }} />;
         },
       })}
       tabBarOptions={{
