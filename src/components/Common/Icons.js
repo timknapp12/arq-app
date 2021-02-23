@@ -2,8 +2,8 @@ import React from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import bellIcon from '../../../assets/icons/bell.png';
-import accountIcon from '../../../assets/icons/account_circle.png';
+import bellIcon from '../../../assets/icons/ic_bell.png';
+import accountIcon from '../../../assets/icons/ic_account.png';
 import smallQ from '../../../assets/icons/Q-Sciences-small-logo.png';
 import { darkred, white } from '../../Styles/colors';
 
