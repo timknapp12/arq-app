@@ -8,14 +8,16 @@ import {
   BellIcon,
   AccountIcon,
 } from '../Common';
+import { Localized, init } from '../../Translations/Localized';
 
 const DashboardHeader = ({ badgeValue }) => {
+  init();
   return (
     <Header>
       <Flexbox width="60px" align="flex-start">
         <SmallQIcon />
       </Flexbox>
-      <H2Normal>Business</H2Normal>
+      <H2Normal>{Localized('business')}</H2Normal>
       <Flexbox width="60px" direction="row">
         <BellIcon badgeValue={badgeValue} />
         <AccountIcon />
