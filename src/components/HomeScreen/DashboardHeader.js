@@ -17,7 +17,7 @@ const DashboardHeader = ({ badgeValue }) => {
       <Flexbox width="60px" align="flex-start">
         <SmallQIcon />
       </Flexbox>
-      <H2Normal>{Localized('business')}</H2Normal>
+      <H2Normal>{Localized('dashboard')}</H2Normal>
       <Flexbox width="60px" direction="row">
         <BellIcon badgeValue={badgeValue} />
         <AccountIcon />

@@ -7,8 +7,10 @@ import {
   ScreenContainer,
   AccountIcon,
   SmallQIcon,
+  TertiaryButton,
 } from '../../src/components/Common';
 import DashboardHeader from '../../src/components/HomeScreen/DashboardHeader';
+import Subheader from '../../src/components/HomeScreen/Subheader';
 
 storiesOf('Header', module)
   .addDecorator((getStory) => (
@@ -37,4 +39,11 @@ storiesOf('Header', module)
       <AccountIcon />
     </Header>
   ))
-  .add('Dashboard Header', () => <DashboardHeader badgeValue={3} />);
+  .add('Dashboard Header', () => <DashboardHeader badgeValue={3} />)
+  .add('subheader', () => (
+    <Subheader>
+      <TertiaryButton selected>Overview</TertiaryButton>
+      <TertiaryButton>Rank</TertiaryButton>
+      <TertiaryButton>OV Detail</TertiaryButton>
+    </Subheader>
+  ));

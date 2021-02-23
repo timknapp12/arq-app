@@ -8,6 +8,7 @@ import {
   blue,
   darkblue,
   red,
+  green,
 } from './colors';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -24,6 +25,7 @@ export const lightTheme = {
   highlight: darkblue,
   error: red,
   headerBackgroundColor: blue,
+  tertiarySelected: green,
   statusBar: 'dark',
 };
 
@@ -40,5 +42,6 @@ export const darkTheme = {
   highlight: darkblue,
   error: red,
   headerBackgroundColor: blue,
+  tertiarySelected: green,
   statusBar: 'light',
 };
