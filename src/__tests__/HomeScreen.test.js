@@ -1,14 +1,16 @@
 import React from 'react';
 import { render } from '../Utils/test-utils';
 
-import HomeScreen from '../components/HomeScreen';
+import DashboardScreen from '../components/DashboardScreen';
 
-describe('<HomeScreen />', () => {
-  it('Home Screen has a title called Home Screen', async () => {
-    const { getByTestId } = render(<HomeScreen navigation={{}} />);
+describe('<DashboardScreen />', () => {
+  it('Dashboard Screen has a title called Dashboard Screen', async () => {
+    const { getByTestId } = render(<DashboardScreen navigation={{}} />);
 
-    const screenTitle = 'Home Screen';
+    const screenTitle = 'Dashboard';
 
-    expect(getByTestId('home-screen-title').props.children).toBe(screenTitle);
+    expect(getByTestId('dashboard-screen-title').props.children).toBe(
+      screenTitle,
+    );
   });
 });

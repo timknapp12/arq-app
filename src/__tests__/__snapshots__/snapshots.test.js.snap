@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
+exports[`snapshots for each screen snapshot for DashboardScreen 1`] = `
 <RCTSafeAreaView
   accessible={true}
   emulateUnlessSupported={true}
@@ -38,7 +38,7 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
         },
       ]
     }
-    testID="home-screen-welcome"
+    testID="dashboard-screen-welcome"
   >
     welcome
   </Text>
@@ -52,9 +52,9 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
         },
       ]
     }
-    testID="home-screen-title"
+    testID="dashboard-screen-title"
   >
-    Home Screen
+    Dashbaord Screen
   </Text>
   <View
     accessible={true}

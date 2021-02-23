@@ -9,8 +9,8 @@ import {
   SmallQIcon,
   TertiaryButton,
 } from '../../src/components/Common';
-import DashboardHeader from '../../src/components/HomeScreen/DashboardHeader';
-import Subheader from '../../src/components/HomeScreen/Subheader';
+import DashboardHeader from '../../src/components/DashboardScreen/DashboardHeader';
+import Subheader from '../../src/components/DashboardScreen/Subheader';
 
 storiesOf('Header', module)
   .addDecorator((getStory) => (

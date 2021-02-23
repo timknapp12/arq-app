@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../components/HomeScreen';
+import DashboardScreen from '../components/DashboardScreen';
 import ProfileScreen from '../components/ProfileScreen';
 import { white, blue } from '../Styles/colors';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
-const Home = createStackNavigator();
+const Dashboard = createStackNavigator();
 
-const HomeStack = () => {
+const DashboardStack = () => {
   return (
-    <Home.Navigator
+    <Dashboard.Navigator
       screenOptions={{
         headerBackTitleVisible: false,
         headerStyle: { backgroundColor: blue },
@@ -19,22 +19,22 @@ const HomeStack = () => {
           fontFamily: 'Nunito-Regular',
         },
       }}>
-      <Home.Screen
-        name="Home Screen"
-        component={HomeScreen}
+      <Dashboard.Screen
+        name="Dashboard Screen"
+        component={DashboardScreen}
         options={{
           headerShown: false,
           gestureEnabled: false,
         }}
       />
-      <Home.Screen
+      <Dashboard.Screen
         name="ProfileScreen"
         component={ProfileScreen}
         options={{
           title: 'Profile',
         }}
       />
-    </Home.Navigator>
+    </Dashboard.Navigator>
   );
 };
-export default HomeStack;
+export default DashboardStack;

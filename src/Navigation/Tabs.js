@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
-import HomeStack from './HomeStack';
+import DashboardStack from './DashboardStack';
 import NewsScreen from '../components/NewsScreen';
 import ResourcesScreen from '../components/ResourcesScreen';
 import AppContext from '../Contexts/AppContext';
@@ -44,7 +44,7 @@ const Tabs = () => {
         // eslint-disable-next-line react/display-name
         tabBarIcon: () => {
           let source;
-          if (route.name === 'HomeScreen') {
+          if (route.name === 'DashboardScreen') {
             source = business;
           } else if (route.name === 'ResourcesScreen') {
             source = resources;
@@ -75,9 +75,9 @@ const Tabs = () => {
         },
       }}>
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeStack}
-        options={{ title: Localized('business') }}
+        name="DashboardScreen"
+        component={DashboardStack}
+        options={{ title: Localized('dashboard') }}
       />
       <Tab.Screen
         name="ResourcesScreen"
