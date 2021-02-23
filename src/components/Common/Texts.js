@@ -35,6 +35,18 @@ export const H4 = styled.Text`
   color: ${(props) => props.theme.color};
 `;
 
+export const H4Bold = styled.Text`
+  font-family: 'Nunito-Black';
+  font-size: 18px;
+  color: ${(props) => props.theme.color};
+`;
+
+export const H4Secondary = styled.Text`
+  font-family: 'Nunito-Regular';
+  font-size: 18px;
+  color: ${(props) => props.theme.secondaryTextColor};
+`;
+
 export const H5 = styled.Text`
   font-size: 16px;
   color: ${(props) => props.theme.color};

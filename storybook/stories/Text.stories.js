@@ -1,11 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
-
 import {
   ScreenContainer,
   H2Bold,
   H2Normal,
   H4,
+  H4Bold,
+  H4Secondary,
   H6,
   AlertText,
   Link,
@@ -19,6 +20,14 @@ storiesOf('Texts', module)
   .add('H2Normal with Nunito-Regular', () => <H2Normal>Business</H2Normal>)
   .add('H4 with Nunito-Regular font', () => (
     <H4>Log in if you already have a username and password</H4>
+  ))
+  .add('H4 Bold', () => (
+    <H4Bold>Log in if you already have a username and password</H4Bold>
+  ))
+  .add('H4 Secondary', () => (
+    <H4Secondary>
+      Log in if you already have a username and password
+    </H4Secondary>
   ))
   .add('H6 with Roboto font', () => (
     <H6 disabled>Log in if you already have a username and password</H6>

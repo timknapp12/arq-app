@@ -15,6 +15,7 @@ import {
 export const lightTheme = {
   color: black,
   invertedColor: white,
+  secondaryTextColor: gray,
   backgroundColor: white,
   activeBackground: darkgray,
   inactiveBackground: offwhite,
@@ -32,6 +33,7 @@ export const lightTheme = {
 export const darkTheme = {
   color: white,
   invertedColor: black,
+  secondaryTextColor: gray,
   backgroundColor: black,
   activeBackground: blue,
   inactiveBackground: darkgray,
