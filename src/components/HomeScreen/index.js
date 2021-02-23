@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ScreenContainer, H1, H2Bold, PrimaryButton, Flexbox } from '../Common';
 import DashboardHeader from './DashboardHeader';
+import Subheader from './Subheader';
 import AppContext from '../../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
@@ -35,6 +36,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <ScreenContainer style={{ justifyContent: 'flex-start' }}>
       <DashboardHeader badgeValue={2} />
+      <Subheader />
       <Flexbox style={{ marginTop: 200 }}>
         <H1 testID="home-screen-welcome">{Localized('welcome')}</H1>
         <H2Bold testID="home-screen-title">Home Screen</H2Bold>
