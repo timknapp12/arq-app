@@ -5,6 +5,7 @@ import { View, Animated } from 'react-native';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
 import { Flexbox, H5 } from '../Common';
+import { Localized, init } from '../../Translations/Localized';
 
 const Legend = styled.View`
   flex-direction: row;
@@ -25,18 +26,19 @@ const DoubleDonut = ({
   outerpercentage = 75,
   outerradius = 80,
   outerstrokeWidth = 8,
-  outerduration = 2000,
+  outerduration = 1000,
   outercolor = 'yellow',
   outerdelay = 0,
   outermax = 100,
   innerpercentage = 65,
   innerradius = 70,
   innerstrokeWidth = 8,
-  innerduration = 2000,
+  innerduration = 1000,
   innercolor = 'yellow',
   innerdelay = 0,
   innermax = 100,
 }) => {
+  init();
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
   const halfCircle = outerradius + outerstrokeWidth;
@@ -125,12 +127,12 @@ const DoubleDonut = ({
           <Legend>
             <Square squareFill={outercolor} />
             <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
-              This month
+              {Localized('this-month')}
             </H5>
           </Legend>
           <Legend>
             <Square squareFill={innercolor} />
-            <H5 style={{ textAlign: 'center' }}>Last month</H5>
+            <H5 style={{ textAlign: 'center' }}>{Localized('last-month')}</H5>
           </Legend>
         </Flexbox>
       </View>
