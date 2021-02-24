@@ -11,11 +11,12 @@ const Donut = ({
   percentage = 75,
   radius = 80,
   strokeWidth = 8,
-  duration = 500,
+  duration = 1000,
   color = 'yellow',
   delay = 0,
   textColor = gray,
   max = 100,
+  inset = false,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
@@ -83,17 +84,19 @@ const Donut = ({
           />
         </G>
       </Svg>
-      <AnimatedInput
-        ref={inputRef}
-        underlineColorAndroid="transparent"
-        editable={false}
-        defaultValue="0"
-        style={[
-          StyleSheet.absoluteFillObject,
-          { fontSize: radius / 2, color: textColor ?? color },
-          { textAlign: 'center' },
-        ]}
-      />
+      {!inset && (
+        <AnimatedInput
+          ref={inputRef}
+          underlineColorAndroid="transparent"
+          editable={false}
+          defaultValue="0"
+          style={[
+            StyleSheet.absoluteFillObject,
+            { fontSize: radius / 2, color: textColor ?? color },
+            { textAlign: 'center' },
+          ]}
+        />
+      )}
     </View>
   );
 };
@@ -107,6 +110,7 @@ Donut.propTypes = {
   delay: PropTypes.number,
   textColor: PropTypes.string,
   max: PropTypes.number,
+  inset: PropTypes.bool,
 };
 
 export default Donut;
