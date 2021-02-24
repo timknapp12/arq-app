@@ -41,8 +41,11 @@ const Rank = () => {
         width="100%"
         direction="row">
         <Flexbox accessibilityLabel="monthly comparrison pv" width="auto">
-          <ChartTitle>{Localized('total-pv')}</ChartTitle>
+          <ChartTitle testID="total-pv-donut-label">
+            {Localized('total-pv')}
+          </ChartTitle>
           <DoubleDonut
+            testID="total-pv-donut-svg"
             outerpercentage={100}
             outermax={100}
             outercolor={pacificBlue}
@@ -53,11 +56,15 @@ const Rank = () => {
           <LegendContainer>
             <Legend>
               <Square squareFill={pacificBlue} />
-              <H5>{`100 ${Localized('of')} 100`}</H5>
+              <H5 testID="this-month-total-pv">{`100 ${Localized(
+                'of',
+              )} 100`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={mayaBlue} />
-              <H5>{`85 ${Localized('of')} 100`}</H5>
+              <H5 testID="last-month-total-pv">{`85 ${Localized(
+                'of',
+              )} 100`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -66,8 +73,11 @@ const Rank = () => {
           accessibilityLabel="monthly comparrison qov"
           style={{ position: 'relative' }}
           width="auto">
-          <ChartTitle>{Localized('total-qov')}</ChartTitle>
+          <ChartTitle testID="total-qov-donut-label">
+            {Localized('total-qov')}
+          </ChartTitle>
           <DoubleDonut
+            testID="total-qov-donut-svg"
             outerpercentage={400}
             outermax={600}
             outercolor={darkViolet}
@@ -78,11 +88,15 @@ const Rank = () => {
           <LegendContainer>
             <Legend>
               <Square squareFill={darkViolet} />
-              <H5>{`400 ${Localized('of')} 600`}</H5>
+              <H5 testID="this-month-total-qov">{`400 ${Localized(
+                'of',
+              )} 600`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={heliotrope} />
-              <H5>{`225 ${Localized('of')} 600`}</H5>
+              <H5 testID="last-month-total-qov">{`225 ${Localized(
+                'of',
+              )} 600`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -91,8 +105,11 @@ const Rank = () => {
       <Flexbox
         accessibilityLabel="monthly comparrison personally enrolled"
         width="auto">
-        <ChartTitle>{Localized('personally-enrolled')}</ChartTitle>
+        <ChartTitle testID="personally-enrolled-donut-label">
+          {Localized('personally-enrolled')}
+        </ChartTitle>
         <DoubleDonut
+          testID="personally-enrolled-donut-svg"
           outerpercentage={2}
           outermax={2}
           outercolor="yellow"
@@ -103,11 +120,15 @@ const Rank = () => {
         <LegendContainer>
           <Legend>
             <Square squareFill="yellow" />
-            <H5>{`2 ${Localized('of')} 2`}</H5>
+            <H5 testID="this-month-personally-enrolled">{`2 ${Localized(
+              'of',
+            )} 2`}</H5>
           </Legend>
           <Legend>
             <Square squareFill="wheat" />
-            <H5>{`1 ${Localized('of')} 2`}</H5>
+            <H5 testID="last-month-personally-enrolled">{`1 ${Localized(
+              'of',
+            )} 2`}</H5>
           </Legend>
         </LegendContainer>
       </Flexbox>
