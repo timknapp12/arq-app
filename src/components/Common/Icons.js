@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import bellIcon from '../../../assets/icons/ic_bell.png';
 import accountIcon from '../../../assets/icons/ic_account.png';
 import smallQ from '../../../assets/icons/Q-Sciences-small-logo.png';
-import { darkred, white } from '../../Styles/colors';
+import { darkRed, white } from '../../Styles/colors';
 
 const IconContainer = styled.View`
   position: relative;
@@ -20,7 +20,7 @@ const ThemedImage = styled.Image`
 const badgeCircumfrance = 16;
 
 const BadgeContainer = styled.View`
-  background-color: ${darkred};
+  background-color: ${darkRed};
   position: absolute;
   justify-content: center;
   align-items: center;

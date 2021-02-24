@@ -16,12 +16,16 @@ export const darkblue = '#2196F3';
 
 export const pacificBlue = '#0088CC';
 
+export const mayaBlue = '#70CFFF';
+
 export const red = '#FF0000';
 
-export const darkred = '#993300';
+export const darkRed = '#993300';
 
 export const green = '#8DB600';
 
-export const purple = '#9600E0';
+export const darkViolet = '#9600E0';
+
+export const heliotrope = '#D685FF';
 
 export const yellow = '#FFFF00';
