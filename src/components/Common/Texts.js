@@ -48,8 +48,9 @@ export const H4Secondary = styled.Text`
 `;
 
 export const H5 = styled.Text`
+  font-family: 'Nunito-Black';
   font-size: 16px;
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 export const H6 = styled.Text`
