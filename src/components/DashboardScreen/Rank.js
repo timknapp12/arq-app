@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { H4Bold, H5, Flexbox } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
 import DoubleDonut from './DoubleDonut';
+import Slider from './Slider';
 import {
   mayaBlue,
   pacificBlue,
@@ -32,9 +33,9 @@ const Square = styled.View`
 
 const Rank = () => {
   init();
-
   return (
     <Flexbox width="100%">
+      <Slider />
       <Flexbox
         accessibilityLabel="Distributor rank"
         padding={20}
