@@ -162,6 +162,8 @@ Rank.propTypes = {
       name: Proptypes.string,
       requiredPv: Proptypes.number,
       requiredQov: Proptypes.number,
+      legMaxPerc: Proptypes.number,
+      legMaxOv: Proptypes.number,
     }),
   ),
 };
