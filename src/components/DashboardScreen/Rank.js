@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Proptypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4Bold, H5, Flexbox } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
@@ -31,11 +32,27 @@ const Square = styled.View`
   background-color: ${({ squareFill }) => squareFill};
 `;
 
-const Rank = () => {
+const Rank = ({ ranklist }) => {
+  const initialRankName = Localized('pro');
+  const [rankName, setRankName] = useState(initialRankName);
+  const initialRank = {
+    id: 2,
+    requiredPv: 100,
+    requiredQov: 600,
+    name: Localized('pro'),
+  };
+  const [rank, setRank] = useState(initialRank);
+
   init();
   return (
     <Flexbox width="100%">
-      <Slider />
+      <Slider
+        rankName={rankName}
+        setRankName={setRankName}
+        rank={rank}
+        setRank={setRank}
+        ranklist={ranklist}
+      />
       <Flexbox
         accessibilityLabel="Distributor rank"
         padding={20}
@@ -47,25 +64,26 @@ const Rank = () => {
           </ChartTitle>
           <DoubleDonut
             testID="total-pv-donut-svg"
-            outerpercentage={100}
-            outermax={100}
+            // ternary to ensure no error with 0 values of distributor rank
+            outerpercentage={rank.id === 0 ? 100 : 100}
+            outermax={rank.id === 0 ? 100 : rank.requiredPv}
             outercolor={pacificBlue}
-            innerpercentage={85}
-            innermax={100}
+            innerpercentage={rank.id === 0 ? 100 : 85}
+            innermax={rank.id === 0 ? 100 : rank.requiredPv}
             innercolor={mayaBlue}
           />
           <LegendContainer>
             <Legend>
               <Square squareFill={pacificBlue} />
-              <H5 testID="this-month-total-pv">{`100 ${Localized(
-                'of',
-              )} 100`}</H5>
+              <H5 testID="this-month-total-pv">{`100 ${Localized('of')} ${
+                rank?.requiredPv
+              }`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={mayaBlue} />
-              <H5 testID="last-month-total-pv">{`85 ${Localized(
-                'of',
-              )} 100`}</H5>
+              <H5 testID="last-month-total-pv">{`85 ${Localized('of')} ${
+                rank?.requiredPv
+              }`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -79,25 +97,25 @@ const Rank = () => {
           </ChartTitle>
           <DoubleDonut
             testID="total-qov-donut-svg"
-            outerpercentage={400}
-            outermax={600}
+            outerpercentage={rank.id === 0 ? 100 : 400}
+            outermax={rank.id === 0 ? 100 : rank.requiredQov}
             outercolor={darkViolet}
-            innerpercentage={225}
-            innermax={600}
+            innerpercentage={rank.id === 0 ? 100 : 225}
+            innermax={rank.id === 0 ? 100 : rank.requiredQov}
             innercolor={heliotrope}
           />
           <LegendContainer>
             <Legend>
               <Square squareFill={darkViolet} />
-              <H5 testID="this-month-total-qov">{`400 ${Localized(
-                'of',
-              )} 600`}</H5>
+              <H5 testID="this-month-total-qov">{`400 ${Localized('of')} ${
+                rank?.requiredQov
+              }`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={heliotrope} />
-              <H5 testID="last-month-total-qov">{`225 ${Localized(
-                'of',
-              )} 600`}</H5>
+              <H5 testID="last-month-total-qov">{`225 ${Localized('of')} ${
+                rank?.requiredQov
+              }`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -135,6 +153,17 @@ const Rank = () => {
       </Flexbox>
     </Flexbox>
   );
+};
+
+Rank.propTypes = {
+  ranklist: Proptypes.arrayOf(
+    Proptypes.shape({
+      id: Proptypes.number,
+      name: Proptypes.string,
+      requiredPv: Proptypes.number,
+      requiredQov: Proptypes.number,
+    }),
+  ),
 };
 
 export default Rank;
