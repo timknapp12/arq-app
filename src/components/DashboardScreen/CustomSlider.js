@@ -3,7 +3,13 @@ import Proptypes from 'prop-types';
 import Slider from 'react-native-slider';
 import { green, blue } from '../../Styles/colors';
 
-const CustomSlider = ({ value, setValue, sliderWidth, maximumValue }) => {
+const CustomSlider = ({
+  value,
+  setValue,
+  sliderWidth,
+  maximumValue,
+  onSlidingComplete,
+}) => {
   return (
     <Slider
       step={1}
@@ -17,6 +23,7 @@ const CustomSlider = ({ value, setValue, sliderWidth, maximumValue }) => {
       style={{ width: sliderWidth }}
       value={value}
       onValueChange={(value) => setValue(value)}
+      onSlidingComplete={onSlidingComplete}
     />
   );
 };
@@ -26,6 +33,7 @@ CustomSlider.propTypes = {
   setValue: Proptypes.func,
   sliderWidth: Proptypes.number,
   maximumValue: Proptypes.number,
+  onSlidingComplete: Proptypes.func,
 };
 
 export default CustomSlider;
