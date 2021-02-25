@@ -32,7 +32,9 @@ const Donut = ({
     }).start();
   };
   useEffect(() => {
-    animation(percentage);
+    // to ensure percentage is not greater than 100%
+    const filteredPercentage = percentage > max ? max : percentage;
+    animation(filteredPercentage);
 
     animatedValue.addListener((v) => {
       if (circleRef?.current) {

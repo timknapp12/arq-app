@@ -54,7 +54,11 @@ const DoubleDonut = ({
   };
 
   useEffect(() => {
-    animation(outerpercentage);
+    // to ensure percentage is not greater than 100%
+    const filteredPercentage =
+      outerpercentage > outermax ? outermax : outerpercentage;
+
+    animation(filteredPercentage);
     animatedValue.addListener((v) => {
       if (circleRef?.current) {
         const maxPerc = (100 * v.value) / outermax;
