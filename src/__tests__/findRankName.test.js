@@ -1,4 +1,4 @@
-import { findRankInSlider } from '../Utils/findRankInSlider';
+import { findRankName } from '../Utils/findRankInSlider';
 
 describe('find rank in slider', () => {
   test('returns "pro" item with value of 2', () => {
@@ -7,7 +7,7 @@ describe('find rank in slider', () => {
     const input = 2;
     const output = 'pro';
 
-    expect(findRankInSlider(mocklist, input)).toBe(output);
+    expect(findRankName(mocklist, input)).toBe(output);
   });
   test('returns "crown-diamond" item with value of 16', () => {
     jest.useFakeTimers();
@@ -15,7 +15,7 @@ describe('find rank in slider', () => {
     const input = 16;
     const output = 'crown-diamond';
 
-    expect(findRankInSlider(mocklist, input)).toBe(output);
+    expect(findRankName(mocklist, input)).toBe(output);
   });
   test('does NOT return "crown-diamond" item with value of 1', () => {
     jest.useFakeTimers();
@@ -23,7 +23,7 @@ describe('find rank in slider', () => {
     const input = 1;
     const output = 'crown-diamond';
 
-    expect(findRankInSlider(mocklist, input)).not.toBe(output);
+    expect(findRankName(mocklist, input)).not.toBe(output);
   });
 });
 
