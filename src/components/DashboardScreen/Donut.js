@@ -7,6 +7,8 @@ import Svg, { G, Circle } from 'react-native-svg';
 import { gray } from '../../Styles/colors';
 import { Localized, init } from '../../Translations/Localized';
 
+// source for donut svg: https://www.youtube.com/watch?v=x2LtzCxbWI0
+
 const Legend = styled.View`
   flex-direction: row;
   align-items: center;

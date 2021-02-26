@@ -15,7 +15,7 @@ const Overview = ({ user }) => {
   init();
   const { thisMonthPV, thisMonthOV, thisMonthCV } = user;
   return (
-    <Flexbox width="100%">
+    <Flexbox width="100%" onStartShouldSetResponder={() => true}>
       <Flexbox
         accessibilityLabel="Distributor name and rank"
         padding={20}

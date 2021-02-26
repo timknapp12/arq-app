@@ -84,7 +84,7 @@ const Rank = ({ ranklist, user }) => {
   }, [user, rank]);
 
   return (
-    <Flexbox width="100%">
+    <Flexbox width="100%" onStartShouldSetResponder={() => true}>
       <Slider
         rankName={rankName}
         setRankName={setRankName}

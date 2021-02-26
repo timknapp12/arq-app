@@ -24,7 +24,7 @@ const OVDetail = ({ ranklist }) => {
   const [rank, setRank] = useState(initialRank);
 
   return (
-    <Flexbox width="100%">
+    <Flexbox onStartShouldSetResponder={() => true} width="100%">
       <Slider
         rankName={rankName}
         setRankName={setRankName}
