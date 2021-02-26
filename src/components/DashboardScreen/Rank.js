@@ -33,6 +33,7 @@ const Square = styled.View`
 `;
 
 const Rank = ({ ranklist }) => {
+  init();
   const initialRankName = Localized('pro');
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = {
@@ -43,7 +44,6 @@ const Rank = ({ ranklist }) => {
   };
   const [rank, setRank] = useState(initialRank);
 
-  init();
   return (
     <Flexbox width="100%">
       <Slider

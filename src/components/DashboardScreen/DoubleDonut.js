@@ -37,6 +37,7 @@ const DoubleDonut = ({
   innercolor = 'yellow',
   innerdelay = 0,
   innermax = 100,
+  view,
 }) => {
   init();
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -115,7 +116,7 @@ const DoubleDonut = ({
           color={innercolor}
           percentage={innerpercentage}
           max={innermax}
-          inset={true}
+          view={view}
           strokeWidth={innerstrokeWidth}
           duration={innerduration}
           delay={innerdelay}
@@ -159,6 +160,7 @@ DoubleDonut.propTypes = {
   innercolor: PropTypes.string,
   innerdelay: PropTypes.number,
   innermax: PropTypes.number,
+  view: PropTypes.oneOf(['overview', 'rank', 'ov detail']),
 };
 
 export default DoubleDonut;

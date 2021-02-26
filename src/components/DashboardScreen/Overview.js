@@ -38,12 +38,18 @@ const Overview = () => {
             percentage={175}
             max={175}
             color={pacificBlue}
+            view="overview"
           />
         </Flexbox>
 
         <Flexbox accessibilityLabel="Distributor monthly cv" width="auto">
           <ChartTitle testID="cv-donut-label">{Localized('cv')}</ChartTitle>
-          <Donut testID="cv-donut-svg" percentage={256} max={256} />
+          <Donut
+            testID="cv-donut-svg"
+            percentage={256}
+            max={256}
+            view="overview"
+          />
         </Flexbox>
       </Flexbox>
 
@@ -54,6 +60,7 @@ const Overview = () => {
           percentage={456}
           max={456}
           color={darkViolet}
+          view="overview"
         />
       </Flexbox>
     </Flexbox>
