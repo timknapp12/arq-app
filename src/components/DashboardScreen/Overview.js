@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { H4Bold, Flexbox, H4Secondary } from '../Common';
@@ -10,9 +11,9 @@ const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
-const Overview = () => {
+const Overview = ({ user }) => {
   init();
-
+  const { thisMonthPV, thisMonthOV, thisMonthCV } = user;
   return (
     <Flexbox width="100%">
       <Flexbox
@@ -35,8 +36,8 @@ const Overview = () => {
           <ChartTitle testID="pv-donut-label">{Localized('pv')}</ChartTitle>
           <Donut
             testID="pv-donut-svg"
-            percentage={175}
-            max={175}
+            percentage={thisMonthPV}
+            max={thisMonthPV}
             color={pacificBlue}
             view="overview"
           />
@@ -46,8 +47,8 @@ const Overview = () => {
           <ChartTitle testID="cv-donut-label">{Localized('cv')}</ChartTitle>
           <Donut
             testID="cv-donut-svg"
-            percentage={256}
-            max={256}
+            percentage={thisMonthCV}
+            max={thisMonthCV}
             view="overview"
           />
         </Flexbox>
@@ -57,14 +58,18 @@ const Overview = () => {
         <ChartTitle testID="ov-donut-label">{Localized('ov')}</ChartTitle>
         <Donut
           testID="ov-donut-svg"
-          percentage={456}
-          max={456}
+          percentage={thisMonthOV}
+          max={thisMonthOV}
           color={darkViolet}
           view="overview"
         />
       </Flexbox>
     </Flexbox>
   );
+};
+
+Overview.propTypes = {
+  user: PropTypes.object,
 };
 
 export default Overview;

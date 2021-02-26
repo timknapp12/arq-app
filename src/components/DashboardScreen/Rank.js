@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4Bold, H5, Flexbox } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
@@ -32,8 +32,16 @@ const Square = styled.View`
   background-color: ${({ squareFill }) => squareFill};
 `;
 
-const Rank = ({ ranklist }) => {
+const Rank = ({ ranklist, user }) => {
   init();
+  const {
+    lastMonthPV,
+    thisMonthPV,
+    lastMonthOV,
+    thisMonthOV,
+    lastMonthPA,
+    thisMonthPA,
+  } = user;
   const initialRankName = Localized('pro');
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = {
@@ -65,25 +73,25 @@ const Rank = ({ ranklist }) => {
           <DoubleDonut
             testID="total-pv-donut-svg"
             // ternary to ensure no error with 0 values of distributor rank
-            outerpercentage={rank.id === 0 ? 100 : 100}
+            outerpercentage={rank.id === 0 ? 100 : thisMonthPV}
             outermax={rank.id === 0 ? 100 : rank.requiredPv}
             outercolor={pacificBlue}
-            innerpercentage={rank.id === 0 ? 100 : 85}
+            innerpercentage={rank.id === 0 ? 100 : lastMonthPV}
             innermax={rank.id === 0 ? 100 : rank.requiredPv}
             innercolor={mayaBlue}
           />
           <LegendContainer>
             <Legend>
               <Square squareFill={pacificBlue} />
-              <H5 testID="this-month-total-pv">{`100 ${Localized('of')} ${
-                rank?.requiredPv
-              }`}</H5>
+              <H5 testID="this-month-total-pv">{`${thisMonthPV} ${Localized(
+                'of',
+              )} ${rank?.requiredPv}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={mayaBlue} />
-              <H5 testID="last-month-total-pv">{`85 ${Localized('of')} ${
-                rank?.requiredPv
-              }`}</H5>
+              <H5 testID="last-month-total-pv">{`${lastMonthPV} ${Localized(
+                'of',
+              )} ${rank?.requiredPv}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -97,25 +105,25 @@ const Rank = ({ ranklist }) => {
           </ChartTitle>
           <DoubleDonut
             testID="total-qov-donut-svg"
-            outerpercentage={rank.id === 0 ? 100 : 400}
+            outerpercentage={rank.id === 0 ? 100 : thisMonthOV}
             outermax={rank.id === 0 ? 100 : rank.requiredQov}
             outercolor={darkViolet}
-            innerpercentage={rank.id === 0 ? 100 : 225}
+            innerpercentage={rank.id === 0 ? 100 : lastMonthOV}
             innermax={rank.id === 0 ? 100 : rank.requiredQov}
             innercolor={heliotrope}
           />
           <LegendContainer>
             <Legend>
               <Square squareFill={darkViolet} />
-              <H5 testID="this-month-total-qov">{`400 ${Localized('of')} ${
-                rank?.requiredQov
-              }`}</H5>
+              <H5 testID="this-month-total-qov">{`${thisMonthOV} ${Localized(
+                'of',
+              )} ${rank?.requiredQov}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={heliotrope} />
-              <H5 testID="last-month-total-qov">{`225 ${Localized('of')} ${
-                rank?.requiredQov
-              }`}</H5>
+              <H5 testID="last-month-total-qov">{`${lastMonthOV} ${Localized(
+                'of',
+              )} ${rank?.requiredQov}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -129,23 +137,23 @@ const Rank = ({ ranklist }) => {
         </ChartTitle>
         <DoubleDonut
           testID="personally-enrolled-donut-svg"
-          outerpercentage={2}
+          outerpercentage={thisMonthPA}
           outermax={2}
           outercolor="yellow"
-          innerpercentage={1}
+          innerpercentage={lastMonthPA}
           innermax={2}
           innercolor="wheat"
         />
         <LegendContainer>
           <Legend>
             <Square squareFill="yellow" />
-            <H5 testID="this-month-personally-enrolled">{`2 ${Localized(
+            <H5 testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
               'of',
             )} 2`}</H5>
           </Legend>
           <Legend>
             <Square squareFill="wheat" />
-            <H5 testID="last-month-personally-enrolled">{`1 ${Localized(
+            <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
               'of',
             )} 2`}</H5>
           </Legend>
@@ -156,16 +164,17 @@ const Rank = ({ ranklist }) => {
 };
 
 Rank.propTypes = {
-  ranklist: Proptypes.arrayOf(
-    Proptypes.shape({
-      id: Proptypes.number,
-      name: Proptypes.string,
-      requiredPv: Proptypes.number,
-      requiredQov: Proptypes.number,
-      legMaxPerc: Proptypes.number,
-      legMaxOv: Proptypes.number,
+  ranklist: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      requiredPv: PropTypes.number,
+      requiredQov: PropTypes.number,
+      legMaxPerc: PropTypes.number,
+      legMaxOv: PropTypes.number,
     }),
   ),
+  user: PropTypes.object,
 };
 
 export default Rank;
