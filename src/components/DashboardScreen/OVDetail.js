@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4Bold, Flexbox } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
@@ -17,8 +17,8 @@ const OVDetail = ({ ranklist }) => {
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = {
     id: 2,
-    requiredPv: 100,
-    requiredQov: 600,
+    requiredPV: 100,
+    requiredQOV: 600,
     name: Localized('pro'),
   };
   const [rank, setRank] = useState(initialRank);
@@ -74,14 +74,14 @@ const OVDetail = ({ ranklist }) => {
 };
 
 OVDetail.propTypes = {
-  ranklist: Proptypes.arrayOf(
-    Proptypes.shape({
-      id: Proptypes.number,
-      name: Proptypes.string,
-      requiredPv: Proptypes.number,
-      requiredQov: Proptypes.number,
-      legMaxPerc: Proptypes.number,
-      legMaxOv: Proptypes.number,
+  ranklist: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      requiredPV: PropTypes.number,
+      requiredQOV: PropTypes.number,
+      legMaxPerc: PropTypes.number,
+      legMaxOV: PropTypes.number,
     }),
   ),
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { H2Bold, H4Secondary, Flexbox } from '../Common';
 import CustomSlider from './CustomSlider';
 import { findRankName, findRankObject } from '../../Utils/findRankInSlider';
@@ -9,7 +9,14 @@ import { Localized, init } from '../../Translations/Localized';
 const { width } = Dimensions.get('window');
 const sliderWidth = width - 40;
 
-const Slider = ({ rank, setRank, rankName, setRankName, ranklist }) => {
+const Slider = ({
+  rank,
+  setRank,
+  rankName,
+  setRankName,
+  ranklist,
+  isQualified,
+}) => {
   init();
 
   const maximumValue = ranklist.length - 1;
@@ -30,7 +37,9 @@ const Slider = ({ rank, setRank, rankName, setRankName, ranklist }) => {
       }}>
       <Flexbox direction="row">
         <H2Bold>{rankName}</H2Bold>
-        <H4Secondary>{Localized('not-qualified')}</H4Secondary>
+        <H4Secondary>
+          {isQualified ? Localized('qualified') : Localized('not-qualified')}
+        </H4Secondary>
       </Flexbox>
       <CustomSlider
         value={value}
@@ -44,20 +53,21 @@ const Slider = ({ rank, setRank, rankName, setRankName, ranklist }) => {
 };
 
 Slider.propTypes = {
-  ranklist: Proptypes.arrayOf(
-    Proptypes.shape({
-      id: Proptypes.number,
-      name: Proptypes.string,
-      requiredPv: Proptypes.number,
-      requiredQov: Proptypes.number,
-      legMaxPerc: Proptypes.number,
-      legMaxOv: Proptypes.number,
+  ranklist: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      requiredPV: PropTypes.number,
+      requiredQOV: PropTypes.number,
+      legMaxPerc: PropTypes.number,
+      legMaxOV: PropTypes.number,
     }),
   ),
-  rank: Proptypes.object,
-  setRank: Proptypes.func,
-  rankName: Proptypes.string,
-  setRankName: Proptypes.func,
+  rank: PropTypes.object,
+  setRank: PropTypes.func,
+  rankName: PropTypes.string,
+  setRankName: PropTypes.func,
+  isQualified: PropTypes.bool,
 };
 
 export default Slider;

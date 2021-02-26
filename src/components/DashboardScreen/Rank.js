@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4Bold, H5, Flexbox } from '../Common';
@@ -46,11 +46,42 @@ const Rank = ({ ranklist, user }) => {
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = {
     id: 2,
-    requiredPv: 100,
-    requiredQov: 600,
+    requiredPV: 100,
+    requiredQOV: 600,
+    requiredPA: 2,
     name: Localized('pro'),
   };
   const [rank, setRank] = useState(initialRank);
+
+  const [isQualified, setIsQualified] = useState(false);
+
+  const validateQualification = (
+    PV,
+    QOV,
+    PA,
+    requiredPV,
+    requiredQOV,
+    requiredPA,
+  ) => {
+    if (PV >= requiredPV && QOV >= requiredQOV && PA >= requiredPA) {
+      setIsQualified(true);
+    } else {
+      setIsQualified(false);
+    }
+  };
+
+  useEffect(() => {
+    const { thisMonthPV, thisMonthOV, thisMonthPA } = user;
+    const { requiredPV, requiredQOV, requiredPA } = rank;
+    validateQualification(
+      thisMonthPV,
+      thisMonthOV,
+      thisMonthPA,
+      requiredPV,
+      requiredQOV,
+      requiredPA,
+    );
+  }, [user, rank]);
 
   return (
     <Flexbox width="100%">
@@ -60,6 +91,7 @@ const Rank = ({ ranklist, user }) => {
         rank={rank}
         setRank={setRank}
         ranklist={ranklist}
+        isQualified={isQualified}
       />
       <Flexbox
         accessibilityLabel="Distributor rank"
@@ -74,10 +106,10 @@ const Rank = ({ ranklist, user }) => {
             testID="total-pv-donut-svg"
             // ternary to ensure no error with 0 values of distributor rank
             outerpercentage={rank.id === 0 ? 100 : thisMonthPV}
-            outermax={rank.id === 0 ? 100 : rank.requiredPv}
+            outermax={rank.id === 0 ? 100 : rank.requiredPV}
             outercolor={pacificBlue}
             innerpercentage={rank.id === 0 ? 100 : lastMonthPV}
-            innermax={rank.id === 0 ? 100 : rank.requiredPv}
+            innermax={rank.id === 0 ? 100 : rank.requiredPV}
             innercolor={mayaBlue}
           />
           <LegendContainer>
@@ -85,13 +117,13 @@ const Rank = ({ ranklist, user }) => {
               <Square squareFill={pacificBlue} />
               <H5 testID="this-month-total-pv">{`${thisMonthPV} ${Localized(
                 'of',
-              )} ${rank?.requiredPv}`}</H5>
+              )} ${rank?.requiredPV}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={mayaBlue} />
               <H5 testID="last-month-total-pv">{`${lastMonthPV} ${Localized(
                 'of',
-              )} ${rank?.requiredPv}`}</H5>
+              )} ${rank?.requiredPV}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -106,10 +138,10 @@ const Rank = ({ ranklist, user }) => {
           <DoubleDonut
             testID="total-qov-donut-svg"
             outerpercentage={rank.id === 0 ? 100 : thisMonthOV}
-            outermax={rank.id === 0 ? 100 : rank.requiredQov}
+            outermax={rank.id === 0 ? 100 : rank.requiredQOV}
             outercolor={darkViolet}
             innerpercentage={rank.id === 0 ? 100 : lastMonthOV}
-            innermax={rank.id === 0 ? 100 : rank.requiredQov}
+            innermax={rank.id === 0 ? 100 : rank.requiredQOV}
             innercolor={heliotrope}
           />
           <LegendContainer>
@@ -117,13 +149,13 @@ const Rank = ({ ranklist, user }) => {
               <Square squareFill={darkViolet} />
               <H5 testID="this-month-total-qov">{`${thisMonthOV} ${Localized(
                 'of',
-              )} ${rank?.requiredQov}`}</H5>
+              )} ${rank?.requiredQOV}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={heliotrope} />
               <H5 testID="last-month-total-qov">{`${lastMonthOV} ${Localized(
                 'of',
-              )} ${rank?.requiredQov}`}</H5>
+              )} ${rank?.requiredQOV}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -138,10 +170,10 @@ const Rank = ({ ranklist, user }) => {
         <DoubleDonut
           testID="personally-enrolled-donut-svg"
           outerpercentage={thisMonthPA}
-          outermax={2}
+          outermax={rank.requiredPA}
           outercolor="yellow"
           innerpercentage={lastMonthPA}
-          innermax={2}
+          innermax={rank.requiredPA}
           innercolor="wheat"
         />
         <LegendContainer>
@@ -168,10 +200,11 @@ Rank.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-      requiredPv: PropTypes.number,
-      requiredQov: PropTypes.number,
+      requiredPV: PropTypes.number,
+      requiredQOV: PropTypes.number,
       legMaxPerc: PropTypes.number,
-      legMaxOv: PropTypes.number,
+      legMaxOV: PropTypes.number,
+      requiredPA: PropTypes.number,
     }),
   ),
   user: PropTypes.object,
