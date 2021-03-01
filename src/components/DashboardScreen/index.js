@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { ScrollView } from 'react-native';
 import { ScreenContainer, TertiaryButton } from '../Common';
 import DashboardHeader from './DashboardHeader';
 import Subheader from './Subheader';
@@ -204,7 +205,7 @@ const DashboardScreen = () => {
   ];
 
   return (
-    <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+    <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
       <DashboardHeader badgeValue={2} />
       <Subheader>
         {tertiaryButtonText.map((item) => (
@@ -216,13 +217,15 @@ const DashboardScreen = () => {
           </TertiaryButton>
         ))}
       </Subheader>
-      {view.name === Localized('overview') && <Overview user={mockUser} />}
-      {view.name === Localized('rank') && (
-        <Rank ranklist={ranklist} user={mockUser} />
-      )}
-      {view.name === Localized('ov-detail') && (
-        <OVDetail ranklist={ranklist} user={mockUser} />
-      )}
+      <ScrollView style={{ width: '100%', height: '100%' }}>
+        {view.name === Localized('overview') && <Overview user={mockUser} />}
+        {view.name === Localized('rank') && (
+          <Rank ranklist={ranklist} user={mockUser} />
+        )}
+        {view.name === Localized('ov-detail') && (
+          <OVDetail ranklist={ranklist} user={mockUser} />
+        )}
+      </ScrollView>
     </ScreenContainer>
   );
 };
