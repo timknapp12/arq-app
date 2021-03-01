@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { gray } from '../../src/Styles/colors';
 
-import { ScreenContainer, Input, Flexbox } from '../../src/components/Common';
+import {
+  ScreenContainer,
+  Input,
+  Flexbox,
+  AnimatedInput,
+} from '../../src/components/Common';
+
+const CustomContainer = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <AnimatedInput
+      label="Username"
+      value={value}
+      onChangeText={(text) => setValue(text)}
+    />
+  );
+};
 
 storiesOf('Inputs', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
@@ -27,4 +44,5 @@ storiesOf('Inputs', module)
       <Input placeholderTextColor={gray} placeholder="username" />
       <Input placeholderTextColor={gray} placeholder="password" />
     </Flexbox>
-  ));
+  ))
+  .add('Animated Input', () => <CustomContainer />);

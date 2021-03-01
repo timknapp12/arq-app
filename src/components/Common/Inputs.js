@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Pressable } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Pressable, Animated, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Flexbox } from './Containers';
+
+// Standard Input with Password able to be shown or hidden
 
 const ThemedTextInputContainer = styled.View`
   width: 100%;
@@ -12,7 +15,7 @@ const ThemedTextInputContainer = styled.View`
   border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
   border-bottom-color: ${(props) =>
     props.focused ? props.theme.highlight : props.theme.disabledTextColor};
-  padding-bottom: 4px;
+  padding-bottom: 3px;
 `;
 
 const ThemedInput = styled.TextInput`
@@ -51,7 +54,6 @@ export const Input = React.forwardRef(
       <ThemedTextInputContainer focused={isFocused}>
         <ThemedInput
           ref={ref}
-          style={{ fontFamily: 'Roboto-Regular' }}
           secureTextEntry={secureTextEntry}
           onBlur={() => setIsFocused(false)}
           onFocus={() => setIsFocused(true)}
@@ -77,4 +79,89 @@ export const Input = React.forwardRef(
 Input.propTypes = {
   textContentType: PropTypes.string,
   focused: PropTypes.bool,
+};
+
+// Animated Input where label animates
+
+const Label = styled.Text`
+  font-size: 16px;
+  font-family: 'Roboto-Regular';
+  color: ${(props) => props.theme.secondaryTextColor};
+`;
+
+const ThemedAnimatedInput = styled.TextInput`
+  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
+  border-bottom-color: ${(props) =>
+    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+  color: ${(props) => props.theme.color};
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Roboto-Regular';
+  padding: 3px 0;
+`;
+
+const CustomInput = Animated.createAnimatedComponent(ThemedAnimatedInput);
+
+export const AnimatedInput = ({
+  value = '',
+  onChangeText = () => {},
+  label = '',
+  ...props
+}) => {
+  const inputRef = useRef();
+  const [isFocused, setIsFocused] = useState(false);
+
+  const onFocus = () => {
+    setIsFocused(true);
+    expand();
+  };
+  const onBlur = () => {
+    setIsFocused(false);
+    if (!value) {
+      shrink();
+    }
+  };
+
+  const initialValue = value ? 24 : 3;
+  const fadeAnim = useRef(new Animated.Value(initialValue)).current;
+
+  const expand = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 24,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const shrink = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 3,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={() => inputRef.current.focus()}>
+      <Flexbox align="flex-start">
+        <Label>{label}</Label>
+        <CustomInput
+          ref={inputRef}
+          value={value}
+          onChangeText={onChangeText}
+          focused={isFocused}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          {...props}
+          style={{ height: fadeAnim }}
+        />
+      </Flexbox>
+    </TouchableWithoutFeedback>
+  );
+};
+
+AnimatedInput.propTypes = {
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
+  label: PropTypes.string,
 };
