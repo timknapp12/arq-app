@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
-import { ScreenContainer, TertiaryButton } from '../Common';
+import React, { useEffect, useState, useRef } from 'react';
+import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
+import { Flexbox, ScreenContainer, TertiaryButton } from '../Common';
 import DashboardHeader from './DashboardHeader';
 import Subheader from './Subheader';
 import * as Analytics from 'expo-firebase-analytics';
@@ -9,6 +9,7 @@ import { useIsFocused } from '@react-navigation/native';
 import Overview from './Overview';
 import Rank from './Rank';
 import OVDetail from './OVDetail';
+import PopoutMenu from './PopoutMenu';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -204,29 +205,70 @@ const DashboardScreen = () => {
     { name: Localized('ov-detail'), testID: 'ov-detail-button' },
   ];
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  console.log('isMenuOpen', isMenuOpen);
+
+  const fadeAnim = useRef(new Animated.Value(-500)).current;
+
+  const fadeIn = () => {
+    setIsMenuOpen(true);
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  };
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: -500,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start(() => setIsMenuOpen(false));
+  };
+
   return (
-    <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
-      <DashboardHeader badgeValue={2} />
-      <Subheader>
-        {tertiaryButtonText.map((item) => (
-          <TertiaryButton
-            onPress={() => setView(item)}
-            selected={view.name === item.name}
-            key={item.name}>
-            {item.name}
-          </TertiaryButton>
-        ))}
-      </Subheader>
-      <ScrollView style={{ width: '100%', height: '100%' }}>
-        {view.name === Localized('overview') && <Overview user={mockUser} />}
-        {view.name === Localized('rank') && (
-          <Rank ranklist={ranklist} user={mockUser} />
-        )}
-        {view.name === Localized('ov-detail') && (
-          <OVDetail ranklist={ranklist} user={mockUser} />
-        )}
-      </ScrollView>
-    </ScreenContainer>
+    <TouchableWithoutFeedback onPress={fadeOut}>
+      <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
+        <>
+          <DashboardHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+            badgeValue={2}
+          />
+          <Subheader>
+            {tertiaryButtonText.map((item) => (
+              <TertiaryButton
+                onPress={() => setView(item)}
+                selected={view.name === item.name}
+                key={item.name}>
+                {item.name}
+              </TertiaryButton>
+            ))}
+          </Subheader>
+          <Flexbox>
+            <PopoutMenu fadeAnim={fadeAnim} isMenuOpen={isMenuOpen} />
+          </Flexbox>
+          <ScrollView
+            style={{
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+            }}>
+            {view.name === Localized('overview') && (
+              <Overview user={mockUser} fadeOut={fadeOut} />
+            )}
+            {view.name === Localized('rank') && (
+              <Rank ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
+            )}
+            {view.name === Localized('ov-detail') && (
+              <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
+            )}
+          </ScrollView>
+        </>
+      </ScreenContainer>
+    </TouchableWithoutFeedback>
   );
 };
 
