@@ -206,7 +206,6 @@ const DashboardScreen = () => {
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  console.log('isMenuOpen', isMenuOpen);
 
   const fadeAnim = useRef(new Animated.Value(-500)).current;
 
