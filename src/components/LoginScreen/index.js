@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import PropTypes from 'prop-types';
 import {
   ScreenContainer,
   Flexbox,
@@ -31,7 +30,7 @@ const LoginInstructions = styled(H4)`
   margin-bottom: 22px;
 `;
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
   init();
   const { setIsSignedIn, theme } = useContext(AppContext);
   const [username, setUsername] = useState('');
@@ -135,8 +134,12 @@ const LoginScreen = ({ navigation }) => {
                   </AlertText>
                 )}
                 <TouchableOpacity
+                  // TODO integrate password recovery screen
+                  // onPress={() =>
+                  //   navigation.navigate('Password Recovery Screen')
+                  // }
                   onPress={() =>
-                    navigation.navigate('Password Recovery Screen')
+                    Linking.openURL('https://office2.myqsciences.com/#/Login')
                   }
                   testID="forgot-password-button">
                   <H6>{Localized('forgot-password')}</H6>
@@ -205,10 +208,6 @@ const LoginScreen = ({ navigation }) => {
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
-};
-
-LoginScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
 };
 
 export default LoginScreen;
