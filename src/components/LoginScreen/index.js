@@ -17,6 +17,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   Linking,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import AppContext from '../../Contexts/AppContext';
 import logo from '../../../assets/q-sciences-logo-white.png';
@@ -71,133 +73,137 @@ const LoginScreen = ({ navigation }) => {
     });
   };
   return (
-    <ScreenContainer>
-      <Flexbox justify="space-between" height="100%">
-        <KeyboardAvoidingView
-          style={{
-            width: '100%',
-            height: '60%',
-          }}
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-          <Flexbox
-            accessibilityLabel="Login Form"
-            justify="space-between"
-            height="100%"
-            padding={20}>
-            <TouchableOpacity
-              style={{ marginBottom: 10 }}
-              onPress={() => setIsError((state) => !state)}>
-              <AlertText>Toggle Error</AlertText>
-            </TouchableOpacity>
-            <Image source={logo} />
-
-            <LoginInstructions testID="login-instructions">
-              {Localized('login-instructions')}
-            </LoginInstructions>
-
-            <Flexbox style={{ marginBottom: 22 }}>
-              <Input
-                testID="username-input"
-                value={username}
-                onChangeText={(text) => setUsername(text)}
-                keyboardType="email-address"
-                placeholder={Localized('username')}
-                placeholderTextColor={theme.disabledTextColor}
-                returnKeyType="next"
-                onSubmitEditing={onNext}
-              />
-            </Flexbox>
-
-            <Flexbox style={{ marginBottom: 12 }}>
-              <Input
-                testID="password-input"
-                value={password}
-                onChangeText={(text) => setPassword(text)}
-                ref={passwordRef}
-                placeholder={Localized('password')}
-                placeholderTextColor={theme.disabledTextColor}
-                textContentType="password"
-                returnKeyType="go"
-                onSubmitEditing={onSubmit}
-              />
-            </Flexbox>
-
-            <Flexbox height="60px" style={{ marginBottom: 8 }}>
-              {isError && (
-                <AlertText
-                  style={{
-                    textAlign: 'center',
-                  }}>
-                  {Localized('login-error')}
-                </AlertText>
-              )}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScreenContainer>
+        <Flexbox justify="space-between" height="100%">
+          <KeyboardAvoidingView
+            style={{
+              width: '100%',
+              height: '60%',
+            }}
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            <Flexbox
+              accessibilityLabel="Login Form"
+              justify="space-between"
+              height="100%"
+              padding={20}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Password Recovery Screen')}
-                testID="forgot-password-button">
-                <H6>{Localized('forgot-password')}</H6>
+                style={{ marginBottom: 10 }}
+                onPress={() => setIsError((state) => !state)}>
+                <AlertText>Toggle Error</AlertText>
+              </TouchableOpacity>
+              <Image source={logo} />
+
+              <LoginInstructions testID="login-instructions">
+                {Localized('login-instructions')}
+              </LoginInstructions>
+
+              <Flexbox style={{ marginBottom: 22 }}>
+                <Input
+                  testID="username-input"
+                  value={username}
+                  onChangeText={(text) => setUsername(text)}
+                  keyboardType="email-address"
+                  placeholder={Localized('username')}
+                  placeholderTextColor={theme.disabledTextColor}
+                  returnKeyType="next"
+                  onSubmitEditing={onNext}
+                />
+              </Flexbox>
+
+              <Flexbox style={{ marginBottom: 12 }}>
+                <Input
+                  testID="password-input"
+                  value={password}
+                  onChangeText={(text) => setPassword(text)}
+                  ref={passwordRef}
+                  placeholder={Localized('password')}
+                  placeholderTextColor={theme.disabledTextColor}
+                  textContentType="password"
+                  returnKeyType="go"
+                  onSubmitEditing={onSubmit}
+                />
+              </Flexbox>
+
+              <Flexbox height="60px" style={{ marginBottom: 8 }}>
+                {isError && (
+                  <AlertText
+                    style={{
+                      textAlign: 'center',
+                    }}>
+                    {Localized('login-error')}
+                  </AlertText>
+                )}
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Password Recovery Screen')
+                  }
+                  testID="forgot-password-button">
+                  <H6>{Localized('forgot-password')}</H6>
+                </TouchableOpacity>
+              </Flexbox>
+
+              <Flexbox width="85%">
+                <PrimaryButton
+                  testID="login-button"
+                  disabled={isButtonDisabled}
+                  style={{ marginTop: 12 }}
+                  onPress={onSubmit}>
+                  {Localized('login-text')}
+                </PrimaryButton>
+              </Flexbox>
+            </Flexbox>
+          </KeyboardAvoidingView>
+
+          <Flexbox
+            accessibilityLabel="Become an Ambassador"
+            justify="flex-start"
+            padding={20}
+            style={{
+              flex: 1,
+              marginTop: 20,
+            }}>
+            <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
+              {Localized('become-ambassador')}
+            </H6>
+            <TouchableOpacity
+              testID="become-ambassador-link"
+              onPress={onFindOutMore}
+              style={{ marginTop: 12 }}>
+              <Link>{Localized('find-out-more')}</Link>
+            </TouchableOpacity>
+          </Flexbox>
+
+          <KeyboardAvoidingView
+            style={{
+              width: '100%',
+            }}
+            behavior={Platform.OS == 'ios' ? null : 'height'}>
+            <Flexbox
+              accessibilityLabel="Terms Privacy Data"
+              justify="center"
+              direction="row"
+              padding={14}>
+              <TouchableOpacity
+                onPress={() => console.log('tapped terms')}
+                testID="terms-button">
+                <H4>{Localized('terms')}</H4>
+              </TouchableOpacity>
+              <H4 style={{ marginStart: 8 }}>|</H4>
+              <TouchableOpacity
+                testID="privacy-button"
+                style={{ marginStart: 8 }}>
+                <H4>{Localized('privacy')}</H4>
+              </TouchableOpacity>
+              <H4 style={{ marginStart: 8 }}>|</H4>
+              <TouchableOpacity testID="data-button" style={{ marginStart: 8 }}>
+                <H4>{Localized('data')}</H4>
               </TouchableOpacity>
             </Flexbox>
-
-            <Flexbox width="85%">
-              <PrimaryButton
-                testID="login-button"
-                disabled={isButtonDisabled}
-                style={{ marginTop: 12 }}
-                onPress={onSubmit}>
-                {Localized('login-text')}
-              </PrimaryButton>
-            </Flexbox>
-          </Flexbox>
-        </KeyboardAvoidingView>
-
-        <Flexbox
-          accessibilityLabel="Become an Ambassador"
-          justify="flex-start"
-          padding={20}
-          style={{
-            flex: 1,
-            marginTop: 20,
-          }}>
-          <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
-            {Localized('become-ambassador')}
-          </H6>
-          <TouchableOpacity
-            testID="become-ambassador-link"
-            onPress={onFindOutMore}
-            style={{ marginTop: 12 }}>
-            <Link>{Localized('find-out-more')}</Link>
-          </TouchableOpacity>
+          </KeyboardAvoidingView>
         </Flexbox>
-
-        <KeyboardAvoidingView
-          style={{
-            width: '100%',
-          }}
-          behavior={Platform.OS == 'ios' ? null : 'height'}>
-          <Flexbox
-            accessibilityLabel="Terms Privacy Data"
-            justify="center"
-            direction="row"
-            padding={14}>
-            <TouchableOpacity
-              onPress={() => console.log('tapped terms')}
-              testID="terms-button">
-              <H4>{Localized('terms')}</H4>
-            </TouchableOpacity>
-            <H4 style={{ marginStart: 8 }}>|</H4>
-            <TouchableOpacity
-              testID="privacy-button"
-              style={{ marginStart: 8 }}>
-              <H4>{Localized('privacy')}</H4>
-            </TouchableOpacity>
-            <H4 style={{ marginStart: 8 }}>|</H4>
-            <TouchableOpacity testID="data-button" style={{ marginStart: 8 }}>
-              <H4>{Localized('data')}</H4>
-            </TouchableOpacity>
-          </Flexbox>
-        </KeyboardAvoidingView>
-      </Flexbox>
-    </ScreenContainer>
+      </ScreenContainer>
+    </TouchableWithoutFeedback>
   );
 };
 

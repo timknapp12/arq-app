@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { Image } from 'react-native';
@@ -42,44 +43,46 @@ const PasswordRecoveryScreen = ({ navigation }) => {
     });
   };
   return (
-    <ScreenContainer
-      style={{
-        justifyContent: 'flex-start',
-      }}>
-      <Flexbox
-        height="60%"
-        justify="space-around"
-        accessibilityLabel="Password Recovery Form"
-        padding={20}>
-        <Image source={logo} />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScreenContainer
+        style={{
+          justifyContent: 'flex-start',
+        }}>
+        <Flexbox
+          height="60%"
+          justify="space-around"
+          accessibilityLabel="Password Recovery Form"
+          padding={20}>
+          <Image source={logo} />
 
-        <RecoverPasswordInstructions testID="recover-password-instructions">
-          {Localized('recover-password-instructions')}
-        </RecoverPasswordInstructions>
-        <Flexbox style={{ marginBottom: 22 }}>
-          <Input
-            testID="email-input"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            keyboardType="email-address"
-            placeholder={Localized('email-address-placeholder')}
-            placeholderTextColor={theme.disabledTextColor}
-            returnKeyType="go"
-            onSubmitEditing={onSubmit}
-          />
-        </Flexbox>
+          <RecoverPasswordInstructions testID="recover-password-instructions">
+            {Localized('recover-password-instructions')}
+          </RecoverPasswordInstructions>
+          <Flexbox style={{ marginBottom: 22 }}>
+            <Input
+              testID="email-input"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              keyboardType="email-address"
+              placeholder={Localized('email-address-placeholder')}
+              placeholderTextColor={theme.disabledTextColor}
+              returnKeyType="go"
+              onSubmitEditing={onSubmit}
+            />
+          </Flexbox>
 
-        <Flexbox width="85%">
-          <PrimaryButton
-            testID="password-recovery-button"
-            disabled={isButtonDisabled}
-            style={{ marginTop: 12 }}
-            onPress={onSubmit}>
-            {Localized('send-email-text')}
-          </PrimaryButton>
+          <Flexbox width="85%">
+            <PrimaryButton
+              testID="password-recovery-button"
+              disabled={isButtonDisabled}
+              style={{ marginTop: 12 }}
+              onPress={onSubmit}>
+              {Localized('send-email-text')}
+            </PrimaryButton>
+          </Flexbox>
         </Flexbox>
-      </Flexbox>
-    </ScreenContainer>
+      </ScreenContainer>
+    </TouchableWithoutFeedback>
   );
 };
 
