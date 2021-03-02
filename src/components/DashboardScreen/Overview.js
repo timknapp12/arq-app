@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { H4Bold, Flexbox, H4Secondary } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
 import Donut from './Donut';
-import { pacificBlue, darkViolet } from '../../Styles/colors';
+import { cyan, redOrange, pantone } from '../../Styles/colors';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};
@@ -39,8 +39,7 @@ const Overview = ({ user, fadeOut }) => {
               testID="pv-donut-svg"
               percentage={thisMonthPV}
               max={thisMonthPV}
-              color={pacificBlue}
-              view="overview"
+              color={cyan}
             />
           </Flexbox>
 
@@ -50,7 +49,7 @@ const Overview = ({ user, fadeOut }) => {
               testID="cv-donut-svg"
               percentage={thisMonthCV}
               max={thisMonthCV}
-              view="overview"
+              color={redOrange}
             />
           </Flexbox>
         </Flexbox>
@@ -61,8 +60,7 @@ const Overview = ({ user, fadeOut }) => {
             testID="ov-donut-svg"
             percentage={thisMonthOV}
             max={thisMonthOV}
-            color={darkViolet}
-            view="overview"
+            color={pantone}
           />
         </Flexbox>
       </Flexbox>

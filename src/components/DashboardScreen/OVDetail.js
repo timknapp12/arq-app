@@ -6,7 +6,7 @@ import { H4Bold, Flexbox } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
-import { pacificBlue } from '../../Styles/colors';
+import { cyan, redOrange, pantone } from '../../Styles/colors';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};
@@ -44,8 +44,7 @@ const OVDetail = ({ ranklist, fadeOut }) => {
               testID="leg-one-donut-svg"
               percentage={160}
               max={360}
-              color={pacificBlue}
-              view="ov detail"
+              color={cyan}
             />
           </Flexbox>
 
@@ -57,8 +56,7 @@ const OVDetail = ({ ranklist, fadeOut }) => {
               testID="leg-two-donut-svg"
               percentage={100}
               max={360}
-              color={pacificBlue}
-              view="ov detail"
+              color={redOrange}
             />
           </Flexbox>
         </Flexbox>
@@ -71,8 +69,7 @@ const OVDetail = ({ ranklist, fadeOut }) => {
             testID="leg-three-donut-svg"
             percentage={40}
             max={360}
-            color={pacificBlue}
-            view="ov detail"
+            color={pantone}
           />
         </Flexbox>
       </Flexbox>

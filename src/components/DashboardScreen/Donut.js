@@ -1,18 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { StyleSheet, View, Animated, TextInput } from 'react-native';
-import { Flexbox, H5 } from '../Common';
 import Svg, { G, Circle } from 'react-native-svg';
-import { gray } from '../../Styles/colors';
-import { Localized, init } from '../../Translations/Localized';
 
 // source for donut svg: https://www.youtube.com/watch?v=x2LtzCxbWI0
-
-const Legend = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedInput = Animated.createAnimatedComponent(TextInput);
@@ -20,15 +11,13 @@ const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 const Donut = ({
   percentage = 75,
   radius = 80,
-  strokeWidth = 8,
+  strokeWidth = 14,
   duration = 1000,
   color = 'yellow',
   delay = 0,
-  textColor = gray,
   max = 100,
   view,
 }) => {
-  init();
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
   const inputRef = useRef();
@@ -97,8 +86,8 @@ const Donut = ({
           />
         </G>
       </Svg>
-      {/* the animated text inside the donut on the overview view */}
-      {view === 'overview' && (
+      {/* the animated text inside the donut on the overview and ov-detail view */}
+      {view !== 'rank' && (
         <AnimatedInput
           ref={inputRef}
           underlineColorAndroid="transparent"
@@ -106,31 +95,10 @@ const Donut = ({
           defaultValue="0"
           style={[
             StyleSheet.absoluteFillObject,
-            { fontSize: radius / 2, color: textColor ?? color },
-            { textAlign: 'center' },
+            { fontSize: 24, color: color },
+            { fontFamily: 'Nunito-Black', textAlign: 'center' },
           ]}
         />
-      )}
-      {/* the "Used" and "Unused" text and values inside the donut on the ov details view */}
-      {view === 'ov detail' && (
-        <Flexbox
-          justify="center"
-          align="center"
-          style={{
-            position: 'absolute',
-          }}
-          height="100%">
-          <Legend>
-            <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
-              {`${Localized('used')}: ${percentage}`}
-            </H5>
-          </Legend>
-          <Legend>
-            <H5 style={{ textAlign: 'center' }}>{`${Localized('unused')}: ${
-              max - percentage
-            }`}</H5>
-          </Legend>
-        </Flexbox>
       )}
     </View>
   );
@@ -143,7 +111,6 @@ Donut.propTypes = {
   duration: PropTypes.number,
   color: PropTypes.string,
   delay: PropTypes.number,
-  textColor: PropTypes.string,
   max: PropTypes.number,
   view: PropTypes.oneOf(['overview', 'rank', 'ov detail']),
 };
