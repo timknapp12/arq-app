@@ -13,7 +13,7 @@ const Donut = ({
   radius = 80,
   strokeWidth = 14,
   duration = 1000,
-  color = 'yellow',
+  color,
   delay = 0,
   max = 100,
   view,

@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 
 const sharedCss = {
   flex: 1,
-  paddingTop: 40,
+  paddingTop: 50,
   paddingBottom: 40,
   alignItems: 'center',
   justifyContent: 'center',

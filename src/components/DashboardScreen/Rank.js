@@ -7,10 +7,12 @@ import { Localized, init } from '../../Translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
 import {
-  mayaBlue,
-  pacificBlue,
-  darkViolet,
-  heliotrope,
+  cyan,
+  redOrange,
+  pantone,
+  lightCyan,
+  lightPink,
+  riceFlower,
 } from '../../Styles/colors';
 
 const ChartTitle = styled(H4Bold)`
@@ -109,20 +111,21 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               // ternary to ensure no error with 0 values of distributor rank
               outerpercentage={rank.id === 0 ? 100 : thisMonthPV}
               outermax={rank.id === 0 ? 100 : rank.requiredPV}
-              outercolor={pacificBlue}
+              outercolor={cyan}
               innerpercentage={rank.id === 0 ? 100 : lastMonthPV}
               innermax={rank.id === 0 ? 100 : rank.requiredPV}
-              innercolor={mayaBlue}
+              innercolor={lightCyan}
+              view="rank"
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={pacificBlue} />
+                <Square squareFill={cyan} />
                 <H5 testID="this-month-total-pv">{`${thisMonthPV} ${Localized(
                   'of',
                 )} ${rank?.requiredPV}`}</H5>
               </Legend>
               <Legend>
-                <Square squareFill={mayaBlue} />
+                <Square squareFill={lightCyan} />
                 <H5 testID="last-month-total-pv">{`${lastMonthPV} ${Localized(
                   'of',
                 )} ${rank?.requiredPV}`}</H5>
@@ -141,20 +144,21 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               testID="total-qov-donut-svg"
               outerpercentage={rank.id === 0 ? 100 : thisMonthOV}
               outermax={rank.id === 0 ? 100 : rank.requiredQOV}
-              outercolor={darkViolet}
+              outercolor={redOrange}
               innerpercentage={rank.id === 0 ? 100 : lastMonthOV}
               innermax={rank.id === 0 ? 100 : rank.requiredQOV}
-              innercolor={heliotrope}
+              innercolor={lightPink}
+              view="rank"
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={darkViolet} />
+                <Square squareFill={redOrange} />
                 <H5 testID="this-month-total-qov">{`${thisMonthOV} ${Localized(
                   'of',
                 )} ${rank?.requiredQOV}`}</H5>
               </Legend>
               <Legend>
-                <Square squareFill={heliotrope} />
+                <Square squareFill={lightPink} />
                 <H5 testID="last-month-total-qov">{`${lastMonthOV} ${Localized(
                   'of',
                 )} ${rank?.requiredQOV}`}</H5>
@@ -173,20 +177,21 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             testID="personally-enrolled-donut-svg"
             outerpercentage={thisMonthPA}
             outermax={rank.requiredPA}
-            outercolor="yellow"
+            outercolor={pantone}
             innerpercentage={lastMonthPA}
             innermax={rank.requiredPA}
-            innercolor="wheat"
+            innercolor={riceFlower}
+            view="rank"
           />
           <LegendContainer>
             <Legend>
-              <Square squareFill="yellow" />
+              <Square squareFill={pantone} />
               <H5 testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
                 'of',
               )} 2`}</H5>
             </Legend>
             <Legend>
-              <Square squareFill="wheat" />
+              <Square squareFill={riceFlower} />
               <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
                 'of',
               )} 2`}</H5>

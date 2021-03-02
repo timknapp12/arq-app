@@ -1,14 +1,15 @@
 import {
   white,
   black,
-  offwhite,
   darkgray,
   gray,
   lightgray,
   blue,
   darkblue,
   red,
-  green,
+  veryLightGray,
+  lightblue,
+  lightPink,
 } from './colors';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -18,7 +19,7 @@ export const lightTheme = {
   secondaryTextColor: gray,
   backgroundColor: white,
   activeBackground: darkgray,
-  inactiveBackground: offwhite,
+  inactiveBackground: veryLightGray,
   activeTint: white,
   inactiveTint: blue,
   disabledBackgroundColor: lightgray,
@@ -26,7 +27,10 @@ export const lightTheme = {
   highlight: darkblue,
   error: red,
   headerBackgroundColor: blue,
-  tertiarySelected: green,
+  tertiarySelectedTextColor: blue,
+  tertiarySelectedBackgroundColor: lightPink,
+  tertiaryDisabledTextColor: blue,
+  tertiaryDisabledBackgroundColor: lightblue,
   statusBar: 'dark',
 };
 
@@ -44,6 +48,9 @@ export const darkTheme = {
   highlight: darkblue,
   error: red,
   headerBackgroundColor: blue,
-  tertiarySelected: green,
+  tertiarySelectedTextColor: white,
+  tertiarySelectedBackgroundColor: blue,
+  tertiaryDisabledTextColor: veryLightGray,
+  tertiaryDisabledBackgroundColor: lightblue,
   statusBar: 'light',
 };

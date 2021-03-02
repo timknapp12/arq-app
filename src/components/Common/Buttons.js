@@ -53,19 +53,18 @@ const ThemedTertiary = styled.TouchableOpacity`
   width: 100px;
   height: 27px;
   border-radius: 13.5px;
-  border: ${(props) =>
+  background-color: ${(props) =>
     props.selected
-      ? `2px solid ${props.theme.tertiarySelected}`
-      : `1px solid ${props.theme.disabledTextColor}`};
+      ? props.theme.tertiarySelectedBackgroundColor
+      : props.theme.tertiaryDisabledBackgroundColor};
 `;
 
 const TertiaryText = styled.Text`
-  font-family: ${(props) =>
-    props.selected ? 'Nunito-Black' : 'Nunito-Regular'};
+  font-family: 'Nunito-Black';
   color: ${(props) =>
     props.selected
-      ? props.theme.tertiarySelected
-      : props.theme.disabledTextColor};
+      ? props.theme.tertiarySelectedTextColor
+      : props.theme.tertiaryDisabledTextColor};
 `;
 
 export const TertiaryButton = ({ selected, children, ...props }) => (

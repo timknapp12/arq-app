@@ -1,31 +1,47 @@
 export const white = '#ffffff';
 
-export const offwhite = '#EDEDED';
-
 export const black = '#121212';
 
 export const gray = '#989898';
 
 export const lightgray = '#D8D8D8';
 
+// disabled text on tertiary button
+export const veryLightGray = '#CFCFCF';
+
 export const darkgray = '#2C2C2C';
 
 export const blue = '#006699';
 
+// slider track
+export const veniceBlue = '#066990';
+
+// slider button
+export const lightblue = '#7692B8';
+
+// highlight for focused input
 export const darkblue = '#2196F3';
 
-export const pacificBlue = '#0088CC';
+// donut chart
+export const cyan = '#63B1BC';
 
-export const mayaBlue = '#70CFFF';
+// donut chart
+export const lightCyan = '#D0E7EB';
 
+// error message
 export const red = '#FF0000';
 
+// badge notification background
 export const darkRed = '#993300';
 
-export const green = '#8DB600';
+// donut chart
+export const redOrange = '#E8927C';
 
-export const darkViolet = '#9600E0';
+// donut chart
+export const lightPink = '#F1BDB0';
 
-export const heliotrope = '#D685FF';
+// donut chart
+export const pantone = '#CDEA80';
 
-export const yellow = '#FFFF00';
+// donut chart
+export const riceFlower = '#EBF3D4';
