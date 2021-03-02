@@ -200,9 +200,9 @@ const DashboardScreen = () => {
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
-    { name: Localized('overview'), testID: 'overview-button' },
-    { name: Localized('rank'), testID: 'rank-button' },
-    { name: Localized('ov-detail'), testID: 'ov-detail-button' },
+    { name: Localized('overview'), testID: 'overview_button' },
+    { name: Localized('rank'), testID: 'rank_button' },
+    { name: Localized('ov-detail'), testID: 'ov_detail_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -226,6 +226,15 @@ const DashboardScreen = () => {
     }).start(() => setIsMenuOpen(false));
   };
 
+  const navigate = (item) => {
+    fadeOut();
+    setView(item);
+    Analytics.logEvent(`${item.testID}_tapped`, {
+      screen: 'Dashboard Screen',
+      purpose: `See details for ${item.name}`,
+    });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
@@ -240,7 +249,7 @@ const DashboardScreen = () => {
           <Subheader>
             {tertiaryButtonText.map((item) => (
               <TertiaryButton
-                onPress={() => setView(item)}
+                onPress={() => navigate(item)}
                 selected={view.name === item.name}
                 key={item.name}>
                 {item.name}

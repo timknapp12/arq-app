@@ -29,6 +29,7 @@ const DashboardHeader = ({ badgeValue, fadeIn, fadeOut, isMenuOpen }) => {
       <Flexbox width="60px" direction="row">
         <BellIcon badgeValue={badgeValue} />
         <TouchableOpacity
+          testID="profile-button"
           onPress={(e) => {
             e.stopPropagation();
             toggleMenu();
