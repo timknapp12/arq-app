@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Animated } from 'react-native';
 import { H4 } from '../Common';
+import { Localized, init } from '../../Translations/Localized';
 
 const SideMenu = styled.View`
   z-index: 2;
-  /* elevation: 2; */
   position: absolute;
   align-items: flex-start;
   top: 0;
@@ -17,22 +17,23 @@ const SideMenu = styled.View`
 const AnimatedMenu = Animated.createAnimatedComponent(SideMenu);
 
 const PopoutMenu = ({ fadeAnim }) => {
+  init();
   return (
     <AnimatedMenu style={{ right: fadeAnim }}>
       <TouchableOpacity>
-        <H4>My Info</H4>
+        <H4>{Localized('my-info')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
-        <H4>Share Options</H4>
+        <H4>{Localized('share-options')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
-        <H4>Settings</H4>
+        <H4>{Localized('settings')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
-        <H4>Chat With Support</H4>
+        <H4>{Localized('chat-with-support')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
-        <H4>Log Out</H4>
+        <H4>{Localized('log-out')}</H4>
       </TouchableOpacity>
     </AnimatedMenu>
   );
