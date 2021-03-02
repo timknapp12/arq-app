@@ -22,12 +22,20 @@ const Slider = ({
   const maximumValue = ranklist.length - 1;
 
   const [value, setValue] = useState(rank?.id);
+  const [isQualifiedTextDisplayed, setIsQualifiedTextDisplayed] = useState(
+    true,
+  );
 
   useEffect(() => {
     setRankName(findRankName(ranklist, value));
   }, [value]);
 
-  const onSlidingComplete = () => setRank(findRankObject(ranklist, value));
+  const onSlidingStart = () => setIsQualifiedTextDisplayed(false);
+
+  const onSlidingComplete = () => {
+    setRank(findRankObject(ranklist, value));
+    setIsQualifiedTextDisplayed(true);
+  };
 
   return (
     <Flexbox
@@ -35,11 +43,15 @@ const Slider = ({
       style={{
         paddingTop: 12,
       }}>
-      <Flexbox direction="row">
+      <Flexbox direction="row" justify="flex-start">
         <H2Bold>{rankName}</H2Bold>
-        <H4Secondary>
-          {isQualified ? Localized('qualified') : Localized('not-qualified')}
-        </H4Secondary>
+        {isQualifiedTextDisplayed && (
+          <H4Secondary style={{ marginStart: 8 }}>
+            {isQualified
+              ? `(${Localized('qualified')})`
+              : `(${Localized('not-qualified')})`}
+          </H4Secondary>
+        )}
       </Flexbox>
       <CustomSlider
         value={value}
@@ -47,6 +59,7 @@ const Slider = ({
         sliderWidth={sliderWidth}
         maximumValue={maximumValue}
         onSlidingComplete={onSlidingComplete}
+        onSlidingStart={onSlidingStart}
       />
     </Flexbox>
   );
