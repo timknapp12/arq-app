@@ -31,8 +31,6 @@ const executiveRequirements = {
 describe('calculate leg percentages', () => {
   test('emerald returns 40 40 20', () => {
     const user = {
-      thisMonthQOV: 350000,
-      OV: 2224731,
       leg1OV: 1992193,
       leg2OV: 156931,
       leg3OV: 75607,
@@ -49,8 +47,6 @@ describe('calculate leg percentages', () => {
   });
   test('emerald returns 34 33 33', () => {
     const user = {
-      thisMonthQOV: 350000,
-      OV: 2224731,
       leg1OV: 119000,
       leg2OV: 115500,
       leg3OV: 115500,
