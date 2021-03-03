@@ -40,23 +40,26 @@ const Rank = ({ ranklist, user, fadeOut }) => {
   const {
     lastMonthPV,
     thisMonthPV,
-    lastMonthOV,
-    thisMonthOV,
+    lastMonthQOV,
+    thisMonthQOV,
     lastMonthPA,
     thisMonthPA,
+    currentRank,
   } = user;
-  const initialRankName = Localized('pro');
+  const initialRankName = currentRank?.name;
   const [rankName, setRankName] = useState(initialRankName);
-  const initialRank = {
-    id: 2,
-    requiredPV: 100,
-    requiredQOV: 600,
-    requiredPA: 2,
-    name: Localized('pro'),
-  };
+  const initialRank = user?.currentRank;
   const [rank, setRank] = useState(initialRank);
 
   const [isQualified, setIsQualified] = useState(false);
+
+  const compareMinAndMax = (min, max) => {
+    if (min >= max) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const validateQualification = (
     PV,
@@ -66,7 +69,11 @@ const Rank = ({ ranklist, user, fadeOut }) => {
     requiredQOV,
     requiredPA,
   ) => {
-    if (PV >= requiredPV && QOV >= requiredQOV && PA >= requiredPA) {
+    if (
+      compareMinAndMax(PV, requiredPV) &&
+      compareMinAndMax(QOV, requiredQOV) &&
+      compareMinAndMax(PA, requiredPA)
+    ) {
       setIsQualified(true);
     } else {
       setIsQualified(false);
@@ -74,17 +81,47 @@ const Rank = ({ ranklist, user, fadeOut }) => {
   };
 
   useEffect(() => {
-    const { thisMonthPV, thisMonthOV, thisMonthPA } = user;
+    const { thisMonthPV, thisMonthQOV, thisMonthPA } = user;
     const { requiredPV, requiredQOV, requiredPA } = rank;
     validateQualification(
       thisMonthPV,
-      thisMonthOV,
+      thisMonthQOV,
       thisMonthPA,
       requiredPV,
       requiredQOV,
       requiredPA,
     );
   }, [user, rank]);
+
+  // These are used to restrain the percentages from being way higher than the max causing a ton of extra revolutions on the animations
+  const lastMonthPVPerc = compareMinAndMax(lastMonthPV, rank.requiredPV)
+    ? rank.requiredPV
+    : lastMonthPV;
+
+  const thisMonthPVPerc = compareMinAndMax(thisMonthPV, rank.requiredPV)
+    ? rank.requiredPV
+    : thisMonthPV;
+
+  const lastMonthQOVPerc = compareMinAndMax(lastMonthQOV, rank.requiredQOV)
+    ? rank.requiredQOV
+    : lastMonthQOV;
+
+  const thisMonthQOVPerc = compareMinAndMax(thisMonthQOV, rank.requiredQOV)
+    ? rank.requiredQOV
+    : thisMonthQOV;
+
+  // Use this in case we want to stop to animation everytime the slider changes and the circle should still remain full, but at one point on the slider a crazy animation will occur
+  // const thisMonthMaxQOV = compareMinAndMax(thisMonthQOV, rank.requiredQOV)
+  //   ? 100
+  //   : rank.requiredQOV;
+
+  const lastMonthPAPerc = compareMinAndMax(lastMonthPA, rank.requiredPA)
+    ? rank.requiredPA
+    : lastMonthPA;
+
+  const thisMonthPAPerc = compareMinAndMax(thisMonthPA, rank.requiredPA)
+    ? rank.requiredPA
+    : thisMonthPA;
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
@@ -109,10 +146,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <DoubleDonut
               testID="total-pv-donut-svg"
               // ternary to ensure no error with 0 values of distributor rank
-              outerpercentage={rank.id === 0 ? 100 : thisMonthPV}
+              outerpercentage={rank.id === 0 ? 100 : thisMonthPVPerc}
               outermax={rank.id === 0 ? 100 : rank.requiredPV}
               outercolor={cyan}
-              innerpercentage={rank.id === 0 ? 100 : lastMonthPV}
+              innerpercentage={rank.id === 0 ? 100 : lastMonthPVPerc}
               innermax={rank.id === 0 ? 100 : rank.requiredPV}
               innercolor={lightCyan}
               view="rank"
@@ -120,15 +157,16 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <LegendContainer>
               <Legend>
                 <Square squareFill={cyan} />
-                <H5 testID="this-month-total-pv">{`${thisMonthPV} ${Localized(
+                {/* toLocaleString() gives commas for large numbers */}
+                <H5 testID="this-month-total-pv">{`${thisMonthPV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredPV}`}</H5>
+                )} ${rank?.requiredPV.toLocaleString()}`}</H5>
               </Legend>
               <Legend>
                 <Square squareFill={lightCyan} />
-                <H5 testID="last-month-total-pv">{`${lastMonthPV} ${Localized(
+                <H5 testID="last-month-total-pv">{`${lastMonthPV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredPV}`}</H5>
+                )} ${rank?.requiredPV.toLocaleString()}`}</H5>
               </Legend>
             </LegendContainer>
           </Flexbox>
@@ -142,10 +180,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             </ChartTitle>
             <DoubleDonut
               testID="total-qov-donut-svg"
-              outerpercentage={rank.id === 0 ? 100 : thisMonthOV}
+              outerpercentage={rank.id === 0 ? 100 : thisMonthQOVPerc}
               outermax={rank.id === 0 ? 100 : rank.requiredQOV}
               outercolor={redOrange}
-              innerpercentage={rank.id === 0 ? 100 : lastMonthOV}
+              innerpercentage={rank.id === 0 ? 100 : lastMonthQOVPerc}
               innermax={rank.id === 0 ? 100 : rank.requiredQOV}
               innercolor={lightPink}
               view="rank"
@@ -153,15 +191,15 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <LegendContainer>
               <Legend>
                 <Square squareFill={redOrange} />
-                <H5 testID="this-month-total-qov">{`${thisMonthOV} ${Localized(
+                <H5 testID="this-month-total-qov">{`${thisMonthQOV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV}`}</H5>
+                )} ${rank?.requiredQOV.toLocaleString()}`}</H5>
               </Legend>
               <Legend>
                 <Square squareFill={lightPink} />
-                <H5 testID="last-month-total-qov">{`${lastMonthOV} ${Localized(
+                <H5 testID="last-month-total-qov">{`${lastMonthQOV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV}`}</H5>
+                )} ${rank?.requiredQOV.toLocaleString()}`}</H5>
               </Legend>
             </LegendContainer>
           </Flexbox>
@@ -175,10 +213,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           </ChartTitle>
           <DoubleDonut
             testID="personally-enrolled-donut-svg"
-            outerpercentage={thisMonthPA}
+            outerpercentage={thisMonthPAPerc}
             outermax={rank.requiredPA}
             outercolor={pantone}
-            innerpercentage={lastMonthPA}
+            innerpercentage={lastMonthPAPerc}
             innermax={rank.requiredPA}
             innercolor={riceFlower}
             view="rank"

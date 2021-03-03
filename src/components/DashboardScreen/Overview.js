@@ -13,7 +13,7 @@ const ChartTitle = styled(H4Bold)`
 
 const Overview = ({ user, fadeOut }) => {
   init();
-  const { thisMonthPV, thisMonthOV, thisMonthCV } = user;
+  const { thisMonthPV, OV, thisMonthCV } = user;
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <Flexbox width="100%" onStartShouldSetResponder={() => true}>
@@ -58,8 +58,8 @@ const Overview = ({ user, fadeOut }) => {
           <ChartTitle testID="ov-donut-label">{Localized('ov')}</ChartTitle>
           <Donut
             testID="ov-donut-svg"
-            percentage={thisMonthOV}
-            max={thisMonthOV}
+            percentage={OV}
+            max={OV}
             color={pantone}
           />
         </Flexbox>

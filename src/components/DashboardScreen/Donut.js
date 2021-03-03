@@ -48,7 +48,7 @@ const Donut = ({
       }
       if (inputRef?.current) {
         inputRef.current.setNativeProps({
-          text: `${Math.round(v.value)}`,
+          text: `${Math.round(v.value).toLocaleString()}`,
         });
       }
     });

@@ -13,15 +13,25 @@ import PopoutMenu from './PopoutMenu';
 
 const mockUser = {
   lastMonthPV: 150,
-  thisMonthPV: 105,
-  lastMonthOV: 225,
-  thisMonthOV: 400,
+  thisMonthPV: 305,
+  lastMonthQOV: 200000,
+  thisMonthQOV: 350000,
+  OV: 2224731,
   lastMonthPA: 1,
   thisMonthPA: 2,
   thisMonthCV: 256,
-  thisMonthLeg1Used: 160,
-  thisMonthLeg2Used: 100,
-  thisMonthLeg3Used: 100,
+  leg1OV: 1992193,
+  leg2OV: 156931,
+  leg3OV: 75607,
+  currentRank: {
+    legMaxPerc: 60,
+    legMaxOV: 360,
+    id: 2,
+    requiredPV: 100,
+    requiredPA: 2,
+    requiredQOV: 600,
+    name: Localized('pro'),
+  },
 };
 
 const DashboardScreen = () => {
