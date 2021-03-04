@@ -110,8 +110,12 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           accessibilityLabel="Distributor rank"
           padding={20}
           width="100%"
+          justify="space-between"
           direction="row">
-          <Flexbox accessibilityLabel="monthly comparrison pv" width="auto">
+          <Flexbox
+            style={{ marginStart: -8 }}
+            accessibilityLabel="monthly comparrison pv"
+            width="50%">
             <ChartTitle testID="total-pv-donut-label">
               {Localized('total-pv')}
             </ChartTitle>
@@ -145,8 +149,8 @@ const Rank = ({ ranklist, user, fadeOut }) => {
 
           <Flexbox
             accessibilityLabel="monthly comparrison qov"
-            style={{ position: 'relative' }}
-            width="auto">
+            style={{ marginStart: 16 }}
+            width="50%">
             <ChartTitle testID="total-qov-donut-label">
               {Localized('total-qov')}
             </ChartTitle>
