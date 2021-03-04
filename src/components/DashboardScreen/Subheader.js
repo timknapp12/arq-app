@@ -7,17 +7,19 @@ const Container = styled.View`
   height: 48px;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.justify ? props.justify : 'space-between'};
   padding: 0 18px;
   background-color: ${(props) => props.theme.inactiveBackground};
 `;
 
-const Subheader = ({ children }) => {
-  return <Container>{children}</Container>;
+const Subheader = ({ children, justify }) => {
+  return <Container justify={justify}>{children}</Container>;
 };
 
 Subheader.propTypes = {
   children: PropTypes.node,
+  justify: PropTypes.string,
 };
 
 export default Subheader;

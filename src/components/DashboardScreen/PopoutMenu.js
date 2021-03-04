@@ -16,11 +16,15 @@ const SideMenu = styled.View`
 
 const AnimatedMenu = Animated.createAnimatedComponent(SideMenu);
 
-const PopoutMenu = ({ fadeAnim }) => {
+const PopoutMenu = ({ fadeAnim, fadeOut, setIsMyInfoModalOpen }) => {
   init();
   return (
     <AnimatedMenu style={{ right: fadeAnim }}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          fadeOut();
+          setIsMyInfoModalOpen(true);
+        }}>
         <H4>{Localized('my-info')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
@@ -41,6 +45,8 @@ const PopoutMenu = ({ fadeAnim }) => {
 
 PopoutMenu.propTypes = {
   fadeAnim: PropTypes.object,
+  fadeOut: PropTypes.func,
+  setIsMyInfoModalOpen: PropTypes.func,
 };
 
 export default PopoutMenu;
