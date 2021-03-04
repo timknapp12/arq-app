@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import bellIcon from '../../../assets/icons/ic_bell.png';
 import accountIcon from '../../../assets/icons/ic_account.png';
 import smallQ from '../../../assets/icons/Q-Sciences-small-logo.png';
+import close from '../../../assets/icons/ic_close.png';
 import { darkRed, white } from '../../Styles/colors';
 
 const IconContainer = styled.View`
@@ -58,4 +59,8 @@ export const AccountIcon = ({ ...props }) => (
 
 export const SmallQIcon = ({ ...props }) => (
   <Image {...props} source={smallQ} style={{ height: 24 }} />
+);
+
+export const CloseIcon = ({ ...props }) => (
+  <Image {...props} source={close} style={{ height: 14 }} />
 );

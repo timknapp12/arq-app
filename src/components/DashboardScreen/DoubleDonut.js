@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { View, Animated } from 'react-native';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
-import { Flexbox, H5 } from '../Common';
+import { Flexbox, H5Secondary } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
 
 const Legend = styled.View`
@@ -131,13 +131,15 @@ const DoubleDonut = ({
           height="100%">
           <Legend>
             <Square squareFill={outercolor} />
-            <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
+            <H5Secondary style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
               {Localized('this-month')}
-            </H5>
+            </H5Secondary>
           </Legend>
           <Legend>
             <Square squareFill={innercolor} />
-            <H5 style={{ textAlign: 'center' }}>{Localized('last-month')}</H5>
+            <H5Secondary style={{ textAlign: 'center' }}>
+              {Localized('last-month')}
+            </H5Secondary>
           </Legend>
         </Flexbox>
       </View>

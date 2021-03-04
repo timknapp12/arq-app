@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
-import { H4Bold, H5, Flexbox } from '../Common';
+import { H4Bold, H5Secondary, Flexbox } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
@@ -130,15 +130,15 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               <Legend>
                 <Square squareFill={cyan} />
                 {/* toLocaleString() gives commas for large numbers */}
-                <H5 testID="this-month-total-pv">{`${thisMonthPV.toLocaleString()} ${Localized(
+                <H5Secondary testID="this-month-total-pv">{`${thisMonthPV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredPV.toLocaleString()}`}</H5>
+                )} ${rank?.requiredPV.toLocaleString()}`}</H5Secondary>
               </Legend>
               <Legend>
                 <Square squareFill={lightCyan} />
-                <H5 testID="last-month-total-pv">{`${lastMonthPV.toLocaleString()} ${Localized(
+                <H5Secondary testID="last-month-total-pv">{`${lastMonthPV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredPV.toLocaleString()}`}</H5>
+                )} ${rank?.requiredPV.toLocaleString()}`}</H5Secondary>
               </Legend>
             </LegendContainer>
           </Flexbox>
@@ -163,15 +163,15 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <LegendContainer>
               <Legend>
                 <Square squareFill={redOrange} />
-                <H5 testID="this-month-total-qov">{`${thisMonthQOV.toLocaleString()} ${Localized(
+                <H5Secondary testID="this-month-total-qov">{`${thisMonthQOV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV.toLocaleString()}`}</H5>
+                )} ${rank?.requiredQOV.toLocaleString()}`}</H5Secondary>
               </Legend>
               <Legend>
                 <Square squareFill={lightPink} />
-                <H5 testID="last-month-total-qov">{`${lastMonthQOV.toLocaleString()} ${Localized(
+                <H5Secondary testID="last-month-total-qov">{`${lastMonthQOV.toLocaleString()} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV.toLocaleString()}`}</H5>
+                )} ${rank?.requiredQOV.toLocaleString()}`}</H5Secondary>
               </Legend>
             </LegendContainer>
           </Flexbox>
@@ -196,15 +196,15 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           <LegendContainer>
             <Legend>
               <Square squareFill={pantone} />
-              <H5 testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
+              <H5Secondary testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
                 'of',
-              )} ${rank?.requiredPA}`}</H5>
+              )} ${rank?.requiredPA}`}</H5Secondary>
             </Legend>
             <Legend>
               <Square squareFill={riceFlower} />
-              <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
+              <H5Secondary testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
                 'of',
-              )} ${rank?.requiredPA}`}</H5>
+              )} ${rank?.requiredPA}`}</H5Secondary>
             </Legend>
           </LegendContainer>
         </Flexbox>
