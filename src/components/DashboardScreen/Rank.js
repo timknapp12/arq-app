@@ -14,6 +14,7 @@ import {
   lightPink,
   riceFlower,
 } from '../../Styles/colors';
+import { reshapePerc } from '../../Utils/calculateLegPercentages';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};
@@ -53,14 +54,6 @@ const Rank = ({ ranklist, user, fadeOut }) => {
 
   const [isQualified, setIsQualified] = useState(false);
 
-  const compareMinAndMax = (min, max) => {
-    if (min >= max) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   const validateQualification = (
     PV,
     QOV,
@@ -69,11 +62,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
     requiredQOV,
     requiredPA,
   ) => {
-    if (
-      compareMinAndMax(PV, requiredPV) &&
-      compareMinAndMax(QOV, requiredQOV) &&
-      compareMinAndMax(PA, requiredPA)
-    ) {
+    if (PV >= requiredPV && QOV >= requiredQOV && PA >= requiredPA) {
       setIsQualified(true);
     } else {
       setIsQualified(false);
@@ -94,34 +83,17 @@ const Rank = ({ ranklist, user, fadeOut }) => {
   }, [user, rank]);
 
   // These are used to restrain the percentages from being way higher than the max causing a ton of extra revolutions on the animations
-  const lastMonthPVPerc = compareMinAndMax(lastMonthPV, rank.requiredPV)
-    ? rank.requiredPV
-    : lastMonthPV;
+  const lastMonthPVPerc = reshapePerc(lastMonthPV, rank.requiredPV);
 
-  const thisMonthPVPerc = compareMinAndMax(thisMonthPV, rank.requiredPV)
-    ? rank.requiredPV
-    : thisMonthPV;
+  const thisMonthPVPerc = reshapePerc(thisMonthPV, rank.requiredPV);
 
-  const lastMonthQOVPerc = compareMinAndMax(lastMonthQOV, rank.requiredQOV)
-    ? rank.requiredQOV
-    : lastMonthQOV;
+  const lastMonthQOVPerc = reshapePerc(lastMonthQOV, rank.requiredQOV);
 
-  const thisMonthQOVPerc = compareMinAndMax(thisMonthQOV, rank.requiredQOV)
-    ? rank.requiredQOV
-    : thisMonthQOV;
+  const thisMonthQOVPerc = reshapePerc(thisMonthQOV, rank.requiredQOV);
 
-  // Use this in case we want to stop to animation everytime the slider changes and the circle should still remain full, but at one point on the slider a crazy animation will occur
-  // const thisMonthMaxQOV = compareMinAndMax(thisMonthQOV, rank.requiredQOV)
-  //   ? 100
-  //   : rank.requiredQOV;
+  const lastMonthPAPerc = reshapePerc(lastMonthPA, rank.requiredPA);
 
-  const lastMonthPAPerc = compareMinAndMax(lastMonthPA, rank.requiredPA)
-    ? rank.requiredPA
-    : lastMonthPA;
-
-  const thisMonthPAPerc = compareMinAndMax(thisMonthPA, rank.requiredPA)
-    ? rank.requiredPA
-    : thisMonthPA;
+  const thisMonthPAPerc = reshapePerc(thisMonthPA, rank.requiredPA);
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
@@ -147,10 +119,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               testID="total-pv-donut-svg"
               // ternary to ensure no error with 0 values of distributor rank
               outerpercentage={rank.id === 0 ? 100 : thisMonthPVPerc}
-              outermax={rank.id === 0 ? 100 : rank.requiredPV}
+              outermax={100}
               outercolor={cyan}
               innerpercentage={rank.id === 0 ? 100 : lastMonthPVPerc}
-              innermax={rank.id === 0 ? 100 : rank.requiredPV}
+              innermax={100}
               innercolor={lightCyan}
               view="rank"
             />
@@ -181,10 +153,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <DoubleDonut
               testID="total-qov-donut-svg"
               outerpercentage={rank.id === 0 ? 100 : thisMonthQOVPerc}
-              outermax={rank.id === 0 ? 100 : rank.requiredQOV}
+              outermax={100}
               outercolor={redOrange}
               innerpercentage={rank.id === 0 ? 100 : lastMonthQOVPerc}
-              innermax={rank.id === 0 ? 100 : rank.requiredQOV}
+              innermax={100}
               innercolor={lightPink}
               view="rank"
             />
@@ -213,11 +185,11 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           </ChartTitle>
           <DoubleDonut
             testID="personally-enrolled-donut-svg"
-            outerpercentage={thisMonthPAPerc}
-            outermax={rank.requiredPA}
+            outerpercentage={rank.id === 0 ? 100 : thisMonthPAPerc}
+            outermax={100}
             outercolor={pantone}
-            innerpercentage={lastMonthPAPerc}
-            innermax={rank.requiredPA}
+            innerpercentage={rank.id === 0 ? 100 : lastMonthPAPerc}
+            innermax={100}
             innercolor={riceFlower}
             view="rank"
           />
@@ -226,13 +198,13 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               <Square squareFill={pantone} />
               <H5 testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
                 'of',
-              )} 2`}</H5>
+              )} ${rank?.requiredPA}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={riceFlower} />
               <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
                 'of',
-              )} 2`}</H5>
+              )} ${rank?.requiredPA}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
