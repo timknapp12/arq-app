@@ -10,6 +10,7 @@ import Overview from './Overview';
 import Rank from './Rank';
 import OVDetail from './OVDetail';
 import PopoutMenu from './PopoutMenu';
+import MyInfoModal from './MyInfoModal';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -24,13 +25,13 @@ const mockUser = {
   leg2OV: 156931,
   leg3OV: 75607,
   currentRank: {
-    legMaxPerc: 60,
-    legMaxOV: 360,
-    id: 2,
-    requiredPV: 100,
+    legMaxPerc: 40,
+    legMaxOV: 140000,
+    id: 10,
+    requiredPV: 200,
     requiredPA: 2,
-    requiredQOV: 600,
-    name: Localized('pro'),
+    requiredQOV: 350000,
+    name: Localized('emerald'),
   },
 };
 
@@ -42,7 +43,7 @@ const DashboardScreen = () => {
       legMaxOV: 0,
       id: 0,
       requiredPV: 0,
-      requiredPA: 2,
+      requiredPA: 0,
       requiredQOV: 0,
       name: Localized('distributor'),
     },
@@ -244,47 +245,56 @@ const DashboardScreen = () => {
     });
   };
 
+  const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
+
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
-        <>
-          <DashboardHeader
+        <DashboardHeader
+          isMenuOpen={isMenuOpen}
+          fadeIn={fadeIn}
+          fadeOut={fadeOut}
+          setIsMenuOpen={setIsMenuOpen}
+          badgeValue={2}
+        />
+        <Subheader>
+          {tertiaryButtonText.map((item) => (
+            <TertiaryButton
+              onPress={() => navigate(item)}
+              selected={view.name === item.name}
+              key={item.name}>
+              {item.name}
+            </TertiaryButton>
+          ))}
+        </Subheader>
+        <Flexbox>
+          <PopoutMenu
+            fadeAnim={fadeAnim}
             isMenuOpen={isMenuOpen}
-            fadeIn={fadeIn}
             fadeOut={fadeOut}
-            setIsMenuOpen={setIsMenuOpen}
-            badgeValue={2}
+            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
           />
-          <Subheader>
-            {tertiaryButtonText.map((item) => (
-              <TertiaryButton
-                onPress={() => navigate(item)}
-                selected={view.name === item.name}
-                key={item.name}>
-                {item.name}
-              </TertiaryButton>
-            ))}
-          </Subheader>
-          <Flexbox>
-            <PopoutMenu fadeAnim={fadeAnim} isMenuOpen={isMenuOpen} />
-          </Flexbox>
-          <ScrollView
-            style={{
-              width: '100%',
-              height: '100%',
-              zIndex: -1,
-            }}>
-            {view.name === Localized('overview') && (
-              <Overview user={mockUser} fadeOut={fadeOut} />
-            )}
-            {view.name === Localized('rank') && (
-              <Rank ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
-            )}
-            {view.name === Localized('ov-detail') && (
-              <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
-            )}
-          </ScrollView>
-        </>
+        </Flexbox>
+        <ScrollView
+          style={{
+            width: '100%',
+            height: '100%',
+            zIndex: -1,
+          }}>
+          {view.name === Localized('overview') && (
+            <Overview user={mockUser} fadeOut={fadeOut} />
+          )}
+          {view.name === Localized('rank') && (
+            <Rank ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
+          )}
+          {view.name === Localized('ov-detail') && (
+            <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
+          )}
+        </ScrollView>
+        <MyInfoModal
+          setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+          isMyInfoModalOpen={isMyInfoModalOpen}
+        />
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
