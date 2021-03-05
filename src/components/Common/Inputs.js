@@ -143,18 +143,20 @@ export const AnimatedInput = ({
 
   return (
     <TouchableWithoutFeedback onPress={() => inputRef.current.focus()}>
-      <Flexbox align="flex-start">
-        <Label>{label}</Label>
-        <CustomInput
-          ref={inputRef}
-          value={value}
-          onChangeText={onChangeText}
-          focused={isFocused}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          {...props}
-          style={{ height: fadeAnim }}
-        />
+      <Flexbox height="50px" justify="flex-end">
+        <Flexbox align="flex-start">
+          <Label>{label}</Label>
+          <CustomInput
+            ref={inputRef}
+            value={value}
+            onChangeText={onChangeText}
+            focused={isFocused}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            {...props}
+            style={{ height: fadeAnim }}
+          />
+        </Flexbox>
       </Flexbox>
     </TouchableWithoutFeedback>
   );
