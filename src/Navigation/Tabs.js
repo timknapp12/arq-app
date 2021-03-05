@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image } from 'react-native';
+import { Image, Platform } from 'react-native';
 import DashboardStack from './DashboardStack';
 import NewsScreen from '../components/NewsScreen';
 import ResourcesScreen from '../components/ResourcesScreen';
@@ -65,7 +65,7 @@ const Tabs = () => {
           bottom: 0,
         },
         tabStyle: {
-          paddingBottom: 20,
+          paddingBottom: Platform.OS === 'ios' ? 20 : 8,
           paddingTop: 8,
         },
         style: { height: 70 },
