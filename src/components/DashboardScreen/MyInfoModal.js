@@ -10,9 +10,9 @@ import {
   CloseIcon,
   H5,
   AnimatedInput,
-} from '../../Common';
-import Header from '../../Header';
-import Subheader from '../Subheader';
+} from '../Common';
+import Header from '../Header';
+import Subheader from './Subheader';
 
 const NameContainer = styled(Flexbox)``;
 
