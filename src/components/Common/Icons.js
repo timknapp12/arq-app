@@ -6,6 +6,8 @@ import bellIcon from '../../../assets/icons/ic_bell.png';
 import accountIcon from '../../../assets/icons/ic_account.png';
 import smallQ from '../../../assets/icons/Q-Sciences-small-logo.png';
 import close from '../../../assets/icons/ic_close.png';
+import qualified from '../../../assets/icons/qualified.png';
+import notQualified from '../../../assets/icons/not_qualified.png';
 import { darkRed, white } from '../../Styles/colors';
 
 const IconContainer = styled.View`
@@ -63,4 +65,12 @@ export const SmallQIcon = ({ ...props }) => (
 
 export const CloseIcon = ({ ...props }) => (
   <Image {...props} source={close} style={{ height: 14 }} />
+);
+
+export const QualifiedIcon = ({ ...props }) => (
+  <Image {...props} source={qualified} style={{ height: 18 }} />
+);
+
+export const NotQualifiedIcon = ({ ...props }) => (
+  <Image {...props} source={notQualified} style={{ height: 18 }} />
 );
