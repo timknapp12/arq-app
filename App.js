@@ -37,7 +37,6 @@ const App = () => {
   if (!loaded) {
     return <AppLoading />;
   }
-  // console.log('user', user);
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
