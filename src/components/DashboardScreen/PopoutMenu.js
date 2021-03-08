@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Animated } from 'react-native';
 import { H4 } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
+import AppContext from '../../Contexts/AppContext';
 
 const SideMenu = styled.View`
   z-index: 2;
@@ -18,6 +19,7 @@ const AnimatedMenu = Animated.createAnimatedComponent(SideMenu);
 
 const PopoutMenu = ({ fadeAnim, fadeOut, setIsMyInfoModalOpen }) => {
   init();
+  const { setIsSignedIn } = useContext(AppContext);
   return (
     <AnimatedMenu style={{ right: fadeAnim }}>
       <TouchableOpacity
@@ -36,7 +38,7 @@ const PopoutMenu = ({ fadeAnim, fadeOut, setIsMyInfoModalOpen }) => {
       <TouchableOpacity>
         <H4>{Localized('chat-with-support')}</H4>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => setIsSignedIn(false)}>
         <H4>{Localized('log-out')}</H4>
       </TouchableOpacity>
     </AnimatedMenu>
