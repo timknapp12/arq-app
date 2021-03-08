@@ -23,6 +23,10 @@ import AppContext from '../../Contexts/AppContext';
 import logo from '../../../assets/q-sciences-logo-white.png';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
+import { ADD_USER } from '../../graphql/Mutations';
+import { useMutation } from '@apollo/client';
+
+import LoadingScreen from '../LoadingScreen';
 
 const LoginInstructions = styled(H4)`
   text-align: center;
@@ -32,22 +36,37 @@ const LoginInstructions = styled(H4)`
 
 const LoginScreen = () => {
   init();
-  const { setIsSignedIn, theme } = useContext(AppContext);
+  const { setIsSignedIn, theme, setUser } = useContext(AppContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   // TODO Replace this with real error handling
   const [isError, setIsError] = useState(false);
   const passwordRef = useRef(null);
+  const [addUser, { loading, error }] = useMutation(ADD_USER, {
+    onCompleted: (data) => {
+      if (!data.addUser.user) {
+        setIsError(true);
+      } else {
+        setUser(data);
+        setIsError(false);
+        setIsSignedIn(true);
+      }
+    },
+  });
 
   const onNext = () => {
     passwordRef.current.focus();
   };
+
+  // username: ShAmb
+  // password: asdf1234A
   const onSubmit = () => {
     if (isButtonDisabled) {
       return;
     }
-    setIsSignedIn(true);
+    addUser({ variables: { usernameIn: username, passwordIn: password } });
+
     Analytics.logEvent('Login_button_tapped', {
       screen: 'Login Screen',
       username: username,
@@ -71,6 +90,13 @@ const LoginScreen = () => {
       purpose: 'follow link to find out how to become an ambassador',
     });
   };
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  if (error) {
+    setIsError(true);
+    console.log('error in login:', error);
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScreenContainer>
@@ -82,17 +108,12 @@ const LoginScreen = () => {
             }}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <Flexbox
+              style={{ marginTop: 20 }}
               accessibilityLabel="Login Form"
               justify="space-between"
               height="100%"
               padding={20}>
-              <TouchableOpacity
-                style={{ marginBottom: 10 }}
-                onPress={() => setIsError((state) => !state)}>
-                <AlertText>Toggle Error</AlertText>
-              </TouchableOpacity>
               <Image source={logo} />
-
               <LoginInstructions testID="login-instructions">
                 {Localized('login-instructions')}
               </LoginInstructions>
@@ -187,9 +208,7 @@ const LoginScreen = () => {
               justify="center"
               direction="row"
               padding={14}>
-              <TouchableOpacity
-                onPress={() => console.log('tapped terms')}
-                testID="terms-button">
+              <TouchableOpacity testID="terms-button">
                 <H4>{Localized('terms')}</H4>
               </TouchableOpacity>
               <H4 style={{ marginStart: 8 }}>|</H4>
