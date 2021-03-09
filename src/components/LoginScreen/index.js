@@ -20,7 +20,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import AppContext from '../../Contexts/AppContext';
-import logo from '../../../assets/q-sciences-logo-white.png';
+import logo from '../../../assets/q-sciences-logo.png';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
 import { ADD_USER } from '../../graphql/Mutations';

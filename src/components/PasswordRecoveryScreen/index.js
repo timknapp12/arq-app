@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Image } from 'react-native';
 import { ScreenContainer, Flexbox, Input, H4, PrimaryButton } from '../Common';
 import AppContext from '../../Contexts/AppContext';
-import logo from '../../../assets/q-sciences-logo-white.png';
+import logo from '../../../assets/q-sciences-logo.png';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
 
