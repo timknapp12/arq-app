@@ -13,8 +13,12 @@ const Container = styled.View`
   background-color: ${(props) => props.theme.inactiveBackground};
 `;
 
-const Subheader = ({ children, justify }) => {
-  return <Container justify={justify}>{children}</Container>;
+const Subheader = ({ children, justify, ...props }) => {
+  return (
+    <Container {...props} justify={justify}>
+      {children}
+    </Container>
+  );
 };
 
 Subheader.propTypes = {
