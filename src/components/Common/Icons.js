@@ -8,6 +8,8 @@ import smallQ from '../../../assets/icons/Q-Sciences-small-logo.png';
 import close from '../../../assets/icons/ic_close.png';
 import qualified from '../../../assets/icons/qualified.png';
 import notQualified from '../../../assets/icons/not_qualified.png';
+import camera from '../../../assets/icons/button_camera.png';
+import gallery from '../../../assets/icons/buton_gallery.png';
 import { darkRed, white } from '../../Styles/colors';
 
 const IconContainer = styled.View`
@@ -65,6 +67,14 @@ export const SmallQIcon = ({ ...props }) => (
 
 export const CloseIcon = ({ ...props }) => (
   <Image {...props} source={close} style={{ height: 14 }} />
+);
+
+export const CameraIcon = ({ ...props }) => (
+  <Image {...props} source={camera} style={{ height: 24 }} />
+);
+
+export const GalleryIcon = ({ ...props }) => (
+  <Image {...props} source={gallery} style={{ height: 24 }} />
 );
 
 export const QualifiedIcon = ({ ...props }) => (
