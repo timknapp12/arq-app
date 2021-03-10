@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Pressable, Animated, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Flexbox } from './Containers';
+import DropDownPicker from 'react-native-dropdown-picker';
+import AppContext from '../../Contexts/AppContext';
 
 // Standard Input with Password able to be shown or hidden
 
@@ -166,4 +168,80 @@ AnimatedInput.propTypes = {
   value: PropTypes.string,
   onChangeText: PropTypes.func,
   label: PropTypes.string,
+};
+
+// DROPDOWN PICKER
+// source: https://github.com/hossein-zare/react-native-dropdown-picker#basic-usage
+
+const ThemedPicker = styled(DropDownPicker)`
+  background-color: ${(props) => props.theme.backgroundColor};
+  border-bottom-color: ${(props) => props.theme.disabledTextColor};
+  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+  font-family: 'Roboto-Regular';
+`;
+export const Picker = ({
+  items,
+  defaultValue,
+  onChangeItem,
+  label,
+  placeholder = 'Select an item',
+  style,
+  ...props
+}) => {
+  const { theme } = useContext(AppContext);
+  return (
+    <Flexbox
+      style={style}
+      width="100%"
+      justify="space-between"
+      align="flex-start">
+      <Label>{label}</Label>
+      <ThemedPicker
+        {...props}
+        items={items}
+        labelStyle={{
+          color: theme.secondaryTextColor,
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          fontFamily: 'Roboto-Regular',
+          fontSize: 16,
+        }}
+        selectedLabelStyle={{ color: theme.color, marginStart: -8 }}
+        defaultValue={defaultValue}
+        containerStyle={{
+          height: 30,
+          width: '100%',
+        }}
+        arrowColor={theme.secondaryTextColor}
+        arrowStyle={{ height: 14 }}
+        placeholder={placeholder}
+        itemStyle={{
+          justifyContent: 'center',
+          backgroundColor: theme.backgroundColor,
+          fontFamily: 'Roboto-Regular',
+          fontSize: 16,
+        }}
+        dropDownStyle={{
+          backgroundColor: theme.backgroundColor,
+          borderColor: theme.highlight,
+          borderWidth: 3,
+        }}
+        onChangeItem={onChangeItem}
+      />
+    </Flexbox>
+  );
+};
+
+Picker.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
+  ).isRequired,
+  label: PropTypes.string,
+  defaultValue: PropTypes.string,
+  onChangeItem: PropTypes.func,
+  placeholder: PropTypes.string,
+  style: PropTypes.object,
 };
