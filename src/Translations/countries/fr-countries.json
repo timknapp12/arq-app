@@ -1,4 +1,6 @@
 [
+  { "id": 250, "label": "France", "value": "fr", "alpha3": "fra" },
+  { "id": 840, "label": "États-Unis", "value": "us", "alpha3": "usa" },
   { "id": 4, "label": "Afghanistan", "value": "af", "alpha3": "afg" },
   { "id": 710, "label": "Afrique du Sud", "value": "za", "alpha3": "zaf" },
   { "id": 8, "label": "Albanie", "value": "al", "alpha3": "alb" },
@@ -74,11 +76,9 @@
   { "id": 232, "label": "Érythrée", "value": "er", "alpha3": "eri" },
   { "id": 724, "label": "Espagne", "value": "es", "alpha3": "esp" },
   { "id": 233, "label": "Estonie", "value": "ee", "alpha3": "est" },
-  { "id": 840, "label": "États-Unis", "value": "us", "alpha3": "usa" },
   { "id": 231, "label": "Éthiopie", "value": "et", "alpha3": "eth" },
   { "id": 242, "label": "Fidji", "value": "fj", "alpha3": "fji" },
   { "id": 246, "label": "Finlande", "value": "fi", "alpha3": "fin" },
-  { "id": 250, "label": "France", "value": "fr", "alpha3": "fra" },
   { "id": 266, "label": "Gabon", "value": "ga", "alpha3": "gab" },
   { "id": 270, "label": "Gambie", "value": "gm", "alpha3": "gmb" },
   { "id": 268, "label": "Géorgie (pays)", "value": "ge", "alpha3": "geo" },

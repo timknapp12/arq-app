@@ -1,4 +1,10 @@
 [
+  {
+    "id": 840,
+    "label": "United States of America",
+    "value": "us",
+    "alpha3": "usa"
+  },
   { "id": 4, "label": "Afghanistan", "value": "af", "alpha3": "afg" },
   { "id": 8, "label": "Albania", "value": "al", "alpha3": "alb" },
   { "id": 12, "label": "Algeria", "value": "dz", "alpha3": "dza" },
@@ -262,12 +268,6 @@
     "label": "United Kingdom of Great Britain and Northern Ireland",
     "value": "gb",
     "alpha3": "gbr"
-  },
-  {
-    "id": 840,
-    "label": "United States of America",
-    "value": "us",
-    "alpha3": "usa"
   },
   { "id": 858, "label": "Uruguay", "value": "uy", "alpha3": "ury" },
   { "id": 860, "label": "Uzbekistan", "value": "uz", "alpha3": "uzb" },

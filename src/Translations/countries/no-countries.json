@@ -1,4 +1,6 @@
 [
+  { "id": 578, "label": "Norge", "value": "no", "alpha3": "nor" },
+  { "id": 840, "label": "USA", "value": "us", "alpha3": "usa" },
   { "id": 4, "label": "Afghanistan", "value": "af", "alpha3": "afg" },
   { "id": 8, "label": "Albania", "value": "al", "alpha3": "alb" },
   { "id": 12, "label": "Algerie", "value": "dz", "alpha3": "dza" },
@@ -154,7 +156,6 @@
   { "id": 562, "label": "Niger", "value": "ne", "alpha3": "ner" },
   { "id": 566, "label": "Nigeria", "value": "ng", "alpha3": "nga" },
   { "id": 408, "label": "Nord-Korea", "value": "kp", "alpha3": "prk" },
-  { "id": 578, "label": "Norge", "value": "no", "alpha3": "nor" },
   { "id": 512, "label": "Oman", "value": "om", "alpha3": "omn" },
   { "id": 586, "label": "Pakistan", "value": "pk", "alpha3": "pak" },
   { "id": 585, "label": "Palau", "value": "pw", "alpha3": "plw" },
@@ -228,7 +229,6 @@
   { "id": 804, "label": "Ukraina", "value": "ua", "alpha3": "ukr" },
   { "id": 348, "label": "Ungarn", "value": "hu", "alpha3": "hun" },
   { "id": 858, "label": "Uruguay", "value": "uy", "alpha3": "ury" },
-  { "id": 840, "label": "USA", "value": "us", "alpha3": "usa" },
   { "id": 860, "label": "Usbekistan", "value": "uz", "alpha3": "uzb" },
   { "id": 548, "label": "Vanuatu", "value": "vu", "alpha3": "vut" },
   { "id": 862, "label": "Venezuela", "value": "ve", "alpha3": "ven" },

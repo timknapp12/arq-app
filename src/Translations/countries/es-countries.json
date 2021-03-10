@@ -1,4 +1,5 @@
 [
+  { "id": 840, "label": "Estados Unidos", "value": "us", "alpha3": "usa" },
   { "id": 4, "label": "Afganistán", "value": "af", "alpha3": "afg" },
   { "id": 8, "label": "Albania", "value": "al", "alpha3": "alb" },
   { "id": 276, "label": "Alemania", "value": "de", "alpha3": "deu" },
@@ -61,7 +62,6 @@
   { "id": 703, "label": "Eslovaquia", "value": "sk", "alpha3": "svk" },
   { "id": 705, "label": "Eslovenia", "value": "si", "alpha3": "svn" },
   { "id": 724, "label": "España", "value": "es", "alpha3": "esp" },
-  { "id": 840, "label": "Estados Unidos", "value": "us", "alpha3": "usa" },
   { "id": 233, "label": "Estonia", "value": "ee", "alpha3": "est" },
   { "id": 231, "label": "Etiopía", "value": "et", "alpha3": "eth" },
   { "id": 608, "label": "Filipinas", "value": "ph", "alpha3": "phl" },
