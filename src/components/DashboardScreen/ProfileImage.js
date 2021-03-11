@@ -87,8 +87,6 @@ const ProfileImage = ({
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       handleChange('photoUrl', result.uri);
       setIsSaveButtonVisisble(true);
@@ -101,7 +99,6 @@ const ProfileImage = ({
       aspect: [1, 1],
       quality: 1,
     });
-    console.log(result);
     if (!result.cancelled) {
       handleChange('photoUrl', result.uri);
       setIsSaveButtonVisisble(true);
