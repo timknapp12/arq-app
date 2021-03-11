@@ -35,6 +35,7 @@ import jaCountires from '../../Translations/countries/ja-countries.json';
 import noCountires from '../../Translations/countries/no-countries.json';
 import usStates from '../../Translations/countries/us-states.json';
 import ProfileImage from './ProfileImage';
+import { saveProfileImageToFirebase } from '../../Utils/saveToFirebase';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -69,9 +70,13 @@ const Input = styled.TextInput`
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   init();
   const initialState = {
-    photoUrl: '',
-    firstName: '',
-    lastName: '',
+    image: {
+      imageName: 'Sloane.Taylor.34903f19-d0c7-41b6-b4d2-2eed0ad1ef6c',
+      url:
+        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2F..964d8849-399c-48a0-a8b2-00e595eb7e1a?alt=media&token=6d3c26a3-5367-4212-bda3-673a86482d61',
+    },
+    firstName: 'Sloane',
+    lastName: 'Taylor',
     displayName: '',
     email: '',
     phone: '',
@@ -87,14 +92,17 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const [myInfo, setMyInfo] = useState(initialState);
   const [isBioFocused, setIsBioFocused] = useState(false);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
-
+  const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const handleChange = (field, text) => {
     setMyInfo({ ...myInfo, [field]: text });
   };
 
   const onSubmit = () => {
     // TODO add saving logic here
+    // only save image if it has been changed
+    isNewImageSelected && saveProfileImageToFirebase(myInfo, handleChange);
     setIsMyInfoModalOpen(false);
+    setIsNewImageSelected(false);
   };
 
   let localeLanguageTag = Localization.locale.substring(0, 2);
@@ -111,7 +119,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   countryList = countryMap[localeLanguageTag] || enCountires;
 
   const {
-    photoUrl,
+    image,
     firstName,
     lastName,
     displayName,
@@ -126,7 +134,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     country,
     bio,
   } = myInfo;
-
+  console.log('image', image);
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   useEffect(() => {
@@ -177,10 +185,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                 <Flexbox width="85%">
                   <NameContainer>
                     <ProfileImage
-                      photoUrl={photoUrl}
+                      image={image}
                       handleChange={handleChange}
                       setIsSaveButtonVisisble={setIsSaveButtonVisisble}
                       initials={initials}
+                      setIsNewImageSelected={setIsNewImageSelected}
                     />
 
                     <Flexbox

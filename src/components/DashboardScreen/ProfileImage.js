@@ -50,9 +50,10 @@ const CameraButton = styled.TouchableOpacity`
 
 const ProfileImage = ({
   handleChange,
-  photoUrl,
+  image,
   setIsSaveButtonVisisble,
   initials = '',
+  setIsNewImageSelected,
 }) => {
   const [hasPermission, setHasPermission] = useState(null);
   // permissions for camera
@@ -88,8 +89,12 @@ const ProfileImage = ({
     });
 
     if (!result.cancelled) {
-      handleChange('photoUrl', result.uri);
+      handleChange('image', {
+        ...image,
+        url: result.uri,
+      });
       setIsSaveButtonVisisble(true);
+      setIsNewImageSelected(true);
     }
   };
 
@@ -100,8 +105,12 @@ const ProfileImage = ({
       quality: 1,
     });
     if (!result.cancelled) {
-      handleChange('photoUrl', result.uri);
+      handleChange('image', {
+        ...image,
+        url: result.uri,
+      });
       setIsSaveButtonVisisble(true);
+      setIsNewImageSelected(true);
     }
   };
   if (hasPermission === null) {
@@ -112,8 +121,8 @@ const ProfileImage = ({
   }
   return (
     <ImageContainer>
-      {photoUrl ? (
-        <Avatar source={{ uri: photoUrl }} />
+      {image.url ? (
+        <Avatar source={{ uri: image.url }} />
       ) : (
         <DefaultFiller>
           <Initials>{initials}</Initials>
@@ -133,9 +142,10 @@ const ProfileImage = ({
 
 ProfileImage.propTypes = {
   handleChange: PropTypes.func.isRequired,
-  photoUrl: PropTypes.string.isRequired,
+  image: PropTypes.object.isRequired,
   setIsSaveButtonVisisble: PropTypes.func.isRequired,
   initials: PropTypes.string,
+  setIsNewImageSelected: PropTypes.func.isRequired,
 };
 
 export default ProfileImage;
