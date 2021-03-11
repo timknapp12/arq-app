@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { Alert, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, Platform, View } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CameraIcon, GalleryIcon } from '../Common';
 import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
 
 const ImageContainer = styled.View`
   height: 72px;
@@ -47,7 +48,22 @@ const CameraButton = styled.TouchableOpacity`
   border-radius: 12px;
 `;
 
-const ProfileImage = ({ handleChange, photoUrl }) => {
+const ProfileImage = ({
+  handleChange,
+  photoUrl,
+  setIsSaveButtonVisisble,
+  initials = '',
+}) => {
+  const [hasPermission, setHasPermission] = useState(null);
+  // permissions for camera
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  // permissions for photo library
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
@@ -75,19 +91,39 @@ const ProfileImage = ({ handleChange, photoUrl }) => {
 
     if (!result.cancelled) {
       handleChange('photoUrl', result.uri);
+      setIsSaveButtonVisisble(true);
     }
   };
+
+  const openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      handleChange('photoUrl', result.uri);
+      setIsSaveButtonVisisble(true);
+    }
+  };
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return Alert.alert('No access to camera');
+  }
   return (
     <ImageContainer>
       {photoUrl ? (
         <Avatar source={{ uri: photoUrl }} />
       ) : (
         <DefaultFiller>
-          <Initials>ST</Initials>
+          <Initials>{initials}</Initials>
         </DefaultFiller>
       )}
       <CameraButtonsView>
-        <CameraButton>
+        <CameraButton onPress={openCamera}>
           <CameraIcon />
         </CameraButton>
         <CameraButton onPress={pickImage}>
@@ -101,6 +137,8 @@ const ProfileImage = ({ handleChange, photoUrl }) => {
 ProfileImage.propTypes = {
   handleChange: PropTypes.func.isRequired,
   photoUrl: PropTypes.string.isRequired,
+  setIsSaveButtonVisisble: PropTypes.func.isRequired,
+  initials: PropTypes.string,
 };
 
 export default ProfileImage;

@@ -90,7 +90,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   const handleChange = (field, text) => {
     setMyInfo({ ...myInfo, [field]: text });
-    setIsSaveButtonVisisble(true);
   };
 
   const onSubmit = () => {
@@ -127,6 +126,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     country,
     bio,
   } = myInfo;
+
+  const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   useEffect(() => {
     if (country === 'us') {
@@ -178,6 +179,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     <ProfileImage
                       photoUrl={photoUrl}
                       handleChange={handleChange}
+                      setIsSaveButtonVisisble={setIsSaveButtonVisisble}
+                      initials={initials}
                     />
 
                     <Flexbox
@@ -190,7 +193,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         testID="first-name-input"
                         label={Localized('first-name')}
                         value={firstName}
-                        onChangeText={(text) => handleChange('firstName', text)}
+                        onChangeText={(text) => {
+                          handleChange('firstName', text);
+                          setIsSaveButtonVisisble(true);
+                        }}
                         returnKeyType="done"
                         textContentType="givenName"
                       />
@@ -198,7 +204,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         testID="first-name-input"
                         label={Localized('last-name')}
                         value={lastName}
-                        onChangeText={(text) => handleChange('lastName', text)}
+                        onChangeText={(text) => {
+                          handleChange('lastName', text);
+                          setIsSaveButtonVisisble(true);
+                        }}
                         returnKeyType="done"
                         textContentType="familyName"
                       />
@@ -208,7 +217,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="display-name-input"
                     label={Localized('display-name')}
                     value={displayName}
-                    onChangeText={(text) => handleChange('displayName', text)}
+                    onChangeText={(text) => {
+                      handleChange('displayName', text);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     returnKeyType="done"
                     textContentType="nickname"
                   />
@@ -216,7 +228,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="email-input"
                     label={Localized('email')}
                     value={email}
-                    onChangeText={(text) => handleChange('email', text)}
+                    onChangeText={(text) => {
+                      handleChange('email', text);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     keyboardType="email-address"
                     autoCapitalize="none"
                     returnKeyType="done"
@@ -226,7 +241,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="phone-number-input"
                     label={Localized('phone-number')}
                     value={phone}
-                    onChangeText={(text) => handleChange('phone', text)}
+                    onChangeText={(text) => {
+                      handleChange('phone', text);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     keyboardType="phone-pad"
                     returnKeyType="done"
                     textContentType="telephoneNumber"
@@ -246,7 +264,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="address-1-input"
                     label={Localized('address-1')}
                     value={address1}
-                    onChangeText={(text) => handleChange('address1', text)}
+                    onChangeText={(text) => {
+                      handleChange('address1', text);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     returnKeyType="done"
                     textContentType="streetAddressLine1"
                   />
@@ -254,7 +275,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="address-2-input"
                     label={Localized('address-2')}
                     value={address2}
-                    onChangeText={(text) => handleChange('address2', text)}
+                    onChangeText={(text) => {
+                      handleChange('address2', text);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     returnKeyType="done"
                     textContentType="streetAddressLine2"
                   />
@@ -262,7 +286,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="city-input"
                     label={Localized('city')}
                     value={city}
-                    onChangeText={(text) => handleChange('city', text)}
+                    onChangeText={(text) => {
+                      handleChange('city', text);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     returnKeyType="done"
                     textContentType="addressCity"
                   />
@@ -280,9 +307,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                             : 'CA'
                         }
                         placeholder={Localized('state')}
-                        onChangeItem={(item) =>
-                          handleChange('state', item.value)
-                        }
+                        onChangeItem={(item) => {
+                          handleChange('state', item.value);
+                          setIsSaveButtonVisisble(true);
+                        }}
                         testID="state-picker-input"
                         style={{ width: '48%', marginTop: 2 }}
                       />
@@ -292,7 +320,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                           testID="state-input"
                           label={Localized('state')}
                           value={state}
-                          onChangeText={(text) => handleChange('state', text)}
+                          onChangeText={(text) => {
+                            handleChange('state', text);
+                            setIsSaveButtonVisisble(true);
+                          }}
                           returnKeyType="done"
                           textContentType="addressState"
                         />
@@ -303,7 +334,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         testID="zip-code-input"
                         label={Localized('ZIP Code')}
                         value={zipcode}
-                        onChangeText={(text) => handleChange('zipcode', text)}
+                        onChangeText={(text) => {
+                          handleChange('zipcode', text);
+                          setIsSaveButtonVisisble(true);
+                        }}
                         keyboardType="phone-pad"
                         returnKeyType="done"
                         textContentType="postalCode"
@@ -315,7 +349,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     label={Localized('country')}
                     defaultValue={country}
                     placeholder={Localized('country')}
-                    onChangeItem={(item) => handleChange('country', item.value)}
+                    onChangeItem={(item) => {
+                      handleChange('country', item.value);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     testID="country-input"
                   />
                 </Flexbox>
@@ -334,7 +371,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="bio-input"
                     style={{ height: '100%' }}
                     value={bio}
-                    onChangeText={(text) => handleChange('bio', text)}
+                    onChangeText={(text) => {
+                      handleChange('bio', text);
+                      setIsSaveButtonVisisble(true);
+                    }}
                     multiline={true}
                     numberOfLines={8}
                     underlineColorAndroid="transparent"
