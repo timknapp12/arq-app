@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { TouchableOpacity, Modal } from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Modal,
+  ScrollView,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  View,
+  Dimensions,
+} from 'react-native';
 import {
   ScreenContainer,
   H4Bold,
@@ -10,65 +20,331 @@ import {
   CloseIcon,
   H5,
   AnimatedInput,
+  Picker,
 } from '../Common';
 import Header from '../Header';
 import Subheader from './Subheader';
+import { Localized, init } from '../../Translations/Localized';
+import * as Localization from 'expo-localization';
+// source for files for different languages https://stefangabos.github.io/world_countries/
+import enCountires from '../../Translations/countries/en-countries.json';
+import deCountires from '../../Translations/countries/de-countries.json';
+import frCountires from '../../Translations/countries/fr-countries.json';
+import esCountires from '../../Translations/countries/es-countries.json';
+import jaCountires from '../../Translations/countries/ja-countries.json';
+import noCountires from '../../Translations/countries/no-countries.json';
+import usStates from '../../Translations/countries/us-states.json';
+import ProfileImage from './ProfileImage';
 
-const NameContainer = styled(Flexbox)``;
+const HeaderButtonContainer = styled.View`
+  width: 60px;
+`;
+const { width } = Dimensions.get('window');
+const nameInputWidth = `${width - 150}px`;
 
-const Avatar = styled.View`
-  height: 72px;
-  width: 72px;
-  background-color: grey;
-  border-radius: 36px;
-  margin-bottom: 8px;
+const NameContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100px;
+  align-items: flex-end;
+  width: 100%;
+`;
+
+const TextArea = styled.View`
+  margin-top: 12px;
+  width: 85%;
+  height: 212px;
+  border-width: ${(props) => (props.focused ? '3px' : '1px')};
+  border-color: ${(props) =>
+    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+`;
+
+const Input = styled.TextInput`
+  color: ${(props) => props.theme.color};
+  padding: 8px;
+  font-size: 16px;
+  font-family: 'Roboto-Regular';
 `;
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
+  init();
+  const initialState = {
+    photoUrl: '',
+    firstName: '',
+    lastName: '',
+    displayName: '',
+    email: '',
+    phone: '',
+    distributorId: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: 'UT',
+    zipcode: '',
+    country: 'us',
+    bio: '',
+  };
+  const [myInfo, setMyInfo] = useState(initialState);
+  const [isBioFocused, setIsBioFocused] = useState(false);
+  const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
+
+  const handleChange = (field, text) => {
+    setMyInfo({ ...myInfo, [field]: text });
+    setIsSaveButtonVisisble(true);
+  };
+
+  const onSubmit = () => {
+    // TODO add saving logic here
+    setIsMyInfoModalOpen(false);
+  };
+
+  let localeLanguageTag = Localization.locale.substring(0, 2);
+  let countryList = enCountires;
+  const countryMap = {
+    de: deCountires,
+    en: enCountires,
+    fr: frCountires,
+    ja: jaCountires,
+    es: esCountires,
+    no: noCountires,
+    nb: noCountires,
+  };
+  countryList = countryMap[localeLanguageTag] || enCountires;
+
+  const {
+    photoUrl,
+    firstName,
+    lastName,
+    displayName,
+    email,
+    phone,
+    distributorId,
+    address1,
+    address2,
+    city,
+    state,
+    zipcode,
+    country,
+    bio,
+  } = myInfo;
+
+  useEffect(() => {
+    if (country === 'us') {
+      usStates.find((item) => item.value === state)
+        ? handleChange('state', state)
+        : handleChange('state', 'CA');
+    }
+  }, [country]);
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={isMyInfoModalOpen}
       onRequestClose={() => setIsMyInfoModalOpen(false)}>
-      <ScreenContainer>
-        <Flexbox justify="flex-start" height="100%">
-          <Header>
-            <TouchableOpacity onPress={() => setIsMyInfoModalOpen(false)}>
-              <CloseIcon />
-            </TouchableOpacity>
-            <H2Normal>My Info</H2Normal>
-            <H4Bold>SAVE</H4Bold>
-          </Header>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <ScreenContainer>
+            <ScrollView
+              style={{ width: '100%' }}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              keyboardShouldPersistTaps="always">
+              <Flexbox justify="flex-start" height="100%">
+                <Header>
+                  <HeaderButtonContainer>
+                    <TouchableOpacity
+                      onPress={() => setIsMyInfoModalOpen(false)}>
+                      <CloseIcon />
+                    </TouchableOpacity>
+                  </HeaderButtonContainer>
+                  <H2Normal>My Info</H2Normal>
+                  <HeaderButtonContainer>
+                    {isSaveButtonVisisble ? (
+                      <TouchableOpacity onPress={onSubmit}>
+                        <H4Bold>SAVE</H4Bold>
+                      </TouchableOpacity>
+                    ) : (
+                      <View />
+                    )}
+                  </HeaderButtonContainer>
+                </Header>
 
-          <Subheader justify="center">
-            <H5>Contact Information</H5>
-          </Subheader>
-          <Flexbox width="85%">
-            <NameContainer
-              align="flex-end"
-              justify="center"
-              height="130px"
-              // width="100%"
-              // padding={8}
-              direction="row">
-              <Avatar />
+                <Subheader justify="center">
+                  <H5>{Localized('contact-information')}</H5>
+                </Subheader>
+                <Flexbox width="85%">
+                  <NameContainer>
+                    <ProfileImage
+                      photoUrl={photoUrl}
+                      handleChange={handleChange}
+                    />
 
-              <Flexbox
-                width="85%"
-                justify="space-between"
-                height="100%"
-                padding={8}>
-                <AnimatedInput label="First Name" />
-                <AnimatedInput label="Last Name" />
+                    <Flexbox
+                      accessibilityLabel="contact information"
+                      width={nameInputWidth}
+                      justify="space-between"
+                      align="flex-end"
+                      height="100%">
+                      <AnimatedInput
+                        testID="first-name-input"
+                        label={Localized('first-name')}
+                        value={firstName}
+                        onChangeText={(text) => handleChange('firstName', text)}
+                        returnKeyType="done"
+                        textContentType="givenName"
+                      />
+                      <AnimatedInput
+                        testID="first-name-input"
+                        label={Localized('last-name')}
+                        value={lastName}
+                        onChangeText={(text) => handleChange('lastName', text)}
+                        returnKeyType="done"
+                        textContentType="familyName"
+                      />
+                    </Flexbox>
+                  </NameContainer>
+                  <AnimatedInput
+                    testID="display-name-input"
+                    label={Localized('display-name')}
+                    value={displayName}
+                    onChangeText={(text) => handleChange('displayName', text)}
+                    returnKeyType="done"
+                    textContentType="nickname"
+                  />
+                  <AnimatedInput
+                    testID="email-input"
+                    label={Localized('email')}
+                    value={email}
+                    onChangeText={(text) => handleChange('email', text)}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    returnKeyType="done"
+                    textContentType="emailAddress"
+                  />
+                  <AnimatedInput
+                    testID="phone-number-input"
+                    label={Localized('phone-number')}
+                    value={phone}
+                    onChangeText={(text) => handleChange('phone', text)}
+                    keyboardType="phone-pad"
+                    returnKeyType="done"
+                    textContentType="telephoneNumber"
+                  />
+                  <AnimatedInput
+                    testID="distributor-id-input"
+                    label={Localized('distributor-id')}
+                    value={distributorId}
+                    editable={false}
+                  />
+                </Flexbox>
+                <Subheader style={{ marginTop: 12 }} justify="center">
+                  <H5>{Localized('address')}</H5>
+                </Subheader>
+                <Flexbox accessibilityLabel="address information" width="85%">
+                  <AnimatedInput
+                    testID="address-1-input"
+                    label={Localized('address-1')}
+                    value={address1}
+                    onChangeText={(text) => handleChange('address1', text)}
+                    returnKeyType="done"
+                    textContentType="streetAddressLine1"
+                  />
+                  <AnimatedInput
+                    testID="address-2-input"
+                    label={Localized('address-2')}
+                    value={address2}
+                    onChangeText={(text) => handleChange('address2', text)}
+                    returnKeyType="done"
+                    textContentType="streetAddressLine2"
+                  />
+                  <AnimatedInput
+                    testID="city-input"
+                    label={Localized('city')}
+                    value={city}
+                    onChangeText={(text) => handleChange('city', text)}
+                    returnKeyType="done"
+                    textContentType="addressCity"
+                  />
+                  <Flexbox
+                    direction="row"
+                    style={{ zIndex: 4, paddingTop: 4, marginBottom: 4 }}>
+                    {country === 'us' ? (
+                      <Picker
+                        items={usStates}
+                        label={Localized('state')}
+                        // the picker will break if there is no value that matches one of the provided items in the itmes list
+                        defaultValue={
+                          usStates.find((item) => item.value === state)
+                            ? state
+                            : 'CA'
+                        }
+                        placeholder={Localized('state')}
+                        onChangeItem={(item) =>
+                          handleChange('state', item.value)
+                        }
+                        testID="state-picker-input"
+                        style={{ width: '48%', marginTop: 2 }}
+                      />
+                    ) : (
+                      <Flexbox width="48%">
+                        <AnimatedInput
+                          testID="state-input"
+                          label={Localized('state')}
+                          value={state}
+                          onChangeText={(text) => handleChange('state', text)}
+                          returnKeyType="done"
+                          textContentType="addressState"
+                        />
+                      </Flexbox>
+                    )}
+                    <Flexbox width="48%">
+                      <AnimatedInput
+                        testID="zip-code-input"
+                        label={Localized('ZIP Code')}
+                        value={zipcode}
+                        onChangeText={(text) => handleChange('zipcode', text)}
+                        keyboardType="phone-pad"
+                        returnKeyType="done"
+                        textContentType="postalCode"
+                      />
+                    </Flexbox>
+                  </Flexbox>
+                  <Picker
+                    items={countryList}
+                    label={Localized('country')}
+                    defaultValue={country}
+                    placeholder={Localized('country')}
+                    onChangeItem={(item) => handleChange('country', item.value)}
+                    testID="country-input"
+                  />
+                </Flexbox>
+                <Subheader
+                  style={{ marginTop: 12, zIndex: -1 }}
+                  justify="center">
+                  <H5>{Localized('bio')}</H5>
+                </Subheader>
+                <TextArea
+                  style={{ zIndex: -1 }}
+                  focused={isBioFocused}
+                  accessibilityLabel="bio information"
+                  onFocus={() => setIsBioFocused(true)}
+                  onBlur={() => setIsBioFocused(false)}>
+                  <Input
+                    testID="bio-input"
+                    style={{ height: '100%' }}
+                    value={bio}
+                    onChangeText={(text) => handleChange('bio', text)}
+                    multiline={true}
+                    numberOfLines={8}
+                    underlineColorAndroid="transparent"
+                  />
+                </TextArea>
               </Flexbox>
-            </NameContainer>
-            {/* <Flexbox width="100%" padding={8}> */}
-            <AnimatedInput label="Display Name" />
-            {/* </Flexbox> */}
-          </Flexbox>
-        </Flexbox>
-      </ScreenContainer>
+            </ScrollView>
+          </ScreenContainer>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
