@@ -24,17 +24,17 @@ const Overview = ({ user, fadeOut }) => {
           direction="row">
           <View>
             <H4Bold>Sloane Taylor</H4Bold>
-            <H4Secondary>{`${Localized('rank')}: Distributor`}</H4Secondary>
+            <H4Secondary>{`${Localized('Rank')}: Distributor`}</H4Secondary>
           </View>
           <View>
             <H4Bold>2/16/20</H4Bold>
-            <H4Secondary>{Localized('join-date')}</H4Secondary>
+            <H4Secondary>{Localized('Join Date')}</H4Secondary>
           </View>
         </Flexbox>
 
         <Flexbox padding={20} width="100%" direction="row">
           <Flexbox accessibilityLabel="Distributor monthly pv" width="auto">
-            <ChartTitle testID="pv-donut-label">{Localized('pv')}</ChartTitle>
+            <ChartTitle testID="pv-donut-label">{Localized('PV')}</ChartTitle>
             <Donut
               testID="pv-donut-svg"
               percentage={thisMonthPV}
@@ -44,7 +44,7 @@ const Overview = ({ user, fadeOut }) => {
           </Flexbox>
 
           <Flexbox accessibilityLabel="Distributor monthly cv" width="auto">
-            <ChartTitle testID="cv-donut-label">{Localized('cv')}</ChartTitle>
+            <ChartTitle testID="cv-donut-label">{Localized('CV')}</ChartTitle>
             <Donut
               testID="cv-donut-svg"
               percentage={thisMonthCV}
@@ -55,7 +55,7 @@ const Overview = ({ user, fadeOut }) => {
         </Flexbox>
 
         <Flexbox accessibilityLabel="Distributor monthly ov" width="auto">
-          <ChartTitle testID="ov-donut-label">{Localized('ov')}</ChartTitle>
+          <ChartTitle testID="ov-donut-label">{Localized('OV')}</ChartTitle>
           <Donut
             testID="ov-donut-svg"
             percentage={OV}

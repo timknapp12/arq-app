@@ -56,7 +56,9 @@ const PasswordRecoveryScreen = ({ navigation }) => {
           <Image source={logo} />
 
           <RecoverPasswordInstructions testID="recover-password-instructions">
-            {Localized('recover-password-instructions')}
+            {Localized(
+              'Enter your email address or distributor ID to receive a link for log in.',
+            )}
           </RecoverPasswordInstructions>
           <Flexbox style={{ marginBottom: 22 }}>
             <Input
@@ -64,7 +66,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
               value={email}
               onChangeText={(text) => setEmail(text)}
               keyboardType="email-address"
-              placeholder={Localized('email-address-placeholder')}
+              placeholder={Localized('Email address or distributor ID')}
               placeholderTextColor={theme.disabledTextColor}
               returnKeyType="go"
               onSubmitEditing={onSubmit}
@@ -77,7 +79,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
               disabled={isButtonDisabled}
               style={{ marginTop: 12 }}
               onPress={onSubmit}>
-              {Localized('send-email-text')}
+              {Localized('Send Email')}
             </PrimaryButton>
           </Flexbox>
         </Flexbox>

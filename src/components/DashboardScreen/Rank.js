@@ -114,7 +114,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           direction="row">
           <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
             <ChartTitle testID="total-pv-donut-label">
-              {Localized('total-pv')}
+              {Localized('Total PV')}
             </ChartTitle>
             <DoubleDonut
               testID="total-pv-donut-svg"
@@ -146,7 +146,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
 
           <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
             <ChartTitle testID="total-qov-donut-label">
-              {Localized('total-qov')}
+              {Localized('Total QOV')}
             </ChartTitle>
             <DoubleDonut
               testID="total-qov-donut-svg"
@@ -179,7 +179,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           accessibilityLabel="monthly comparrison personally enrolled"
           width="auto">
           <ChartTitle testID="personally-enrolled-donut-label">
-            {Localized('personally-enrolled')}
+            {Localized('Personally Enrolled')}
           </ChartTitle>
           <DoubleDonut
             testID="personally-enrolled-donut-svg"

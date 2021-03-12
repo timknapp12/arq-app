@@ -32,7 +32,7 @@ const mockUser = {
     requiredPV: 200,
     requiredPA: 2,
     requiredQOV: 350000,
-    name: Localized('emerald'),
+    name: Localized('Emerald'),
   },
 };
 
@@ -46,7 +46,7 @@ const DashboardScreen = () => {
       requiredPV: 0,
       requiredPA: 0,
       requiredQOV: 0,
-      name: Localized('distributor'),
+      name: Localized('Distributor'),
     },
     {
       legMaxPerc: 60,
@@ -55,7 +55,7 @@ const DashboardScreen = () => {
       requiredPV: 100,
       requiredPA: 2,
       requiredQOV: 300,
-      name: Localized('builder'),
+      name: Localized('Builder'),
     },
     {
       legMaxPerc: 60,
@@ -64,7 +64,7 @@ const DashboardScreen = () => {
       requiredPV: 100,
       requiredPA: 2,
       requiredQOV: 600,
-      name: Localized('pro'),
+      name: Localized('Pro'),
     },
     {
       legMaxPerc: 60,
@@ -73,7 +73,7 @@ const DashboardScreen = () => {
       requiredPV: 100,
       requiredPA: 2,
       requiredQOV: 1500,
-      name: Localized('executive'),
+      name: Localized('Executive'),
     },
     {
       legMaxPerc: 50,
@@ -82,7 +82,7 @@ const DashboardScreen = () => {
       requiredPV: 100,
       requiredPA: 2,
       requiredQOV: 4500,
-      name: Localized('elite'),
+      name: Localized('Elite'),
     },
     {
       legMaxPerc: 50,
@@ -91,7 +91,7 @@ const DashboardScreen = () => {
       requiredPV: 100,
       requiredPA: 2,
       requiredQOV: 10000,
-      name: Localized('bronze'),
+      name: Localized('Bronze'),
     },
     {
       legMaxPerc: 40,
@@ -100,7 +100,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 25000,
-      name: Localized('silver'),
+      name: Localized('Silver'),
     },
     {
       legMaxPerc: 40,
@@ -109,7 +109,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 50000,
-      name: Localized('gold'),
+      name: Localized('Gold'),
     },
     {
       legMaxPerc: 40,
@@ -118,7 +118,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 100000,
-      name: Localized('platinum'),
+      name: Localized('Platinum'),
     },
     {
       legMaxPerc: 40,
@@ -127,7 +127,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 200000,
-      name: Localized('ruby'),
+      name: Localized('Ruby'),
     },
     {
       legMaxPerc: 40,
@@ -136,7 +136,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 350000,
-      name: Localized('emerald'),
+      name: Localized('Emerald'),
     },
     {
       legMaxPerc: 40,
@@ -145,7 +145,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 500000,
-      name: Localized('diamond'),
+      name: Localized('Diamond'),
     },
     {
       legMaxPerc: 40,
@@ -154,7 +154,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 750000,
-      name: Localized('blue-diamond'),
+      name: Localized('Blue Diamond'),
     },
     {
       legMaxPerc: 40,
@@ -163,7 +163,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 1000000,
-      name: Localized('black-diamond'),
+      name: Localized('Black Diamond'),
     },
     {
       legMaxPerc: 40,
@@ -172,7 +172,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 1500000,
-      name: Localized('royal-diamond'),
+      name: Localized('Royal Diamond'),
     },
     {
       legMaxPerc: 40,
@@ -181,7 +181,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 2000000,
-      name: Localized('presidential-diamond'),
+      name: Localized('Presidential Diamond'),
     },
     {
       legMaxPerc: 40,
@@ -190,7 +190,7 @@ const DashboardScreen = () => {
       requiredPV: 200,
       requiredPA: 2,
       requiredQOV: 3000000,
-      name: Localized('crown-diamond'),
+      name: Localized('Crown Diamond'),
     },
   ];
 
@@ -205,16 +205,16 @@ const DashboardScreen = () => {
   }, [isFocused]);
 
   const initialView = {
-    name: Localized('overview'),
+    name: Localized('Overview'),
     testID: 'overview-button',
   };
 
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
-    { name: Localized('overview'), testID: 'overview_button' },
-    { name: Localized('rank'), testID: 'rank_button' },
-    { name: Localized('ov-detail'), testID: 'ov_detail_button' },
+    { name: Localized('Overview'), testID: 'overview_button' },
+    { name: Localized('Rank'), testID: 'rank_button' },
+    { name: Localized('OV Detail'), testID: 'ov_detail_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -284,13 +284,13 @@ const DashboardScreen = () => {
             height: '100%',
             zIndex: -1,
           }}>
-          {view.name === Localized('overview') && (
+          {view.name === Localized('Overview') && (
             <Overview user={mockUser} fadeOut={fadeOut} />
           )}
-          {view.name === Localized('rank') && (
+          {view.name === Localized('Rank') && (
             <Rank ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
           )}
-          {view.name === Localized('ov-detail') && (
+          {view.name === Localized('OV Detail') && (
             <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
           )}
         </ScrollView>

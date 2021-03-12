@@ -115,7 +115,9 @@ const LoginScreen = () => {
               padding={20}>
               <Image source={logo} />
               <LoginInstructions testID="login-instructions">
-                {Localized('login-instructions')}
+                {Localized(
+                  'Log in if you already have a username and password',
+                )}
               </LoginInstructions>
 
               <Flexbox style={{ marginBottom: 22 }}>
@@ -124,7 +126,7 @@ const LoginScreen = () => {
                   value={username}
                   onChangeText={(text) => setUsername(text)}
                   keyboardType="email-address"
-                  placeholder={Localized('username')}
+                  placeholder={Localized('Username')}
                   placeholderTextColor={theme.disabledTextColor}
                   returnKeyType="next"
                   onSubmitEditing={onNext}
@@ -137,7 +139,7 @@ const LoginScreen = () => {
                   value={password}
                   onChangeText={(text) => setPassword(text)}
                   ref={passwordRef}
-                  placeholder={Localized('password')}
+                  placeholder={Localized('Password')}
                   placeholderTextColor={theme.disabledTextColor}
                   textContentType="password"
                   returnKeyType="go"
@@ -151,7 +153,9 @@ const LoginScreen = () => {
                     style={{
                       textAlign: 'center',
                     }}>
-                    {Localized('login-error')}
+                    {Localized(
+                      `Sorry, we couldn't log you in. Please re-enter your username and password`,
+                    )}
                   </AlertText>
                 )}
                 <TouchableOpacity
@@ -163,7 +167,7 @@ const LoginScreen = () => {
                     Linking.openURL('https://office2.myqsciences.com/#/Login')
                   }
                   testID="forgot-password-button">
-                  <H6>{Localized('forgot-password')}</H6>
+                  <H6>{Localized('Forgot password?')}</H6>
                 </TouchableOpacity>
               </Flexbox>
 
@@ -173,7 +177,7 @@ const LoginScreen = () => {
                   disabled={isButtonDisabled}
                   style={{ marginTop: 12 }}
                   onPress={onSubmit}>
-                  {Localized('login-text')}
+                  {Localized('Log In')}
                 </PrimaryButton>
               </Flexbox>
             </Flexbox>
@@ -188,13 +192,13 @@ const LoginScreen = () => {
               marginTop: 20,
             }}>
             <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
-              {Localized('become-ambassador')}
+              {Localized('Interested in becoming a QSciences Ambassador?')}
             </H6>
             <TouchableOpacity
               testID="become-ambassador-link"
               onPress={onFindOutMore}
               style={{ marginTop: 12 }}>
-              <Link>{Localized('find-out-more')}</Link>
+              <Link>{Localized('Find out more')}</Link>
             </TouchableOpacity>
           </Flexbox>
 
@@ -209,17 +213,17 @@ const LoginScreen = () => {
               direction="row"
               padding={14}>
               <TouchableOpacity testID="terms-button">
-                <H4>{Localized('terms')}</H4>
+                <H4>{Localized('Terms')}</H4>
               </TouchableOpacity>
               <H4 style={{ marginStart: 8 }}>|</H4>
               <TouchableOpacity
                 testID="privacy-button"
                 style={{ marginStart: 8 }}>
-                <H4>{Localized('privacy')}</H4>
+                <H4>{Localized('Privacy')}</H4>
               </TouchableOpacity>
               <H4 style={{ marginStart: 8 }}>|</H4>
               <TouchableOpacity testID="data-button" style={{ marginStart: 8 }}>
-                <H4>{Localized('data')}</H4>
+                <H4>{Localized('Data')}</H4>
               </TouchableOpacity>
             </Flexbox>
           </KeyboardAvoidingView>

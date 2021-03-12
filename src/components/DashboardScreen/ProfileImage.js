@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Platform, View } from 'react-native';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { CameraIcon, GalleryIcon } from '../Common';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';

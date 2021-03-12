@@ -76,7 +76,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
           isQualified={isQualified}
         />
         <H4>{`${Localized(
-          'max-ov-per-leg',
+          'Maximum QOV Per Leg',
         )}: ${rank.legMaxOV.toLocaleString()}`}</H4>
         <Flexbox padding={20} width="100%" direction="row">
           <Flexbox accessibilityLabel="Distributor leg one" width="auto">
@@ -87,7 +87,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
                 <NotQualifiedIcon />
               )}
               <ChartTitle testID="leg-one-label" style={{ marginStart: 4 }}>
-                {Localized('leg-one')}
+                {Localized('Leg 1')}
               </ChartTitle>
             </TitleContainer>
             <Donut
@@ -108,7 +108,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
                 <NotQualifiedIcon />
               )}
               <ChartTitle testID="leg-two-label" style={{ marginStart: 4 }}>
-                {Localized('leg-two')}
+                {Localized('Leg 2')}
               </ChartTitle>
             </TitleContainer>
             <Donut
@@ -128,7 +128,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
               <NotQualifiedIcon />
             )}
             <ChartTitle testID="leg-three-label" style={{ marginStart: 4 }}>
-              {Localized('leg-three')}
+              {Localized('Leg 3')}
             </ChartTitle>
           </TitleContainer>
           <Donut

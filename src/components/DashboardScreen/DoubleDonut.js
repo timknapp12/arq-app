@@ -132,13 +132,13 @@ const DoubleDonut = ({
           <Legend>
             <Square squareFill={outercolor} />
             <H5Secondary style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
-              {Localized('this-month')}
+              {Localized('This month')}
             </H5Secondary>
           </Legend>
           <Legend>
             <Square squareFill={innercolor} />
             <H5Secondary style={{ textAlign: 'center' }}>
-              {Localized('last-month')}
+              {Localized('Last month')}
             </H5Secondary>
           </Legend>
         </Flexbox>

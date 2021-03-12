@@ -25,7 +25,7 @@ const DashboardHeader = ({ badgeValue, fadeIn, fadeOut, isMenuOpen }) => {
       <Flexbox width="60px" align="flex-start">
         <SmallQIcon />
       </Flexbox>
-      <H2Normal>{Localized('dashboard')}</H2Normal>
+      <H2Normal>{Localized('Dashboard')}</H2Normal>
       <Flexbox width="60px" direction="row">
         <BellIcon badgeValue={badgeValue} />
         <TouchableOpacity

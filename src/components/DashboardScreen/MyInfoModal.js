@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -180,7 +180,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                 </Header>
 
                 <Subheader justify="center">
-                  <H5>{Localized('contact-information')}</H5>
+                  <H5>{Localized('Contact Information')}</H5>
                 </Subheader>
                 <Flexbox width="85%">
                   <NameContainer>
@@ -200,7 +200,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       height="100%">
                       <AnimatedInput
                         testID="first-name-input"
-                        label={Localized('first-name')}
+                        label={Localized('First Name')}
                         value={firstName}
                         onChangeText={(text) => {
                           handleChange('firstName', text);
@@ -211,7 +211,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       />
                       <AnimatedInput
                         testID="first-name-input"
-                        label={Localized('last-name')}
+                        label={Localized('Last Name')}
                         value={lastName}
                         onChangeText={(text) => {
                           handleChange('lastName', text);
@@ -224,7 +224,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   </NameContainer>
                   <AnimatedInput
                     testID="display-name-input"
-                    label={Localized('display-name')}
+                    label={Localized('Display Name')}
                     value={displayName}
                     onChangeText={(text) => {
                       handleChange('displayName', text);
@@ -235,7 +235,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <AnimatedInput
                     testID="email-input"
-                    label={Localized('email')}
+                    label={Localized('Email')}
                     value={email}
                     onChangeText={(text) => {
                       handleChange('email', text);
@@ -248,7 +248,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <AnimatedInput
                     testID="phone-number-input"
-                    label={Localized('phone-number')}
+                    label={Localized('Phone Number')}
                     value={phone}
                     onChangeText={(text) => {
                       handleChange('phone', text);
@@ -260,18 +260,18 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <AnimatedInput
                     testID="distributor-id-input"
-                    label={Localized('distributor-id')}
+                    label={Localized('Distributor ID')}
                     value={distributorId}
                     editable={false}
                   />
                 </Flexbox>
                 <Subheader style={{ marginTop: 12 }} justify="center">
-                  <H5>{Localized('address')}</H5>
+                  <H5>{Localized('Address')}</H5>
                 </Subheader>
                 <Flexbox accessibilityLabel="address information" width="85%">
                   <AnimatedInput
                     testID="address-1-input"
-                    label={Localized('address-1')}
+                    label={Localized('Address 1')}
                     value={address1}
                     onChangeText={(text) => {
                       handleChange('address1', text);
@@ -282,7 +282,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <AnimatedInput
                     testID="address-2-input"
-                    label={Localized('address-2')}
+                    label={Localized('Address 2')}
                     value={address2}
                     onChangeText={(text) => {
                       handleChange('address2', text);
@@ -293,7 +293,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <AnimatedInput
                     testID="city-input"
-                    label={Localized('city')}
+                    label={Localized('City')}
                     value={city}
                     onChangeText={(text) => {
                       handleChange('city', text);
@@ -308,14 +308,14 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     {country === 'us' ? (
                       <Picker
                         items={usStates}
-                        label={Localized('state')}
+                        label={Localized('State')}
                         // the picker will break if there is no value that matches one of the provided items in the itmes list
                         defaultValue={
                           usStates.find((item) => item.value === state)
                             ? state
                             : 'CA'
                         }
-                        placeholder={Localized('state')}
+                        placeholder={Localized('State')}
                         onChangeItem={(item) => {
                           handleChange('state', item.value);
                           setIsSaveButtonVisisble(true);
@@ -327,7 +327,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       <Flexbox width="48%">
                         <AnimatedInput
                           testID="state-input"
-                          label={Localized('state')}
+                          label={Localized('State')}
                           value={state}
                           onChangeText={(text) => {
                             handleChange('state', text);
@@ -355,9 +355,9 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   </Flexbox>
                   <Picker
                     items={countryList}
-                    label={Localized('country')}
+                    label={Localized('Country')}
                     defaultValue={country}
-                    placeholder={Localized('country')}
+                    placeholder={Localized('Country')}
                     onChangeItem={(item) => {
                       handleChange('country', item.value);
                       setIsSaveButtonVisisble(true);
@@ -368,7 +368,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                 <Subheader
                   style={{ marginTop: 12, zIndex: -1 }}
                   justify="center">
-                  <H5>{Localized('bio')}</H5>
+                  <H5>{Localized('Bio')}</H5>
                 </Subheader>
                 <TextArea
                   style={{ zIndex: -1 }}

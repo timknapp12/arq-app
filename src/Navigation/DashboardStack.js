@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import DashboardScreen from '../components/DashboardScreen';
-import ProfileScreen from '../components/ProfileScreen';
 import { white, blue } from '../Styles/colors';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
@@ -25,13 +24,6 @@ const DashboardStack = () => {
         options={{
           headerShown: false,
           gestureEnabled: false,
-        }}
-      />
-      <Dashboard.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        options={{
-          title: 'Profile',
         }}
       />
     </Dashboard.Navigator>

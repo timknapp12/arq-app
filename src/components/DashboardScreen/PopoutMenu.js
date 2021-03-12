@@ -32,23 +32,23 @@ const PopoutMenu = ({
           fadeOut();
           setIsMyInfoModalOpen(true);
         }}>
-        <H4>{Localized('my-info')}</H4>
+        <H4>{Localized('My Info')}</H4>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
           fadeOut();
           setIsShareOptionsModalOpen(true);
         }}>
-        <H4>{Localized('share-options')}</H4>
+        <H4>{Localized('Share Options')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
-        <H4>{Localized('settings')}</H4>
+        <H4>{Localized('Settings')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
-        <H4>{Localized('chat-with-support')}</H4>
+        <H4>{Localized('Chat With Support')}</H4>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => setIsSignedIn(false)}>
-        <H4>{Localized('log-out')}</H4>
+        <H4>{Localized('Log Out')}</H4>
       </TouchableOpacity>
     </AnimatedMenu>
   );

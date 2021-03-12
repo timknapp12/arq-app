@@ -49,7 +49,7 @@ const Slider = ({
           <H6Secodnary style={{ marginStart: 8 }}>
             {isQualified
               ? `(${Localized('qualified')})`
-              : `(${Localized('not-qualified')})`}
+              : `(${Localized('not qualified')})`}
           </H6Secodnary>
         )}
       </Flexbox>

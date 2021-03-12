@@ -77,17 +77,17 @@ const Tabs = () => {
       <Tab.Screen
         name="DashboardScreen"
         component={DashboardStack}
-        options={{ title: Localized('dashboard') }}
+        options={{ title: Localized('Dashboard') }}
       />
       <Tab.Screen
         name="ResourcesScreen"
         component={ResourcesScreen}
-        options={{ title: Localized('resources') }}
+        options={{ title: Localized('Resources') }}
       />
       <Tab.Screen
         name="NewsScreen"
         component={NewsScreen}
-        options={{ title: Localized('news') }}
+        options={{ title: Localized('News') }}
       />
       {/* eslint-disable-next-line no-undef */}
       {__DEV__ && showStorybook && (
