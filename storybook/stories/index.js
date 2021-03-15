@@ -5,3 +5,4 @@ import './Header.stories';
 import './Icons.stories';
 import './Donut.stories';
 import './Slider.stories';
+import './ErrorModal.stories';

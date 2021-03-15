@@ -25,7 +25,7 @@ import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
 import { ADD_USER } from '../../graphql/Mutations';
 import { useMutation } from '@apollo/client';
-
+import ErrorModal from '../ErrorModal';
 import LoadingScreen from '../LoadingScreen';
 
 const LoginInstructions = styled(H4)`
@@ -40,18 +40,24 @@ const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  // TODO Replace this with real error handling
   const [isError, setIsError] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const passwordRef = useRef(null);
-  const [addUser, { loading, error }] = useMutation(ADD_USER, {
+  const [addUser, { loading }] = useMutation(ADD_USER, {
     onCompleted: (data) => {
-      if (!data.addUser.user) {
+      // the backend will give a userId of 0 if the credentials fail
+      if (data.addUser.user.userId === 0) {
         setIsError(true);
       } else {
         setUser(data);
         setIsError(false);
         setIsSignedIn(true);
       }
+    },
+    onError: (error) => {
+      setIsErrorModalOpen(true);
+      setErrorMessage(error);
     },
   });
 
@@ -65,7 +71,11 @@ const LoginScreen = () => {
     if (isButtonDisabled) {
       return;
     }
-    addUser({ variables: { usernameIn: username, passwordIn: password } });
+    try {
+      addUser({ variables: { usernameIn: username, passwordIn: password } });
+    } catch (e) {
+      setIsError(true);
+    }
 
     Analytics.logEvent('Login_button_tapped', {
       screen: 'Login Screen',
@@ -90,13 +100,11 @@ const LoginScreen = () => {
       purpose: 'follow link to find out how to become an ambassador',
     });
   };
+
   if (loading) {
     return <LoadingScreen />;
   }
-  if (error) {
-    setIsError(true);
-    console.log('error in login:', error);
-  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScreenContainer>
@@ -228,6 +236,14 @@ const LoginScreen = () => {
             </Flexbox>
           </KeyboardAvoidingView>
         </Flexbox>
+        <ErrorModal
+          visible={isErrorModalOpen}
+          onClose={() => {
+            setErrorMessage('');
+            setIsErrorModalOpen(false);
+          }}
+          errorMessage={errorMessage}
+        />
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
