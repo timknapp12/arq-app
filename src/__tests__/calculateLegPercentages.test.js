@@ -38,8 +38,9 @@ const diamondRequirements = {
   requiredPV: 200,
   requiredPA: 2,
   requiredQOV: 500000,
-  name: 'diamond',
+  name: 'Diamond',
 };
+
 describe('calculate leg percentages', () => {
   test('emerald returns 40 40 20', () => {
     const user = {
@@ -51,7 +52,7 @@ describe('calculate leg percentages', () => {
     const output = {
       leg1Max: 1992193,
       leg2Max: 156931,
-      leg3Max: 75607,
+      leg3Max: 140000,
     };
     expect(calculateLegPercentages(user, emeraldRequiremments)).toStrictEqual(
       output,
@@ -65,43 +66,43 @@ describe('calculate leg percentages', () => {
     };
 
     const output = {
-      leg1Max: 119000,
-      leg2Max: 115500,
-      leg3Max: 115500,
+      leg1Max: 140000,
+      leg2Max: 140000,
+      leg3Max: 140000,
     };
     expect(calculateLegPercentages(user, emeraldRequiremments)).toStrictEqual(
       output,
     );
   });
-  test('emerald returns 34 33 33 with high number on leg 1', () => {
+  test('diamond returns 40 40 20', () => {
     const user = {
-      leg1OV: 229000,
+      leg1OV: 119000,
       leg2OV: 115500,
       leg3OV: 115500,
     };
 
     const output = {
-      leg1Max: 229000,
-      leg2Max: 115500,
-      leg3Max: 115500,
+      leg1Max: 200000,
+      leg2Max: 200000,
+      leg3Max: 200000,
     };
-    expect(calculateLegPercentages(user, emeraldRequiremments)).toStrictEqual(
+    expect(calculateLegPercentages(user, diamondRequirements)).toStrictEqual(
       output,
     );
   });
-  test('emerald returns 40 40 20 ', () => {
+  test('diamond returns 40 40 27 with high first leg', () => {
     const user = {
-      leg1OV: 1000,
-      leg2OV: 700,
-      leg3OV: 100,
+      leg1OV: 1190000,
+      leg2OV: 115500,
+      leg3OV: 115500,
     };
 
     const output = {
-      leg1Max: 140000,
-      leg2Max: 140000,
-      leg3Max: 70000,
+      leg1Max: 1190000,
+      leg2Max: 200000,
+      leg3Max: 200000,
     };
-    expect(calculateLegPercentages(user, emeraldRequiremments)).toStrictEqual(
+    expect(calculateLegPercentages(user, diamondRequirements)).toStrictEqual(
       output,
     );
   });
@@ -115,7 +116,7 @@ describe('calculate leg percentages', () => {
     const output = {
       leg1Max: 6000,
       leg2Max: 5500,
-      leg3Max: 1000,
+      leg3Max: 5000,
     };
     expect(calculateLegPercentages(user, bronzeRequirements)).toStrictEqual(
       output,
@@ -130,58 +131,58 @@ describe('calculate leg percentages', () => {
 
     const output = {
       leg1Max: 6000,
-      leg2Max: 2500,
-      leg3Max: 2500,
+      leg2Max: 5000,
+      leg3Max: 5000,
     };
     expect(calculateLegPercentages(user, bronzeRequirements)).toStrictEqual(
       output,
     );
   });
-  test('bronze returns 40 30 30', () => {
+  test('bronze returns 50 50 50 with low numbers', () => {
     const user = {
-      leg1OV: 4000,
-      leg2OV: 3000,
-      leg3OV: 3000,
-    };
-
-    const output = {
-      leg1Max: 4000,
-      leg2Max: 3000,
-      leg3Max: 3000,
-    };
-    expect(calculateLegPercentages(user, bronzeRequirements)).toStrictEqual(
-      output,
-    );
-  });
-  test('bronze returns 50 50 0 with low numbers', () => {
-    const user = {
-      leg1OV: 300,
-      leg2OV: 200,
-      leg3OV: 0,
+      leg1OV: 600,
+      leg2OV: 250,
+      leg3OV: 100,
     };
 
     const output = {
       leg1Max: 5000,
       leg2Max: 5000,
-      leg3Max: 0,
+      leg3Max: 5000,
     };
     expect(calculateLegPercentages(user, bronzeRequirements)).toStrictEqual(
       output,
     );
   });
-  test('bronze returns 50 50 0 with one high number', () => {
+  test('bronze returns 50 50 25 with high first leg', () => {
     const user = {
-      leg1OV: 20000,
-      leg2OV: 200,
-      leg3OV: 0,
+      leg1OV: 6000,
+      leg2OV: 250,
+      leg3OV: 100,
     };
 
     const output = {
-      leg1Max: 20000,
+      leg1Max: 6000,
       leg2Max: 5000,
-      leg3Max: 0,
+      leg3Max: 5000,
     };
     expect(calculateLegPercentages(user, bronzeRequirements)).toStrictEqual(
+      output,
+    );
+  });
+  test('executive returns 60 40 0 ', () => {
+    const user = {
+      leg1OV: 1000,
+      leg2OV: 700,
+      leg3OV: 100,
+    };
+
+    const output = {
+      leg1Max: 1000,
+      leg2Max: 900,
+      leg3Max: 900,
+    };
+    expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
       output,
     );
   });
@@ -194,56 +195,8 @@ describe('calculate leg percentages', () => {
 
     const output = {
       leg1Max: 1000,
-      leg2Max: 300,
-      leg3Max: 300,
-    };
-    expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
-      output,
-    );
-  });
-  test('executive returns 60 20 20 with first leg below 20%', () => {
-    const user = {
-      leg1OV: 250,
-      leg2OV: 200,
-      leg3OV: 130,
-    };
-
-    const output = {
-      leg1Max: 900,
-      leg2Max: 600,
-      leg3Max: 130,
-    };
-    expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
-      output,
-    );
-  });
-  test('executive returns 60 20 20 with first leg right at 20%', () => {
-    const user = {
-      leg1OV: 300,
-      leg2OV: 200,
-      leg3OV: 130,
-    };
-
-    const output = {
-      leg1Max: 900,
-      leg2Max: 600,
-      leg3Max: 130,
-    };
-    expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
-      output,
-    );
-  });
-  test('executive returns 60 20 20 with first leg right above 20%', () => {
-    const user = {
-      leg1OV: 310,
-      leg2OV: 200,
-      leg3OV: 130,
-    };
-
-    const output = {
-      leg1Max: 900,
-      leg2Max: 600,
-      leg3Max: 130,
+      leg2Max: 900,
+      leg3Max: 900,
     };
     expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
       output,
@@ -253,63 +206,47 @@ describe('calculate leg percentages', () => {
     const user = {
       leg1OV: 510,
       leg2OV: 495,
-      leg3OV: 495,
+      leg3OV: 400,
     };
 
     const output = {
-      leg1Max: 510,
-      leg2Max: 495,
-      leg3Max: 495,
+      leg1Max: 900,
+      leg2Max: 900,
+      leg3Max: 900,
     };
     expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
       output,
     );
   });
-  test('executive returns 34 33 33 with lower numbers in second and third legs', () => {
+  test('executive returns 60 40 33 with low numbers', () => {
     const user = {
-      leg1OV: 510,
-      leg2OV: 405,
-      leg3OV: 305,
+      leg1OV: 310,
+      leg2OV: 195,
+      leg3OV: 100,
     };
 
     const output = {
-      leg1Max: 510,
-      leg2Max: 495,
-      leg3Max: 495,
+      leg1Max: 900,
+      leg2Max: 900,
+      leg3Max: 900,
     };
     expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
       output,
     );
   });
-  test('diamond returns 40 40 20', () => {
+  test('executive returns 60 40 33 with high first leg', () => {
     const user = {
-      leg1OV: 1992193,
-      leg2OV: 156931,
-      leg3OV: 75607,
+      leg1OV: 3000,
+      leg2OV: 195,
+      leg3OV: 100,
     };
 
     const output = {
-      leg1Max: 1992193,
-      leg2Max: 156931,
-      leg3Max: 145000,
+      leg1Max: 3000,
+      leg2Max: 900,
+      leg3Max: 900,
     };
-    expect(calculateLegPercentages(user, diamondRequirements)).toStrictEqual(
-      output,
-    );
-  });
-  test('diamond returns 40 40 20 with low numbers', () => {
-    const user = {
-      leg1OV: 12345,
-      leg2OV: 1000,
-      leg3OV: 980,
-    };
-
-    const output = {
-      leg1Max: 200000,
-      leg2Max: 200000,
-      leg3Max: 100000,
-    };
-    expect(calculateLegPercentages(user, diamondRequirements)).toStrictEqual(
+    expect(calculateLegPercentages(user, executiveRequirements)).toStrictEqual(
       output,
     );
   });
