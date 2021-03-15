@@ -51,7 +51,7 @@ PrimaryButton.propTypes = {
 const ThemedTertiary = styled.TouchableOpacity`
   ${sharedCss};
   width: 100px;
-  height: 27px;
+  height: 20px;
   border-radius: 13.5px;
   background-color: ${(props) =>
     props.selected
