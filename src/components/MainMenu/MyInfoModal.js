@@ -163,15 +163,18 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                 <Header>
                   <HeaderButtonContainer>
                     <TouchableOpacity
+                      testID="my-info-close-modal-button"
                       onPress={() => setIsMyInfoModalOpen(false)}>
                       <CloseIcon />
                     </TouchableOpacity>
                   </HeaderButtonContainer>
-                  <H2Normal>My Info</H2Normal>
+                  <H2Normal>{Localized('My Info')}</H2Normal>
                   <HeaderButtonContainer>
                     {isSaveButtonVisisble ? (
-                      <TouchableOpacity onPress={onSubmit}>
-                        <H4Bold>SAVE</H4Bold>
+                      <TouchableOpacity
+                        testID="my-info-save-button"
+                        onPress={onSubmit}>
+                        <H4Bold>{Localized('SAVE')}</H4Bold>
                       </TouchableOpacity>
                     ) : (
                       <View />
