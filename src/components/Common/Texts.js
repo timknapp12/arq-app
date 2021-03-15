@@ -5,6 +5,7 @@ import { blue } from '../../Styles/colors';
 // 'Roboto-Regular'
 // 'Nunito-Black'
 // 'Nunito-Regular'
+// 'Nunito-Light'
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 
