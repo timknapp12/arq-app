@@ -13,10 +13,11 @@ const Container = styled.View`
   background-color: ${(props) => props.theme.modalBackgroundColor};
 `;
 const Inner = styled.View`
-  height: 25%;
+  max-height: 40%;
   width: 80%;
   background-color: ${(props) => props.theme.backgroundColor};
   padding: 20px;
+  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
 const ErrorModal = ({ visible, onClose, errorMessage = '' }) => {
@@ -32,8 +33,8 @@ const ErrorModal = ({ visible, onClose, errorMessage = '' }) => {
           <TouchableOpacity style={{ width: 24 }} onPress={onClose}>
             <CloseIcon />
           </TouchableOpacity>
-          <Flexbox height="100%" padding={20} justify="space-between">
-            <H2Normal style={{ textAlign: 'center' }}>
+          <Flexbox style={{ paddingBottom: 10 }}>
+            <H2Normal style={{ textAlign: 'center', marginBottom: 8 }}>
               {Localized('Sorry there was an error! Please try again later')}
             </H2Normal>
             <H4Secondary
