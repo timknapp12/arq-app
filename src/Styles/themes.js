@@ -10,6 +10,7 @@ import {
   veryLightGray,
   lightblue,
   lightPink,
+  transparentGray,
 } from './colors';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -31,6 +32,7 @@ export const lightTheme = {
   tertiarySelectedBackgroundColor: lightPink,
   tertiaryDisabledTextColor: blue,
   tertiaryDisabledBackgroundColor: lightblue,
+  modalBackgroundColor: transparentGray,
   statusBar: 'dark',
 };
 
@@ -52,5 +54,6 @@ export const darkTheme = {
   tertiarySelectedBackgroundColor: blue,
   tertiaryDisabledTextColor: veryLightGray,
   tertiaryDisabledBackgroundColor: lightblue,
+  modalBackgroundColor: transparentGray,
   statusBar: 'light',
 };

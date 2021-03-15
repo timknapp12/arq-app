@@ -6,6 +6,9 @@ export const gray = '#989898';
 
 export const lightgray = '#D8D8D8';
 
+// for modal background
+export const transparentGray = 'rgba(216,216,216, 0.4)';
+
 // disabled text on tertiary button
 export const veryLightGray = '#CFCFCF';
 
