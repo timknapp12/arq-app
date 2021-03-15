@@ -22,8 +22,8 @@ import {
   AnimatedInput,
   Picker,
 } from '../Common';
-import Header from '../Header';
-import Subheader from './Subheader';
+import Header from '../Headers';
+import Subheader from '../Headers/Subheader';
 import { Localized, init } from '../../Translations/Localized';
 import * as Localization from 'expo-localization';
 // source for files for different languages https://stefangabos.github.io/world_countries/

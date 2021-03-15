@@ -8,7 +8,7 @@ export const calculateLegPercentages = (user, requirements) => {
   // lower levels with 60% max
   if (requirements.legMaxPerc === 60) {
     // start with 100% of possible QOV per required rank
-    let remainingPerc = 100;
+    // let remainingPerc = 100;
     // get the user's QOV percentage of FIRST leg of the requirement
     let perc1 = Math.round((user.leg1OV / requirements.requiredQOV) * 100);
     if (perc1 >= 60) {
@@ -17,9 +17,7 @@ export const calculateLegPercentages = (user, requirements) => {
     if (perc1 < 20) {
       perc1 = 20;
     }
-    remainingPerc -= perc1;
-    console.log('perc1', perc1);
-    console.log('remainingPerc first', remainingPerc);
+    // remainingPerc -= perc1;
     // calculate the max possible QOV of the SECOND leg based on percentage of first leg
     // leg2Max =
     //   remainingPerc >= 60
@@ -33,9 +31,7 @@ export const calculateLegPercentages = (user, requirements) => {
     if (perc2 < 20) {
       perc2 = 20;
     }
-    remainingPerc -= perc2;
-    console.log('perc2', perc2);
-    console.log('remainingPerc second', remainingPerc);
+    // remainingPerc -= perc2;
 
     // calculate the max possible QOV of the THIRD leg based on percentage of first two legs
     // leg3Max = requirements.requiredQOV * (remainingPerc / 100);
@@ -51,7 +47,7 @@ export const calculateLegPercentages = (user, requirements) => {
     };
   } else if (requirements.legMaxPerc === 50) {
     // mid levels with 50% max - basically the same as above but only the THIRD leg possible QOV needs to be calculated
-    let remainingPerc = 100;
+    // let remainingPerc = 100;
     let perc1 = Math.round((user.leg1OV / requirements.requiredQOV) * 100);
     if (perc1 >= 50) {
       perc1 = 50;
@@ -59,10 +55,8 @@ export const calculateLegPercentages = (user, requirements) => {
     if (perc1 < 25) {
       perc1 = 25;
     }
-    remainingPerc -= perc1;
+    // remainingPerc -= perc1;
 
-    console.log('perc1', perc1);
-    console.log('remainingPerc first', remainingPerc);
     let perc2 = Math.round((user.leg2OV / requirements.requiredQOV) * 100);
     if (perc2 >= 50) {
       perc2 = 50;
@@ -70,10 +64,8 @@ export const calculateLegPercentages = (user, requirements) => {
     if (perc2 < 25) {
       perc2 = 25;
     }
-    remainingPerc -= perc2;
+    // remainingPerc -= perc2;
 
-    console.log('perc2', perc2);
-    console.log('remainingPerc second', remainingPerc);
     // leg3Max = requirements.requiredQOV * (remainingPerc / 100);
 
     // if the points are over the max for each leg, then just return the points as the max
@@ -87,7 +79,7 @@ export const calculateLegPercentages = (user, requirements) => {
     };
   } else {
     // higher levels with 40% max
-    let remainingPerc = 100;
+    // let remainingPerc = 100;
     let perc1 = Math.round((user.leg1OV / requirements.requiredQOV) * 100);
     if (perc1 >= 40) {
       perc1 = 40;
@@ -95,10 +87,8 @@ export const calculateLegPercentages = (user, requirements) => {
     if (perc1 < 34) {
       perc1 = 34;
     }
-    remainingPerc -= perc1;
+    // remainingPerc -= perc1;
 
-    console.log('perc1', perc1);
-    console.log('remainingPerc first', remainingPerc);
     let perc2 = Math.round((user.leg2OV / requirements.requiredQOV) * 100);
     if (perc2 >= 40) {
       perc2 = 40;
@@ -106,10 +96,8 @@ export const calculateLegPercentages = (user, requirements) => {
     if (perc2 < 34) {
       perc2 = 33;
     }
-    remainingPerc -= perc2;
+    // remainingPerc -= perc2;
 
-    console.log('perc2', perc2);
-    console.log('remainingPerc second', remainingPerc);
     // leg1Max = requirements.requiredQOV * (perc1 / 100);
     // leg2Max = requirements.requiredQOV * (perc2 / 100);
     // leg3Max = requirements.requiredQOV * (remainingPerc / 100);

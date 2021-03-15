@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import Header from '../Header';
+import Header from '../Headers';
 import {
   H2Normal,
   Flexbox,

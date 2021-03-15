@@ -2,16 +2,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { Flexbox, ScreenContainer, TertiaryButton } from '../Common';
 import DashboardHeader from './DashboardHeader';
-import Subheader from './Subheader';
+import Subheader from '../Headers/Subheader';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
 import { useIsFocused } from '@react-navigation/native';
 import Overview from './Overview';
 import Rank from './Rank';
 import OVDetail from './OVDetail';
-import PopoutMenu from './PopoutMenu';
-import MyInfoModal from './MyInfoModal';
-import ShareOptionsModal from './ShareOptionsModal';
+import PopoutMenu from '../MainMenu/PopoutMenu';
+import MyInfoModal from '../MainMenu/MyInfoModal';
+import ShareOptionsModal from '../MainMenu/ShareOptionsModal';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -205,16 +205,16 @@ const DashboardScreen = () => {
   }, [isFocused]);
 
   const initialView = {
-    name: Localized('Overview'),
+    name: Localized('OVERVIEW'),
     testID: 'overview-button',
   };
 
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
-    { name: Localized('Overview'), testID: 'overview_button' },
-    { name: Localized('Rank'), testID: 'rank_button' },
-    { name: Localized('OV Detail'), testID: 'ov_detail_button' },
+    { name: Localized('OVERVIEW'), testID: 'overview_button' },
+    { name: Localized('RANK'), testID: 'rank_button' },
+    { name: Localized('OV DETAIL'), testID: 'ov_detail_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -284,13 +284,13 @@ const DashboardScreen = () => {
             height: '100%',
             zIndex: -1,
           }}>
-          {view.name === Localized('Overview') && (
+          {view.name === Localized('OVERVIEW') && (
             <Overview user={mockUser} fadeOut={fadeOut} />
           )}
-          {view.name === Localized('Rank') && (
+          {view.name === Localized('RANK') && (
             <Rank ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
           )}
-          {view.name === Localized('OV Detail') && (
+          {view.name === Localized('OV DETAIL') && (
             <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
           )}
         </ScrollView>

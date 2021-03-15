@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
-import Header from '../../src/components/Header';
+import Header from '../../src/components/Headers';
 import {
   H2Normal,
   ScreenContainer,
@@ -10,7 +10,7 @@ import {
   TertiaryButton,
 } from '../../src/components/Common';
 import DashboardHeader from '../../src/components/DashboardScreen/DashboardHeader';
-import Subheader from '../../src/components/DashboardScreen/Subheader';
+import Subheader from '../../src/components/Headers/Subheader';
 
 storiesOf('Header', module)
   .addDecorator((getStory) => (

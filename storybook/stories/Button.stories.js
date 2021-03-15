@@ -8,7 +8,7 @@ import {
   Flexbox,
   TertiaryButton,
 } from '../../src/components/Common';
-import Subheader from '../../src/components/DashboardScreen/Subheader';
+import Subheader from '../../src/components/Headers/Subheader';
 
 storiesOf('Primary Button', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
