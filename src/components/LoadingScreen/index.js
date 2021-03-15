@@ -1,22 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { PrimaryButton, H1, ScreenContainer } from '../Common';
+import { ScreenContainer } from '../Common';
+import AppContext from '../../Contexts/AppContext';
 
-const LoadingScreen = ({ navigation }) => {
+const LoadingScreen = () => {
+  const { theme } = useContext(AppContext);
   return (
     <ScreenContainer>
-      <ActivityIndicator size="large" color="lightblue" />
-      <H1>Loading...</H1>
-      <PrimaryButton onPress={() => navigation.navigate('Login Screen')}>
-        Go to login screen
-      </PrimaryButton>
+      <ActivityIndicator size="large" color={theme.disabledBackgroundColor} />
     </ScreenContainer>
   );
-};
-
-LoadingScreen.propTypes = {
-  navigation: PropTypes.object,
 };
 
 export default LoadingScreen;

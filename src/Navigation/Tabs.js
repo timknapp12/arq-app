@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image } from 'react-native';
-import HomeStack from './HomeStack';
+import { Image, Platform } from 'react-native';
+import DashboardStack from './DashboardStack';
 import NewsScreen from '../components/NewsScreen';
 import ResourcesScreen from '../components/ResourcesScreen';
 import AppContext from '../Contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
-import business from '../../assets/icons/business.png';
+import dashboard from '../../assets/icons/ic_dashboard.png';
 import resources from '../../assets/icons/resources.png';
 import news from '../../assets/icons/news.png';
 import storybook from '../../assets/icons/storybook.png';
@@ -44,8 +44,8 @@ const Tabs = () => {
         // eslint-disable-next-line react/display-name
         tabBarIcon: () => {
           let source;
-          if (route.name === 'HomeScreen') {
-            source = business;
+          if (route.name === 'DashboardScreen') {
+            source = dashboard;
           } else if (route.name === 'ResourcesScreen') {
             source = resources;
           } else if (route.name === 'NewsScreen') {
@@ -53,7 +53,7 @@ const Tabs = () => {
           } else if (route.name === 'Storybook') {
             source = storybook;
           }
-          return <Image source={source} style={{ width: 20, height: 20 }} />;
+          return <Image source={source} style={{ height: 24 }} />;
         },
       })}
       tabBarOptions={{
@@ -65,29 +65,29 @@ const Tabs = () => {
           bottom: 0,
         },
         tabStyle: {
-          paddingBottom: 20,
+          paddingBottom: Platform.OS === 'ios' ? 20 : 8,
           paddingTop: 8,
         },
         style: { height: 70 },
         labelStyle: {
-          fontFamily: 'Nunito-Black',
+          fontFamily: 'Nunito-Light',
           fontSize: 14,
         },
       }}>
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeStack}
-        options={{ title: Localized('business') }}
+        name="DashboardScreen"
+        component={DashboardStack}
+        options={{ title: Localized('DASHBOARD') }}
       />
       <Tab.Screen
         name="ResourcesScreen"
         component={ResourcesScreen}
-        options={{ title: Localized('resources') }}
+        options={{ title: Localized('RESOURCES') }}
       />
       <Tab.Screen
         name="NewsScreen"
         component={NewsScreen}
-        options={{ title: Localized('news') }}
+        options={{ title: Localized('NEWS') }}
       />
       {/* eslint-disable-next-line no-undef */}
       {__DEV__ && showStorybook && (

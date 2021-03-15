@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
+exports[`snapshots for each screen snapshot for DashboardScreen 1`] = `
 <RCTSafeAreaView
   accessible={true}
   emulateUnlessSupported={true}
@@ -38,7 +38,7 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
         },
       ]
     }
-    testID="home-screen-welcome"
+    testID="dashboard-screen-welcome"
   >
     welcome
   </Text>
@@ -52,9 +52,9 @@ exports[`snapshots for each screen snapshot for HomeScreen 1`] = `
         },
       ]
     }
-    testID="home-screen-title"
+    testID="dashboard-screen-title"
   >
-    Home Screen
+    Dashbaord Screen
   </Text>
   <View
     accessible={true}
@@ -1099,64 +1099,5 @@ exports[`snapshots for each screen snapshot for PasswordRecoveryScreen 1`] = `
       <View />
     </View>
   </View>
-</RCTSafeAreaView>
-`;
-
-exports[`snapshots for each screen snapshot for ProfileScreen 1`] = `
-<RCTSafeAreaView
-  accessible={true}
-  emulateUnlessSupported={true}
-  focusable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    Array [
-      Object {
-        "alignItems": "center",
-        "backgroundColor": "#000000",
-        "flexBasis": 0,
-        "flexGrow": 1,
-        "flexShrink": 1,
-        "height": "100%",
-        "justifyContent": "center",
-        "paddingBottom": 40,
-        "paddingTop": 40,
-        "width": "100%",
-      },
-    ]
-  }
->
-  <Text
-    style={
-      Array [
-        Object {
-          "color": "#ffffff",
-          "fontFamily": "Nunito-Black",
-          "fontSize": 24,
-        },
-      ]
-    }
-  >
-    Profile Screen
-  </Text>
-  <Text
-    style={
-      Array [
-        Object {
-          "color": "#ffffff",
-          "fontFamily": "Nunito-Regular",
-          "fontSize": 18,
-        },
-      ]
-    }
-    testID="profile-screen-description"
-  >
-    Welcome to the Profile Screen
-  </Text>
 </RCTSafeAreaView>
 `;

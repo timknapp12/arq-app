@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { H2 } from './Texts';
+import { H2Bold } from './Texts';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 
 const sharedCss = {
-  width: '100%',
-  height: 40,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: 5,
-  borderWidth: 1,
 };
 
-// LOGIN BUTTON
+// PRIMARY BUTTON
 const ThemedButton = styled.TouchableOpacity`
   ${sharedCss};
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border-width: 1px;
   background-color: ${(props) =>
     props.disabled
       ? props.theme.disabledBackgroundColor
@@ -28,7 +28,7 @@ const ThemedButton = styled.TouchableOpacity`
       : props.theme.activeBackground};
 `;
 
-const ThemedText = styled(H2)`
+const ThemedText = styled(H2Bold)`
   color: ${(props) =>
     props.disabled ? props.theme.disabledTextColor : props.theme.color};
 `;
@@ -41,5 +41,39 @@ export const PrimaryButton = ({ disabled, children, ...props }) => (
 
 PrimaryButton.propTypes = {
   disabled: PropTypes.bool,
+  children: PropTypes.string.isRequired,
+};
+
+// SECONDARY BUTTON
+
+// TERTIARY BUTTON
+
+const ThemedTertiary = styled.TouchableOpacity`
+  ${sharedCss};
+  width: 100px;
+  height: 20px;
+  border-radius: 13.5px;
+  background-color: ${(props) =>
+    props.selected
+      ? props.theme.tertiarySelectedBackgroundColor
+      : props.theme.tertiaryDisabledBackgroundColor};
+`;
+
+const TertiaryText = styled.Text`
+  font-family: 'Nunito-Light';
+  color: ${(props) =>
+    props.selected
+      ? props.theme.tertiarySelectedTextColor
+      : props.theme.tertiaryDisabledTextColor};
+`;
+
+export const TertiaryButton = ({ selected, children, ...props }) => (
+  <ThemedTertiary selected={selected} {...props}>
+    <TertiaryText selected={selected}>{children}</TertiaryText>
+  </ThemedTertiary>
+);
+
+TertiaryButton.propTypes = {
+  selected: PropTypes.bool,
   children: PropTypes.string.isRequired,
 };

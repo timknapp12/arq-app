@@ -1,5 +1,4 @@
 import React from 'react';
-import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 
@@ -7,7 +6,7 @@ import styled from 'styled-components/native';
 
 const sharedCss = {
   flex: 1,
-  paddingTop: 40,
+  paddingTop: 50,
   paddingBottom: 40,
   alignItems: 'center',
   justifyContent: 'center',
@@ -21,11 +20,9 @@ const ThemedScreenContainer = styled.SafeAreaView`
 `;
 
 export const ScreenContainer = ({ children, ...props }) => (
-  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <ThemedScreenContainer accessible={true} {...props}>
-      {children}
-    </ThemedScreenContainer>
-  </TouchableWithoutFeedback>
+  <ThemedScreenContainer accessible={true} {...props}>
+    {children}
+  </ThemedScreenContainer>
 );
 
 ScreenContainer.propTypes = {

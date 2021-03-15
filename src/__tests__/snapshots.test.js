@@ -2,10 +2,9 @@ import React from 'react';
 import { render } from '../Utils/test-utils';
 
 import NewsScreen from '../components/NewsScreen';
-import HomeScreen from '../components/HomeScreen';
+import DashboardScreen from '../components/DashboardScreen';
 import LoadingScreen from '../components/LoadingScreen';
 import LoginScreen from '../components/LoginScreen';
-import ProfileScreen from '../components/ProfileScreen';
 import PasswordRecoveryScreen from '../components/PasswordRecoveryScreen';
 
 describe.skip('snapshots for each screen', () => {
@@ -13,8 +12,8 @@ describe.skip('snapshots for each screen', () => {
     const { toJSON } = render(<NewsScreen />);
     expect(toJSON()).toMatchSnapshot();
   });
-  it('snapshot for HomeScreen', () => {
-    const { toJSON } = render(<HomeScreen />);
+  it('snapshot for DashboardScreen', () => {
+    const { toJSON } = render(<DashboardScreen />);
     expect(toJSON()).toMatchSnapshot();
   });
   it('snapshot for LoadingScreen', () => {
@@ -23,10 +22,6 @@ describe.skip('snapshots for each screen', () => {
   });
   it('snapshot for LoginScreen', () => {
     const { toJSON } = render(<LoginScreen />);
-    expect(toJSON()).toMatchSnapshot();
-  });
-  it('snapshot for ProfileScreen', () => {
-    const { toJSON } = render(<ProfileScreen />);
     expect(toJSON()).toMatchSnapshot();
   });
   it('snapshot for PasswordRecoveryScreen', () => {

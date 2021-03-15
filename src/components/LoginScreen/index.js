@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import PropTypes from 'prop-types';
 import {
   ScreenContainer,
   Flexbox,
@@ -9,17 +8,25 @@ import {
   H6,
   PrimaryButton,
   AlertText,
+  Link,
 } from '../Common';
 import {
   Image,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Linking,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import AppContext from '../../Contexts/AppContext';
-import logo from '../../../assets/q-sciences-logo-white.png';
+import logo from '../../../assets/q-sciences-logo.png';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, init } from '../../Translations/Localized';
+import { ADD_USER } from '../../graphql/Mutations';
+import { useMutation } from '@apollo/client';
+import ErrorModal from '../ErrorModal';
+import LoadingScreen from '../LoadingScreen';
 
 const LoginInstructions = styled(H4)`
   text-align: center;
@@ -27,24 +34,49 @@ const LoginInstructions = styled(H4)`
   margin-bottom: 22px;
 `;
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
   init();
-  const { setIsSignedIn, theme } = useContext(AppContext);
+  const { setIsSignedIn, theme, setUser } = useContext(AppContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  // TODO Replace this with real error handling
   const [isError, setIsError] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const passwordRef = useRef(null);
+  const [addUser, { loading }] = useMutation(ADD_USER, {
+    onCompleted: (data) => {
+      // the backend will give a userId of 0 if the credentials fail
+      if (data.addUser.user.userId === 0) {
+        setIsError(true);
+      } else {
+        setUser(data);
+        setIsError(false);
+        setIsSignedIn(true);
+      }
+    },
+    onError: (error) => {
+      setIsErrorModalOpen(true);
+      setErrorMessage(error);
+    },
+  });
 
   const onNext = () => {
     passwordRef.current.focus();
   };
+
+  // username: ShAmb
+  // password: asdf1234A
   const onSubmit = () => {
     if (isButtonDisabled) {
       return;
     }
-    setIsSignedIn(true);
+    try {
+      addUser({ variables: { usernameIn: username, passwordIn: password } });
+    } catch (e) {
+      setIsError(true);
+    }
+
     Analytics.logEvent('Login_button_tapped', {
       screen: 'Login Screen',
       username: username,
@@ -60,117 +92,161 @@ const LoginScreen = ({ navigation }) => {
       setIsButtonDisabled(true);
     };
   }, [username, password]);
+
+  const onFindOutMore = () => {
+    Linking.openURL('https://qsciences.com');
+    Analytics.logEvent('Find_Out_More_Link_tapped', {
+      screen: 'Login Screen',
+      purpose: 'follow link to find out how to become an ambassador',
+    });
+  };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <ScreenContainer>
-      <Flexbox justify="space-between" height="100%">
-        <KeyboardAvoidingView
-          style={{ flex: 1, width: '100%' }}
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScreenContainer>
+        <Flexbox justify="space-between" height="100%">
+          <KeyboardAvoidingView
+            style={{
+              width: '100%',
+              height: '60%',
+            }}
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            <Flexbox
+              style={{ marginTop: 20 }}
+              accessibilityLabel="Login Form"
+              justify="space-between"
+              height="100%"
+              padding={20}>
+              <Image source={logo} />
+              <LoginInstructions testID="login-instructions">
+                {Localized(
+                  'Log in if you already have a username and password',
+                )}
+              </LoginInstructions>
+
+              <Flexbox style={{ marginBottom: 22 }}>
+                <Input
+                  testID="username-input"
+                  value={username}
+                  onChangeText={(text) => setUsername(text)}
+                  keyboardType="email-address"
+                  placeholder={Localized('Username')}
+                  placeholderTextColor={theme.disabledTextColor}
+                  returnKeyType="next"
+                  onSubmitEditing={onNext}
+                />
+              </Flexbox>
+
+              <Flexbox style={{ marginBottom: 12 }}>
+                <Input
+                  testID="password-input"
+                  value={password}
+                  onChangeText={(text) => setPassword(text)}
+                  ref={passwordRef}
+                  placeholder={Localized('Password')}
+                  placeholderTextColor={theme.disabledTextColor}
+                  textContentType="password"
+                  returnKeyType="go"
+                  onSubmitEditing={onSubmit}
+                />
+              </Flexbox>
+
+              <Flexbox height="60px" style={{ marginBottom: 8 }}>
+                {isError && (
+                  <AlertText
+                    style={{
+                      textAlign: 'center',
+                    }}>
+                    {Localized(
+                      `Sorry, we couldn't log you in. Please re-enter your username and password`,
+                    )}
+                  </AlertText>
+                )}
+                <TouchableOpacity
+                  // TODO integrate password recovery screen
+                  // onPress={() =>
+                  //   navigation.navigate('Password Recovery Screen')
+                  // }
+                  onPress={() =>
+                    Linking.openURL('https://office2.myqsciences.com/#/Login')
+                  }
+                  testID="forgot-password-button">
+                  <H6>{Localized('Forgot password?')}</H6>
+                </TouchableOpacity>
+              </Flexbox>
+
+              <Flexbox width="85%">
+                <PrimaryButton
+                  testID="login-button"
+                  disabled={isButtonDisabled}
+                  style={{ marginTop: 12 }}
+                  onPress={onSubmit}>
+                  {Localized('Log In')}
+                </PrimaryButton>
+              </Flexbox>
+            </Flexbox>
+          </KeyboardAvoidingView>
+
           <Flexbox
-            accessibilityLabel="Login Form"
-            justify="space-between"
-            height="80%"
-            padding={20}>
+            accessibilityLabel="Become an Ambassador"
+            justify="flex-start"
+            padding={20}
+            style={{
+              flex: 1,
+              marginTop: 20,
+            }}>
+            <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
+              {Localized('Interested in becoming a QSciences Ambassador?')}
+            </H6>
             <TouchableOpacity
-              style={{ marginBottom: 10 }}
-              onPress={() => setIsError((state) => !state)}>
-              <AlertText>Toggle Error</AlertText>
+              testID="become-ambassador-link"
+              onPress={onFindOutMore}
+              style={{ marginTop: 12 }}>
+              <Link>{Localized('Find out more')}</Link>
             </TouchableOpacity>
-            <Image source={logo} />
+          </Flexbox>
 
-            <LoginInstructions testID="login-instructions">
-              {Localized('login-instructions')}
-            </LoginInstructions>
-
-            <Flexbox style={{ marginBottom: 22 }}>
-              <Input
-                testID="username-input"
-                value={username}
-                onChangeText={(text) => setUsername(text)}
-                keyboardType="email-address"
-                placeholder={Localized('username')}
-                placeholderTextColor={theme.disabledTextColor}
-                returnKeyType="next"
-                onSubmitEditing={onNext}
-              />
-            </Flexbox>
-
-            <Flexbox style={{ marginBottom: 12 }}>
-              <Input
-                testID="password-input"
-                value={password}
-                onChangeText={(text) => setPassword(text)}
-                ref={passwordRef}
-                placeholder={Localized('password')}
-                placeholderTextColor={theme.disabledTextColor}
-                textContentType="password"
-                returnKeyType="go"
-                onSubmitEditing={onSubmit}
-              />
-            </Flexbox>
-
-            <Flexbox height="60px" style={{ marginBottom: 20 }}>
-              {isError && (
-                <AlertText
-                  style={{
-                    textAlign: 'center',
-                  }}>
-                  {Localized('login-error')}
-                </AlertText>
-              )}
+          <KeyboardAvoidingView
+            style={{
+              width: '100%',
+            }}
+            behavior={Platform.OS == 'ios' ? null : 'height'}>
+            <Flexbox
+              accessibilityLabel="Terms Privacy Data"
+              justify="center"
+              direction="row"
+              padding={14}>
+              <TouchableOpacity testID="terms-button">
+                <H4>{Localized('Terms')}</H4>
+              </TouchableOpacity>
+              <H4 style={{ marginStart: 8 }}>|</H4>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Password Recovery Screen')}
-                testID="forgot-password-button">
-                <H6>{Localized('forgot-password')}</H6>
+                testID="privacy-button"
+                style={{ marginStart: 8 }}>
+                <H4>{Localized('Privacy')}</H4>
+              </TouchableOpacity>
+              <H4 style={{ marginStart: 8 }}>|</H4>
+              <TouchableOpacity testID="data-button" style={{ marginStart: 8 }}>
+                <H4>{Localized('Data')}</H4>
               </TouchableOpacity>
             </Flexbox>
-
-            <Flexbox width="85%">
-              <PrimaryButton
-                testID="login-button"
-                disabled={isButtonDisabled}
-                style={{ marginTop: 12 }}
-                onPress={onSubmit}>
-                {Localized('login-text')}
-              </PrimaryButton>
-            </Flexbox>
-          </Flexbox>
-        </KeyboardAvoidingView>
-
-        <KeyboardAvoidingView
-          style={{
-            width: '100%',
+          </KeyboardAvoidingView>
+        </Flexbox>
+        <ErrorModal
+          visible={isErrorModalOpen}
+          onClose={() => {
+            setErrorMessage('');
+            setIsErrorModalOpen(false);
           }}
-          behavior={Platform.OS == 'ios' ? null : 'height'}>
-          <Flexbox
-            accessibilityLabel="Terms Privacy Data"
-            justify="center"
-            direction="row"
-            padding={14}>
-            <TouchableOpacity
-              onPress={() => console.log('tapped terms')}
-              testID="terms-button">
-              <H4>{Localized('terms')}</H4>
-            </TouchableOpacity>
-            <H4 style={{ marginStart: 8 }}>|</H4>
-            <TouchableOpacity
-              testID="privacy-button"
-              style={{ marginStart: 8 }}>
-              <H4>{Localized('privacy')}</H4>
-            </TouchableOpacity>
-            <H4 style={{ marginStart: 8 }}>|</H4>
-            <TouchableOpacity testID="data-button" style={{ marginStart: 8 }}>
-              <H4>{Localized('data')}</H4>
-            </TouchableOpacity>
-          </Flexbox>
-        </KeyboardAvoidingView>
-      </Flexbox>
-    </ScreenContainer>
+          errorMessage={errorMessage}
+        />
+      </ScreenContainer>
+    </TouchableWithoutFeedback>
   );
-};
-
-LoginScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
 };
 
 export default LoginScreen;

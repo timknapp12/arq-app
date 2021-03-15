@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScreenContainer, H2, H4 } from '../Common';
+import { ScreenContainer, H2Bold, H4 } from '../Common';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 
@@ -15,7 +15,7 @@ const ResourcesScreen = () => {
   }, [isFocused]);
   return (
     <ScreenContainer>
-      <H2>Resources Screen</H2>
+      <H2Bold>Resources Screen</H2Bold>
       <H4 testID="resources-screen-description">
         Welcome to the Resources Screen
       </H4>

@@ -12,6 +12,8 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './src/graphql/Client';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -24,28 +26,39 @@ i18n.fallbacks = true;
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [user, setUser] = useState(null);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
     'Nunito-Black': require('./assets/fonts/Nunito/Nunito-Black.ttf'),
     'Nunito-Regular': require('./assets/fonts/Nunito/Nunito-Regular.ttf'),
+    'Nunito-Light': require('./assets/fonts/Nunito/Nunito-Light.ttf'),
   });
 
   if (!loaded) {
     return <AppLoading />;
   }
   return (
-    <ThemeProvider theme={theme}>
-      <AppContext.Provider value={{ theme, setTheme, setIsSignedIn }}>
-        <StatusBar
-          backgroundColor={theme.backgroundColor}
-          style={theme.statusBar}
-        />
-        <NavigationContainer>
-          {isSignedIn ? <Tabs /> : <LoginStack />}
-        </NavigationContainer>
-      </AppContext.Provider>
-    </ThemeProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <AppContext.Provider
+          value={{
+            theme,
+            setTheme,
+            setIsSignedIn,
+            user,
+            setUser,
+          }}>
+          <StatusBar
+            backgroundColor={theme.backgroundColor}
+            style={theme.statusBar}
+          />
+          <NavigationContainer>
+            {isSignedIn ? <Tabs /> : <LoginStack />}
+          </NavigationContainer>
+        </AppContext.Provider>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 };
 
