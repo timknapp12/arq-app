@@ -60,7 +60,7 @@ const ThemedTertiary = styled.TouchableOpacity`
 `;
 
 const TertiaryText = styled.Text`
-  font-family: 'Nunito-Black';
+  font-family: 'Nunito-Light';
   color: ${(props) =>
     props.selected
       ? props.theme.tertiarySelectedTextColor

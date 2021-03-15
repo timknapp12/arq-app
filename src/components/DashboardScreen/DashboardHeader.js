@@ -2,13 +2,7 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Header from '../Headers';
-import {
-  H2Normal,
-  Flexbox,
-  SmallQIcon,
-  BellIcon,
-  AccountIcon,
-} from '../Common';
+import { H3Bold, Flexbox, SmallQIcon, BellIcon, AccountIcon } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
 
 const DashboardHeader = ({ badgeValue, fadeIn, fadeOut, isMenuOpen }) => {
@@ -25,7 +19,7 @@ const DashboardHeader = ({ badgeValue, fadeIn, fadeOut, isMenuOpen }) => {
       <Flexbox width="60px" align="flex-start">
         <SmallQIcon />
       </Flexbox>
-      <H2Normal>{Localized('Dashboard')}</H2Normal>
+      <H3Bold>{Localized('DASHBOARD')}</H3Bold>
       <Flexbox width="60px" direction="row">
         <BellIcon badgeValue={badgeValue} />
         <TouchableOpacity

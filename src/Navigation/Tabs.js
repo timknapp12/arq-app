@@ -70,24 +70,24 @@ const Tabs = () => {
         },
         style: { height: 70 },
         labelStyle: {
-          fontFamily: 'Nunito-Black',
+          fontFamily: 'Nunito-Light',
           fontSize: 14,
         },
       }}>
       <Tab.Screen
         name="DashboardScreen"
         component={DashboardStack}
-        options={{ title: Localized('Dashboard') }}
+        options={{ title: Localized('DASHBOARD') }}
       />
       <Tab.Screen
         name="ResourcesScreen"
         component={ResourcesScreen}
-        options={{ title: Localized('Resources') }}
+        options={{ title: Localized('RESOURCES') }}
       />
       <Tab.Screen
         name="NewsScreen"
         component={NewsScreen}
-        options={{ title: Localized('News') }}
+        options={{ title: Localized('NEWS') }}
       />
       {/* eslint-disable-next-line no-undef */}
       {__DEV__ && showStorybook && (

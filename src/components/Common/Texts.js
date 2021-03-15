@@ -30,6 +30,13 @@ export const H3 = styled.Text`
   color: ${(props) => props.theme.color};
 `;
 
+export const H3Bold = styled.Text`
+  font-family: 'Nunito-Black';
+  letter-spacing: 1.51px;
+  font-size: 21px;
+  color: ${(props) => props.theme.color};
+`;
+
 export const H4 = styled.Text`
   font-family: 'Nunito-Regular';
   font-size: 18px;
