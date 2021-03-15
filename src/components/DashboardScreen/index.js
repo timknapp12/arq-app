@@ -22,9 +22,9 @@ const mockUser = {
   lastMonthPA: 1,
   thisMonthPA: 2,
   thisMonthCV: 256,
-  leg1OV: 1992193,
-  leg2OV: 156931,
-  leg3OV: 75607,
+  leg1OV: 1190000,
+  leg2OV: 115500,
+  leg3OV: 115500,
   currentRank: {
     legMaxPerc: 40,
     legMaxOV: 140000,

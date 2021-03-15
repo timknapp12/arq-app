@@ -5,22 +5,21 @@ import { v4 as uuidv4 } from 'uuid';
 const calculatePercentage = (numerator = 0, denominator = 1) =>
   Math.round((numerator / denominator) * 100);
 
-export const saveProfileImageToFirebase = async (
-  user,
-  //   photoUrl,
-  handleChange,
-  oldImageName = '',
-) => {
-  let imageName = `${user?.firstName}.${user?.lastName}.${uuidv4()}`;
+export const saveProfileImageToFirebase = async (user, handleChange) => {
   const refToBeDeleted = firebase
     .storage()
     .ref()
-    .child(`profile_images/${oldImageName}`);
+    .child(`profile_images/${user.image.imageName}`);
+
+  let newImageName = `${user?.firstName}.${user?.lastName}.${uuidv4()}`;
   try {
     // eslint-disable-next-line no-undef
-    const response = await fetch(user.photoUrl);
+    const response = await fetch(user.image.url);
     const blob = await response.blob();
-    const ref = firebase.storage().ref().child(`profile_images/${imageName}`);
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(`profile_images/${newImageName}`);
     const uploadTask = ref.put(blob);
     uploadTask.on(
       'state_changed',
@@ -41,8 +40,12 @@ export const saveProfileImageToFirebase = async (
         // Handle successful uploads on complete
         uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
           const newUrl = downloadUrl;
-          console.log('newUrl', newUrl);
-          return handleChange('photoUrl', newUrl);
+          // console.log('newUrl', newUrl);
+          // console.log('newImageName *********', newImageName);
+          return handleChange('image', {
+            url: newUrl,
+            imageName: newImageName,
+          });
         });
       },
     );
