@@ -22,7 +22,7 @@ import {
 import AppContext from '../../Contexts/AppContext';
 import logo from '../../../assets/q-sciences-logo.png';
 import * as Analytics from 'expo-firebase-analytics';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 import { ADD_USER } from '../../graphql/Mutations';
 import { useMutation } from '@apollo/client';
 import ErrorModal from '../ErrorModal';
@@ -35,7 +35,7 @@ const LoginInstructions = styled(H4)`
 `;
 
 const LoginScreen = () => {
-  init();
+  initLanguage();
   const { setIsSignedIn, theme, setUser } = useContext(AppContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

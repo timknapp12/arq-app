@@ -11,7 +11,7 @@ import dashboard from '../../assets/icons/ic_dashboard.png';
 import resources from '../../assets/icons/resources.png';
 import news from '../../assets/icons/news.png';
 import storybook from '../../assets/icons/storybook.png';
-import { Localized, init } from '../Translations/Localized';
+import { Localized, initLanguage } from '../Translations/Localized';
 import StorybookUI from '../../storybook/';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
@@ -28,7 +28,7 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   const [showStorybook] = useState(true);
-  init();
+  initLanguage();
   const { theme } = useContext(AppContext);
   return (
     <Tab.Navigator

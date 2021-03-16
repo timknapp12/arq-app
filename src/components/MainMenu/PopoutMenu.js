@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Animated } from 'react-native';
 import { H4 } from '../Common';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 import AppContext from '../../Contexts/AppContext';
 
 const SideMenu = styled.View`
@@ -23,7 +23,7 @@ const PopoutMenu = ({
   setIsMyInfoModalOpen,
   setIsShareOptionsModalOpen,
 }) => {
-  init();
+  initLanguage();
   const { setIsSignedIn } = useContext(AppContext);
   return (
     <AnimatedMenu style={{ right: fadeAnim }}>

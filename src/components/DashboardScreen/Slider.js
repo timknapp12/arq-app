@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { H4Bold, H6Secodnary, Flexbox } from '../Common';
 import CustomSlider from './CustomSlider';
 import { findRankName, findRankObject } from '../../Utils/findRankInSlider';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 
 const { width } = Dimensions.get('window');
 const sliderWidth = width - 40;
@@ -17,7 +17,7 @@ const Slider = ({
   ranklist,
   isQualified,
 }) => {
-  init();
+  initLanguage();
 
   const maximumValue = ranklist.length - 1;
 

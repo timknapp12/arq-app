@@ -9,7 +9,6 @@ import {
   red,
   veryLightGray,
   lightblue,
-  lightPink,
   transparentGray,
 } from './colors';
 
@@ -29,7 +28,7 @@ export const lightTheme = {
   error: red,
   headerBackgroundColor: blue,
   tertiarySelectedTextColor: blue,
-  tertiarySelectedBackgroundColor: lightPink,
+  tertiarySelectedBackgroundColor: white,
   tertiaryDisabledTextColor: blue,
   tertiaryDisabledBackgroundColor: lightblue,
   modalBackgroundColor: transparentGray,

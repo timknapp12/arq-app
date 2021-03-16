@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Flexbox, H4Secondary, CloseIcon, H2Normal } from '../Common';
 import { Modal, TouchableOpacity } from 'react-native';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 
 const Container = styled.View`
   width: 100%;
@@ -21,7 +21,7 @@ const Inner = styled.View`
 `;
 
 const ErrorModal = ({ visible, onClose, errorMessage = '' }) => {
-  init();
+  initLanguage();
   return (
     <Modal
       animationType="fade"

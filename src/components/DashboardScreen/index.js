@@ -4,7 +4,7 @@ import { Flexbox, ScreenContainer, TertiaryButton } from '../Common';
 import DashboardHeader from './DashboardHeader';
 import Subheader from '../Headers/Subheader';
 import * as Analytics from 'expo-firebase-analytics';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 import { useIsFocused } from '@react-navigation/native';
 import Overview from './Overview';
 import Rank from './Rank';
@@ -37,7 +37,7 @@ const mockUser = {
 };
 
 const DashboardScreen = () => {
-  init();
+  initLanguage();
   const ranklist = [
     {
       legMaxPerc: 0,

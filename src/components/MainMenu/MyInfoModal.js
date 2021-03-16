@@ -24,7 +24,7 @@ import {
 } from '../Common';
 import Header from '../Headers';
 import Subheader from '../Headers/Subheader';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 import * as Localization from 'expo-localization';
 // source for files for different languages https://stefangabos.github.io/world_countries/
 import enCountires from '../../Translations/countries/en-countries.json';
@@ -68,7 +68,7 @@ const Input = styled.TextInput`
 `;
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
-  init();
+  initLanguage();
   const initialState = {
     image: {
       imageName: 'Sloane.Taylor.34903f19-d0c7-41b6-b4d2-2eed0ad1ef6c',

@@ -7,7 +7,7 @@ import { ScreenContainer, Flexbox, Input, H4, PrimaryButton } from '../Common';
 import AppContext from '../../Contexts/AppContext';
 import logo from '../../../assets/q-sciences-logo.png';
 import * as Analytics from 'expo-firebase-analytics';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 
 const RecoverPasswordInstructions = styled(H4)`
   text-align: center;
@@ -16,7 +16,7 @@ const RecoverPasswordInstructions = styled(H4)`
 `;
 
 const PasswordRecoveryScreen = ({ navigation }) => {
-  init();
+  initLanguage();
   const { theme } = useContext(AppContext);
   const [email, setEmail] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
