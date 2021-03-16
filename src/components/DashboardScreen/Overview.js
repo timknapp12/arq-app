@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { View, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { H4Bold, Flexbox, H4Secondary } from '../Common';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 import Donut from './Donut';
-import { cyan, redOrange, lightGreen } from '../../Styles/colors';
+import {
+  donut1PrimaryColor,
+  donut2PrimaryColor,
+  donut3PrimaryColor,
+} from '../../Styles/colors';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 const Overview = ({ user, fadeOut }) => {
-  init();
+  initLanguage();
   const { thisMonthPV, OV, thisMonthCV } = user;
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
@@ -39,7 +43,7 @@ const Overview = ({ user, fadeOut }) => {
               testID="pv-donut-svg"
               percentage={thisMonthPV}
               max={thisMonthPV}
-              color={cyan}
+              color={donut1PrimaryColor}
             />
           </Flexbox>
 
@@ -49,7 +53,7 @@ const Overview = ({ user, fadeOut }) => {
               testID="cv-donut-svg"
               percentage={thisMonthCV}
               max={thisMonthCV}
-              color={redOrange}
+              color={donut2PrimaryColor}
             />
           </Flexbox>
         </Flexbox>
@@ -60,7 +64,7 @@ const Overview = ({ user, fadeOut }) => {
             testID="ov-donut-svg"
             percentage={OV}
             max={OV}
-            color={lightGreen}
+            color={donut3PrimaryColor}
           />
         </Flexbox>
       </Flexbox>

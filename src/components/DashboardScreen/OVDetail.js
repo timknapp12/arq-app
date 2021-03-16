@@ -9,10 +9,14 @@ import {
   QualifiedIcon,
   NotQualifiedIcon,
 } from '../Common';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../Translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
-import { cyan, redOrange, lightGreen } from '../../Styles/colors';
+import {
+  donut1PrimaryColor,
+  donut2PrimaryColor,
+  donut3PrimaryColor,
+} from '../../Styles/colors';
 import { calculateLegPercentages } from '../../Utils/calculateLegPercentages';
 
 const TitleContainer = styled.View`
@@ -26,7 +30,7 @@ const ChartTitle = styled(H4Bold)`
 `;
 
 const OVDetail = ({ ranklist, fadeOut, user }) => {
-  init();
+  initLanguage();
   const initialRankName = user?.currentRank.name;
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.currentRank;
@@ -96,7 +100,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
               // Ternary as a safety check, in case the calculations for % are wrong -
               // the circle should always be full if the user is qualified for any certain level
               max={isQualified ? user.leg1OV : maxQOV.leg1Max}
-              color={cyan}
+              color={donut1PrimaryColor}
             />
           </Flexbox>
 
@@ -115,7 +119,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
               testID="leg-two-donut-svg"
               percentage={user.leg2OV}
               max={isQualified ? user.leg2OV : maxQOV.leg2Max}
-              color={redOrange}
+              color={donut2PrimaryColor}
             />
           </Flexbox>
         </Flexbox>
@@ -135,7 +139,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
             testID="leg-three-donut-svg"
             percentage={user.leg3OV}
             max={isQualified ? user.leg3OV : maxQOV.leg3Max}
-            color={lightGreen}
+            color={donut3PrimaryColor}
           />
         </Flexbox>
       </Flexbox>
