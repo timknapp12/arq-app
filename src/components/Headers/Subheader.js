@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 const Container = styled.View`
   width: 100%;
-  height: 30px;
+  height: ${(props) => props.height};
   flex-direction: row;
   align-items: center;
   justify-content: ${(props) =>
@@ -13,9 +13,9 @@ const Container = styled.View`
   background-color: ${(props) => props.theme.inactiveBackground};
 `;
 
-const Subheader = ({ children, justify, ...props }) => {
+const Subheader = ({ children, justify, height = '35px', ...props }) => {
   return (
-    <Container {...props} justify={justify}>
+    <Container {...props} justify={justify} height={height}>
       {children}
     </Container>
   );
@@ -24,6 +24,7 @@ const Subheader = ({ children, justify, ...props }) => {
 Subheader.propTypes = {
   children: PropTypes.node,
   justify: PropTypes.string,
+  height: PropTypes.string,
 };
 
 export default Subheader;

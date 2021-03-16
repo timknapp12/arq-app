@@ -259,7 +259,7 @@ const DashboardScreen = () => {
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
         />
-        <Subheader>
+        <Subheader height="30px">
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
               onPress={() => navigate(item)}
