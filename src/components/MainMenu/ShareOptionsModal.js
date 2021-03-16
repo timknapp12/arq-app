@@ -18,6 +18,8 @@ import {
   H4Secondary,
   H4BoldSecondary,
   Switch,
+  EditIcon,
+  DeleteIcon,
 } from '../Common';
 import Header from '../Headers';
 import Subheader from '../Headers/Subheader';
@@ -38,12 +40,24 @@ const SwitchContainer = styled.View`
 const SocialContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
-  /* height: 40px; */
+  margin-bottom: 4px;
   padding: 10px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.inactiveBackground};
+`;
+
+const SocialTitleContainer = styled.View`
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const EditIconContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 40px;
 `;
 
 const ShareOptionsModal = ({
@@ -116,8 +130,48 @@ const ShareOptionsModal = ({
               padding={10}
               accessibilityLabel="social display information">
               <SocialContainer>
-                <H4Bold>Facebook</H4Bold>
-                <H4Bold>sloane</H4Bold>
+                <SocialTitleContainer>
+                  <H4Secondary>Facebook</H4Secondary>
+                  <H4Bold>sloane</H4Bold>
+                </SocialTitleContainer>
+                <EditIconContainer>
+                  <TouchableOpacity>
+                    <DeleteIcon />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <EditIcon />
+                  </TouchableOpacity>
+                </EditIconContainer>
+              </SocialContainer>
+
+              <SocialContainer>
+                <SocialTitleContainer>
+                  <H4Secondary>Twitter</H4Secondary>
+                  <H4Bold>sloane</H4Bold>
+                </SocialTitleContainer>
+                <EditIconContainer>
+                  <TouchableOpacity>
+                    <DeleteIcon />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <EditIcon />
+                  </TouchableOpacity>
+                </EditIconContainer>
+              </SocialContainer>
+
+              <SocialContainer>
+                <SocialTitleContainer>
+                  <H4Secondary>Instagram</H4Secondary>
+                  <H4Bold>sloane</H4Bold>
+                </SocialTitleContainer>
+                <EditIconContainer>
+                  <TouchableOpacity>
+                    <DeleteIcon />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <EditIcon />
+                  </TouchableOpacity>
+                </EditIconContainer>
               </SocialContainer>
             </Flexbox>
           </Flexbox>
