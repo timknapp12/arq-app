@@ -19,6 +19,7 @@ export const H2Bold = styled.Text`
   font-size: 24px;
   color: ${(props) => props.theme.color};
 `;
+
 export const H2Normal = styled.Text`
   font-family: 'Nunito-Regular';
   font-size: 24px;

@@ -20,7 +20,7 @@ const Inner = styled.View`
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
-const ErrorModal = ({ visible, onClose, errorMessage = '' }) => {
+const ErrorModal = ({ visible, onClose, errorMessage }) => {
   initLanguage();
   return (
     <Modal
@@ -53,7 +53,7 @@ const ErrorModal = ({ visible, onClose, errorMessage = '' }) => {
 ErrorModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string,
+  errorMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default ErrorModal;

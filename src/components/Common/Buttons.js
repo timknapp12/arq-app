@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Switch as NativeSwitch } from 'react-native';
-import { H2Bold } from './Texts';
 import AppContext from '../../Contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -30,7 +29,9 @@ const ThemedButton = styled.TouchableOpacity`
       : props.theme.activeBackground};
 `;
 
-const ThemedText = styled(H2Bold)`
+const ThemedText = styled.Text`
+  font-family: 'Nunito-Light';
+  font-size: 24px;
   color: ${(props) =>
     props.disabled ? props.theme.disabledTextColor : props.theme.color};
 `;

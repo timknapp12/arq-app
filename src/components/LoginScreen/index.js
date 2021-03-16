@@ -60,7 +60,6 @@ const LoginScreen = () => {
       setErrorMessage(error);
     },
   });
-
   const onNext = () => {
     passwordRef.current.focus();
   };
@@ -185,7 +184,7 @@ const LoginScreen = () => {
                   disabled={isButtonDisabled}
                   style={{ marginTop: 12 }}
                   onPress={onSubmit}>
-                  {Localized('Log In')}
+                  {Localized('LOG IN')}
                 </PrimaryButton>
               </Flexbox>
             </Flexbox>
