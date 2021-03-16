@@ -33,6 +33,10 @@ export const lightTheme = {
   tertiaryDisabledTextColor: blue,
   tertiaryDisabledBackgroundColor: lightblue,
   modalBackgroundColor: transparentGray,
+  activeSwitchBackground: '#006699',
+  inactiveSwitchBackground: darkgray,
+  activeSwitchThumb: '#8DB600',
+  inactiveSwitchThumb: gray,
   statusBar: 'dark',
 };
 
@@ -55,5 +59,9 @@ export const darkTheme = {
   tertiaryDisabledTextColor: veryLightGray,
   tertiaryDisabledBackgroundColor: lightblue,
   modalBackgroundColor: transparentGray,
+  activeSwitchBackground: blue,
+  inactiveSwitchBackground: darkgray,
+  activeSwitchThumb: '#8DB600',
+  inactiveSwitchThumb: gray,
   statusBar: 'light',
 };
