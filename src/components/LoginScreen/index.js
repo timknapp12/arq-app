@@ -200,7 +200,7 @@ const LoginScreen = () => {
               marginTop: 20,
             }}>
             <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
-              {Localized('Interested in becoming a QSciences Ambassador?')}
+              {Localized('Interested in becoming a Q Sciences Ambassador?')}
             </H6>
             <TouchableOpacity
               testID="become-ambassador-link"
