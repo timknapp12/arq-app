@@ -12,7 +12,7 @@ import {
 import { Localized, init } from '../../Translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
-import { cyan, redOrange, pantone } from '../../Styles/colors';
+import { cyan, redOrange, lightGreen } from '../../Styles/colors';
 import { calculateLegPercentages } from '../../Utils/calculateLegPercentages';
 
 const TitleContainer = styled.View`
@@ -135,7 +135,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
             testID="leg-three-donut-svg"
             percentage={user.leg3OV}
             max={isQualified ? user.leg3OV : maxQOV.leg3Max}
-            color={pantone}
+            color={lightGreen}
           />
         </Flexbox>
       </Flexbox>

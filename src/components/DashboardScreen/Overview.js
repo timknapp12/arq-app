@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { H4Bold, Flexbox, H4Secondary } from '../Common';
 import { Localized, init } from '../../Translations/Localized';
 import Donut from './Donut';
-import { cyan, redOrange, pantone } from '../../Styles/colors';
+import { cyan, redOrange, lightGreen } from '../../Styles/colors';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};
@@ -60,7 +60,7 @@ const Overview = ({ user, fadeOut }) => {
             testID="ov-donut-svg"
             percentage={OV}
             max={OV}
-            color={pantone}
+            color={lightGreen}
           />
         </Flexbox>
       </Flexbox>

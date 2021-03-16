@@ -44,7 +44,7 @@ export const redOrange = '#E8927C';
 export const lightPink = '#F1BDB0';
 
 // donut chart
-export const pantone = '#CDEA80';
+export const lightGreen = '#CDEA80';
 
 // donut chart
 export const riceFlower = '#EBF3D4';

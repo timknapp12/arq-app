@@ -9,7 +9,7 @@ import Slider from './Slider';
 import {
   cyan,
   redOrange,
-  pantone,
+  lightGreen,
   lightCyan,
   lightPink,
   riceFlower,
@@ -185,7 +185,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             testID="personally-enrolled-donut-svg"
             outerpercentage={rank.id === 0 ? 100 : thisMonthPAPerc}
             outermax={100}
-            outercolor={pantone}
+            outercolor={lightGreen}
             innerpercentage={rank.id === 0 ? 100 : lastMonthPAPerc}
             innermax={100}
             innercolor={riceFlower}
@@ -193,7 +193,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           />
           <LegendContainer>
             <Legend>
-              <Square squareFill={pantone} />
+              <Square squareFill={lightGreen} />
               <H5Secondary testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
                 'of',
               )} ${rank?.requiredPA}`}</H5Secondary>
