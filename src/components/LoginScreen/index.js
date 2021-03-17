@@ -57,8 +57,7 @@ const LoginScreen = () => {
   const [isError, setIsError] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [saveUsername, setSaveUsername] = useState(false);
-  const [storedUsername, setStoredUsername] = useState('');
+  const [saveUsername, setSaveUsername] = useState(true);
   const passwordRef = useRef(null);
   const [addUser, { loading }] = useMutation(ADD_USER, {
     onCompleted: (data) => {
@@ -91,7 +90,8 @@ const LoginScreen = () => {
     } catch (e) {
       setIsError(true);
     }
-
+    storeUsername();
+    storeSaveUsernamePreference();
     Analytics.logEvent('Login_button_tapped', {
       screen: 'Login Screen',
       username: username,
@@ -117,37 +117,56 @@ const LoginScreen = () => {
   };
 
   // if user selects checkbox than save username to input value, otherwise save as empty string
-  const storeUsername = async (value) => {
+  // source for async storage: https://react-native-async-storage.github.io/async-storage/docs/usage/
+  const storeUsername = async () => {
+    let value = saveUsername ? username : '';
     try {
-      console.log('storage is setting');
-      await AsyncStorage.setItem('@username_key', value);
+      await AsyncStorage.setItem('@stored_username', value);
     } catch (error) {
-      console.log(`error saving to storage:`, error);
+      console.log(`error`, error);
+    }
+  };
+
+  const getStoredUsername = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@stored_username');
+      if (value !== null) {
+        return setUsername(value);
+      }
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  // save to local storage the user preference for saving username
+  const storeSaveUsernamePreference = async () => {
+    let value = saveUsername ? true : false;
+    try {
+      await AsyncStorage.setItem(
+        '@stored_username_preference',
+        JSON.stringify(value),
+      );
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const getSaveUsernamePreference = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@stored_username_preference');
+      const jsonValue = JSON.parse(value);
+      if (value !== null) {
+        return setSaveUsername(jsonValue);
+      }
+    } catch (error) {
+      console.log(`error`, error);
     }
   };
 
   useEffect(() => {
-    if (saveUsername) {
-      storeUsername(username);
-    } else {
-      storeUsername('');
-    }
-  }, [saveUsername, username]);
-
-  const getUsername = async () => {
-    try {
-      const result = await AsyncStorage.getItem('@username_key');
-      return setStoredUsername(result);
-    } catch (error) {
-      console.log(`error in getting storage:`, error);
-    }
-  };
-
-  useEffect(() => {
-    let result = getUsername();
-    console.log(`result`, result);
+    getStoredUsername();
+    getSaveUsernamePreference();
   }, []);
-  console.log(`storedUsername`, storedUsername);
 
   if (loading) {
     return <LoadingScreen />;
