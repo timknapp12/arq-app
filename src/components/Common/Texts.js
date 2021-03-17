@@ -86,6 +86,12 @@ export const H6Secodnary = styled.Text`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
+export const Checkmark = styled.Text`
+  font-family: 'Nunito-Black';
+  font-size: 12px;
+  color: ${(props) => props.theme.color};
+`;
+
 export const AlertText = styled.Text`
   font-family: 'Roboto-Regular';
   font-size: 14px;
