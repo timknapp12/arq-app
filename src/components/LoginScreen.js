@@ -10,7 +10,7 @@ import {
   AlertText,
   Link,
   Checkmark,
-} from '../Common';
+} from './Common';
 import {
   Image,
   TouchableOpacity,
@@ -20,14 +20,14 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import AppContext from '../../Contexts/AppContext';
-import logo from '../../../assets/q-science-stacked-logo-white.png';
+import AppContext from '../Contexts/AppContext';
+import logo from '../../assets/q-science-stacked-logo-white.png';
 import * as Analytics from 'expo-firebase-analytics';
-import { Localized, initLanguage } from '../../Translations/Localized';
-import { ADD_USER } from '../../graphql/Mutations';
+import { Localized, initLanguage } from '../Translations/Localized';
+import { ADD_USER } from '../graphql/Mutations';
 import { useMutation } from '@apollo/client';
-import ErrorModal from '../ErrorModal';
-import LoadingScreen from '../LoadingScreen';
+import ErrorModal from './ErrorModal';
+import LoadingScreen from './LoadingScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginInstructions = styled(H4)`

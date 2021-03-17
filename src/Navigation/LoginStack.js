@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoadingScreen from '../components/LoadingScreen';
 import LoginScreen from '../components/LoginScreen';
 import PasswordRecoveryScreen from '../components/PasswordRecoveryScreen';
 import { white, blue } from '../Styles/colors';
@@ -39,7 +38,6 @@ const LoginStack = () => {
           },
         }}
       />
-      <Login.Screen name="Loading Screen" component={LoadingScreen} />
     </Login.Navigator>
   );
 };
