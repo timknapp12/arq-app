@@ -28,6 +28,7 @@ import { ADD_USER } from '../../graphql/Mutations';
 import { useMutation } from '@apollo/client';
 import ErrorModal from '../ErrorModal';
 import LoadingScreen from '../LoadingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginInstructions = styled(H4)`
   text-align: center;
@@ -57,6 +58,7 @@ const LoginScreen = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [saveUsername, setSaveUsername] = useState(false);
+  const [storedUsername, setStoredUsername] = useState('');
   const passwordRef = useRef(null);
   const [addUser, { loading }] = useMutation(ADD_USER, {
     onCompleted: (data) => {
@@ -113,6 +115,39 @@ const LoginScreen = () => {
       purpose: 'follow link to find out how to become an ambassador',
     });
   };
+
+  // if user selects checkbox than save username to input value, otherwise save as empty string
+  const storeUsername = async (value) => {
+    try {
+      console.log('storage is setting');
+      await AsyncStorage.setItem('@username_key', value);
+    } catch (error) {
+      console.log(`error saving to storage:`, error);
+    }
+  };
+
+  useEffect(() => {
+    if (saveUsername) {
+      storeUsername(username);
+    } else {
+      storeUsername('');
+    }
+  }, [saveUsername, username]);
+
+  const getUsername = async () => {
+    try {
+      const result = await AsyncStorage.getItem('@username_key');
+      return setStoredUsername(result);
+    } catch (error) {
+      console.log(`error in getting storage:`, error);
+    }
+  };
+
+  useEffect(() => {
+    let result = getUsername();
+    console.log(`result`, result);
+  }, []);
+  console.log(`storedUsername`, storedUsername);
 
   if (loading) {
     return <LoadingScreen />;

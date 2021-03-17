@@ -11,7 +11,6 @@ import Rank from './Rank';
 import OVDetail from './OVDetail';
 import PopoutMenu from '../MainMenu/PopoutMenu';
 import MyInfoModal from '../MainMenu/MyInfoModal';
-import ShareOptionsModal from '../MainMenu/ShareOptionsModal';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -247,7 +246,6 @@ const DashboardScreen = () => {
   };
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
-  const [isShareOptionsModalOpen, setIsShareOptionsModalOpen] = useState(false);
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
@@ -275,7 +273,6 @@ const DashboardScreen = () => {
             isMenuOpen={isMenuOpen}
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            setIsShareOptionsModalOpen={setIsShareOptionsModalOpen}
           />
         </Flexbox>
         <ScrollView
@@ -298,12 +295,6 @@ const DashboardScreen = () => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-          />
-        )}
-        {isShareOptionsModalOpen && (
-          <ShareOptionsModal
-            isShareOptionsModalOpen={isShareOptionsModalOpen}
-            setIsShareOptionsModalOpen={setIsShareOptionsModalOpen}
           />
         )}
       </ScreenContainer>
