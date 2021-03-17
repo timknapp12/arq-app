@@ -26,7 +26,7 @@ i18n.fallbacks = true;
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
