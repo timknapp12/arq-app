@@ -27,6 +27,7 @@ const ErrorModal = ({ visible, onClose, errorMessage }) => {
       animationType="fade"
       transparent={true}
       visible={visible}
+      statusBarTranslucent={true}
       onRequestClose={onClose}>
       <Container>
         <Inner>

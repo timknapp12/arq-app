@@ -149,6 +149,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       animationType="slide"
       transparent={true}
       visible={isMyInfoModalOpen}
+      statusBarTranslucent={true}
       onRequestClose={() => setIsMyInfoModalOpen(false)}>
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
