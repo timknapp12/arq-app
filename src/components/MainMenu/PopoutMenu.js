@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Animated } from 'react-native';
+import { Animated } from 'react-native';
+// using the standard "TouchableOpacity" from react native didn't work on android with buttons inside a position: absolute view
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
@@ -23,6 +25,7 @@ const PopoutMenu = ({ fadeAnim, fadeOut, setIsMyInfoModalOpen }) => {
   return (
     <AnimatedMenu style={{ right: fadeAnim }}>
       <TouchableOpacity
+        style={{ zIndex: 4 }}
         onPress={() => {
           fadeOut();
           setIsMyInfoModalOpen(true);
