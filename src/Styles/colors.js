@@ -25,12 +25,6 @@ export const lightblue = '#7692B8';
 // highlight for focused input
 export const darkblue = '#2196F3';
 
-// donut chart
-export const cyan = '#63B1BC';
-
-// donut chart
-export const lightCyan = '#D0E7EB';
-
 // error message
 export const red = '#FF0000';
 
@@ -38,13 +32,19 @@ export const red = '#FF0000';
 export const darkRed = '#993300';
 
 // donut chart
-export const redOrange = '#E8927C';
+export const donut1PrimaryColor = '#63B1BC';
 
 // donut chart
-export const lightPink = '#F1BDB0';
+export const donut1SecondaryColor = '#D0E7EB';
 
 // donut chart
-export const pantone = '#CDEA80';
+export const donut2PrimaryColor = '#E8927C';
 
 // donut chart
-export const riceFlower = '#EBF3D4';
+export const donut2SecondaryColor = '#F1BDB0';
+
+// donut chart
+export const donut3PrimaryColor = '#CDEA80';
+
+// donut chart
+export const donut3SecondaryColor = '#EBF3D4';

@@ -1,7 +1,4 @@
-import {
-  calculateLegPercentages,
-  reshapePerc,
-} from '../Utils/calculateLegPercentages';
+import { calculateLegPercentages, reshapePerc } from '.';
 
 const emeraldRequiremments = {
   legMaxPerc: 40,

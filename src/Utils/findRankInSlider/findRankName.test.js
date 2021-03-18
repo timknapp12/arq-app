@@ -1,4 +1,4 @@
-import { findRankName } from '../Utils/findRankInSlider';
+import { findRankName } from '.';
 
 describe('find rank in slider', () => {
   test('returns "pro" item with value of 2', () => {

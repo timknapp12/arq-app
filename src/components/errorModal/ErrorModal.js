@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Flexbox, H4Secondary, CloseIcon, H2Normal } from '../Common';
+import { Flexbox, H4Secondary, CloseIcon, H2Normal } from '../common';
 import { Modal, TouchableOpacity } from 'react-native';
-import { Localized, init } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const Container = styled.View`
   width: 100%;
@@ -20,8 +20,8 @@ const Inner = styled.View`
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
-const ErrorModal = ({ visible, onClose, errorMessage = '' }) => {
-  init();
+const ErrorModal = ({ visible, onClose, errorMessage }) => {
+  initLanguage();
   return (
     <Modal
       animationType="fade"
@@ -53,7 +53,7 @@ const ErrorModal = ({ visible, onClose, errorMessage = '' }) => {
 ErrorModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string,
+  errorMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default ErrorModal;

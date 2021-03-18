@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
-import { Flexbox, ScreenContainer, TertiaryButton } from '../Common';
-import DashboardHeader from './DashboardHeader';
-import Subheader from '../Headers/Subheader';
-import * as Analytics from 'expo-firebase-analytics';
-import { Localized, init } from '../../Translations/Localized';
 import { useIsFocused } from '@react-navigation/native';
+import { Flexbox, ScreenContainer, TertiaryButton, Subheader } from '../common';
+import DashboardHeader from './DashboardHeader';
+import * as Analytics from 'expo-firebase-analytics';
+import { Localized, initLanguage } from '../../translations/Localized';
 import Overview from './Overview';
 import Rank from './Rank';
 import OVDetail from './OVDetail';
-import PopoutMenu from '../MainMenu/PopoutMenu';
-import MyInfoModal from '../MainMenu/MyInfoModal';
-import ShareOptionsModal from '../MainMenu/ShareOptionsModal';
+import PopoutMenu from '../mainMenu/PopoutMenu';
+import MyInfoModal from '../mainMenu/MyInfoModal';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -37,7 +35,7 @@ const mockUser = {
 };
 
 const DashboardScreen = () => {
-  init();
+  initLanguage();
   const ranklist = [
     {
       legMaxPerc: 0,
@@ -247,7 +245,6 @@ const DashboardScreen = () => {
   };
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
-  const [isShareOptionsModalOpen, setIsShareOptionsModalOpen] = useState(false);
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
@@ -259,7 +256,7 @@ const DashboardScreen = () => {
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
         />
-        <Subheader>
+        <Subheader height="30px">
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
               onPress={() => navigate(item)}
@@ -275,7 +272,6 @@ const DashboardScreen = () => {
             isMenuOpen={isMenuOpen}
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            setIsShareOptionsModalOpen={setIsShareOptionsModalOpen}
           />
         </Flexbox>
         <ScrollView
@@ -298,12 +294,6 @@ const DashboardScreen = () => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-          />
-        )}
-        {isShareOptionsModalOpen && (
-          <ShareOptionsModal
-            isShareOptionsModalOpen={isShareOptionsModalOpen}
-            setIsShareOptionsModalOpen={setIsShareOptionsModalOpen}
           />
         )}
       </ScreenContainer>

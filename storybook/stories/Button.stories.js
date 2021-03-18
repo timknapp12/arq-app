@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react-native';
 
@@ -7,8 +7,15 @@ import {
   PrimaryButton,
   Flexbox,
   TertiaryButton,
-} from '../../src/components/Common';
-import Subheader from '../../src/components/Headers/Subheader';
+  Switch,
+} from '../../src/components/common';
+import Subheader from '../../src/components/common';
+
+const SwitchExample = () => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  return <Switch onValueChange={toggleSwitch} value={isEnabled} />;
+};
 
 storiesOf('Primary Button', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
@@ -40,3 +47,7 @@ storiesOf('Tertiary Button', module)
       <TertiaryButton>OV Detail</TertiaryButton>
     </Subheader>
   ));
+
+storiesOf('Switch', module)
+  .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
+  .add('default', () => <SwitchExample />);

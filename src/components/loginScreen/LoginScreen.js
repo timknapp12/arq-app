@@ -9,7 +9,8 @@ import {
   PrimaryButton,
   AlertText,
   Link,
-} from '../Common';
+  Checkmark,
+} from '../common';
 import {
   Image,
   TouchableOpacity,
@@ -19,23 +20,36 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import AppContext from '../../Contexts/AppContext';
-import logo from '../../../assets/q-sciences-logo.png';
+import AppContext from '../../contexts/AppContext';
+import logo from '../../../assets/q-science-stacked-logo-white.png';
 import * as Analytics from 'expo-firebase-analytics';
-import { Localized, init } from '../../Translations/Localized';
-import { ADD_USER } from '../../graphql/Mutations';
+import { Localized, initLanguage } from '../../translations/Localized';
+import { ADD_USER } from '../../graphql/mutations';
 import { useMutation } from '@apollo/client';
-import ErrorModal from '../ErrorModal';
-import LoadingScreen from '../LoadingScreen';
+import ErrorModal from '../errorModal/ErrorModal';
+import LoadingScreen from '../loadingScreen/LoadingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginInstructions = styled(H4)`
   text-align: center;
-  padding: 0 22px;
-  margin-bottom: 22px;
+  padding: 0 18px;
+  margin-bottom: 18px;
+  font-family: 'Nunito-Light';
+`;
+
+const Checkbox = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border-color: ${(props) => props.theme.color};
+  border-width: ${(props) => (props.selected ? '0px' : '1px')};
+  background-color: ${(props) => (props.selected ? '#006699' : 'transparent')};
 `;
 
 const LoginScreen = () => {
-  init();
+  initLanguage();
   const { setIsSignedIn, theme, setUser } = useContext(AppContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,6 +57,7 @@ const LoginScreen = () => {
   const [isError, setIsError] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [saveUsername, setSaveUsername] = useState(true);
   const passwordRef = useRef(null);
   const [addUser, { loading }] = useMutation(ADD_USER, {
     onCompleted: (data) => {
@@ -60,7 +75,6 @@ const LoginScreen = () => {
       setErrorMessage(error);
     },
   });
-
   const onNext = () => {
     passwordRef.current.focus();
   };
@@ -76,7 +90,8 @@ const LoginScreen = () => {
     } catch (e) {
       setIsError(true);
     }
-
+    storeUsername();
+    storeSaveUsernamePreference();
     Analytics.logEvent('Login_button_tapped', {
       screen: 'Login Screen',
       username: username,
@@ -101,6 +116,58 @@ const LoginScreen = () => {
     });
   };
 
+  // if user selects checkbox than save username to input value, otherwise save as empty string
+  // source for async storage: https://react-native-async-storage.github.io/async-storage/docs/usage/
+  const storeUsername = async () => {
+    let value = saveUsername ? username : '';
+    try {
+      await AsyncStorage.setItem('@stored_username', value);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const getStoredUsername = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@stored_username');
+      if (value !== null) {
+        return setUsername(value);
+      }
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  // save to local storage the user preference for saving username
+  const storeSaveUsernamePreference = async () => {
+    let value = saveUsername ? true : false;
+    try {
+      await AsyncStorage.setItem(
+        '@stored_username_preference',
+        JSON.stringify(value),
+      );
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const getSaveUsernamePreference = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@stored_username_preference');
+      const jsonValue = JSON.parse(value);
+      if (value !== null) {
+        return setSaveUsername(jsonValue);
+      }
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  useEffect(() => {
+    getStoredUsername();
+    getSaveUsernamePreference();
+  }, []);
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -112,23 +179,22 @@ const LoginScreen = () => {
           <KeyboardAvoidingView
             style={{
               width: '100%',
-              height: '60%',
+              height: '70%',
             }}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <Flexbox
-              style={{ marginTop: 20 }}
               accessibilityLabel="Login Form"
               justify="space-between"
               height="100%"
               padding={20}>
-              <Image source={logo} />
+              <Image style={{ marginBottom: 4 }} source={logo} />
               <LoginInstructions testID="login-instructions">
                 {Localized(
                   'Log in if you already have a username and password',
                 )}
               </LoginInstructions>
-
-              <Flexbox style={{ marginBottom: 22 }}>
+              <Flexbox style={{ marginBottom: 8 }}>
                 <Input
                   testID="username-input"
                   value={username}
@@ -141,7 +207,7 @@ const LoginScreen = () => {
                 />
               </Flexbox>
 
-              <Flexbox style={{ marginBottom: 12 }}>
+              <Flexbox style={{ marginBottom: 4 }}>
                 <Input
                   testID="password-input"
                   value={password}
@@ -155,11 +221,12 @@ const LoginScreen = () => {
                 />
               </Flexbox>
 
-              <Flexbox height="60px" style={{ marginBottom: 8 }}>
+              <Flexbox justify="flex-start" style={{ marginBottom: 8 }}>
                 {isError && (
                   <AlertText
                     style={{
                       textAlign: 'center',
+                      marginBottom: 12,
                     }}>
                     {Localized(
                       `Sorry, we couldn't log you in. Please re-enter your username and password`,
@@ -167,6 +234,7 @@ const LoginScreen = () => {
                   </AlertText>
                 )}
                 <TouchableOpacity
+                  style={{ marginBottom: 12 }}
                   // TODO integrate password recovery screen
                   // onPress={() =>
                   //   navigation.navigate('Password Recovery Screen')
@@ -177,15 +245,29 @@ const LoginScreen = () => {
                   testID="forgot-password-button">
                   <H6>{Localized('Forgot password?')}</H6>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginBottom: 4,
+                  }}
+                  onPress={() => setSaveUsername((state) => !state)}>
+                  <Checkbox selected={saveUsername}>
+                    {saveUsername && <Checkmark>&#10003;</Checkmark>}
+                  </Checkbox>
+                  <H6 style={{ marginStart: 12 }}>
+                    {Localized('Remember my username')}
+                  </H6>
+                </TouchableOpacity>
               </Flexbox>
 
-              <Flexbox width="85%">
+              <Flexbox style={{ marginBottom: 4 }} width="85%">
                 <PrimaryButton
+                  style={{ marginBottom: 4 }}
                   testID="login-button"
                   disabled={isButtonDisabled}
-                  style={{ marginTop: 12 }}
                   onPress={onSubmit}>
-                  {Localized('Log In')}
+                  {Localized('LOG IN')}
                 </PrimaryButton>
               </Flexbox>
             </Flexbox>
@@ -196,11 +278,10 @@ const LoginScreen = () => {
             justify="flex-start"
             padding={20}
             style={{
-              flex: 1,
-              marginTop: 20,
+              marginTop: 8,
             }}>
             <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
-              {Localized('Interested in becoming a QSciences Ambassador?')}
+              {Localized('Interested in becoming a Q Sciences Ambassador?')}
             </H6>
             <TouchableOpacity
               testID="become-ambassador-link"

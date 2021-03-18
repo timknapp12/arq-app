@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { H2Bold } from './Texts';
+import { Switch as NativeSwitch } from 'react-native';
+import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 
@@ -28,7 +29,9 @@ const ThemedButton = styled.TouchableOpacity`
       : props.theme.activeBackground};
 `;
 
-const ThemedText = styled(H2Bold)`
+const ThemedText = styled.Text`
+  font-family: 'Nunito-Light';
+  font-size: 24px;
   color: ${(props) =>
     props.disabled ? props.theme.disabledTextColor : props.theme.color};
 `;
@@ -76,4 +79,27 @@ export const TertiaryButton = ({ selected, children, ...props }) => (
 TertiaryButton.propTypes = {
   selected: PropTypes.bool,
   children: PropTypes.string.isRequired,
+};
+
+// SWITCH
+export const Switch = ({ value, onValueChange, ...props }) => {
+  const { theme } = useContext(AppContext);
+  return (
+    <NativeSwitch
+      {...props}
+      trackColor={{
+        false: theme.inactiveSwitchBackground,
+        true: theme.activeSwitchBackground,
+      }}
+      thumbColor={value ? theme.activeSwitchThumb : theme.inactiveSwitchThumb}
+      ios_backgroundColor={theme.inactiveSwitchBackground}
+      onValueChange={onValueChange}
+      value={value}
+    />
+  );
+};
+
+Switch.propTypes = {
+  value: PropTypes.bool,
+  onValueChange: PropTypes.func,
 };

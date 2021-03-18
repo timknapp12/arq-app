@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
-import { H4Bold, H5Secondary, Flexbox } from '../Common';
-import { Localized, init } from '../../Translations/Localized';
+import { H4Bold, H5Secondary, Flexbox } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
 import {
-  cyan,
-  redOrange,
-  pantone,
-  lightCyan,
-  lightPink,
-  riceFlower,
-} from '../../Styles/colors';
-import { reshapePerc } from '../../Utils/calculateLegPercentages';
+  donut1PrimaryColor,
+  donut1SecondaryColor,
+  donut2PrimaryColor,
+  donut3PrimaryColor,
+  donut2SecondaryColor,
+  donut3SecondaryColor,
+} from '../../styles/colors';
+import { reshapePerc } from '../../utils/calculateLegPercentages';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};
@@ -37,7 +37,7 @@ const Square = styled.View`
 `;
 
 const Rank = ({ ranklist, user, fadeOut }) => {
-  init();
+  initLanguage();
   const {
     lastMonthPV,
     thisMonthPV,
@@ -121,22 +121,22 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               // ternary to ensure no error with 0 values of distributor rank
               outerpercentage={rank.id === 0 ? 100 : thisMonthPVPerc}
               outermax={100}
-              outercolor={cyan}
+              outercolor={donut1PrimaryColor}
               innerpercentage={rank.id === 0 ? 100 : lastMonthPVPerc}
               innermax={100}
-              innercolor={lightCyan}
+              innercolor={donut1SecondaryColor}
               view="rank"
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={cyan} />
+                <Square squareFill={donut1PrimaryColor} />
                 {/* toLocaleString() gives commas for large numbers */}
                 <H5Secondary testID="this-month-total-pv">{`${thisMonthPV.toLocaleString()} ${Localized(
                   'of',
                 )} ${rank?.requiredPV.toLocaleString()}`}</H5Secondary>
               </Legend>
               <Legend>
-                <Square squareFill={lightCyan} />
+                <Square squareFill={donut1SecondaryColor} />
                 <H5Secondary testID="last-month-total-pv">{`${lastMonthPV.toLocaleString()} ${Localized(
                   'of',
                 )} ${rank?.requiredPV.toLocaleString()}`}</H5Secondary>
@@ -152,21 +152,21 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               testID="total-qov-donut-svg"
               outerpercentage={rank.id === 0 ? 100 : thisMonthQOVPerc}
               outermax={100}
-              outercolor={redOrange}
+              outercolor={donut2PrimaryColor}
               innerpercentage={rank.id === 0 ? 100 : lastMonthQOVPerc}
               innermax={100}
-              innercolor={lightPink}
+              innercolor={donut2SecondaryColor}
               view="rank"
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={redOrange} />
+                <Square squareFill={donut2PrimaryColor} />
                 <H5Secondary testID="this-month-total-qov">{`${thisMonthQOV.toLocaleString()} ${Localized(
                   'of',
                 )} ${rank?.requiredQOV.toLocaleString()}`}</H5Secondary>
               </Legend>
               <Legend>
-                <Square squareFill={lightPink} />
+                <Square squareFill={donut2SecondaryColor} />
                 <H5Secondary testID="last-month-total-qov">{`${lastMonthQOV.toLocaleString()} ${Localized(
                   'of',
                 )} ${rank?.requiredQOV.toLocaleString()}`}</H5Secondary>
@@ -185,21 +185,21 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             testID="personally-enrolled-donut-svg"
             outerpercentage={rank.id === 0 ? 100 : thisMonthPAPerc}
             outermax={100}
-            outercolor={pantone}
+            outercolor={donut3PrimaryColor}
             innerpercentage={rank.id === 0 ? 100 : lastMonthPAPerc}
             innermax={100}
-            innercolor={riceFlower}
+            innercolor={donut3SecondaryColor}
             view="rank"
           />
           <LegendContainer>
             <Legend>
-              <Square squareFill={pantone} />
+              <Square squareFill={donut3PrimaryColor} />
               <H5Secondary testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
                 'of',
               )} ${rank?.requiredPA}`}</H5Secondary>
             </Legend>
             <Legend>
-              <Square squareFill={riceFlower} />
+              <Square squareFill={donut3SecondaryColor} />
               <H5Secondary testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
                 'of',
               )} ${rank?.requiredPA}`}</H5Secondary>

@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Animated } from 'react-native';
-import { H4 } from '../Common';
-import { Localized, init } from '../../Translations/Localized';
-import AppContext from '../../Contexts/AppContext';
+import { H4 } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
+import AppContext from '../../contexts/AppContext';
 
 const SideMenu = styled.View`
   z-index: 2;
@@ -17,13 +17,8 @@ const SideMenu = styled.View`
 
 const AnimatedMenu = Animated.createAnimatedComponent(SideMenu);
 
-const PopoutMenu = ({
-  fadeAnim,
-  fadeOut,
-  setIsMyInfoModalOpen,
-  setIsShareOptionsModalOpen,
-}) => {
-  init();
+const PopoutMenu = ({ fadeAnim, fadeOut, setIsMyInfoModalOpen }) => {
+  initLanguage();
   const { setIsSignedIn } = useContext(AppContext);
   return (
     <AnimatedMenu style={{ right: fadeAnim }}>
@@ -33,13 +28,6 @@ const PopoutMenu = ({
           setIsMyInfoModalOpen(true);
         }}>
         <H4>{Localized('My Info')}</H4>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          fadeOut();
-          setIsShareOptionsModalOpen(true);
-        }}>
-        <H4>{Localized('Share Options')}</H4>
       </TouchableOpacity>
       <TouchableOpacity>
         <H4>{Localized('Settings')}</H4>
@@ -58,7 +46,6 @@ PopoutMenu.propTypes = {
   fadeAnim: PropTypes.object,
   fadeOut: PropTypes.func,
   setIsMyInfoModalOpen: PropTypes.func,
-  setIsShareOptionsModalOpen: PropTypes.func,
 };
 
 export default PopoutMenu;

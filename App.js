@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import AppContext from './src/Contexts/AppContext';
+import AppContext from './src/contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
-import { darkTheme } from './src/Styles/themes';
-import LoginStack from './src/Navigation/LoginStack';
-import Tabs from './src/Navigation/Tabs';
+import { darkTheme } from './src/styles/themes';
+import LoginStack from './src/navigation/LoginStack';
+import Tabs from './src/navigation/Tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import firebaseConfig from './firebase.config';
 import * as firebase from 'firebase';
@@ -13,7 +13,7 @@ import i18n from 'i18n-js';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
-import { client } from './src/graphql/Client';
+import { client } from './src/graphql/client';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);

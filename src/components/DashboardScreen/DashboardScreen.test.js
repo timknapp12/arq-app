@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from '../Utils/test-utils';
+import { render } from '../../utils/test-utils';
 
-import DashboardScreen from '../components/DashboardScreen';
+import DashboardScreen from './DashboardScreen';
 
 jest.useFakeTimers();
 

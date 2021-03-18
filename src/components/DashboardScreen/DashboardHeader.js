@@ -1,12 +1,18 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import Header from '../Headers';
-import { H3Bold, Flexbox, SmallQIcon, BellIcon, AccountIcon } from '../Common';
-import { Localized, init } from '../../Translations/Localized';
+import {
+  H3Bold,
+  Flexbox,
+  SmallQIcon,
+  BellIcon,
+  AccountIcon,
+  Header,
+} from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const DashboardHeader = ({ badgeValue, fadeIn, fadeOut, isMenuOpen }) => {
-  init();
+  initLanguage();
   const toggleMenu = () => {
     if (isMenuOpen) {
       fadeOut();

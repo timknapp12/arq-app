@@ -10,7 +10,9 @@ import qualified from '../../../assets/icons/qualified.png';
 import notQualified from '../../../assets/icons/not_qualified.png';
 import camera from '../../../assets/icons/button_camera.png';
 import gallery from '../../../assets/icons/buton_gallery.png';
-import { darkRed, white } from '../../Styles/colors';
+import edit from '../../../assets/icons/ic_edit.png';
+import deletePng from '../../../assets/icons/ic_delete.png';
+import { darkRed, white } from '../../styles/colors';
 
 const IconContainer = styled.View`
   position: relative;
@@ -83,4 +85,12 @@ export const QualifiedIcon = ({ ...props }) => (
 
 export const NotQualifiedIcon = ({ ...props }) => (
   <Image {...props} source={notQualified} style={{ height: 18 }} />
+);
+
+export const EditIcon = ({ ...props }) => (
+  <Image {...props} source={edit} style={{ height: 16 }} />
+);
+
+export const DeleteIcon = ({ ...props }) => (
+  <Image {...props} source={deletePng} style={{ height: 16 }} />
 );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react-native';
-import { ScreenContainer, H5Secondary } from '../../src/components/Common';
-import Slider from '../../src/components/DashboardScreen/Slider';
+import { ScreenContainer, H5Secondary } from '../../src/components/common';
+import Slider from '../../src/components/dashboardScreen/Slider';
 
 const Example = () => {
   const initialRankName = 'pro';

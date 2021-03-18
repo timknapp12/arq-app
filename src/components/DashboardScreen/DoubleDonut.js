@@ -4,8 +4,8 @@ import styled from 'styled-components/native';
 import { View, Animated } from 'react-native';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
-import { Flexbox, H5Secondary } from '../Common';
-import { Localized, init } from '../../Translations/Localized';
+import { Flexbox, H5Secondary } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const Legend = styled.View`
   flex-direction: row;
@@ -39,7 +39,7 @@ const DoubleDonut = ({
   innermax = 100,
   view,
 }) => {
-  init();
+  initLanguage();
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
   const halfCircle = outerradius + outerstrokeWidth;

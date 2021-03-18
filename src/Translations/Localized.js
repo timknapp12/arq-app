@@ -39,7 +39,7 @@ const mapToCode = (languageTag) => {
     }
   }
 };
-export const init = () => {
+export const initLanguage = () => {
   let localeLanguageTag = Localization.locale.substring(0, 2);
   const filteredTag = mapToCode(localeLanguageTag) || 'en';
   let isRTL = Localization.isRTL;
