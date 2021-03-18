@@ -200,6 +200,9 @@ const DashboardScreen = () => {
         purpose: 'User navigated to Dashboard Screen',
       });
     }
+    return () => {
+      fadeOut();
+    };
   }, [isFocused]);
 
   const initialView = {
