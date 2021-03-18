@@ -21,21 +21,21 @@ import {
   H5,
   AnimatedInput,
   Picker,
-} from '../Common';
-import Header from '../Headers';
-import Subheader from '../Headers/Subheader';
-import { Localized, initLanguage } from '../../Translations/Localized';
+  Subheader,
+  Header,
+} from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
 // source for files for different languages https://stefangabos.github.io/world_countries/
-import enCountires from '../../Translations/countries/en-countries.json';
-import deCountires from '../../Translations/countries/de-countries.json';
-import frCountires from '../../Translations/countries/fr-countries.json';
-import esCountires from '../../Translations/countries/es-countries.json';
-import jaCountires from '../../Translations/countries/ja-countries.json';
-import noCountires from '../../Translations/countries/no-countries.json';
-import usStates from '../../Translations/countries/us-states.json';
+import enCountires from '../../translations/countries/en-countries.json';
+import deCountires from '../../translations/countries/de-countries.json';
+import frCountires from '../../translations/countries/fr-countries.json';
+import esCountires from '../../translations/countries/es-countries.json';
+import jaCountires from '../../translations/countries/ja-countries.json';
+import noCountires from '../../translations/countries/no-countries.json';
+import usStates from '../../translations/countries/us-states.json';
 import ProfileImage from './ProfileImage';
-import { saveProfileImageToFirebase } from '../../Utils/saveToFirebase';
+import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;

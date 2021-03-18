@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
-import { H4Bold, H5Secondary, Flexbox } from '../Common';
-import { Localized, initLanguage } from '../../Translations/Localized';
+import { H4Bold, H5Secondary, Flexbox } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
 import {
@@ -13,8 +13,8 @@ import {
   donut3PrimaryColor,
   donut2SecondaryColor,
   donut3SecondaryColor,
-} from '../../Styles/colors';
-import { reshapePerc } from '../../Utils/calculateLegPercentages';
+} from '../../styles/colors';
+import { reshapePerc } from '../../utils/calculateLegPercentages';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};

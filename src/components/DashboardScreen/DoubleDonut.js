@@ -4,8 +4,8 @@ import styled from 'styled-components/native';
 import { View, Animated } from 'react-native';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
-import { Flexbox, H5Secondary } from '../Common';
-import { Localized, initLanguage } from '../../Translations/Localized';
+import { Flexbox, H5Secondary } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const Legend = styled.View`
   flex-direction: row;

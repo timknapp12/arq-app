@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import DashboardScreen from '../components/DashboardScreen';
-import { white, blue } from '../Styles/colors';
+import DashboardScreen from '../components/dashboardScreen/DashboardScreen';
+import { white, blue } from '../styles/colors';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Dashboard = createStackNavigator();

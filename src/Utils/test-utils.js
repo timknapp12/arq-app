@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { render } from '@testing-library/react-native';
-import AppContext from '../Contexts/AppContext';
+import AppContext from '../contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
-import { darkTheme } from '../Styles/themes';
+import { darkTheme } from '../styles/themes';
 import { ApolloProvider } from '@apollo/client';
-import { client } from '../graphql/Client';
+import { client } from '../graphql/client';
 
 // source for set up of config: https://testing-library.com/docs/react-native-testing-library/setup
 jest.mock('@react-navigation/native');

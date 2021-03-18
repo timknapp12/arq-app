@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Animated } from 'react-native';
-import { H4 } from '../Common';
-import { Localized, initLanguage } from '../../Translations/Localized';
-import AppContext from '../../Contexts/AppContext';
+import { H4 } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
+import AppContext from '../../contexts/AppContext';
 
 const SideMenu = styled.View`
   z-index: 2;

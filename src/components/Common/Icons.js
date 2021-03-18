@@ -12,7 +12,7 @@ import camera from '../../../assets/icons/button_camera.png';
 import gallery from '../../../assets/icons/buton_gallery.png';
 import edit from '../../../assets/icons/ic_edit.png';
 import deletePng from '../../../assets/icons/ic_delete.png';
-import { darkRed, white } from '../../Styles/colors';
+import { darkRed, white } from '../../styles/colors';
 
 const IconContainer = styled.View`
   position: relative;

@@ -4,6 +4,26 @@ import styled from 'styled-components/native';
 
 const Container = styled.View`
   width: 100%;
+  height: 37px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  background-color: ${(props) => props.theme.headerBackgroundColor};
+`;
+
+const Header = ({ children }) => {
+  return <Container>{children}</Container>;
+};
+
+Header.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export { Header };
+
+const SubContainer = styled.View`
+  width: 100%;
   height: ${(props) => props.height};
   flex-direction: row;
   align-items: center;
@@ -15,9 +35,9 @@ const Container = styled.View`
 
 const Subheader = ({ children, justify, height = '35px', ...props }) => {
   return (
-    <Container {...props} justify={justify} height={height}>
+    <SubContainer {...props} justify={justify} height={height}>
       {children}
-    </Container>
+    </SubContainer>
   );
 };
 
@@ -27,4 +47,4 @@ Subheader.propTypes = {
   height: PropTypes.string,
 };
 
-export default Subheader;
+export { Subheader };

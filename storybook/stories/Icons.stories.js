@@ -4,7 +4,7 @@ import {
   ScreenContainer,
   BellIcon,
   AccountIcon,
-} from '../../src/components/Common';
+} from '../../src/components/common';
 
 storiesOf('Icons', module)
   .addDecorator((getStory) => (

@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
-import { H4Bold, Flexbox, H4Secondary } from '../Common';
-import { Localized, initLanguage } from '../../Translations/Localized';
+import { H4Bold, Flexbox, H4Secondary } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 import Donut from './Donut';
 import {
   donut1PrimaryColor,
   donut2PrimaryColor,
   donut3PrimaryColor,
-} from '../../Styles/colors';
+} from '../../styles/colors';
 
 const ChartTitle = styled(H4Bold)`
   color: ${(props) => props.theme.secondaryTextColor};

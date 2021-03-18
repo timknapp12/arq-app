@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
-import { ScreenContainer } from '../../src/components/Common';
-import Donut from '../../src/components/DashboardScreen/Donut';
-import DoubleDonut from '../../src/components/DashboardScreen/DoubleDonut';
+import { ScreenContainer } from '../../src/components/common';
+import Donut from '../../src/components/dashboardScreen/Donut';
+import DoubleDonut from '../../src/components/dashboardScreen/DoubleDonut';
 
 storiesOf('Donut', module)
   .addDecorator((getStory) => (

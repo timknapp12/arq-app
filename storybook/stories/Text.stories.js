@@ -10,7 +10,7 @@ import {
   H6,
   AlertText,
   Link,
-} from '../../src/components/Common';
+} from '../../src/components/common';
 
 storiesOf('Texts', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)

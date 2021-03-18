@@ -3,11 +3,11 @@ import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { Image } from 'react-native';
-import { ScreenContainer, Flexbox, Input, H4, PrimaryButton } from '../Common';
-import AppContext from '../../Contexts/AppContext';
+import { ScreenContainer, Flexbox, Input, H4, PrimaryButton } from '../common';
+import AppContext from '../../contexts/AppContext';
 import logo from '../../../assets/q-sciences-logo.png';
 import * as Analytics from 'expo-firebase-analytics';
-import { Localized, initLanguage } from '../../Translations/Localized';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const RecoverPasswordInstructions = styled(H4)`
   text-align: center;

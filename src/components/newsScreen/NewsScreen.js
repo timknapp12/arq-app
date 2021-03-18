@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScreenContainer, H2Bold } from '../Common';
+import { ScreenContainer, H2Bold } from '../common';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 

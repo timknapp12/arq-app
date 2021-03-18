@@ -8,8 +8,8 @@ import {
   Flexbox,
   TertiaryButton,
   Switch,
-} from '../../src/components/Common';
-import Subheader from '../../src/components/Headers/Subheader';
+} from '../../src/components/common';
+import Subheader from '../../src/components/common';
 
 const SwitchExample = () => {
   const [isEnabled, setIsEnabled] = useState(false);

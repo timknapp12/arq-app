@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
-import { Flexbox, ScreenContainer, TertiaryButton } from '../Common';
-import DashboardHeader from './DashboardHeader';
-import Subheader from '../Headers/Subheader';
-import * as Analytics from 'expo-firebase-analytics';
-import { Localized, initLanguage } from '../../Translations/Localized';
 import { useIsFocused } from '@react-navigation/native';
+import { Flexbox, ScreenContainer, TertiaryButton, Subheader } from '../common';
+import DashboardHeader from './DashboardHeader';
+import * as Analytics from 'expo-firebase-analytics';
+import { Localized, initLanguage } from '../../translations/Localized';
 import Overview from './Overview';
 import Rank from './Rank';
 import OVDetail from './OVDetail';
-import PopoutMenu from '../MainMenu/PopoutMenu';
-import MyInfoModal from '../MainMenu/MyInfoModal';
+import PopoutMenu from '../mainMenu/PopoutMenu';
+import MyInfoModal from '../mainMenu/MyInfoModal';
 
 const mockUser = {
   lastMonthPV: 150,

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import { H4Bold, H6Secodnary, Flexbox } from '../Common';
+import { H4Bold, H6Secodnary, Flexbox } from '../common';
 import CustomSlider from './CustomSlider';
-import { findRankName, findRankObject } from '../../Utils/findRankInSlider';
-import { Localized, initLanguage } from '../../Translations/Localized';
+import { findRankName, findRankObject } from '../../utils/findRankInSlider';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const { width } = Dimensions.get('window');
 const sliderWidth = width - 40;

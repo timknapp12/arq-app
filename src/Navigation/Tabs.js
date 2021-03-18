@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Platform } from 'react-native';
 import DashboardStack from './DashboardStack';
-import NewsScreen from '../components/NewsScreen';
-import ResourcesScreen from '../components/ResourcesScreen';
-import AppContext from '../Contexts/AppContext';
+import NewsScreen from '../components/newsScreen/NewsScreen';
+import ResourcesScreen from '../components/resourcesScreen';
+import AppContext from '../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import dashboard from '../../assets/icons/ic_dashboard.png';
 import resources from '../../assets/icons/resources.png';
 import news from '../../assets/icons/news.png';
 import storybook from '../../assets/icons/storybook.png';
-import { Localized, initLanguage } from '../Translations/Localized';
-import StorybookUI from '../../storybook/';
+import { Localized, initLanguage } from '../translations/Localized';
+import StorybookUI from '../../storybook';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
 const getActiveRouteName = (navigationState) => {

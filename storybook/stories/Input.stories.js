@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react-native';
-import { gray } from '../../src/Styles/colors';
+import { gray } from '../../src/styles/colors';
 
 import {
   ScreenContainer,
   Input,
   Flexbox,
   AnimatedInput,
-} from '../../src/components/Common';
+} from '../../src/components/common';
 
 const CustomContainer = () => {
   const [value, setValue] = useState('');

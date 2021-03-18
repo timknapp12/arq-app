@@ -3,9 +3,9 @@ import { Pressable, Animated, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Flexbox } from './Containers';
+import { Flexbox } from './containers';
 import DropDownPicker from 'react-native-dropdown-picker';
-import AppContext from '../../Contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 
 // Standard Input with Password able to be shown or hidden
 

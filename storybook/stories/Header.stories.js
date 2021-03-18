@@ -1,16 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
-import Header from '../../src/components/Headers';
+import Header from '../../src/components/common/headers';
 import {
   H2Normal,
   ScreenContainer,
   AccountIcon,
   SmallQIcon,
   TertiaryButton,
-} from '../../src/components/Common';
-import DashboardHeader from '../../src/components/DashboardScreen/DashboardHeader';
-import Subheader from '../../src/components/Headers/Subheader';
+} from '../../src/components/common';
+import DashboardHeader from '../../src/components/dashboardScreen/DashboardHeader';
+import Subheader from '../../src/components/common';
 
 storiesOf('Header', module)
   .addDecorator((getStory) => (

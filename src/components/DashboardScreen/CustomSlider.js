@@ -1,7 +1,7 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 import Slider from 'react-native-slider';
-import { lightblue, veniceBlue } from '../../Styles/colors';
+import { lightblue, veniceBlue } from '../../styles/colors';
 
 // source: https://github.com/jeanregisser/react-native-slider
 const CustomSlider = ({

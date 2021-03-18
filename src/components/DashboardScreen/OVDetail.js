@@ -8,16 +8,16 @@ import {
   Flexbox,
   QualifiedIcon,
   NotQualifiedIcon,
-} from '../Common';
-import { Localized, initLanguage } from '../../Translations/Localized';
+} from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
 import {
   donut1PrimaryColor,
   donut2PrimaryColor,
   donut3PrimaryColor,
-} from '../../Styles/colors';
-import { calculateLegPercentages } from '../../Utils/calculateLegPercentages';
+} from '../../styles/colors';
+import { calculateLegPercentages } from '../../utils/calculateLegPercentages';
 
 const TitleContainer = styled.View`
   flex-direction: row;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
-import ErrorModal from '../../src/components/ErrorModal';
+import ErrorModal from '../../src/components/errorModal/ErrorModal';
 
 const Example = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

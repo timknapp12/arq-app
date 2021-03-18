@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { blue } from '../../Styles/colors';
+import { blue } from '../../styles/colors';
 
 // Font families:
 // 'Roboto-Regular'
