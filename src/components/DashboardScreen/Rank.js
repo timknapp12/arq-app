@@ -130,16 +130,24 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <LegendContainer>
               <Legend>
                 <Square squareFill={donut1PrimaryColor} />
-                {/* toLocaleString() gives commas for large numbers */}
-                <H5Secondary testID="this-month-total-pv">{`${thisMonthPV.toLocaleString()} ${Localized(
+                {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
+                <H5Secondary testID="this-month-total-pv">{`${thisMonthPV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredPV.toLocaleString()}`}</H5Secondary>
+                )} ${rank?.requiredPV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
               </Legend>
               <Legend>
                 <Square squareFill={donut1SecondaryColor} />
-                <H5Secondary testID="last-month-total-pv">{`${lastMonthPV.toLocaleString()} ${Localized(
+                <H5Secondary testID="last-month-total-pv">{`${lastMonthPV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredPV.toLocaleString()}`}</H5Secondary>
+                )} ${rank?.requiredPV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
               </Legend>
             </LegendContainer>
           </Flexbox>
@@ -161,15 +169,23 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <LegendContainer>
               <Legend>
                 <Square squareFill={donut2PrimaryColor} />
-                <H5Secondary testID="this-month-total-qov">{`${thisMonthQOV.toLocaleString()} ${Localized(
+                <H5Secondary testID="this-month-total-qov">{`${thisMonthQOV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV.toLocaleString()}`}</H5Secondary>
+                )} ${rank?.requiredQOV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
               </Legend>
               <Legend>
                 <Square squareFill={donut2SecondaryColor} />
-                <H5Secondary testID="last-month-total-qov">{`${lastMonthQOV.toLocaleString()} ${Localized(
+                <H5Secondary testID="last-month-total-qov">{`${lastMonthQOV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV.toLocaleString()}`}</H5Secondary>
+                )} ${rank?.requiredQOV
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
               </Legend>
             </LegendContainer>
           </Flexbox>

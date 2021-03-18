@@ -48,7 +48,10 @@ const Donut = ({
       }
       if (inputRef?.current) {
         inputRef.current.setNativeProps({
-          text: `${Math.round(v.value).toLocaleString()}`,
+          text: `${Math.round(v.value)
+            // this adds commas, since toLocalString() does not work on android
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`,
         });
       }
     });

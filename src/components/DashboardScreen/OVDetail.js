@@ -79,9 +79,10 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
           ranklist={ranklist}
           isQualified={isQualified}
         />
-        <H4>{`${Localized(
-          'Maximum QOV Per Leg',
-        )}: ${rank.legMaxOV.toLocaleString()}`}</H4>
+        <H4>{`${Localized('Maximum QOV Per Leg')}: ${rank.legMaxOV
+          // this adds commas, since toLocalString() does not work on android
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H4>
         <Flexbox padding={20} width="100%" direction="row">
           <Flexbox accessibilityLabel="Distributor leg one" width="auto">
             <TitleContainer>
