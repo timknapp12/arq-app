@@ -101,8 +101,8 @@ export const Switch = ({ value, onValueChange, ...props }) => {
           { scaleX: Platform.OS === 'ios' ? 0.8 : 1 },
           { scaleY: Platform.OS === 'ios' ? 0.8 : 1 },
         ],
-        // androids adds a margin at the end of the switch, so this will counteract that
-        marginEnd: Platform.OS === 'ios' ? 0 : -8,
+        // there is a margin at the end of the switch, so this will counteract that
+        marginEnd: -8,
       }}
     />
   );
