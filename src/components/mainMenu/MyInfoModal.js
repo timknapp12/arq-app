@@ -40,6 +40,7 @@ import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 const HeaderButtonContainer = styled.View`
   width: 60px;
 `;
+
 const { width } = Dimensions.get('window');
 const nameInputWidth = `${width - 150}px`;
 
