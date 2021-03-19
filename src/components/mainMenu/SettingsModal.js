@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
@@ -54,6 +54,8 @@ const SecondaryText = styled.Text`
 
 const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   initLanguage();
+  const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
+  const [isPushNotiesEnabled, setIsPushNotiesEnabled] = useState(false);
   return (
     <Modal
       animationType="slide"
@@ -92,7 +94,9 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                   <Subheader justify="center">
                     <H5>{Localized('Account')}</H5>
                   </Subheader>
-                  <Flexbox padding={12}>
+                  <Flexbox
+                    accessibilityLabel="account info section"
+                    padding={12}>
                     <RowContainer>
                       <View
                         style={{
@@ -124,13 +128,33 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                       <PrimaryText>
                         {Localized('Face ID or Fingerprint Log In')}
                       </PrimaryText>
-                      <Switch />
+                      <Switch
+                        value={isBiometricsEnabled}
+                        onValueChange={() =>
+                          setIsBiometricsEnabled((state) => !state)
+                        }
+                      />
                     </RowContainer>
                   </Flexbox>
 
                   <Subheader justify="center">
                     <H5>{Localized('Notifications')}</H5>
                   </Subheader>
+                  <Flexbox
+                    accessibilityLabel="notifications info section"
+                    padding={12}>
+                    <RowContainer>
+                      <PrimaryText>
+                        {Localized('Push Notifications')}
+                      </PrimaryText>
+                      <Switch
+                        value={isPushNotiesEnabled}
+                        onValueChange={() =>
+                          setIsPushNotiesEnabled((state) => !state)
+                        }
+                      />
+                    </RowContainer>
+                  </Flexbox>
                 </Flexbox>
 
                 <View style={{ width: '85%' }}>
