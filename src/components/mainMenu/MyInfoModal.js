@@ -52,22 +52,6 @@ const NameContainer = styled.View`
   width: 100%;
 `;
 
-const TextArea = styled.View`
-  margin-top: 12px;
-  width: 85%;
-  height: 212px;
-  border-width: ${(props) => (props.focused ? '3px' : '1px')};
-  border-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
-`;
-
-const Input = styled.TextInput`
-  color: ${(props) => props.theme.color};
-  padding: 8px;
-  font-size: 16px;
-  font-family: 'Roboto-Regular';
-`;
-
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   initLanguage();
   const initialState = {
@@ -88,10 +72,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     state: 'UT',
     zipcode: '',
     country: 'us',
-    bio: '',
   };
   const [myInfo, setMyInfo] = useState(initialState);
-  const [isBioFocused, setIsBioFocused] = useState(false);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const handleChange = (field, text) => {
@@ -133,9 +115,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     state,
     zipcode,
     country,
-    bio,
   } = myInfo;
-  console.log('image', image);
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   useEffect(() => {
@@ -370,30 +350,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     testID="country-input"
                   />
                 </Flexbox>
-                <Subheader
-                  style={{ marginTop: 12, zIndex: -1 }}
-                  justify="center">
-                  <H5>{Localized('Bio')}</H5>
-                </Subheader>
-                <TextArea
-                  style={{ zIndex: -1 }}
-                  focused={isBioFocused}
-                  accessibilityLabel="bio information"
-                  onFocus={() => setIsBioFocused(true)}
-                  onBlur={() => setIsBioFocused(false)}>
-                  <Input
-                    testID="bio-input"
-                    style={{ height: '100%' }}
-                    value={bio}
-                    onChangeText={(text) => {
-                      handleChange('bio', text);
-                      setIsSaveButtonVisisble(true);
-                    }}
-                    multiline={true}
-                    numberOfLines={8}
-                    underlineColorAndroid="transparent"
-                  />
-                </TextArea>
               </Flexbox>
             </ScrollView>
           </ScreenContainer>
