@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Switch as NativeSwitch } from 'react-native';
+import { Switch as NativeSwitch, Platform } from 'react-native';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -95,6 +95,15 @@ export const Switch = ({ value, onValueChange, ...props }) => {
       ios_backgroundColor={theme.inactiveSwitchBackground}
       onValueChange={onValueChange}
       value={value}
+      style={{
+        // ios switch is larger than on android
+        transform: [
+          { scaleX: Platform.OS === 'ios' ? 0.8 : 1 },
+          { scaleY: Platform.OS === 'ios' ? 0.8 : 1 },
+        ],
+        // androids adds a margin at the end of the switch, so this will counteract that
+        marginEnd: Platform.OS === 'ios' ? 0 : -8,
+      }}
     />
   );
 };
