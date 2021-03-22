@@ -289,24 +289,28 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <Flexbox
                     direction="row"
-                    style={{ zIndex: 4, paddingTop: 4, marginBottom: 4 }}>
+                    align="flex-end"
+                    style={{
+                      zIndex: 4,
+                      paddingTop: 4,
+                      marginBottom: 4,
+                    }}>
                     {country === 'us' ? (
                       <Picker
                         items={usStates}
                         label={Localized('State')}
-                        // the picker will break if there is no value that matches one of the provided items in the itmes list
-                        defaultValue={
+                        value={
                           usStates.find((item) => item.value === state)
                             ? state
                             : 'CA'
                         }
-                        placeholder={Localized('State')}
-                        onChangeItem={(item) => {
-                          handleChange('state', item.value);
+                        placeholder={{ label: Localized('State'), value: null }}
+                        onValueChange={(value) => {
+                          handleChange('state', value);
                           setIsSaveButtonVisisble(true);
                         }}
                         testID="state-picker-input"
-                        style={{ width: '48%', marginTop: 2 }}
+                        style={{ width: '48%' }}
                       />
                     ) : (
                       <Flexbox width="48%">
@@ -341,10 +345,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   <Picker
                     items={countryList}
                     label={Localized('Country')}
-                    defaultValue={country}
-                    placeholder={Localized('Country')}
-                    onChangeItem={(item) => {
-                      handleChange('country', item.value);
+                    value={country}
+                    placeholder={{ label: Localized('Country'), value: null }}
+                    onValueChange={(value) => {
+                      handleChange('country', value);
                       setIsSaveButtonVisisble(true);
                     }}
                     testID="country-input"

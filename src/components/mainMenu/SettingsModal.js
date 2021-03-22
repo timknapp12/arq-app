@@ -18,9 +18,7 @@ import {
   H2Normal,
   CloseIcon,
   H4,
-  H5,
   Picker,
-  Subheader,
   Header,
   PrimaryButton,
   EditIcon,
@@ -38,6 +36,7 @@ const RowContainer = styled.View`
   align-items: center;
   width: 100%;
   padding: 8px;
+  position: relative;
 `;
 
 const PrimaryText = styled.Text`
@@ -52,10 +51,33 @@ const SecondaryText = styled.Text`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
+const markets = [
+  {
+    label: 'United States',
+    value: 'us',
+  },
+  {
+    label: 'United Kingdom',
+    value: 'uk',
+  },
+  {
+    label: 'Japan',
+    value: 'jp',
+  },
+  {
+    label: 'Germany',
+    value: 'de',
+  },
+  {
+    label: 'France',
+    value: 'fr',
+  },
+];
 const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   initLanguage();
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const [isPushNotiesEnabled, setIsPushNotiesEnabled] = useState(false);
+  const [selectedMarket, setSelectedMarket] = useState('us');
   return (
     <Modal
       animationType="slide"
@@ -70,6 +92,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
           <ScreenContainer>
             <ScrollView
               style={{ width: '100%' }}
+              nestedScrollEnabled={true}
               contentContainerStyle={{ height: '100%', paddingBottom: 20 }}
               keyboardShouldPersistTaps="always">
               <Flexbox
@@ -91,11 +114,9 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     </HeaderButtonContainer>
                   </Header>
 
-                  <Subheader justify="center">
-                    <H5>{Localized('Account')}</H5>
-                  </Subheader>
                   <Flexbox
-                    accessibilityLabel="account info section"
+                    accessibilityLabel="settings info"
+                    style={{ position: 'relative' }}
                     padding={12}>
                     <RowContainer>
                       <View
@@ -135,14 +156,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                         }
                       />
                     </RowContainer>
-                  </Flexbox>
 
-                  <Subheader justify="center">
-                    <H5>{Localized('Notifications')}</H5>
-                  </Subheader>
-                  <Flexbox
-                    accessibilityLabel="notifications info section"
-                    padding={12}>
                     <RowContainer>
                       <PrimaryText>
                         {Localized('Push Notifications')}
@@ -154,10 +168,30 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                         }
                       />
                     </RowContainer>
+
+                    <RowContainer>
+                      <Picker
+                        items={markets}
+                        onValueChange={(value) => setSelectedMarket(value)}
+                        value={selectedMarket}
+                        placeholder={{
+                          label: Localized('Market'),
+                          value: null,
+                        }}
+                        label={Localized('Market')}
+                        testID="market-picker-input"
+                      />
+                    </RowContainer>
                   </Flexbox>
                 </Flexbox>
 
-                <View style={{ width: '85%' }}>
+                <View
+                  style={{
+                    width: '85%',
+                    flex: 1,
+                    zIndex: -1,
+                    marginTop: 150,
+                  }}>
                   <PrimaryButton>{Localized('Log Out')}</PrimaryButton>
                 </View>
 
