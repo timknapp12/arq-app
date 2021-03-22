@@ -6,6 +6,8 @@ import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
 import AppContext from '../../contexts/AppContext';
 
+// source: https://www.npmjs.com/package/react-native-picker-select#styling
+
 const SecondaryText = styled.Text`
   font-size: 16px;
   font-family: 'Roboto-Regular';
