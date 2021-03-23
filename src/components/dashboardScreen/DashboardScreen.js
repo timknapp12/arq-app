@@ -33,6 +33,25 @@ const mockUser = {
     requiredQOV: 350000,
     name: Localized('Emerald'),
   },
+  personalInfo: {
+    image: {
+      imageName: 'Sloane.Taylor.34903f19-d0c7-41b6-b4d2-2eed0ad1ef6c',
+      url:
+        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2F..964d8849-399c-48a0-a8b2-00e595eb7e1a?alt=media&token=6d3c26a3-5367-4212-bda3-673a86482d61',
+    },
+    firstName: 'Sloane',
+    lastName: 'Taylor',
+    displayName: 'sloanet',
+    email: 'sloanetaylor@gmail.com',
+    phone: '801-435-9064',
+    distributorId: '12340987',
+    address1: '1234 S 5600 W',
+    address2: '',
+    city: 'Lehi',
+    state: 'UT',
+    zipcode: '84043',
+    country: 'us',
+  },
 };
 
 const DashboardScreen = () => {
@@ -253,7 +272,10 @@ const DashboardScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
-      <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
+      <ScreenContainer
+        style={{
+          justifyContent: 'flex-start',
+        }}>
         <DashboardHeader
           isMenuOpen={isMenuOpen}
           fadeIn={fadeIn}
@@ -281,6 +303,10 @@ const DashboardScreen = () => {
           />
         </Flexbox>
         <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 30,
+          }}
           style={{
             width: '100%',
             height: '100%',
@@ -300,12 +326,14 @@ const DashboardScreen = () => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+            data={mockUser.personalInfo}
           />
         )}
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
+            data={mockUser.personalInfo}
           />
         )}
       </ScreenContainer>

@@ -52,27 +52,9 @@ const NameContainer = styled.View`
   width: 100%;
 `;
 
-const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
+const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
   initLanguage();
-  const initialState = {
-    image: {
-      imageName: 'Sloane.Taylor.34903f19-d0c7-41b6-b4d2-2eed0ad1ef6c',
-      url:
-        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2F..964d8849-399c-48a0-a8b2-00e595eb7e1a?alt=media&token=6d3c26a3-5367-4212-bda3-673a86482d61',
-    },
-    firstName: 'Sloane',
-    lastName: 'Taylor',
-    displayName: '',
-    email: '',
-    phone: '',
-    distributorId: '',
-    address1: '',
-    address2: '',
-    city: '',
-    state: 'UT',
-    zipcode: '',
-    country: 'us',
-  };
+  const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
@@ -128,7 +110,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   return (
     <Modal
       animationType="slide"
-      transparent={true}
+      transparent={false}
       visible={isMyInfoModalOpen}
       statusBarTranslucent={true}
       onRequestClose={() => setIsMyInfoModalOpen(false)}>
@@ -366,6 +348,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 MyInfoModal.propTypes = {
   setIsMyInfoModalOpen: PropTypes.func.isRequired,
   isMyInfoModalOpen: PropTypes.bool.isRequired,
+  data: PropTypes.object,
 };
 
 export default MyInfoModal;
