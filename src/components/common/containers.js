@@ -5,12 +5,11 @@ import styled from 'styled-components/native';
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 
 const sharedCss = {
-  flex: 1,
+  flexGrow: 1,
   paddingTop: 50,
   paddingBottom: 40,
   alignItems: 'center',
   justifyContent: 'center',
-  height: '100%',
   width: '100%',
 };
 
