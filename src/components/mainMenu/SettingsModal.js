@@ -25,6 +25,8 @@ import {
   Switch,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
+import UsernameEditModal from './UsernameEditModal';
+import PasswordEditModal from './PasswordEditModal';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -73,15 +75,24 @@ const markets = [
     value: 'fr',
   },
 ];
-const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
+const SettingsModal = ({
+  setIsSettingsModalOpen,
+  isSettingsModalOpen,
+  data,
+}) => {
   initLanguage();
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const [isPushNotiesEnabled, setIsPushNotiesEnabled] = useState(false);
   const [selectedMarket, setSelectedMarket] = useState('us');
+
+  const initialState = data.displayName;
+  const [username, setUsername] = useState(initialState);
+  const [isUsernameEditModalOpen, setIsUsernameEditModalOpen] = useState(false);
+  const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
   return (
     <Modal
       animationType="slide"
-      transparent={true}
+      transparent={false}
       visible={isSettingsModalOpen}
       statusBarTranslucent={true}
       onRequestClose={() => setIsSettingsModalOpen(false)}>
@@ -126,11 +137,11 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                         }}>
                         <SecondaryText>{Localized('Username')}</SecondaryText>
                         <PrimaryText style={{ marginStart: 8 }}>
-                          sloanetaylor
+                          {username}
                         </PrimaryText>
                       </View>
                       <Pressable
-                        onPress={() => console.log('this is running')}
+                        onPress={() => setIsUsernameEditModalOpen(true)}
                         hitSlop={8}>
                         <EditIcon />
                       </Pressable>
@@ -139,7 +150,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     <RowContainer>
                       <PrimaryText>{Localized('Password')}</PrimaryText>
                       <Pressable
-                        onPress={() => console.log('this is running 2')}
+                        onPress={() => setIsPasswordEditModalOpen(true)}
                         hitSlop={8}>
                         <EditIcon />
                       </Pressable>
@@ -218,6 +229,17 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                 </Flexbox>
               </Flexbox>
             </ScrollView>
+            <UsernameEditModal
+              visible={isUsernameEditModalOpen}
+              setIsUsernameEditModalOpen={setIsUsernameEditModalOpen}
+              value={username}
+              initialValue={initialState}
+              onChangeText={(text) => setUsername(text)}
+            />
+            <PasswordEditModal
+              visible={isPasswordEditModalOpen}
+              setIsPasswordEditModalOpen={setIsPasswordEditModalOpen}
+            />
           </ScreenContainer>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -228,6 +250,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
 SettingsModal.propTypes = {
   setIsSettingsModalOpen: PropTypes.func.isRequired,
   isSettingsModalOpen: PropTypes.bool.isRequired,
+  data: PropTypes.object,
 };
 
 export default SettingsModal;
