@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
@@ -27,6 +27,7 @@ import {
 import { Localized, initLanguage } from '../../translations/Localized';
 import UsernameEditModal from './UsernameEditModal';
 import PasswordEditModal from './PasswordEditModal';
+import AppContext from '../../contexts/AppContext';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -81,6 +82,8 @@ const SettingsModal = ({
   data,
 }) => {
   initLanguage();
+  const { setIsSignedIn } = useContext(AppContext);
+
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const [isPushNotiesEnabled, setIsPushNotiesEnabled] = useState(false);
   const [selectedMarket, setSelectedMarket] = useState('us');
@@ -96,11 +99,14 @@ const SettingsModal = ({
       visible={isSettingsModalOpen}
       statusBarTranslucent={true}
       onRequestClose={() => setIsSettingsModalOpen(false)}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <ScreenContainer>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+            style={{
+              flex: 1,
+              width: '100%',
+            }}>
             <ScrollView
               style={{ width: '100%' }}
               nestedScrollEnabled={true}
@@ -203,30 +209,10 @@ const SettingsModal = ({
                     zIndex: -1,
                     marginTop: 150,
                   }}>
-                  <PrimaryButton>{Localized('Log Out')}</PrimaryButton>
+                  <PrimaryButton onPress={() => setIsSignedIn(false)}>
+                    {Localized('Log Out')}
+                  </PrimaryButton>
                 </View>
-
-                <Flexbox
-                  accessibilityLabel="Terms Privacy Data"
-                  justify="center"
-                  direction="row"
-                  padding={14}>
-                  <TouchableOpacity testID="terms-button-settings-screen">
-                    <H4>{Localized('Terms')}</H4>
-                  </TouchableOpacity>
-                  <H4 style={{ marginStart: 8 }}>|</H4>
-                  <TouchableOpacity
-                    testID="privacy-button-settings-screen"
-                    style={{ marginStart: 8 }}>
-                    <H4>{Localized('Privacy')}</H4>
-                  </TouchableOpacity>
-                  <H4 style={{ marginStart: 8 }}>|</H4>
-                  <TouchableOpacity
-                    testID="data-button-settings-screen"
-                    style={{ marginStart: 8 }}>
-                    <H4>{Localized('Data')}</H4>
-                  </TouchableOpacity>
-                </Flexbox>
               </Flexbox>
             </ScrollView>
             <UsernameEditModal
@@ -240,9 +226,31 @@ const SettingsModal = ({
               visible={isPasswordEditModalOpen}
               setIsPasswordEditModalOpen={setIsPasswordEditModalOpen}
             />
-          </ScreenContainer>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+          <Flexbox
+            style={{ position: 'absolute', bottom: 30 }}
+            accessibilityLabel="Terms Privacy Data"
+            justify="center"
+            direction="row"
+            padding={14}>
+            <TouchableOpacity testID="terms-button-settings-screen">
+              <H4>{Localized('Terms')}</H4>
+            </TouchableOpacity>
+            <H4 style={{ marginStart: 8 }}>|</H4>
+            <TouchableOpacity
+              testID="privacy-button-settings-screen"
+              style={{ marginStart: 8 }}>
+              <H4>{Localized('Privacy')}</H4>
+            </TouchableOpacity>
+            <H4 style={{ marginStart: 8 }}>|</H4>
+            <TouchableOpacity
+              testID="data-button-settings-screen"
+              style={{ marginStart: 8 }}>
+              <H4>{Localized('Data')}</H4>
+            </TouchableOpacity>
+          </Flexbox>
+        </ScreenContainer>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

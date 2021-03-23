@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AnimatedInput } from '../common';
+import { Platform } from 'react-native';
 import EditModal from '../editModal/EditModal';
 import { Localized, initLanguage } from '../../translations/Localized';
 
@@ -14,7 +15,6 @@ const UsernameEditModal = ({
   initLanguage();
   // TODO wire up a mutation
   const onSave = () => {
-    console.log('save this info');
     setIsUsernameEditModalOpen(false);
   };
   const onClose = () => {
@@ -22,7 +22,11 @@ const UsernameEditModal = ({
     setIsUsernameEditModalOpen(false);
   };
   return (
-    <EditModal onClose={onClose} visible={visible} onSave={onSave}>
+    <EditModal
+      onClose={onClose}
+      visible={visible}
+      onSave={onSave}
+      verticalOffset={Platform.OS === 'ios' ? 20 : 0}>
       <AnimatedInput
         autoFocus
         testID="username-input-edit-modal"

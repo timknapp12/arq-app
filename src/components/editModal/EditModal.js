@@ -11,6 +11,7 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.modalBackgroundColor};
+  flex: 1;
 `;
 const Inner = styled.KeyboardAvoidingView`
   max-height: 40%;
@@ -38,7 +39,7 @@ const EditModal = ({
       <Container>
         <Inner
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? verticalOffset : 0}>
+          keyboardVerticalOffset={verticalOffset}>
           {children}
           <Flexbox padding={10} direction="row" justify="flex-end">
             <TouchableOpacity onPress={onClose}>

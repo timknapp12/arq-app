@@ -40,7 +40,6 @@ import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 const HeaderButtonContainer = styled.View`
   width: 60px;
 `;
-
 const { width } = Dimensions.get('window');
 const nameInputWidth = `${width - 150}px`;
 
@@ -114,11 +113,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
       visible={isMyInfoModalOpen}
       statusBarTranslucent={true}
       onRequestClose={() => setIsMyInfoModalOpen(false)}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <ScreenContainer>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+          <KeyboardAvoidingView
+            style={{ flex: 1, width: '100%' }}
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 20 }}
@@ -338,9 +337,9 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                 </Flexbox>
               </Flexbox>
             </ScrollView>
-          </ScreenContainer>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </ScreenContainer>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
