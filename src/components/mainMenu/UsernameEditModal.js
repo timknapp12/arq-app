@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { AnimatedInput } from '../common';
 import EditModal from '../editModal/EditModal';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const UsernameEditModal = ({
   value,
@@ -10,6 +11,7 @@ const UsernameEditModal = ({
   setIsUsernameEditModalOpen,
   visible,
 }) => {
+  initLanguage();
   // TODO wire up a mutation
   const onSave = () => {
     console.log('save this info');
@@ -22,9 +24,13 @@ const UsernameEditModal = ({
   return (
     <EditModal onClose={onClose} visible={visible} onSave={onSave}>
       <AnimatedInput
+        autoFocus
+        testID="username-input-edit-modal"
         onChangeText={onChangeText}
-        label="Username"
+        label={Localized('Username')}
         value={value}
+        returnKeyType="go"
+        onSubmitEditing={onSave}
       />
     </EditModal>
   );

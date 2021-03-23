@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Flexbox, H5 } from '../common';
-import { Modal, TouchableOpacity } from 'react-native';
+import { Modal, TouchableOpacity, Platform } from 'react-native';
 import { Localized, initLanguage } from '../../translations/Localized';
 
 const Container = styled.View`
@@ -12,7 +12,7 @@ const Container = styled.View`
   align-items: center;
   background-color: ${(props) => props.theme.modalBackgroundColor};
 `;
-const Inner = styled.View`
+const Inner = styled.KeyboardAvoidingView`
   max-height: 40%;
   width: 80%;
   background-color: ${(props) => props.theme.backgroundColor};
@@ -20,7 +20,13 @@ const Inner = styled.View`
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
-const EditModal = ({ visible, onClose, children, onSave }) => {
+const EditModal = ({
+  visible,
+  onClose,
+  children,
+  onSave,
+  verticalOffset = 20,
+}) => {
   initLanguage();
   return (
     <Modal
@@ -30,7 +36,9 @@ const EditModal = ({ visible, onClose, children, onSave }) => {
       statusBarTranslucent={true}
       onRequestClose={onClose}>
       <Container>
-        <Inner>
+        <Inner
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? verticalOffset : 0}>
           {children}
           <Flexbox padding={10} direction="row" justify="flex-end">
             <TouchableOpacity onPress={onClose}>
@@ -51,6 +59,7 @@ EditModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   children: PropTypes.any,
   onSave: PropTypes.func,
+  verticalOffset: PropTypes.number,
 };
 
 export default EditModal;
