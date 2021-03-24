@@ -103,14 +103,16 @@ const SettingsModal = ({
       const isCompatible = await LocalAuthentication.hasHardwareAsync();
 
       if (!isCompatible) {
-        throw new Error("Your device isn't compatible.");
+        setIsBiometricsEnabled(false);
+        throw new Error(Localized("Your device isn't compatible"));
       }
 
       // Checking if device has biometrics records
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
       if (!isEnrolled) {
-        throw new Error('No Faces / Fingers found.');
+        setIsBiometricsEnabled(false);
+        throw new Error(Localized('No Faces / Fingers found'));
       }
       setUseBiometrics(true);
       // Authenticate user
@@ -142,6 +144,7 @@ const SettingsModal = ({
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -60}
             style={{
               flex: 1,
               width: '100%',
@@ -186,6 +189,7 @@ const SettingsModal = ({
                         </PrimaryText>
                       </View>
                       <Pressable
+                        testID="edit-username-modal-button"
                         onPress={() => setIsUsernameEditModalOpen(true)}
                         hitSlop={8}>
                         <EditIcon />
@@ -195,6 +199,7 @@ const SettingsModal = ({
                     <RowContainer>
                       <PrimaryText>{Localized('Password')}</PrimaryText>
                       <Pressable
+                        testID="edit-new-password-modal-button"
                         onPress={() => setIsPasswordEditModalOpen(true)}
                         hitSlop={8}>
                         <EditIcon />
@@ -206,6 +211,7 @@ const SettingsModal = ({
                         {Localized('Face ID or Fingerprint Log In')}
                       </PrimaryText>
                       <Switch
+                        testID="biometrics-switch"
                         value={isBiometricsEnabled}
                         onValueChange={() =>
                           setIsBiometricsEnabled((state) => !state)
@@ -218,6 +224,7 @@ const SettingsModal = ({
                         {Localized('Push Notifications')}
                       </PrimaryText>
                       <Switch
+                        testID="push-notifications-switch"
                         value={isPushNotiesEnabled}
                         onValueChange={() =>
                           setIsPushNotiesEnabled((state) => !state)
@@ -248,7 +255,9 @@ const SettingsModal = ({
                     zIndex: -1,
                     marginTop: 150,
                   }}>
-                  <PrimaryButton onPress={() => setIsSignedIn(false)}>
+                  <PrimaryButton
+                    testID="log-out-button-in-settings"
+                    onPress={() => setIsSignedIn(false)}>
                     {Localized('Log Out')}
                   </PrimaryButton>
                 </View>
@@ -267,7 +276,6 @@ const SettingsModal = ({
             />
           </KeyboardAvoidingView>
           <Flexbox
-            style={{ position: 'absolute', bottom: 30 }}
             accessibilityLabel="Terms Privacy Data"
             justify="center"
             direction="row"

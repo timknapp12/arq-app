@@ -42,10 +42,15 @@ const EditModal = ({
           keyboardVerticalOffset={verticalOffset}>
           {children}
           <Flexbox padding={10} direction="row" justify="flex-end">
-            <TouchableOpacity onPress={onClose}>
+            <TouchableOpacity
+              testID="cancel-button-in-edit-modal"
+              onPress={onClose}>
               <H5>{Localized('CANCEL')}</H5>
             </TouchableOpacity>
-            <TouchableOpacity style={{ marginStart: 8 }} onPress={onSave}>
+            <TouchableOpacity
+              testID="save-button-in-edit-modal"
+              style={{ marginStart: 8 }}
+              onPress={onSave}>
               <H5>{Localized('SAVE')}</H5>
             </TouchableOpacity>
           </Flexbox>

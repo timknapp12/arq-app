@@ -95,5 +95,7 @@
   "Please add a username": "Please add a username",
   "Please add a password": "Please add a password",
   "Passwords don't match. Please confirm new password": "Passwords don't match. Please confirm new password",
-  "Password should contain at least one number and one uppercase character and be between 8-25 in characters": "Password should contain at least one number and one uppercase character and be between 8-25 in characters"
+  "Password should contain at least one number and one uppercase character and be between 8-25 in characters": "Password should contain at least one number and one uppercase character and be between 8-25 in characters",
+  "Your device isn't compatible": "Your device isn't compatible",
+  "No Faces / Fingers found": "No Faces / Fingers found"
 }

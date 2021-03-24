@@ -117,6 +117,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
             style={{ flex: 1, width: '100%' }}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -60}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
               style={{ width: '100%' }}
