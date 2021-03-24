@@ -71,7 +71,6 @@
   "State": "State",
   "ZIP Code": "ZIP Code",
   "Country": "Country",
-  "Bio": "Bio",
   "Sorry there was an error! Please try again later": "Sorry there was an error! Please try again later",
   "Lead Capture": "Lead Capture",
   "SAVE": "SAVE",
@@ -82,5 +81,16 @@
   "Twitter": "Twitter",
   "Instagram": "Instagram",
   "Required": "Required",
-  "Remember my username": "Remember my username"
+  "Remember my username": "Remember my username",
+  "Account": "Account",
+  "Notifications": "Notifications",
+  "Face ID or Fingerprint Log In": "Face ID or Fingerprint Log In",
+  "Push Notifications": "Push Notifications",
+  "Market": "Market",
+  "Current Password": "Current Password",
+  "New Password": "New Password",
+  "Confirm New Password": "Confirm New Password",
+  "FaceID/TouchID is enabled!": "FaceID/TouchID is enabled!",
+  "An error as occured": "An error as occured",
+  "Please add a username": "Please add a username"
 }

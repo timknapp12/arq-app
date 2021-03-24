@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { AnimatedInput } from '../common';
+import { AnimatedInput, AlertText } from '../common';
 import { Platform } from 'react-native';
 import EditModal from '../editModal/EditModal';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -13,14 +13,32 @@ const UsernameEditModal = ({
   visible,
 }) => {
   initLanguage();
+  const [isError, setIsError] = useState(false);
   // TODO wire up a mutation
   const onSave = () => {
+    if (value.length === 0) {
+      return setIsError(true);
+    }
+    setIsError(false);
     setIsUsernameEditModalOpen(false);
   };
   const onClose = () => {
     onChangeText(initialValue);
+    setIsError(false);
     setIsUsernameEditModalOpen(false);
   };
+
+  useEffect(() => {
+    if (value.length === 0) {
+      return setIsError(true);
+    } else {
+      setIsError(false);
+    }
+    return () => {
+      setIsError(false);
+    };
+  }, [value]);
+
   return (
     <EditModal
       onClose={onClose}
@@ -35,7 +53,9 @@ const UsernameEditModal = ({
         value={value}
         returnKeyType="go"
         onSubmitEditing={onSave}
+        validationError={isError}
       />
+      {isError && <AlertText>{Localized('Please add a username')}</AlertText>}
     </EditModal>
   );
 };

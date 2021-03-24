@@ -89,9 +89,14 @@ const Label = styled.Text`
 `;
 
 const ThemedAnimatedInput = styled.TextInput`
-  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
+  border-bottom-width: ${(props) =>
+    props.focused || props.validationError ? '3px' : '1px'};
   border-bottom-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+    props.validationError
+      ? props.theme.error
+      : props.focused
+      ? props.theme.highlight
+      : props.theme.disabledTextColor};
   color: ${(props) => props.theme.color};
   width: 100%;
   font-size: 16px;
@@ -105,6 +110,7 @@ export const AnimatedInput = ({
   value = '',
   onChangeText = () => {},
   label = '',
+  validationError = false,
   ...props
 }) => {
   const inputRef = useRef();
@@ -150,6 +156,7 @@ export const AnimatedInput = ({
             value={value}
             onChangeText={onChangeText}
             focused={isFocused}
+            validationError={validationError}
             onFocus={onFocus}
             onBlur={onBlur}
             {...props}
@@ -165,4 +172,5 @@ AnimatedInput.propTypes = {
   value: PropTypes.string,
   onChangeText: PropTypes.func,
   label: PropTypes.string,
+  validationError: PropTypes.bool,
 };
