@@ -17,7 +17,10 @@
     "ios": {
       "bundleIdentifier": "com.qsciences.q-connect-pro-staging",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID for authentication"
+      }
     },
     "android": {
       "package": "com.qsciences.q_connect_pro_staging",
