@@ -28,6 +28,7 @@ const App = () => {
   const [theme, setTheme] = useState(darkTheme);
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [user, setUser] = useState(null);
+  const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
     'Nunito-Black': require('./assets/fonts/Nunito/Nunito-Black.ttf'),
@@ -48,6 +49,8 @@ const App = () => {
             setIsSignedIn,
             user,
             setUser,
+            useBiometrics,
+            setUseBiometrics,
           }}>
           <StatusBar
             backgroundColor={theme.backgroundColor}

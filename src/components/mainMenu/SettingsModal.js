@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
@@ -11,6 +11,7 @@ import {
   Platform,
   View,
   Pressable,
+  Alert,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -28,6 +29,7 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import UsernameEditModal from './UsernameEditModal';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -82,7 +84,7 @@ const SettingsModal = ({
   data,
 }) => {
   initLanguage();
-  const { setIsSignedIn } = useContext(AppContext);
+  const { setIsSignedIn, setUseBiometrics } = useContext(AppContext);
 
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const [isPushNotiesEnabled, setIsPushNotiesEnabled] = useState(false);
@@ -92,6 +94,43 @@ const SettingsModal = ({
   const [username, setUsername] = useState(initialState);
   const [isUsernameEditModalOpen, setIsUsernameEditModalOpen] = useState(false);
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
+
+  // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
+  // https://docs.expo.io/versions/latest/sdk/local-authentication/
+  const onFaceID = async () => {
+    try {
+      // Checking if device is compatible
+      const isCompatible = await LocalAuthentication.hasHardwareAsync();
+
+      if (!isCompatible) {
+        throw new Error("Your device isn't compatible.");
+      }
+
+      // Checking if device has biometrics records
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+
+      if (!isEnrolled) {
+        throw new Error('No Faces / Fingers found.');
+      }
+      setUseBiometrics(true);
+      // Authenticate user
+      // the authenticate method below is used in LoginScreen.js
+      // await LocalAuthentication.authenticateAsync();
+
+      Alert.alert(Localized('FaceID/TouchID is enabled!'));
+    } catch (error) {
+      Alert.alert(Localized('An error as occured'), error?.message);
+    }
+  };
+
+  useEffect(() => {
+    if (isBiometricsEnabled) {
+      onFaceID();
+    } else {
+      setUseBiometrics(false);
+    }
+  }, [isBiometricsEnabled]);
+
   return (
     <Modal
       animationType="slide"
