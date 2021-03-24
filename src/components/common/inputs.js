@@ -11,9 +11,14 @@ const ThemedTextInputContainer = styled.View`
   align-items: flex-end;
   height: 28px;
   flex-direction: row;
-  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
+  border-bottom-width: ${(props) =>
+    props.focused || props.validationError ? '3px' : '1px'};
   border-bottom-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+    props.validationError
+      ? props.theme.error
+      : props.focused
+      ? props.theme.highlight
+      : props.theme.disabledTextColor};
   padding-bottom: 3px;
 `;
 
@@ -30,7 +35,7 @@ const ThemedIcon = styled(Ionicons)`
 
 // eslint-disable-next-line react/display-name
 export const Input = React.forwardRef(
-  ({ focused, textContentType, ...props }, ref) => {
+  ({ focused, textContentType, validationError = false, ...props }, ref) => {
     const [secureTextEntry, setSecureTextEntry] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -50,7 +55,9 @@ export const Input = React.forwardRef(
     }, [textContentType]);
 
     return (
-      <ThemedTextInputContainer focused={isFocused}>
+      <ThemedTextInputContainer
+        focused={isFocused}
+        validationError={validationError}>
         <ThemedInput
           ref={ref}
           secureTextEntry={secureTextEntry}
@@ -78,6 +85,7 @@ export const Input = React.forwardRef(
 Input.propTypes = {
   textContentType: PropTypes.string,
   focused: PropTypes.bool,
+  validationError: PropTypes.bool,
 };
 
 // Animated Input where label animates
