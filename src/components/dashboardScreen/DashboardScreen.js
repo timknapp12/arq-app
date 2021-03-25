@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { Flexbox, ScreenContainer, TertiaryButton, Subheader } from '../common';
+import {
+  Flexbox,
+  ScreenContainer,
+  TertiaryButton,
+  TopButtonBar,
+} from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -245,14 +250,14 @@ const DashboardScreen = () => {
     setIsMenuOpen(true);
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 1000,
+      duration: 700,
       useNativeDriver: false,
     }).start();
   };
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: -500,
-      duration: 1000,
+      duration: 700,
       useNativeDriver: false,
     }).start(() => setIsMenuOpen(false));
   };
@@ -279,7 +284,7 @@ const DashboardScreen = () => {
           badgeValue={2}
           profileUrl={mockUser.personalInfo.image.url}
         />
-        <Subheader height="30px">
+        <TopButtonBar>
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
               onPress={() => navigate(item)}
@@ -288,7 +293,7 @@ const DashboardScreen = () => {
               {item.name}
             </TertiaryButton>
           ))}
-        </Subheader>
+        </TopButtonBar>
         <Flexbox>
           <PopoutMenu
             fadeAnim={fadeAnim}

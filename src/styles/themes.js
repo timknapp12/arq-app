@@ -1,6 +1,7 @@
 import {
   white,
   black,
+  nero,
   darkgray,
   gray,
   lightgray,
@@ -27,6 +28,7 @@ export const lightTheme = {
   highlight: darkblue,
   error: red,
   headerBackgroundColor: blue,
+  subheaderBackgroundColor: black,
   tertiarySelectedTextColor: blue,
   tertiarySelectedBackgroundColor: white,
   tertiaryDisabledTextColor: blue,
@@ -36,6 +38,8 @@ export const lightTheme = {
   inactiveSwitchBackground: darkgray,
   activeSwitchThumb: '#8DB600',
   inactiveSwitchThumb: gray,
+  sideMenuBackground: nero,
+  topButtonBarBackground: nero,
   statusBar: 'dark',
 };
 
@@ -44,8 +48,8 @@ export const darkTheme = {
   invertedColor: black,
   secondaryTextColor: gray,
   backgroundColor: black,
-  activeBackground: blue,
-  inactiveBackground: darkgray,
+  activeBackground: nero,
+  inactiveBackground: nero,
   activeTint: white,
   inactiveTint: white,
   disabledBackgroundColor: lightgray,
@@ -53,6 +57,7 @@ export const darkTheme = {
   highlight: darkblue,
   error: red,
   headerBackgroundColor: black,
+  subheaderBackgroundColor: black,
   tertiarySelectedTextColor: white,
   tertiarySelectedBackgroundColor: blue,
   tertiaryDisabledTextColor: veryLightGray,
@@ -62,5 +67,7 @@ export const darkTheme = {
   inactiveSwitchBackground: darkgray,
   activeSwitchThumb: '#8DB600',
   inactiveSwitchThumb: gray,
+  sideMenuBackground: nero,
+  topButtonBarBackground: nero,
   statusBar: 'light',
 };

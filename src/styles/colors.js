@@ -2,6 +2,8 @@ export const white = '#ffffff';
 
 export const black = '#121212';
 
+export const nero = '#222222';
+
 export const gray = '#989898';
 
 export const lightgray = '#D8D8D8';

@@ -13,7 +13,7 @@ const SideMenu = styled.View`
   position: absolute;
   align-items: flex-start;
   top: 0;
-  background-color: ${(props) => props.theme.inactiveBackground};
+  background-color: ${(props) => props.theme.sideMenuBackground};
   padding: 24px;
 `;
 
@@ -23,7 +23,7 @@ const PopoutMenu = ({ fadeAnim, fadeOut, setIsMyInfoModalOpen }) => {
   initLanguage();
   const { setIsSignedIn } = useContext(AppContext);
   return (
-    <AnimatedMenu style={{ right: fadeAnim }}>
+    <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableOpacity
         style={{ zIndex: 4 }}
         onPress={() => {
