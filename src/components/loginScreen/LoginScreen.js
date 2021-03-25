@@ -174,9 +174,10 @@ const LoginScreen = () => {
   const onFaceID = async () => {
     try {
       // Authenticate user
-      await LocalAuthentication.authenticateAsync();
-
-      setIsSignedIn(true);
+      const result = await LocalAuthentication.authenticateAsync();
+      if (result.success) {
+        setIsSignedIn(true);
+      }
     } catch (error) {
       setIsErrorModalOpen(true);
       setErrorMessage(error);
