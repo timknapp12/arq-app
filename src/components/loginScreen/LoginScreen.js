@@ -10,6 +10,8 @@ import {
   AlertText,
   Link,
   Checkmark,
+  TouchIDIcon,
+  FaceIDIcon,
 } from '../common';
 import {
   Image,
@@ -294,6 +296,17 @@ const LoginScreen = () => {
               </Flexbox>
             </Flexbox>
           </KeyboardAvoidingView>
+          {useBiometrics && (
+            <Flexbox accessibilityLabel="biometrics button">
+              <TouchableOpacity testID="biometrics-button" onPress={onFaceID}>
+                {Platform.OS === 'ios' ? (
+                  <FaceIDIcon fill={theme.highlight} />
+                ) : (
+                  <TouchIDIcon fill={theme.highlight} />
+                )}
+              </TouchableOpacity>
+            </Flexbox>
+          )}
 
           <Flexbox
             accessibilityLabel="Become an Ambassador"

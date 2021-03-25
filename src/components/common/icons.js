@@ -12,7 +12,9 @@ import camera from '../../../assets/icons/button_camera.png';
 import gallery from '../../../assets/icons/buton_gallery.png';
 import edit from '../../../assets/icons/ic_edit.png';
 import deletePng from '../../../assets/icons/ic_delete.png';
-import { darkRed, white } from '../../styles/colors';
+import FaceID from '../../../assets/icons/face-id.svg';
+import TouchID from '../../../assets/icons/touch-id.svg';
+import { darkRed, white, blue } from '../../styles/colors';
 
 const IconContainer = styled.View`
   position: relative;
@@ -94,3 +96,19 @@ export const EditIcon = ({ ...props }) => (
 export const DeleteIcon = ({ ...props }) => (
   <Image {...props} source={deletePng} style={{ height: 16 }} />
 );
+
+export const TouchIDIcon = ({ fill = blue, size = 36, ...props }) => (
+  <TouchID width={size} height={size} fill={fill} {...props} />
+);
+TouchIDIcon.propTypes = {
+  fill: PropTypes.string,
+  size: PropTypes.number,
+};
+
+export const FaceIDIcon = ({ fill = blue, size = 36, ...props }) => (
+  <FaceID width={size} height={size} fill={fill} {...props} />
+);
+FaceIDIcon.propTypes = {
+  fill: PropTypes.string,
+  size: PropTypes.number,
+};
