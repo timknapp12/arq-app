@@ -64,7 +64,7 @@ export const AccountIcon = ({ ...props }) => (
 );
 
 export const SmallQIcon = ({ ...props }) => (
-  <Image {...props} source={smallQ} style={{ height: 24 }} />
+  <Image {...props} source={smallQ} style={{ height: 26 }} />
 );
 
 export const CloseIcon = ({ ...props }) => (

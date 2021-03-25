@@ -52,7 +52,7 @@ export const darkTheme = {
   disabledTextColor: gray,
   highlight: darkblue,
   error: red,
-  headerBackgroundColor: blue,
+  headerBackgroundColor: black,
   tertiarySelectedTextColor: white,
   tertiarySelectedBackgroundColor: blue,
   tertiaryDisabledTextColor: veryLightGray,

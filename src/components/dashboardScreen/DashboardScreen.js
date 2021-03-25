@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { Flexbox, ScreenContainer, TertiaryButton, Subheader } from '../common';
-import DashboardHeader from './DashboardHeader';
+import MainHeader from '../mainHeader/MainHeader';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, initLanguage } from '../../translations/Localized';
 import Overview from './Overview';
@@ -31,6 +31,25 @@ const mockUser = {
     requiredPA: 2,
     requiredQOV: 350000,
     name: Localized('Emerald'),
+  },
+  personalInfo: {
+    image: {
+      imageName: 'Sloane.Taylor.34903f19-d0c7-41b6-b4d2-2eed0ad1ef6c',
+      url:
+        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FSloane.Taylor.94f93ae8-9b3d-4cf3-a7ee-3f213707ebc6?alt=media&token=52c072d4-62e1-4ab0-b4c4-3090fcb0d4e5',
+    },
+    firstName: 'Sloane',
+    lastName: 'Taylor',
+    displayName: 'sloanet',
+    email: 'sloanetaylor@gmail.com',
+    phone: '801-435-9064',
+    distributorId: '12340987',
+    address1: '1234 S 5600 W',
+    address2: '',
+    city: 'Lehi',
+    state: 'UT',
+    zipcode: '84043',
+    country: 'us',
   },
 };
 
@@ -252,12 +271,13 @@ const DashboardScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
-        <DashboardHeader
+        <MainHeader
           isMenuOpen={isMenuOpen}
           fadeIn={fadeIn}
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
+          profileUrl={mockUser.personalInfo.image.url}
         />
         <Subheader height="30px">
           {tertiaryButtonText.map((item) => (
