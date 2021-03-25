@@ -56,6 +56,7 @@ const SecondaryText = styled.Text`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
+// TODO - get real markets from database
 const markets = [
   {
     label: 'United States',
