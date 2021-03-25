@@ -9,7 +9,7 @@ import {
   SmallQIcon,
   TertiaryButton,
 } from '../../src/components/common';
-import DashboardHeader from '../../src/components/dashboardScreen/DashboardHeader';
+import MainHeader from '../../src/components/mainHeader/MainHeader';
 import Subheader from '../../src/components/common';
 
 storiesOf('Header', module)
@@ -39,7 +39,7 @@ storiesOf('Header', module)
       <AccountIcon />
     </Header>
   ))
-  .add('Dashboard Header', () => <DashboardHeader badgeValue={3} />)
+  .add('Dashboard Header', () => <MainHeader badgeValue={3} />)
   .add('subheader', () => (
     <Subheader>
       <TertiaryButton selected>Overview</TertiaryButton>

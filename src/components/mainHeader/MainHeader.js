@@ -12,8 +12,8 @@ const ProfileImage = styled.Image`
 
 const MainHeader = ({
   badgeValue,
-  fadeIn,
-  fadeOut,
+  fadeIn = () => {},
+  fadeOut = () => {},
   isMenuOpen,
   profileUrl,
 }) => {
