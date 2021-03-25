@@ -86,7 +86,7 @@ const SettingsModal = ({
 }) => {
   initLanguage();
   const { setIsSignedIn, setUseBiometrics } = useContext(AppContext);
-
+  // TODO wire up a mutation when biometrics and push notifications swithces change
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const [isPushNotiesEnabled, setIsPushNotiesEnabled] = useState(false);
   const [selectedMarket, setSelectedMarket] = useState('us');
