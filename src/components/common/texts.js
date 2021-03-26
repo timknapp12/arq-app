@@ -25,6 +25,13 @@ export const H2Normal = styled.Text`
   color: ${(props) => props.theme.color};
 `;
 
+export const HeaderText = styled.Text`
+  ${primaryOpacity};
+  font-family: 'Nunito-Light';
+  font-size: 20px;
+  color: ${(props) => props.theme.color};
+`;
+
 export const H3 = styled.Text`
   font-size: 21px;
   color: ${(props) => props.theme.color};

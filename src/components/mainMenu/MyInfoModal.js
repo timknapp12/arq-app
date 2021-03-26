@@ -16,13 +16,13 @@ import {
   ScreenContainer,
   H4Bold,
   Flexbox,
-  H2Normal,
   CloseIcon,
   H5Bold,
   AnimatedInput,
   Picker,
   Subheader,
   Header,
+  HeaderText,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
@@ -132,7 +132,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                       <CloseIcon />
                     </TouchableOpacity>
                   </HeaderButtonContainer>
-                  <H2Normal>{Localized('My Info')}</H2Normal>
+                  <HeaderText>{Localized('My Info').toUpperCase()}</HeaderText>
                   <HeaderButtonContainer>
                     {isSaveButtonVisisble ? (
                       <TouchableOpacity

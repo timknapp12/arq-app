@@ -16,7 +16,6 @@ import {
 import {
   ScreenContainer,
   Flexbox,
-  H2Normal,
   CloseIcon,
   H4,
   Picker,
@@ -26,6 +25,7 @@ import {
   Switch,
   Subheader,
   H5Bold,
+  HeaderText,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import UsernameEditModal from './UsernameEditModal';
@@ -176,7 +176,9 @@ const SettingsModal = ({
                         <CloseIcon />
                       </TouchableOpacity>
                     </HeaderButtonContainer>
-                    <H2Normal>{Localized('Settings')}</H2Normal>
+                    <HeaderText>
+                      {Localized('Settings').toUpperCase()}
+                    </HeaderText>
                     <HeaderButtonContainer>
                       <View />
                     </HeaderButtonContainer>
