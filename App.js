@@ -34,6 +34,7 @@ const App = () => {
     'Nunito-Black': require('./assets/fonts/Nunito/Nunito-Black.ttf'),
     'Nunito-Regular': require('./assets/fonts/Nunito/Nunito-Regular.ttf'),
     'Nunito-Light': require('./assets/fonts/Nunito/Nunito-Light.ttf'),
+    'Nunito-ExtraBold': require('./assets/fonts/Nunito/Nunito-ExtraBold.ttf'),
   });
 
   if (!loaded) {
