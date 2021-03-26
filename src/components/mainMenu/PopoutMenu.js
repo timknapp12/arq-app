@@ -12,7 +12,7 @@ const SideMenu = styled.View`
   z-index: 2;
   position: absolute;
   align-items: flex-start;
-  top: 10;
+  top: 10px;
   background-color: ${(props) => props.theme.sideMenuBackground};
   padding: 24px;
 `;
