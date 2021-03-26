@@ -47,6 +47,7 @@ const mockUser = {
     firstName: 'Sloane',
     lastName: 'Taylor',
     displayName: 'sloanet',
+    username: 'sloaniejoanie',
     email: 'sloanetaylor@gmail.com',
     phone: '801-435-9064',
     distributorId: '12340987',

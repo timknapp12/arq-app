@@ -92,7 +92,7 @@ const SettingsModal = ({
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const [selectedMarket, setSelectedMarket] = useState('us');
 
-  const initialState = data.displayName;
+  const initialState = data.username;
   const [username, setUsername] = useState(initialState);
   const [isUsernameEditModalOpen, setIsUsernameEditModalOpen] = useState(false);
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
