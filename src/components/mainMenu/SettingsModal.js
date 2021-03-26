@@ -58,6 +58,13 @@ const SecondaryText = styled.Text`
   color: ${(props) => props.theme.secondaryTextColor};
 `;
 
+const Divider = styled.View`
+  width: 100%;
+  height: 4px;
+  background-color: ${(props) => props.theme.subheaderBackgroundColor};
+  margin: 40px 0px;
+`;
+
 // TODO - get real markets from database
 const markets = [
   {
@@ -158,7 +165,7 @@ const SettingsModal = ({
               keyboardShouldPersistTaps="always">
               <Flexbox
                 onStartShouldSetResponder={() => true}
-                justify="space-between"
+                justify="flex-start"
                 height="100%">
                 <Flexbox>
                   <Header>
@@ -181,7 +188,7 @@ const SettingsModal = ({
 
                   <Flexbox
                     accessibilityLabel="settings info"
-                    style={{ position: 'relative' }}
+                    style={{ position: 'relative', paddingBottom: 0 }}
                     padding={12}>
                     <RowContainer>
                       <View
@@ -225,7 +232,7 @@ const SettingsModal = ({
                       />
                     </RowContainer>
 
-                    <RowContainer>
+                    <RowContainer style={{ paddingBottom: 0 }}>
                       <Picker
                         items={markets}
                         onValueChange={(value) => setSelectedMarket(value)}
@@ -241,17 +248,16 @@ const SettingsModal = ({
                   </Flexbox>
                 </Flexbox>
 
+                <Divider />
+
                 <View
                   style={{
                     width: '85%',
-                    flex: 1,
-                    zIndex: -1,
-                    marginTop: 150,
                   }}>
                   <PrimaryButton
                     testID="log-out-button-in-settings"
                     onPress={() => setIsSignedIn(false)}>
-                    {Localized('Log Out')}
+                    {Localized('LOG OUT')}
                   </PrimaryButton>
                 </View>
               </Flexbox>
@@ -268,6 +274,7 @@ const SettingsModal = ({
               setIsPasswordEditModalOpen={setIsPasswordEditModalOpen}
             />
           </KeyboardAvoidingView>
+
           <Flexbox
             accessibilityLabel="Terms Privacy Data"
             justify="center"
