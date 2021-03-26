@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import { H4Bold, H6Secodnary, Flexbox } from '../common';
+import { H4, H6Secodnary, Flexbox } from '../common';
 import CustomSlider from './CustomSlider';
 import { findRankName, findRankObject } from '../../utils/findRankInSlider';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -44,7 +44,7 @@ const Slider = ({
         paddingTop: 12,
       }}>
       <Flexbox justify="flex-start" height="45px">
-        <H4Bold>{rankName}</H4Bold>
+        <H4>{rankName}</H4>
         {isQualifiedTextDisplayed && (
           <H6Secodnary style={{ marginStart: 8 }}>
             {isQualified

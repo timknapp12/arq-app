@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react-native';
-import { ScreenContainer, H5Secondary } from '../../src/components/common';
+import { ScreenContainer, H5 } from '../../src/components/common';
 import Slider from '../../src/components/dashboardScreen/Slider';
 
 const Example = () => {
@@ -23,11 +23,11 @@ const Example = () => {
         setRank={setRank}
         ranklist={ranklist}
       />
-      <H5Secondary>{`Rank name: ${rank.name}`}</H5Secondary>
-      <H5Secondary>{`Required PV: ${rank.requiredPV}`}</H5Secondary>
-      <H5Secondary>{`Required OV: ${rank.requiredQOV}`}</H5Secondary>
-      <H5Secondary>{`Leg Max Percentage: ${rank.legMaxPerc}`}</H5Secondary>
-      <H5Secondary>{`Leg Max OV: ${rank.legMaxOV}`}</H5Secondary>
+      <H5>{`Rank name: ${rank.name}`}</H5>
+      <H5>{`Required PV: ${rank.requiredPV}`}</H5>
+      <H5>{`Required OV: ${rank.requiredQOV}`}</H5>
+      <H5>{`Leg Max Percentage: ${rank.legMaxPerc}`}</H5>
+      <H5>{`Leg Max OV: ${rank.legMaxOV}`}</H5>
     </>
   );
 };

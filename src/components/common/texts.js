@@ -6,8 +6,12 @@ import { blue } from '../../styles/colors';
 // 'Nunito-Black'
 // 'Nunito-Regular'
 // 'Nunito-Light'
+// 'Nunito-ExtraBold'
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
+const primaryOpacity = { opacity: 0.83 };
+const secondaryOpacity = { opacity: 0.6 };
+// const disabledOpacity = { opacity: 0.5 };
 
 export const H1 = styled.Text`
   font-size: 36px;
@@ -39,39 +43,43 @@ export const H3Bold = styled.Text`
 `;
 
 export const H4 = styled.Text`
-  font-family: 'Nunito-Regular';
+  ${primaryOpacity};
+  font-family: 'Nunito-Light';
+  font-size: 18px;
+  color: ${(props) => props.theme.color};
+`;
+
+export const H4Secondary = styled.Text`
+  ${secondaryOpacity};
+  font-family: 'Nunito-Light';
   font-size: 18px;
   color: ${(props) => props.theme.color};
 `;
 
 export const H4Bold = styled.Text`
+  ${primaryOpacity};
   font-family: 'Nunito-Black';
   font-size: 18px;
   color: ${(props) => props.theme.color};
 `;
 
-export const H4BoldSecondary = styled.Text`
-  font-family: 'Nunito-Black';
-  font-size: 18px;
-  color: ${(props) => props.theme.secondaryTextColor};
-`;
-
-export const H4Secondary = styled.Text`
+export const MenuText = styled.Text`
   font-family: 'Nunito-Regular';
   font-size: 18px;
-  color: ${(props) => props.theme.secondaryTextColor};
+  color: ${(props) => props.theme.color};
+`;
+
+export const H5Bold = styled.Text`
+  font-family: 'Nunito-Black';
+  font-size: 16px;
+  color: ${(props) => props.theme.color};
 `;
 
 export const H5 = styled.Text`
-  font-family: 'Nunito-Black';
+  ${primaryOpacity};
+  font-family: 'Nunito-Light';
   font-size: 16px;
   color: ${(props) => props.theme.color};
-`;
-
-export const H5Secondary = styled.Text`
-  font-family: 'Nunito-Black';
-  font-size: 16px;
-  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 export const H6 = styled.Text`
@@ -81,9 +89,10 @@ export const H6 = styled.Text`
 `;
 
 export const H6Secodnary = styled.Text`
-  font-family: 'Nunito-Regular';
+  ${secondaryOpacity};
+  font-family: 'Nunito-Light';
   font-size: 14px;
-  color: ${(props) => props.theme.secondaryTextColor};
+  color: ${(props) => props.theme.color};
 `;
 
 export const Checkmark = styled.Text`

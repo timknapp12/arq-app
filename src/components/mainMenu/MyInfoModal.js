@@ -18,7 +18,7 @@ import {
   Flexbox,
   H2Normal,
   CloseIcon,
-  H5,
+  H5Bold,
   AnimatedInput,
   Picker,
   Subheader,
@@ -147,7 +147,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                 </Header>
 
                 <Subheader justify="center">
-                  <H5>{Localized('Contact Information')}</H5>
+                  <H5Bold>{Localized('Contact Information')}</H5Bold>
                 </Subheader>
                 <Flexbox width="85%">
                   <NameContainer>
@@ -233,7 +233,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                   />
                 </Flexbox>
                 <Subheader style={{ marginTop: 12 }} justify="center">
-                  <H5>{Localized('Address')}</H5>
+                  <H5Bold>{Localized('Address')}</H5Bold>
                 </Subheader>
                 <Flexbox accessibilityLabel="address information" width="85%">
                   <AnimatedInput

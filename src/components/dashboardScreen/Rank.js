@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
-import { H4Bold, H5Secondary, Flexbox } from '../common';
+import { H4, H5, Flexbox } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
@@ -15,10 +15,6 @@ import {
   donut3SecondaryColor,
 } from '../../styles/colors';
 import { reshapePerc } from '../../utils/calculateLegPercentages';
-
-const ChartTitle = styled(H4Bold)`
-  color: ${(props) => props.theme.secondaryTextColor};
-`;
 
 const LegendContainer = styled.View`
   margin-top: 8px;
@@ -116,9 +112,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           justify="space-between"
           direction="row">
           <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
-            <ChartTitle testID="total-pv-donut-label">
-              {Localized('Total PV')}
-            </ChartTitle>
+            <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
             <DoubleDonut
               testID="total-pv-donut-svg"
               // ternary to ensure no error with 0 values of distributor rank
@@ -134,31 +128,29 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               <Legend>
                 <Square squareFill={donut1PrimaryColor} />
                 {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
-                <H5Secondary testID="this-month-total-pv">{`${thisMonthPV
+                <H5 testID="this-month-total-pv">{`${thisMonthPV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
                 )} ${rank?.requiredPV
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
               <Legend>
                 <Square squareFill={donut1SecondaryColor} />
-                <H5Secondary testID="last-month-total-pv">{`${lastMonthPV
+                <H5 testID="last-month-total-pv">{`${lastMonthPV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
                 )} ${rank?.requiredPV
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
             </LegendContainer>
           </Flexbox>
 
           <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
-            <ChartTitle testID="total-qov-donut-label">
-              {Localized('Total QOV')}
-            </ChartTitle>
+            <H4 testID="total-qov-donut-label">{Localized('Total QOV')}</H4>
             <DoubleDonut
               testID="total-qov-donut-svg"
               outerpercentage={rank.id === 0 ? 100 : thisMonthQOVPerc}
@@ -172,23 +164,23 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <LegendContainer>
               <Legend>
                 <Square squareFill={donut2PrimaryColor} />
-                <H5Secondary testID="this-month-total-qov">{`${thisMonthQOV
+                <H5 testID="this-month-total-qov">{`${thisMonthQOV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
                 )} ${rank?.requiredQOV
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
               <Legend>
                 <Square squareFill={donut2SecondaryColor} />
-                <H5Secondary testID="last-month-total-qov">{`${lastMonthQOV
+                <H5 testID="last-month-total-qov">{`${lastMonthQOV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
                 )} ${rank?.requiredQOV
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5Secondary>
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
             </LegendContainer>
           </Flexbox>
@@ -197,9 +189,9 @@ const Rank = ({ ranklist, user, fadeOut }) => {
         <Flexbox
           accessibilityLabel="monthly comparrison personally enrolled"
           width="auto">
-          <ChartTitle testID="personally-enrolled-donut-label">
+          <H4 testID="personally-enrolled-donut-label">
             {Localized('Personally Enrolled')}
-          </ChartTitle>
+          </H4>
           <DoubleDonut
             testID="personally-enrolled-donut-svg"
             outerpercentage={rank.id === 0 ? 100 : thisMonthPAPerc}
@@ -213,15 +205,15 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           <LegendContainer>
             <Legend>
               <Square squareFill={donut3PrimaryColor} />
-              <H5Secondary testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
+              <H5 testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
                 'of',
-              )} ${rank?.requiredPA}`}</H5Secondary>
+              )} ${rank?.requiredPA}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={donut3SecondaryColor} />
-              <H5Secondary testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
+              <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
                 'of',
-              )} ${rank?.requiredPA}`}</H5Secondary>
+              )} ${rank?.requiredPA}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>

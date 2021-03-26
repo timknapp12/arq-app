@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Proptypes from 'prop-types';
 import Slider from 'react-native-slider';
-import { lightblue, veniceBlue } from '../../styles/colors';
+import AppContext from '../../contexts/AppContext';
 
 // source: https://github.com/jeanregisser/react-native-slider
 const CustomSlider = ({
@@ -12,16 +12,21 @@ const CustomSlider = ({
   onSlidingStart,
   onSlidingComplete,
 }) => {
+  const { theme } = useContext(AppContext);
   return (
     <Slider
       step={1}
       minimumValue={0}
       maximumValue={maximumValue}
-      minimumTrackTintColor={veniceBlue}
-      thumbTintColor={lightblue}
+      minimumTrackTintColor={theme.sliderTrackColor}
+      thumbTintColor={theme.sliderThumbColor}
       thumbTouchSize={{ width: 60, height: 60 }}
       thumbStyle={{ height: 18, width: 18 }}
-      trackStyle={{ height: 10, backgroundColor: veniceBlue, borderRadius: 5 }}
+      trackStyle={{
+        height: 10,
+        backgroundColor: theme.sliderTrackColor,
+        borderRadius: 5,
+      }}
       style={{ width: sliderWidth }}
       value={value}
       onValueChange={(value) => setValue(value)}
