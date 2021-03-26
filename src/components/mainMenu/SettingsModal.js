@@ -259,7 +259,7 @@ const SettingsModal = ({
                   <PrimaryButton
                     testID="log-out-button-in-settings"
                     onPress={() => setIsSignedIn(false)}>
-                    {Localized('LOG OUT')}
+                    {Localized('Log Out').toUpperCase()}
                   </PrimaryButton>
                 </View>
               </Flexbox>

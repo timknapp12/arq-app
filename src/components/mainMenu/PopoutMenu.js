@@ -12,7 +12,7 @@ const SideMenu = styled.View`
   z-index: 2;
   position: absolute;
   align-items: flex-start;
-  top: 0;
+  top: 10;
   background-color: ${(props) => props.theme.sideMenuBackground};
   padding: 24px;
 `;
@@ -45,6 +45,9 @@ const PopoutMenu = ({
       </TouchableOpacity>
       <TouchableOpacity>
         <MenuText>{Localized('Chat With Support')}</MenuText>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <MenuText>{Localized('Share My Shop')}</MenuText>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => setIsSignedIn(false)}>
         <MenuText>{Localized('Log Out')}</MenuText>
