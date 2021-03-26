@@ -97,7 +97,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
-      <Flexbox width="100%" onStartShouldSetResponder={() => true}>
+      <Flexbox
+        justify="flex-start"
+        height="100%"
+        onStartShouldSetResponder={() => true}>
         <Slider
           rankName={rankName}
           setRankName={setRankName}

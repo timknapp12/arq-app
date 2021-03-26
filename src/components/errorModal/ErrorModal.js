@@ -27,10 +27,14 @@ const ErrorModal = ({ visible, onClose, errorMessage }) => {
       animationType="fade"
       transparent={true}
       visible={visible}
+      statusBarTranslucent={true}
       onRequestClose={onClose}>
       <Container>
         <Inner>
-          <TouchableOpacity style={{ width: 24 }} onPress={onClose}>
+          <TouchableOpacity
+            testID="close-edit-modal-button"
+            style={{ width: 24 }}
+            onPress={onClose}>
             <CloseIcon />
           </TouchableOpacity>
           <Flexbox style={{ paddingBottom: 10 }}>

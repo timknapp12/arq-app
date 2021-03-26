@@ -51,46 +51,10 @@ const NameContainer = styled.View`
   width: 100%;
 `;
 
-const TextArea = styled.View`
-  margin-top: 12px;
-  width: 85%;
-  height: 212px;
-  border-width: ${(props) => (props.focused ? '3px' : '1px')};
-  border-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
-`;
-
-const Input = styled.TextInput`
-  color: ${(props) => props.theme.color};
-  padding: 8px;
-  font-size: 16px;
-  font-family: 'Roboto-Regular';
-`;
-
-const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
+const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
   initLanguage();
-  const initialState = {
-    image: {
-      imageName: 'Sloane.Taylor.34903f19-d0c7-41b6-b4d2-2eed0ad1ef6c',
-      url:
-        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2F..964d8849-399c-48a0-a8b2-00e595eb7e1a?alt=media&token=6d3c26a3-5367-4212-bda3-673a86482d61',
-    },
-    firstName: 'Sloane',
-    lastName: 'Taylor',
-    displayName: '',
-    email: '',
-    phone: '',
-    distributorId: '',
-    address1: '',
-    address2: '',
-    city: '',
-    state: 'UT',
-    zipcode: '',
-    country: 'us',
-    bio: '',
-  };
+  const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
-  const [isBioFocused, setIsBioFocused] = useState(false);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const handleChange = (field, text) => {
@@ -132,9 +96,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     state,
     zipcode,
     country,
-    bio,
   } = myInfo;
-  console.log('image', image);
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   useEffect(() => {
@@ -147,14 +109,16 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   return (
     <Modal
       animationType="slide"
-      transparent={true}
+      transparent={false}
       visible={isMyInfoModalOpen}
+      statusBarTranslucent={true}
       onRequestClose={() => setIsMyInfoModalOpen(false)}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <ScreenContainer>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+          <KeyboardAvoidingView
+            style={{ flex: 1, width: '100%' }}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -30}
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 20 }}
@@ -307,24 +271,28 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <Flexbox
                     direction="row"
-                    style={{ zIndex: 4, paddingTop: 4, marginBottom: 4 }}>
+                    align="flex-end"
+                    style={{
+                      zIndex: 4,
+                      paddingTop: 4,
+                      marginBottom: 4,
+                    }}>
                     {country === 'us' ? (
                       <Picker
                         items={usStates}
                         label={Localized('State')}
-                        // the picker will break if there is no value that matches one of the provided items in the itmes list
-                        defaultValue={
+                        value={
                           usStates.find((item) => item.value === state)
                             ? state
                             : 'CA'
                         }
-                        placeholder={Localized('State')}
-                        onChangeItem={(item) => {
-                          handleChange('state', item.value);
+                        placeholder={{ label: Localized('State'), value: null }}
+                        onValueChange={(value) => {
+                          handleChange('state', value);
                           setIsSaveButtonVisisble(true);
                         }}
                         testID="state-picker-input"
-                        style={{ width: '48%', marginTop: 2 }}
+                        style={{ width: '48%' }}
                       />
                     ) : (
                       <Flexbox width="48%">
@@ -359,44 +327,20 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   <Picker
                     items={countryList}
                     label={Localized('Country')}
-                    defaultValue={country}
-                    placeholder={Localized('Country')}
-                    onChangeItem={(item) => {
-                      handleChange('country', item.value);
+                    value={country}
+                    placeholder={{ label: Localized('Country'), value: null }}
+                    onValueChange={(value) => {
+                      handleChange('country', value);
                       setIsSaveButtonVisisble(true);
                     }}
                     testID="country-input"
                   />
                 </Flexbox>
-                <Subheader
-                  style={{ marginTop: 12, zIndex: -1 }}
-                  justify="center">
-                  <H5>{Localized('Bio')}</H5>
-                </Subheader>
-                <TextArea
-                  style={{ zIndex: -1 }}
-                  focused={isBioFocused}
-                  accessibilityLabel="bio information"
-                  onFocus={() => setIsBioFocused(true)}
-                  onBlur={() => setIsBioFocused(false)}>
-                  <Input
-                    testID="bio-input"
-                    style={{ height: '100%' }}
-                    value={bio}
-                    onChangeText={(text) => {
-                      handleChange('bio', text);
-                      setIsSaveButtonVisisble(true);
-                    }}
-                    multiline={true}
-                    numberOfLines={8}
-                    underlineColorAndroid="transparent"
-                  />
-                </TextArea>
               </Flexbox>
             </ScrollView>
-          </ScreenContainer>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </ScreenContainer>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
@@ -404,6 +348,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 MyInfoModal.propTypes = {
   setIsMyInfoModalOpen: PropTypes.func.isRequired,
   isMyInfoModalOpen: PropTypes.bool.isRequired,
+  data: PropTypes.object,
 };
 
 export default MyInfoModal;

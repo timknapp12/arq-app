@@ -4,3 +4,4 @@ export * from './containers';
 export * from './inputs';
 export * from './icons';
 export * from './headers';
+export * from './customPicker';

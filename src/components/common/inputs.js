@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Pressable, Animated, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Flexbox } from './containers';
-import DropDownPicker from 'react-native-dropdown-picker';
-import AppContext from '../../contexts/AppContext';
 
 // Standard Input with Password able to be shown or hidden
-
 const ThemedTextInputContainer = styled.View`
   width: 100%;
   align-items: flex-end;
   height: 28px;
   flex-direction: row;
-  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
+  border-bottom-width: ${(props) =>
+    props.focused || props.validationError ? '3px' : '1px'};
   border-bottom-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+    props.validationError
+      ? props.theme.error
+      : props.focused
+      ? props.theme.highlight
+      : props.theme.disabledTextColor};
   padding-bottom: 3px;
 `;
 
@@ -33,7 +35,7 @@ const ThemedIcon = styled(Ionicons)`
 
 // eslint-disable-next-line react/display-name
 export const Input = React.forwardRef(
-  ({ focused, textContentType, ...props }, ref) => {
+  ({ focused, textContentType, validationError = false, ...props }, ref) => {
     const [secureTextEntry, setSecureTextEntry] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -53,7 +55,9 @@ export const Input = React.forwardRef(
     }, [textContentType]);
 
     return (
-      <ThemedTextInputContainer focused={isFocused}>
+      <ThemedTextInputContainer
+        focused={isFocused}
+        validationError={validationError}>
         <ThemedInput
           ref={ref}
           secureTextEntry={secureTextEntry}
@@ -81,6 +85,7 @@ export const Input = React.forwardRef(
 Input.propTypes = {
   textContentType: PropTypes.string,
   focused: PropTypes.bool,
+  validationError: PropTypes.bool,
 };
 
 // Animated Input where label animates
@@ -92,9 +97,14 @@ const Label = styled.Text`
 `;
 
 const ThemedAnimatedInput = styled.TextInput`
-  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
+  border-bottom-width: ${(props) =>
+    props.focused || props.validationError ? '3px' : '1px'};
   border-bottom-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+    props.validationError
+      ? props.theme.error
+      : props.focused
+      ? props.theme.highlight
+      : props.theme.disabledTextColor};
   color: ${(props) => props.theme.color};
   width: 100%;
   font-size: 16px;
@@ -108,6 +118,7 @@ export const AnimatedInput = ({
   value = '',
   onChangeText = () => {},
   label = '',
+  validationError = false,
   ...props
 }) => {
   const inputRef = useRef();
@@ -153,6 +164,7 @@ export const AnimatedInput = ({
             value={value}
             onChangeText={onChangeText}
             focused={isFocused}
+            validationError={validationError}
             onFocus={onFocus}
             onBlur={onBlur}
             {...props}
@@ -168,80 +180,5 @@ AnimatedInput.propTypes = {
   value: PropTypes.string,
   onChangeText: PropTypes.func,
   label: PropTypes.string,
-};
-
-// DROPDOWN PICKER
-// source: https://github.com/hossein-zare/react-native-dropdown-picker#basic-usage
-
-const ThemedPicker = styled(DropDownPicker)`
-  background-color: ${(props) => props.theme.backgroundColor};
-  border-bottom-color: ${(props) => props.theme.disabledTextColor};
-  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
-  border-top-width: 0;
-  border-right-width: 0;
-  border-left-width: 0;
-  font-family: 'Roboto-Regular';
-`;
-export const Picker = ({
-  items,
-  defaultValue,
-  onChangeItem,
-  label,
-  placeholder = 'Select an item',
-  style,
-  ...props
-}) => {
-  const { theme } = useContext(AppContext);
-  return (
-    <Flexbox
-      style={style}
-      width="100%"
-      justify="space-between"
-      align="flex-start">
-      <Label>{label}</Label>
-      <ThemedPicker
-        {...props}
-        items={items}
-        labelStyle={{
-          color: theme.secondaryTextColor,
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          fontFamily: 'Roboto-Regular',
-          fontSize: 16,
-        }}
-        selectedLabelStyle={{ color: theme.color, marginStart: -8 }}
-        defaultValue={defaultValue}
-        containerStyle={{
-          height: 30,
-          width: '100%',
-        }}
-        arrowColor={theme.secondaryTextColor}
-        arrowStyle={{ height: 14 }}
-        placeholder={placeholder}
-        itemStyle={{
-          justifyContent: 'center',
-          backgroundColor: theme.backgroundColor,
-          fontFamily: 'Roboto-Regular',
-          fontSize: 16,
-        }}
-        dropDownStyle={{
-          backgroundColor: theme.backgroundColor,
-          borderColor: theme.highlight,
-          borderWidth: 3,
-        }}
-        onChangeItem={onChangeItem}
-      />
-    </Flexbox>
-  );
-};
-
-Picker.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
-  ).isRequired,
-  label: PropTypes.string,
-  defaultValue: PropTypes.string,
-  onChangeItem: PropTypes.func,
-  placeholder: PropTypes.string,
-  style: PropTypes.object,
+  validationError: PropTypes.bool,
 };
