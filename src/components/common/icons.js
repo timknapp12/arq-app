@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import bellIcon from '../../../assets/icons/ic_bell.png';
+import BellSvg from '../../../assets/icons/ic_notificationBell.svg';
 import accountIcon from '../../../assets/icons/ic_account.png';
 import smallQ from '../../../assets/icons/Q-Sciences-small-logo.png';
 import close from '../../../assets/icons/ic_close.png';
@@ -14,6 +14,7 @@ import edit from '../../../assets/icons/ic_edit.png';
 import deletePng from '../../../assets/icons/ic_delete.png';
 import FaceID from '../../../assets/icons/face-id.svg';
 import TouchID from '../../../assets/icons/touch-id.svg';
+import AppContext from '../../contexts/AppContext';
 import { darkRed, white, blue } from '../../styles/colors';
 
 const IconContainer = styled.View`
@@ -46,16 +47,19 @@ const BadgeText = styled.Text`
   color: ${white};
 `;
 
-export const BellIcon = ({ badgeValue }) => (
-  <IconContainer>
-    <ThemedImage source={bellIcon} />
-    {badgeValue ? (
-      <BadgeContainer>
-        <BadgeText>{badgeValue}</BadgeText>
-      </BadgeContainer>
-    ) : null}
-  </IconContainer>
-);
+export const BellIcon = ({ badgeValue }) => {
+  const { theme } = useContext(AppContext);
+  return (
+    <IconContainer>
+      <BellSvg fill={theme.color} />
+      {badgeValue ? (
+        <BadgeContainer>
+          <BadgeText>{badgeValue}</BadgeText>
+        </BadgeContainer>
+      ) : null}
+    </IconContainer>
+  );
+};
 
 BellIcon.propTypes = {
   badgeValue: PropTypes.number,
