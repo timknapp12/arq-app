@@ -6,3 +6,5 @@ import './Icons.stories';
 import './Donut.stories';
 import './Slider.stories';
 import './ErrorModal.stories';
+import './EditModal.stories';
+import './Picker.stories';

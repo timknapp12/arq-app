@@ -24,9 +24,6 @@ export const veniceBlue = '#066990';
 // slider button
 export const lightblue = '#7692B8';
 
-// highlight for focused input
-export const darkblue = '#2196F3';
-
 // error message
 export const red = '#FF0000';
 

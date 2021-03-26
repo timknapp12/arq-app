@@ -10,6 +10,8 @@ import {
   AlertText,
   Link,
   Checkmark,
+  TouchIDIcon,
+  FaceIDIcon,
 } from '../common';
 import {
   Image,
@@ -29,6 +31,7 @@ import { useMutation } from '@apollo/client';
 import ErrorModal from '../errorModal/ErrorModal';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const LoginInstructions = styled(H4)`
   text-align: center;
@@ -50,7 +53,9 @@ const Checkbox = styled.View`
 
 const LoginScreen = () => {
   initLanguage();
-  const { setIsSignedIn, theme, setUser } = useContext(AppContext);
+  const { setIsSignedIn, theme, setUser, useBiometrics } = useContext(
+    AppContext,
+  );
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -168,6 +173,25 @@ const LoginScreen = () => {
     getSaveUsernamePreference();
   }, []);
 
+  const onFaceID = async () => {
+    try {
+      // Authenticate user
+      const result = await LocalAuthentication.authenticateAsync();
+      if (result.success) {
+        setIsSignedIn(true);
+      }
+    } catch (error) {
+      setIsErrorModalOpen(true);
+      setErrorMessage(error);
+    }
+  };
+
+  useEffect(() => {
+    if (useBiometrics) {
+      onFaceID();
+    }
+  }, [useBiometrics]);
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -272,6 +296,17 @@ const LoginScreen = () => {
               </Flexbox>
             </Flexbox>
           </KeyboardAvoidingView>
+          {useBiometrics && (
+            <Flexbox accessibilityLabel="biometrics button">
+              <TouchableOpacity testID="biometrics-button" onPress={onFaceID}>
+                {Platform.OS === 'ios' ? (
+                  <FaceIDIcon fill={theme.highlight} />
+                ) : (
+                  <TouchIDIcon fill={theme.highlight} />
+                )}
+              </TouchableOpacity>
+            </Flexbox>
+          )}
 
           <Flexbox
             accessibilityLabel="Become an Ambassador"
