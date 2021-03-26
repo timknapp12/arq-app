@@ -86,9 +86,8 @@ const SettingsModal = ({
 }) => {
   initLanguage();
   const { setIsSignedIn, setUseBiometrics } = useContext(AppContext);
-  // TODO wire up a mutation when biometrics and push notifications swithces change
+  // TODO wire up a mutation when biometrics switch changes
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
-  const [isPushNotiesEnabled, setIsPushNotiesEnabled] = useState(false);
   const [selectedMarket, setSelectedMarket] = useState('us');
 
   const initialState = data.displayName;
@@ -216,19 +215,6 @@ const SettingsModal = ({
                         value={isBiometricsEnabled}
                         onValueChange={() =>
                           setIsBiometricsEnabled((state) => !state)
-                        }
-                      />
-                    </RowContainer>
-
-                    <RowContainer>
-                      <PrimaryText>
-                        {Localized('Push Notifications')}
-                      </PrimaryText>
-                      <Switch
-                        testID="push-notifications-switch"
-                        value={isPushNotiesEnabled}
-                        onValueChange={() =>
-                          setIsPushNotiesEnabled((state) => !state)
                         }
                       />
                     </RowContainer>
