@@ -10,6 +10,9 @@ import {
   H6,
   AlertText,
   Link,
+  MenuText,
+  H5,
+  H5Bold,
 } from '../../src/components/common';
 
 storiesOf('Texts', module)
@@ -28,6 +31,13 @@ storiesOf('Texts', module)
     <H4Secondary>
       Log in if you already have a username and password
     </H4Secondary>
+  ))
+  .add('MenuText', () => (
+    <MenuText>Log in if you already have a username and password</MenuText>
+  ))
+  .add('H5', () => <H5>Log in if you already have a username and password</H5>)
+  .add('H5 Bold', () => (
+    <H5Bold>Log in if you already have a username and password</H5Bold>
   ))
   .add('H6 with Roboto font', () => (
     <H6 disabled>Log in if you already have a username and password</H6>

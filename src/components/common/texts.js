@@ -13,11 +13,6 @@ const primaryOpacity = { opacity: 0.83 };
 const secondaryOpacity = { opacity: 0.6 };
 // const disabledOpacity = { opacity: 0.5 };
 
-export const H1 = styled.Text`
-  font-size: 36px;
-  color: ${(props) => props.theme.color};
-`;
-
 export const H2Bold = styled.Text`
   font-family: 'Nunito-Black';
   font-size: 24px;
