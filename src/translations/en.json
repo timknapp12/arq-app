@@ -93,7 +93,7 @@
   "FaceID/TouchID is enabled!": "FaceID/TouchID is enabled!",
   "An error as occured": "An error as occured",
   "Please add a username": "Please add a username",
-  "Please add a password": "Please add a password",
+  "Please enter current password": "Please enter current password",
   "Passwords don't match. Please confirm new password": "Passwords don't match. Please confirm new password",
   "Password should contain at least one number and one uppercase character and be between 8-25 in characters": "Password should contain at least one number and one uppercase character and be between 8-25 in characters",
   "Your device isn't compatible": "Your device isn't compatible",
