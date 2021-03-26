@@ -62,6 +62,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
           </RecoverPasswordInstructions>
           <Flexbox style={{ marginBottom: 22 }}>
             <Input
+              auotFocus
               testID="email-input"
               value={email}
               onChangeText={(text) => setEmail(text)}
