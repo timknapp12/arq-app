@@ -24,6 +24,8 @@ import {
   PrimaryButton,
   EditIcon,
   Switch,
+  Subheader,
+  H5Bold,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import UsernameEditModal from './UsernameEditModal';
@@ -172,6 +174,10 @@ const SettingsModal = ({
                       <View />
                     </HeaderButtonContainer>
                   </Header>
+
+                  <Subheader justify="center">
+                    <H5Bold>{Localized('Account')}</H5Bold>
+                  </Subheader>
 
                   <Flexbox
                     accessibilityLabel="settings info"

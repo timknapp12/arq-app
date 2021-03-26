@@ -18,10 +18,10 @@ export const Header = styled.View`
 
 const SubContainer = styled.View`
   ${sharedCss};
-  height: 37px;
+  height: 35px;
   justify-content: center;
   padding: 0 18px;
-  background-color: ${(props) => props.theme.inactiveBackground};
+  background-color: ${(props) => props.theme.subheaderBackgroundColor};
 `;
 
 const Subheader = ({ children, justify, height = '35px', ...props }) => {
