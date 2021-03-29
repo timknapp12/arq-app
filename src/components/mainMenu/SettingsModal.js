@@ -212,7 +212,7 @@ const SettingsModal = ({
                     </RowContainer>
 
                     <RowContainer>
-                      <PrimaryText>{Localized('Password')}</PrimaryText>
+                      <SecondaryText>{Localized('Password')}</SecondaryText>
                       <Pressable
                         testID="edit-new-password-modal-button"
                         onPress={() => setIsPasswordEditModalOpen(true)}
@@ -222,9 +222,9 @@ const SettingsModal = ({
                     </RowContainer>
 
                     <RowContainer>
-                      <PrimaryText>
+                      <SecondaryText>
                         {Localized('Face ID or Fingerprint Log In')}
-                      </PrimaryText>
+                      </SecondaryText>
                       <Switch
                         testID="biometrics-switch"
                         value={isBiometricsEnabled}
