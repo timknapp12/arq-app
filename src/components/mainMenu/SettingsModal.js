@@ -28,7 +28,7 @@ import {
   HeaderText,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-import UsernameEditModal from './UsernameEditModal';
+// import UsernameEditModal from './UsernameEditModal';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -100,8 +100,8 @@ const SettingsModal = ({
   const [selectedMarket, setSelectedMarket] = useState('us');
 
   const initialState = data.username;
-  const [username, setUsername] = useState(initialState);
-  const [isUsernameEditModalOpen, setIsUsernameEditModalOpen] = useState(false);
+  // const [username, setUsername] = useState(initialState);
+  // const [isUsernameEditModalOpen, setIsUsernameEditModalOpen] = useState(false);
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
@@ -193,22 +193,23 @@ const SettingsModal = ({
                     style={{ position: 'relative', paddingBottom: 0 }}
                     padding={12}>
                     <RowContainer>
-                      <View
+                      {/* <View
                         style={{
                           flexDirection: 'row',
                           justifyContent: 'flex-start',
-                        }}>
-                        <SecondaryText>{Localized('Username')}</SecondaryText>
-                        <PrimaryText style={{ marginStart: 8 }}>
-                          {username}
-                        </PrimaryText>
-                      </View>
-                      <Pressable
+                        }}> */}
+                      <SecondaryText>{Localized('Username')}</SecondaryText>
+                      <PrimaryText style={{ marginStart: 8 }}>
+                        {/* {username} */}
+                        {initialState}
+                      </PrimaryText>
+                      {/* </View> */}
+                      {/* <Pressable
                         testID="edit-username-modal-button"
                         onPress={() => setIsUsernameEditModalOpen(true)}
                         hitSlop={8}>
                         <EditIcon />
-                      </Pressable>
+                      </Pressable> */}
                     </RowContainer>
 
                     <RowContainer>
@@ -264,13 +265,13 @@ const SettingsModal = ({
                 </View>
               </Flexbox>
             </ScrollView>
-            <UsernameEditModal
+            {/* <UsernameEditModal
               visible={isUsernameEditModalOpen}
               setIsUsernameEditModalOpen={setIsUsernameEditModalOpen}
               value={username}
               initialValue={initialState}
               onChangeText={(text) => setUsername(text)}
-            />
+            /> */}
             <PasswordEditModal
               visible={isPasswordEditModalOpen}
               setIsPasswordEditModalOpen={setIsPasswordEditModalOpen}
