@@ -29,7 +29,7 @@ const DefaultFiller = styled.View`
 `;
 
 const Initials = styled.Text`
-  font-family: 'Nunito-Black';
+  font-family: 'Avenir-Heavy';
   font-size: 48px;
   color: ${(props) => props.theme.color};
 `;

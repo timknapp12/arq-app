@@ -18,19 +18,14 @@ const ThemedButton = styled.TouchableOpacity`
   width: 100%;
   height: 40px;
   border-radius: 5px;
-  border-width: 1px;
   background-color: ${(props) =>
     props.disabled
       ? props.theme.disabledBackgroundColor
-      : props.theme.activeBackground};
-  border-color: ${(props) =>
-    props.disabled
-      ? props.theme.disabledBackgroundColor
-      : props.theme.activeBackground};
+      : props.theme.primaryButtonBackgroundColor};
 `;
 
 const ThemedText = styled.Text`
-  font-family: 'Nunito-Light';
+  font-family: 'Avenir-Light';
   font-size: 24px;
   color: ${(props) =>
     props.disabled ? props.theme.disabledTextColor : props.theme.color};
@@ -50,12 +45,21 @@ PrimaryButton.propTypes = {
 // SECONDARY BUTTON
 
 // TERTIARY BUTTON
+const ButtonContainer = styled.View`
+  opacity: ${(props) =>
+    props.selected ? props.theme.primaryOpacity : props.theme.disabledOpacity};
+`;
 
 const ThemedTertiary = styled.TouchableOpacity`
   ${sharedCss};
   width: 100px;
-  height: 20px;
-  border-radius: 13.5px;
+  height: 22px;
+  border-radius: 11px;
+  border-width: ${(props) => (props.selected ? '2px' : '1px')};
+  border-color: ${(props) =>
+    props.selected
+      ? props.theme.teriarySelectedBorderColor
+      : props.theme.tertiaryDisabledBorderColor};
   background-color: ${(props) =>
     props.selected
       ? props.theme.tertiarySelectedBackgroundColor
@@ -63,7 +67,7 @@ const ThemedTertiary = styled.TouchableOpacity`
 `;
 
 const TertiaryText = styled.Text`
-  font-family: 'Nunito-Light';
+  font-family: ${(props) => (props.selected ? 'Avenir-Heavy' : 'Avenir-Light')};
   color: ${(props) =>
     props.selected
       ? props.theme.tertiarySelectedTextColor
@@ -71,9 +75,11 @@ const TertiaryText = styled.Text`
 `;
 
 export const TertiaryButton = ({ selected, children, ...props }) => (
-  <ThemedTertiary selected={selected} {...props}>
-    <TertiaryText selected={selected}>{children}</TertiaryText>
-  </ThemedTertiary>
+  <ButtonContainer selected={selected}>
+    <ThemedTertiary selected={selected} {...props}>
+      <TertiaryText selected={selected}>{children}</TertiaryText>
+    </ThemedTertiary>
+  </ButtonContainer>
 );
 
 TertiaryButton.propTypes = {

@@ -14,15 +14,15 @@ import {
 } from 'react-native';
 import {
   ScreenContainer,
-  H4Bold,
+  H4Heavy,
   Flexbox,
-  H2Normal,
   CloseIcon,
-  H5,
+  H5Heavy,
   AnimatedInput,
   Picker,
   Subheader,
   Header,
+  H3,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
@@ -132,13 +132,13 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                       <CloseIcon />
                     </TouchableOpacity>
                   </HeaderButtonContainer>
-                  <H2Normal>{Localized('My Info')}</H2Normal>
+                  <H3>{Localized('My Info').toUpperCase()}</H3>
                   <HeaderButtonContainer>
                     {isSaveButtonVisisble ? (
                       <TouchableOpacity
                         testID="my-info-save-button"
                         onPress={onSubmit}>
-                        <H4Bold>{Localized('SAVE')}</H4Bold>
+                        <H4Heavy>{Localized('SAVE')}</H4Heavy>
                       </TouchableOpacity>
                     ) : (
                       <View />
@@ -147,7 +147,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                 </Header>
 
                 <Subheader justify="center">
-                  <H5>{Localized('Contact Information')}</H5>
+                  <H5Heavy>{Localized('Contact Information')}</H5Heavy>
                 </Subheader>
                 <Flexbox width="85%">
                   <NameContainer>
@@ -233,7 +233,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                   />
                 </Flexbox>
                 <Subheader style={{ marginTop: 12 }} justify="center">
-                  <H5>{Localized('Address')}</H5>
+                  <H5Heavy>{Localized('Address')}</H5Heavy>
                 </Subheader>
                 <Flexbox accessibilityLabel="address information" width="85%">
                   <AnimatedInput

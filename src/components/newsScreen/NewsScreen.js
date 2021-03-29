@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScreenContainer, H2Bold } from '../common';
+import { ScreenContainer, H4 } from '../common';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 
@@ -15,7 +15,7 @@ const NewsScreen = () => {
   }, [isFocused]);
   return (
     <ScreenContainer>
-      <H2Bold>News Screen</H2Bold>
+      <H4>News Screen</H4>
     </ScreenContainer>
   );
 };

@@ -23,7 +23,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import AppContext from '../../contexts/AppContext';
-import logo from '../../../assets/q-science-stacked-logo-white.png';
+import logo from '../../../assets/icons/q-sciences-stacked-logo-white.png';
 import * as Analytics from 'expo-firebase-analytics';
 import { Localized, initLanguage } from '../../translations/Localized';
 import { ADD_USER } from '../../graphql/mutations';
@@ -37,7 +37,6 @@ const LoginInstructions = styled(H4)`
   text-align: center;
   padding: 0 18px;
   margin-bottom: 18px;
-  font-family: 'Nunito-Light';
 `;
 
 const Checkbox = styled.View`

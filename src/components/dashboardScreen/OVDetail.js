@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
-import {
-  H4Bold,
-  H4,
-  Flexbox,
-  QualifiedIcon,
-  NotQualifiedIcon,
-} from '../common';
+import { H4, Flexbox, QualifiedIcon, NotQualifiedIcon } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
@@ -23,10 +17,6 @@ const TitleContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
-
-const ChartTitle = styled(H4Bold)`
-  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 const OVDetail = ({ ranklist, fadeOut, user }) => {
@@ -91,9 +81,9 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
               ) : (
                 <NotQualifiedIcon />
               )}
-              <ChartTitle testID="leg-one-label" style={{ marginStart: 4 }}>
+              <H4 testID="leg-one-label" style={{ marginStart: 4 }}>
                 {Localized('Leg 1')}
-              </ChartTitle>
+              </H4>
             </TitleContainer>
             <Donut
               testID="leg-one-donut-svg"
@@ -112,9 +102,9 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
               ) : (
                 <NotQualifiedIcon />
               )}
-              <ChartTitle testID="leg-two-label" style={{ marginStart: 4 }}>
+              <H4 testID="leg-two-label" style={{ marginStart: 4 }}>
                 {Localized('Leg 2')}
-              </ChartTitle>
+              </H4>
             </TitleContainer>
             <Donut
               testID="leg-two-donut-svg"
@@ -132,9 +122,9 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
             ) : (
               <NotQualifiedIcon />
             )}
-            <ChartTitle testID="leg-three-label" style={{ marginStart: 4 }}>
+            <H4 testID="leg-three-label" style={{ marginStart: 4 }}>
               {Localized('Leg 3')}
-            </ChartTitle>
+            </H4>
           </TitleContainer>
           <Donut
             testID="leg-three-donut-svg"

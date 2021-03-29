@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableWithoutFeedback } from 'react-native';
-import styled from 'styled-components/native';
-import { H4Bold, Flexbox, H4Secondary } from '../common';
+import { TouchableWithoutFeedback } from 'react-native';
+import { H4, Flexbox, H4Secondary, H3 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import Donut from './Donut';
 import {
@@ -10,10 +9,6 @@ import {
   donut2PrimaryColor,
   donut3PrimaryColor,
 } from '../../styles/colors';
-
-const ChartTitle = styled(H4Bold)`
-  color: ${(props) => props.theme.secondaryTextColor};
-`;
 
 const Overview = ({ user, fadeOut }) => {
   initLanguage();
@@ -24,21 +19,14 @@ const Overview = ({ user, fadeOut }) => {
         <Flexbox
           accessibilityLabel="Distributor name and rank"
           padding={20}
-          width="100%"
-          direction="row">
-          <View>
-            <H4Bold>Sloane Taylor</H4Bold>
-            <H4Secondary>{`${Localized('Rank')}: Distributor`}</H4Secondary>
-          </View>
-          <View>
-            <H4Bold>2/16/20</H4Bold>
-            <H4Secondary>{Localized('Join Date')}</H4Secondary>
-          </View>
+          width="100%">
+          <H3>{`${Localized('Welcome back')} Sloane`}</H3>
+          <H4Secondary>{`${Localized('Rank')}: Distributor`}</H4Secondary>
         </Flexbox>
 
         <Flexbox padding={20} width="100%" direction="row">
           <Flexbox accessibilityLabel="Distributor monthly pv" width="auto">
-            <ChartTitle testID="pv-donut-label">{Localized('PV')}</ChartTitle>
+            <H4 testID="pv-donut-label">{Localized('PV')}</H4>
             <Donut
               testID="pv-donut-svg"
               percentage={thisMonthPV}
@@ -48,7 +36,7 @@ const Overview = ({ user, fadeOut }) => {
           </Flexbox>
 
           <Flexbox accessibilityLabel="Distributor monthly cv" width="auto">
-            <ChartTitle testID="cv-donut-label">{Localized('CV')}</ChartTitle>
+            <H4 testID="cv-donut-label">{Localized('CV')}</H4>
             <Donut
               testID="cv-donut-svg"
               percentage={thisMonthCV}
@@ -59,7 +47,7 @@ const Overview = ({ user, fadeOut }) => {
         </Flexbox>
 
         <Flexbox accessibilityLabel="Distributor monthly ov" width="auto">
-          <ChartTitle testID="ov-donut-label">{Localized('OV')}</ChartTitle>
+          <H4 testID="ov-donut-label">{Localized('OV')}</H4>
           <Donut
             testID="ov-donut-svg"
             percentage={OV}

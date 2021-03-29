@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { Animated } from 'react-native';
 // using the standard "TouchableOpacity" from react native didn't work on android with buttons inside a position: absolute view
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { H4 } from '../common';
+import { H4Book } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 
@@ -12,8 +12,8 @@ const SideMenu = styled.View`
   z-index: 2;
   position: absolute;
   align-items: flex-start;
-  top: 0;
-  background-color: ${(props) => props.theme.inactiveBackground};
+  top: 10px;
+  background-color: ${(props) => props.theme.sideMenuBackground};
   padding: 24px;
 `;
 
@@ -28,26 +28,29 @@ const PopoutMenu = ({
   initLanguage();
   const { setIsSignedIn } = useContext(AppContext);
   return (
-    <AnimatedMenu style={{ right: fadeAnim }}>
+    <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableOpacity
         onPress={() => {
           fadeOut();
           setIsMyInfoModalOpen(true);
         }}>
-        <H4>{Localized('My Info')}</H4>
+        <H4Book>{Localized('My Info')}</H4Book>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
           fadeOut();
           setIsSettingsModalOpen(true);
         }}>
-        <H4>{Localized('Settings')}</H4>
+        <H4Book>{Localized('Settings')}</H4Book>
       </TouchableOpacity>
       <TouchableOpacity>
-        <H4>{Localized('Chat With Support')}</H4>
+        <H4Book>{Localized('Chat With Support')}</H4Book>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <H4Book>{Localized('Share My Shop')}</H4Book>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => setIsSignedIn(false)}>
-        <H4>{Localized('Log Out')}</H4>
+        <H4Book>{Localized('Log Out')}</H4Book>
       </TouchableOpacity>
     </AnimatedMenu>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Flexbox, H4Secondary, CloseIcon, H2Normal } from '../common';
+import { Flexbox, H4Secondary, CloseIcon, H2 } from '../common';
 import { Modal, TouchableOpacity } from 'react-native';
 import { Localized, initLanguage } from '../../translations/Localized';
 
@@ -38,9 +38,9 @@ const ErrorModal = ({ visible, onClose, errorMessage }) => {
             <CloseIcon />
           </TouchableOpacity>
           <Flexbox style={{ paddingBottom: 10 }}>
-            <H2Normal style={{ textAlign: 'center', marginBottom: 8 }}>
+            <H2 style={{ textAlign: 'center', marginBottom: 8 }}>
               {Localized('Sorry there was an error! Please try again later')}
-            </H2Normal>
+            </H2>
             <H4Secondary
               style={{
                 textAlign: 'center',

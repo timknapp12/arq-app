@@ -18,6 +18,7 @@ storiesOf('Donut', module)
   ))
   .add('double donut', () => (
     <DoubleDonut
+      view="rank"
       outerpercentage={206}
       outermax={256}
       outercolor="red"

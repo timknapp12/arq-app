@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Flexbox, H5 } from '../common';
+import { Flexbox, H5Heavy } from '../common';
 import { Modal, TouchableOpacity, Platform } from 'react-native';
 import { Localized, initLanguage } from '../../translations/Localized';
 
@@ -45,13 +45,13 @@ const EditModal = ({
             <TouchableOpacity
               testID="cancel-button-in-edit-modal"
               onPress={onClose}>
-              <H5>{Localized('CANCEL')}</H5>
+              <H5Heavy>{Localized('CANCEL')}</H5Heavy>
             </TouchableOpacity>
             <TouchableOpacity
               testID="save-button-in-edit-modal"
-              style={{ marginStart: 8 }}
+              style={{ marginStart: 16 }}
               onPress={onSave}>
-              <H5>{Localized('SAVE')}</H5>
+              <H5Heavy>{Localized('SAVE')}</H5Heavy>
             </TouchableOpacity>
           </Flexbox>
         </Inner>

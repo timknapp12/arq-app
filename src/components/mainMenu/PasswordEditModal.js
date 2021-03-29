@@ -34,7 +34,7 @@ const PasswordEditModal = ({ setIsPasswordEditModalOpen, visible }) => {
   const onSave = () => {
     if (currentPassword.length === 0) {
       setIsCurrentPasswordError(true);
-      Alert.alert(Localized('Please add a password'));
+      Alert.alert(Localized('Please enter current password'));
       return false;
     }
     if (newPassword !== confirmNewPassword) {
