@@ -49,7 +49,7 @@ const EditModal = ({
             </TouchableOpacity>
             <TouchableOpacity
               testID="save-button-in-edit-modal"
-              style={{ marginStart: 8 }}
+              style={{ marginStart: 16 }}
               onPress={onSave}>
               <H5Bold>{Localized('SAVE')}</H5Bold>
             </TouchableOpacity>

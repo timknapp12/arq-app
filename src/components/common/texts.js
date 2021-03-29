@@ -72,6 +72,7 @@ export const MenuText = styled.Text`
 `;
 
 export const H5Bold = styled.Text`
+  ${primaryOpacity};
   font-family: 'Nunito-Black';
   font-size: 16px;
   color: ${(props) => props.theme.color};
