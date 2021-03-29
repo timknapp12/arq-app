@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
-import { Picker, ScreenContainer, H4Bold } from '../../src/components/common';
+import { Picker, ScreenContainer, H4Heavy } from '../../src/components/common';
 
 storiesOf('Picker', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
@@ -15,7 +15,7 @@ storiesOf('Picker', module)
 
   .add('Picker cs languages', () => (
     <>
-      <H4Bold>Select</H4Bold>
+      <H4Heavy>Select</H4Heavy>
       <Picker
         value="JavaScript"
         label="State"

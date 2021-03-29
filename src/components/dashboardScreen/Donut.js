@@ -99,7 +99,7 @@ const Donut = ({
           style={[
             StyleSheet.absoluteFillObject,
             { fontSize: 24, color: color },
-            { fontFamily: 'Nunito-Black', textAlign: 'center' },
+            { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
           ]}
         />
       )}

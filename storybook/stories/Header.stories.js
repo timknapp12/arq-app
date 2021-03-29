@@ -1,16 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
-import Header from '../../src/components/common/headers';
 import {
-  H2Normal,
+  H4,
   ScreenContainer,
   AccountIcon,
   SmallQIcon,
   TertiaryButton,
+  Subheader,
+  Header,
 } from '../../src/components/common';
 import MainHeader from '../../src/components/mainHeader/MainHeader';
-import Subheader from '../../src/components/common';
 
 storiesOf('Header', module)
   .addDecorator((getStory) => (
@@ -21,21 +21,21 @@ storiesOf('Header', module)
   .add('with text', () => (
     <Header>
       <View />
-      <H2Normal>Business</H2Normal>
+      <H4>Business</H4>
       <View />
     </Header>
   ))
   .add('with text and logo', () => (
     <Header>
       <SmallQIcon />
-      <H2Normal>Business</H2Normal>
+      <H4>Business</H4>
       <View />
     </Header>
   ))
   .add('with account icon and logo', () => (
     <Header>
       <SmallQIcon />
-      <H2Normal>Business</H2Normal>
+      <H4>Business</H4>
       <AccountIcon />
     </Header>
   ))

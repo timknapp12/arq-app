@@ -34,7 +34,8 @@ const LoginStack = () => {
           headerTintColor: white,
           headerTitleStyle: {
             fontSize: 24,
-            fontFamily: 'Nunito-Regular',
+            opacity: 0.83,
+            fontFamily: 'Avenir-Light',
           },
         }}
       />

@@ -25,7 +25,7 @@ const ThemedButton = styled.TouchableOpacity`
 `;
 
 const ThemedText = styled.Text`
-  font-family: 'Nunito-Light';
+  font-family: 'Avenir-Light';
   font-size: 24px;
   color: ${(props) =>
     props.disabled ? props.theme.disabledTextColor : props.theme.color};
@@ -67,8 +67,7 @@ const ThemedTertiary = styled.TouchableOpacity`
 `;
 
 const TertiaryText = styled.Text`
-  font-family: ${(props) =>
-    props.selected ? "'Nunito-ExtraBold" : 'Nunito-Light'};
+  font-family: ${(props) => (props.selected ? 'Avenir-Heavy' : 'Avenir-Light')};
   color: ${(props) =>
     props.selected
       ? props.theme.tertiarySelectedTextColor

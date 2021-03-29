@@ -37,7 +37,6 @@ const LoginInstructions = styled(H4)`
   text-align: center;
   padding: 0 18px;
   margin-bottom: 18px;
-  font-family: 'Nunito-Light';
 `;
 
 const Checkbox = styled.View`

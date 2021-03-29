@@ -24,11 +24,12 @@ import {
   EditIcon,
   Switch,
   Subheader,
-  H5Bold,
-  HeaderText,
+  H5Heavy,
+  H3,
+  H5,
+  H5Secondary,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-// import UsernameEditModal from './UsernameEditModal';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -44,18 +45,6 @@ const RowContainer = styled.View`
   width: 100%;
   padding: 8px;
   position: relative;
-`;
-
-const PrimaryText = styled.Text`
-  font-family: 'Nunito-Regular';
-  font-size: 16px;
-  color: ${(props) => props.theme.color};
-`;
-
-const SecondaryText = styled.Text`
-  font-family: 'Nunito-Regular';
-  font-size: 16px;
-  color: ${(props) => props.theme.secondaryTextColor};
 `;
 
 const Divider = styled.View`
@@ -108,8 +97,6 @@ const SettingsModal = ({
   const [selectedMarket, setSelectedMarket] = useState('us');
 
   const initialState = data.username;
-  // const [username, setUsername] = useState(initialState);
-  // const [isUsernameEditModalOpen, setIsUsernameEditModalOpen] = useState(false);
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
@@ -184,16 +171,14 @@ const SettingsModal = ({
                         <CloseIcon />
                       </TouchableOpacity>
                     </HeaderButtonContainer>
-                    <HeaderText>
-                      {Localized('Settings').toUpperCase()}
-                    </HeaderText>
+                    <H3>{Localized('Settings').toUpperCase()}</H3>
                     <HeaderButtonContainer>
                       <View />
                     </HeaderButtonContainer>
                   </Header>
 
                   <Subheader justify="center">
-                    <H5Bold>{Localized('Account')}</H5Bold>
+                    <H5Heavy>{Localized('Account')}</H5Heavy>
                   </Subheader>
 
                   <Flexbox
@@ -201,27 +186,15 @@ const SettingsModal = ({
                     style={{ position: 'relative', paddingBottom: 0 }}
                     padding={12}>
                     <RowContainer>
-                      {/* <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start',
-                        }}> */}
-                      <SecondaryText>{Localized('Username')}</SecondaryText>
-                      <PrimaryText style={{ marginStart: 8 }}>
+                      <H5Secondary>{Localized('Username')}</H5Secondary>
+                      <H5 style={{ marginStart: 8 }}>
                         {/* {username} */}
                         {initialState}
-                      </PrimaryText>
-                      {/* </View> */}
-                      {/* <Pressable
-                        testID="edit-username-modal-button"
-                        onPress={() => setIsUsernameEditModalOpen(true)}
-                        hitSlop={8}>
-                        <EditIcon />
-                      </Pressable> */}
+                      </H5>
                     </RowContainer>
 
                     <RowContainer>
-                      <SecondaryText>{Localized('Password')}</SecondaryText>
+                      <H5Secondary>{Localized('Password')}</H5Secondary>
                       <Pressable
                         testID="edit-new-password-modal-button"
                         onPress={() => setIsPasswordEditModalOpen(true)}
@@ -231,9 +204,9 @@ const SettingsModal = ({
                     </RowContainer>
 
                     <RowContainer>
-                      <SecondaryText>
+                      <H5Secondary>
                         {Localized('Face ID or Fingerprint Log In')}
-                      </SecondaryText>
+                      </H5Secondary>
                       <Switch
                         testID="biometrics-switch"
                         value={isBiometricsEnabled}
@@ -273,13 +246,6 @@ const SettingsModal = ({
                 </View>
               </Flexbox>
             </ScrollView>
-            {/* <UsernameEditModal
-              visible={isUsernameEditModalOpen}
-              setIsUsernameEditModalOpen={setIsUsernameEditModalOpen}
-              value={username}
-              initialValue={initialState}
-              onChangeText={(text) => setUsername(text)}
-            /> */}
             <PasswordEditModal
               visible={isPasswordEditModalOpen}
               setIsPasswordEditModalOpen={setIsPasswordEditModalOpen}

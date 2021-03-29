@@ -70,9 +70,9 @@ const Tabs = () => {
         },
         style: { height: 70 },
         labelStyle: {
-          fontFamily: 'Nunito-Light',
+          fontFamily: 'Avenir-Light',
           fontSize: 12,
-          // opacity: 0.83,
+          opacity: 0.83,
         },
       }}>
       <Tab.Screen

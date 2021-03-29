@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
-import { H4, Flexbox, H4Secondary, HeaderText } from '../common';
+import { H4, Flexbox, H4Secondary, H3 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import Donut from './Donut';
 import {
@@ -20,7 +20,7 @@ const Overview = ({ user, fadeOut }) => {
           accessibilityLabel="Distributor name and rank"
           padding={20}
           width="100%">
-          <HeaderText>{`${Localized('Welcome back')} Sloane`}</HeaderText>
+          <H3>{`${Localized('Welcome back')} Sloane`}</H3>
           <H4Secondary>{`${Localized('Rank')}: Distributor`}</H4Secondary>
         </Flexbox>
 

@@ -30,11 +30,10 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
-    'Roboto-Regular': require('./assets/fonts/Roboto/Roboto-Regular.ttf'),
-    'Nunito-Black': require('./assets/fonts/Nunito/Nunito-Black.ttf'),
-    'Nunito-Regular': require('./assets/fonts/Nunito/Nunito-Regular.ttf'),
-    'Nunito-Light': require('./assets/fonts/Nunito/Nunito-Light.ttf'),
-    'Nunito-ExtraBold': require('./assets/fonts/Nunito/Nunito-ExtraBold.ttf'),
+    'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
+    'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
+    'Avenir-Book': require('./assets/fonts/avenir/AvenirLTStd-Book.otf'),
+    'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
   });
 
   if (!loaded) {
