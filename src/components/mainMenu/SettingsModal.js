@@ -68,24 +68,32 @@ const Divider = styled.View`
 // TODO - get real markets from database
 const markets = [
   {
-    label: 'United States',
+    id: 840,
+    label: 'United States of America',
     value: 'us',
   },
+  { id: 36, label: 'Australia', value: 'au' },
+  { id: 40, label: 'Austria', value: 'at' },
+  { id: 56, label: 'Belgium', value: 'be' },
+  { id: 124, label: 'Canada', value: 'ca' },
+  { id: 208, label: 'Denmark', value: 'dk' },
+  { id: 250, label: 'France', value: 'fr' },
+  { id: 276, label: 'Germany', value: 'de' },
+  { id: 300, label: 'Greece', value: 'gr' },
+  { id: 392, label: 'Japan', value: 'jp' },
+  { id: 458, label: 'Malaysia', value: 'my' },
+  { id: 484, label: 'Mexico', value: 'mx' },
+  { id: 528, label: 'Netherlands', value: 'nl' },
+  { id: 554, label: 'New Zealand', value: 'nz' },
+  { id: 578, label: 'Norway', value: 'no' },
+  { id: 616, label: 'Poland', value: 'pl' },
+  { id: 620, label: 'Portugal', value: 'pt' },
+  { id: 724, label: 'Spain', value: 'es' },
+  { id: 752, label: 'Sweden', value: 'se' },
   {
+    id: 826,
     label: 'United Kingdom',
     value: 'uk',
-  },
-  {
-    label: 'Japan',
-    value: 'jp',
-  },
-  {
-    label: 'Germany',
-    value: 'de',
-  },
-  {
-    label: 'France',
-    value: 'fr',
   },
 ];
 const SettingsModal = ({
