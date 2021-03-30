@@ -22,6 +22,7 @@ import {
   Picker,
   Subheader,
   Header,
+  AlertText,
   H3,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -61,12 +62,138 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
     setMyInfo({ ...myInfo, [field]: text });
   };
 
+  // const [isErrorState, setIsErrorState] = useState(false);
+  const [isFirstNameError, setIsFirstNameError] = useState(false);
+  const [isLastNameError, setIsLastNameError] = useState(false);
+  const [isDisplayNameError, setIsDisplayNameError] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPhoneError, setIsPhoneError] = useState(false);
+  const [isAddress1Error, setIsAddress1Error] = useState(false);
+  const [isCityError, setIsCityError] = useState(false);
+  const [isStateError, setIsStateError] = useState(false);
+  const [isZipcodeError, setIsZipcodeError] = useState(false);
+  const [isCountryError, setIsCountryError] = useState(false);
+
+  const validateFirstName = () => {
+    if (!firstName) {
+      setIsFirstNameError(true);
+      return false;
+    } else {
+      setIsFirstNameError(false);
+      return true;
+    }
+  };
+  const validateLastName = () => {
+    if (!lastName) {
+      setIsLastNameError(true);
+      return false;
+    } else {
+      setIsLastNameError(false);
+      return true;
+    }
+  };
+  const validateDisplayName = () => {
+    if (!displayName) {
+      setIsDisplayNameError(true);
+      return false;
+    } else {
+      setIsDisplayNameError(false);
+      return true;
+    }
+  };
+  const validateEmail = () => {
+    if (!email) {
+      setIsEmailError(true);
+      return false;
+    } else {
+      setIsEmailError(false);
+      return true;
+    }
+  };
+  const validatePhone = () => {
+    if (!phone) {
+      setIsPhoneError(true);
+      return false;
+    } else {
+      setIsPhoneError(false);
+      return true;
+    }
+  };
+  const validateAddress1 = () => {
+    if (!address1) {
+      setIsAddress1Error(true);
+      return false;
+    } else {
+      setIsAddress1Error(false);
+      return true;
+    }
+  };
+  const validateCity = () => {
+    if (!city) {
+      setIsCityError(true);
+      return false;
+    } else {
+      setIsCityError(false);
+      return true;
+    }
+  };
+  const validateState = () => {
+    if (!state) {
+      setIsStateError(true);
+      return false;
+    } else {
+      setIsStateError(false);
+      return true;
+    }
+  };
+  const validateZipcode = () => {
+    if (!zipcode) {
+      setIsZipcodeError(true);
+      return false;
+    } else {
+      setIsZipcodeError(false);
+      return true;
+    }
+  };
+  const validateCountry = () => {
+    if (!country) {
+      setIsCountryError(true);
+      return false;
+    } else {
+      setIsCountryError(false);
+      return true;
+    }
+  };
+
+  const validateAllFields = () => {
+    if (
+      !validateFirstName() ||
+      !validateLastName() ||
+      !validateDisplayName() ||
+      !validateEmail() ||
+      !validatePhone() ||
+      !validateAddress1() ||
+      !validateCity() ||
+      !validateState() ||
+      !validateZipcode() ||
+      !validateCountry()
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const onSubmit = () => {
     // TODO add saving logic here
-    // only save image if it has been changed
-    isNewImageSelected && saveProfileImageToFirebase(myInfo, handleChange);
-    setIsMyInfoModalOpen(false);
-    setIsNewImageSelected(false);
+    if (!validateAllFields()) {
+      return false;
+    } else {
+      // only save image if it has been changed
+      isNewImageSelected && saveProfileImageToFirebase(myInfo, handleChange);
+      setIsMyInfoModalOpen(false);
+      setIsNewImageSelected(false);
+    }
   };
 
   let localeLanguageTag = Localization.locale.substring(0, 2);
@@ -175,6 +302,13 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                         }}
                         returnKeyType="done"
                         textContentType="givenName"
+                        validationError={isFirstNameError}
+                        errorMessage={
+                          isFirstNameError
+                            ? Localized('This field is required')
+                            : null
+                        }
+                        onBlur={validateFirstName}
                       />
                       <AnimatedInput
                         testID="first-name-input"
@@ -186,6 +320,13 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                         }}
                         returnKeyType="done"
                         textContentType="familyName"
+                        validationError={isLastNameError}
+                        errorMessage={
+                          isLastNameError
+                            ? Localized('This field is required')
+                            : null
+                        }
+                        onBlur={validateLastName}
                       />
                     </Flexbox>
                   </NameContainer>
@@ -199,6 +340,13 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                     }}
                     returnKeyType="done"
                     textContentType="nickname"
+                    validationError={isDisplayNameError}
+                    errorMessage={
+                      isDisplayNameError
+                        ? Localized('This field is required')
+                        : null
+                    }
+                    onBlur={validateDisplayName}
                   />
                   <AnimatedInput
                     testID="email-input"
@@ -212,6 +360,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                     autoCapitalize="none"
                     returnKeyType="done"
                     textContentType="emailAddress"
+                    validationError={isEmailError}
+                    errorMessage={
+                      isEmailError ? Localized('This field is required') : null
+                    }
+                    onBlur={validateEmail}
                   />
                   <AnimatedInput
                     testID="phone-number-input"
@@ -224,6 +377,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                     keyboardType="phone-pad"
                     returnKeyType="done"
                     textContentType="telephoneNumber"
+                    validationError={isPhoneError}
+                    errorMessage={
+                      isPhoneError ? Localized('This field is required') : null
+                    }
+                    onBlur={validatePhone}
                   />
                   <AnimatedInput
                     testID="distributor-id-input"
@@ -246,6 +404,13 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                     }}
                     returnKeyType="done"
                     textContentType="streetAddressLine1"
+                    validationError={isAddress1Error}
+                    errorMessage={
+                      isAddress1Error
+                        ? Localized('This field is required')
+                        : null
+                    }
+                    onBlur={validateAddress1}
                   />
                   <AnimatedInput
                     testID="address-2-input"
@@ -268,6 +433,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                     }}
                     returnKeyType="done"
                     textContentType="addressCity"
+                    validationError={isCityError}
+                    errorMessage={
+                      isCityError ? Localized('This field is required') : null
+                    }
+                    onBlur={validateCity}
                   />
                   <Flexbox
                     direction="row"
@@ -278,22 +448,33 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                       marginBottom: 4,
                     }}>
                     {country === 'us' ? (
-                      <Picker
-                        items={usStates}
-                        label={Localized('State')}
-                        value={
-                          usStates.find((item) => item.value === state)
-                            ? state
-                            : 'CA'
-                        }
-                        placeholder={{ label: Localized('State'), value: null }}
-                        onValueChange={(value) => {
-                          handleChange('state', value);
-                          setIsSaveButtonVisisble(true);
-                        }}
-                        testID="state-picker-input"
-                        style={{ width: '48%' }}
-                      />
+                      <Flexbox width="48%" align="flex-start">
+                        <Picker
+                          items={usStates}
+                          label={Localized('State')}
+                          value={
+                            usStates.find((item) => item.value === state)
+                              ? state
+                              : 'CA'
+                          }
+                          placeholder={{
+                            label: Localized('State'),
+                            value: null,
+                          }}
+                          onValueChange={(value) => {
+                            handleChange('state', value);
+                            setIsSaveButtonVisisble(true);
+                          }}
+                          testID="state-picker-input"
+                          style={{ width: '100%' }}
+                          onBlur={validateState}
+                        />
+                        {isStateError && (
+                          <AlertText>
+                            {Localized('This field is required')}
+                          </AlertText>
+                        )}
+                      </Flexbox>
                     ) : (
                       <Flexbox width="48%">
                         <AnimatedInput
@@ -306,6 +487,13 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                           }}
                           returnKeyType="done"
                           textContentType="addressState"
+                          validationError={isStateError}
+                          errorMessage={
+                            isStateError
+                              ? Localized('This field is required')
+                              : null
+                          }
+                          onBlur={validateState}
                         />
                       </Flexbox>
                     )}
@@ -321,20 +509,35 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                         keyboardType="phone-pad"
                         returnKeyType="done"
                         textContentType="postalCode"
+                        validationError={isZipcodeError}
+                        errorMessage={
+                          isZipcodeError
+                            ? Localized('This field is required')
+                            : null
+                        }
+                        onBlur={validateZipcode}
                       />
                     </Flexbox>
                   </Flexbox>
-                  <Picker
-                    items={countryList}
-                    label={Localized('Country')}
-                    value={country}
-                    placeholder={{ label: Localized('Country'), value: null }}
-                    onValueChange={(value) => {
-                      handleChange('country', value);
-                      setIsSaveButtonVisisble(true);
-                    }}
-                    testID="country-input"
-                  />
+                  <Flexbox align="flex-start">
+                    <Picker
+                      items={countryList}
+                      label={Localized('Country')}
+                      value={country}
+                      placeholder={{ label: Localized('Country'), value: null }}
+                      onValueChange={(value) => {
+                        handleChange('country', value);
+                        setIsSaveButtonVisisble(true);
+                      }}
+                      testID="country-input"
+                      onBlur={validateCountry}
+                    />
+                    {isCountryError && (
+                      <AlertText>
+                        {Localized('This field is required')}
+                      </AlertText>
+                    )}
+                  </Flexbox>
                 </Flexbox>
               </Flexbox>
             </ScrollView>
