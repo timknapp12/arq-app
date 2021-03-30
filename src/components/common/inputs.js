@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Flexbox } from './containers';
+import { AlertText } from './texts';
 
 // Standard Input with Password able to be shown or hidden
 const ThemedTextInputContainer = styled.View`
@@ -119,6 +120,8 @@ export const AnimatedInput = ({
   onChangeText = () => {},
   label = '',
   validationError = false,
+  errorMessage = '',
+  onBlur = () => {},
   ...props
 }) => {
   const inputRef = useRef();
@@ -128,7 +131,7 @@ export const AnimatedInput = ({
     setIsFocused(true);
     expand();
   };
-  const onBlur = () => {
+  const onShrink = () => {
     setIsFocused(false);
     if (!value) {
       shrink();
@@ -156,7 +159,7 @@ export const AnimatedInput = ({
 
   return (
     <TouchableWithoutFeedback onPress={() => inputRef.current.focus()}>
-      <Flexbox height="50px" justify="flex-end">
+      <Flexbox style={{ minHeight: 50 }} justify="flex-end">
         <Flexbox align="flex-start">
           <Label>{label}</Label>
           <CustomInput
@@ -166,10 +169,14 @@ export const AnimatedInput = ({
             focused={isFocused}
             validationError={validationError}
             onFocus={onFocus}
-            onBlur={onBlur}
+            onBlur={() => {
+              onShrink();
+              onBlur();
+            }}
             {...props}
             style={{ height: fadeAnim }}
           />
+          {errorMessage ? <AlertText>{errorMessage}</AlertText> : null}
         </Flexbox>
       </Flexbox>
     </TouchableWithoutFeedback>
@@ -181,4 +188,6 @@ AnimatedInput.propTypes = {
   onChangeText: PropTypes.func,
   label: PropTypes.string,
   validationError: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  onBlur: PropTypes.func,
 };
