@@ -102,7 +102,9 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
     }
   };
   const validateEmail = () => {
-    if (!email) {
+    // source for regex https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!pattern.test(email)) {
       setIsEmailError(true);
       return false;
     } else {
@@ -362,7 +364,9 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                     textContentType="emailAddress"
                     validationError={isEmailError}
                     errorMessage={
-                      isEmailError ? Localized('This field is required') : null
+                      isEmailError
+                        ? Localized('Please enter a valid email address"')
+                        : null
                     }
                     onBlur={validateEmail}
                   />
