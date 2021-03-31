@@ -12,7 +12,10 @@ import camera from '../../../assets/icons/button_camera.png';
 import gallery from '../../../assets/icons/buton_gallery.png';
 import edit from '../../../assets/icons/ic_edit.png';
 import deletePng from '../../../assets/icons/ic_delete.png';
+import filter from '../../../assets/icons/filter.png';
+import search from '../../../assets/icons/search.png';
 import Filter from '../../../assets/icons/filter.svg';
+import Search from '../../../assets/icons/search.svg';
 import FaceID from '../../../assets/icons/face-id.svg';
 import TouchID from '../../../assets/icons/touch-id.svg';
 import AppContext from '../../contexts/AppContext';
@@ -102,14 +105,25 @@ export const DeleteIcon = ({ ...props }) => (
   <Image {...props} source={deletePng} style={{ height: 16 }} />
 );
 
-// export const FilterIcon = ({ ...props }) => (
-//   <Image {...props} source={filter} style={{ height: 16 }} />
-// );
+export const FilterIcon = ({ ...props }) => (
+  <Image {...props} source={filter} style={{ height: 20, width: 30 }} />
+);
 
-export const FilterIcon = ({ fill = white, ...props }) => (
+export const SearchIcon = ({ ...props }) => (
+  <Image {...props} source={search} style={{ height: 25 }} />
+);
+
+export const SearchIconSVG = ({ fill = white, ...props }) => (
+  <Search width="auto" height="20" fill={fill} {...props} />
+);
+SearchIconSVG.propTypes = {
+  fill: PropTypes.string,
+};
+
+export const FilterIconSVG = ({ fill = white, ...props }) => (
   <Filter width="auto" height="20" fill={fill} {...props} />
 );
-FilterIcon.propTypes = {
+FilterIconSVG.propTypes = {
   fill: PropTypes.string,
 };
 

@@ -1,24 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Animated, ScrollView, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Animated, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 // Components
-import {
-  ScreenContainer,
-  H4,
-  TertiaryButton,
-  TopButtonBar,
-  Input,
-} from '../common';
+import { ScreenContainer, H4, TertiaryButton, TopButtonBar } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized } from '../../translations/Localized';
+import FilterSearchBar from './FilterSearchBar';
 // Mock Data
 import { mockUser } from '../common/mockUser';
 // Styles
 // import { StyledScroll } from './ResourceScreen.styles';
-// Resources
-import { FilterIcon } from '../common/icons';
 
 const ResourcesScreen = () => {
   const isFocused = useIsFocused();
@@ -102,13 +94,7 @@ const ResourcesScreen = () => {
           ))}
         </ScrollView>
       </TopButtonBar>
-      <View>
-        <FilterIcon />
-        <TouchableOpacity>
-          <Input clearButtonMode="always" />
-          <H4>This is search bar</H4>
-        </TouchableOpacity>
-      </View>
+      <FilterSearchBar userName={mockUser.personalInfo.displayName} />
       <H4>Resources Screen</H4>
       <H4 testID="resources-screen-description">
         Welcome to the Resources Screen
