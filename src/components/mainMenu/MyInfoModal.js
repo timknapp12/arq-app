@@ -62,7 +62,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
     setMyInfo({ ...myInfo, [field]: text });
   };
 
-  // const [isErrorState, setIsErrorState] = useState(false);
   const [isFirstNameError, setIsFirstNameError] = useState(false);
   const [isLastNameError, setIsLastNameError] = useState(false);
   const [isDisplayNameError, setIsDisplayNameError] = useState(false);
@@ -456,11 +455,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                         <Picker
                           items={usStates}
                           label={Localized('State')}
-                          value={
-                            usStates.find((item) => item.value === state)
-                              ? state
-                              : null
-                          }
+                          value={state}
                           placeholder={{
                             label: Localized('State'),
                             value: null,
