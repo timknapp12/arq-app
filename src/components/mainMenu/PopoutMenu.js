@@ -17,6 +17,9 @@ const SideMenu = styled.View`
   padding: 24px;
 `;
 
+const TouchableContainer = styled.View`
+  width: 100%;
+`;
 const AnimatedMenu = Animated.createAnimatedComponent(SideMenu);
 
 const PopoutMenu = ({
@@ -29,29 +32,43 @@ const PopoutMenu = ({
   const { setIsSignedIn } = useContext(AppContext);
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
-      <TouchableOpacity
-        onPress={() => {
-          fadeOut();
-          setIsMyInfoModalOpen(true);
-        }}>
-        <H4Book>{Localized('My Info')}</H4Book>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          fadeOut();
-          setIsSettingsModalOpen(true);
-        }}>
-        <H4Book>{Localized('Settings')}</H4Book>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <H4Book>{Localized('Chat With Support')}</H4Book>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <H4Book>{Localized('Share My Shop')}</H4Book>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => setIsSignedIn(false)}>
-        <H4Book>{Localized('Log Out')}</H4Book>
-      </TouchableOpacity>
+      <TouchableContainer>
+        <TouchableOpacity
+          onPress={() => {
+            fadeOut();
+            setIsMyInfoModalOpen(true);
+          }}>
+          <H4Book>{Localized('My Info')}</H4Book>
+        </TouchableOpacity>
+      </TouchableContainer>
+
+      <TouchableContainer>
+        <TouchableOpacity
+          onPress={() => {
+            fadeOut();
+            setIsSettingsModalOpen(true);
+          }}>
+          <H4Book>{Localized('Settings')}</H4Book>
+        </TouchableOpacity>
+      </TouchableContainer>
+
+      <TouchableContainer>
+        <TouchableOpacity>
+          <H4Book>{Localized('Chat With Support')}</H4Book>
+        </TouchableOpacity>
+      </TouchableContainer>
+
+      <TouchableContainer>
+        <TouchableOpacity>
+          <H4Book>{Localized('Share My Shop')}</H4Book>
+        </TouchableOpacity>
+      </TouchableContainer>
+
+      <TouchableContainer>
+        <TouchableOpacity onPress={() => setIsSignedIn(false)}>
+          <H4Book>{Localized('Log Out')}</H4Book>
+        </TouchableOpacity>
+      </TouchableContainer>
     </AnimatedMenu>
   );
 };
