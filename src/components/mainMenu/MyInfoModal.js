@@ -232,7 +232,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
     if (country === 'us') {
       usStates.find((item) => item.value === state)
         ? handleChange('state', state)
-        : handleChange('state', 'CA');
+        : handleChange('state', null);
     }
   }, [country]);
   return (
@@ -365,7 +365,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                     validationError={isEmailError}
                     errorMessage={
                       isEmailError
-                        ? Localized('Please enter a valid email address"')
+                        ? Localized('Please enter a valid email address')
                         : null
                     }
                     onBlur={validateEmail}
@@ -459,7 +459,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                           value={
                             usStates.find((item) => item.value === state)
                               ? state
-                              : 'CA'
+                              : null
                           }
                           placeholder={{
                             label: Localized('State'),
@@ -468,16 +468,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                           onValueChange={(value) => {
                             handleChange('state', value);
                             setIsSaveButtonVisisble(true);
+                            validateState();
                           }}
                           testID="state-picker-input"
-                          style={{ width: '100%' }}
-                          onBlur={validateState}
+                          validationError={isStateError}
                         />
-                        {isStateError && (
-                          <AlertText>
-                            {Localized('This field is required')}
-                          </AlertText>
-                        )}
                       </Flexbox>
                     ) : (
                       <Flexbox width="48%">
@@ -492,11 +487,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                           returnKeyType="done"
                           textContentType="addressState"
                           validationError={isStateError}
-                          errorMessage={
-                            isStateError
-                              ? Localized('This field is required')
-                              : null
-                          }
                           onBlur={validateState}
                         />
                       </Flexbox>
@@ -514,14 +504,21 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                         returnKeyType="done"
                         textContentType="postalCode"
                         validationError={isZipcodeError}
-                        errorMessage={
-                          isZipcodeError
-                            ? Localized('This field is required')
-                            : null
-                        }
                         onBlur={validateZipcode}
                       />
                     </Flexbox>
+                  </Flexbox>
+                  <Flexbox direction="row" align="flex-start">
+                    {isStateError && (
+                      <AlertText style={{ bottom: 0 }}>
+                        {Localized('This field is required')}
+                      </AlertText>
+                    )}
+                    {isZipcodeError && (
+                      <AlertText style={{ bottom: 0 }}>
+                        {Localized('This field is required')}
+                      </AlertText>
+                    )}
                   </Flexbox>
                   <Flexbox align="flex-start">
                     <Picker
@@ -532,9 +529,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
                       onValueChange={(value) => {
                         handleChange('country', value);
                         setIsSaveButtonVisisble(true);
+                        validateCountry();
                       }}
                       testID="country-input"
-                      onBlur={validateCountry}
+                      validationError={isCountryError}
                     />
                     {isCountryError && (
                       <AlertText>
