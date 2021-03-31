@@ -9,7 +9,8 @@ export const saveProfileImageToFirebase = async (user, handleChange) => {
   const refToBeDeleted = firebase
     .storage()
     .ref()
-    .child(`profile_images/${user.image.imageName}`);
+    // in firebase we are using an extension that resizes the image to 72x72 and so "_72x72" is appended as a suffix to the filename once it is successfully resized and saved
+    .child(`profile_images/${user.image.imageName}_72x72`);
 
   let newImageName = `${user?.firstName}.${user?.lastName}.${uuidv4()}`;
   try {

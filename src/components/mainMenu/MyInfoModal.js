@@ -36,7 +36,6 @@ import jaCountires from '../../translations/countries/ja-countries.json';
 import noCountires from '../../translations/countries/no-countries.json';
 import usStates from '../../translations/countries/us-states.json';
 import ProfileImage from './ProfileImage';
-import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -52,7 +51,12 @@ const NameContainer = styled.View`
   width: 100%;
 `;
 
-const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
+const MyInfoModal = ({
+  setIsMyInfoModalOpen,
+  isMyInfoModalOpen,
+  data,
+  saveProfileImageToFirebase,
+}) => {
   initLanguage();
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
@@ -101,8 +105,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen, data }) => {
     }
   };
   const validateEmail = () => {
-    // source for regex https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // source for regex https://regexlib.com/Search.aspx?k=email&c=-1&m=5&ps=20
+    const pattern = new RegExp(
+      '^([a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+).[a-zA-Z]{2,7})$',
+    );
     if (!pattern.test(email)) {
       setIsEmailError(true);
       return false;
@@ -549,6 +555,7 @@ MyInfoModal.propTypes = {
   setIsMyInfoModalOpen: PropTypes.func.isRequired,
   isMyInfoModalOpen: PropTypes.bool.isRequired,
   data: PropTypes.object,
+  saveProfileImageToFirebase: PropTypes.func,
 };
 
 export default MyInfoModal;
