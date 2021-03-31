@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Platform } from 'react-native';
 import DashboardStack from './DashboardStack';
 import NewsScreen from '../components/newsScreen/NewsScreen';
-import ResourcesScreen from '../components/resourcesScreen';
+import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import AppContext from '../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import dashboard from '../../assets/icons/ic_dashboard.png';
