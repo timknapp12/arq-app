@@ -43,7 +43,7 @@ const mockUser = {
     image: {
       imageName: 'Sloane.Taylor.2f79ef5f-58d1-4358-b12b-2ab05e3e4dc8',
       url:
-        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FSloane.Taylor.2f79ef5f-58d1-4358-b12b-2ab05e3e4dc8_72x72?alt=media&token=b4254bbe-5536-4974-bcee-91ffe83711c9',
+        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FSloane.Taylor.0054e029-2a64-48c7-a47b-031bde54a385_72x72?alt=media&token=7f67630e-226c-44ad-b043-57d3af169302',
     },
     firstName: 'Sloane',
     lastName: 'Taylor',
@@ -327,14 +327,12 @@ const DashboardScreen = () => {
             <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
           )}
         </ScrollView>
-        {isMyInfoModalOpen && (
-          <MyInfoModal
-            isMyInfoModalOpen={isMyInfoModalOpen}
-            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={mockUser.personalInfo}
-            saveProfileImageToFirebase={saveProfileImageToFirebase}
-          />
-        )}
+        <MyInfoModal
+          isMyInfoModalOpen={isMyInfoModalOpen}
+          setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+          data={mockUser.personalInfo}
+          saveProfileImageToFirebase={saveProfileImageToFirebase}
+        />
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
