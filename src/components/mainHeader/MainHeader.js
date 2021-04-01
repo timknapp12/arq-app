@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Flexbox, SmallQIcon, BellIcon, AccountIcon, Header } from '../common';
+import account from '../../../assets/icons/ic_account.png';
 
 const ProfileImage = styled.Image`
   height: 24px;
@@ -17,6 +18,7 @@ const MainHeader = ({
   isMenuOpen,
   profileUrl,
 }) => {
+  const [isImageValid, setIsImageValid] = useState(true);
   const toggleMenu = () => {
     if (isMenuOpen) {
       fadeOut();
@@ -33,8 +35,12 @@ const MainHeader = ({
             e.stopPropagation();
             toggleMenu();
           }}>
-          {profileUrl ? (
-            <ProfileImage source={{ uri: profileUrl }} />
+          {profileUrl && isImageValid ? (
+            <ProfileImage
+              source={{ uri: profileUrl }}
+              defaultSource={account}
+              onError={() => setIsImageValid(false)}
+            />
           ) : (
             <AccountIcon />
           )}

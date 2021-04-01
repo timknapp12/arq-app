@@ -21,6 +21,7 @@ export const Picker = ({
   onValueChange,
   value,
   placeholder,
+  validationError = false,
 }) => {
   const { theme } = useContext(AppContext);
   return (
@@ -35,8 +36,10 @@ export const Picker = ({
             fontFamily: 'Roboto-Regular',
             paddingBottom: 4,
             paddingEnd: 30, // to ensure the text is never behind the icon
-            borderBottomWidth: 1,
-            borderBottomColor: theme.secondaryTextColor,
+            borderBottomWidth: validationError ? 3 : 1,
+            borderBottomColor: validationError
+              ? theme.error
+              : theme.secondaryTextColor,
             color: theme.color,
           },
           inputAndroid: {
@@ -44,8 +47,10 @@ export const Picker = ({
             fontFamily: 'Roboto-Regular',
             paddingBottom: 4,
             paddingEnd: 30, // to ensure the text is never behind the icon
-            borderBottomWidth: 1,
-            borderBottomColor: theme.secondaryTextColor,
+            borderBottomWidth: validationError ? 3 : 1,
+            borderBottomColor: validationError
+              ? theme.error
+              : theme.secondaryTextColor,
             color: theme.color,
             backgroundColor: 'transparent',
           },
@@ -80,4 +85,5 @@ Picker.propTypes = {
   value: PropTypes.string,
   placeholder: PropTypes.object,
   style: PropTypes.object,
+  validationError: PropTypes.bool,
 };

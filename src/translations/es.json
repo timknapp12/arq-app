@@ -53,7 +53,6 @@
   "Leg 2": "es Leg 2",
   "Leg 3": "es Leg 3",
   "My Info": "es My Info",
-  "Share Options": "es Share Options",
   "Settings": "es Settings",
   "Chat With Support": "es Chat With Support",
   "Share My Shop": "es Share My Shop",
@@ -98,5 +97,7 @@
   "Passwords don't match. Please confirm new password": "es Passwords don't match. Please confirm new password",
   "Password should contain at least one number and one uppercase character and be between 8-25 in characters": "es Password should contain at least one number and one uppercase character and be between 8-25 in characters",
   "Your device isn't compatible": "es Your device isn't compatible",
-  "No Faces / Fingers found": "es No Faces / Fingers found"
+  "No Faces / Fingers found": "es No Faces / Fingers found",
+  "This field is required": "es This field is required",
+  "Please enter a valid email address": "es Please enter a valid email address"
 }

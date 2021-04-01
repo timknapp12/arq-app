@@ -16,6 +16,7 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -40,9 +41,9 @@ const mockUser = {
   },
   personalInfo: {
     image: {
-      imageName: 'Sloane.Taylor.34903f19-d0c7-41b6-b4d2-2eed0ad1ef6c',
+      imageName: 'Sloane.Taylor.2f79ef5f-58d1-4358-b12b-2ab05e3e4dc8',
       url:
-        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FSloane.Taylor.94f93ae8-9b3d-4cf3-a7ee-3f213707ebc6?alt=media&token=52c072d4-62e1-4ab0-b4c4-3090fcb0d4e5',
+        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FSloane.Taylor.0054e029-2a64-48c7-a47b-031bde54a385_72x72?alt=media&token=7f67630e-226c-44ad-b043-57d3af169302',
     },
     firstName: 'Sloane',
     lastName: 'Taylor',
@@ -326,13 +327,12 @@ const DashboardScreen = () => {
             <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
           )}
         </ScrollView>
-        {isMyInfoModalOpen && (
-          <MyInfoModal
-            isMyInfoModalOpen={isMyInfoModalOpen}
-            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={mockUser.personalInfo}
-          />
-        )}
+        <MyInfoModal
+          isMyInfoModalOpen={isMyInfoModalOpen}
+          setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+          data={mockUser.personalInfo}
+          saveProfileImageToFirebase={saveProfileImageToFirebase}
+        />
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
