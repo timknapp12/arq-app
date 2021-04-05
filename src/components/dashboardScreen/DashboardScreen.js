@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import {
@@ -17,6 +17,7 @@ import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
+import AppContext from '../../contexts/AppContext';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -63,6 +64,9 @@ const mockUser = {
 
 const DashboardScreen = () => {
   initLanguage();
+  // TODO add this to the resource screen when there are no merge conflicts
+  const { storeTimeStamp } = useContext(AppContext);
+  storeTimeStamp();
   const ranklist = [
     {
       legMaxPerc: 0,

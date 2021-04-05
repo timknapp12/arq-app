@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { ScreenContainer, H4 } from '../common';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
+import AppContext from '../../contexts/AppContext';
 
 const NewsScreen = () => {
+  const { storeTimeStamp } = useContext(AppContext);
+  storeTimeStamp();
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
