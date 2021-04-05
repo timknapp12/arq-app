@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import AppContext from './src/contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
@@ -14,6 +14,8 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './src/graphql/client';
+import UserInactivity from 'react-native-user-inactivity';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -36,6 +38,51 @@ const App = () => {
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
   });
 
+  const [isUserActive, setIsUserActive] = useState(true);
+  const [timer] = useState(1000 * 60 * 20);
+
+  const storeTimeStamp = async () => {
+    let value = new Date().getTime();
+    try {
+      await AsyncStorage.setItem('@stored_timeStamp', JSON.stringify(value));
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const getTimeStamp = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@stored_timeStamp');
+      const jsonValue = JSON.parse(value);
+      if (jsonValue !== null) {
+        return jsonValue;
+      }
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const onUserActivity = (isActive) => {
+    if (isActive) {
+      setIsUserActive(true);
+    } else {
+      storeTimeStamp();
+      setIsUserActive(false);
+      setIsSignedIn(false);
+    }
+  };
+
+  useEffect(() => {
+    const newTimeStamp = new Date().getTime();
+    getTimeStamp().then((res) => {
+      const value = newTimeStamp - res;
+      const minutes = value / 60 / 1000;
+      if (minutes < 20) {
+        setIsSignedIn(true);
+      }
+    });
+  }, []);
+
   if (!loaded) {
     return <AppLoading />;
   }
@@ -51,13 +98,26 @@ const App = () => {
             setUser,
             useBiometrics,
             setUseBiometrics,
+            storeTimeStamp,
           }}>
           <StatusBar
             backgroundColor={theme.backgroundColor}
             style={theme.statusBar}
           />
+
           <NavigationContainer>
-            {isSignedIn ? <Tabs /> : <LoginStack />}
+            {isSignedIn ? (
+              <UserInactivity
+                isActive={isUserActive}
+                timeForInactivity={timer}
+                onAction={(isActive) => {
+                  onUserActivity(isActive);
+                }}>
+                <Tabs />
+              </UserInactivity>
+            ) : (
+              <LoginStack />
+            )}
           </NavigationContainer>
         </AppContext.Provider>
       </ThemeProvider>
