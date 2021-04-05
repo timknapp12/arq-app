@@ -9,6 +9,7 @@ import { Localized } from '../../translations/Localized';
 import FilterSearchBar from './FilterSearchBar';
 // Mock Data
 import { mockUser } from '../common/mockUser';
+import { ResourcesCard } from '../common/cards';
 // Styles
 // import { StyledScroll } from './ResourceScreen.styles';
 
@@ -95,10 +96,24 @@ const ResourcesScreen = () => {
         </ScrollView>
       </TopButtonBar>
       <FilterSearchBar userName={mockUser.personalInfo.displayName} />
-      <H4>Resources Screen</H4>
-      <H4 testID="resources-screen-description">
-        Welcome to the Resources Screen
-      </H4>
+      <ScrollView
+        contentContainerStyle={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          padding: 10,
+        }}>
+        <ResourcesCard>
+          <H4>Card 1</H4>
+        </ResourcesCard>
+        <ResourcesCard />
+        <ResourcesCard full />
+        <ResourcesCard />
+        <ResourcesCard />
+        <ResourcesCard full />
+        <ResourcesCard />
+        <ResourcesCard />
+      </ScrollView>
     </ScreenContainer>
   );
 };
