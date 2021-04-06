@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import baseImage from '../../../assets/icons/image.png';
-import { H4 } from './texts';
+import { H6 } from './texts';
 
+// RESOURCES CARD
 const containerHeight = 224;
 const footerHeight = 48;
 
@@ -19,6 +21,8 @@ CardContainer.propTypes = {
 };
 
 const CardImage = styled.Image`
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   height: ${containerHeight - footerHeight}px;
 `;
 
@@ -30,15 +34,26 @@ const CardFooter = styled.View`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #ccc;
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 8px;
 `;
 
-export const ResourcesCard = ({ source, isLayoutWide, ...props }) => (
+export const ResourcesCard = ({
+  source,
+  isLayoutWide,
+  title,
+  onPress,
+  ...props
+}) => (
   <CardContainer isLayoutWide={isLayoutWide} {...props}>
-    <CardImage source={{ uri: source }} defaultSource={baseImage} />
-    <CardFooter>
-      <H4>{props.title || 'Card Title'}</H4>
-    </CardFooter>
+    <TouchableOpacity onPress={onPress}>
+      <CardImage source={{ uri: source }} defaultSource={baseImage} />
+      <CardFooter>
+        <H6>{title}</H6>
+      </CardFooter>
+    </TouchableOpacity>
   </CardContainer>
 );
 
@@ -46,4 +61,20 @@ ResourcesCard.propTypes = {
   title: PropTypes.string,
   isLayoutWide: PropTypes.bool,
   source: PropTypes.string,
+  onPress: PropTypes.func,
+};
+
+// ASSET CARD
+const AssetContainer = styled.View`
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+`;
+
+export const AssetCard = ({ title, ...props }) => (
+  <AssetContainer {...props}>
+    <H6>{title}</H6>
+  </AssetContainer>
+);
+
+AssetCard.propTypes = {
+  title: PropTypes.string,
 };
