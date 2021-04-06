@@ -75,7 +75,8 @@ export const H5Heavy = styled.Text`
 `;
 
 export const H6 = styled.Text`
-  font-family: 'Roboto-Regular';
+  ${primaryOpacity};
+  font-family: 'Avenir-Light';
   font-size: 14px;
   color: ${(props) => props.theme.color};
 `;
