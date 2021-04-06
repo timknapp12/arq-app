@@ -1,17 +1,27 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Animated, ScrollView } from 'react-native';
+import {
+  Animated,
+  ScrollView,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
-// Components
-import { ScreenContainer, H4, TertiaryButton, TopButtonBar } from '../common';
+import {
+  ScreenContainer,
+  TertiaryButton,
+  TopButtonBar,
+  Flexbox,
+} from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized } from '../../translations/Localized';
 import FilterSearchBar from './FilterSearchBar';
-// Mock Data
+import PopoutMenu from '../mainMenu/PopoutMenu';
+import MyInfoModal from '../mainMenu/MyInfoModal';
+import SettingsModal from '../mainMenu/SettingsModal';
 import { mockUser } from '../common/mockUser';
 import { ResourcesCard } from '../common/cards';
-// Styles
-// import { StyledScroll } from './ResourceScreen.styles';
+import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 
 const ResourcesScreen = () => {
   const isFocused = useIsFocused();
@@ -28,6 +38,8 @@ const ResourcesScreen = () => {
     name: Localized('OVERVIEW'),
     testID: 'overview-button',
   };
+  const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const [view, setView] = useState(initialView);
 
@@ -68,53 +80,84 @@ const ResourcesScreen = () => {
     });
   };
   return (
-    <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
-      <MainHeader
-        isMenuOpen={isMenuOpen}
-        fadeIn={fadeIn}
-        fadeOut={fadeOut}
-        setIsMenuOpen={setIsMenuOpen}
-        badgeValue={2}
-        profileUrl={mockUser.personalInfo.image.url}
-      />
-      <TopButtonBar>
+    <TouchableWithoutFeedback onPress={fadeOut}>
+      <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
+        <MainHeader
+          isMenuOpen={isMenuOpen}
+          fadeIn={fadeIn}
+          fadeOut={fadeOut}
+          setIsMenuOpen={setIsMenuOpen}
+          badgeValue={2}
+          profileUrl={mockUser.personalInfo.image.url}
+        />
+        <TopButtonBar>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              width: 580,
+            }}>
+            {tertiaryButtonText.map((item) => (
+              <TertiaryButton
+                style={{ marginRight: 15 }}
+                onPress={() => navigate(item)}
+                selected={view.name === item.name}
+                key={item.name}>
+                {item.name}
+              </TertiaryButton>
+            ))}
+          </ScrollView>
+        </TopButtonBar>
+        <Flexbox>
+          <PopoutMenu
+            fadeAnim={fadeAnim}
+            isMenuOpen={isMenuOpen}
+            fadeOut={fadeOut}
+            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+            setIsSettingsModalOpen={setIsSettingsModalOpen}
+          />
+        </Flexbox>
+        <FilterSearchBar userName={mockUser.personalInfo.displayName} />
         <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
+          onStartShouldSetResponder={() => true}
+          style={{ zIndex: -1, width: '100%' }}
           contentContainerStyle={{
-            width: 580,
+            backgroundColor: 'red',
+            paddingBottom: 100,
           }}>
-          {tertiaryButtonText.map((item) => (
-            <TertiaryButton
-              style={{ marginRight: 15 }}
-              onPress={() => navigate(item)}
-              selected={view.name === item.name}
-              key={item.name}>
-              {item.name}
-            </TertiaryButton>
-          ))}
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              padding: 10,
+            }}
+            onStartShouldSetResponder={() => true}>
+            <ResourcesCard source="https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fcompensation_355x176.jpg?alt=media&token=e905eef7-7b20-4e0e-8083-e0c029f526cf"></ResourcesCard>
+            <ResourcesCard />
+            <ResourcesCard isLayoutWide />
+            <ResourcesCard />
+            <ResourcesCard />
+            <ResourcesCard isLayoutWide />
+            <ResourcesCard />
+            <ResourcesCard />
+          </View>
         </ScrollView>
-      </TopButtonBar>
-      <FilterSearchBar userName={mockUser.personalInfo.displayName} />
-      <ScrollView
-        contentContainerStyle={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          padding: 10,
-        }}>
-        <ResourcesCard>
-          <H4>Card 1</H4>
-        </ResourcesCard>
-        <ResourcesCard />
-        <ResourcesCard full />
-        <ResourcesCard />
-        <ResourcesCard />
-        <ResourcesCard full />
-        <ResourcesCard />
-        <ResourcesCard />
-      </ScrollView>
-    </ScreenContainer>
+        <MyInfoModal
+          isMyInfoModalOpen={isMyInfoModalOpen}
+          setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+          data={mockUser.personalInfo}
+          saveProfileImageToFirebase={saveProfileImageToFirebase}
+        />
+        {isSettingsModalOpen && (
+          <SettingsModal
+            isSettingsModalOpen={isSettingsModalOpen}
+            setIsSettingsModalOpen={setIsSettingsModalOpen}
+            data={mockUser.personalInfo}
+          />
+        )}
+      </ScreenContainer>
+    </TouchableWithoutFeedback>
   );
 };
 
