@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -23,13 +24,13 @@ import { mockUser } from '../common/mockUser';
 import { ResourcesCard } from '../common/cards';
 import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 
-const ResourcesScreen = () => {
+const ResourcesScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
       Analytics.logEvent('Resources_Screen_Visited', {
         screen: 'Resources Screen',
-        purpose: 'User navigated to Resources Screen',
+        purpose: 'User iond to Resources Screen',
       });
     }
   }, [isFocused]);
@@ -122,7 +123,6 @@ const ResourcesScreen = () => {
           onStartShouldSetResponder={() => true}
           style={{ zIndex: -1, width: '100%' }}
           contentContainerStyle={{
-            backgroundColor: 'red',
             paddingBottom: 100,
           }}>
           <View
@@ -133,7 +133,14 @@ const ResourcesScreen = () => {
               padding: 10,
             }}
             onStartShouldSetResponder={() => true}>
-            <ResourcesCard source="https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fcompensation_355x176.jpg?alt=media&token=e905eef7-7b20-4e0e-8083-e0c029f526cf"></ResourcesCard>
+            <ResourcesCard
+              onPress={() =>
+                navigation.navigate('Resources Category Screen', {
+                  title: 'Compensation'.toUpperCase(),
+                })
+              }
+              title="Compensation"
+              source="https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fcompensation_355x176.jpg?alt=media&token=e905eef7-7b20-4e0e-8083-e0c029f526cf"></ResourcesCard>
             <ResourcesCard />
             <ResourcesCard isLayoutWide />
             <ResourcesCard />
@@ -159,6 +166,10 @@ const ResourcesScreen = () => {
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
+};
+
+ResourcesScreen.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default ResourcesScreen;

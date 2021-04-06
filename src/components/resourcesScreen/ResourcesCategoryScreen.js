@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 const ResourcesCategoryScreen = () => {
   return (
     <View>
-      <Text>Category</Text>
+      <Text>Category Screen</Text>
     </View>
   );
 };
