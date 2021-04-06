@@ -99,5 +99,10 @@
   "Your device isn't compatible": "Your device isn't compatible",
   "No Faces / Fingers found": "No Faces / Fingers found",
   "This field is required": "This field is required",
-  "Please enter a valid email address": "Please enter a valid email address"
+  "Please enter a valid email address": "Please enter a valid email address",
+  "CORPORATE": "CORPORATE",
+  "TEAM": "TEAM",
+  "SERVICES": "SERVICES",
+  "FAVORITES": "FAVORITES",
+  "DOWNLOADS": "DOWNLOADS"
 }
