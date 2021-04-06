@@ -36,8 +36,8 @@ const ResourcesScreen = ({ navigation }) => {
   }, [isFocused]);
 
   const initialView = {
-    name: Localized('OVERVIEW'),
-    testID: 'overview-button',
+    name: Localized('CORPORATE'),
+    testID: 'corporate_button',
   };
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -92,12 +92,7 @@ const ResourcesScreen = ({ navigation }) => {
           profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              width: 580,
-            }}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {tertiaryButtonText.map((item) => (
               <TertiaryButton
                 style={{ marginRight: 15 }}
