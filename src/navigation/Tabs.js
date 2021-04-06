@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Platform } from 'react-native';
 import DashboardStack from './DashboardStack';
+import ResourcesStack from './ResourcesStack';
 import NewsScreen from '../components/newsScreen/NewsScreen';
-import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import AppContext from '../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import dashboard from '../../assets/icons/ic_dashboard.png';
@@ -46,7 +46,7 @@ const Tabs = () => {
           let source;
           if (route.name === 'DashboardScreen') {
             source = dashboard;
-          } else if (route.name === 'ResourcesScreen') {
+          } else if (route.name === 'ResourcesStack') {
             source = resources;
           } else if (route.name === 'NewsScreen') {
             source = news;
@@ -81,8 +81,8 @@ const Tabs = () => {
         options={{ title: Localized('DASHBOARD') }}
       />
       <Tab.Screen
-        name="ResourcesScreen"
-        component={ResourcesScreen}
+        name="ResourcesStack"
+        component={ResourcesStack}
         options={{ title: Localized('RESOURCES') }}
       />
       <Tab.Screen
