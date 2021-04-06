@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  Animated,
-  ScrollView,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
 import PropTypes from 'prop-types';
+import { Animated, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -21,7 +16,11 @@ import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import { mockUser } from '../common/mockUser';
-import { ResourcesCard } from '../common/cards';
+import CorporateView from './CorporateView';
+import TeamView from './TeamView';
+import ServicesView from './ServicesView';
+import FavoritesView from './FavoritesView';
+import DownloadsView from './DownloadsView';
 import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
 
 const ResourcesScreen = ({ navigation }) => {
@@ -114,37 +113,13 @@ const ResourcesScreen = ({ navigation }) => {
           />
         </Flexbox>
         <FilterSearchBar userName={mockUser.personalInfo.displayName} />
-        <ScrollView
-          onStartShouldSetResponder={() => true}
-          style={{ zIndex: -1, width: '100%' }}
-          contentContainerStyle={{
-            paddingBottom: 100,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              padding: 10,
-            }}
-            onStartShouldSetResponder={() => true}>
-            <ResourcesCard
-              onPress={() =>
-                navigation.navigate('Resources Category Screen', {
-                  title: 'Compensation'.toUpperCase(),
-                })
-              }
-              title="Compensation"
-              source="https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fcompensation_355x176.jpg?alt=media&token=e905eef7-7b20-4e0e-8083-e0c029f526cf"></ResourcesCard>
-            <ResourcesCard />
-            <ResourcesCard isLayoutWide />
-            <ResourcesCard />
-            <ResourcesCard />
-            <ResourcesCard isLayoutWide />
-            <ResourcesCard />
-            <ResourcesCard />
-          </View>
-        </ScrollView>
+        {view.name === Localized('CORPORATE') && (
+          <CorporateView navigation={navigation} />
+        )}
+        {view.name === Localized('TEAM') && <TeamView />}
+        {view.name === Localized('SERVICES') && <ServicesView />}
+        {view.name === Localized('FAVORITES') && <FavoritesView />}
+        {view.name === Localized('DOWNLOADS') && <DownloadsView />}
         <MyInfoModal
           isMyInfoModalOpen={isMyInfoModalOpen}
           setIsMyInfoModalOpen={setIsMyInfoModalOpen}
@@ -163,8 +138,6 @@ const ResourcesScreen = ({ navigation }) => {
   );
 };
 
-ResourcesScreen.propTypes = {
-  navigation: PropTypes.object,
-};
+ResourcesScreen.propTypes = { navigation: PropTypes.object };
 
 export default ResourcesScreen;
