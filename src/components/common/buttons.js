@@ -52,7 +52,7 @@ const ButtonContainer = styled.View`
 
 const ThemedTertiary = styled.TouchableOpacity`
   ${sharedCss};
-  width: 100px;
+  width: 110px;
   height: 22px;
   border-radius: 11px;
   border-width: ${(props) => (props.selected ? '2px' : '1px')};
