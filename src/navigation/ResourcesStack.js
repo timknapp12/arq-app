@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import ResourcesScreen from '../components/resourcesScreen/index';
+import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import ResourcesCategoryScreen from '../components/resourcesScreen/ResourcesCategoryScreen';
 import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
 import { white, blue } from '../styles/colors';

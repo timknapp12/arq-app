@@ -7,7 +7,7 @@ import { FilterIcon, SearchIcon } from '../common/icons';
 
 const FilterSearchBar = ({ userName = 'user' }) => {
   return (
-    <View style={{ alignSelf: 'stretch', padding: 10 }}>
+    <View style={{ alignSelf: 'stretch', padding: 10, zIndex: -1 }}>
       <TouchableOpacity
         style={{
           display: 'flex',
