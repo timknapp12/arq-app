@@ -7,12 +7,10 @@ import ResourcesStack from './ResourcesStack';
 import NewsScreen from '../components/newsScreen/NewsScreen';
 import AppContext from '../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
-import dashboard from '../../assets/icons/ic_dashboard.png';
-import resources from '../../assets/icons/resources.png';
-import news from '../../assets/icons/news.png';
 import storybook from '../../assets/icons/storybook.png';
 import { Localized, initLanguage } from '../translations/Localized';
 import StorybookUI from '../../storybook';
+import { ResourcesIcon, DashboardIcon, NewsIcon } from '../components/common';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
 const getActiveRouteName = (navigationState) => {
@@ -42,18 +40,19 @@ const Tabs = () => {
       }}
       screenOptions={({ route }) => ({
         // eslint-disable-next-line react/display-name
-        tabBarIcon: () => {
+        tabBarIcon: ({ color }) => {
           let source;
           if (route.name === 'DashboardScreen') {
-            source = dashboard;
+            return <DashboardIcon fill={color} />;
           } else if (route.name === 'ResourcesStack') {
-            source = resources;
+            return <ResourcesIcon fill={color} />;
           } else if (route.name === 'NewsScreen') {
-            source = news;
+            return <NewsIcon fill={color} />;
           } else if (route.name === 'Storybook') {
             source = storybook;
+            return <Image source={source} style={{ height: 24 }} />;
           }
-          return <Image source={source} style={{ height: 24 }} />;
+          // return <Image source={source} style={{ height: 24 }} />;
         },
       })}
       tabBarOptions={{
