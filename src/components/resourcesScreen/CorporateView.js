@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView } from 'react-native';
 import { ResourcesCard } from '../common';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const CorporateView = ({ navigation }) => {
+  const db = firebase.firestore();
+  const [resourceList, setResourceList] = useState([]);
+
+  useEffect(() => {
+    db.collection('corporateResources')
+      .orderBy('order', 'asc')
+      .get()
+      .then((querySnapshot) => {
+        const corporateResources = [];
+        querySnapshot.forEach((doc) => {
+          corporateResources.push(doc.data());
+        });
+        setResourceList(corporateResources);
+      });
+    return () => {
+      setResourceList([]);
+    };
+  }, []);
   return (
     <ScrollView
       onStartShouldSetResponder={() => true}
@@ -19,21 +39,18 @@ const CorporateView = ({ navigation }) => {
           padding: 10,
         }}
         onStartShouldSetResponder={() => true}>
-        <ResourcesCard
-          onPress={() =>
-            navigation.navigate('Resources Category Screen', {
-              title: 'Compensation'.toUpperCase(),
-            })
-          }
-          title="Compensation"
-          source="https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fcompensation_355x176.jpg?alt=media&token=e905eef7-7b20-4e0e-8083-e0c029f526cf"></ResourcesCard>
-        <ResourcesCard />
-        <ResourcesCard isLayoutWide />
-        <ResourcesCard />
-        <ResourcesCard />
-        <ResourcesCard isLayoutWide />
-        <ResourcesCard />
-        <ResourcesCard />
+        {resourceList.map((item) => (
+          <ResourcesCard
+            key={item.id}
+            source={item.url}
+            title={item.title}
+            onPress={() =>
+              navigation.navigate('Resources Category Screen', {
+                title: item.title.toUpperCase(),
+              })
+            }
+          />
+        ))}
       </View>
     </ScrollView>
   );
