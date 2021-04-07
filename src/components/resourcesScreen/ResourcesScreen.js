@@ -15,6 +15,7 @@ import FilterSearchBar from './FilterSearchBar';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+// TODO remove this once we get real data
 import { mockUser } from '../common/mockUser';
 import CorporateView from './CorporateView';
 import TeamView from './TeamView';
