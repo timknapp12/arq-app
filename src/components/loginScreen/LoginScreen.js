@@ -266,7 +266,9 @@ const LoginScreen = () => {
                     Linking.openURL('https://office2.myqsciences.com/#/Login')
                   }
                   testID="forgot-password-button">
-                  <H6>{Localized('Forgot password?')}</H6>
+                  <H6 style={{ fontFamily: 'Roboto-Regular', opacity: 1 }}>
+                    {Localized('Forgot password?')}
+                  </H6>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
@@ -314,7 +316,13 @@ const LoginScreen = () => {
             style={{
               marginTop: 8,
             }}>
-            <H6 testID="become-ambassador-text" style={{ textAlign: 'center' }}>
+            <H6
+              testID="become-ambassador-text"
+              style={{
+                textAlign: 'center',
+                fontFamily: 'Avenir-Book',
+                opacity: 1,
+              }}>
               {Localized('Interested in becoming a Q Sciences Ambassador?')}
             </H6>
             <TouchableOpacity

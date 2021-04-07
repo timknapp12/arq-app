@@ -12,12 +12,11 @@ import camera from '../../../assets/icons/button_camera.png';
 import gallery from '../../../assets/icons/buton_gallery.png';
 import edit from '../../../assets/icons/ic_edit.png';
 import deletePng from '../../../assets/icons/ic_delete.png';
-import filter from '../../../assets/icons/filter.png';
-import search from '../../../assets/icons/search.png';
-import Filter from '../../../assets/icons/filter.svg';
-import Search from '../../../assets/icons/search.svg';
 import FaceID from '../../../assets/icons/face-id.svg';
 import TouchID from '../../../assets/icons/touch-id.svg';
+import Dashboard from '../../../assets/icons/dashboard.svg';
+import Resources from '../../../assets/icons/resources.svg';
+import News from '../../../assets/icons/news.svg';
 import AppContext from '../../contexts/AppContext';
 import { darkRed, white, blue } from '../../styles/colors';
 
@@ -105,28 +104,6 @@ export const DeleteIcon = ({ ...props }) => (
   <Image {...props} source={deletePng} style={{ height: 16 }} />
 );
 
-export const FilterIcon = ({ ...props }) => (
-  <Image {...props} source={filter} style={{ height: 20, width: 30 }} />
-);
-
-export const SearchIcon = ({ ...props }) => (
-  <Image {...props} source={search} style={{ height: 25 }} />
-);
-
-export const SearchIconSVG = ({ fill = white, ...props }) => (
-  <Search width="auto" height="20" fill={fill} {...props} />
-);
-SearchIconSVG.propTypes = {
-  fill: PropTypes.string,
-};
-
-export const FilterIconSVG = ({ fill = white, ...props }) => (
-  <Filter width="auto" height="20" fill={fill} {...props} />
-);
-FilterIconSVG.propTypes = {
-  fill: PropTypes.string,
-};
-
 export const TouchIDIcon = ({ fill = blue, size = 36, ...props }) => (
   <TouchID width={size} height={size} fill={fill} {...props} />
 );
@@ -139,6 +116,32 @@ export const FaceIDIcon = ({ fill = blue, size = 36, ...props }) => (
   <FaceID width={size} height={size} fill={fill} {...props} />
 );
 FaceIDIcon.propTypes = {
+  fill: PropTypes.string,
+  size: PropTypes.number,
+};
+
+// source for how to change color on svgs sent from Q Sciences marketing: https://stackoverflow.com/questions/49660912/react-native-how-to-use-local-svg-file-and-color-it
+// change the stroke or fill color in the svg file to "currentColor"
+export const DashboardIcon = ({ fill = white, size = 34, ...props }) => (
+  <Dashboard style={{ color: fill }} width={size} height={size} {...props} />
+);
+DashboardIcon.propTypes = {
+  fill: PropTypes.string,
+  size: PropTypes.number,
+};
+
+export const ResourcesIcon = ({ fill = white, size = 34, ...props }) => (
+  <Resources style={{ color: fill }} width={size} height={size} {...props} />
+);
+ResourcesIcon.propTypes = {
+  fill: PropTypes.string,
+  size: PropTypes.number,
+};
+
+export const NewsIcon = ({ fill = white, size = 34, ...props }) => (
+  <News style={{ color: fill }} width={size} height={size} {...props} />
+);
+NewsIcon.propTypes = {
   fill: PropTypes.string,
   size: PropTypes.number,
 };

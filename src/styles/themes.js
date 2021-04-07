@@ -45,6 +45,7 @@ export const lightTheme = {
   topButtonBarBackground: nero,
   sliderTrackColor: darkgray,
   sliderThumbColor: blue,
+  cardBackgroundColor: darkgray,
   statusBar: 'dark',
 };
 
@@ -82,5 +83,6 @@ export const darkTheme = {
   topButtonBarBackground: nero,
   sliderTrackColor: darkgray,
   sliderThumbColor: blue,
+  cardBackgroundColor: darkgray,
   statusBar: 'light',
 };

@@ -1,26 +1,19 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, { useContext } from 'react';
+import { Text } from 'react-native';
 import PropTypes from 'prop-types';
-// Components
-import { FilterIcon, SearchIcon } from '../common/icons';
+import FilterIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SearchIcon from 'react-native-vector-icons/Ionicons';
+import AppContext from '../../contexts/AppContext';
+import { Flexbox } from '../common';
 
 const FilterSearchBar = ({ userName = 'user' }) => {
+  const { theme } = useContext(AppContext);
   return (
-    <View style={{ alignSelf: 'stretch', padding: 10 }}>
-      <TouchableOpacity
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          alignSelf: 'stretch',
-        }}>
-        <FilterIcon />
-        <Text style={{ color: '#fff' }}>{`${userName}'s awesome team`}</Text>
-        <SearchIcon />
-      </TouchableOpacity>
-    </View>
+    <Flexbox direction="row" padding={10} style={{ zIndex: -1 }}>
+      <FilterIcon color={theme.activeTint} size={24} name="filter-variant" />
+      <Text style={{ color: '#fff' }}>{`${userName}'s awesome team`}</Text>
+      <SearchIcon color={theme.activeTint} size={24} name="search" />
+    </Flexbox>
   );
 };
 

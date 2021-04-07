@@ -35,7 +35,7 @@ storiesOf('Texts', module)
   .add('H5 Bold', () => (
     <H5Heavy>Log in if you already have a username and password</H5Heavy>
   ))
-  .add('H6 with Roboto font', () => (
+  .add('H6', () => (
     <H6 disabled>Log in if you already have a username and password</H6>
   ))
   .add('Alert Text ', () => (
