@@ -16,6 +16,7 @@ const ResourcesStack = () => {
         headerBackTitleVisible: false,
         headerStyle: { backgroundColor: theme.backgroundColor },
         headerTintColor: theme.color,
+        headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 20,
           opacity: 0.83,
