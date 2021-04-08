@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import ResourcesCategoryScreen from '../components/resourcesScreen/ResourcesCategoryScreen';
 import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
+import ProductCategoryScreen from '../components/resourcesScreen/ProductCategoryScreen';
 import AppContext from '../contexts/AppContext';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
@@ -40,6 +41,11 @@ const ResourcesStack = () => {
       <Resources.Screen
         name="Resources Asset Screen"
         component={ResourcesAssetScreen}
+        options={({ route }) => ({ title: route.params.title })}
+      />
+      <Resources.Screen
+        name="Product Category Screen"
+        component={ProductCategoryScreen}
         options={({ route }) => ({ title: route.params.title })}
       />
     </Resources.Navigator>
