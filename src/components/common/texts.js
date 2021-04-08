@@ -2,10 +2,11 @@ import styled from 'styled-components/native';
 import { blue } from '../../styles/colors';
 
 // Font families:
-// 'Roboto-Regular'
+// Roboto-Regular
 // Avenir-Light
 // Avenir-Book
 // Avenir-Heavy
+// Avenir-Black
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 const primaryOpacity = { opacity: 0.83 };

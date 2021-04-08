@@ -36,6 +36,7 @@ const App = () => {
     'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
     'Avenir-Book': require('./assets/fonts/avenir/AvenirLTStd-Book.otf'),
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
+    'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
 
   const [isUserActive, setIsUserActive] = useState(true);
