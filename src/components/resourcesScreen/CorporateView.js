@@ -10,13 +10,14 @@ const CorporateView = ({ navigation }) => {
   const [resourceList, setResourceList] = useState([]);
 
   useEffect(() => {
-    db.collection('corporateResources')
+    db.collection('corporate resources us market english language')
       .orderBy('order', 'asc')
       .get()
       .then((querySnapshot) => {
         const corporateResources = [];
         querySnapshot.forEach((doc) => {
-          corporateResources.push(doc.data());
+          const resourceWithID = { id: doc.id, ...doc.data() };
+          corporateResources.push(resourceWithID);
         });
         setResourceList(corporateResources);
       });
@@ -24,6 +25,7 @@ const CorporateView = ({ navigation }) => {
       setResourceList([]);
     };
   }, []);
+
   return (
     <ScrollView
       onStartShouldSetResponder={() => true}
@@ -41,13 +43,19 @@ const CorporateView = ({ navigation }) => {
         onStartShouldSetResponder={() => true}>
         {resourceList.map((item) => (
           <ResourcesCard
-            key={item.id}
+            key={item.title}
             source={item.url}
             title={item.title}
             onPress={() =>
-              navigation.navigate('Resources Category Screen', {
-                title: item.title.toUpperCase(),
-              })
+              item.id === 'products'
+                ? navigation.navigate('Product Category Screen', {
+                    title: item.title.toUpperCase(),
+                    documentID: item.id,
+                  })
+                : navigation.navigate('Resources Category Screen', {
+                    title: item.title.toUpperCase(),
+                    documentID: item.id,
+                  })
             }
           />
         ))}

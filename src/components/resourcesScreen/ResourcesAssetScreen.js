@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScreenContainer, H4 } from '../common';
 
 const ResourcesAssetScreen = () => {
   return (
-    <View>
-      <Text>Asset</Text>
-    </View>
+    <ScreenContainer>
+      <H4>Asset Screen</H4>
+    </ScreenContainer>
   );
 };
 
