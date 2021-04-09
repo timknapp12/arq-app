@@ -55,7 +55,7 @@ export const Picker = ({
             backgroundColor: 'transparent',
           },
           iconContainer: {
-            top: 2,
+            top: 0,
             right: 5,
           },
         }}
@@ -67,8 +67,9 @@ export const Picker = ({
         Icon={() => {
           return (
             <Ionicons
+              style={{ marginBottom: 4 }}
               name="chevron-down"
-              size={20}
+              size={24}
               color={theme.secondaryTextColor}
             />
           );
