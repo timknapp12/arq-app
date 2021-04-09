@@ -55,6 +55,7 @@ const ThemedTertiary = styled.TouchableOpacity`
   min-width: 110px;
   height: 22px;
   border-radius: 11px;
+  padding: 0px 6px;
   border-width: ${(props) => (props.selected ? '2px' : '1px')};
   border-color: ${(props) =>
     props.selected
