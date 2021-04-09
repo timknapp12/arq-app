@@ -14,7 +14,7 @@ const SideMenu = styled.View`
   align-items: flex-start;
   top: 10px;
   background-color: ${(props) => props.theme.sideMenuBackground};
-  padding: 24px;
+  padding: 18px;
 `;
 
 const TouchableContainer = styled.View`
@@ -34,6 +34,7 @@ const PopoutMenu = ({
     <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableContainer>
         <TouchableOpacity
+          style={{ padding: 4 }}
           onPress={() => {
             fadeOut();
             setIsMyInfoModalOpen(true);
@@ -44,6 +45,7 @@ const PopoutMenu = ({
 
       <TouchableContainer>
         <TouchableOpacity
+          style={{ padding: 4 }}
           onPress={() => {
             fadeOut();
             setIsSettingsModalOpen(true);
@@ -53,19 +55,21 @@ const PopoutMenu = ({
       </TouchableContainer>
 
       <TouchableContainer>
-        <TouchableOpacity>
+        <TouchableOpacity style={{ padding: 4 }}>
           <H4Book>{Localized('Chat With Support')}</H4Book>
         </TouchableOpacity>
       </TouchableContainer>
 
       <TouchableContainer>
-        <TouchableOpacity>
+        <TouchableOpacity style={{ padding: 4 }}>
           <H4Book>{Localized('Share My Shop')}</H4Book>
         </TouchableOpacity>
       </TouchableContainer>
 
       <TouchableContainer>
-        <TouchableOpacity onPress={() => setIsSignedIn(false)}>
+        <TouchableOpacity
+          style={{ padding: 4 }}
+          onPress={() => setIsSignedIn(false)}>
           <H4Book>{Localized('Log Out')}</H4Book>
         </TouchableOpacity>
       </TouchableContainer>
