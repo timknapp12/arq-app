@@ -10,7 +10,6 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   const { documentID } = route.params;
   const [categoryList, setCategoryList] = useState([]);
   console.log(`categoryList`, categoryList);
-
   useEffect(() => {
     db.collection('corporate resources us market english language')
       .doc(documentID)
