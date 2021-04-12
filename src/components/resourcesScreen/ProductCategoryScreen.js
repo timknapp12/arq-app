@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { ScreenContainer, TopButtonBar, TertiaryButton } from '../common';
 import ProductCard from './ProductCard';
+import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
@@ -16,50 +17,47 @@ import 'firebase/firestore';
 const { width } = Dimensions.get('window');
 const imageHeight = width / 2 - 20;
 
-const ProductCategoryScreen = ({ route, navigation }) => {
+const ProductCategoryScreen = ({ navigation }) => {
   const db = firebase.firestore();
-  const { documentID } = route.params;
   const [categoryList, setCategoryList] = useState([]);
-  //   console.log(`categoryList`, categoryList);
   const [view, setView] = useState({ title: '' });
   const [subcategoryList, setSubcategoryList] = useState([]);
-  //   console.log(`subcategoryList`, subcategoryList);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const categoryRef = db
+    .collection('corporate resources us market english language')
+    .doc('products')
+    .collection('product categories');
+  const getSubcategory = (item) => {
+    const listRef = categoryRef.doc(item.id).collection('list');
 
-  const getSubcategory = (item) =>
-    db
-      .collection('corporate resources us market english language')
-      .doc(documentID)
-      .collection('product categories')
-      .doc(item.id)
-      .collection('list')
+    listRef
       .orderBy('order', 'asc')
       .get()
       .then((querySnapshot) => {
-        const productCategories = [];
+        const subcategories = [];
         querySnapshot.forEach((doc) => {
-          //   console.log(`doc.id`, doc.id);
-          const resourceWithID = { id: doc.id, ...doc.data() };
-          productCategories.push(resourceWithID);
+          const resourceWithID = {
+            id: doc.id,
+            ...doc.data(),
+          };
+          subcategories.push(resourceWithID);
         });
-        setSubcategoryList(productCategories);
+        setSubcategoryList(subcategories);
       });
+  };
+
   useEffect(() => {
-    db.collection('corporate resources us market english language')
-      .doc(documentID)
-      .collection('product categories')
+    categoryRef
       .orderBy('order', 'asc')
       .get()
       .then((querySnapshot) => {
         const productCategories = [];
         querySnapshot.forEach((doc) => {
-          //   console.log(`doc.id`, doc.id);
           const resourceWithID = { id: doc.id, ...doc.data() };
           productCategories.push(resourceWithID);
         });
-        // console.log(`productCategories`, productCategories);
         setCategoryList(productCategories);
         setView(productCategories[0]);
         getSubcategory(productCategories[0]);
@@ -72,10 +70,10 @@ const ProductCategoryScreen = ({ route, navigation }) => {
   const navigate = (item) => {
     setView(item);
     getSubcategory(item);
-    // Analytics.logEvent(`${item.testID}_tapped`, {
-    //   screen: 'ResourcesScreen',
-    //   purpose: `See details for ${item.name}`,
-    // });
+    Analytics.logEvent(`${item.title}_product_category_tapped`, {
+      screen: 'Corporate Products',
+      purpose: `See details for ${item.title}`,
+    });
   };
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
@@ -118,7 +116,9 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                 isCalloutOpenFromParent={isCalloutOpenFromParent}
                 setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                 style={{ zIndex: -index }}
-                key={item.title}
+                key={item.id}
+                categoryID={view.id}
+                productID={item.id}
                 source={item.url}
                 title={item.title}
                 description={item.description}
@@ -140,7 +140,6 @@ const ProductCategoryScreen = ({ route, navigation }) => {
 
 ProductCategoryScreen.propTypes = {
   navigation: PropTypes.object,
-  route: PropTypes.object,
 };
 
 export default ProductCategoryScreen;

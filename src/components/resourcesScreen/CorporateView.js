@@ -2,12 +2,30 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView } from 'react-native';
 import { ResourcesCard } from '../common';
+import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 const CorporateView = ({ navigation }) => {
   const db = firebase.firestore();
   const [resourceList, setResourceList] = useState([]);
+
+  const navigateToResource = (item) => {
+    if (item.id === 'products') {
+      navigation.navigate('Product Category Screen', {
+        title: item.title.toUpperCase(),
+      });
+    } else {
+      navigation.navigate('Resources Category Screen', {
+        title: item.title.toUpperCase(),
+        documentID: item.id,
+      });
+    }
+    Analytics.logEvent(`${item.title}_category_tapped`, {
+      screen: 'Corporate Resources',
+      purpose: `See details for ${item.title}`,
+    });
+  };
 
   useEffect(() => {
     db.collection('corporate resources us market english language')
@@ -46,17 +64,7 @@ const CorporateView = ({ navigation }) => {
             key={item.title}
             source={item.url}
             title={item.title}
-            onPress={() =>
-              item.id === 'products'
-                ? navigation.navigate('Product Category Screen', {
-                    title: item.title.toUpperCase(),
-                    documentID: item.id,
-                  })
-                : navigation.navigate('Resources Category Screen', {
-                    title: item.title.toUpperCase(),
-                    documentID: item.id,
-                  })
-            }
+            onPress={() => navigateToResource(item)}
           />
         ))}
       </View>
