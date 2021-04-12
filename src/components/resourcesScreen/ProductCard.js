@@ -7,9 +7,13 @@ import PdfIcon from '../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../assets/icons/video-icon.svg';
 import PodcastIcon from '../../../assets/icons/podcast-icon.svg';
 import ImageIcon from '../../../assets/icons/image-icon.svg';
+import KebobIcon from '../../../assets/icons/kebob-icon.svg';
+import HeartFillIcon from '../../../assets/icons/heart-fill-icon.svg';
+import HeartOutlineIcon from '../../../assets/icons/heart-outline-icon.svg';
+import DownloadIcon from '../../../assets/icons/download-icon.svg';
+import ShareIcon from '../../../assets/icons/share-icon.svg';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import IonIcon from 'react-native-vector-icons/Ionicons';
 import AppContext from '../../contexts/AppContext';
 import { H4Book, H5Black, H6Book, Flexbox } from '../common';
 
@@ -200,35 +204,47 @@ const ProductCard = ({
               <TouchableOpacity
                 style={{ alignItems: 'center' }}
                 onPress={(e) => onCallout(e)}>
-                <MaterialIcon
-                  name="more-vert"
-                  color={theme.activeTint}
-                  size={20}
-                />
+                <KebobIcon style={{ height: 20, width: 20, color: 'white' }} />
+                {/* <KebobOutline
+                  style={{ height: 20, width: 20, color: theme.activeTint }}
+                /> */}
               </TouchableOpacity>
             </IconColumn>
           )}
         </InnerContainer>
         {isExpanded && (
           <IconRow>
-            <MaterialCommunityIcon
-              style={{ marginEnd: 8 }}
-              name="heart-outline"
-              size={20}
-              color={theme.activeTint}
+            <HeartFillIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.favoriteFillColor,
+              }}
             />
-            <MaterialCommunityIcon
-              style={{ marginEnd: 8 }}
-              name="download-outline"
-              size={20}
-              color={theme.activeTint}
+            <HeartOutlineIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
-            <IonIcon
-              style={{ marginEnd: 8 }}
-              name="share-social-outline"
-              size={20}
-              strokeWidth={1}
-              color={theme.activeTint}
+            <DownloadIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
+            />
+            <ShareIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
           </IconRow>
         )}

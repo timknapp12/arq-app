@@ -8,6 +8,7 @@ import {
   blue,
   red,
   transparentGray,
+  cobaltBlue,
 } from './colors';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -46,6 +47,7 @@ export const lightTheme = {
   sliderTrackColor: darkgray,
   sliderThumbColor: blue,
   cardBackgroundColor: darkgray,
+  favoriteFillColor: cobaltBlue,
   statusBar: 'dark',
 };
 
@@ -84,5 +86,6 @@ export const darkTheme = {
   sliderTrackColor: darkgray,
   sliderThumbColor: blue,
   cardBackgroundColor: darkgray,
+  favoriteFillColor: cobaltBlue,
   statusBar: 'light',
 };
