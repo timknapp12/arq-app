@@ -12,6 +12,9 @@ import HeartFillIcon from '../../../assets/icons/heart-fill-icon.svg';
 import HeartOutlineIcon from '../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../assets/icons/share-icon.svg';
+import RemoveIcon from '../../../assets/icons/remove-icon.svg';
+import UploadIcon from '../../../assets/icons/upload-icon.svg';
+import EditIcon from '../../../assets/icons/edit-icon.svg';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../contexts/AppContext';
@@ -204,10 +207,9 @@ const ProductCard = ({
               <TouchableOpacity
                 style={{ alignItems: 'center' }}
                 onPress={(e) => onCallout(e)}>
-                <KebobIcon style={{ height: 20, width: 20, color: 'white' }} />
-                {/* <KebobOutline
+                <KebobIcon
                   style={{ height: 20, width: 20, color: theme.activeTint }}
-                /> */}
+                />
               </TouchableOpacity>
             </IconColumn>
           )}
@@ -254,56 +256,79 @@ const ProductCard = ({
       {isCalloutOpen && (
         <ProductCallout>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialCommunityIcon
-              style={{ marginEnd: 8 }}
-              name="heart"
-              size={20}
-              color={theme.activeTint}
+            <HeartOutlineIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
             <H4Book>Favorite</H4Book>
           </Flexbox>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialCommunityIcon
-              style={{ marginEnd: 8 }}
-              name="download"
-              size={20}
-              color={theme.activeTint}
+            <HeartFillIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.favoriteFillColor,
+              }}
+            />
+            <H4Book>Favorite</H4Book>
+          </Flexbox>
+          <Flexbox direction="row" justify="flex-start">
+            <DownloadIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
             <H4Book>Download</H4Book>
           </Flexbox>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialCommunityIcon
-              style={{ marginEnd: 8 }}
-              name="share-variant"
-              size={20}
-              color={theme.activeTint}
+            <ShareIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
             <H4Book>Share</H4Book>
           </Flexbox>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialIcon
-              style={{ marginEnd: 8 }}
-              name="remove-circle"
-              size={20}
-              color={theme.activeTint}
+            <RemoveIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
             <H4Book>Remove</H4Book>
           </Flexbox>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialIcon
-              style={{ marginEnd: 8 }}
-              name="file-upload"
-              size={20}
-              color={theme.activeTint}
+            <UploadIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
             <H4Book>Upload</H4Book>
           </Flexbox>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialIcon
-              style={{ marginEnd: 8 }}
-              name="edit"
-              size={20}
-              color={theme.activeTint}
+            <EditIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
             <H4Book>Edit</H4Book>
           </Flexbox>
