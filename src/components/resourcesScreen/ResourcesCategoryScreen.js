@@ -9,7 +9,6 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   const db = firebase.firestore();
   const { documentID } = route.params;
   const [categoryList, setCategoryList] = useState([]);
-  console.log(`categoryList`, categoryList);
   useEffect(() => {
     db.collection('corporate resources us market english language')
       .doc(documentID)
@@ -19,7 +18,6 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
       .then((querySnapshot) => {
         const corporateResources = [];
         querySnapshot.forEach((doc) => {
-          console.log(`doc.id`, doc.id);
           const resourceWithID = { id: doc.id, ...doc.data() };
           corporateResources.push(resourceWithID);
         });
