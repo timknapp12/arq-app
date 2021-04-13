@@ -7,7 +7,12 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { ScreenContainer, TopButtonBar, TertiaryButton } from '../common';
+import {
+  ScreenContainer,
+  TopButtonBar,
+  TertiaryButton,
+  Flexbox,
+} from '../common';
 import ProductCard from './ProductCard';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
@@ -95,18 +100,12 @@ const ProductCategoryScreen = ({ navigation }) => {
         </TopButtonBar>
         <ScrollView
           onStartShouldSetResponder={() => true}
-          style={{ zIndex: -1, width: '100%' }}
-          contentContainerStyle={{
-            paddingBottom: 100,
-            height: '100%',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              padding: 10,
-            }}
+          style={{ width: '100%' }}
+          contentContainerStyle={{ paddingBottom: 100 }}>
+          <Flexbox
+            justify="flex-start"
+            height="100%"
+            padding={10}
             onStartShouldSetResponder={() => true}>
             <View style={{ width: '100%', marginBottom: 20 }}>
               <Image
@@ -135,7 +134,7 @@ const ProductCategoryScreen = ({ navigation }) => {
                 }}
               />
             ))}
-          </View>
+          </Flexbox>
         </ScrollView>
       </ScreenContainer>
     </TouchableWithoutFeedback>
