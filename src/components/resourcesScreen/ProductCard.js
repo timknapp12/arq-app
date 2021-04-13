@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import PdfIcon from '../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../assets/icons/video-icon.svg';
 import PodcastIcon from '../../../assets/icons/podcast-icon.svg';
@@ -92,7 +92,6 @@ const AssetIconContainer = styled.View`
 
 const ProductCard = ({
   title,
-  onPress,
   description,
   source,
   isCalloutOpenFromParent,
@@ -167,10 +166,8 @@ const ProductCard = ({
           <InnerContainer>
             <View style={{ width: 30 }} />
             <TitleAndDescription>
-              <TouchableOpacity onPress={onPress}>
-                <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
-                <H6Book>{description}</H6Book>
-              </TouchableOpacity>
+              <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+              <H6Book>{description}</H6Book>
             </TitleAndDescription>
             <IconColumn>
               <TouchableOpacity
@@ -230,83 +227,97 @@ const ProductCard = ({
         {/* TODO conditionally render the options in the callout  */}
         {isCalloutOpen && (
           <ProductCallout>
-            <Flexbox direction="row" justify="flex-start">
-              <HeartOutlineIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Favorite')}</H4Book>
-            </Flexbox>
-            <Flexbox direction="row" justify="flex-start">
-              <HeartFillIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.favoriteFillColor,
-                }}
-              />
-              <H4Book>{Localized('Favorite')}</H4Book>
-            </Flexbox>
-            <Flexbox direction="row" justify="flex-start">
-              <DownloadIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Download')}</H4Book>
-            </Flexbox>
-            <Flexbox direction="row" justify="flex-start">
-              <ShareIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Share')}</H4Book>
-            </Flexbox>
-            <Flexbox direction="row" justify="flex-start">
-              <RemoveIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Remove')}</H4Book>
-            </Flexbox>
-            <Flexbox direction="row" justify="flex-start">
-              <UploadIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Upload')}</H4Book>
-            </Flexbox>
-            <Flexbox direction="row" justify="flex-start">
-              <EditIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Edit')}</H4Book>
-            </Flexbox>
+            <GestureTouchable onPress={() => console.log('this is pressed')}>
+              <Flexbox direction="row" justify="flex-start">
+                <HeartOutlineIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.activeTint,
+                  }}
+                />
+                <H4Book>{Localized('Favorite')}</H4Book>
+              </Flexbox>
+            </GestureTouchable>
+            <GestureTouchable onPress={() => console.log('this is pressed')}>
+              <Flexbox direction="row" justify="flex-start">
+                <HeartFillIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.favoriteFillColor,
+                  }}
+                />
+                <H4Book>{Localized('Favorite')}</H4Book>
+              </Flexbox>
+            </GestureTouchable>
+            <GestureTouchable>
+              <Flexbox direction="row" justify="flex-start">
+                <DownloadIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.activeTint,
+                  }}
+                />
+                <H4Book>{Localized('Download')}</H4Book>
+              </Flexbox>
+            </GestureTouchable>
+            <GestureTouchable>
+              <Flexbox direction="row" justify="flex-start">
+                <ShareIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.activeTint,
+                  }}
+                />
+                <H4Book>{Localized('Share')}</H4Book>
+              </Flexbox>
+            </GestureTouchable>
+            <GestureTouchable>
+              <Flexbox direction="row" justify="flex-start">
+                <RemoveIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.activeTint,
+                  }}
+                />
+                <H4Book>{Localized('Remove')}</H4Book>
+              </Flexbox>
+            </GestureTouchable>
+            <GestureTouchable>
+              <Flexbox direction="row" justify="flex-start">
+                <UploadIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.activeTint,
+                  }}
+                />
+                <H4Book>{Localized('Upload')}</H4Book>
+              </Flexbox>
+            </GestureTouchable>
+            <GestureTouchable>
+              <Flexbox direction="row" justify="flex-start">
+                <EditIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.activeTint,
+                  }}
+                />
+                <H4Book>{Localized('Edit')}</H4Book>
+              </Flexbox>
+            </GestureTouchable>
           </ProductCallout>
         )}
       </ProductCardContainer>
@@ -422,9 +433,7 @@ const ProductCard = ({
         </ImageAndIconContainer>
         <InnerContainer>
           <TitleAndDescription>
-            <TouchableOpacity onPress={onPress}>
-              <H6Book>{description}</H6Book>
-            </TouchableOpacity>
+            <H6Book>{description}</H6Book>
           </TitleAndDescription>
         </InnerContainer>
         <IconRow>
@@ -468,7 +477,6 @@ const ProductCard = ({
 
 ProductCard.propTypes = {
   title: PropTypes.string,
-  onPress: PropTypes.func,
   description: PropTypes.string,
   source: PropTypes.string,
   navigation: PropTypes.object,
