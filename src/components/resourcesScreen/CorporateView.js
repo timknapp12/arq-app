@@ -21,7 +21,9 @@ const CorporateView = ({ navigation }) => {
         documentID: item.id,
       });
     }
-    Analytics.logEvent(`${item.title}_category_tapped`, {
+    // firebase gives an error if there are spaces in the logEvent name
+    const formattedTitle = item.title.split(' ').join('_');
+    Analytics.logEvent(`${formattedTitle}_category_tapped`, {
       screen: 'Corporate Resources',
       purpose: `See details for ${item.title}`,
     });

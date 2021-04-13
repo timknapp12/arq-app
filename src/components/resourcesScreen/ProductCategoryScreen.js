@@ -70,7 +70,9 @@ const ProductCategoryScreen = ({ navigation }) => {
   const navigate = (item) => {
     setView(item);
     getSubcategory(item);
-    Analytics.logEvent(`${item.title}_product_category_tapped`, {
+    // firebase gives an error if there are spaces in the logEvent name
+    const formattedTitle = item.title.split(' ').join('_');
+    Analytics.logEvent(`${formattedTitle}_product_category_tapped`, {
       screen: 'Corporate Products',
       purpose: `See details for ${item.title}`,
     });
@@ -96,6 +98,7 @@ const ProductCategoryScreen = ({ navigation }) => {
           style={{ zIndex: -1, width: '100%' }}
           contentContainerStyle={{
             paddingBottom: 100,
+            height: '100%',
           }}>
           <View
             style={{
