@@ -15,10 +15,12 @@ import ShareIcon from '../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
 import UploadIcon from '../../../assets/icons/upload-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../contexts/AppContext';
 import { H4Book, H5Black, H6Book, Flexbox } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const { width } = Dimensions.get('window');
 
@@ -79,7 +81,6 @@ const smallerImageHeight = smallerImageWidth / 2;
 
 const AssetIconContainer = styled.View`
   width: ${assetIconContainerWidth}px;
-  /* padding: 4px 0; */
   align-items: flex-end;
 `;
 
@@ -90,11 +91,43 @@ const ProductCard = ({
   source,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
+  categoryID,
+  productID,
   ...props
 }) => {
+  initLanguage();
   const { theme } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+  const [assetList, setAssetList] = useState([]);
+  const db = firebase.firestore();
+
+  const getAssetList = (categoryID, productID) =>
+    db
+      .collection('corporate resources us market english language')
+      .doc('products')
+      .collection('product categories')
+      .doc(categoryID)
+      .collection('list')
+      .doc(productID)
+      .collection('assets')
+      .orderBy('order', 'asc')
+      .get()
+      .then((querySnapshot) => {
+        const assetList = [];
+        querySnapshot.forEach((doc) => {
+          const assetWithID = {
+            id: doc.id,
+            ...doc.data(),
+          };
+          assetList.push(assetWithID);
+        });
+        setAssetList(assetList);
+      });
+
+  useEffect(() => {
+    getAssetList(categoryID, productID);
+  }, []);
 
   useEffect(() => {
     if (!isCalloutOpenFromParent) {
@@ -119,80 +152,19 @@ const ProductCard = ({
       setIsCalloutOpen(true);
     }
   };
-  return (
-    <ProductCardContainer {...props}>
-      <OuterContainer isExpanded={isExpanded}>
-        {isExpanded && (
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              padding: 4,
-            }}>
-            <H4Book>{title}</H4Book>
-            <TouchableOpacity
-              onPress={() => {
-                setIsExpanded((state) => !state);
-              }}>
-              <MaterialCommunityIcon
-                name={isExpanded ? 'chevron-up' : 'chevron-down'}
-                color={theme.activeTint}
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
-        <ImageAndIconContainer isExpanded={isExpanded}>
-          <Image
-            style={{
-              flex: 1,
-              // width: smallerImageWidth,
-              height: smallerImageHeight,
-            }}
-            source={{
-              uri: source,
-            }}
-          />
-          <AssetIconContainer>
-            <TouchableOpacity style={{ padding: 0 }}>
-              <PdfIcon
-                style={{
-                  color: theme.activeTint,
-                  height: 40,
-                  width: 40,
-                  padding: 0,
-                  // backgroundColor: 'red',
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <VideoIcon
-                style={{ color: theme.activeTint, height: 40, width: 40 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <PodcastIcon
-                style={{ color: theme.activeTint, height: 40, width: 40 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <ImageIcon
-                style={{ color: theme.activeTint, height: 40, width: 40 }}
-              />
-            </TouchableOpacity>
-          </AssetIconContainer>
-        </ImageAndIconContainer>
-        <InnerContainer>
-          {!isExpanded && <View style={{ width: 30 }} />}
-          <TitleAndDescription>
-            <TouchableOpacity onPress={onPress}>
-              {!isExpanded && (
+  // this renders the card that is collapsed - below it is the expanded card
+  if (!isExpanded) {
+    return (
+      <ProductCardContainer {...props}>
+        <OuterContainer isExpanded={isExpanded}>
+          <InnerContainer>
+            <View style={{ width: 30 }} />
+            <TitleAndDescription>
+              <TouchableOpacity onPress={onPress}>
                 <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
-              )}
-              <H6Book>{description}</H6Book>
-            </TouchableOpacity>
-          </TitleAndDescription>
-          {!isExpanded && (
+                <H6Book>{description}</H6Book>
+              </TouchableOpacity>
+            </TitleAndDescription>
             <IconColumn>
               <TouchableOpacity
                 onPress={() => {
@@ -212,9 +184,7 @@ const ProductCard = ({
                 />
               </TouchableOpacity>
             </IconColumn>
-          )}
-        </InnerContainer>
-        {isExpanded && (
+          </InnerContainer>
           <IconRow>
             <HeartFillIcon
               style={{
@@ -249,91 +219,223 @@ const ProductCard = ({
               }}
             />
           </IconRow>
+        </OuterContainer>
+        {/* TODO conditionally render the options in the callout  */}
+        {isCalloutOpen && (
+          <ProductCallout>
+            <Flexbox direction="row" justify="flex-start">
+              <HeartOutlineIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Favorite')}</H4Book>
+            </Flexbox>
+            <Flexbox direction="row" justify="flex-start">
+              <HeartFillIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.favoriteFillColor,
+                }}
+              />
+              <H4Book>{Localized('Favorite')}</H4Book>
+            </Flexbox>
+            <Flexbox direction="row" justify="flex-start">
+              <DownloadIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Download')}</H4Book>
+            </Flexbox>
+            <Flexbox direction="row" justify="flex-start">
+              <ShareIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Share')}</H4Book>
+            </Flexbox>
+            <Flexbox direction="row" justify="flex-start">
+              <RemoveIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Remove')}</H4Book>
+            </Flexbox>
+            <Flexbox direction="row" justify="flex-start">
+              <UploadIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Upload')}</H4Book>
+            </Flexbox>
+            <Flexbox direction="row" justify="flex-start">
+              <EditIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Edit')}</H4Book>
+            </Flexbox>
+          </ProductCallout>
         )}
+      </ProductCardContainer>
+    );
+  }
+  // render the card that is expanded
+  return (
+    <ProductCardContainer {...props}>
+      <OuterContainer isExpanded={isExpanded}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: 4,
+          }}>
+          <H4Book>{title}</H4Book>
+          <TouchableOpacity
+            onPress={() => {
+              setIsExpanded((state) => !state);
+            }}>
+            <MaterialCommunityIcon
+              name={isExpanded ? 'chevron-up' : 'chevron-down'}
+              color={theme.activeTint}
+              size={24}
+            />
+          </TouchableOpacity>
+        </View>
+        <ImageAndIconContainer isExpanded={isExpanded}>
+          <Image
+            style={{
+              flex: 1,
+              height: smallerImageHeight,
+            }}
+            source={{
+              uri: source,
+            }}
+          />
+          <AssetIconContainer>
+            {assetList.map((asset) => {
+              if (asset['content-type'] === 'pdf') {
+                return (
+                  <TouchableOpacity key={asset.id}>
+                    <PdfIcon
+                      style={{
+                        color: theme.activeTint,
+                        height: 40,
+                        width: 40,
+                      }}
+                    />
+                  </TouchableOpacity>
+                );
+              }
+              if (asset['content-type'] === 'video') {
+                return (
+                  <TouchableOpacity key={asset.id}>
+                    <VideoIcon
+                      style={{
+                        color: theme.activeTint,
+                        height: 40,
+                        width: 40,
+                      }}
+                    />
+                  </TouchableOpacity>
+                );
+              }
+              if (asset['content-type'] === 'podcast') {
+                return (
+                  <TouchableOpacity key={asset.id}>
+                    <PodcastIcon
+                      style={{
+                        color: theme.activeTint,
+                        height: 40,
+                        width: 40,
+                      }}
+                    />
+                  </TouchableOpacity>
+                );
+              }
+              if (asset['content-type'] === 'image') {
+                return (
+                  <TouchableOpacity key={asset.id}>
+                    <ImageIcon
+                      style={{
+                        color: theme.activeTint,
+                        height: 40,
+                        width: 40,
+                      }}
+                    />
+                  </TouchableOpacity>
+                );
+              }
+            })}
+          </AssetIconContainer>
+        </ImageAndIconContainer>
+        <InnerContainer>
+          <TitleAndDescription>
+            <TouchableOpacity onPress={onPress}>
+              <H6Book>{description}</H6Book>
+            </TouchableOpacity>
+          </TitleAndDescription>
+        </InnerContainer>
+        <IconRow>
+          <HeartFillIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.favoriteFillColor,
+            }}
+          />
+          <HeartOutlineIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.activeTint,
+            }}
+          />
+          <DownloadIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.activeTint,
+            }}
+          />
+          <ShareIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.activeTint,
+            }}
+          />
+        </IconRow>
       </OuterContainer>
-      {/* TODO close the callout when a user taps another part of the screen  */}
-      {/* TODO conditionally render the options in the callout  */}
-      {isCalloutOpen && (
-        <ProductCallout>
-          <Flexbox direction="row" justify="flex-start">
-            <HeartOutlineIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>Favorite</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <HeartFillIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.favoriteFillColor,
-              }}
-            />
-            <H4Book>Favorite</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <DownloadIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>Download</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <ShareIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>Share</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <RemoveIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>Remove</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <UploadIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>Upload</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <EditIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>Edit</H4Book>
-          </Flexbox>
-        </ProductCallout>
-      )}
     </ProductCardContainer>
   );
 };
@@ -346,6 +448,10 @@ ProductCard.propTypes = {
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
+  /* the category id will be something like "hemp", or "energy" */
+  categoryID: PropTypes.string,
+  /* the list id will be something like "q fuse plus", or "q focus" */
+  productID: PropTypes.string,
 };
 
 export default ProductCard;
