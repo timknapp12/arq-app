@@ -158,7 +158,7 @@ const ProductCard = ({
       setIsCalloutOpen(true);
     }
   };
-  // this renders the card that is collapsed - below it is the expanded card
+  // this renders the card that is collapsed - below this component is the expanded card
   if (!isExpanded) {
     return (
       <ProductCardContainer {...props}>
@@ -167,7 +167,12 @@ const ProductCard = ({
             <View style={{ width: 30 }} />
             <TitleAndDescription>
               <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
-              <H6Book>{description}</H6Book>
+              <H6Book
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={{ flex: 1 }}>
+                {description}
+              </H6Book>
             </TitleAndDescription>
             <IconColumn>
               <TouchableOpacity
