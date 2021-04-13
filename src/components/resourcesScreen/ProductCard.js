@@ -1,7 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Linking,
+} from 'react-native';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import PdfIcon from '../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../assets/icons/video-icon.svg';
@@ -93,6 +99,7 @@ const ProductCard = ({
   setIsCalloutOpenFromParent,
   categoryID,
   productID,
+  navigation,
   ...props
 }) => {
   initLanguage();
@@ -339,9 +346,17 @@ const ProductCard = ({
           />
           <AssetIconContainer>
             {assetList.map((asset) => {
-              if (asset['content-type'] === 'pdf') {
+              if (asset.contentType === 'pdf') {
                 return (
-                  <TouchableOpacity key={asset.id}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('Resources Asset Screen', {
+                        title: asset.title.toUpperCase(),
+                        url: asset.url,
+                        contentType: asset.contentType,
+                      })
+                    }
+                    key={asset.id}>
                     <PdfIcon
                       style={{
                         color: theme.activeTint,
@@ -352,9 +367,11 @@ const ProductCard = ({
                   </TouchableOpacity>
                 );
               }
-              if (asset['content-type'] === 'video') {
+              if (asset.contentType === 'video') {
                 return (
-                  <TouchableOpacity key={asset.id}>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(asset.url)}
+                    key={asset.id}>
                     <VideoIcon
                       style={{
                         color: theme.activeTint,
@@ -365,9 +382,11 @@ const ProductCard = ({
                   </TouchableOpacity>
                 );
               }
-              if (asset['content-type'] === 'podcast') {
+              if (asset.contentType === 'podcast') {
                 return (
-                  <TouchableOpacity key={asset.id}>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(asset.url)}
+                    key={asset.id}>
                     <PodcastIcon
                       style={{
                         color: theme.activeTint,
@@ -378,10 +397,17 @@ const ProductCard = ({
                   </TouchableOpacity>
                 );
               }
-              if (asset['content-type'] === 'image') {
+              if (asset.contentType === 'image') {
                 return (
                   <TouchableOpacity key={asset.id}>
                     <ImageIcon
+                      onPress={() =>
+                        navigation.navigate('Resources Asset Screen', {
+                          title: asset.title.toUpperCase(),
+                          url: asset.url,
+                          contentType: asset.contentType,
+                        })
+                      }
                       style={{
                         color: theme.activeTint,
                         height: 40,
@@ -445,6 +471,7 @@ ProductCard.propTypes = {
   onPress: PropTypes.func,
   description: PropTypes.string,
   source: PropTypes.string,
+  navigation: PropTypes.object,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
