@@ -104,5 +104,11 @@
   "TEAM": "TEAM",
   "SERVICES": "SERVICES",
   "FAVORITES": "FAVORITES",
-  "DOWNLOADS": "DOWNLOADS"
+  "DOWNLOADS": "DOWNLOADS",
+  "Download": "Download",
+  "Favorite": "Favorite",
+  "Share": "Share",
+  "Remove": "Remove",
+  "Upload": "Upload",
+  "Edit": "Edit"
 }
