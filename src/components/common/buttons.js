@@ -73,6 +73,7 @@ const TertiaryText = styled.Text`
     props.selected
       ? props.theme.tertiarySelectedTextColor
       : props.theme.tertiaryDisabledTextColor};
+  font-size: 14px;
 `;
 
 export const TertiaryButton = ({ selected, children, ...props }) => (

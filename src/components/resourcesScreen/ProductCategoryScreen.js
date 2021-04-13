@@ -79,7 +79,7 @@ const ProductCategoryScreen = ({ navigation }) => {
   };
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <ScreenContainer>
+      <ScreenContainer style={{ paddingTop: 0 }}>
         <TopButtonBar>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {categoryList.map((item) => (

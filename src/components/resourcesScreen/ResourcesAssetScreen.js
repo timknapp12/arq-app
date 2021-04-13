@@ -29,7 +29,7 @@ const ResourcesAssetScreen = ({ route }) => {
       setImageHeight(height);
     });
     return (
-      <ScreenContainer>
+      <ScreenContainer style={{ paddingTop: 0 }}>
         <ScrollView
           contentContainerStyle={{
             justifyContent: 'center',

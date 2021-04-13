@@ -29,7 +29,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   }, []);
 
   return (
-    <ScreenContainer>
+    <ScreenContainer style={{ paddingTop: 0 }}>
       <ScrollView
         onStartShouldSetResponder={() => true}
         style={{ zIndex: -1, width: '100%' }}
