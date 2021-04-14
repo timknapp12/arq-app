@@ -39,11 +39,6 @@ const ResourcesStack = () => {
         options={({ route }) => ({ title: route.params.title })}
       />
       <Resources.Screen
-        name="Resources Asset Screen"
-        component={ResourcesAssetScreen}
-        options={({ route }) => ({ title: route.params.title })}
-      />
-      <Resources.Screen
         name="Product Category Screen"
         component={ProductCategoryScreen}
         options={({ route }) => ({ title: route.params.title })}

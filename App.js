@@ -4,7 +4,7 @@ import AppContext from './src/contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
-import Tabs from './src/navigation/Tabs';
+import AppStack from './src/navigation/AppStack';
 import { NavigationContainer } from '@react-navigation/native';
 import firebaseConfig from './firebase.config';
 import * as firebase from 'firebase';
@@ -114,7 +114,7 @@ const App = () => {
                 onAction={(isActive) => {
                   onUserActivity(isActive);
                 }}>
-                <Tabs />
+                <AppStack />
               </UserInactivity>
             ) : (
               <LoginStack />
