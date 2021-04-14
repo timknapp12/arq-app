@@ -28,6 +28,10 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
+// TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
+// TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
+// the two options above are used to handle different use cases depending on desired behavior
+
 const { width } = Dimensions.get('window');
 
 const ProductCardContainer = styled.View`
@@ -106,8 +110,8 @@ const ProductCard = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [assetList, setAssetList] = useState([]);
-  const db = firebase.firestore();
 
+  const db = firebase.firestore();
   const getAssetList = (categoryID, productID) =>
     db
       .collection('corporate resources us market english language')
@@ -139,10 +143,13 @@ const ProductCard = ({
     if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(false);
     }
+    if (isExpanded) {
+      setIsCalloutOpen(false);
+    }
     return () => {
       setIsCalloutOpen(false);
     };
-  }, [isCalloutOpenFromParent]);
+  }, [isCalloutOpenFromParent, isExpanded]);
 
   const onCallout = async (e) => {
     e.stopPropagation();
@@ -161,29 +168,29 @@ const ProductCard = ({
   // this renders the card that is collapsed - below this component is the expanded card
   if (!isExpanded) {
     return (
-      <ProductCardContainer
-        onPress={() => console.log('this was pressed')}
-        {...props}>
+      <ProductCardContainer {...props}>
         <OuterContainer isExpanded={isExpanded}>
           <InnerContainer>
             <View style={{ width: 30 }} />
-            <TouchableOpacity
-              style={{ flex: 1 }}
-              onPress={() => {
-                setIsExpanded(true);
-              }}>
-              <TitleAndDescription>
-                <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
-                <H6Book
-                  ellipsizeMode="tail"
-                  numberOfLines={1}
-                  style={{ flex: 1 }}>
-                  {description}
-                </H6Book>
-              </TitleAndDescription>
-            </TouchableOpacity>
+            <TitleAndDescription>
+              <GestureTouchable
+                containerStyle={{ flex: 1 }}
+                onPress={() => {
+                  setIsExpanded(true);
+                }}>
+                <View style={{ height: '100%' }}>
+                  <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+                  <H6Book
+                    ellipsizeMode="tail"
+                    numberOfLines={1}
+                    style={{ flex: 1 }}>
+                    {description}
+                  </H6Book>
+                </View>
+              </GestureTouchable>
+            </TitleAndDescription>
             <IconColumn>
-              <TouchableOpacity
+              <GestureTouchable
                 onPress={() => {
                   setIsExpanded((state) => !state);
                 }}>
@@ -192,14 +199,24 @@ const ProductCard = ({
                   color={theme.activeTint}
                   size={24}
                 />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{ alignItems: 'center' }}
-                onPress={(e) => onCallout(e)}>
-                <KebobIcon
-                  style={{ height: 20, width: 20, color: theme.activeTint }}
-                />
-              </TouchableOpacity>
+              </GestureTouchable>
+              {isCalloutOpenFromParent ? (
+                <GestureTouchable
+                  style={{ alignItems: 'center' }}
+                  onPress={() => setIsCalloutOpen(false)}>
+                  <KebobIcon
+                    style={{ height: 20, width: 20, color: theme.activeTint }}
+                  />
+                </GestureTouchable>
+              ) : (
+                <TouchableOpacity
+                  style={{ alignItems: 'center' }}
+                  onPress={(e) => onCallout(e)}>
+                  <KebobIcon
+                    style={{ height: 20, width: 20, color: theme.activeTint }}
+                  />
+                </TouchableOpacity>
+              )}
             </IconColumn>
           </InnerContainer>
           <IconRow>
