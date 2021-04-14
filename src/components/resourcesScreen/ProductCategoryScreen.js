@@ -102,39 +102,42 @@ const ProductCategoryScreen = ({ navigation }) => {
           onStartShouldSetResponder={() => true}
           style={{ width: '100%' }}
           contentContainerStyle={{ paddingBottom: 100 }}>
-          <Flexbox
-            justify="flex-start"
-            height="100%"
-            padding={10}
-            onStartShouldSetResponder={() => true}>
-            <View style={{ width: '100%', marginBottom: 20 }}>
-              <Image
-                source={{ uri: view.url }}
-                style={{ width: '100%', height: imageHeight }}
-              />
-            </View>
-            {subcategoryList.map((item, index) => (
-              <ProductCard
-                isCalloutOpenFromParent={isCalloutOpenFromParent}
-                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                style={{ zIndex: -index }}
-                key={item.id}
-                categoryID={view.id}
-                productID={item.id}
-                source={item.url}
-                title={item.title}
-                description={item.description}
-                navigation={navigation}
-                onPress={() => {
-                  setIsCalloutOpenFromParent(false);
-                  navigation.navigate('Resources Asset Screen', {
-                    title: item.title.toUpperCase(),
-                    documentID: item.id,
-                  });
-                }}
-              />
-            ))}
-          </Flexbox>
+          <TouchableWithoutFeedback
+            onPress={() => setIsCalloutOpenFromParent(false)}>
+            <Flexbox
+              justify="flex-start"
+              height="100%"
+              padding={10}
+              onStartShouldSetResponder={() => true}>
+              <View style={{ width: '100%', marginBottom: 20 }}>
+                <Image
+                  source={{ uri: view.url }}
+                  style={{ width: '100%', height: imageHeight }}
+                />
+              </View>
+              {subcategoryList.map((item, index) => (
+                <ProductCard
+                  isCalloutOpenFromParent={isCalloutOpenFromParent}
+                  setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                  style={{ zIndex: -index }}
+                  key={item.id}
+                  categoryID={view.id}
+                  productID={item.id}
+                  source={item.url}
+                  title={item.title}
+                  description={item.description}
+                  navigation={navigation}
+                  onPress={() => {
+                    setIsCalloutOpenFromParent(false);
+                    navigation.navigate('Resources Asset Screen', {
+                      title: item.title.toUpperCase(),
+                      documentID: item.id,
+                    });
+                  }}
+                />
+              ))}
+            </Flexbox>
+          </TouchableWithoutFeedback>
         </ScrollView>
       </ScreenContainer>
     </TouchableWithoutFeedback>
