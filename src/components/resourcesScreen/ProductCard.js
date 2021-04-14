@@ -161,19 +161,27 @@ const ProductCard = ({
   // this renders the card that is collapsed - below this component is the expanded card
   if (!isExpanded) {
     return (
-      <ProductCardContainer {...props}>
+      <ProductCardContainer
+        onPress={() => console.log('this was pressed')}
+        {...props}>
         <OuterContainer isExpanded={isExpanded}>
           <InnerContainer>
             <View style={{ width: 30 }} />
-            <TitleAndDescription>
-              <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
-              <H6Book
-                ellipsizeMode="tail"
-                numberOfLines={1}
-                style={{ flex: 1 }}>
-                {description}
-              </H6Book>
-            </TitleAndDescription>
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() => {
+                setIsExpanded(true);
+              }}>
+              <TitleAndDescription>
+                <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+                <H6Book
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={{ flex: 1 }}>
+                  {description}
+                </H6Book>
+              </TitleAndDescription>
+            </TouchableOpacity>
             <IconColumn>
               <TouchableOpacity
                 onPress={() => {
@@ -332,24 +340,25 @@ const ProductCard = ({
   return (
     <ProductCardContainer {...props}>
       <OuterContainer isExpanded={isExpanded}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 4,
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => {
+            setIsExpanded(false);
           }}>
-          <H4Book>{title}</H4Book>
-          <TouchableOpacity
-            onPress={() => {
-              setIsExpanded((state) => !state);
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              padding: 4,
             }}>
+            <H4Book>{title}</H4Book>
             <MaterialCommunityIcon
               name={isExpanded ? 'chevron-up' : 'chevron-down'}
               color={theme.activeTint}
               size={24}
             />
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
         <ImageAndIconContainer isExpanded={isExpanded}>
           <Image
             style={{
@@ -372,6 +381,7 @@ const ProductCard = ({
                         contentType: asset.contentType,
                       })
                     }
+                    // onPress={() => Linking.openURL(asset.url)}
                     key={asset.id}>
                     <PdfIcon
                       style={{
