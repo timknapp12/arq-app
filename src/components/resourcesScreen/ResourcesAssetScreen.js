@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Image, Dimensions, ScrollView } from 'react-native';
 import { ScreenContainer } from '../common';
 import PDFReader from 'rn-pdf-reader-js';
 import AppContext from '../../contexts/AppContext';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const ResourcesAssetScreen = ({ route }) => {
   const { theme } = useContext(AppContext);
@@ -15,10 +16,27 @@ const ResourcesAssetScreen = ({ route }) => {
   const ratio = imageWidth / imageHeight;
   const calculatedHeight = width / ratio;
 
+  useEffect(() => {
+    ScreenOrientation.unlockAsync();
+    return () => {
+      ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.PORTRAIT_UP,
+      );
+    };
+  }, []);
+
   if (contentType === 'pdf') {
     return (
       <PDFReader
-        webviewStyle={{ backgroundColor: theme.backgroundColor }}
+        style={{
+          backgroundColor: theme.backgroundColor,
+        }}
+        webviewStyle={{
+          backgroundColor: theme.backgroundColor,
+          marginTop: -4,
+          marginStart: -4,
+          padding: 0,
+        }}
         source={{ uri: url }}
       />
     );
