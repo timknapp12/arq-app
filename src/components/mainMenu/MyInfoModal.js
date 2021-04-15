@@ -251,11 +251,10 @@ const MyInfoModal = ({
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
             style={{ flex: 1, width: '100%' }}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -30}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
               style={{ width: '100%' }}
-              contentContainerStyle={{ paddingBottom: 20 }}
+              contentContainerStyle={{ paddingBottom: 4 }}
               keyboardShouldPersistTaps="always">
               <Flexbox justify="flex-start" height="100%">
                 <Header>
