@@ -1,12 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, Dimensions, View } from 'react-native';
+import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import baseImage from '../../../assets/icons/image.png';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import KebobIcon from '../../../assets/icons/kebob-icon.svg';
+import RemoveIcon from '../../../assets/icons/remove-icon.svg';
+import UploadIcon from '../../../assets/icons/upload-icon.svg';
+import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { H6, H4Book, Flexbox } from '../common';
+import { Localized, initLanguage } from '../../translations/Localized';
+
+// TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
+// TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
+// the two options above are used to handle different use cases depending on desired behavior
 
 const containerHeight = 224;
 const footerHeight = 48;
@@ -29,7 +37,6 @@ CardContainer.propTypes = {
 const CardImage = styled.Image`
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  /* max-width: 100%; */
   height: ${imageHeight}px;
 `;
 
@@ -60,61 +67,113 @@ const ResourceCard = ({
   isWideLayout = true,
   title,
   onPress,
-  hasPermissions,
+  hasPermissions = false,
+  isCalloutOpenFromParent,
+  setIsCalloutOpenFromParent,
   ...props
 }) => {
+  initLanguage();
   const { theme } = useContext(AppContext);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isCalloutOpenFromParent) {
+      setIsCalloutOpen(false);
+    }
+    return () => {
+      setIsCalloutOpen(false);
+    };
+  }, [isCalloutOpenFromParent]);
+
+  const onCallout = async (e) => {
+    e.stopPropagation();
+    if (isCalloutOpen) {
+      setIsCalloutOpen(false);
+      setIsCalloutOpenFromParent(false);
+    }
+    if (!isCalloutOpen) {
+      await setIsCalloutOpenFromParent(true);
+      setIsCalloutOpen(true);
+    }
+    if (!isCalloutOpenFromParent) {
+      setIsCalloutOpen(true);
+    }
+  };
+
   return (
     <CardContainer isWideLayout={isWideLayout} {...props}>
       <TouchableOpacity onPress={onPress}>
         <CardImage source={{ uri: source }} defaultSource={baseImage} />
-        <CardFooter>
-          <H6>{title}</H6>
-          {hasPermissions && (
-            <TouchableOpacity
-              onPress={() => {
-                setIsCalloutOpen((state) => !state);
-              }}>
-              <MaterialIcon
-                name="more-vert"
-                color={theme.activeTint}
-                size={20}
-              />
-            </TouchableOpacity>
-          )}
-        </CardFooter>
       </TouchableOpacity>
-      {/* TODO close the callout when a user taps another part of the screen  */}
+
+      <CardFooter>
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            height: '100%',
+            justifyContent: 'center',
+          }}
+          onPress={onPress}>
+          <H6>{title}</H6>
+        </TouchableOpacity>
+
+        {hasPermissions && (
+          <View>
+            {isCalloutOpenFromParent ? (
+              <GestureTouchable
+                style={{ alignItems: 'center' }}
+                onPress={() => setIsCalloutOpen(false)}>
+                <KebobIcon
+                  style={{ height: 20, width: 20, color: theme.activeTint }}
+                />
+              </GestureTouchable>
+            ) : (
+              <TouchableOpacity
+                style={{ alignItems: 'center' }}
+                onPress={(e) => onCallout(e)}>
+                <KebobIcon
+                  style={{ height: 20, width: 20, color: theme.activeTint }}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
+      </CardFooter>
       {/* TODO conditionally render the options in the callout  */}
       {isCalloutOpen && (
         <ResourceCallout>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialIcon
-              style={{ marginEnd: 8 }}
-              name="edit"
-              size={20}
-              color={theme.activeTint}
+            <EditIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
-            <H4Book>Edit</H4Book>
+            <H4Book>{Localized('Edit')}</H4Book>
           </Flexbox>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialIcon
-              style={{ marginEnd: 8 }}
-              name="remove-circle"
-              size={20}
-              color={theme.activeTint}
+            <RemoveIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
-            <H4Book>Remove</H4Book>
+            <H4Book>{Localized('Remove')}</H4Book>
           </Flexbox>
           <Flexbox direction="row" justify="flex-start">
-            <MaterialIcon
-              style={{ marginEnd: 8 }}
-              name="file-upload"
-              size={20}
-              color={theme.activeTint}
+            <UploadIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
             />
-            <H4Book>Upload</H4Book>
+            <H4Book>{Localized('Upload')}</H4Book>
           </Flexbox>
         </ResourceCallout>
       )}
@@ -128,6 +187,9 @@ ResourceCard.propTypes = {
   source: PropTypes.string,
   onPress: PropTypes.func,
   hasPermissions: PropTypes.bool,
+  /* callout from parent is so that tapping anywhere on the screen will close the callout */
+  isCalloutOpenFromParent: PropTypes.bool,
+  setIsCalloutOpenFromParent: PropTypes.func,
 };
 
 export default ResourceCard;

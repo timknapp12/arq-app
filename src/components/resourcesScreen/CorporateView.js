@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
@@ -9,6 +9,8 @@ import 'firebase/firestore';
 const CorporateView = ({ navigation }) => {
   const db = firebase.firestore();
   const [resourceList, setResourceList] = useState([]);
+  // this is to dismiss the little callout popup menu by tapping anywhere on the screen
+  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
 
   const navigateToResource = (item) => {
     if (item.id === 'products') {
@@ -51,25 +53,34 @@ const CorporateView = ({ navigation }) => {
       onStartShouldSetResponder={() => true}
       style={{ zIndex: -1, width: '100%' }}
       contentContainerStyle={{
-        paddingBottom: 100,
+        paddingBottom: 200,
       }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          padding: 10,
-        }}
-        onStartShouldSetResponder={() => true}>
-        {resourceList.map((item) => (
-          <ResourceCard
-            key={item.title}
-            source={item.url}
-            title={item.title}
-            onPress={() => navigateToResource(item)}
-          />
-        ))}
-      </View>
+      <TouchableWithoutFeedback
+        onPress={() => setIsCalloutOpenFromParent(false)}>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            padding: 10,
+          }}
+          onStartShouldSetResponder={() => true}>
+          {resourceList.map((item, index) => (
+            <ResourceCard
+              isCalloutOpenFromParent={isCalloutOpenFromParent}
+              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+              style={{ zIndex: -index }}
+              key={item.title}
+              source={item.url}
+              title={item.title}
+              onPress={() => {
+                setIsCalloutOpenFromParent(false);
+                navigateToResource(item);
+              }}
+            />
+          ))}
+        </View>
+      </TouchableWithoutFeedback>
     </ScrollView>
   );
 };
