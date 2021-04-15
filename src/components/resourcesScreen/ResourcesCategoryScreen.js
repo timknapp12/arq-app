@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { ScreenContainer } from '../common';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { ScreenContainer, Flexbox } from '../common';
 import AssetCard from './AssetCard';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -34,22 +34,19 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <ScreenContainer style={{ paddingTop: 0 }}>
+      <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
         <ScrollView
           onStartShouldSetResponder={() => true}
           style={{ zIndex: -1, width: '100%' }}
           contentContainerStyle={{
-            paddingBottom: 100,
+            paddingBottom: 120,
           }}>
           <TouchableWithoutFeedback
             onPress={() => setIsCalloutOpenFromParent(false)}>
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',
-                padding: 10,
-              }}
+            <Flexbox
+              justify="flex-start"
+              height="100%"
+              padding={10}
               onStartShouldSetResponder={() => true}>
               {categoryList.map((item, index) => (
                 <AssetCard
@@ -71,7 +68,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   }}
                 />
               ))}
-            </View>
+            </Flexbox>
           </TouchableWithoutFeedback>
         </ScrollView>
       </ScreenContainer>

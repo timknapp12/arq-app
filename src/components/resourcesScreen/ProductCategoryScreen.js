@@ -84,7 +84,7 @@ const ProductCategoryScreen = ({ navigation }) => {
   };
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <ScreenContainer style={{ paddingTop: 0 }}>
+      <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
         <TopButtonBar>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {categoryList.map((item) => (
@@ -101,7 +101,7 @@ const ProductCategoryScreen = ({ navigation }) => {
         <ScrollView
           onStartShouldSetResponder={() => true}
           style={{ width: '100%' }}
-          contentContainerStyle={{ paddingBottom: 100 }}>
+          contentContainerStyle={{ paddingBottom: 120 }}>
           <TouchableWithoutFeedback
             onPress={() => setIsCalloutOpenFromParent(false)}>
             <Flexbox
