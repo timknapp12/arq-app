@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import ResourcesCategoryScreen from '../components/resourcesScreen/ResourcesCategoryScreen';
-import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
 import ProductCategoryScreen from '../components/resourcesScreen/ProductCategoryScreen';
 import AppContext from '../contexts/AppContext';
 
