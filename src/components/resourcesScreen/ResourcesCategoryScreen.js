@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView } from 'react-native';
-import { ScreenContainer, ResourcesCard } from '../common';
+import { View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { ScreenContainer } from '../common';
+import AssetCard from './AssetCard';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
@@ -12,7 +13,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   useEffect(() => {
     db.collection('corporate resources us market english language')
       .doc(documentID)
-      .collection('list')
+      .collection('assets')
       .orderBy('order', 'asc')
       .get()
       .then((querySnapshot) => {
@@ -28,38 +29,53 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
     };
   }, []);
 
+  // this is to dismiss the little callout popup menu by tapping anywhere on the screen
+  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+
   return (
-    <ScreenContainer style={{ paddingTop: 0 }}>
-      <ScrollView
-        onStartShouldSetResponder={() => true}
-        style={{ zIndex: -1, width: '100%' }}
-        contentContainerStyle={{
-          paddingBottom: 100,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            padding: 10,
-          }}
-          onStartShouldSetResponder={() => true}>
-          {categoryList.map((item) => (
-            <ResourcesCard
-              key={item.title}
-              source={item.url}
-              title={item.title}
-              onPress={() =>
-                navigation.navigate('Resources Asset Screen', {
-                  title: item.title.toUpperCase(),
-                  documentID: item.id,
-                })
-              }
-            />
-          ))}
-        </View>
-      </ScrollView>
-    </ScreenContainer>
+    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
+      <ScreenContainer style={{ paddingTop: 0 }}>
+        <ScrollView
+          onStartShouldSetResponder={() => true}
+          style={{ zIndex: -1, width: '100%' }}
+          contentContainerStyle={{
+            paddingBottom: 100,
+          }}>
+          <TouchableWithoutFeedback
+            onPress={() => setIsCalloutOpenFromParent(false)}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                padding: 10,
+              }}
+              onStartShouldSetResponder={() => true}>
+              {categoryList.map((item, index) => (
+                <AssetCard
+                  isCalloutOpenFromParent={isCalloutOpenFromParent}
+                  setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                  style={{ zIndex: -index }}
+                  key={item.title}
+                  source={item.url}
+                  title={item.title}
+                  description={item.description}
+                  contentType={item.contentType}
+                  navigation={navigation}
+                  onPress={() => {
+                    setIsCalloutOpenFromParent(false);
+                    navigation.navigate('Resources Asset Screen', {
+                      title: item.title.toUpperCase(),
+                      documentID: item.id,
+                    });
+                  }}
+                />
+              ))}
+            </View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      </ScreenContainer>
+    </TouchableWithoutFeedback>
   );
 };
 
