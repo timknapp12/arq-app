@@ -6,10 +6,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import baseImage from '../../../assets/icons/image.png';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import AppContext from '../../contexts/AppContext';
-import { H6, H4Book } from './texts';
-import { Flexbox } from './containers';
+import { H6, H4Book, Flexbox } from '../common';
 
-// RESOURCES CARD
 const containerHeight = 224;
 const footerHeight = 48;
 
@@ -57,7 +55,7 @@ const ResourceCallout = styled.View`
   top: ${containerHeight}px;
 `;
 
-export const ResourcesCard = ({
+const ResourceCard = ({
   source,
   isWideLayout = true,
   title,
@@ -124,10 +122,12 @@ export const ResourcesCard = ({
   );
 };
 
-ResourcesCard.propTypes = {
+ResourceCard.propTypes = {
   title: PropTypes.string,
   isWideLayout: PropTypes.bool,
   source: PropTypes.string,
   onPress: PropTypes.func,
   hasPermissions: PropTypes.bool,
 };
+
+export default ResourceCard;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView } from 'react-native';
-import { ResourcesCard } from '../common';
+import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -62,7 +62,7 @@ const CorporateView = ({ navigation }) => {
         }}
         onStartShouldSetResponder={() => true}>
         {resourceList.map((item) => (
-          <ResourcesCard
+          <ResourceCard
             key={item.title}
             source={item.url}
             title={item.title}
