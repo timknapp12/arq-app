@@ -52,7 +52,6 @@ const Tabs = () => {
             source = storybook;
             return <Image source={source} style={{ height: 24 }} />;
           }
-          // return <Image source={source} style={{ height: 24 }} />;
         },
       })}
       tabBarOptions={{
@@ -67,7 +66,7 @@ const Tabs = () => {
           paddingBottom: Platform.OS === 'ios' ? 20 : 8,
           paddingTop: 8,
         },
-        style: { height: 70 },
+        style: { height: 70, borderTopWidth: 0 },
         labelStyle: {
           fontFamily: 'Avenir-Light',
           fontSize: 12,
