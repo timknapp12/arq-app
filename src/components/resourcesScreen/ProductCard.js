@@ -219,45 +219,11 @@ const ProductCard = ({
               )}
             </IconColumn>
           </InnerContainer>
-          <IconRow>
-            <HeartFillIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.favoriteFillColor,
-              }}
-            />
-            <HeartOutlineIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <DownloadIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <ShareIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-          </IconRow>
         </OuterContainer>
         {/* TODO conditionally render the options in the callout  */}
         {isCalloutOpen && (
           <ProductCallout>
-            <GestureTouchable onPress={() => console.log('this is pressed')}>
+            <TouchableOpacity onPress={() => console.log('this is pressed')}>
               <Flexbox direction="row" justify="flex-start">
                 <HeartOutlineIcon
                   style={{
@@ -269,8 +235,8 @@ const ProductCard = ({
                 />
                 <H4Book>{Localized('Favorite')}</H4Book>
               </Flexbox>
-            </GestureTouchable>
-            <GestureTouchable onPress={() => console.log('this is pressed')}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('this is pressed')}>
               <Flexbox direction="row" justify="flex-start">
                 <HeartFillIcon
                   style={{
@@ -282,8 +248,8 @@ const ProductCard = ({
                 />
                 <H4Book>{Localized('Favorite')}</H4Book>
               </Flexbox>
-            </GestureTouchable>
-            <GestureTouchable>
+            </TouchableOpacity>
+            <TouchableOpacity>
               <Flexbox direction="row" justify="flex-start">
                 <DownloadIcon
                   style={{
@@ -295,8 +261,8 @@ const ProductCard = ({
                 />
                 <H4Book>{Localized('Download')}</H4Book>
               </Flexbox>
-            </GestureTouchable>
-            <GestureTouchable>
+            </TouchableOpacity>
+            <TouchableOpacity>
               <Flexbox direction="row" justify="flex-start">
                 <ShareIcon
                   style={{
@@ -308,8 +274,8 @@ const ProductCard = ({
                 />
                 <H4Book>{Localized('Share')}</H4Book>
               </Flexbox>
-            </GestureTouchable>
-            <GestureTouchable>
+            </TouchableOpacity>
+            <TouchableOpacity>
               <Flexbox direction="row" justify="flex-start">
                 <RemoveIcon
                   style={{
@@ -321,8 +287,8 @@ const ProductCard = ({
                 />
                 <H4Book>{Localized('Remove')}</H4Book>
               </Flexbox>
-            </GestureTouchable>
-            <GestureTouchable>
+            </TouchableOpacity>
+            <TouchableOpacity>
               <Flexbox direction="row" justify="flex-start">
                 <UploadIcon
                   style={{
@@ -334,8 +300,8 @@ const ProductCard = ({
                 />
                 <H4Book>{Localized('Upload')}</H4Book>
               </Flexbox>
-            </GestureTouchable>
-            <GestureTouchable>
+            </TouchableOpacity>
+            <TouchableOpacity>
               <Flexbox direction="row" justify="flex-start">
                 <EditIcon
                   style={{
@@ -347,7 +313,7 @@ const ProductCard = ({
                 />
                 <H4Book>{Localized('Edit')}</H4Book>
               </Flexbox>
-            </GestureTouchable>
+            </TouchableOpacity>
           </ProductCallout>
         )}
       </ProductCardContainer>
@@ -442,15 +408,16 @@ const ProductCard = ({
               }
               if (asset.contentType === 'image') {
                 return (
-                  <TouchableOpacity key={asset.id}>
+                  <TouchableOpacity
+                    key={asset.id}
+                    onPress={() =>
+                      navigation.navigate('Resources Asset Screen', {
+                        title: asset.title.toUpperCase(),
+                        url: asset.url,
+                        contentType: asset.contentType,
+                      })
+                    }>
                     <ImageIcon
-                      onPress={() =>
-                        navigation.navigate('Resources Asset Screen', {
-                          title: asset.title.toUpperCase(),
-                          url: asset.url,
-                          contentType: asset.contentType,
-                        })
-                      }
                       style={{
                         color: theme.activeTint,
                         height: 40,
