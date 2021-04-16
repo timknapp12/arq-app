@@ -117,7 +117,9 @@ const ResourcesScreen = ({ navigation }) => {
         {view.name === Localized('CORPORATE') && (
           <CorporateView navigation={navigation} />
         )}
-        {view.name === Localized('TEAM') && <TeamView />}
+        {view.name === Localized('TEAM') && (
+          <TeamView navigation={navigation} />
+        )}
         {view.name === Localized('SERVICES') && <ServicesView />}
         {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('DOWNLOADS') && <DownloadsView />}

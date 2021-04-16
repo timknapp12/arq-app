@@ -8,22 +8,25 @@ import 'firebase/firestore';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
   const db = firebase.firestore();
-  const { documentID } = route.params;
-  const [categoryList, setCategoryList] = useState([]);
+  const { documentID, assetList } = route.params;
+  const [categoryList, setCategoryList] = useState(assetList || []);
+  // this will get data from firebase for corporate assets, but data for team assets will just be passed as a prop called assetList
   useEffect(() => {
-    db.collection('corporate resources us market english language')
-      .doc(documentID)
-      .collection('assets')
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const corporateResources = [];
-        querySnapshot.forEach((doc) => {
-          const resourceWithID = { id: doc.id, ...doc.data() };
-          corporateResources.push(resourceWithID);
+    if (documentID) {
+      db.collection('corporate resources us market english language')
+        .doc(documentID)
+        .collection('assets')
+        .orderBy('order', 'asc')
+        .get()
+        .then((querySnapshot) => {
+          const corporateResources = [];
+          querySnapshot.forEach((doc) => {
+            const resourceWithID = { id: doc.id, ...doc.data() };
+            corporateResources.push(resourceWithID);
+          });
+          setCategoryList(corporateResources);
         });
-        setCategoryList(corporateResources);
-      });
+    }
     return () => {
       setCategoryList([]);
     };
@@ -79,6 +82,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
 ResourcesCategoryScreen.propTypes = {
   navigation: PropTypes.object,
   route: PropTypes.object,
+  assetList: PropTypes.array,
 };
 
 export default ResourcesCategoryScreen;
