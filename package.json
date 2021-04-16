@@ -59,7 +59,8 @@
     "rn-pdf-reader-js": "^4.1.1",
     "styled-components": "^5.2.1",
     "uuid": "^8.3.2",
-    "expo-screen-orientation": "~2.1.0"
+    "expo-screen-orientation": "~2.1.0",
+    "expo-sharing": "~8.5.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

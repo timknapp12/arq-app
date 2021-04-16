@@ -123,7 +123,7 @@ const ProductCategoryScreen = ({ navigation }) => {
                   key={item.id}
                   categoryID={view.id}
                   productID={item.id}
-                  source={item.url}
+                  url={item.url}
                   title={item.title}
                   description={item.description}
                   navigation={navigation}

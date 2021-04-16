@@ -57,7 +57,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   style={{ zIndex: -index }}
                   key={item.title}
-                  source={item.url}
+                  url={item.url}
                   title={item.title}
                   description={item.description}
                   contentType={item.contentType}

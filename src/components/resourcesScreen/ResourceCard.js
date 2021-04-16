@@ -63,7 +63,7 @@ const ResourceCallout = styled.View`
 `;
 
 const ResourceCard = ({
-  source,
+  url,
   isWideLayout = true,
   title,
   onPress,
@@ -103,7 +103,7 @@ const ResourceCard = ({
   return (
     <CardContainer isWideLayout={isWideLayout} {...props}>
       <TouchableOpacity onPress={onPress}>
-        <CardImage source={{ uri: source }} defaultSource={baseImage} />
+        <CardImage source={{ uri: url }} defaultSource={baseImage} />
       </TouchableOpacity>
 
       <CardFooter>
@@ -184,7 +184,7 @@ const ResourceCard = ({
 ResourceCard.propTypes = {
   title: PropTypes.string,
   isWideLayout: PropTypes.bool,
-  source: PropTypes.string,
+  url: PropTypes.string,
   onPress: PropTypes.func,
   hasPermissions: PropTypes.bool,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */

@@ -5,7 +5,7 @@ import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import { categories } from './mockTeamData';
 
-const CorporateView = ({ navigation }) => {
+const TeamView = ({ navigation }) => {
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
 
@@ -18,7 +18,7 @@ const CorporateView = ({ navigation }) => {
     // firebase gives an error if there are spaces in the logEvent name
     const formattedTitle = item.title.split(' ').join('_');
     Analytics.logEvent(`${formattedTitle}_category_tapped`, {
-      screen: 'Corporate Resources',
+      screen: 'Team Resources',
       purpose: `See details for ${item.title}`,
     });
   };
@@ -46,7 +46,7 @@ const CorporateView = ({ navigation }) => {
               setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
               style={{ zIndex: -index }}
               key={item.title}
-              source={item.url}
+              url={item.url}
               title={item.title}
               isWideLayout={item.isWideLayout}
               hasPermissions={true}
@@ -62,8 +62,8 @@ const CorporateView = ({ navigation }) => {
   );
 };
 
-CorporateView.propTypes = {
+TeamView.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default CorporateView;
+export default TeamView;

@@ -97,7 +97,7 @@ const AssetIconContainer = styled.View`
 const ProductCard = ({
   title,
   description,
-  source,
+  url,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   categoryID,
@@ -349,7 +349,7 @@ const ProductCard = ({
               height: smallerImageHeight,
             }}
             source={{
-              uri: source,
+              uri: url,
             }}
           />
           <AssetIconContainer>
@@ -477,7 +477,7 @@ const ProductCard = ({
 ProductCard.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  source: PropTypes.string,
+  url: PropTypes.string,
   navigation: PropTypes.object,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,

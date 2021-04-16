@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, TouchableOpacity, Linking } from 'react-native';
+import { View, TouchableOpacity, Linking, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import PdfIcon from '../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../assets/icons/video-icon.svg';
@@ -19,6 +19,7 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import AppContext from '../../contexts/AppContext';
 import { H4Book, H5Black, H6Book, Flexbox } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
+import * as Sharing from 'expo-sharing';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
@@ -69,10 +70,15 @@ const AssetCallout = styled.View`
   top: 60px;
 `;
 
+// The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
+const CalloutButton = styled(
+  Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
+)``;
+
 const AssetCard = ({
   title,
   description,
-  source,
+  url,
   contentType,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
@@ -119,7 +125,7 @@ const AssetCard = ({
             onPress={() =>
               navigation.navigate('Resources Asset Screen', {
                 title: title.toUpperCase(),
-                url: source,
+                url: url,
                 contentType: contentType,
               })
             }>
@@ -137,7 +143,7 @@ const AssetCard = ({
     if (contentType === 'video') {
       return (
         <View style={{ marginStart: -4, paddingEnd: 4 }}>
-          <TouchableOpacity onPress={() => Linking.openURL(source)}>
+          <TouchableOpacity onPress={() => Linking.openURL(url)}>
             <VideoIcon
               style={{
                 color: theme.activeTint,
@@ -152,7 +158,7 @@ const AssetCard = ({
     if (contentType === 'podcast') {
       return (
         <View style={{ marginStart: -4, paddingEnd: 4 }}>
-          <TouchableOpacity onPress={() => Linking.openURL(source)}>
+          <TouchableOpacity onPress={() => Linking.openURL(url)}>
             <PodcastIcon
               style={{
                 color: theme.activeTint,
@@ -171,7 +177,7 @@ const AssetCard = ({
             onPress={() =>
               navigation.navigate('Resources Asset Screen', {
                 title: title.toUpperCase(),
-                url: source,
+                url: url,
                 contentType: contentType,
               })
             }>
@@ -276,7 +282,7 @@ const AssetCard = ({
                 <H4Book>{Localized('Download')}</H4Book>
               </Flexbox>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <CalloutButton onPress={() => Sharing.shareAsync(url)}>
               <Flexbox direction="row" justify="flex-start">
                 <ShareIcon
                   style={{
@@ -288,7 +294,7 @@ const AssetCard = ({
                 />
                 <H4Book>{Localized('Share')}</H4Book>
               </Flexbox>
-            </TouchableOpacity>
+            </CalloutButton>
             <TouchableOpacity>
               <Flexbox direction="row" justify="flex-start">
                 <RemoveIcon
@@ -396,7 +402,7 @@ const AssetCard = ({
 AssetCard.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  source: PropTypes.string,
+  url: PropTypes.string,
   contentType: PropTypes.string,
   navigation: PropTypes.object,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
