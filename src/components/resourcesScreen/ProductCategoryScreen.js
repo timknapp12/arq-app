@@ -74,9 +74,12 @@ const ProductCategoryScreen = ({ navigation }) => {
   const navigate = (item) => {
     setView(item);
     getSubcategory(item);
-    // firebase gives an error if there are spaces in the logEvent name
-    const formattedTitle = item.title.split(' ').join('_');
-    Analytics.logEvent(`${formattedTitle}_product_category_tapped`, {
+    // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
+    const formattedTitle = `${item.title
+      .split(' ')
+      .join('_')
+      .splice(0, 24)}_category_tapped`;
+    Analytics.logEvent(formattedTitle, {
       screen: 'Corporate Products',
       purpose: `See details for ${item.title}`,
     });
