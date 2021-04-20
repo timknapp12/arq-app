@@ -24,11 +24,9 @@ const CorporateView = ({ navigation }) => {
       });
     }
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
-    const formattedTitle = `${item.title
-      .split(' ')
-      .join('_')
-      .splice(0, 24)}_category_tapped`;
-    Analytics.logEvent(formattedTitle, {
+    const formattedTitle = item.title.split(' ').join('_');
+    const shortenedTitle = formattedTitle.slice(0, 24) + '_category_tapped';
+    Analytics.logEvent(shortenedTitle, {
       screen: 'Corporate Resources',
       purpose: `See details for ${item.title}`,
     });
