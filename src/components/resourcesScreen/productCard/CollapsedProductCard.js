@@ -56,6 +56,7 @@ const CollapsedProductCard = ({
   isFavorite,
   isDownloaded,
   hasPermissions,
+  onShare,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -120,6 +121,7 @@ const CollapsedProductCard = ({
           isDownloaded={isDownloaded}
           setIsDownloaded={() => {}}
           hasPermissions={hasPermissions}
+          onShare={onShare}
         />
       )}
     </Container>
@@ -140,6 +142,7 @@ CollapsedProductCard.propTypes = {
   isFavorite: PropTypes.bool,
   isDownloaded: PropTypes.bool,
   hasPermissions: PropTypes.bool,
+  onShare: PropTypes.func,
 };
 
 export default CollapsedProductCard;

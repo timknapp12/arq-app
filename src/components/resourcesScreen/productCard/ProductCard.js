@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { Share, Alert } from 'react-native';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import firebase from 'firebase/app';
@@ -82,6 +83,27 @@ const ProductCard = ({
     }
   };
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: url,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+    setIsCalloutOpen(false);
+    setIsCalloutOpenFromParent(false);
+  };
+
   return (
     <ProductCardContainer {...props}>
       {isExpanded ? (
@@ -95,6 +117,7 @@ const ProductCard = ({
           isDownloaded={isDownloaded}
           isFavorite={isFavorite}
           assetList={assetList}
+          onShare={onShare}
         />
       ) : (
         <CollapsedProductCard
@@ -106,6 +129,7 @@ const ProductCard = ({
           isCalloutOpen={isCalloutOpen}
           setIsCalloutOpen={setIsCalloutOpen}
           onCallout={onCallout}
+          onShare={onShare}
         />
       )}
     </ProductCardContainer>

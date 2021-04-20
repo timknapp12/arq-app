@@ -34,6 +34,7 @@ const CalloutMenu = ({
   isDownloaded,
   setIsDownloaded,
   hasPermissions,
+  onShare,
   ...props
 }) => {
   initLanguage();
@@ -99,7 +100,7 @@ const CalloutMenu = ({
           </Flexbox>
         </CalloutButton>
       )}
-      <CalloutButton onPress={() => {}}>
+      <CalloutButton onPress={onShare}>
         <Flexbox direction="row" justify="flex-start">
           <ShareIcon
             style={{
@@ -152,6 +153,7 @@ CalloutMenu.propTypes = {
   isDownloaded: PropTypes.bool,
   setIsDownloaded: PropTypes.func,
   hasPermissions: PropTypes.bool,
+  onShare: PropTypes.func,
 };
 
 export default CalloutMenu;

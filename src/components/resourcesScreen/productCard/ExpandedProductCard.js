@@ -75,6 +75,7 @@ const ExpandedProductCard = ({
   isDownloaded,
   isFavorite,
   assetList,
+  onShare,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -231,14 +232,16 @@ const ExpandedProductCard = ({
             }}
           />
         )}
-        <ShareIcon
-          style={{
-            marginEnd: 8,
-            height: 24,
-            width: 24,
-            color: theme.activeTint,
-          }}
-        />
+        <TouchableOpacity onPress={onShare}>
+          <ShareIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.activeTint,
+            }}
+          />
+        </TouchableOpacity>
       </IconRow>
     </OuterContainer>
   );
@@ -254,5 +257,6 @@ ExpandedProductCard.propTypes = {
   isDownloaded: PropTypes.bool,
   isFavorite: PropTypes.bool,
   assetList: PropTypes.array,
+  onShare: PropTypes.func,
 };
 export default ExpandedProductCard;
