@@ -31,15 +31,16 @@ const CalloutButton = styled(
 const CalloutMenu = ({
   isFavorite,
   setIsFavorite,
-  isAssetDownloaded,
-  setIsAssetDownloaded,
+  isDownloaded,
+  setIsDownloaded,
   hasPermissions,
+  ...props
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
 
   return (
-    <Container>
+    <Container {...props}>
       {isFavorite ? (
         <CalloutButton onPress={() => setIsFavorite(false)}>
           <Flexbox direction="row" justify="flex-start">
@@ -69,8 +70,8 @@ const CalloutMenu = ({
           </Flexbox>
         </CalloutButton>
       )}
-      {isAssetDownloaded ? (
-        <CalloutButton onPress={() => setIsAssetDownloaded(false)}>
+      {isDownloaded ? (
+        <CalloutButton onPress={() => setIsDownloaded(false)}>
           <Flexbox direction="row" justify="flex-start">
             <RemoveIcon
               style={{
@@ -84,7 +85,7 @@ const CalloutMenu = ({
           </Flexbox>
         </CalloutButton>
       ) : (
-        <CalloutButton onPress={() => setIsAssetDownloaded(true)}>
+        <CalloutButton onPress={() => setIsDownloaded(true)}>
           <Flexbox direction="row" justify="flex-start">
             <DownloadIcon
               style={{
@@ -148,8 +149,8 @@ const CalloutMenu = ({
 CalloutMenu.propTypes = {
   isFavorite: PropTypes.bool,
   setIsFavorite: PropTypes.func,
-  isAssetDownloaded: PropTypes.bool,
-  setIsAssetDownloaded: PropTypes.func,
+  isDownloaded: PropTypes.bool,
+  setIsDownloaded: PropTypes.func,
   hasPermissions: PropTypes.bool,
 };
 

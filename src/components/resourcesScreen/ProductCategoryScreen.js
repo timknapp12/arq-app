@@ -116,16 +116,18 @@ const ProductCategoryScreen = ({ navigation }) => {
               </View>
               {subcategoryList.map((item, index) => (
                 <ProductCard
-                  isCalloutOpenFromParent={isCalloutOpenFromParent}
-                  setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                  index={index}
                   key={item.id}
-                  categoryID={view.id}
-                  productID={item.id}
-                  url={item.url}
+                  style={{ zIndex: -index }}
                   title={item.title}
                   description={item.description}
+                  url={item.url}
+                  isCalloutOpenFromParent={isCalloutOpenFromParent}
+                  setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                  categoryID={view.id}
+                  productID={item.id}
                   navigation={navigation}
+                  isFavorite={false}
+                  isDownloaded={false}
                   onPress={() => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {

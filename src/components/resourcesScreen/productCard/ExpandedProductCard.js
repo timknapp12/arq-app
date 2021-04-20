@@ -73,7 +73,7 @@ const ExpandedProductCard = ({
   description,
   navigation,
   isDownloaded,
-  isFavorited,
+  isFavorite,
   assetList,
   ...props
 }) => {
@@ -193,7 +193,7 @@ const ExpandedProductCard = ({
         </TitleAndDescription>
       </InnerContainer>
       <IconRow>
-        {isFavorited ? (
+        {isFavorite ? (
           <HeartFillIcon
             style={{
               marginEnd: 8,
@@ -252,7 +252,7 @@ ExpandedProductCard.propTypes = {
   isExpanded: PropTypes.bool,
   setIsExpanded: PropTypes.func,
   isDownloaded: PropTypes.bool,
-  isFavorited: PropTypes.bool,
+  isFavorite: PropTypes.bool,
   assetList: PropTypes.array,
 };
 export default ExpandedProductCard;

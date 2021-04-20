@@ -13,7 +13,7 @@ import CalloutMenu from '../CalloutMenu';
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
 // the two options above are used to handle different use cases depending on desired behavior
 
-const ProductCardContainer = styled.View`
+const Container = styled.View`
   width: 100%;
 `;
 
@@ -54,16 +54,14 @@ const CollapsedProductCard = ({
   setIsCalloutOpen,
   onCallout,
   isFavorite,
-  isAssetDownloaded,
-  setIsFavorite,
-  setIsAssetDownloaded,
+  isDownloaded,
   hasPermissions,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
 
   return (
-    <ProductCardContainer {...props}>
+    <Container {...props}>
       <OuterContainer isExpanded={isExpanded}>
         <InnerContainer>
           <View style={{ width: 30 }} />
@@ -118,13 +116,13 @@ const CollapsedProductCard = ({
       {isCalloutOpen && (
         <CalloutMenu
           isFavorite={isFavorite}
-          setIsFavorite={setIsFavorite}
-          isAssetDownloaded={isAssetDownloaded}
-          setIsAssetDownloaded={setIsAssetDownloaded}
+          setIsFavorite={() => {}}
+          isDownloaded={isDownloaded}
+          setIsDownloaded={() => {}}
           hasPermissions={hasPermissions}
         />
       )}
-    </ProductCardContainer>
+    </Container>
   );
 };
 
@@ -136,15 +134,11 @@ CollapsedProductCard.propTypes = {
   isExpanded: PropTypes.bool,
   setIsExpanded: PropTypes.func,
   isCalloutOpenFromParent: PropTypes.bool,
-  isDownloaded: PropTypes.bool,
-  isFavorited: PropTypes.bool,
   isCalloutOpen: PropTypes.bool,
   setIsCalloutOpen: PropTypes.func,
   onCallout: PropTypes.func,
   isFavorite: PropTypes.bool,
-  setIsFavorite: PropTypes.func,
-  isAssetDownloaded: PropTypes.bool,
-  setIsAssetDownloaded: PropTypes.func,
+  isDownloaded: PropTypes.bool,
   hasPermissions: PropTypes.bool,
 };
 

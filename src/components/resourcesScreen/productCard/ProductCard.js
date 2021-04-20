@@ -19,9 +19,9 @@ const ProductCard = ({
   categoryID,
   productID,
   navigation,
-  index,
+  isFavorite,
   isDownloaded,
-  isFavorited,
+  ...props
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
@@ -81,37 +81,33 @@ const ProductCard = ({
       setIsCalloutOpen(true);
     }
   };
-  // this renders the card that is collapsed - below this component is the expanded card
-  if (!isExpanded) {
-    return (
-      <CollapsedProductCard
-        style={{ zIndex: -index }}
-        title={title}
-        description={description}
-        isExpanded={isExpanded}
-        setIsExpanded={setIsExpanded}
-        isCalloutOpenFromParent={isCalloutOpenFromParent}
-        isCalloutOpen={isCalloutOpen}
-        setIsCalloutOpen={setIsCalloutOpen}
-        onCallout={onCallout}
-      />
-    );
-  }
 
   return (
-    <ProductCardContainer>
-      <ExpandedProductCard
-        style={{ zIndex: -index }}
-        title={title}
-        url={url}
-        isExpanded={isExpanded}
-        setIsExpanded={setIsExpanded}
-        description={description}
-        navigation={navigation}
-        isDownloaded={isDownloaded}
-        isFavorited={isFavorited}
-        assetList={assetList}
-      />
+    <ProductCardContainer {...props}>
+      {isExpanded ? (
+        <ExpandedProductCard
+          title={title}
+          url={url}
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+          description={description}
+          navigation={navigation}
+          isDownloaded={isDownloaded}
+          isFavorite={isFavorite}
+          assetList={assetList}
+        />
+      ) : (
+        <CollapsedProductCard
+          title={title}
+          description={description}
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+          isCalloutOpenFromParent={isCalloutOpenFromParent}
+          isCalloutOpen={isCalloutOpen}
+          setIsCalloutOpen={setIsCalloutOpen}
+          onCallout={onCallout}
+        />
+      )}
     </ProductCardContainer>
   );
 };
@@ -129,8 +125,8 @@ ProductCard.propTypes = {
   /* the list id will be something like "q fuse plus", or "q focus" */
   productID: PropTypes.string,
   index: PropTypes.number,
+  isFavorite: PropTypes.bool,
   isDownloaded: PropTypes.bool,
-  isFavorited: PropTypes.bool,
 };
 
 export default ProductCard;
