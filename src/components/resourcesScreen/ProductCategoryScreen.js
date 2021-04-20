@@ -13,7 +13,7 @@ import {
   TertiaryButton,
   Flexbox,
 } from '../common';
-import ProductCard from './ProductCard';
+import ProductCard from './productCard/ProductCard';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -34,9 +34,9 @@ const ProductCategoryScreen = ({ navigation }) => {
     .collection('corporate resources us market english language')
     .doc('products')
     .collection('product categories');
+
   const getSubcategory = (item) => {
     const listRef = categoryRef.doc(item.id).collection('list');
-
     listRef
       .orderBy('order', 'asc')
       .get()
@@ -64,8 +64,7 @@ const ProductCategoryScreen = ({ navigation }) => {
           productCategories.push(resourceWithID);
         });
         setCategoryList(productCategories);
-        setView(productCategories[0]);
-        getSubcategory(productCategories[0]);
+        navigate(productCategories[0]);
       });
     return () => {
       setCategoryList([]);
@@ -119,7 +118,7 @@ const ProductCategoryScreen = ({ navigation }) => {
                 <ProductCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                  style={{ zIndex: -index }}
+                  index={index}
                   key={item.id}
                   categoryID={view.id}
                   productID={item.id}
