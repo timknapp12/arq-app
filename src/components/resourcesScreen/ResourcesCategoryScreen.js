@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer, Flexbox } from '../common';
-import AssetCard from './AssetCard';
+import AssetCard from './assetCard/AssetCard';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
