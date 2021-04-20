@@ -1,27 +1,20 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity, Linking } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import PdfIcon from '../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../assets/icons/video-icon.svg';
 import PodcastIcon from '../../../../assets/icons/podcast-icon.svg';
 import ImageIcon from '../../../../assets/icons/image-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 
-const AssetIcon = ({ title, url, contentType, navigation }) => {
+const AssetIcon = ({ contentType, onPress }) => {
   const { theme } = useContext(AppContext);
 
   return (
     <View>
       {contentType === 'pdf' && (
         <View style={{ marginStart: -4, paddingEnd: 4 }}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Resources Asset Screen', {
-                title: title.toUpperCase(),
-                url: url,
-                contentType: contentType,
-              })
-            }>
+          <TouchableOpacity onPress={onPress}>
             <PdfIcon
               style={{
                 color: theme.activeTint,
@@ -34,7 +27,7 @@ const AssetIcon = ({ title, url, contentType, navigation }) => {
       )}
       {contentType === 'video' && (
         <View style={{ marginStart: -4, paddingEnd: 4 }}>
-          <TouchableOpacity onPress={() => Linking.openURL(url)}>
+          <TouchableOpacity onPress={onPress}>
             <VideoIcon
               style={{
                 color: theme.activeTint,
@@ -47,7 +40,7 @@ const AssetIcon = ({ title, url, contentType, navigation }) => {
       )}
       {contentType === 'podcast' && (
         <View style={{ marginStart: -4, paddingEnd: 4 }}>
-          <TouchableOpacity onPress={() => Linking.openURL(url)}>
+          <TouchableOpacity onPress={onPress}>
             <PodcastIcon
               style={{
                 color: theme.activeTint,
@@ -60,14 +53,7 @@ const AssetIcon = ({ title, url, contentType, navigation }) => {
       )}
       {contentType === 'image' && (
         <View style={{ marginStart: -4, paddingEnd: 4 }}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Resources Asset Screen', {
-                title: title.toUpperCase(),
-                url: url,
-                contentType: contentType,
-              })
-            }>
+          <TouchableOpacity onPress={onPress}>
             <ImageIcon
               style={{
                 color: theme.activeTint,
@@ -83,10 +69,8 @@ const AssetIcon = ({ title, url, contentType, navigation }) => {
 };
 
 AssetIcon.propTypes = {
-  title: PropTypes.string,
-  url: PropTypes.string,
   contentType: PropTypes.string,
-  navigation: PropTypes.object,
+  onPress: PropTypes.func,
 };
 
 export default AssetIcon;

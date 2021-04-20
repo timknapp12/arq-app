@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Share, Alert } from 'react-native';
+import { TouchableOpacity, Share, Alert, Linking } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -111,6 +111,18 @@ const AssetCard = ({
     setIsCalloutOpenFromParent(false);
   };
 
+  const openAsset = () => {
+    if (contentType === 'pdf' || contentType === 'image') {
+      navigation.navigate('Resources Asset Screen', {
+        title: title.toUpperCase(),
+        url: url,
+        contentType: contentType,
+      });
+    } else {
+      Linking.openURL(url);
+    }
+  };
+
   return (
     <AssetCardContainer {...props}>
       <OuterContainer isExpanded={isExpanded}>
@@ -120,6 +132,7 @@ const AssetCard = ({
             url={url}
             contentType={contentType}
             navigation={navigation}
+            onPress={openAsset}
           />
           <TitleAndDescription>
             <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
@@ -190,6 +203,7 @@ const AssetCard = ({
           isDownloaded={isDownloaded}
           setIsDownloaded={() => {}}
           hasPermissions={hasPermissions}
+          onShare={onShare}
         />
       )}
     </AssetCardContainer>
