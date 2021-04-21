@@ -47,6 +47,7 @@ const IconColumn = styled.View`
 const CollapsedProductCard = ({
   title,
   description,
+  url,
   isExpanded,
   setIsExpanded,
   isCalloutOpenFromParent,
@@ -116,6 +117,8 @@ const CollapsedProductCard = ({
       </OuterContainer>
       {isCalloutOpen && (
         <CalloutMenu
+          url={url}
+          title={title}
           isFavorite={isFavorite}
           setIsFavorite={() => {}}
           isDownloaded={isDownloaded}

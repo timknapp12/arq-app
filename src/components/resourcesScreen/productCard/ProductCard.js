@@ -122,6 +122,7 @@ const ProductCard = ({
       ) : (
         <CollapsedProductCard
           title={title}
+          url={url}
           description={description}
           isExpanded={isExpanded}
           setIsExpanded={setIsExpanded}

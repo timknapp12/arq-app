@@ -198,6 +198,8 @@ const AssetCard = ({
       {/* TODO conditionally render the options in the callout  */}
       {isCalloutOpen && (
         <CalloutMenu
+          url={url}
+          title={title}
           isFavorite={isFavorite}
           setIsFavorite={() => {}}
           isDownloaded={isDownloaded}
