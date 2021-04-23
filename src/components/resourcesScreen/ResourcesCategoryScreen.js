@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer, Flexbox } from '../common';
 import AssetCard from './assetCard/AssetCard';
+import DownloadToast from './DownloadToast';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
@@ -10,6 +11,18 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   const db = firebase.firestore();
   const { documentID, assetList } = route.params;
   const [categoryList, setCategoryList] = useState(assetList || []);
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastTitle, setToastTitle] = useState('');
+  const [toastBody, setToastBody] = useState('');
+  const [toastProgress, setToastProgress] = useState(0);
+
+  const setToastInfo = (title, body, visible, progress) => {
+    setToastTitle(title);
+    setToastBody(body);
+    setIsToastVisible(visible);
+    setToastProgress(progress);
+  };
+
   // this will get data from firebase for corporate assets, but data for team assets will just be passed as a prop called assetList
   useEffect(() => {
     if (documentID) {
@@ -51,6 +64,13 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
               height="100%"
               padding={10}
               onStartShouldSetResponder={() => true}>
+              <DownloadToast
+                title={toastTitle}
+                body={toastBody}
+                visible={isToastVisible}
+                progress={toastProgress}
+              />
+
               {categoryList.map((item, index) => (
                 <AssetCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
@@ -62,6 +82,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   description={item.description}
                   contentType={item.contentType}
                   navigation={navigation}
+                  setToastInfo={setToastInfo}
                   onPress={() => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {
