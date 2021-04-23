@@ -10,6 +10,7 @@ import { H5Black, H6Book } from '../../common';
 import AssetIcon from './AssetIcon';
 import CalloutMenu from '../CalloutMenu';
 import IconRow from './IconRow';
+import { downloadFile } from '../../../utils/downloadFile';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
@@ -51,17 +52,28 @@ const AssetCard = ({
   description,
   url,
   contentType,
+  extension = 'jpg',
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   navigation,
   isFavorite,
   isDownloaded,
   hasPermissions,
+  setToastInfo,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+
+  const download = async () => {
+    const filename = `${title.split(' ').join('')}.${extension}`;
+    try {
+      await downloadFile(url, filename, contentType, setToastInfo);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
 
   useEffect(() => {
     if (!isCalloutOpenFromParent) {
@@ -75,11 +87,15 @@ const AssetCard = ({
     };
   }, [isCalloutOpenFromParent, isExpanded]);
 
+  const closeCallout = () => {
+    setIsCalloutOpen(false);
+    setIsCalloutOpenFromParent(false);
+  };
+
   const onCallout = async (e) => {
     e.stopPropagation();
     if (isCalloutOpen) {
-      setIsCalloutOpen(false);
-      setIsCalloutOpenFromParent(false);
+      closeCallout();
     }
     if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
@@ -107,8 +123,7 @@ const AssetCard = ({
     } catch (error) {
       Alert.alert(error.message);
     }
-    setIsCalloutOpen(false);
-    setIsCalloutOpenFromParent(false);
+    closeCallout();
   };
 
   const openAsset = () => {
@@ -134,19 +149,21 @@ const AssetCard = ({
             navigation={navigation}
             onPress={openAsset}
           />
-          <TitleAndDescription>
-            <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
-            {isExpanded ? (
-              <H6Book style={{ flex: 1 }}>{description}</H6Book>
-            ) : (
-              <H6Book
-                ellipsizeMode="tail"
-                numberOfLines={1}
-                style={{ flex: 1 }}>
-                {description}
-              </H6Book>
-            )}
-          </TitleAndDescription>
+          <TouchableOpacity style={{ flex: 1 }} onPress={openAsset}>
+            <TitleAndDescription>
+              <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+              {isExpanded ? (
+                <H6Book style={{ flex: 1 }}>{description}</H6Book>
+              ) : (
+                <H6Book
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={{ flex: 1 }}>
+                  {description}
+                </H6Book>
+              )}
+            </TitleAndDescription>
+          </TouchableOpacity>
           {isExpanded ? (
             <TouchableOpacity onPress={() => setIsExpanded((state) => !state)}>
               <MaterialCommunityIcon
@@ -192,6 +209,7 @@ const AssetCard = ({
             isFavorite={isFavorite}
             isDownloaded={isDownloaded}
             onShare={onShare}
+            download={download}
           />
         )}
       </OuterContainer>
@@ -206,6 +224,8 @@ const AssetCard = ({
           setIsDownloaded={() => {}}
           hasPermissions={hasPermissions}
           onShare={onShare}
+          download={download}
+          closeCallout={closeCallout}
         />
       )}
     </AssetCardContainer>
@@ -217,6 +237,7 @@ AssetCard.propTypes = {
   description: PropTypes.string,
   url: PropTypes.string,
   contentType: PropTypes.string,
+  extension: PropTypes.string,
   navigation: PropTypes.object,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
@@ -224,6 +245,7 @@ AssetCard.propTypes = {
   isFavorite: PropTypes.bool,
   isDownloaded: PropTypes.bool,
   hasPermissions: PropTypes.bool,
+  setToastInfo: PropTypes.func,
 };
 
 export default AssetCard;

@@ -35,6 +35,8 @@ const CalloutMenu = ({
   setIsDownloaded,
   hasPermissions,
   onShare,
+  download,
+  closeCallout,
   ...props
 }) => {
   initLanguage();
@@ -86,7 +88,11 @@ const CalloutMenu = ({
           </Flexbox>
         </CalloutButton>
       ) : (
-        <CalloutButton onPress={() => setIsDownloaded(true)}>
+        <CalloutButton
+          onPress={() => {
+            download();
+            closeCallout();
+          }}>
           <Flexbox direction="row" justify="flex-start">
             <DownloadIcon
               style={{
@@ -154,6 +160,8 @@ CalloutMenu.propTypes = {
   setIsDownloaded: PropTypes.func,
   hasPermissions: PropTypes.bool,
   onShare: PropTypes.func,
+  download: PropTypes.func,
+  closeCallout: PropTypes.func,
 };
 
 export default CalloutMenu;

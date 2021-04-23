@@ -14,7 +14,7 @@ const Container = styled.View`
   justify-content: flex-end;
 `;
 
-const IconRow = ({ isFavorite, isDownloaded, onShare }) => {
+const IconRow = ({ isFavorite, isDownloaded, onShare, download }) => {
   const { theme } = useContext(AppContext);
   return (
     <Container>
@@ -53,7 +53,7 @@ const IconRow = ({ isFavorite, isDownloaded, onShare }) => {
           />
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={download}>
           <DownloadIcon
             style={{
               marginEnd: 8,
@@ -82,6 +82,7 @@ IconRow.propTypes = {
   isFavorite: PropTypes.bool,
   isDownloaded: PropTypes.bool,
   onShare: PropTypes.func,
+  download: PropTypes.func,
 };
 
 export default IconRow;
