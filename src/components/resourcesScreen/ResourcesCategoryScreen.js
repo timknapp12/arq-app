@@ -81,6 +81,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   title={item.title}
                   description={item.description}
                   contentType={item.contentType}
+                  ext={item.ext}
                   navigation={navigation}
                   setToastInfo={setToastInfo}
                   onPress={() => {
