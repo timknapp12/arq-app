@@ -55,7 +55,6 @@ const CollapsedProductCard = ({
   setIsCalloutOpen,
   onCallout,
   isFavorite,
-  isDownloaded,
   hasPermissions,
   onShare,
   ...props
@@ -121,8 +120,6 @@ const CollapsedProductCard = ({
           title={title}
           isFavorite={isFavorite}
           setIsFavorite={() => {}}
-          isDownloaded={isDownloaded}
-          setIsDownloaded={() => {}}
           hasPermissions={hasPermissions}
           onShare={onShare}
         />
@@ -143,7 +140,6 @@ CollapsedProductCard.propTypes = {
   setIsCalloutOpen: PropTypes.func,
   onCallout: PropTypes.func,
   isFavorite: PropTypes.bool,
-  isDownloaded: PropTypes.bool,
   hasPermissions: PropTypes.bool,
   onShare: PropTypes.func,
 };

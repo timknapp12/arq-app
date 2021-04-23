@@ -72,10 +72,10 @@ const ExpandedProductCard = ({
   setIsExpanded,
   description,
   navigation,
-  isDownloaded,
   isFavorite,
   assetList,
   onShare,
+  hasPermissions,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -213,7 +213,7 @@ const ExpandedProductCard = ({
             }}
           />
         )}
-        {isDownloaded ? (
+        {hasPermissions && (
           <RemoveIcon
             style={{
               marginEnd: 8,
@@ -222,16 +222,15 @@ const ExpandedProductCard = ({
               color: theme.activeTint,
             }}
           />
-        ) : (
-          <DownloadIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.activeTint,
-            }}
-          />
         )}
+        <DownloadIcon
+          style={{
+            marginEnd: 8,
+            height: 24,
+            width: 24,
+            color: theme.activeTint,
+          }}
+        />
         <TouchableOpacity onPress={onShare}>
           <ShareIcon
             style={{
@@ -254,9 +253,9 @@ ExpandedProductCard.propTypes = {
   navigation: PropTypes.object,
   isExpanded: PropTypes.bool,
   setIsExpanded: PropTypes.func,
-  isDownloaded: PropTypes.bool,
   isFavorite: PropTypes.bool,
   assetList: PropTypes.array,
   onShare: PropTypes.func,
+  hasPermissions: PropTypes.bool,
 };
 export default ExpandedProductCard;

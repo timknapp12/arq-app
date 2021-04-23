@@ -21,7 +21,6 @@ const ProductCard = ({
   productID,
   navigation,
   isFavorite,
-  isDownloaded,
   ...props
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -114,7 +113,6 @@ const ProductCard = ({
           setIsExpanded={setIsExpanded}
           description={description}
           navigation={navigation}
-          isDownloaded={isDownloaded}
           isFavorite={isFavorite}
           assetList={assetList}
           onShare={onShare}
@@ -151,7 +149,6 @@ ProductCard.propTypes = {
   productID: PropTypes.string,
   index: PropTypes.number,
   isFavorite: PropTypes.bool,
-  isDownloaded: PropTypes.bool,
 };
 
 export default ProductCard;

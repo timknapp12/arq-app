@@ -57,7 +57,6 @@ const AssetCard = ({
   setIsCalloutOpenFromParent,
   navigation,
   isFavorite,
-  isDownloaded,
   hasPermissions,
   setToastInfo,
   ...props
@@ -207,7 +206,7 @@ const AssetCard = ({
         {isExpanded && (
           <IconRow
             isFavorite={isFavorite}
-            isDownloaded={isDownloaded}
+            contentType={contentType}
             onShare={onShare}
             download={download}
           />
@@ -220,8 +219,7 @@ const AssetCard = ({
           title={title}
           isFavorite={isFavorite}
           setIsFavorite={() => {}}
-          isDownloaded={isDownloaded}
-          setIsDownloaded={() => {}}
+          contentType={contentType}
           hasPermissions={hasPermissions}
           onShare={onShare}
           download={download}
@@ -243,7 +241,6 @@ AssetCard.propTypes = {
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
   isFavorite: PropTypes.bool,
-  isDownloaded: PropTypes.bool,
   hasPermissions: PropTypes.bool,
   setToastInfo: PropTypes.func,
 };

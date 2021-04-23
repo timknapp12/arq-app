@@ -31,12 +31,11 @@ const CalloutButton = styled(
 const CalloutMenu = ({
   isFavorite,
   setIsFavorite,
-  isDownloaded,
-  setIsDownloaded,
   hasPermissions,
+  contentType = 'image',
   onShare,
-  download,
-  closeCallout,
+  download = () => {},
+  closeCallout = () => {},
   ...props
 }) => {
   initLanguage();
@@ -73,8 +72,8 @@ const CalloutMenu = ({
           </Flexbox>
         </CalloutButton>
       )}
-      {isDownloaded ? (
-        <CalloutButton onPress={() => setIsDownloaded(false)}>
+      {hasPermissions && (
+        <CalloutButton onPress={() => {}}>
           <Flexbox direction="row" justify="flex-start">
             <RemoveIcon
               style={{
@@ -87,7 +86,8 @@ const CalloutMenu = ({
             <H4Book>{Localized('Remove')}</H4Book>
           </Flexbox>
         </CalloutButton>
-      ) : (
+      )}
+      {contentType !== 'video' && (
         <CalloutButton
           onPress={() => {
             download();
@@ -156,9 +156,8 @@ const CalloutMenu = ({
 CalloutMenu.propTypes = {
   isFavorite: PropTypes.bool,
   setIsFavorite: PropTypes.func,
-  isDownloaded: PropTypes.bool,
-  setIsDownloaded: PropTypes.func,
   hasPermissions: PropTypes.bool,
+  contentType: PropTypes.string,
   onShare: PropTypes.func,
   download: PropTypes.func,
   closeCallout: PropTypes.func,

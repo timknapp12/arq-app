@@ -14,7 +14,13 @@ const Container = styled.View`
   justify-content: flex-end;
 `;
 
-const IconRow = ({ isFavorite, isDownloaded, onShare, download }) => {
+const IconRow = ({
+  isFavorite,
+  hasPermissions,
+  contentType,
+  onShare,
+  download,
+}) => {
   const { theme } = useContext(AppContext);
   return (
     <Container>
@@ -41,7 +47,7 @@ const IconRow = ({ isFavorite, isDownloaded, onShare, download }) => {
           />
         </TouchableOpacity>
       )}
-      {isDownloaded ? (
+      {hasPermissions && (
         <TouchableOpacity onPress={() => {}}>
           <RemoveIcon
             style={{
@@ -52,7 +58,8 @@ const IconRow = ({ isFavorite, isDownloaded, onShare, download }) => {
             }}
           />
         </TouchableOpacity>
-      ) : (
+      )}
+      {contentType !== 'video' && (
         <TouchableOpacity onPress={download}>
           <DownloadIcon
             style={{
@@ -80,7 +87,8 @@ const IconRow = ({ isFavorite, isDownloaded, onShare, download }) => {
 
 IconRow.propTypes = {
   isFavorite: PropTypes.bool,
-  isDownloaded: PropTypes.bool,
+  hasPermissions: PropTypes.bool,
+  contentType: PropTypes.string,
   onShare: PropTypes.func,
   download: PropTypes.func,
 };
