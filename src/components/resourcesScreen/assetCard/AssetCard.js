@@ -52,7 +52,7 @@ const AssetCard = ({
   description,
   url,
   contentType,
-  extension = 'jpg',
+  ext,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   navigation,
@@ -66,7 +66,7 @@ const AssetCard = ({
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
 
   const download = async () => {
-    const filename = `${title.split(' ').join('')}.${extension}`;
+    const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
     try {
       await downloadFile(url, filename, contentType, setToastInfo);
     } catch (error) {
@@ -235,7 +235,7 @@ AssetCard.propTypes = {
   description: PropTypes.string,
   url: PropTypes.string,
   contentType: PropTypes.string,
-  extension: PropTypes.string,
+  ext: PropTypes.string,
   navigation: PropTypes.object,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
