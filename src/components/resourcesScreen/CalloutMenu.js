@@ -72,21 +72,6 @@ const CalloutMenu = ({
           </Flexbox>
         </CalloutButton>
       )}
-      {hasPermissions && (
-        <CalloutButton onPress={() => {}}>
-          <Flexbox direction="row" justify="flex-start">
-            <RemoveIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>{Localized('Remove')}</H4Book>
-          </Flexbox>
-        </CalloutButton>
-      )}
       {contentType !== 'video' && (
         <CalloutButton
           onPress={() => {
@@ -121,6 +106,19 @@ const CalloutMenu = ({
       </CalloutButton>
       {hasPermissions && (
         <>
+          <CalloutButton onPress={() => {}}>
+            <Flexbox direction="row" justify="flex-start">
+              <RemoveIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Remove')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
           <CalloutButton>
             <Flexbox direction="row" justify="flex-start">
               <UploadIcon
