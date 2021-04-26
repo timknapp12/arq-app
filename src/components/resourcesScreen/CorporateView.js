@@ -65,6 +65,7 @@ const CorporateView = ({ navigation }) => {
             justifyContent: 'space-between',
             padding: 10,
           }}
+          accessibilityLabel="Corporate Resources"
           onStartShouldSetResponder={() => true}>
           {resourceList.map((item, index) => (
             <ResourceCard

@@ -46,6 +46,7 @@ const TeamView = ({
               justifyContent: 'space-between',
               padding: 10,
             }}
+            accessibilityLabel="Team Resources"
             onStartShouldSetResponder={() => true}>
             {categories.map((item, index) => (
               <ResourceCard
