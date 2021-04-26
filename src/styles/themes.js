@@ -54,7 +54,7 @@ export const lightTheme = {
 export const darkTheme = {
   color: white,
   invertedColor: black,
-  secondaryTextColor: gray,
+  secondaryTextColor: 'rgba(255,255,255,.5)',
   backgroundColor: black,
   activeBackground: nero,
   inactiveBackground: nero,

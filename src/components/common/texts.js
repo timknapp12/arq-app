@@ -82,6 +82,13 @@ export const H5Black = styled.Text`
   color: ${(props) => props.theme.color};
 `;
 
+export const Label = styled.Text`
+  ${secondaryOpacity};
+  font-size: 16px;
+  font-family: 'Roboto-Regular';
+  color: ${(props) => props.theme.color};
+`;
+
 export const H6 = styled.Text`
   ${primaryOpacity};
   font-family: 'Avenir-Light';
