@@ -110,5 +110,9 @@
   "Share": "es Share",
   "Remove": "es Remove",
   "Upload": "es Upload",
-  "Edit": "es Edit"
+  "Edit": "es Edit",
+  "Downloading to Photos...": "es Downloading to Photos...",
+  "Downloading...": "es Downloading...",
+  "Saved to Photos": "es Saved to Photos",
+  "Download Complete": "es Download Complete"
 }

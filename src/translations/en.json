@@ -110,5 +110,9 @@
   "Share": "Share",
   "Remove": "Remove",
   "Upload": "Upload",
-  "Edit": "Edit"
+  "Edit": "Edit",
+  "Downloading to Photos...": "Downloading to Photos...",
+  "Downloading...": "Downloading...",
+  "Saved to Photos": "Saved to Photos",
+  "Download Complete": "Download Complete"
 }
