@@ -84,7 +84,7 @@ export const darkTheme = {
   sideMenuBackground: nero,
   topButtonBarBackground: nero,
   sliderTrackColor: darkgray,
-  sliderThumbColor: blue,
+  sliderThumbColor: 'rgba(255,255,255,.83)',
   cardBackgroundColor: darkgray,
   favoriteFillColor: cobaltBlue,
   statusBar: 'light',

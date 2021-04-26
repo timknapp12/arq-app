@@ -15,6 +15,7 @@ export const categories = [
         url:
           'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fteam%20uploads%2Fmoneybag.jpg?alt=media&token=9aa3b722-12d3-418d-83df-04d1e3d5f18f',
         contentType: 'image',
+        ext: 'jpg',
       },
       {
         id: 1,
@@ -33,6 +34,7 @@ export const categories = [
         url:
           'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2FFeb%202020%20Comp%20Plan.pdf?alt=media&token=5c94e075-d6a5-444a-861e-7442d4325b70',
         contentType: 'pdf',
+        ext: 'pdf',
       },
       {
         id: 3,
@@ -40,8 +42,9 @@ export const categories = [
         description:
           'This is a podcast of Jill doing a deeper dive into the comp plan and explaining strategies to maximize your time',
         url:
-          'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fteam%20uploads%2Fmoneybag.jpg?alt=media&token=9aa3b722-12d3-418d-83df-04d1e3d5f18f',
+          'http://s3.amazonaws.com/assets.soundconcepts.com/webroot_qsciences/assets/audio/Podcast_06-18-2020_bnkcx-3c6df911.mp3',
         contentType: 'podcast',
+        ext: 'mp3',
       },
     ],
   },
