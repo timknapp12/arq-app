@@ -11,7 +11,7 @@ const Toast = ({ visible, children, ...props }) => {
 
   const fadeIn = () => {
     setisToastVisible(true);
-    // Will change fadeAnim value to 1 in .5 seconds
+    // Will change fadeAnim value to 1 in 1 second
     Animated.timing(animatedValue, {
       toValue: 1,
       duration: 1000,
@@ -23,7 +23,7 @@ const Toast = ({ visible, children, ...props }) => {
     Animated.timing(animatedValue, {
       toValue: 0,
       duration: 1000,
-      delay: 1000,
+      delay: 2000,
       useNativeDriver: false,
     }).start(() => setisToastVisible(false));
   };
