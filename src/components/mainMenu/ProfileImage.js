@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { CameraIcon, GalleryIcon } from '../common';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const ImageContainer = styled.View`
   height: 72px;
@@ -55,6 +56,7 @@ const ProfileImage = ({
   initials = '',
   setIsNewImageSelected,
 }) => {
+  initLanguage();
   const [hasPermission, setHasPermission] = useState(null);
   // permissions for camera
   useEffect(() => {
@@ -73,7 +75,9 @@ const ProfileImage = ({
         } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           Alert.alert(
-            'Sorry, we need camera roll permissions to make this work!',
+            Localized(
+              'Sorry, we need camera roll permissions to make this work!',
+            ),
           );
         }
       }
