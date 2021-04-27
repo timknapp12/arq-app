@@ -114,5 +114,11 @@
   "Downloading to Photos...": "es Downloading to Photos...",
   "Downloading...": "es Downloading...",
   "Saved to Photos": "es Saved to Photos",
-  "Download Complete": "es Download Complete"
+  "Download Complete": "es Download Complete",
+  "Sorry, we need camera roll permissions to make this work!": "es Sorry, we need camera roll permissions to make this work!",
+  "Title": "es Title",
+  "Layout": "es Layout",
+  "Picture": "es Picture",
+  "Please enter a title": "es Please enter a title",
+  "Please select an image": "es Please select an image"
 }
