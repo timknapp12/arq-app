@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Image, TouchableOpacity, Platform, Alert } from 'react-native';
 import { Flexbox, Label, AnimatedInput } from '../common';
-import square from '../../../assets/images/square-layout.png';
-import rectangle from '../../../assets/images/rectangle-layout.png';
+import ImageIcon from '../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
 import AppContext from '../../contexts/AppContext';
 import * as ImagePicker from 'expo-image-picker';
 import { Localized, initLanguage } from '../../translations/Localized';
+
+const imageHeight = 76;
+const squareImageWidth = imageHeight;
+const rectangleImageWidth = imageHeight * 2;
 
 const Underline = styled.View`
   width: 100%;
@@ -46,6 +49,18 @@ const Title = styled.Text`
   opacity: 0.83;
   color: ${(props) => props.theme.color};
   padding: 2px;
+`;
+
+const DefaultSquareImage = styled.View`
+  background-color: ${(props) => props.theme.disabledBackgroundColor};
+  height: ${imageHeight}px;
+  width: ${squareImageWidth}px;
+`;
+
+const DefaultRectangleImage = styled.View`
+  background-color: ${(props) => props.theme.disabledBackgroundColor};
+  height: ${imageHeight}px;
+  width: ${rectangleImageWidth}px;
 `;
 
 const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
@@ -85,12 +100,6 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
       setImageFile({ url: result.uri });
     }
   };
-  const squareSource =
-    imageFile.url && imageLayout === 'square' ? { uri: imageFile.url } : square;
-  const rectangleSource =
-    imageFile.url && imageLayout === 'rectangle'
-      ? { uri: imageFile.url }
-      : rectangle;
 
   const clearFields = () => {
     setTitle('');
@@ -126,14 +135,19 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
         <Flexbox style={{ marginTop: 8 }} justify="flex-start" direction="row">
           <TouchableOpacity onPress={() => setImageLayout('square')}>
             <Flexbox
-              width="76px"
               height="106px"
-              style={{ width: 76, marginEnd: 20 }}>
+              style={{ width: squareImageWidth, marginEnd: 20 }}>
               <MiniCard>
-                <Image
-                  style={{ width: 76, height: 76 }}
-                  source={squareSource}
-                />
+                {imageFile.url && imageLayout === 'square' ? (
+                  <Image
+                    style={{ width: squareImageWidth, height: imageHeight }}
+                    source={{ uri: imageFile.url }}
+                  />
+                ) : (
+                  <DefaultSquareImage>
+                    <ImageIcon color={theme.cardBackgroundColor} />
+                  </DefaultSquareImage>
+                )}
                 <Footer>
                   <Title ellipsizeMode="tail" numberOfLines={1}>
                     {imageLayout === 'square' && title
@@ -148,12 +162,18 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
             </Flexbox>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setImageLayout('rectangle')}>
-            <Flexbox width="150px" height="106px">
+            <Flexbox height="106px">
               <MiniCard>
-                <Image
-                  style={{ width: 152, height: 76 }}
-                  source={rectangleSource}
-                />
+                {imageFile.url && imageLayout === 'rectangle' ? (
+                  <Image
+                    style={{ width: rectangleImageWidth, height: imageHeight }}
+                    source={{ uri: imageFile.url }}
+                  />
+                ) : (
+                  <DefaultRectangleImage>
+                    <ImageIcon color={theme.cardBackgroundColor} />
+                  </DefaultRectangleImage>
+                )}
                 <Footer>
                   <Title ellipsizeMode="tail" numberOfLines={1}>
                     {imageLayout === 'rectangle' && title
