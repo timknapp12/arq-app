@@ -20,7 +20,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID for authentication"
-      }
+      },
+      "requireFullScreen": true
     },
     "android": {
       "package": "com.qsciences.q_connect_pro_staging",
@@ -29,7 +30,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png",

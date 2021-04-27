@@ -2,10 +2,11 @@ import styled from 'styled-components/native';
 import { blue } from '../../styles/colors';
 
 // Font families:
-// 'Roboto-Regular'
+// Roboto-Regular
 // Avenir-Light
 // Avenir-Book
 // Avenir-Heavy
+// Avenir-Black
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 const primaryOpacity = { opacity: 0.83 };
@@ -74,6 +75,20 @@ export const H5Heavy = styled.Text`
   color: ${(props) => props.theme.color};
 `;
 
+export const H5Black = styled.Text`
+  ${primaryOpacity};
+  font-family: 'Avenir-Black';
+  font-size: 16px;
+  color: ${(props) => props.theme.color};
+`;
+
+export const Label = styled.Text`
+  ${secondaryOpacity};
+  font-size: 16px;
+  font-family: 'Roboto-Regular';
+  color: ${(props) => props.theme.color};
+`;
+
 export const H6 = styled.Text`
   ${primaryOpacity};
   font-family: 'Avenir-Light';
@@ -84,6 +99,13 @@ export const H6 = styled.Text`
 export const H6Secodnary = styled.Text`
   ${secondaryOpacity};
   font-family: 'Avenir-Light';
+  font-size: 14px;
+  color: ${(props) => props.theme.color};
+`;
+
+export const H6Book = styled.Text`
+  ${primaryOpacity};
+  font-family: 'Avenir-Book';
   font-size: 14px;
   color: ${(props) => props.theme.color};
 `;

@@ -1,18 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import styled from 'styled-components/native';
+import { Label } from './texts';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
 import AppContext from '../../contexts/AppContext';
 
 // source: https://www.npmjs.com/package/react-native-picker-select#styling
-
-const SecondaryText = styled.Text`
-  font-size: 16px;
-  font-family: 'Roboto-Regular';
-  color: ${(props) => props.theme.secondaryTextColor};
-`;
 
 export const Picker = ({
   style = { width: '100%' },
@@ -26,7 +20,7 @@ export const Picker = ({
   const { theme } = useContext(AppContext);
   return (
     <View style={style}>
-      <SecondaryText>{label}</SecondaryText>
+      <Label>{label}</Label>
 
       <RNPickerSelect
         style={{
@@ -55,7 +49,7 @@ export const Picker = ({
             backgroundColor: 'transparent',
           },
           iconContainer: {
-            top: 2,
+            top: 0,
             right: 5,
           },
         }}
@@ -67,8 +61,9 @@ export const Picker = ({
         Icon={() => {
           return (
             <Ionicons
+              style={{ marginBottom: 4 }}
               name="chevron-down"
-              size={20}
+              size={24}
               color={theme.secondaryTextColor}
             />
           );

@@ -52,9 +52,10 @@ const ButtonContainer = styled.View`
 
 const ThemedTertiary = styled.TouchableOpacity`
   ${sharedCss};
-  width: 110px;
+  min-width: 110px;
   height: 22px;
   border-radius: 11px;
+  padding: 0px 6px;
   border-width: ${(props) => (props.selected ? '2px' : '1px')};
   border-color: ${(props) =>
     props.selected
@@ -72,6 +73,7 @@ const TertiaryText = styled.Text`
     props.selected
       ? props.theme.tertiarySelectedTextColor
       : props.theme.tertiaryDisabledTextColor};
+  font-size: 14px;
 `;
 
 export const TertiaryButton = ({ selected, children, ...props }) => (

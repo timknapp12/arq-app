@@ -14,7 +14,7 @@ const Container = styled.View`
   flex: 1;
 `;
 const Inner = styled.KeyboardAvoidingView`
-  max-height: 40%;
+  max-height: 50%;
   width: 80%;
   background-color: ${(props) => props.theme.backgroundColor};
   padding: 20px 20px 0px 20px;

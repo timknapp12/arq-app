@@ -1,6 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import styled from 'styled-components/native';
+import {
+  Animated,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -8,6 +15,7 @@ import {
   TertiaryButton,
   TopButtonBar,
   Flexbox,
+  H3,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized } from '../../translations/Localized';
@@ -23,6 +31,25 @@ import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import DownloadsView from './DownloadsView';
 import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
+
+const { height } = Dimensions.get('window');
+const topOfView = Platform.OS === 'ios' ? 140 : 80;
+
+const AddButton = styled.TouchableOpacity`
+  height: 56px;
+  width: 56px;
+  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  border-radius: 28px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: ${height - topOfView}px;
+  right: 10px;
+`;
+
+const ButtonText = styled(H3)`
+  font-family: 'Avenir-Black';
+`;
 
 const ResourcesScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
@@ -41,6 +68,7 @@ const ResourcesScreen = ({ navigation }) => {
   };
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
 
   const [view, setView] = useState(initialView);
 
@@ -80,6 +108,7 @@ const ResourcesScreen = ({ navigation }) => {
       purpose: `See details for ${item.name}`,
     });
   };
+
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
@@ -117,7 +146,18 @@ const ResourcesScreen = ({ navigation }) => {
         {view.name === Localized('CORPORATE') && (
           <CorporateView navigation={navigation} />
         )}
-        {view.name === Localized('TEAM') && <TeamView />}
+        {view.name === Localized('TEAM') && (
+          <>
+            <TeamView
+              navigation={navigation}
+              isAddFolderModalOpen={isAddFolderModalOpen}
+              setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+            />
+            <AddButton onPress={() => setIsAddFolderModalOpen(true)}>
+              <ButtonText>+</ButtonText>
+            </AddButton>
+          </>
+        )}
         {view.name === Localized('SERVICES') && <ServicesView />}
         {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('DOWNLOADS') && <DownloadsView />}

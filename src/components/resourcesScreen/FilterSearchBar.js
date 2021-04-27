@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Text } from 'react-native';
 import PropTypes from 'prop-types';
-import FilterIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchIcon from 'react-native-vector-icons/Ionicons';
 import AppContext from '../../contexts/AppContext';
 import { Flexbox } from '../common';
@@ -10,7 +9,6 @@ const FilterSearchBar = ({ userName = 'user' }) => {
   const { theme } = useContext(AppContext);
   return (
     <Flexbox direction="row" padding={10} style={{ zIndex: -1 }}>
-      <FilterIcon color={theme.activeTint} size={24} name="filter-variant" />
       <Text style={{ color: '#fff' }}>{`${userName}'s awesome team`}</Text>
       <SearchIcon color={theme.activeTint} size={24} name="search" />
     </Flexbox>
