@@ -120,5 +120,17 @@
   "Layout": "es Layout",
   "Picture": "es Picture",
   "Please enter a title": "es Please enter a title",
-  "Please select an image": "es Please select an image"
+  "Please select an image": "es Please select an image",
+  "Please select a file": "es Please select a file",
+  "Removing this will delete all of its content. Do you wish to continue?": "es Removing this will delete all of its content. Do you wish to continue?",
+  "Cancel": "es Cancel",
+  "Yes": "es Yes",
+  "Description": "es Description",
+  "File": "es File",
+  "File Type": "es File Type",
+  "Select a file type": "es Select a file type",
+  "Image": "es Image",
+  "Pdf": "es Pdf",
+  "Video": "es Video",
+  "Podcast": "es Podcast"
 }

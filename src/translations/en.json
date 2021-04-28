@@ -120,5 +120,17 @@
   "Layout": "Layout",
   "Picture": "Picture",
   "Please enter a title": "Please enter a title",
-  "Please select an image": "Please select an image"
+  "Please select an image": "Please select an image",
+  "Please select a file": "Please select a file",
+  "Removing this will delete all of its content. Do you wish to continue?": "Removing this will delete all of its content. Do you wish to continue?",
+  "Cancel": "Cancel",
+  "Yes": "Yes",
+  "Description": "Description",
+  "File": "File",
+  "File Type": "File Type",
+  "Select a file type": "Select a file type",
+  "Image": "Image",
+  "Pdf": "Pdf",
+  "Video": "Video",
+  "Podcast": "Podcast"
 }
