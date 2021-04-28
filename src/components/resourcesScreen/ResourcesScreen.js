@@ -44,7 +44,7 @@ const AddButton = styled.TouchableOpacity`
   align-items: center;
   position: absolute;
   top: ${height - topOfView}px;
-  right: 10px;
+  right: 12px;
 `;
 
 const ButtonText = styled(H3)`
@@ -66,6 +66,7 @@ const ResourcesScreen = ({ navigation }) => {
     name: Localized('CORPORATE'),
     testID: 'corporate_button',
   };
+  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
@@ -108,9 +109,12 @@ const ResourcesScreen = ({ navigation }) => {
       purpose: `See details for ${item.name}`,
     });
   };
-
   return (
-    <TouchableWithoutFeedback onPress={fadeOut}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        setIsCalloutOpenFromParent(false);
+        fadeOut();
+      }}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
         <MainHeader
           isMenuOpen={isMenuOpen}
@@ -143,24 +147,38 @@ const ResourcesScreen = ({ navigation }) => {
           />
         </Flexbox>
         <FilterSearchBar userName={mockUser.personalInfo.displayName} />
-        {view.name === Localized('CORPORATE') && (
-          <CorporateView navigation={navigation} />
-        )}
-        {view.name === Localized('TEAM') && (
-          <>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 220,
+          }}
+          style={{
+            width: '100%',
+            height: '100%',
+            zIndex: -1,
+          }}>
+          {view.name === Localized('CORPORATE') && (
+            <CorporateView navigation={navigation} fadeOut={fadeOut} />
+          )}
+          {view.name === Localized('TEAM') && (
             <TeamView
+              fadeOut={fadeOut}
               navigation={navigation}
+              isCalloutOpenFromParent={isCalloutOpenFromParent}
+              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
               isAddFolderModalOpen={isAddFolderModalOpen}
               setIsAddFolderModalOpen={setIsAddFolderModalOpen}
             />
-            <AddButton onPress={() => setIsAddFolderModalOpen(true)}>
-              <ButtonText>+</ButtonText>
-            </AddButton>
-          </>
+          )}
+          {view.name === Localized('SERVICES') && <ServicesView />}
+          {view.name === Localized('FAVORITES') && <FavoritesView />}
+          {view.name === Localized('DOWNLOADS') && <DownloadsView />}
+        </ScrollView>
+        {view.name === Localized('TEAM') && (
+          <AddButton onPress={() => setIsAddFolderModalOpen(true)}>
+            <ButtonText>+</ButtonText>
+          </AddButton>
         )}
-        {view.name === Localized('SERVICES') && <ServicesView />}
-        {view.name === Localized('FAVORITES') && <FavoritesView />}
-        {view.name === Localized('DOWNLOADS') && <DownloadsView />}
         <MyInfoModal
           isMyInfoModalOpen={isMyInfoModalOpen}
           setIsMyInfoModalOpen={setIsMyInfoModalOpen}

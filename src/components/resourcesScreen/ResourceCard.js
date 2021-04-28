@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Dimensions, View } from 'react-native';
+import { TouchableOpacity, Dimensions, View, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import baseImage from '../../../assets/icons/image.png';
 import KebobIcon from '../../../assets/icons/kebob-icon.svg';
@@ -62,6 +62,11 @@ const ResourceCallout = styled.View`
   top: ${containerHeight}px;
 `;
 
+// The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
+const CalloutButton = styled(
+  Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
+)``;
+
 const ResourceCard = ({
   url,
   isWideLayout = true,
@@ -119,62 +124,58 @@ const ResourceCard = ({
 
         {hasPermissions && (
           <View>
-            {isCalloutOpenFromParent ? (
-              <GestureTouchable
-                style={{ alignItems: 'center' }}
-                onPress={() => setIsCalloutOpen(false)}>
-                <KebobIcon
-                  style={{ height: 20, width: 20, color: theme.activeTint }}
-                />
-              </GestureTouchable>
-            ) : (
-              <TouchableOpacity
-                style={{ alignItems: 'center' }}
-                onPress={(e) => onCallout(e)}>
-                <KebobIcon
-                  style={{ height: 20, width: 20, color: theme.activeTint }}
-                />
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={{ alignItems: 'center' }}
+              onPress={(e) => onCallout(e)}>
+              <KebobIcon
+                style={{ height: 20, width: 20, color: theme.activeTint }}
+              />
+            </TouchableOpacity>
           </View>
         )}
       </CardFooter>
       {/* TODO conditionally render the options in the callout  */}
       {isCalloutOpen && (
         <ResourceCallout>
-          <Flexbox direction="row" justify="flex-start">
-            <EditIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>{Localized('Edit')}</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <RemoveIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>{Localized('Remove')}</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <UploadIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>{Localized('Upload')}</H4Book>
-          </Flexbox>
+          <CalloutButton onPress={() => console.log('edit pressed')}>
+            <Flexbox direction="row" justify="flex-start">
+              <EditIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Edit')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton onPress={() => console.log('remove pressed')}>
+            <Flexbox direction="row" justify="flex-start">
+              <RemoveIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Remove')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton onPress={() => console.log('upload pressed')}>
+            <Flexbox direction="row" justify="flex-start">
+              <UploadIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Upload')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
         </ResourceCallout>
       )}
     </CardContainer>

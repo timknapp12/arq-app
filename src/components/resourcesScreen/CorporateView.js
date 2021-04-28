@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
-const CorporateView = ({ navigation }) => {
+const CorporateView = ({ navigation, fadeOut }) => {
   const db = firebase.firestore();
   const [resourceList, setResourceList] = useState([]);
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
 
   const navigateToResource = (item) => {
+    fadeOut();
     if (item.id === 'products') {
       navigation.navigate('Product Category Screen', {
         title: item.title.toUpperCase(),
@@ -50,45 +51,38 @@ const CorporateView = ({ navigation }) => {
   }, []);
 
   return (
-    <ScrollView
-      onStartShouldSetResponder={() => true}
-      style={{ zIndex: -1, width: '100%' }}
-      contentContainerStyle={{
-        paddingBottom: 200,
-      }}>
-      <TouchableWithoutFeedback
-        onPress={() => setIsCalloutOpenFromParent(false)}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            padding: 10,
-          }}
-          accessibilityLabel="Corporate Resources"
-          onStartShouldSetResponder={() => true}>
-          {resourceList.map((item, index) => (
-            <ResourceCard
-              isCalloutOpenFromParent={isCalloutOpenFromParent}
-              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-              style={{ zIndex: -index }}
-              key={item.title}
-              url={item.url}
-              title={item.title}
-              onPress={() => {
-                setIsCalloutOpenFromParent(false);
-                navigateToResource(item);
-              }}
-            />
-          ))}
-        </View>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          padding: 10,
+        }}
+        accessibilityLabel="Corporate Resources"
+        onStartShouldSetResponder={() => true}>
+        {resourceList.map((item, index) => (
+          <ResourceCard
+            isCalloutOpenFromParent={isCalloutOpenFromParent}
+            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+            style={{ zIndex: -index }}
+            key={item.title}
+            url={item.url}
+            title={item.title}
+            onPress={() => {
+              setIsCalloutOpenFromParent(false);
+              navigateToResource(item);
+            }}
+          />
+        ))}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 CorporateView.propTypes = {
   navigation: PropTypes.object,
+  fadeOut: PropTypes.func,
 };
 
 export default CorporateView;
