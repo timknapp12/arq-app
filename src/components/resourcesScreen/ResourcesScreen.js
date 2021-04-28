@@ -175,7 +175,11 @@ const ResourcesScreen = ({ navigation }) => {
           {view.name === Localized('DOWNLOADS') && <DownloadsView />}
         </ScrollView>
         {view.name === Localized('TEAM') && (
-          <AddButton onPress={() => setIsAddFolderModalOpen(true)}>
+          <AddButton
+            onPress={() => {
+              setIsAddFolderModalOpen(true);
+              setIsCalloutOpenFromParent(false);
+            }}>
             <ButtonText>+</ButtonText>
           </AddButton>
         )}

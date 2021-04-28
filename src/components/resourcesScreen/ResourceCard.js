@@ -90,21 +90,26 @@ const ResourceCard = ({
     };
   }, [isCalloutOpenFromParent]);
 
-  const onCallout = async (e) => {
-    e.stopPropagation();
+  const closeCallout = () => {
+    setIsCalloutOpen(false);
+    setIsCalloutOpenFromParent(false);
+  };
+
+  const onCallout = async () => {
     if (isCalloutOpen) {
-      setIsCalloutOpen(false);
-      setIsCalloutOpenFromParent(false);
+      closeCallout();
     }
     if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
     }
+    if (isCalloutOpenFromParent) {
+      setIsCalloutOpenFromParent(false);
+    }
     if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(true);
     }
   };
-
   return (
     <CardContainer isWideLayout={isWideLayout} {...props}>
       <TouchableOpacity onPress={onPress}>
@@ -126,7 +131,7 @@ const ResourceCard = ({
           <View>
             <TouchableOpacity
               style={{ alignItems: 'center' }}
-              onPress={(e) => onCallout(e)}>
+              onPress={onCallout}>
               <KebobIcon
                 style={{ height: 20, width: 20, color: theme.activeTint }}
               />
