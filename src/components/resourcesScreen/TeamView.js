@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import ResourceCard from './ResourceCard';
@@ -9,15 +9,18 @@ import AddFolderModal from './AddFolderModal';
 const TeamView = ({
   fadeOut,
   navigation,
-  isAddFolderModalOpen,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
+  isAddFolderModalOpen,
   setIsAddFolderModalOpen,
 }) => {
-  // this is to dismiss the little callout popup menu by tapping anywhere on the screen
-  // const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const [isNavDisabled, setIsNavDisabled] = useState(false);
+
   const navigateToResource = (item) => {
     fadeOut();
+    if (isNavDisabled) {
+      return;
+    }
     navigation.navigate('Resources Category Screen', {
       title: item.title.toUpperCase(),
       assetList: item.assetList,
@@ -53,6 +56,7 @@ const TeamView = ({
             title={item.title}
             isWideLayout={item.isWideLayout}
             hasPermissions={true}
+            setIsNavDisabled={setIsNavDisabled}
             onPress={() => {
               setIsCalloutOpenFromParent(false);
               navigateToResource(item);
@@ -61,8 +65,8 @@ const TeamView = ({
         ))}
       </View>
       <AddFolderModal
-        isAddFolderModalOpen={isAddFolderModalOpen}
-        setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+        visible={isAddFolderModalOpen}
+        onClose={() => setIsAddFolderModalOpen(false)}
       />
     </>
   );

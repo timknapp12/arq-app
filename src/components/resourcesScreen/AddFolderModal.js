@@ -63,12 +63,19 @@ const DefaultRectangleImage = styled.View`
   width: ${rectangleImageWidth}px;
 `;
 
-const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
+const AddFolderModal = ({
+  visible,
+  onClose,
+  // the following 3 props are passed in from ResourceCard.js to populate the info when a user is editing an existing folder
+  folderTitle = '',
+  folderUrl = '',
+  folderIsWideLayout = false,
+}) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-  const [title, setTitle] = useState('');
-  const [imageLayout, setImageLayout] = useState('square');
-  const [imageFile, setImageFile] = useState({ url: '' });
+  const [title, setTitle] = useState(folderTitle);
+  const [isWideLayout, setIsWideLayout] = useState(folderIsWideLayout);
+  const [imageFile, setImageFile] = useState({ url: folderUrl });
 
   // permissions for photo library
   useEffect(() => {
@@ -92,7 +99,7 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: imageLayout === 'square' ? [1, 1] : [2, 1],
+      aspect: isWideLayout ? [2, 1] : [1, 1],
       quality: 1,
     });
 
@@ -104,7 +111,7 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
   const clearFields = () => {
     setTitle('');
     setImageFile({ url: '' });
-    setImageLayout('square');
+    setIsWideLayout(false);
   };
   // TODO: add graphql mutation
   const onSave = () => {
@@ -118,14 +125,15 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
 
   return (
     <EditModal
-      visible={isAddFolderModalOpen}
+      visible={visible}
       onClose={() => {
         clearFields();
-        setIsAddFolderModalOpen(false);
+        onClose();
       }}
       onSave={onSave}>
       <Flexbox align="flex-start">
         <AnimatedInput
+          autoFocus
           label={Localized('Title')}
           testID="resource-folder-title-input"
           value={title}
@@ -133,12 +141,12 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
         />
         <Label style={{ marginTop: 8 }}>{Localized('Layout')}</Label>
         <Flexbox style={{ marginTop: 8 }} justify="flex-start" direction="row">
-          <TouchableOpacity onPress={() => setImageLayout('square')}>
+          <TouchableOpacity onPress={() => setIsWideLayout(false)}>
             <Flexbox
               height="106px"
               style={{ width: squareImageWidth, marginEnd: 20 }}>
               <MiniCard>
-                {imageFile.url && imageLayout === 'square' ? (
+                {imageFile.url && !isWideLayout ? (
                   <Image
                     style={{ width: squareImageWidth, height: imageHeight }}
                     source={{ uri: imageFile.url }}
@@ -150,21 +158,17 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
                 )}
                 <Footer>
                   <Title ellipsizeMode="tail" numberOfLines={1}>
-                    {imageLayout === 'square' && title
-                      ? title
-                      : Localized('Title')}
+                    {!isWideLayout && title ? title : Localized('Title')}
                   </Title>
                 </Footer>
               </MiniCard>
-              {imageLayout === 'square' && (
-                <Underline style={{ marginTop: 8 }} />
-              )}
+              {!isWideLayout && <Underline style={{ marginTop: 8 }} />}
             </Flexbox>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setImageLayout('rectangle')}>
+          <TouchableOpacity onPress={() => setIsWideLayout(true)}>
             <Flexbox height="106px">
               <MiniCard>
-                {imageFile.url && imageLayout === 'rectangle' ? (
+                {imageFile.url && isWideLayout ? (
                   <Image
                     style={{ width: rectangleImageWidth, height: imageHeight }}
                     source={{ uri: imageFile.url }}
@@ -176,15 +180,11 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
                 )}
                 <Footer>
                   <Title ellipsizeMode="tail" numberOfLines={1}>
-                    {imageLayout === 'rectangle' && title
-                      ? title
-                      : Localized('Title')}
+                    {isWideLayout && title ? title : Localized('Title')}
                   </Title>
                 </Footer>
               </MiniCard>
-              {imageLayout === 'rectangle' && (
-                <Underline style={{ marginTop: 8 }} />
-              )}
+              {isWideLayout && <Underline style={{ marginTop: 8 }} />}
             </Flexbox>
           </TouchableOpacity>
         </Flexbox>
@@ -216,8 +216,11 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
 };
 
 AddFolderModal.propTypes = {
-  isAddFolderModalOpen: PropTypes.bool.isRequired,
-  setIsAddFolderModalOpen: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  folderTitle: PropTypes.string,
+  folderUrl: PropTypes.string,
+  folderIsWideLayout: PropTypes.bool,
 };
 
 export default AddFolderModal;

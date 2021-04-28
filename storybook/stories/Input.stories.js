@@ -7,6 +7,7 @@ import {
   Input,
   Flexbox,
   AnimatedInput,
+  TextArea,
 } from '../../src/components/common';
 
 const CustomContainer = () => {
@@ -45,4 +46,10 @@ storiesOf('Inputs', module)
       <Input placeholderTextColor={gray} placeholder="password" />
     </Flexbox>
   ))
-  .add('Animated Input', () => <CustomContainer />);
+  .add('Animated Input', () => <CustomContainer />)
+  .add('Text Area', () => (
+    <Flexbox height="25%">
+      <TextArea label="Text Area" numberOfLines={2} />
+      <Input placeholder="Input" placeholderTextColor="grey" />
+    </Flexbox>
+  ));

@@ -191,3 +191,62 @@ AnimatedInput.propTypes = {
   errorMessage: PropTypes.string,
   onBlur: PropTypes.func,
 };
+
+// Text Area
+const Container = styled.View`
+  height: 100px;
+  width: 100%;
+`;
+const ThemedTextArea = styled.View`
+  flex: 1;
+  width: 100%;
+  margin-top: 8px;
+  border-color: ${(props) =>
+    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+  border-width: ${(props) => (props.focused ? '3px' : '1px')};
+`;
+
+const TextAreaInput = styled.TextInput`
+  color: ${(props) => props.theme.color};
+  flex: 1;
+  font-size: 16px;
+  font-family: 'Roboto-Regular';
+  padding: ${(props) => (props.focused ? '3px' : '5px')};
+`;
+
+export const TextArea = ({
+  label,
+  value,
+  onChangeText,
+  numberOfLines,
+  style,
+  ...props
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <Container style={style}>
+      <Label>{label}</Label>
+      <ThemedTextArea focused={isFocused}>
+        <TextAreaInput
+          multiline
+          numberOfLines={numberOfLines}
+          value={value}
+          onChangeText={onChangeText}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          focused={isFocused}
+          {...props}
+        />
+      </ThemedTextArea>
+    </Container>
+  );
+};
+
+TextArea.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
+  numberOfLines: PropTypes.number,
+  style: PropTypes.object,
+};
