@@ -36,7 +36,16 @@ const ThemedIcon = styled(Ionicons)`
 
 // eslint-disable-next-line react/display-name
 export const Input = React.forwardRef(
-  ({ focused, textContentType, validationError = false, ...props }, ref) => {
+  (
+    {
+      focused,
+      textContentType,
+      validationError = false,
+      onFocus = () => {},
+      ...props
+    },
+    ref,
+  ) => {
     const [secureTextEntry, setSecureTextEntry] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -63,7 +72,10 @@ export const Input = React.forwardRef(
           ref={ref}
           secureTextEntry={secureTextEntry}
           onBlur={() => setIsFocused(false)}
-          onFocus={() => setIsFocused(true)}
+          onFocus={() => {
+            setIsFocused(true);
+            onFocus();
+          }}
           {...props}
         />
         {textContentType === 'password' ? (
@@ -87,6 +99,8 @@ Input.propTypes = {
   textContentType: PropTypes.string,
   focused: PropTypes.bool,
   validationError: PropTypes.bool,
+  // onFocus prop is used in AddFolderModal.js and UploadAssetModal.js
+  onFocus: PropTypes.func,
 };
 
 // Animated Input where label animates

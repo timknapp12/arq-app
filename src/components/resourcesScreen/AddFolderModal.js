@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Image, TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, AnimatedInput } from '../common';
+import { Flexbox, Label, Input } from '../common';
 import ImageIcon from '../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
@@ -30,6 +30,13 @@ const FileInput = styled.View`
   align-items: flex-end;
   justify-content: space-between;
   padding: 0 0 0 4px;
+`;
+
+const FileUnderline = styled.View`
+  width: 100%;
+  border-bottom-color: ${(props) =>
+    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
 `;
 
 const MiniCard = styled.View`
@@ -76,6 +83,7 @@ const AddFolderModal = ({
   const [title, setTitle] = useState(folderTitle);
   const [isWideLayout, setIsWideLayout] = useState(folderIsWideLayout);
   const [imageFile, setImageFile] = useState({ url: folderUrl });
+  const [isFileInputFocused, setIsFileInputFocused] = useState(false);
 
   // permissions for photo library
   useEffect(() => {
@@ -112,6 +120,7 @@ const AddFolderModal = ({
     setTitle('');
     setImageFile({ url: '' });
     setIsWideLayout(false);
+    setIsFileInputFocused(false);
   };
   // TODO: add graphql mutation
   const onSave = () => {
@@ -132,8 +141,10 @@ const AddFolderModal = ({
       }}
       onSave={onSave}>
       <Flexbox align="flex-start">
-        <AnimatedInput
+        <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
+        <Input
           autoFocus
+          onFocus={() => setIsFileInputFocused(false)}
           label={Localized('Title')}
           testID="resource-folder-title-input"
           value={title}
@@ -141,7 +152,11 @@ const AddFolderModal = ({
         />
         <Label style={{ marginTop: 8 }}>{Localized('Layout')}</Label>
         <Flexbox style={{ marginTop: 8 }} justify="flex-start" direction="row">
-          <TouchableOpacity onPress={() => setIsWideLayout(false)}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsWideLayout(false);
+              setIsFileInputFocused(false);
+            }}>
             <Flexbox
               height="106px"
               style={{ width: squareImageWidth, marginEnd: 20 }}>
@@ -165,12 +180,19 @@ const AddFolderModal = ({
               {!isWideLayout && <Underline style={{ marginTop: 8 }} />}
             </Flexbox>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsWideLayout(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsWideLayout(true);
+              setIsFileInputFocused(false);
+            }}>
             <Flexbox height="106px">
               <MiniCard>
                 {imageFile.url && isWideLayout ? (
                   <Image
-                    style={{ width: rectangleImageWidth, height: imageHeight }}
+                    style={{
+                      width: rectangleImageWidth,
+                      height: imageHeight,
+                    }}
                     source={{ uri: imageFile.url }}
                   />
                 ) : (
@@ -189,9 +211,14 @@ const AddFolderModal = ({
           </TouchableOpacity>
         </Flexbox>
         <Label style={{ marginTop: 8 }}>{Localized('Picture')}</Label>
-        <TouchableOpacity onPress={pickImage} style={{ width: '100%' }}>
+        <TouchableOpacity
+          onPress={() => {
+            pickImage();
+            setIsFileInputFocused(true);
+          }}
+          style={{ width: '100%' }}>
           <Flexbox align="flex-end">
-            <FileInput>
+            <FileInput focused={isFileInputFocused}>
               <Filename
                 ellipsizeMode="tail"
                 numberOfLines={1}
@@ -207,7 +234,7 @@ const AddFolderModal = ({
                 }}
               />
             </FileInput>
-            <Underline />
+            <FileUnderline focused={isFileInputFocused} />
           </Flexbox>
         </TouchableOpacity>
       </Flexbox>
