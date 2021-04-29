@@ -80,7 +80,7 @@ const ResourceCard = ({
   isWideLayout = true,
   title,
   onPress,
-  hasPermissions = false,
+  hasPermissions,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath

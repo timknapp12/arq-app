@@ -17,7 +17,7 @@ const Container = styled.View`
 
 const IconRow = ({
   isFavorite,
-  hasPermissions = true,
+  hasPermissions,
   contentType,
   onShare,
   onDownload,

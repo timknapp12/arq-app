@@ -26,6 +26,8 @@ const TeamView = ({
     navigation.navigate('Resources Category Screen', {
       title: item.title.toUpperCase(),
       assetList: item.assetList,
+      // TODO: integrate permissions with backend
+      hasPermissions: true,
     });
     setIsCalloutOpenFromParent(false);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
@@ -57,6 +59,7 @@ const TeamView = ({
             url={item.url}
             title={item.title}
             isWideLayout={item.isWideLayout}
+            // TODO: integrate hasPermissions prop with backend
             hasPermissions={true}
             setIsNavDisabled={setIsNavDisabled}
             onPress={() => {

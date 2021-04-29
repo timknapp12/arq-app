@@ -30,7 +30,8 @@ const CalloutButton = styled(
 const CalloutMenu = ({
   isFavorite,
   setIsFavorite,
-  hasPermissions = true,
+  // TODO: integrate hasPermissions prop with backend
+  hasPermissions,
   contentType = 'image',
   onShare,
   onDownload = () => {},

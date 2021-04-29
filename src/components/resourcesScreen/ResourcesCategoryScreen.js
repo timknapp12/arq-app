@@ -9,7 +9,7 @@ import 'firebase/firestore';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
   const db = firebase.firestore();
-  const { documentID, assetList } = route.params;
+  const { documentID, assetList, hasPermissions } = route.params;
   const [categoryList, setCategoryList] = useState(assetList || []);
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
@@ -88,6 +88,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   setToastInfo={setToastInfo}
                   setIsNavDisabled={setIsNavDisabled}
                   isNavDisabled={isNavDisabled}
+                  hasPermissions={hasPermissions}
                 />
               ))}
             </Flexbox>

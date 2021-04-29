@@ -260,6 +260,7 @@ const AssetCard = ({
           <IconRow
             isFavorite={isFavorite}
             contentType={contentType}
+            hasPermissions={hasPermissions}
             onShare={onShare}
             onDownload={download}
             onEdit={() => setIsUploadAssetModalOpen(true)}
