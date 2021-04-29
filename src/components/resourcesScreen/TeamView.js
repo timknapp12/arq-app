@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import { categories } from './mockTeamData';
@@ -18,7 +18,9 @@ const TeamView = ({
 
   const navigateToResource = (item) => {
     fadeOut();
-    if (isNavDisabled) {
+    // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, casuing unwanted events to fire. So this prevents that
+    if (Platform.OS === 'android' && isNavDisabled) {
+      setIsNavDisabled(false);
       return;
     }
     navigation.navigate('Resources Category Screen', {
@@ -58,7 +60,6 @@ const TeamView = ({
             hasPermissions={true}
             setIsNavDisabled={setIsNavDisabled}
             onPress={() => {
-              setIsCalloutOpenFromParent(false);
               navigateToResource(item);
             }}
           />

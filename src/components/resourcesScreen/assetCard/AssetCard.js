@@ -1,7 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Share, Alert, Linking } from 'react-native';
+import {
+  TouchableOpacity,
+  Share,
+  Alert,
+  Linking,
+  Platform,
+} from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -63,6 +69,7 @@ const AssetCard = ({
   setToastInfo,
   // this prop is passed from ResourceCategoryScreen.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
+  isNavDisabled,
   ...props
 }) => {
   initLanguage();
@@ -138,6 +145,7 @@ const AssetCard = ({
     closeCallout();
   };
 
+  // TODO: wire this up to the backend with a mutation
   const onRemove = () =>
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
@@ -165,6 +173,12 @@ const AssetCard = ({
     );
 
   const openAsset = () => {
+    // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, casuing unwanted events to fire. So this prevents that
+    if (Platform.OS === 'android' && isNavDisabled) {
+      setIsNavDisabled(false);
+      return;
+    }
+    closeCallout();
     if (contentType === 'pdf' || contentType === 'image') {
       navigation.navigate('Resources Asset Screen', {
         title: title.toUpperCase(),
@@ -311,6 +325,7 @@ AssetCard.propTypes = {
   hasPermissions: PropTypes.bool,
   setToastInfo: PropTypes.func,
   setIsNavDisabled: PropTypes.func,
+  isNavDisabled: PropTypes.bool,
 };
 
 export default AssetCard;
