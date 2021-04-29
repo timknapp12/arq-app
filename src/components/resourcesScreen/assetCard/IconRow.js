@@ -22,6 +22,7 @@ const IconRow = ({
   onShare,
   onDownload,
   onEdit,
+  onRemove,
 }) => {
   const { theme } = useContext(AppContext);
   return (
@@ -38,7 +39,7 @@ const IconRow = ({
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={onRemove}>
             <RemoveIcon
               style={{
                 marginEnd: 8,
@@ -106,6 +107,7 @@ IconRow.propTypes = {
   onShare: PropTypes.func,
   onDownload: PropTypes.func,
   onEdit: PropTypes.func,
+  onRemove: PropTypes.func,
 };
 
 export default IconRow;

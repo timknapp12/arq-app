@@ -36,6 +36,7 @@ const CalloutMenu = ({
   onDownload = () => {},
   closeCallout = () => {},
   onEdit = () => {},
+  onRemove = () => {},
   ...props
 }) => {
   initLanguage();
@@ -58,7 +59,7 @@ const CalloutMenu = ({
               <H4Book>{Localized('Edit')}</H4Book>
             </Flexbox>
           </CalloutButton>
-          <CalloutButton onPress={() => {}}>
+          <CalloutButton onPress={onRemove}>
             <Flexbox direction="row" justify="flex-start">
               <RemoveIcon
                 style={{
@@ -147,6 +148,7 @@ CalloutMenu.propTypes = {
   onDownload: PropTypes.func,
   closeCallout: PropTypes.func,
   onEdit: PropTypes.func,
+  onRemove: PropTypes.func,
 };
 
 export default CalloutMenu;

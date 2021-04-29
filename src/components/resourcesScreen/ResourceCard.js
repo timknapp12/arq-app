@@ -131,7 +131,7 @@ const ResourceCard = ({
     }
   };
 
-  const confirmRemove = () =>
+  const onRemove = () =>
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
       Localized(
@@ -218,7 +218,7 @@ const ResourceCard = ({
               <H4Book>{Localized('Upload')}</H4Book>
             </Flexbox>
           </CalloutButton>
-          <CalloutButton onPress={confirmRemove}>
+          <CalloutButton onPress={onRemove}>
             <Flexbox direction="row" justify="flex-start">
               <RemoveIcon
                 style={{
