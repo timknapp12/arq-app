@@ -16,7 +16,7 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
+import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
 import AppContext from '../../contexts/AppContext';
 
 const mockUser = {

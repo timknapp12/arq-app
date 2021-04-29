@@ -30,7 +30,7 @@ import TeamView from './TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import DownloadsView from './DownloadsView';
-import { saveProfileImageToFirebase } from '../../utils/saveToFirebase';
+import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
 
 const { height } = Dimensions.get('window');
 const topOfView = Platform.OS === 'ios' ? 140 : 80;
