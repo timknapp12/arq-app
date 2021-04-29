@@ -247,10 +247,10 @@ const AssetCard = ({
                   url,
                   contentType,
                 }
-              : null
+              : { url: '', contentType: '' }
           }
           assetLink={
-            contentType === 'video' || contentType === 'podcast' ? url : null
+            contentType === 'video' || contentType === 'podcast' ? url : ''
           }
         />
       )}
