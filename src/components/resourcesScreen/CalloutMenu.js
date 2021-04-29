@@ -33,8 +33,9 @@ const CalloutMenu = ({
   hasPermissions = true,
   contentType = 'image',
   onShare,
-  download = () => {},
+  onDownload = () => {},
   closeCallout = () => {},
+  onEdit = () => {},
   ...props
 }) => {
   initLanguage();
@@ -44,7 +45,7 @@ const CalloutMenu = ({
     <Container {...props}>
       {hasPermissions && (
         <>
-          <CalloutButton>
+          <CalloutButton onPress={onEdit}>
             <Flexbox direction="row" justify="flex-start">
               <EditIcon
                 style={{
@@ -104,7 +105,7 @@ const CalloutMenu = ({
       {contentType !== 'video' && (
         <CalloutButton
           onPress={() => {
-            download();
+            onDownload();
             closeCallout();
           }}>
           <Flexbox direction="row" justify="flex-start">
@@ -143,8 +144,9 @@ CalloutMenu.propTypes = {
   hasPermissions: PropTypes.bool,
   contentType: PropTypes.string,
   onShare: PropTypes.func,
-  download: PropTypes.func,
+  onDownload: PropTypes.func,
   closeCallout: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 export default CalloutMenu;

@@ -10,6 +10,7 @@ import { H5Black, H6Book } from '../../common';
 import AssetIcon from './AssetIcon';
 import CalloutMenu from '../CalloutMenu';
 import IconRow from './IconRow';
+import UploadAssetModal from '../UploadAssetModal';
 import { downloadFile } from '../../../utils/downloadFile';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
@@ -64,6 +65,7 @@ const AssetCard = ({
   const { theme } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+  const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
   const download = async () => {
     const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
@@ -208,7 +210,8 @@ const AssetCard = ({
             isFavorite={isFavorite}
             contentType={contentType}
             onShare={onShare}
-            download={download}
+            onDownload={download}
+            onEdit={() => setIsUploadAssetModalOpen(true)}
           />
         )}
       </OuterContainer>
@@ -222,8 +225,33 @@ const AssetCard = ({
           contentType={contentType}
           hasPermissions={hasPermissions}
           onShare={onShare}
-          download={download}
+          onDownload={download}
           closeCallout={closeCallout}
+          onEdit={() => setIsUploadAssetModalOpen(true)}
+        />
+      )}
+      {isUploadAssetModalOpen && (
+        <UploadAssetModal
+          visible={isUploadAssetModalOpen}
+          onClose={() => {
+            setIsUploadAssetModalOpen(false);
+            closeCallout();
+          }}
+          // These props are passed to populate the corresponding fields in the edit phase of the modal
+          assetTitle={title}
+          assetDescription={description}
+          assetContentType={contentType}
+          assetFile={
+            contentType === 'image' || contentType === 'pdf'
+              ? {
+                  url,
+                  contentType,
+                }
+              : null
+          }
+          assetLink={
+            contentType === 'video' || contentType === 'podcast' ? url : null
+          }
         />
       )}
     </AssetCardContainer>

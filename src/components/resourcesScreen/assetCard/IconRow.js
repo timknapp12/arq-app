@@ -20,14 +20,15 @@ const IconRow = ({
   hasPermissions = true,
   contentType,
   onShare,
-  download,
+  onDownload,
+  onEdit,
 }) => {
   const { theme } = useContext(AppContext);
   return (
     <Container>
       {hasPermissions && (
         <>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={onEdit}>
             <EditIcon
               style={{
                 marginEnd: 8,
@@ -73,7 +74,7 @@ const IconRow = ({
         </TouchableOpacity>
       )}
       {contentType !== 'video' && (
-        <TouchableOpacity onPress={download}>
+        <TouchableOpacity onPress={onDownload}>
           <DownloadIcon
             style={{
               marginEnd: 8,
@@ -103,7 +104,8 @@ IconRow.propTypes = {
   hasPermissions: PropTypes.bool,
   contentType: PropTypes.string,
   onShare: PropTypes.func,
-  download: PropTypes.func,
+  onDownload: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 export default IconRow;

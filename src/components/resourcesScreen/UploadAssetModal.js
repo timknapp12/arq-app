@@ -29,14 +29,22 @@ const FileUnderline = styled.View`
   border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
 `;
 
-const UploadAssetModal = ({ visible, onClose }) => {
+const UploadAssetModal = ({
+  visible,
+  onClose,
+  assetTitle = '',
+  assetDescription = '',
+  assetContentType = '',
+  assetFile = { url: '', contentType: '' },
+  assetLink = '',
+}) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [contentType, setContentType] = useState('');
-  const [file, setFile] = useState({ url: '', contentType: '' });
-  const [link, setLink] = useState('');
+  const [title, setTitle] = useState(assetTitle);
+  const [description, setDescription] = useState(assetDescription);
+  const [contentType, setContentType] = useState(assetContentType);
+  const [file, setFile] = useState(assetFile);
+  const [link, setLink] = useState(assetLink);
   const [isFileInputFocused, setIsFileInputFocused] = useState(false);
 
   // permissions for photo library
@@ -230,6 +238,12 @@ const UploadAssetModal = ({ visible, onClose }) => {
 UploadAssetModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  // these props are to populate the fields in the modal with already existing data while in edit mode
+  assetTitle: PropTypes.string,
+  assetDescription: PropTypes.string,
+  assetContentType: PropTypes.string,
+  assetFile: PropTypes.object,
+  assetLink: PropTypes.string,
 };
 
 export default UploadAssetModal;
