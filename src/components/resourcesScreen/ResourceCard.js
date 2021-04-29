@@ -205,19 +205,6 @@ const ResourceCard = ({
               <H4Book>{Localized('Edit')}</H4Book>
             </Flexbox>
           </CalloutButton>
-          <CalloutButton onPress={confirmRemove}>
-            <Flexbox direction="row" justify="flex-start">
-              <RemoveIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Remove')}</H4Book>
-            </Flexbox>
-          </CalloutButton>
           <CalloutButton onPress={() => setIsUploadAssetModalOpen(true)}>
             <Flexbox direction="row" justify="flex-start">
               <UploadIcon
@@ -229,6 +216,19 @@ const ResourceCard = ({
                 }}
               />
               <H4Book>{Localized('Upload')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton onPress={confirmRemove}>
+            <Flexbox direction="row" justify="flex-start">
+              <RemoveIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Remove')}</H4Book>
             </Flexbox>
           </CalloutButton>
         </ResourceCallout>

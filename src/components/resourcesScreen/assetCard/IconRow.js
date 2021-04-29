@@ -7,6 +7,7 @@ import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
+import EditIcon from '../../../../assets/icons/edit-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 
 const Container = styled.View`
@@ -16,7 +17,7 @@ const Container = styled.View`
 
 const IconRow = ({
   isFavorite,
-  hasPermissions,
+  hasPermissions = true,
   contentType,
   onShare,
   download,
@@ -24,6 +25,30 @@ const IconRow = ({
   const { theme } = useContext(AppContext);
   return (
     <Container>
+      {hasPermissions && (
+        <>
+          <TouchableOpacity onPress={() => {}}>
+            <EditIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <RemoveIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
+            />
+          </TouchableOpacity>
+        </>
+      )}
       {isFavorite ? (
         <TouchableOpacity onPress={() => {}}>
           <HeartFillIcon
@@ -38,18 +63,6 @@ const IconRow = ({
       ) : (
         <TouchableOpacity onPress={() => {}}>
           <HeartOutlineIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.activeTint,
-            }}
-          />
-        </TouchableOpacity>
-      )}
-      {hasPermissions && (
-        <TouchableOpacity onPress={() => {}}>
-          <RemoveIcon
             style={{
               marginEnd: 8,
               height: 24,
