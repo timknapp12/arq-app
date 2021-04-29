@@ -7,6 +7,7 @@ import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
 import AppContext from '../../contexts/AppContext';
 import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
 import { Localized, initLanguage } from '../../translations/Localized';
 
 const Filename = styled(Label)`
@@ -34,7 +35,7 @@ const UploadAssetModal = ({ visible, onClose }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [contentType, setContentType] = useState('');
-  const [file, setFile] = useState({ url: '' });
+  const [file, setFile] = useState({ url: '', contentType: '' });
   const [link, setLink] = useState('');
   const [isFileInputFocused, setIsFileInputFocused] = useState(false);
 
@@ -64,18 +65,45 @@ const UploadAssetModal = ({ visible, onClose }) => {
     });
 
     if (!result.cancelled) {
-      setFile({ url: result.uri });
+      setFile({ url: result.uri, contentType: 'image' });
+    }
+  };
+
+  const pickDocument = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: 'application/pdf',
+      copyToCacheDirectory: false,
+    });
+    if (result.type === 'cancel') {
+      return;
+    }
+    if (!result.cancelled) {
+      setFile({ url: result.uri, contentType: 'pdf' });
+    }
+  };
+
+  const pickFile = () => {
+    if (!contentType) {
+      Alert.alert('Please first select a file type above');
+    }
+    if (contentType === 'image') {
+      pickImage();
+    }
+    if (contentType === 'pdf') {
+      pickDocument();
     }
   };
 
   const clearFields = () => {
     setTitle('');
     setDescription('');
-    setFile({ url: '' });
+    setFile({ url: '', contentType: '' });
     setLink('');
     setIsFileInputFocused(false);
   };
+
   // TODO: add graphql mutation
+  // TODO: consider breaking this function out to a separate file
   const onSave = () => {
     if (!title) {
       return Alert.alert(Localized('Please enter a title'));
@@ -86,11 +114,21 @@ const UploadAssetModal = ({ visible, onClose }) => {
     if (!contentType) {
       return Alert.alert(Localized('Please select a file type'));
     }
-    if (contentType === 'video' || (contentType === 'podcast' && !title)) {
+    if ((contentType === 'video' || contentType === 'podcast') && !title) {
       return Alert.alert(Localized('Please enter a link'));
     }
-    if (contentType === 'image' || (contentType === 'pdf' && !file.url)) {
+    if ((contentType === 'image' || contentType === 'pdf') && !file.url) {
       return Alert.alert(Localized('Please select a file'));
+    }
+    if (contentType === 'image' && file.contentType !== 'image') {
+      return Alert.alert(
+        `You selected a File Type of "image" but uploaded a document that doesn't match. Please make sure these match`,
+      );
+    }
+    if (contentType === 'pdf' && file.contentType !== 'pdf') {
+      return Alert.alert(
+        `You selected a File Type of "pdf" but uploaded a document that doesn't match. Please make sure these match`,
+      );
     }
   };
   // TODO File Picker!!!
@@ -156,7 +194,7 @@ const UploadAssetModal = ({ visible, onClose }) => {
         ) : (
           <TouchableOpacity
             onPress={() => {
-              pickImage();
+              pickFile();
               setIsFileInputFocused(true);
             }}
             style={{ width: '100%' }}>

@@ -21,7 +21,8 @@
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID for authentication"
       },
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "usesIcloudStorage": true
     },
     "android": {
       "package": "com.qsciences.q_connect_pro_staging",
