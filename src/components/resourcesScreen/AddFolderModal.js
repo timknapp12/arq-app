@@ -145,7 +145,6 @@ const AddFolderModal = ({
         <Input
           autoFocus
           onFocus={() => setIsFileInputFocused(false)}
-          label={Localized('Title')}
           testID="resource-folder-title-input"
           value={title}
           onChangeText={(text) => setTitle(text)}
@@ -218,7 +217,7 @@ const AddFolderModal = ({
           }}
           style={{ width: '100%' }}>
           <Flexbox align="flex-end">
-            <FileInput focused={isFileInputFocused}>
+            <FileInput>
               <Filename
                 ellipsizeMode="tail"
                 numberOfLines={1}

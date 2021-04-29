@@ -234,6 +234,7 @@ export const TextArea = ({
   onChangeText,
   numberOfLines,
   style,
+  onFocus = () => {},
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -247,7 +248,10 @@ export const TextArea = ({
           numberOfLines={numberOfLines}
           value={value}
           onChangeText={onChangeText}
-          onFocus={() => setIsFocused(true)}
+          onFocus={() => {
+            setIsFocused(true);
+            onFocus();
+          }}
           onBlur={() => setIsFocused(false)}
           focused={isFocused}
           {...props}
@@ -263,4 +267,6 @@ TextArea.propTypes = {
   onChangeText: PropTypes.func,
   numberOfLines: PropTypes.number,
   style: PropTypes.object,
+  // onFocus prop is used in UploadAssetModal.js
+  onFocus: PropTypes.func,
 };

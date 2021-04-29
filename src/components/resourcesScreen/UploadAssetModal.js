@@ -2,18 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, AnimatedInput, TextArea, Picker } from '../common';
+import { Flexbox, Label, Input, TextArea, Picker } from '../common';
 import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
 import AppContext from '../../contexts/AppContext';
 import * as ImagePicker from 'expo-image-picker';
 import { Localized, initLanguage } from '../../translations/Localized';
-
-const Underline = styled.View`
-  width: 100%;
-  border-bottom-color: ${(props) => props.theme.highlight};
-  border-bottom-width: 3px;
-`;
 
 const Filename = styled(Label)`
   opacity: 0.83;
@@ -27,6 +21,13 @@ const FileInput = styled.View`
   padding: 0 0 0 4px;
 `;
 
+const FileUnderline = styled.View`
+  width: 100%;
+  border-bottom-color: ${(props) =>
+    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
+`;
+
 const UploadAssetModal = ({ visible, onClose }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
@@ -34,6 +35,8 @@ const UploadAssetModal = ({ visible, onClose }) => {
   const [description, setDescription] = useState('');
   const [contentType, setContentType] = useState('');
   const [file, setFile] = useState({ url: '' });
+  const [link, setLink] = useState('');
+  const [isFileInputFocused, setIsFileInputFocused] = useState(false);
 
   // permissions for photo library
   useEffect(() => {
@@ -69,13 +72,24 @@ const UploadAssetModal = ({ visible, onClose }) => {
     setTitle('');
     setDescription('');
     setFile({ url: '' });
+    setLink('');
+    setIsFileInputFocused(false);
   };
   // TODO: add graphql mutation
   const onSave = () => {
     if (!title) {
       return Alert.alert(Localized('Please enter a title'));
     }
-    if (!file.url) {
+    if (!description) {
+      return Alert.alert(Localized('Please enter a description'));
+    }
+    if (!contentType) {
+      return Alert.alert(Localized('Please select a file type'));
+    }
+    if (contentType === 'video' || (contentType === 'podcast' && !title)) {
+      return Alert.alert(Localized('Please enter a link'));
+    }
+    if (contentType === 'image' || (contentType === 'pdf' && !file.url)) {
       return Alert.alert(Localized('Please select a file'));
     }
   };
@@ -96,9 +110,10 @@ const UploadAssetModal = ({ visible, onClose }) => {
       }}
       onSave={onSave}>
       <Flexbox align="flex-start">
-        <AnimatedInput
+        <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
+        <Input
           autoFocus
-          label={Localized('Title')}
+          onFocus={() => setIsFileInputFocused(false)}
           testID="upload-asset-title-input"
           value={title}
           onChangeText={(text) => setTitle(text)}
@@ -111,25 +126,41 @@ const UploadAssetModal = ({ visible, onClose }) => {
           numberOfLines={3}
           onChangeText={(text) => setDescription(text)}
           style={{ marginTop: 8 }}
+          onFocus={() => setIsFileInputFocused(false)}
         />
-        <Flexbox style={{ marginTop: 8 }} align="flex-start">
-          <Picker
-            items={contentTypeList}
-            label={Localized('File Type')}
-            value={contentType}
-            placeholder={{
-              label: Localized('Select a file type'),
-              value: null,
+        <Picker
+          style={{ marginTop: 8, width: '100%' }}
+          items={contentTypeList}
+          label={Localized('File Type')}
+          value={contentType}
+          placeholder={{
+            label: Localized('Select a file type'),
+            value: null,
+          }}
+          onValueChange={(value) => {
+            setContentType(value);
+            setIsFileInputFocused(false);
+          }}
+          testID="contentType-input"
+        />
+        {contentType === 'video' || contentType === 'podcast' ? (
+          <>
+            <Label style={{ marginTop: 8 }}>Link</Label>
+            <Input
+              onFocus={() => setIsFileInputFocused(false)}
+              testID="upload-asset-link-input"
+              value={link}
+              onChangeText={(text) => setLink(text)}
+            />
+          </>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              pickImage();
+              setIsFileInputFocused(true);
             }}
-            onValueChange={(value) => {
-              setContentType(value);
-            }}
-            testID="country-input"
-          />
-        </Flexbox>
-        <Label style={{ marginTop: 8 }}>{Localized('File')}</Label>
-        <TouchableOpacity onPress={pickImage} style={{ width: '100%' }}>
-          <Flexbox align="flex-end">
+            style={{ width: '100%' }}>
+            <Label style={{ marginTop: 8 }}>{Localized('File')}</Label>
             <FileInput>
               <Filename
                 ellipsizeMode="tail"
@@ -146,9 +177,9 @@ const UploadAssetModal = ({ visible, onClose }) => {
                 }}
               />
             </FileInput>
-            <Underline />
-          </Flexbox>
-        </TouchableOpacity>
+            <FileUnderline focused={isFileInputFocused} />
+          </TouchableOpacity>
+        )}
       </Flexbox>
     </EditModal>
   );

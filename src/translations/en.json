@@ -122,6 +122,9 @@
   "Please enter a title": "Please enter a title",
   "Please select an image": "Please select an image",
   "Please select a file": "Please select a file",
+  "Please enter a description": "Please enter a description",
+  "Please select a file type": "Please select a file type",
+  "Please enter a link": "Please enter a link",
   "Removing this will delete all of its content. Do you wish to continue?": "Removing this will delete all of its content. Do you wish to continue?",
   "Cancel": "Cancel",
   "Yes": "Yes",
@@ -132,5 +135,6 @@
   "Image": "Image",
   "Pdf": "Pdf",
   "Video": "Video",
-  "Podcast": "Podcast"
+  "Podcast": "Podcast",
+  "Link": "Link"
 }
