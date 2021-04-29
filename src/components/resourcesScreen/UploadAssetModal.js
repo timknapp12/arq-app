@@ -84,7 +84,7 @@ const UploadAssetModal = ({ visible, onClose }) => {
 
   const pickFile = () => {
     if (!contentType) {
-      Alert.alert('Please first select a file type above');
+      Alert.alert(Localized('Please first select a file type above'));
     }
     if (contentType === 'image') {
       pickImage();
@@ -122,12 +122,16 @@ const UploadAssetModal = ({ visible, onClose }) => {
     }
     if (contentType === 'image' && file.contentType !== 'image') {
       return Alert.alert(
-        `You selected a File Type of "image" but uploaded a document that doesn't match. Please make sure these match`,
+        Localized(
+          `You selected a File Type of 'image' but uploaded a document that doesn't match. Please make sure these match`,
+        ),
       );
     }
     if (contentType === 'pdf' && file.contentType !== 'pdf') {
       return Alert.alert(
-        `You selected a File Type of "pdf" but uploaded a document that doesn't match. Please make sure these match`,
+        Localized(
+          `You selected a File Type of 'pdf' but uploaded a document that doesn't match. Please make sure these match`,
+        ),
       );
     }
   };
@@ -183,7 +187,7 @@ const UploadAssetModal = ({ visible, onClose }) => {
         />
         {contentType === 'video' || contentType === 'podcast' ? (
           <>
-            <Label style={{ marginTop: 8 }}>Link</Label>
+            <Label style={{ marginTop: 8 }}>{Localized('Link')}</Label>
             <Input
               onFocus={() => setIsFileInputFocused(false)}
               testID="upload-asset-link-input"
