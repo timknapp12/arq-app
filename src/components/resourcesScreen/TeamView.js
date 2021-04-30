@@ -18,7 +18,7 @@ const TeamView = ({
 
   const navigateToResource = (item) => {
     fadeOut();
-    // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, casuing unwanted events to fire. So this prevents that
+    // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
     if (Platform.OS === 'android' && isNavDisabled) {
       setIsNavDisabled(false);
       return;

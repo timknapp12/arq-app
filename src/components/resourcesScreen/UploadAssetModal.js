@@ -143,7 +143,6 @@ const UploadAssetModal = ({
       );
     }
   };
-  // TODO File Picker!!!
   const contentTypeList = [
     { id: 0, label: Localized('Image'), value: 'image' },
     { id: 1, label: Localized('Pdf'), value: 'pdf' },
