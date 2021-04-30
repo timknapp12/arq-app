@@ -1,4 +1,8 @@
-export const white = '#ffffff';
+export const primaryWhite = 'rgba(255,255,255,.83)';
+
+export const secondaryWhite = 'rgba(255,255,255,.5)';
+
+export const disabledWhite = 'rgba(255,255,255,.35)';
 
 export const black = '#000000';
 
