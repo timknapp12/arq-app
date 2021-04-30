@@ -16,6 +16,8 @@ const Donut = ({
   color,
   delay = 0,
   max = 100,
+  fontSize = 24,
+  showPercentageSymbol = false,
   view,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -51,7 +53,9 @@ const Donut = ({
           text: `${Math.round(v.value)
             // this adds commas, since toLocalString() does not work on android
             .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`,
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}${
+            showPercentageSymbol && '%'
+          }`,
         });
       }
     });
@@ -98,7 +102,7 @@ const Donut = ({
           defaultValue="0"
           style={[
             StyleSheet.absoluteFillObject,
-            { fontSize: 24, color: color },
+            { fontSize: fontSize, color: color },
             { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
           ]}
         />
@@ -115,6 +119,9 @@ Donut.propTypes = {
   color: PropTypes.string,
   delay: PropTypes.number,
   max: PropTypes.number,
+  fontSize: PropTypes.number,
+  // this prop 'showPercentageSymbol' is used in DownloadToast.js
+  showPercentageSymbol: PropTypes.bool,
   view: PropTypes.oneOf(['overview', 'rank', 'ov detail']),
 };
 

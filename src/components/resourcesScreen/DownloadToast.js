@@ -1,19 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Toast from '../toast/Toast';
 import { H5Black, H6Book, Flexbox } from '../common';
+import Donut from '../dashboardScreen/Donut';
+import AppContext from '../../contexts/AppContext';
 
 const DownloadToast = ({ visible, title = '', body = '', progress }) => {
-  const [percent, setPercent] = useState(0);
-  useEffect(() => {
-    setPercent(progress);
-  }, [progress]);
-  const percentageString = percent ? `${percent}%` : '';
+  const { theme } = useContext(AppContext);
+
   return (
     <Toast visible={visible}>
-      <Flexbox align="flex-start">
-        <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
-        <H6Book>{`${body} ${percentageString}`}</H6Book>
+      <Flexbox direction="row">
+        <Donut
+          percentage={progress}
+          max={100}
+          radius={30}
+          strokeWidth={3}
+          color={theme.primaryTextColor}
+          fontSize={14}
+          showPercentageSymbol
+        />
+        <Flexbox style={{ marginStart: 8 }} align="flex-start">
+          <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+          <H6Book>{body}</H6Book>
+        </Flexbox>
       </Flexbox>
     </Toast>
   );

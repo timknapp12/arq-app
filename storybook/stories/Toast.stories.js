@@ -7,6 +7,7 @@ import {
   H4Book,
 } from '../../src/components/common';
 import Toast from '../../src/components/toast/Toast';
+import DownloadToast from '../../src/components/resourcesScreen/DownloadToast';
 
 const Example = () => {
   const [showToast, setShowToast] = useState(false);
@@ -29,4 +30,12 @@ const Example = () => {
 
 storiesOf('Toasts', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
-  .add('default', () => <Example />);
+  .add('default', () => <Example />)
+  .add('Download Toast', () => (
+    <DownloadToast
+      visible
+      title="Image.png"
+      body="Downloading..."
+      progress={20}
+    />
+  ));

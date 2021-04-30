@@ -52,7 +52,7 @@ export const downloadFile = async (
   // this block updates the toast to notify user that download is complete
   if (contentType === 'image') {
     setTimeout(() => {
-      setToastInfo(filename, Localized('Saved to Photos'), false);
+      setToastInfo(filename, Localized('Saved to Photos'), false, 100);
     }, 1000);
     // if the file is an image then it will be saved directly into the photos on the device
     try {
@@ -63,7 +63,7 @@ export const downloadFile = async (
     // if the file is NOT an image then the user will select where to save the file on the device
   } else {
     setTimeout(() => {
-      setToastInfo(filename, Localized('Download Complete'), false);
+      setToastInfo(filename, Localized('Download Complete'), false, 100);
     }, 1000);
     try {
       Sharing.shareAsync(localUrl);
