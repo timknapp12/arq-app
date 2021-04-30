@@ -1,11 +1,83 @@
-import React from 'react';
-import { View } from 'react-native';
-import { H4 } from '../common';
+import React, { useContext } from 'react';
+import styled from 'styled-components/native';
+import { View, TouchableOpacity, Linking } from 'react-native';
+import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
+import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
+import { H4Book, H6Book } from '../common';
+import AppContext from '../../contexts/AppContext';
+
+const Card = styled.View`
+  width: 100%;
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+`;
+
+const Row = styled.View`
+  flex-direction: row;
+`;
 
 const ServicesView = () => {
+  const { theme } = useContext(AppContext);
   return (
-    <View>
-      <H4>Services View</H4>
+    <View style={{ width: '100%' }}>
+      <TouchableOpacity
+        onPress={() =>
+          Linking.openURL('https://office2.myqsciences.com/#/Login')
+        }>
+        <Card>
+          <Row>
+            <BackOfficeIcon
+              style={{
+                height: 48,
+                width: 48,
+                color: theme.primaryTextColor,
+                alignSelf: 'center',
+              }}
+            />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                marginStart: 8,
+              }}>
+              <H4Book>Back Office</H4Book>
+              <H6Book>
+                Access everything you need to build your business on the go.
+              </H6Book>
+            </View>
+          </Row>
+        </Card>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          Linking.openURL('https://office2.myqsciences.com/#/Login')
+        }>
+        <Card>
+          <Row>
+            <EnrollmentIcon
+              style={{
+                height: 48,
+                width: 48,
+                color: theme.primaryTextColor,
+                alignSelf: 'center',
+              }}
+            />
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                marginStart: 8,
+              }}>
+              <H4Book>Enroll</H4Book>
+              <H6Book>Help people enroll with Q Sciences today.</H6Book>
+            </View>
+          </Row>
+        </Card>
+      </TouchableOpacity>
     </View>
   );
 };
