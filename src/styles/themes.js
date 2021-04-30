@@ -15,9 +15,9 @@ import {
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 export const lightTheme = {
-  color: black,
-  invertedColor: primaryWhite,
+  primaryTextColor: black,
   secondaryTextColor: gray,
+  disabledTextColor: gray,
   backgroundColor: primaryWhite,
   activeBackground: darkgray,
   inactiveBackground: lightgray,
@@ -25,7 +25,6 @@ export const lightTheme = {
   inactiveTint: blue,
   primaryButtonBackgroundColor: blue,
   disabledBackgroundColor: lightgray,
-  disabledTextColor: gray,
   highlight: blue,
   error: red,
   headerBackgroundColor: blue,
@@ -54,9 +53,9 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  color: primaryWhite,
-  invertedColor: black,
+  primaryTextColor: primaryWhite,
   secondaryTextColor: secondaryWhite,
+  disabledTextColor: gray,
   backgroundColor: black,
   activeBackground: nero,
   inactiveBackground: nero,
@@ -64,7 +63,6 @@ export const darkTheme = {
   inactiveTint: disabledWhite,
   primaryButtonBackgroundColor: blue,
   disabledBackgroundColor: lightgray,
-  disabledTextColor: gray,
   highlight: blue,
   error: red,
   headerBackgroundColor: black,

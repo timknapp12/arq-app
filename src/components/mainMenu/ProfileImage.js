@@ -32,7 +32,7 @@ const DefaultFiller = styled.View`
 const Initials = styled.Text`
   font-family: 'Avenir-Heavy';
   font-size: 48px;
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.primaryTextColor};
 `;
 
 const CameraButtonsView = styled.View`

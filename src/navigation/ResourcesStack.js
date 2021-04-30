@@ -15,7 +15,7 @@ const ResourcesStack = () => {
       screenOptions={{
         headerBackTitleVisible: false,
         headerStyle: { backgroundColor: theme.backgroundColor },
-        headerTintColor: theme.color,
+        headerTintColor: theme.primaryTextColor,
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 20,

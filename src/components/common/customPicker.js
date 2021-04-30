@@ -34,7 +34,7 @@ export const Picker = ({
             borderBottomColor: validationError
               ? theme.error
               : theme.secondaryTextColor,
-            color: theme.color,
+            color: theme.primaryTextColor,
           },
           inputAndroid: {
             fontSize: 16,
@@ -45,7 +45,7 @@ export const Picker = ({
             borderBottomColor: validationError
               ? theme.error
               : theme.secondaryTextColor,
-            color: theme.color,
+            color: theme.primaryTextColor,
             backgroundColor: 'transparent',
           },
           iconContainer: {

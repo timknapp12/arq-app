@@ -5,9 +5,9 @@ import { H4, Flexbox, H4Secondary, H3 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import Donut from './Donut';
 import {
-  donut1PrimaryColor,
-  donut2PrimaryColor,
-  donut3PrimaryColor,
+  donut1primaryColor,
+  donut2primaryColor,
+  donut3primaryColor,
 } from '../../styles/colors';
 
 const Overview = ({ user, fadeOut }) => {
@@ -31,7 +31,7 @@ const Overview = ({ user, fadeOut }) => {
               testID="pv-donut-svg"
               percentage={thisMonthPV}
               max={thisMonthPV}
-              color={donut1PrimaryColor}
+              color={donut1primaryColor}
             />
           </Flexbox>
 
@@ -41,7 +41,7 @@ const Overview = ({ user, fadeOut }) => {
               testID="cv-donut-svg"
               percentage={thisMonthCV}
               max={thisMonthCV}
-              color={donut2PrimaryColor}
+              color={donut2primaryColor}
             />
           </Flexbox>
         </Flexbox>
@@ -52,7 +52,7 @@ const Overview = ({ user, fadeOut }) => {
             testID="ov-donut-svg"
             percentage={OV}
             max={OV}
-            color={donut3PrimaryColor}
+            color={donut3primaryColor}
           />
         </Flexbox>
       </Flexbox>

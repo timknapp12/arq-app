@@ -54,7 +54,7 @@ const Title = styled.Text`
   font-family: 'Avenir-Heavy';
   font-size: 10px;
   opacity: 0.83;
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.primaryTextColor};
   padding: 2px;
 `;
 

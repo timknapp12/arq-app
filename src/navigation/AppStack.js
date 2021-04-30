@@ -23,7 +23,7 @@ const AppStack = () => {
           title: route.params.title,
           headerBackTitleVisible: false,
           headerStyle: { backgroundColor: theme.backgroundColor },
-          headerTintColor: theme.color,
+          headerTintColor: theme.primaryTextColor,
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontSize: 20,

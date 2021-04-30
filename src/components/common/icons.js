@@ -54,7 +54,7 @@ export const BellIcon = ({ badgeValue }) => {
   const { theme } = useContext(AppContext);
   return (
     <IconContainer>
-      <BellSvg fill={theme.color} />
+      <BellSvg fill={theme.primaryTextColor} />
       {badgeValue ? (
         <BadgeContainer>
           <BadgeText>{badgeValue}</BadgeText>
