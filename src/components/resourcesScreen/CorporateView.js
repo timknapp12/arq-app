@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import AppContext from '../../contexts/AppContext';
 
 const CorporateView = ({ navigation, fadeOut }) => {
-  const db = firebase.firestore();
-  const [resourceList, setResourceList] = useState([]);
+  const { corporateResources } = useContext(AppContext);
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
 
@@ -33,50 +31,41 @@ const CorporateView = ({ navigation, fadeOut }) => {
     });
   };
 
-  useEffect(() => {
-    db.collection('corporate resources us market english language')
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const corporateResources = [];
-        querySnapshot.forEach((doc) => {
-          const resourceWithID = { id: doc.id, ...doc.data() };
-          corporateResources.push(resourceWithID);
-        });
-        setResourceList(corporateResources);
-      });
-    return () => {
-      setResourceList([]);
-    };
-  }, []);
-
   return (
-    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          padding: 10,
-        }}
-        accessibilityLabel="Corporate Resources"
-        onStartShouldSetResponder={() => true}>
-        {resourceList.map((item, index) => (
-          <ResourceCard
-            isCalloutOpenFromParent={isCalloutOpenFromParent}
-            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-            style={{ zIndex: -index }}
-            key={item.title}
-            url={item.url}
-            title={item.title}
-            onPress={() => {
-              setIsCalloutOpenFromParent(false);
-              navigateToResource(item);
-            }}
-          />
-        ))}
-      </View>
-    </TouchableWithoutFeedback>
+    <ScrollView
+      onStartShouldSetResponder={() => true}
+      style={{ zIndex: -1, width: '100%' }}
+      contentContainerStyle={{
+        paddingBottom: 200,
+      }}>
+      <TouchableWithoutFeedback
+        onPress={() => setIsCalloutOpenFromParent(false)}>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            padding: 10,
+          }}
+          accessibilityLabel="Corporate Resources"
+          onStartShouldSetResponder={() => true}>
+          {corporateResources.map((item, index) => (
+            <ResourceCard
+              isCalloutOpenFromParent={isCalloutOpenFromParent}
+              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+              style={{ zIndex: -index }}
+              key={item.title}
+              url={item.url}
+              title={item.title}
+              onPress={() => {
+                setIsCalloutOpenFromParent(false);
+                navigateToResource(item);
+              }}
+            />
+          ))}
+        </View>
+      </TouchableWithoutFeedback>
+    </ScrollView>
   );
 };
 

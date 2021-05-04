@@ -38,7 +38,7 @@ const App = () => {
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
-
+  const [corporateResources, setCorporateResources] = useState([]);
   const [isUserActive, setIsUserActive] = useState(true);
   const [timer] = useState(1000 * 60 * 20);
 
@@ -100,6 +100,8 @@ const App = () => {
             useBiometrics,
             setUseBiometrics,
             storeTimeStamp,
+            corporateResources,
+            setCorporateResources,
           }}>
           <StatusBar
             backgroundColor={theme.backgroundColor}

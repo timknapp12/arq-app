@@ -17,7 +17,10 @@ import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
+import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
 import AppContext from '../../contexts/AppContext';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -64,8 +67,9 @@ const mockUser = {
 
 const DashboardScreen = () => {
   initLanguage();
+  const db = firebase.firestore();
   // TODO add this to the resource screen when there are no merge conflicts
-  const { storeTimeStamp } = useContext(AppContext);
+  const { storeTimeStamp, setCorporateResources } = useContext(AppContext);
   storeTimeStamp();
   const ranklist = [
     {
@@ -235,6 +239,14 @@ const DashboardScreen = () => {
       fadeOut();
     };
   }, [isFocused]);
+
+  useEffect(() => {
+    getCorporateResources(db, 'us', 'english', setCorporateResources);
+
+    return () => {
+      setCorporateResources([]);
+    };
+  }, []);
 
   const initialView = {
     name: Localized('OVERVIEW'),
