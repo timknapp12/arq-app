@@ -168,6 +168,7 @@ const ResourcesScreen = ({ navigation }) => {
                     width: 30,
                     color: theme.primaryTextColor,
                     marginTop: -2,
+                    marginEnd: 2,
                   }}
                 />
               </FilterSearchBar>
