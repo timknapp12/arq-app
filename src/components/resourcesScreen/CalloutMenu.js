@@ -9,7 +9,6 @@ import HeartOutlineIcon from '../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
-import UploadIcon from '../../../assets/icons/upload-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -31,11 +30,14 @@ const CalloutButton = styled(
 const CalloutMenu = ({
   isFavorite,
   setIsFavorite,
+  // TODO: integrate hasPermissions prop with backend
   hasPermissions,
   contentType = 'image',
   onShare,
-  download = () => {},
+  onDownload = () => {},
   closeCallout = () => {},
+  onEdit = () => {},
+  onRemove = () => {},
   ...props
 }) => {
   initLanguage();
@@ -43,6 +45,36 @@ const CalloutMenu = ({
 
   return (
     <Container {...props}>
+      {hasPermissions && (
+        <>
+          <CalloutButton onPress={onEdit}>
+            <Flexbox direction="row" justify="flex-start">
+              <EditIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Edit')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton onPress={onRemove}>
+            <Flexbox direction="row" justify="flex-start">
+              <RemoveIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Remove')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+        </>
+      )}
       {isFavorite ? (
         <CalloutButton onPress={() => setIsFavorite(false)}>
           <Flexbox direction="row" justify="flex-start">
@@ -75,7 +107,7 @@ const CalloutMenu = ({
       {contentType !== 'video' && (
         <CalloutButton
           onPress={() => {
-            download();
+            onDownload();
             closeCallout();
           }}>
           <Flexbox direction="row" justify="flex-start">
@@ -104,49 +136,6 @@ const CalloutMenu = ({
           <H4Book>{Localized('Share')}</H4Book>
         </Flexbox>
       </CalloutButton>
-      {hasPermissions && (
-        <>
-          <CalloutButton onPress={() => {}}>
-            <Flexbox direction="row" justify="flex-start">
-              <RemoveIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Remove')}</H4Book>
-            </Flexbox>
-          </CalloutButton>
-          <CalloutButton>
-            <Flexbox direction="row" justify="flex-start">
-              <UploadIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Upload')}</H4Book>
-            </Flexbox>
-          </CalloutButton>
-          <CalloutButton>
-            <Flexbox direction="row" justify="flex-start">
-              <EditIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Edit')}</H4Book>
-            </Flexbox>
-          </CalloutButton>
-        </>
-      )}
     </Container>
   );
 };
@@ -157,8 +146,10 @@ CalloutMenu.propTypes = {
   hasPermissions: PropTypes.bool,
   contentType: PropTypes.string,
   onShare: PropTypes.func,
-  download: PropTypes.func,
+  onDownload: PropTypes.func,
   closeCallout: PropTypes.func,
+  onEdit: PropTypes.func,
+  onRemove: PropTypes.func,
 };
 
 export default CalloutMenu;

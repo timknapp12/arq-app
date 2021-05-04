@@ -2,14 +2,17 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Image, TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, AnimatedInput } from '../common';
-import square from '../../../assets/images/square-layout.png';
-import rectangle from '../../../assets/images/rectangle-layout.png';
+import { Flexbox, Label, Input } from '../common';
+import ImageIcon from '../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
 import AppContext from '../../contexts/AppContext';
 import * as ImagePicker from 'expo-image-picker';
 import { Localized, initLanguage } from '../../translations/Localized';
+
+const imageHeight = 76;
+const squareImageWidth = imageHeight;
+const rectangleImageWidth = imageHeight * 2;
 
 const Underline = styled.View`
   width: 100%;
@@ -27,6 +30,13 @@ const FileInput = styled.View`
   align-items: flex-end;
   justify-content: space-between;
   padding: 0 0 0 4px;
+`;
+
+const FileUnderline = styled.View`
+  width: 100%;
+  border-bottom-color: ${(props) =>
+    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
+  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
 `;
 
 const MiniCard = styled.View`
@@ -48,12 +58,32 @@ const Title = styled.Text`
   padding: 2px;
 `;
 
-const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
+const DefaultSquareImage = styled.View`
+  background-color: ${(props) => props.theme.disabledBackgroundColor};
+  height: ${imageHeight}px;
+  width: ${squareImageWidth}px;
+`;
+
+const DefaultRectangleImage = styled.View`
+  background-color: ${(props) => props.theme.disabledBackgroundColor};
+  height: ${imageHeight}px;
+  width: ${rectangleImageWidth}px;
+`;
+
+const AddFolderModal = ({
+  visible,
+  onClose,
+  // the following 3 props are passed in from ResourceCard.js to populate the info when a user is editing an existing folder
+  folderTitle = '',
+  folderUrl = '',
+  folderIsWideLayout = false,
+}) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-  const [title, setTitle] = useState('');
-  const [imageLayout, setImageLayout] = useState('square');
-  const [imageFile, setImageFile] = useState({ url: '' });
+  const [title, setTitle] = useState(folderTitle);
+  const [isWideLayout, setIsWideLayout] = useState(folderIsWideLayout);
+  const [imageFile, setImageFile] = useState({ url: folderUrl });
+  const [isFileInputFocused, setIsFileInputFocused] = useState(false);
 
   // permissions for photo library
   useEffect(() => {
@@ -77,7 +107,7 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: imageLayout === 'square' ? [1, 1] : [2, 1],
+      aspect: isWideLayout ? [2, 1] : [1, 1],
       quality: 1,
     });
 
@@ -85,17 +115,12 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
       setImageFile({ url: result.uri });
     }
   };
-  const squareSource =
-    imageFile.url && imageLayout === 'square' ? { uri: imageFile.url } : square;
-  const rectangleSource =
-    imageFile.url && imageLayout === 'rectangle'
-      ? { uri: imageFile.url }
-      : rectangle;
 
   const clearFields = () => {
     setTitle('');
     setImageFile({ url: '' });
-    setImageLayout('square');
+    setIsWideLayout(false);
+    setIsFileInputFocused(false);
   };
   // TODO: add graphql mutation
   const onSave = () => {
@@ -109,67 +134,88 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
 
   return (
     <EditModal
-      visible={isAddFolderModalOpen}
+      visible={visible}
       onClose={() => {
         clearFields();
-        setIsAddFolderModalOpen(false);
+        onClose();
       }}
       onSave={onSave}>
       <Flexbox align="flex-start">
-        <AnimatedInput
-          label={Localized('Title')}
+        <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
+        <Input
+          autoFocus
+          onFocus={() => setIsFileInputFocused(false)}
           testID="resource-folder-title-input"
           value={title}
           onChangeText={(text) => setTitle(text)}
         />
         <Label style={{ marginTop: 8 }}>{Localized('Layout')}</Label>
         <Flexbox style={{ marginTop: 8 }} justify="flex-start" direction="row">
-          <TouchableOpacity onPress={() => setImageLayout('square')}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsWideLayout(false);
+              setIsFileInputFocused(false);
+            }}>
             <Flexbox
-              width="76px"
               height="106px"
-              style={{ width: 76, marginEnd: 20 }}>
+              style={{ width: squareImageWidth, marginEnd: 20 }}>
               <MiniCard>
-                <Image
-                  style={{ width: 76, height: 76 }}
-                  source={squareSource}
-                />
+                {imageFile.url && !isWideLayout ? (
+                  <Image
+                    style={{ width: squareImageWidth, height: imageHeight }}
+                    source={{ uri: imageFile.url }}
+                  />
+                ) : (
+                  <DefaultSquareImage>
+                    <ImageIcon color={theme.cardBackgroundColor} />
+                  </DefaultSquareImage>
+                )}
                 <Footer>
                   <Title ellipsizeMode="tail" numberOfLines={1}>
-                    {imageLayout === 'square' && title
-                      ? title
-                      : Localized('Title')}
+                    {!isWideLayout && title ? title : Localized('Title')}
                   </Title>
                 </Footer>
               </MiniCard>
-              {imageLayout === 'square' && (
-                <Underline style={{ marginTop: 8 }} />
-              )}
+              {!isWideLayout && <Underline style={{ marginTop: 8 }} />}
             </Flexbox>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setImageLayout('rectangle')}>
-            <Flexbox width="150px" height="106px">
+          <TouchableOpacity
+            onPress={() => {
+              setIsWideLayout(true);
+              setIsFileInputFocused(false);
+            }}>
+            <Flexbox height="106px">
               <MiniCard>
-                <Image
-                  style={{ width: 152, height: 76 }}
-                  source={rectangleSource}
-                />
+                {imageFile.url && isWideLayout ? (
+                  <Image
+                    style={{
+                      width: rectangleImageWidth,
+                      height: imageHeight,
+                    }}
+                    source={{ uri: imageFile.url }}
+                  />
+                ) : (
+                  <DefaultRectangleImage>
+                    <ImageIcon color={theme.cardBackgroundColor} />
+                  </DefaultRectangleImage>
+                )}
                 <Footer>
                   <Title ellipsizeMode="tail" numberOfLines={1}>
-                    {imageLayout === 'rectangle' && title
-                      ? title
-                      : Localized('Title')}
+                    {isWideLayout && title ? title : Localized('Title')}
                   </Title>
                 </Footer>
               </MiniCard>
-              {imageLayout === 'rectangle' && (
-                <Underline style={{ marginTop: 8 }} />
-              )}
+              {isWideLayout && <Underline style={{ marginTop: 8 }} />}
             </Flexbox>
           </TouchableOpacity>
         </Flexbox>
         <Label style={{ marginTop: 8 }}>{Localized('Picture')}</Label>
-        <TouchableOpacity onPress={pickImage} style={{ width: '100%' }}>
+        <TouchableOpacity
+          onPress={() => {
+            pickImage();
+            setIsFileInputFocused(true);
+          }}
+          style={{ width: '100%' }}>
           <Flexbox align="flex-end">
             <FileInput>
               <Filename
@@ -187,7 +233,7 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
                 }}
               />
             </FileInput>
-            <Underline />
+            <FileUnderline focused={isFileInputFocused} />
           </Flexbox>
         </TouchableOpacity>
       </Flexbox>
@@ -196,8 +242,11 @@ const AddFolderModal = ({ isAddFolderModalOpen, setIsAddFolderModalOpen }) => {
 };
 
 AddFolderModal.propTypes = {
-  isAddFolderModalOpen: PropTypes.bool.isRequired,
-  setIsAddFolderModalOpen: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  folderTitle: PropTypes.string,
+  folderUrl: PropTypes.string,
+  folderIsWideLayout: PropTypes.bool,
 };
 
 export default AddFolderModal;

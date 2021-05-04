@@ -7,6 +7,7 @@ import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
+import EditIcon from '../../../../assets/icons/edit-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 
 const Container = styled.View`
@@ -19,11 +20,37 @@ const IconRow = ({
   hasPermissions,
   contentType,
   onShare,
-  download,
+  onDownload,
+  onEdit,
+  onRemove,
 }) => {
   const { theme } = useContext(AppContext);
   return (
     <Container>
+      {hasPermissions && (
+        <>
+          <TouchableOpacity onPress={onEdit}>
+            <EditIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onRemove}>
+            <RemoveIcon
+              style={{
+                marginEnd: 8,
+                height: 24,
+                width: 24,
+                color: theme.activeTint,
+              }}
+            />
+          </TouchableOpacity>
+        </>
+      )}
       {isFavorite ? (
         <TouchableOpacity onPress={() => {}}>
           <HeartFillIcon
@@ -47,20 +74,8 @@ const IconRow = ({
           />
         </TouchableOpacity>
       )}
-      {hasPermissions && (
-        <TouchableOpacity onPress={() => {}}>
-          <RemoveIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.activeTint,
-            }}
-          />
-        </TouchableOpacity>
-      )}
       {contentType !== 'video' && (
-        <TouchableOpacity onPress={download}>
+        <TouchableOpacity onPress={onDownload}>
           <DownloadIcon
             style={{
               marginEnd: 8,
@@ -90,7 +105,9 @@ IconRow.propTypes = {
   hasPermissions: PropTypes.bool,
   contentType: PropTypes.string,
   onShare: PropTypes.func,
-  download: PropTypes.func,
+  onDownload: PropTypes.func,
+  onEdit: PropTypes.func,
+  onRemove: PropTypes.func,
 };
 
 export default IconRow;

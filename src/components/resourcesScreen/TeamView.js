@@ -1,25 +1,35 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, Platform } from 'react-native';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import { categories } from './mockTeamData';
 import AddFolderModal from './AddFolderModal';
 
 const TeamView = ({
+  fadeOut,
   navigation,
+  isCalloutOpenFromParent,
+  setIsCalloutOpenFromParent,
   isAddFolderModalOpen,
   setIsAddFolderModalOpen,
 }) => {
-  // this is to dismiss the little callout popup menu by tapping anywhere on the screen
-  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const [isNavDisabled, setIsNavDisabled] = useState(false);
 
   const navigateToResource = (item) => {
+    fadeOut();
+    // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
+    if (Platform.OS === 'android' && isNavDisabled) {
+      setIsNavDisabled(false);
+      return;
+    }
     navigation.navigate('Resources Category Screen', {
       title: item.title.toUpperCase(),
       assetList: item.assetList,
+      // TODO: integrate permissions with backend
+      hasPermissions: true,
     });
-
+    setIsCalloutOpenFromParent(false);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
     const formattedTitle = item.title.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 24) + '_category_tapped';
@@ -30,53 +40,47 @@ const TeamView = ({
   };
 
   return (
-    <ScrollView
-      onStartShouldSetResponder={() => true}
-      style={{ zIndex: -1, width: '100%' }}
-      contentContainerStyle={{
-        paddingBottom: 200,
-      }}>
-      <TouchableWithoutFeedback
-        onPress={() => setIsCalloutOpenFromParent(false)}>
-        <>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              padding: 10,
+    <>
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          padding: 10,
+        }}
+        accessibilityLabel="Team Resources"
+        onStartShouldSetResponder={() => true}>
+        {categories.map((item, index) => (
+          <ResourceCard
+            isCalloutOpenFromParent={isCalloutOpenFromParent}
+            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+            style={{ zIndex: -index }}
+            key={item.title}
+            url={item.url}
+            title={item.title}
+            isWideLayout={item.isWideLayout}
+            // TODO: integrate hasPermissions prop with backend
+            hasPermissions={true}
+            setIsNavDisabled={setIsNavDisabled}
+            onPress={() => {
+              navigateToResource(item);
             }}
-            accessibilityLabel="Team Resources"
-            onStartShouldSetResponder={() => true}>
-            {categories.map((item, index) => (
-              <ResourceCard
-                isCalloutOpenFromParent={isCalloutOpenFromParent}
-                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                style={{ zIndex: -index }}
-                key={item.title}
-                url={item.url}
-                title={item.title}
-                isWideLayout={item.isWideLayout}
-                hasPermissions={true}
-                onPress={() => {
-                  setIsCalloutOpenFromParent(false);
-                  navigateToResource(item);
-                }}
-              />
-            ))}
-          </View>
-          <AddFolderModal
-            isAddFolderModalOpen={isAddFolderModalOpen}
-            setIsAddFolderModalOpen={setIsAddFolderModalOpen}
           />
-        </>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+        ))}
+      </View>
+      <AddFolderModal
+        visible={isAddFolderModalOpen}
+        onClose={() => setIsAddFolderModalOpen(false)}
+      />
+    </>
   );
 };
 
 TeamView.propTypes = {
-  navigation: PropTypes.object,
+  fadeOut: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
+  isCalloutOpenFromParent: PropTypes.bool.isRequired,
+  setIsCalloutOpenFromParent: PropTypes.func.isRequired,
   isAddFolderModalOpen: PropTypes.bool.isRequired,
   setIsAddFolderModalOpen: PropTypes.func.isRequired,
 };

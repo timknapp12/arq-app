@@ -9,7 +9,7 @@ import 'firebase/firestore';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
   const db = firebase.firestore();
-  const { documentID, assetList } = route.params;
+  const { documentID, assetList, hasPermissions } = route.params;
   const [categoryList, setCategoryList] = useState(assetList || []);
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
@@ -47,6 +47,8 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
+  const [isNavDisabled, setIsNavDisabled] = useState(false);
 
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
@@ -84,13 +86,9 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   ext={item.ext}
                   navigation={navigation}
                   setToastInfo={setToastInfo}
-                  onPress={() => {
-                    setIsCalloutOpenFromParent(false);
-                    navigation.navigate('Resources Asset Screen', {
-                      title: item.title.toUpperCase(),
-                      documentID: item.id,
-                    });
-                  }}
+                  setIsNavDisabled={setIsNavDisabled}
+                  isNavDisabled={isNavDisabled}
+                  hasPermissions={hasPermissions}
                 />
               ))}
             </Flexbox>

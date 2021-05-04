@@ -1,7 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Dimensions, View } from 'react-native';
+import {
+  TouchableOpacity,
+  Dimensions,
+  View,
+  Platform,
+  Alert,
+} from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import baseImage from '../../../assets/icons/image.png';
 import KebobIcon from '../../../assets/icons/kebob-icon.svg';
@@ -11,6 +17,8 @@ import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { H6, H4Book, Flexbox } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
+import AddFolderModal from './AddFolderModal';
+import UploadAssetModal from './UploadAssetModal';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
@@ -62,19 +70,28 @@ const ResourceCallout = styled.View`
   top: ${containerHeight}px;
 `;
 
+// The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
+const CalloutButton = styled(
+  Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
+)``;
+
 const ResourceCard = ({
   url,
   isWideLayout = true,
   title,
   onPress,
-  hasPermissions = false,
+  hasPermissions,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
+  // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
+  setIsNavDisabled = () => {},
   ...props
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+  const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
+  const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isCalloutOpenFromParent) {
@@ -85,20 +102,60 @@ const ResourceCard = ({
     };
   }, [isCalloutOpenFromParent]);
 
-  const onCallout = async (e) => {
-    e.stopPropagation();
+  useEffect(() => {
+    if (!isCalloutOpen) {
+      setIsNavDisabled(false);
+    }
+  }, [isCalloutOpen]);
+
+  const closeCallout = () => {
+    setIsCalloutOpen(false);
+    setIsCalloutOpenFromParent(false);
+  };
+
+  const onCallout = async () => {
     if (isCalloutOpen) {
-      setIsCalloutOpen(false);
-      setIsCalloutOpenFromParent(false);
+      closeCallout();
     }
     if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
+      setIsNavDisabled(true);
+    }
+    if (isCalloutOpenFromParent) {
+      setIsCalloutOpenFromParent(false);
     }
     if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(true);
+      setIsNavDisabled(true);
     }
   };
+
+  const onRemove = () =>
+    Alert.alert(
+      `${Localized('Remove')} "${title}"?`,
+      Localized(
+        'Removing this will delete all of its content. Do you wish to continue?',
+      ),
+      [
+        {
+          text: Localized('Cancel'),
+          onPress: () => {
+            closeCallout();
+            console.log('Cancel Pressed');
+          },
+          style: 'cancel',
+        },
+        {
+          text: Localized('Yes'),
+          onPress: () => {
+            closeCallout();
+            console.log('Yes Pressed');
+          },
+        },
+      ],
+      { cancelable: false },
+    );
 
   return (
     <CardContainer isWideLayout={isWideLayout} {...props}>
@@ -119,63 +176,83 @@ const ResourceCard = ({
 
         {hasPermissions && (
           <View>
-            {isCalloutOpenFromParent ? (
-              <GestureTouchable
-                style={{ alignItems: 'center' }}
-                onPress={() => setIsCalloutOpen(false)}>
-                <KebobIcon
-                  style={{ height: 20, width: 20, color: theme.activeTint }}
-                />
-              </GestureTouchable>
-            ) : (
-              <TouchableOpacity
-                style={{ alignItems: 'center' }}
-                onPress={(e) => onCallout(e)}>
-                <KebobIcon
-                  style={{ height: 20, width: 20, color: theme.activeTint }}
-                />
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={{ alignItems: 'center' }}
+              onPress={onCallout}>
+              <KebobIcon
+                style={{ height: 20, width: 20, color: theme.activeTint }}
+              />
+            </TouchableOpacity>
           </View>
         )}
       </CardFooter>
       {/* TODO conditionally render the options in the callout  */}
       {isCalloutOpen && (
         <ResourceCallout>
-          <Flexbox direction="row" justify="flex-start">
-            <EditIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>{Localized('Edit')}</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <RemoveIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>{Localized('Remove')}</H4Book>
-          </Flexbox>
-          <Flexbox direction="row" justify="flex-start">
-            <UploadIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
-            <H4Book>{Localized('Upload')}</H4Book>
-          </Flexbox>
+          <CalloutButton
+            onPress={() => {
+              setIsAddFolderModalOpen(true);
+            }}>
+            <Flexbox direction="row" justify="flex-start">
+              <EditIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Edit')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton onPress={() => setIsUploadAssetModalOpen(true)}>
+            <Flexbox direction="row" justify="flex-start">
+              <UploadIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Upload')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton onPress={onRemove}>
+            <Flexbox direction="row" justify="flex-start">
+              <RemoveIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.activeTint,
+                }}
+              />
+              <H4Book>{Localized('Remove')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
         </ResourceCallout>
+      )}
+      {isAddFolderModalOpen && (
+        <AddFolderModal
+          visible={isAddFolderModalOpen}
+          onClose={() => {
+            setIsAddFolderModalOpen(false);
+            closeCallout();
+          }}
+          folderTitle={title}
+          folderUrl={url}
+          folderIsWideLayout={isWideLayout}
+        />
+      )}
+      {isUploadAssetModalOpen && (
+        <UploadAssetModal
+          visible={isUploadAssetModalOpen}
+          onClose={() => {
+            setIsUploadAssetModalOpen(false);
+            closeCallout();
+          }}
+        />
       )}
     </CardContainer>
   );
@@ -190,6 +267,7 @@ ResourceCard.propTypes = {
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
+  setIsNavDisabled: PropTypes.func,
 };
 
 export default ResourceCard;

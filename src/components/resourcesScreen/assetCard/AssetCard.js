@@ -1,7 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Share, Alert, Linking } from 'react-native';
+import {
+  TouchableOpacity,
+  Share,
+  Alert,
+  Linking,
+  Platform,
+} from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,7 +16,9 @@ import { H5Black, H6Book } from '../../common';
 import AssetIcon from './AssetIcon';
 import CalloutMenu from '../CalloutMenu';
 import IconRow from './IconRow';
+import UploadAssetModal from '../UploadAssetModal';
 import { downloadFile } from '../../../utils/downloadFile';
+import { Localized, initLanguage } from '../../../translations/Localized';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
@@ -59,11 +67,16 @@ const AssetCard = ({
   isFavorite,
   hasPermissions,
   setToastInfo,
+  // this prop is passed from ResourceCategoryScreen.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
+  setIsNavDisabled = () => {},
+  isNavDisabled,
   ...props
 }) => {
+  initLanguage();
   const { theme } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+  const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
   const download = async () => {
     const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
@@ -86,6 +99,12 @@ const AssetCard = ({
     };
   }, [isCalloutOpenFromParent, isExpanded]);
 
+  useEffect(() => {
+    if (!isCalloutOpen) {
+      setIsNavDisabled(false);
+    }
+  }, [isCalloutOpen]);
+
   const closeCallout = () => {
     setIsCalloutOpen(false);
     setIsCalloutOpenFromParent(false);
@@ -99,6 +118,7 @@ const AssetCard = ({
     if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
+      setIsNavDisabled(true);
     }
     if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(true);
@@ -125,7 +145,40 @@ const AssetCard = ({
     closeCallout();
   };
 
+  // TODO: wire this up to the backend with a mutation
+  const onRemove = () =>
+    Alert.alert(
+      `${Localized('Remove')} "${title}"?`,
+      Localized(
+        'Removing this will delete all of its content. Do you wish to continue?',
+      ),
+      [
+        {
+          text: Localized('Cancel'),
+          onPress: () => {
+            closeCallout();
+            console.log('Cancel Pressed');
+          },
+          style: 'cancel',
+        },
+        {
+          text: Localized('Yes'),
+          onPress: () => {
+            closeCallout();
+            console.log('Yes Pressed');
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+
   const openAsset = () => {
+    // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
+    if (Platform.OS === 'android' && isNavDisabled) {
+      setIsNavDisabled(false);
+      return;
+    }
+    closeCallout();
     if (contentType === 'pdf' || contentType === 'image') {
       navigation.navigate('Resources Asset Screen', {
         title: title.toUpperCase(),
@@ -207,8 +260,11 @@ const AssetCard = ({
           <IconRow
             isFavorite={isFavorite}
             contentType={contentType}
+            hasPermissions={hasPermissions}
             onShare={onShare}
-            download={download}
+            onDownload={download}
+            onEdit={() => setIsUploadAssetModalOpen(true)}
+            onRemove={onRemove}
           />
         )}
       </OuterContainer>
@@ -222,8 +278,34 @@ const AssetCard = ({
           contentType={contentType}
           hasPermissions={hasPermissions}
           onShare={onShare}
-          download={download}
+          onDownload={download}
           closeCallout={closeCallout}
+          onEdit={() => setIsUploadAssetModalOpen(true)}
+          onRemove={onRemove}
+        />
+      )}
+      {isUploadAssetModalOpen && (
+        <UploadAssetModal
+          visible={isUploadAssetModalOpen}
+          onClose={() => {
+            setIsUploadAssetModalOpen(false);
+            closeCallout();
+          }}
+          // These props are passed to populate the corresponding fields in the edit phase of the modal
+          assetTitle={title}
+          assetDescription={description}
+          assetContentType={contentType}
+          assetFile={
+            contentType === 'image' || contentType === 'pdf'
+              ? {
+                  url,
+                  contentType,
+                }
+              : { url: '', contentType: '' }
+          }
+          assetLink={
+            contentType === 'video' || contentType === 'podcast' ? url : ''
+          }
         />
       )}
     </AssetCardContainer>
@@ -243,6 +325,8 @@ AssetCard.propTypes = {
   isFavorite: PropTypes.bool,
   hasPermissions: PropTypes.bool,
   setToastInfo: PropTypes.func,
+  setIsNavDisabled: PropTypes.func,
+  isNavDisabled: PropTypes.bool,
 };
 
 export default AssetCard;
