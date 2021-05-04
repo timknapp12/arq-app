@@ -29,7 +29,6 @@ import CorporateView from './CorporateView';
 import TeamView from './TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
-import DownloadsView from './DownloadsView';
 import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
 
 const { height } = Dimensions.get('window');
@@ -78,7 +77,6 @@ const ResourcesScreen = ({ navigation }) => {
     { name: Localized('TEAM'), testID: 'team_button' },
     { name: Localized('SERVICES'), testID: 'services_button' },
     { name: Localized('FAVORITES'), testID: 'favorites_button' },
-    { name: Localized('DOWNLOADS'), testID: 'downloads_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -172,7 +170,6 @@ const ResourcesScreen = ({ navigation }) => {
           )}
           {view.name === Localized('SERVICES') && <ServicesView />}
           {view.name === Localized('FAVORITES') && <FavoritesView />}
-          {view.name === Localized('DOWNLOADS') && <DownloadsView />}
         </ScrollView>
         {view.name === Localized('TEAM') && (
           <AddButton
