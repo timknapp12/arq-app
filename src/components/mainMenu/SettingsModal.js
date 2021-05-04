@@ -69,6 +69,7 @@ const markets = [
   { id: 250, label: 'France', value: 'fr' },
   { id: 276, label: 'Germany', value: 'de' },
   { id: 300, label: 'Greece', value: 'gr' },
+  { id: 380, label: 'Italy', value: 'it' },
   { id: 392, label: 'Japan', value: 'jp' },
   { id: 458, label: 'Malaysia', value: 'my' },
   { id: 484, label: 'Mexico', value: 'mx' },
