@@ -226,7 +226,7 @@ const AddFolderModal = ({
               </Filename>
               <PaperclipIcon
                 style={{
-                  color: theme.activeTint,
+                  color: theme.primaryTextColor,
                   height: 30,
                   width: 30,
                   marginTop: -6,

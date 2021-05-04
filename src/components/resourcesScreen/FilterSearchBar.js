@@ -10,7 +10,7 @@ const FilterSearchBar = ({ userName = 'user' }) => {
   return (
     <Flexbox direction="row" padding={10} style={{ zIndex: -1 }}>
       <Text style={{ color: '#fff' }}>{`${userName}'s awesome team`}</Text>
-      <SearchIcon color={theme.activeTint} size={24} name="search" />
+      <SearchIcon color={theme.primaryTextColor} size={24} name="search" />
     </Flexbox>
   );
 };

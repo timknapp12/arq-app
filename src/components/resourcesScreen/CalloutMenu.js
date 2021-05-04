@@ -10,6 +10,7 @@ import DownloadIcon from '../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
+import UploadIcon from '../../../assets/icons/upload-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { Localized, initLanguage } from '../../translations/Localized';
 
@@ -97,7 +98,7 @@ const CalloutMenu = ({
                 marginEnd: 8,
                 height: 24,
                 width: 24,
-                color: theme.favoriteFillColor,
+                color: theme.primaryTextColor,
               }}
             />
             <H4Book>{Localized('Favorite')}</H4Book>
@@ -116,7 +117,7 @@ const CalloutMenu = ({
                 marginEnd: 8,
                 height: 24,
                 width: 24,
-                color: theme.activeTint,
+                color: theme.primaryTextColor,
               }}
             />
             <H4Book>{Localized('Download')}</H4Book>
@@ -130,12 +131,55 @@ const CalloutMenu = ({
               marginEnd: 8,
               height: 24,
               width: 24,
-              color: theme.activeTint,
+              color: theme.primaryTextColor,
             }}
           />
           <H4Book>{Localized('Share')}</H4Book>
         </Flexbox>
       </CalloutButton>
+      {hasPermissions && (
+        <>
+          <CalloutButton onPress={() => {}}>
+            <Flexbox direction="row" justify="flex-start">
+              <RemoveIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.primaryTextColor,
+                }}
+              />
+              <H4Book>{Localized('Remove')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton>
+            <Flexbox direction="row" justify="flex-start">
+              <UploadIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.primaryTextColor,
+                }}
+              />
+              <H4Book>{Localized('Upload')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+          <CalloutButton>
+            <Flexbox direction="row" justify="flex-start">
+              <EditIcon
+                style={{
+                  marginEnd: 8,
+                  height: 24,
+                  width: 24,
+                  color: theme.primaryTextColor,
+                }}
+              />
+              <H4Book>{Localized('Edit')}</H4Book>
+            </Flexbox>
+          </CalloutButton>
+        </>
+      )}
     </Container>
   );
 };

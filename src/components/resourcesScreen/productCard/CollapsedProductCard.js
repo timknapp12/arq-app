@@ -89,7 +89,7 @@ const CollapsedProductCard = ({
               }}>
               <MaterialCommunityIcon
                 name={isExpanded ? 'chevron-up' : 'chevron-down'}
-                color={theme.activeTint}
+                color={theme.primaryTextColor}
                 size={24}
               />
             </GestureTouchable>
@@ -98,7 +98,11 @@ const CollapsedProductCard = ({
                 style={{ alignItems: 'center' }}
                 onPress={() => setIsCalloutOpen(false)}>
                 <KebobIcon
-                  style={{ height: 20, width: 20, color: theme.activeTint }}
+                  style={{
+                    height: 20,
+                    width: 20,
+                    color: theme.primaryTextColor,
+                  }}
                 />
               </GestureTouchable>
             ) : (
@@ -106,7 +110,11 @@ const CollapsedProductCard = ({
                 style={{ alignItems: 'center' }}
                 onPress={(e) => onCallout(e)}>
                 <KebobIcon
-                  style={{ height: 20, width: 20, color: theme.activeTint }}
+                  style={{
+                    height: 20,
+                    width: 20,
+                    color: theme.primaryTextColor,
+                  }}
                 />
               </TouchableOpacity>
             )}

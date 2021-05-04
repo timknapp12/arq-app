@@ -96,7 +96,7 @@ const ExpandedProductCard = ({
           <H4Book>{title}</H4Book>
           <MaterialCommunityIcon
             name={isExpanded ? 'chevron-up' : 'chevron-down'}
-            color={theme.activeTint}
+            color={theme.primaryTextColor}
             size={24}
           />
         </View>
@@ -126,7 +126,7 @@ const ExpandedProductCard = ({
                   key={asset.id}>
                   <PdfIcon
                     style={{
-                      color: theme.activeTint,
+                      color: theme.primaryTextColor,
                       height: 40,
                       width: 40,
                     }}
@@ -141,7 +141,7 @@ const ExpandedProductCard = ({
                   key={asset.id}>
                   <VideoIcon
                     style={{
-                      color: theme.activeTint,
+                      color: theme.primaryTextColor,
                       height: 40,
                       width: 40,
                     }}
@@ -156,7 +156,7 @@ const ExpandedProductCard = ({
                   key={asset.id}>
                   <PodcastIcon
                     style={{
-                      color: theme.activeTint,
+                      color: theme.primaryTextColor,
                       height: 40,
                       width: 40,
                     }}
@@ -177,7 +177,7 @@ const ExpandedProductCard = ({
                   }>
                   <ImageIcon
                     style={{
-                      color: theme.activeTint,
+                      color: theme.primaryTextColor,
                       height: 40,
                       width: 40,
                     }}
@@ -209,7 +209,7 @@ const ExpandedProductCard = ({
               marginEnd: 8,
               height: 24,
               width: 24,
-              color: theme.activeTint,
+              color: theme.primaryTextColor,
             }}
           />
         )}
@@ -219,7 +219,7 @@ const ExpandedProductCard = ({
               marginEnd: 8,
               height: 24,
               width: 24,
-              color: theme.activeTint,
+              color: theme.primaryTextColor,
             }}
           />
         )}
@@ -228,7 +228,7 @@ const ExpandedProductCard = ({
             marginEnd: 8,
             height: 24,
             width: 24,
-            color: theme.activeTint,
+            color: theme.primaryTextColor,
           }}
         />
         <TouchableOpacity onPress={onShare}>
@@ -237,7 +237,7 @@ const ExpandedProductCard = ({
               marginEnd: 8,
               height: 24,
               width: 24,
-              color: theme.activeTint,
+              color: theme.primaryTextColor,
             }}
           />
         </TouchableOpacity>

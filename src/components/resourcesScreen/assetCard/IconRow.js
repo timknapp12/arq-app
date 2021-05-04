@@ -69,7 +69,7 @@ const IconRow = ({
               marginEnd: 8,
               height: 24,
               width: 24,
-              color: theme.activeTint,
+              color: theme.primaryTextColor,
             }}
           />
         </TouchableOpacity>
@@ -81,7 +81,7 @@ const IconRow = ({
               marginEnd: 8,
               height: 24,
               width: 24,
-              color: theme.activeTint,
+              color: theme.primaryTextColor,
             }}
           />
         </TouchableOpacity>
@@ -92,7 +92,7 @@ const IconRow = ({
             marginEnd: 8,
             height: 24,
             width: 24,
-            color: theme.activeTint,
+            color: theme.primaryTextColor,
           }}
         />
       </TouchableOpacity>
