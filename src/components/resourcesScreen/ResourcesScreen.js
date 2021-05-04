@@ -18,7 +18,7 @@ import {
   H3,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import { Localized } from '../../translations/Localized';
+import { Localized, initLanguage } from '../../translations/Localized';
 import FilterSearchBar from './FilterSearchBar';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
@@ -51,6 +51,7 @@ const ButtonText = styled(H3)`
 `;
 
 const ResourcesScreen = ({ navigation }) => {
+  initLanguage();
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {

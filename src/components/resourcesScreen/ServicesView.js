@@ -5,6 +5,7 @@ import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
 import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
 import { H4Book, H6Book } from '../common';
 import AppContext from '../../contexts/AppContext';
+import { Localized, initLanguage } from '../../translations/Localized';
 
 const Card = styled.View`
   width: 100%;
@@ -19,6 +20,7 @@ const Row = styled.View`
 `;
 
 const ServicesView = () => {
+  initLanguage();
   const { theme } = useContext(AppContext);
   return (
     <View style={{ width: '100%' }}>
@@ -43,9 +45,11 @@ const ServicesView = () => {
                 alignItems: 'flex-start',
                 marginStart: 8,
               }}>
-              <H4Book>Back Office</H4Book>
+              <H4Book>{Localized('Back Office')}</H4Book>
               <H6Book>
-                Access everything you need to build your business on the go.
+                {Localized(
+                  'Access everything you need to build your business on the go.',
+                )}
               </H6Book>
             </View>
           </Row>
@@ -72,8 +76,10 @@ const ServicesView = () => {
                 alignItems: 'flex-start',
                 marginStart: 8,
               }}>
-              <H4Book>Enroll</H4Book>
-              <H6Book>Help people enroll with Q Sciences today.</H6Book>
+              <H4Book>{Localized('Enroll')}</H4Book>
+              <H6Book>
+                {Localized('Help people enroll with Q Sciences today.')}
+              </H6Book>
             </View>
           </Row>
         </Card>
