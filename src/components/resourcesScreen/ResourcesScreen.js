@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
@@ -16,6 +16,7 @@ import {
   TopButtonBar,
   Flexbox,
   H3,
+  H5,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -23,12 +24,14 @@ import FilterSearchBar from './FilterSearchBar';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+import FilterIcon from '../../../assets/icons/filter-icon.svg';
 // TODO remove this once we get real data
 import { mockUser } from '../common/mockUser';
 import CorporateView from './CorporateView';
 import TeamView from './TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
+import AppContext from '../../contexts/AppContext';
 import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
 
 const { height } = Dimensions.get('window');
@@ -52,6 +55,7 @@ const ButtonText = styled(H3)`
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
+  const { theme } = useContext(AppContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -145,7 +149,6 @@ const ResourcesScreen = ({ navigation }) => {
             setIsSettingsModalOpen={setIsSettingsModalOpen}
           />
         </Flexbox>
-        <FilterSearchBar userName={mockUser.personalInfo.displayName} />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
@@ -157,17 +160,44 @@ const ResourcesScreen = ({ navigation }) => {
             zIndex: -1,
           }}>
           {view.name === Localized('CORPORATE') && (
-            <CorporateView navigation={navigation} fadeOut={fadeOut} />
+            <>
+              <FilterSearchBar>
+                <FilterIcon
+                  style={{
+                    height: 30,
+                    width: 30,
+                    color: theme.primaryTextColor,
+                    marginTop: -2,
+                  }}
+                />
+              </FilterSearchBar>
+              <CorporateView navigation={navigation} />
+            </>
           )}
           {view.name === Localized('TEAM') && (
-            <TeamView
-              fadeOut={fadeOut}
-              navigation={navigation}
-              isCalloutOpenFromParent={isCalloutOpenFromParent}
-              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-              isAddFolderModalOpen={isAddFolderModalOpen}
-              setIsAddFolderModalOpen={setIsAddFolderModalOpen}
-            />
+            <>
+              <FilterSearchBar>
+                <Flexbox direction="row" width="auto">
+                  <FilterIcon
+                    style={{
+                      height: 30,
+                      width: 30,
+                      color: theme.primaryTextColor,
+                      marginTop: -2,
+                    }}
+                  />
+                  <H5>Team Awesome!</H5>
+                </Flexbox>
+              </FilterSearchBar>
+              <TeamView
+                fadeOut={fadeOut}
+                navigation={navigation}
+                isCalloutOpenFromParent={isCalloutOpenFromParent}
+                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                isAddFolderModalOpen={isAddFolderModalOpen}
+                setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+              />
+            </>
           )}
           {view.name === Localized('SERVICES') && <ServicesView />}
           {view.name === Localized('FAVORITES') && <FavoritesView />}

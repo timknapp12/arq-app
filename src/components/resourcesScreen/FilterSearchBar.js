@@ -1,22 +1,23 @@
 import React, { useContext } from 'react';
-import { Text } from 'react-native';
 import PropTypes from 'prop-types';
-import SearchIcon from 'react-native-vector-icons/Ionicons';
+import SearchIcon from '../../../assets/icons/search-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { Flexbox } from '../common';
 
-const FilterSearchBar = ({ userName = 'user' }) => {
+const FilterSearchBar = ({ children }) => {
   const { theme } = useContext(AppContext);
   return (
-    <Flexbox direction="row" padding={10} style={{ zIndex: -1 }}>
-      <Text style={{ color: '#fff' }}>{`${userName}'s awesome team`}</Text>
-      <SearchIcon color={theme.primaryTextColor} size={24} name="search" />
+    <Flexbox direction="row" padding={4} style={{ zIndex: -1 }}>
+      {children}
+      <SearchIcon
+        style={{ height: 36, width: 36, color: theme.primaryTextColor }}
+      />
     </Flexbox>
   );
 };
 
 FilterSearchBar.propTypes = {
-  userName: PropTypes.string,
+  children: PropTypes.any,
 };
 
 export default FilterSearchBar;
