@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Share, Alert } from 'react-native';
+import AppContext from '../../../contexts/AppContext';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import firebase from 'firebase/app';
@@ -21,8 +22,10 @@ const ProductCard = ({
   productID,
   navigation,
   isFavorite,
+  market,
   ...props
 }) => {
+  const { deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [assetList, setAssetList] = useState([]);
@@ -30,7 +33,9 @@ const ProductCard = ({
   const db = firebase.firestore();
   const getAssetList = (categoryID, productID) =>
     db
-      .collection('corporate resources us market english language')
+      .collection(
+        `corporate resources ${market} market ${deviceLanguage} language`,
+      )
       .doc('products')
       .collection('product categories')
       .doc(categoryID)
@@ -148,6 +153,7 @@ ProductCard.propTypes = {
   /* the list id will be something like "q fuse plus", or "q focus" */
   productID: PropTypes.string,
   index: PropTypes.number,
+  market: PropTypes.string,
   isFavorite: PropTypes.bool,
 };
 

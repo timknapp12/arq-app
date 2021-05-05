@@ -9,6 +9,9 @@ import * as Analytics from 'expo-firebase-analytics';
 import AppContext from '../../contexts/AppContext';
 import { markets } from '../../utils/markets/markets';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
+import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const FlagIcon = styled.Image`
   height: 20px;
@@ -17,7 +20,13 @@ const FlagIcon = styled.Image`
 `;
 
 const CorporateView = ({ navigation, fadeOut }) => {
-  const { corporateResources, userMarket } = useContext(AppContext);
+  const {
+    corporateResources,
+    userMarket,
+    deviceLanguage,
+    setCorporateResources,
+  } = useContext(AppContext);
+  const db = firebase.firestore();
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
@@ -29,6 +38,12 @@ const CorporateView = ({ navigation, fadeOut }) => {
   useEffect(() => {
     if (selectedMarket) {
       setMarketUrl(findMarketUrl(selectedMarket, markets));
+      getCorporateResources(
+        db,
+        selectedMarket,
+        deviceLanguage,
+        setCorporateResources,
+      );
     }
   }, [selectedMarket]);
 

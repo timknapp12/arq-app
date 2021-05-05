@@ -135,6 +135,7 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                   productID={item.id}
                   navigation={navigation}
                   isFavorite={false}
+                  market={market}
                   onPress={() => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {
