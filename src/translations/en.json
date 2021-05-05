@@ -163,5 +163,8 @@
   "Portugal": "Portugal",
   "Spain": "Spain",
   "Sweden": "Sweden",
-  "United Kingdom": "United Kingdom"
+  "United Kingdom": "United Kingdom",
+  "Please select a market": "Please select a market",
+  "Select a market to see corresponding resources from Corporate": "Select a market to see corresponding resources from Corporate",
+  "Select a market to see corresponding news from Corporate": "Select a market to see corresponding news from Corporate"
 }

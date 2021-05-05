@@ -18,7 +18,6 @@ import {
   Flexbox,
   CloseIcon,
   H4,
-  Picker,
   Header,
   PrimaryButton,
   EditIcon,
@@ -33,7 +32,6 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { markets } from '../../utils/markets/markets';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -64,9 +62,6 @@ const SettingsModal = ({
   const { setIsSignedIn, setUseBiometrics } = useContext(AppContext);
   // TODO wire up a mutation when biometrics switch changes
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
-  const [selectedMarket, setSelectedMarket] = useState('us');
-  console.log(`selectedMarket`, selectedMarket);
-
   const initialState = data.username;
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
 
@@ -184,20 +179,6 @@ const SettingsModal = ({
                         onValueChange={() =>
                           setIsBiometricsEnabled((state) => !state)
                         }
-                      />
-                    </RowContainer>
-
-                    <RowContainer style={{ paddingBottom: 0 }}>
-                      <Picker
-                        items={markets}
-                        onValueChange={(value) => setSelectedMarket(value)}
-                        value={selectedMarket}
-                        placeholder={{
-                          label: Localized('Market'),
-                          value: null,
-                        }}
-                        label={Localized('Market')}
-                        testID="market-picker-input"
                       />
                     </RowContainer>
                   </Flexbox>

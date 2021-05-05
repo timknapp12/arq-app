@@ -1,11 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import {
+  View,
+  TouchableWithoutFeedback,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import FilterSearchBar from './FilterSearchBar';
 import ResourceCard from './ResourceCard';
+import MarketModal from '../marketModal/MarketModal';
 import * as Analytics from 'expo-firebase-analytics';
 import AppContext from '../../contexts/AppContext';
+import { markets } from '../../utils/markets/markets';
+import { findMarketUrl } from '../../utils/markets/findMarketUrl';
 
 const FlagIcon = styled.Image`
   height: 20px;
@@ -17,6 +25,16 @@ const CorporateView = ({ navigation, fadeOut }) => {
   const { corporateResources } = useContext(AppContext);
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
+  const [selectedMarket, setSelectedMarket] = useState('us');
+  const initialMarketUrl = markets[0].url;
+  const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
+
+  useEffect(() => {
+    if (selectedMarket) {
+      setMarketUrl(findMarketUrl(selectedMarket, markets));
+    }
+  }, [selectedMarket]);
 
   const navigateToResource = (item) => {
     fadeOut();
@@ -42,48 +60,61 @@ const CorporateView = ({ navigation, fadeOut }) => {
   };
 
   return (
-    <ScrollView
-      onStartShouldSetResponder={() => true}
-      style={{ zIndex: -1, width: '100%' }}
-      contentContainerStyle={{
-        paddingBottom: 200,
-      }}>
-      <FilterSearchBar>
-        <FlagIcon
-          source={{
-            uri:
-              'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2Fusa-flag_72x72.png?alt=media&token=55469beb-4a67-4c63-a156-dbd1fd96b7b4',
-          }}
-        />
-      </FilterSearchBar>
-      <TouchableWithoutFeedback
-        onPress={() => setIsCalloutOpenFromParent(false)}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            padding: 10,
-          }}
-          accessibilityLabel="Corporate Resources"
-          onStartShouldSetResponder={() => true}>
-          {corporateResources.map((item, index) => (
-            <ResourceCard
-              isCalloutOpenFromParent={isCalloutOpenFromParent}
-              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-              style={{ zIndex: -index }}
-              key={item.title}
-              url={item.url}
-              title={item.title}
-              onPress={() => {
-                setIsCalloutOpenFromParent(false);
-                navigateToResource(item);
+    <>
+      <ScrollView
+        onStartShouldSetResponder={() => true}
+        style={{ zIndex: -1, width: '100%' }}
+        contentContainerStyle={{
+          paddingBottom: 200,
+        }}>
+        <FilterSearchBar>
+          <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
+            <FlagIcon
+              source={{
+                uri: marketUrl,
               }}
             />
-          ))}
-        </View>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+          </TouchableOpacity>
+        </FilterSearchBar>
+        <TouchableWithoutFeedback
+          onPress={() => setIsCalloutOpenFromParent(false)}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              padding: 10,
+            }}
+            accessibilityLabel="Corporate Resources"
+            onStartShouldSetResponder={() => true}>
+            {corporateResources.map((item, index) => (
+              <ResourceCard
+                isCalloutOpenFromParent={isCalloutOpenFromParent}
+                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                style={{ zIndex: -index }}
+                key={item.title}
+                url={item.url}
+                title={item.title}
+                onPress={() => {
+                  setIsCalloutOpenFromParent(false);
+                  navigateToResource(item);
+                }}
+              />
+            ))}
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+      {isMarketModalOpen && (
+        <MarketModal
+          visible={isMarketModalOpen}
+          onClose={() => setIsMarketModalOpen(false)}
+          context="resources"
+          items={markets}
+          value={selectedMarket}
+          onValueChange={(value) => setSelectedMarket(value)}
+        />
+      )}
+    </>
   );
 };
 

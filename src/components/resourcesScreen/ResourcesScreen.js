@@ -206,12 +206,14 @@ const ResourcesScreen = ({ navigation }) => {
             <ButtonText>+</ButtonText>
           </AddButton>
         )}
-        <MyInfoModal
-          isMyInfoModalOpen={isMyInfoModalOpen}
-          setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-          data={mockUser.personalInfo}
-          saveProfileImageToFirebase={saveProfileImageToFirebase}
-        />
+        {isMyInfoModalOpen && (
+          <MyInfoModal
+            isMyInfoModalOpen={isMyInfoModalOpen}
+            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+            data={mockUser.personalInfo}
+            saveProfileImageToFirebase={saveProfileImageToFirebase}
+          />
+        )}
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
