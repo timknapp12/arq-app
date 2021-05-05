@@ -66,10 +66,14 @@ const mockUser = {
 };
 
 const DashboardScreen = () => {
-  initLanguage();
+  const {
+    storeTimeStamp,
+    setCorporateResources,
+    deviceLanguage,
+    userMarket,
+  } = useContext(AppContext);
+  initLanguage;
   const db = firebase.firestore();
-  // TODO add this to the resource screen when there are no merge conflicts
-  const { storeTimeStamp, setCorporateResources } = useContext(AppContext);
   storeTimeStamp();
   const ranklist = [
     {
@@ -241,8 +245,12 @@ const DashboardScreen = () => {
   }, [isFocused]);
 
   useEffect(() => {
-    getCorporateResources(db, 'us', 'english', setCorporateResources);
-
+    getCorporateResources(
+      db,
+      userMarket,
+      deviceLanguage,
+      setCorporateResources,
+    );
     return () => {
       setCorporateResources([]);
     };

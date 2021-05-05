@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -14,6 +14,7 @@ import {
   Flexbox,
 } from '../common';
 import ProductCard from './productCard/ProductCard';
+import AppContext from '../../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -22,7 +23,9 @@ import 'firebase/firestore';
 const { width } = Dimensions.get('window');
 const imageHeight = width / 2 - 20;
 
-const ProductCategoryScreen = ({ navigation }) => {
+const ProductCategoryScreen = ({ route, navigation }) => {
+  const { deviceLanguage } = useContext(AppContext);
+  const { market } = route.params;
   const db = firebase.firestore();
   const [categoryList, setCategoryList] = useState([]);
   const [view, setView] = useState({ title: '' });
@@ -31,7 +34,9 @@ const ProductCategoryScreen = ({ navigation }) => {
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const categoryRef = db
-    .collection('corporate resources us market english language')
+    .collection(
+      `corporate resources ${market} market ${deviceLanguage} language`,
+    )
     .doc('products')
     .collection('product categories');
 
@@ -148,6 +153,7 @@ const ProductCategoryScreen = ({ navigation }) => {
 };
 
 ProductCategoryScreen.propTypes = {
+  route: PropTypes.object,
   navigation: PropTypes.object,
 };
 

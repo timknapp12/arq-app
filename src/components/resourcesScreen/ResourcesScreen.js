@@ -55,7 +55,8 @@ const ButtonText = styled(H3)`
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
-  const { theme } = useContext(AppContext);
+  const { theme, storeTimeStamp } = useContext(AppContext);
+  storeTimeStamp();
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {

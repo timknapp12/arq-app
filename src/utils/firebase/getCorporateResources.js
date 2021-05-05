@@ -1,7 +1,7 @@
 export const getCorporateResources = (
   db,
   market = 'us',
-  language = 'english',
+  language = 'en',
   callback,
 ) => {
   const corporateResources = [];

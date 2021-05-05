@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer, Flexbox } from '../common';
 import AssetCard from './assetCard/AssetCard';
 import DownloadToast from './DownloadToast';
+import AppContext from '../../contexts/AppContext';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
+  const { deviceLanguage } = useContext(AppContext);
   const db = firebase.firestore();
-  const { documentID, assetList, hasPermissions } = route.params;
+  const { documentID, assetList, hasPermissions, market } = route.params;
   const [categoryList, setCategoryList] = useState(assetList || []);
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
@@ -26,7 +28,9 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   // this will get data from firebase for corporate assets, but data for team assets will just be passed as a prop called assetList
   useEffect(() => {
     if (documentID) {
-      db.collection('corporate resources us market english language')
+      db.collection(
+        `corporate resources ${market} market ${deviceLanguage} language`,
+      )
         .doc(documentID)
         .collection('assets')
         .orderBy('order', 'asc')
@@ -100,8 +104,8 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
 };
 
 ResourcesCategoryScreen.propTypes = {
-  navigation: PropTypes.object,
   route: PropTypes.object,
+  navigation: PropTypes.object,
   assetList: PropTypes.array,
 };
 
