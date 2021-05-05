@@ -32,7 +32,7 @@ import TeamView from './TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import AppContext from '../../contexts/AppContext';
-import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
+import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 
 const { height } = Dimensions.get('window');
 const topOfView = Platform.OS === 'ios' ? 140 : 80;
@@ -81,7 +81,7 @@ const ResourcesScreen = ({ navigation }) => {
     { name: Localized('CORPORATE'), testID: 'corporate_button' },
     { name: Localized('TEAM'), testID: 'team_button' },
     { name: Localized('SERVICES'), testID: 'services_button' },
-    { name: Localized('FAVORITES'), testID: 'favorites_button' },
+    // { name: Localized('FAVORITES'), testID: 'favorites_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -128,7 +128,14 @@ const ResourcesScreen = ({ navigation }) => {
           profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            contentContainerStyle={{
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              minWidth: '100%',
+            }}
+            horizontal
+            showsHorizontalScrollIndicator={false}>
             {tertiaryButtonText.map((item) => (
               <TertiaryButton
                 style={{ marginRight: 15 }}
@@ -172,7 +179,7 @@ const ResourcesScreen = ({ navigation }) => {
                   }}
                 />
               </FilterSearchBar>
-              <CorporateView navigation={navigation} />
+              <CorporateView fadeOut={fadeOut} navigation={navigation} />
             </>
           )}
           {view.name === Localized('TEAM') && (
@@ -230,6 +237,9 @@ const ResourcesScreen = ({ navigation }) => {
   );
 };
 
-ResourcesScreen.propTypes = { navigation: PropTypes.object };
+ResourcesScreen.propTypes = {
+  navigation: PropTypes.object,
+  fadeOut: PropTypes.func,
+};
 
 export default ResourcesScreen;

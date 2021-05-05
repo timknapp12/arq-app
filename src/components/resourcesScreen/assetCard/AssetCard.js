@@ -157,7 +157,6 @@ const AssetCard = ({
           text: Localized('Cancel'),
           onPress: () => {
             closeCallout();
-            console.log('Cancel Pressed');
           },
           style: 'cancel',
         },

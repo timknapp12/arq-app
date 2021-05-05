@@ -221,7 +221,7 @@ const ThemedTextArea = styled.View`
 `;
 
 const TextAreaInput = styled.TextInput`
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.primaryTextColor};
   flex: 1;
   font-size: 16px;
   font-family: 'Roboto-Regular';

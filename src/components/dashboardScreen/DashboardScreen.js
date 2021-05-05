@@ -16,7 +16,7 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
+import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
 import AppContext from '../../contexts/AppContext';
 import firebase from 'firebase/app';
