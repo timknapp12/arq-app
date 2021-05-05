@@ -1,18 +1,27 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components/native';
 import SearchIcon from '../../../assets/icons/search-icon.svg';
 import AppContext from '../../contexts/AppContext';
-import { Flexbox } from '../common';
+
+const Container = styled.View`
+  width: 100%;
+  flex-direction: row;
+  z-index: -1;
+  padding: 0 12px;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 const FilterSearchBar = ({ children }) => {
   const { theme } = useContext(AppContext);
   return (
-    <Flexbox direction="row" padding={4} style={{ zIndex: -1 }}>
+    <Container>
       {children}
       <SearchIcon
         style={{ height: 36, width: 36, color: theme.primaryTextColor }}
       />
-    </Flexbox>
+    </Container>
   );
 };
 

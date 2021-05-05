@@ -1,9 +1,17 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components/native';
 import { View, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import FilterSearchBar from './FilterSearchBar';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import AppContext from '../../contexts/AppContext';
+
+const FlagIcon = styled.Image`
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+`;
 
 const CorporateView = ({ navigation, fadeOut }) => {
   const { corporateResources } = useContext(AppContext);
@@ -40,6 +48,14 @@ const CorporateView = ({ navigation, fadeOut }) => {
       contentContainerStyle={{
         paddingBottom: 200,
       }}>
+      <FilterSearchBar>
+        <FlagIcon
+          source={{
+            uri:
+              'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2Fusa-flag_72x72.png?alt=media&token=55469beb-4a67-4c63-a156-dbd1fd96b7b4',
+          }}
+        />
+      </FilterSearchBar>
       <TouchableWithoutFeedback
         onPress={() => setIsCalloutOpenFromParent(false)}>
         <View

@@ -167,20 +167,7 @@ const ResourcesScreen = ({ navigation }) => {
             zIndex: -1,
           }}>
           {view.name === Localized('CORPORATE') && (
-            <>
-              <FilterSearchBar>
-                <FilterIcon
-                  style={{
-                    height: 30,
-                    width: 30,
-                    color: theme.primaryTextColor,
-                    marginTop: -2,
-                    marginEnd: 2,
-                  }}
-                />
-              </FilterSearchBar>
-              <CorporateView fadeOut={fadeOut} navigation={navigation} />
-            </>
+            <CorporateView fadeOut={fadeOut} navigation={navigation} />
           )}
           {view.name === Localized('TEAM') && (
             <>
