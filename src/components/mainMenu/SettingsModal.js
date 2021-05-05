@@ -33,7 +33,7 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { markets } from '../../utils/markets';
+import { markets } from '../../utils/markets/markets';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
