@@ -1,12 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components/native';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { ScreenContainer, Flexbox } from '../common';
+import { ScreenContainer, Flexbox, H3 } from '../common';
 import AssetCard from './assetCard/AssetCard';
+import UploadAssetModal from './UploadAssetModal';
 import DownloadToast from './DownloadToast';
 import AppContext from '../../contexts/AppContext';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+
+const AddButton = styled.TouchableOpacity`
+  height: 56px;
+  width: 56px;
+  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  border-radius: 28px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+`;
+
+const ButtonText = styled(H3)`
+  font-family: 'Avenir-Black';
+`;
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
   const { deviceLanguage } = useContext(AppContext);
@@ -17,6 +35,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
   const [toastProgress, setToastProgress] = useState(0);
+  const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
   const setToastInfo = (title, body, visible, progress) => {
     setToastTitle(title);
@@ -56,10 +75,15 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
+      <ScreenContainer
+        style={{ paddingTop: 0, paddingBottom: 0, height: 'auto' }}>
         <ScrollView
           onStartShouldSetResponder={() => true}
-          style={{ zIndex: -1, width: '100%' }}
+          style={{
+            zIndex: -1,
+            width: '100%',
+            height: '100%',
+          }}
           contentContainerStyle={{
             paddingBottom: 120,
           }}>
@@ -98,6 +122,23 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
             </Flexbox>
           </TouchableWithoutFeedback>
         </ScrollView>
+        {hasPermissions && (
+          <AddButton
+            onPress={() => {
+              setIsUploadAssetModalOpen(true);
+              setIsCalloutOpenFromParent(false);
+            }}>
+            <ButtonText>+</ButtonText>
+          </AddButton>
+        )}
+        {isUploadAssetModalOpen && (
+          <UploadAssetModal
+            visible={isUploadAssetModalOpen}
+            onClose={() => {
+              setIsUploadAssetModalOpen(false);
+            }}
+          />
+        )}
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
