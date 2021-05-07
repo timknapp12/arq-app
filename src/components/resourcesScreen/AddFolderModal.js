@@ -70,6 +70,8 @@ const DefaultRectangleImage = styled.View`
   width: ${rectangleImageWidth}px;
 `;
 
+const marginSize = 8;
+
 const AddFolderModal = ({
   visible,
   onClose,
@@ -147,7 +149,7 @@ const AddFolderModal = ({
             {Localized(editMode ? `Edit Folder` : `Add Folder`)}
           </H4>
         </Flexbox>
-        <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
+        <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
           autoFocus
           onFocus={() => setIsFileInputFocused(false)}
@@ -155,8 +157,11 @@ const AddFolderModal = ({
           value={title}
           onChangeText={(text) => setTitle(text)}
         />
-        <Label style={{ marginTop: 8 }}>{Localized('Layout')}</Label>
-        <Flexbox style={{ marginTop: 8 }} justify="flex-start" direction="row">
+        <Label style={{ marginTop: marginSize }}>{Localized('Layout')}</Label>
+        <Flexbox
+          style={{ marginTop: marginSize }}
+          justify="flex-start"
+          direction="row">
           <TouchableOpacity
             onPress={() => {
               setIsWideLayout(false);
@@ -182,7 +187,7 @@ const AddFolderModal = ({
                   </Title>
                 </Footer>
               </MiniCard>
-              {!isWideLayout && <Underline style={{ marginTop: 8 }} />}
+              {!isWideLayout && <Underline style={{ marginTop: marginSize }} />}
             </Flexbox>
           </TouchableOpacity>
           <TouchableOpacity
@@ -211,11 +216,11 @@ const AddFolderModal = ({
                   </Title>
                 </Footer>
               </MiniCard>
-              {isWideLayout && <Underline style={{ marginTop: 8 }} />}
+              {isWideLayout && <Underline style={{ marginTop: marginSize }} />}
             </Flexbox>
           </TouchableOpacity>
         </Flexbox>
-        <Label style={{ marginTop: 8 }}>{Localized('Picture')}</Label>
+        <Label style={{ marginTop: marginSize }}>{Localized('Picture')}</Label>
         <TouchableOpacity
           onPress={() => {
             pickImage();

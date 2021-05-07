@@ -29,6 +29,8 @@ const FileUnderline = styled.View`
   border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
 `;
 
+const marginSize = 8;
+
 const UploadAssetModal = ({
   visible,
   onClose,
@@ -166,7 +168,7 @@ const UploadAssetModal = ({
             {Localized(editMode ? `Edit Item` : `Add Item`)}
           </H4>
         </Flexbox>
-        <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
+        <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
           autoFocus
           onFocus={() => setIsFileInputFocused(false)}
@@ -181,7 +183,7 @@ const UploadAssetModal = ({
           multiline
           numberOfLines={3}
           onChangeText={(text) => setDescription(text)}
-          style={{ marginTop: 8 }}
+          style={{ marginTop: marginSize }}
           onFocus={() => setIsFileInputFocused(false)}
         />
         <Picker
@@ -201,7 +203,7 @@ const UploadAssetModal = ({
         />
         {contentType === 'video' || contentType === 'podcast' ? (
           <>
-            <Label style={{ marginTop: 8 }}>{Localized('Link')}</Label>
+            <Label style={{ marginTop: marginSize }}>{Localized('Link')}</Label>
             <Input
               onFocus={() => setIsFileInputFocused(false)}
               testID="upload-asset-link-input"
@@ -216,7 +218,7 @@ const UploadAssetModal = ({
               setIsFileInputFocused(true);
             }}
             style={{ width: '100%' }}>
-            <Label style={{ marginTop: 8 }}>{Localized('File')}</Label>
+            <Label style={{ marginTop: marginSize }}>{Localized('File')}</Label>
             <FileInput>
               <Filename
                 ellipsizeMode="tail"
