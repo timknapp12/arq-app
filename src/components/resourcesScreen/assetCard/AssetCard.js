@@ -298,6 +298,7 @@ const AssetCard = ({
             closeCallout();
           }}
           // These props are passed to populate the corresponding fields in the edit phase of the modal
+          editMode
           assetTitle={title}
           assetDescription={description}
           assetContentType={contentType}

@@ -237,6 +237,7 @@ const ResourceCard = ({
             setIsAddFolderModalOpen(false);
             closeCallout();
           }}
+          editMode
           folderTitle={title}
           folderUrl={url}
           folderIsWideLayout={isWideLayout}

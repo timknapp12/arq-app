@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, Input, TextArea, Picker } from '../common';
+import { Flexbox, Label, Input, TextArea, Picker, H4 } from '../common';
 import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
 import AppContext from '../../contexts/AppContext';
@@ -32,6 +32,8 @@ const FileUnderline = styled.View`
 const UploadAssetModal = ({
   visible,
   onClose,
+  // these props are to populate the fields in the modal with already existing data while in edit modal
+  editMode,
   assetTitle = '',
   assetDescription = '',
   assetContentType = '',
@@ -159,6 +161,11 @@ const UploadAssetModal = ({
       }}
       onSave={onSave}>
       <Flexbox align="flex-start">
+        <Flexbox>
+          <H4 style={{ textAlign: 'center' }}>
+            {Localized(editMode ? `Edit Item` : `Add Item`)}
+          </H4>
+        </Flexbox>
         <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
         <Input
           autoFocus
@@ -237,7 +244,7 @@ const UploadAssetModal = ({
 UploadAssetModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  // these props are to populate the fields in the modal with already existing data while in edit mode
+  editMode: PropTypes.bool,
   assetTitle: PropTypes.string,
   assetDescription: PropTypes.string,
   assetContentType: PropTypes.string,

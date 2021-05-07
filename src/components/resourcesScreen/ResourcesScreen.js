@@ -1,13 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import {
-  Animated,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import { Animated, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -34,9 +28,6 @@ import FavoritesView from './FavoritesView';
 import AppContext from '../../contexts/AppContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 
-const { height } = Dimensions.get('window');
-const topOfView = Platform.OS === 'ios' ? 140 : 80;
-
 const AddButton = styled.TouchableOpacity`
   height: 56px;
   width: 56px;
@@ -45,7 +36,7 @@ const AddButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: ${height - topOfView}px;
+  bottom: 90px;
   right: 12px;
 `;
 
