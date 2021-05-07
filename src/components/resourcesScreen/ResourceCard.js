@@ -116,16 +116,14 @@ const ResourceCard = ({
   const onCallout = async () => {
     if (isCalloutOpen) {
       closeCallout();
-    }
-    if (!isCalloutOpen) {
+    } else if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
       setIsNavDisabled(true);
     }
     if (isCalloutOpenFromParent) {
       setIsCalloutOpenFromParent(false);
-    }
-    if (!isCalloutOpenFromParent) {
+    } else if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(true);
       setIsNavDisabled(true);
     }

@@ -77,8 +77,7 @@ const ProductCard = ({
     if (isCalloutOpen) {
       setIsCalloutOpen(false);
       setIsCalloutOpenFromParent(false);
-    }
-    if (!isCalloutOpen) {
+    } else if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
     }

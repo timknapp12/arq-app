@@ -114,8 +114,7 @@ const AssetCard = ({
     e.stopPropagation();
     if (isCalloutOpen) {
       closeCallout();
-    }
-    if (!isCalloutOpen) {
+    } else if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
       setIsNavDisabled(true);
