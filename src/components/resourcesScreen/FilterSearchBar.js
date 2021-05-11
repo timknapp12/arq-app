@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
 import SearchIcon from '../../../assets/icons/search-icon.svg';
 import AppContext from '../../contexts/AppContext';
 
@@ -18,9 +19,11 @@ const FilterSearchBar = ({ children }) => {
   return (
     <Container>
       {children}
-      <SearchIcon
-        style={{ height: 36, width: 36, color: theme.primaryTextColor }}
-      />
+      <TouchableOpacity onPress={() => console.log('search button pressed')}>
+        <SearchIcon
+          style={{ height: 36, width: 36, color: theme.primaryTextColor }}
+        />
+      </TouchableOpacity>
     </Container>
   );
 };

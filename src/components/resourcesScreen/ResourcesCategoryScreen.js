@@ -9,6 +9,7 @@ import DownloadToast from './DownloadToast';
 import AppContext from '../../contexts/AppContext';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { getCorporateAssets } from '../../utils/firebase/getCorporateAssets';
 
 const AddButton = styled.TouchableOpacity`
   height: 56px;
@@ -29,8 +30,8 @@ const ButtonText = styled(H3)`
 const ResourcesCategoryScreen = ({ route, navigation }) => {
   const { deviceLanguage } = useContext(AppContext);
   const db = firebase.firestore();
-  const { documentID, assetList, hasPermissions, market } = route.params;
-  const [categoryList, setCategoryList] = useState(assetList || []);
+  const { documentID, teamAssetList, hasPermissions, market } = route.params;
+  const [assetList, setAssetList] = useState(teamAssetList || []);
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
@@ -44,27 +45,13 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
     setToastProgress(progress);
   };
 
-  // this will get data from firebase for corporate assets, but data for team assets will just be passed as a prop called assetList
+  // this will get data from firebase for corporate assets, but data for team assets will just be passed as a prop called teamAssetList
   useEffect(() => {
     if (documentID) {
-      db.collection(
-        `corporate resources ${market} market ${deviceLanguage} language`,
-      )
-        .doc(documentID)
-        .collection('assets')
-        .orderBy('order', 'asc')
-        .get()
-        .then((querySnapshot) => {
-          const corporateResources = [];
-          querySnapshot.forEach((doc) => {
-            const resourceWithID = { id: doc.id, ...doc.data() };
-            corporateResources.push(resourceWithID);
-          });
-          setCategoryList(corporateResources);
-        });
+      getCorporateAssets(db, market, deviceLanguage, setAssetList, documentID);
     }
     return () => {
-      setCategoryList([]);
+      setAssetList([]);
     };
   }, []);
 
@@ -101,12 +88,12 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                 progress={toastProgress}
               />
 
-              {categoryList.map((item, index) => (
+              {assetList.map((item, index) => (
                 <AssetCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   style={{ zIndex: -index }}
-                  key={item.title}
+                  key={item.id}
                   url={item.url}
                   title={item.title}
                   description={item.description}
@@ -147,7 +134,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
 ResourcesCategoryScreen.propTypes = {
   route: PropTypes.object,
   navigation: PropTypes.object,
-  assetList: PropTypes.array,
+  teamAssetList: PropTypes.array,
 };
 
 export default ResourcesCategoryScreen;

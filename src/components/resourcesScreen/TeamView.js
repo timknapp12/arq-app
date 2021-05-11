@@ -25,7 +25,7 @@ const TeamView = ({
     }
     navigation.navigate('Resources Category Screen', {
       title: item.title.toUpperCase(),
-      assetList: item.assetList,
+      teamAssetList: item.assetList,
       // TODO: integrate permissions with backend
       hasPermissions: true,
     });

@@ -99,7 +99,7 @@ const CorporateView = ({ navigation, fadeOut }) => {
               isCalloutOpenFromParent={isCalloutOpenFromParent}
               setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
               style={{ zIndex: -index }}
-              key={item.title}
+              key={item.id}
               url={item.url}
               title={item.title}
               onPress={() => {
