@@ -1,14 +1,14 @@
 export const marketToLangMap = {
-  us: 'en',
+  us: 'en', // also es
   au: 'en',
   at: 'de',
   be: 'fr',
-  ca: 'en',
+  ca: 'en', // also fr
   dk: 'en',
   fr: 'fr',
   de: 'de',
   gr: 'en',
-  it: 'en',
+  it: 'it',
   jp: 'jp',
   my: 'en',
   mx: 'es',

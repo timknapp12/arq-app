@@ -14,6 +14,7 @@ const languageCodes = {
   japanese: 'ja',
   norweigan: 'nb',
   german: 'de',
+  italian: 'it',
 };
 //TODO - may have to add Localization.getLocalizationAsync() for Android to reset locale https://docs.expo.io/versions/latest/sdk/localization/
 export const translationGetters = {
@@ -24,6 +25,7 @@ export const translationGetters = {
   ja: () => require('./ja.json'),
   nb: () => require('./nb.json'),
   de: () => require('./de.json'),
+  it: () => require('./it.json'),
 };
 export const Localized = memoize(
   (key, config) =>

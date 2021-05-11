@@ -17,6 +17,30 @@ describe('get root collection', () => {
 
     expect(getRootCollection(market, language)).toBe(output);
   });
+  test('ca market and en language returns resource for ca en', () => {
+    const market = 'ca';
+    const language = 'en';
+
+    const output = 'corporate resources ca market en language';
+
+    expect(getRootCollection(market, language)).toBe(output);
+  });
+  test('ca market and FR language returns resource for ca fr', () => {
+    const market = 'ca';
+    const language = 'fr';
+
+    const output = 'corporate resources ca market fr language';
+
+    expect(getRootCollection(market, language)).toBe(output);
+  });
+  test('ca market and random language returns default en', () => {
+    const market = 'ca';
+    const language = 'it';
+
+    const output = 'corporate resources ca market en language';
+
+    expect(getRootCollection(market, language)).toBe(output);
+  });
   test('mx market returns mx market regardless of language', () => {
     const market = 'mx';
     const language = 'jp';
