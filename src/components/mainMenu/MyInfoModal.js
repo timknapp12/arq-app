@@ -223,7 +223,7 @@ const MyInfoModal = ({
     displayName,
     email,
     phone,
-    distributorId,
+    associateId,
     address1,
     address2,
     city,
@@ -392,9 +392,9 @@ const MyInfoModal = ({
                     onBlur={validatePhone}
                   />
                   <AnimatedInput
-                    testID="distributor-id-input"
-                    label={Localized('Distributor ID')}
-                    value={distributorId}
+                    testID="ambassador-id-input"
+                    label={Localized('Ambassador ID')}
+                    value={associateId}
                     editable={false}
                   />
                 </Flexbox>
