@@ -18,6 +18,10 @@ import AppContext from '../../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import {
+  getCorporateProductCategories,
+  getCorporateProducts,
+} from '../../utils/firebase/getCorporateProducts';
 
 // this will make the image a 2 x 1 ratio with taking padding into account
 const { width } = Dimensions.get('window');
@@ -33,52 +37,26 @@ const ProductCategoryScreen = ({ route, navigation }) => {
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
-  const categoryRef = db
-    .collection(
-      `corporate resources ${market} market ${deviceLanguage} language`,
-    )
-    .doc('products')
-    .collection('product categories');
-
-  const getSubcategory = (item) => {
-    const listRef = categoryRef.doc(item.id).collection('list');
-    listRef
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const subcategories = [];
-        querySnapshot.forEach((doc) => {
-          const resourceWithID = {
-            id: doc.id,
-            ...doc.data(),
-          };
-          subcategories.push(resourceWithID);
-        });
-        setSubcategoryList(subcategories);
-      });
-  };
 
   useEffect(() => {
-    categoryRef
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const productCategories = [];
-        querySnapshot.forEach((doc) => {
-          const resourceWithID = { id: doc.id, ...doc.data() };
-          productCategories.push(resourceWithID);
-        });
-        setCategoryList(productCategories);
-        navigate(productCategories[0]);
-      });
-    return () => {
-      setCategoryList([]);
-    };
+    getCorporateProductCategories(
+      db,
+      market,
+      deviceLanguage,
+      setCategoryList,
+      navigate,
+    );
   }, []);
 
   const navigate = (item) => {
     setView(item);
-    getSubcategory(item);
+    getCorporateProducts(
+      db,
+      market,
+      deviceLanguage,
+      setSubcategoryList,
+      item.id,
+    );
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
     const formattedTitle = item.title.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';

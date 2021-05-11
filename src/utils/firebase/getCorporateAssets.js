@@ -11,7 +11,7 @@ export const getCorporateAssets = (
   const rootCollection = getRootCollection(market, language);
   const supportedLang =
     market === 'us' && language === 'es' ? 'es' : marketToLangMap[market];
-  const corporateResources = [];
+  const corporateAssets = [];
   db.collection(rootCollection)
     .doc(documentID)
     .collection('assets')
@@ -47,8 +47,8 @@ export const getCorporateAssets = (
           description: newDescription,
           ...rest,
         };
-        corporateResources.push(resourceWithID);
+        corporateAssets.push(resourceWithID);
       });
-      callback(corporateResources);
+      callback(corporateAssets);
     });
 };

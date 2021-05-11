@@ -7,6 +7,7 @@ import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { getProductAssets } from '../../../utils/firebase/getCorporateProducts';
 
 const ProductCardContainer = styled.View`
   width: 100%;
@@ -31,33 +32,16 @@ const ProductCard = ({
   const [assetList, setAssetList] = useState([]);
 
   const db = firebase.firestore();
-  const getAssetList = (categoryID, productID) =>
-    db
-      .collection(
-        `corporate resources ${market} market ${deviceLanguage} language`,
-      )
-      .doc('products')
-      .collection('product categories')
-      .doc(categoryID)
-      .collection('list')
-      .doc(productID)
-      .collection('assets')
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const assetList = [];
-        querySnapshot.forEach((doc) => {
-          const assetWithID = {
-            id: doc.id,
-            ...doc.data(),
-          };
-          assetList.push(assetWithID);
-        });
-        setAssetList(assetList);
-      });
 
   useEffect(() => {
-    getAssetList(categoryID, productID);
+    getProductAssets(
+      db,
+      market,
+      deviceLanguage,
+      setAssetList,
+      categoryID,
+      productID,
+    );
   }, []);
 
   useEffect(() => {
