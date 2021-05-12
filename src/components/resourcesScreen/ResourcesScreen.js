@@ -10,15 +10,12 @@ import {
   TopButtonBar,
   Flexbox,
   H3,
-  H5,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized, initLanguage } from '../../translations/Localized';
-import FilterSearchBar from './FilterSearchBar';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import FilterIcon from '../../../assets/icons/filter-icon.svg';
 // TODO remove this once we get real data
 import { mockUser } from '../common/mockUser';
 import CorporateView from './CorporateView';
@@ -46,7 +43,7 @@ const ButtonText = styled(H3)`
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
-  const { theme, storeTimeStamp } = useContext(AppContext);
+  const { storeTimeStamp } = useContext(AppContext);
   storeTimeStamp();
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -162,29 +159,14 @@ const ResourcesScreen = ({ navigation }) => {
             <CorporateView fadeOut={fadeOut} navigation={navigation} />
           )}
           {view.name === Localized('TEAM') && (
-            <>
-              <FilterSearchBar>
-                <Flexbox direction="row" width="auto">
-                  <FilterIcon
-                    style={{
-                      height: 30,
-                      width: 30,
-                      color: theme.primaryTextColor,
-                      marginTop: -2,
-                    }}
-                  />
-                  <H5>Team Awesome!</H5>
-                </Flexbox>
-              </FilterSearchBar>
-              <TeamView
-                fadeOut={fadeOut}
-                navigation={navigation}
-                isCalloutOpenFromParent={isCalloutOpenFromParent}
-                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                isAddFolderModalOpen={isAddFolderModalOpen}
-                setIsAddFolderModalOpen={setIsAddFolderModalOpen}
-              />
-            </>
+            <TeamView
+              fadeOut={fadeOut}
+              navigation={navigation}
+              isCalloutOpenFromParent={isCalloutOpenFromParent}
+              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+              isAddFolderModalOpen={isAddFolderModalOpen}
+              setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+            />
           )}
           {view.name === Localized('SERVICES') && <ServicesView />}
           {view.name === Localized('FAVORITES') && <FavoritesView />}
