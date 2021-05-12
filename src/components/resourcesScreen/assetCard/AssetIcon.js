@@ -17,7 +17,7 @@ const AssetIcon = ({ contentType, onPress }) => {
           <TouchableOpacity onPress={onPress}>
             <PdfIcon
               style={{
-                color: theme.activeTint,
+                color: theme.primaryTextColor,
                 height: 34,
                 width: 34,
               }}
@@ -30,7 +30,7 @@ const AssetIcon = ({ contentType, onPress }) => {
           <TouchableOpacity onPress={onPress}>
             <VideoIcon
               style={{
-                color: theme.activeTint,
+                color: theme.primaryTextColor,
                 height: 34,
                 width: 34,
               }}
@@ -43,7 +43,7 @@ const AssetIcon = ({ contentType, onPress }) => {
           <TouchableOpacity onPress={onPress}>
             <PodcastIcon
               style={{
-                color: theme.activeTint,
+                color: theme.primaryTextColor,
                 height: 34,
                 width: 34,
               }}
@@ -56,7 +56,7 @@ const AssetIcon = ({ contentType, onPress }) => {
           <TouchableOpacity onPress={onPress}>
             <ImageIcon
               style={{
-                color: theme.activeTint,
+                color: theme.primaryTextColor,
                 height: 34,
                 width: 34,
               }}

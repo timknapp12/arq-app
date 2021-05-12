@@ -114,8 +114,7 @@ const AssetCard = ({
     e.stopPropagation();
     if (isCalloutOpen) {
       closeCallout();
-    }
-    if (!isCalloutOpen) {
+    } else if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
       setIsNavDisabled(true);
@@ -157,7 +156,6 @@ const AssetCard = ({
           text: Localized('Cancel'),
           onPress: () => {
             closeCallout();
-            console.log('Cancel Pressed');
           },
           style: 'cancel',
         },
@@ -220,7 +218,7 @@ const AssetCard = ({
             <TouchableOpacity onPress={() => setIsExpanded((state) => !state)}>
               <MaterialCommunityIcon
                 name={isExpanded ? 'chevron-up' : 'chevron-down'}
-                color={theme.activeTint}
+                color={theme.primaryTextColor}
                 size={24}
               />
             </TouchableOpacity>
@@ -232,7 +230,7 @@ const AssetCard = ({
                 }}>
                 <MaterialCommunityIcon
                   name={isExpanded ? 'chevron-up' : 'chevron-down'}
-                  color={theme.activeTint}
+                  color={theme.primaryTextColor}
                   size={24}
                 />
               </GestureTouchable>
@@ -241,7 +239,11 @@ const AssetCard = ({
                   style={{ alignItems: 'center' }}
                   onPress={() => setIsCalloutOpen(false)}>
                   <KebobIcon
-                    style={{ height: 20, width: 20, color: theme.activeTint }}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      color: theme.primaryTextColor,
+                    }}
                   />
                 </GestureTouchable>
               ) : (
@@ -249,7 +251,11 @@ const AssetCard = ({
                   style={{ alignItems: 'center' }}
                   onPress={(e) => onCallout(e)}>
                   <KebobIcon
-                    style={{ height: 20, width: 20, color: theme.activeTint }}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      color: theme.primaryTextColor,
+                    }}
                   />
                 </TouchableOpacity>
               )}
@@ -292,6 +298,7 @@ const AssetCard = ({
             closeCallout();
           }}
           // These props are passed to populate the corresponding fields in the edit phase of the modal
+          editMode
           assetTitle={title}
           assetDescription={description}
           assetContentType={contentType}

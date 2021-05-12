@@ -1,22 +1,35 @@
 import React, { useContext } from 'react';
-import { Text } from 'react-native';
 import PropTypes from 'prop-types';
-import SearchIcon from 'react-native-vector-icons/Ionicons';
+import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
+import SearchIcon from '../../../assets/icons/search-icon.svg';
 import AppContext from '../../contexts/AppContext';
-import { Flexbox } from '../common';
 
-const FilterSearchBar = ({ userName = 'user' }) => {
+const Container = styled.View`
+  width: 100%;
+  flex-direction: row;
+  z-index: -1;
+  padding: 0 12px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const FilterSearchBar = ({ children }) => {
   const { theme } = useContext(AppContext);
   return (
-    <Flexbox direction="row" padding={10} style={{ zIndex: -1 }}>
-      <Text style={{ color: '#fff' }}>{`${userName}'s awesome team`}</Text>
-      <SearchIcon color={theme.activeTint} size={24} name="search" />
-    </Flexbox>
+    <Container>
+      {children}
+      <TouchableOpacity onPress={() => console.log('search button pressed')}>
+        <SearchIcon
+          style={{ height: 36, width: 36, color: theme.primaryTextColor }}
+        />
+      </TouchableOpacity>
+    </Container>
   );
 };
 
 FilterSearchBar.propTypes = {
-  userName: PropTypes.string,
+  children: PropTypes.any,
 };
 
 export default FilterSearchBar;

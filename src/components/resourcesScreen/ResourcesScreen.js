@@ -1,13 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import {
-  Animated,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import { Animated, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -16,24 +10,23 @@ import {
   TopButtonBar,
   Flexbox,
   H3,
+  H5,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import { Localized } from '../../translations/Localized';
+import { Localized, initLanguage } from '../../translations/Localized';
 import FilterSearchBar from './FilterSearchBar';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+import FilterIcon from '../../../assets/icons/filter-icon.svg';
 // TODO remove this once we get real data
 import { mockUser } from '../common/mockUser';
 import CorporateView from './CorporateView';
 import TeamView from './TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
-import DownloadsView from './DownloadsView';
-import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
-
-const { height } = Dimensions.get('window');
-const topOfView = Platform.OS === 'ios' ? 140 : 80;
+import AppContext from '../../contexts/AppContext';
+import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 
 const AddButton = styled.TouchableOpacity`
   height: 56px;
@@ -43,7 +36,7 @@ const AddButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: ${height - topOfView}px;
+  bottom: 90px;
   right: 12px;
 `;
 
@@ -52,6 +45,9 @@ const ButtonText = styled(H3)`
 `;
 
 const ResourcesScreen = ({ navigation }) => {
+  initLanguage();
+  const { theme, storeTimeStamp } = useContext(AppContext);
+  storeTimeStamp();
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -77,8 +73,7 @@ const ResourcesScreen = ({ navigation }) => {
     { name: Localized('CORPORATE'), testID: 'corporate_button' },
     { name: Localized('TEAM'), testID: 'team_button' },
     { name: Localized('SERVICES'), testID: 'services_button' },
-    { name: Localized('FAVORITES'), testID: 'favorites_button' },
-    { name: Localized('DOWNLOADS'), testID: 'downloads_button' },
+    // { name: Localized('FAVORITES'), testID: 'favorites_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -125,7 +120,14 @@ const ResourcesScreen = ({ navigation }) => {
           profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView
+            contentContainerStyle={{
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+              minWidth: '100%',
+            }}
+            horizontal
+            showsHorizontalScrollIndicator={false}>
             {tertiaryButtonText.map((item) => (
               <TertiaryButton
                 style={{ marginRight: 15 }}
@@ -146,7 +148,6 @@ const ResourcesScreen = ({ navigation }) => {
             setIsSettingsModalOpen={setIsSettingsModalOpen}
           />
         </Flexbox>
-        <FilterSearchBar userName={mockUser.personalInfo.displayName} />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
@@ -158,21 +159,35 @@ const ResourcesScreen = ({ navigation }) => {
             zIndex: -1,
           }}>
           {view.name === Localized('CORPORATE') && (
-            <CorporateView navigation={navigation} fadeOut={fadeOut} />
+            <CorporateView fadeOut={fadeOut} navigation={navigation} />
           )}
           {view.name === Localized('TEAM') && (
-            <TeamView
-              fadeOut={fadeOut}
-              navigation={navigation}
-              isCalloutOpenFromParent={isCalloutOpenFromParent}
-              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-              isAddFolderModalOpen={isAddFolderModalOpen}
-              setIsAddFolderModalOpen={setIsAddFolderModalOpen}
-            />
+            <>
+              <FilterSearchBar>
+                <Flexbox direction="row" width="auto">
+                  <FilterIcon
+                    style={{
+                      height: 30,
+                      width: 30,
+                      color: theme.primaryTextColor,
+                      marginTop: -2,
+                    }}
+                  />
+                  <H5>Team Awesome!</H5>
+                </Flexbox>
+              </FilterSearchBar>
+              <TeamView
+                fadeOut={fadeOut}
+                navigation={navigation}
+                isCalloutOpenFromParent={isCalloutOpenFromParent}
+                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                isAddFolderModalOpen={isAddFolderModalOpen}
+                setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+              />
+            </>
           )}
           {view.name === Localized('SERVICES') && <ServicesView />}
           {view.name === Localized('FAVORITES') && <FavoritesView />}
-          {view.name === Localized('DOWNLOADS') && <DownloadsView />}
         </ScrollView>
         {view.name === Localized('TEAM') && (
           <AddButton
@@ -183,12 +198,14 @@ const ResourcesScreen = ({ navigation }) => {
             <ButtonText>+</ButtonText>
           </AddButton>
         )}
-        <MyInfoModal
-          isMyInfoModalOpen={isMyInfoModalOpen}
-          setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-          data={mockUser.personalInfo}
-          saveProfileImageToFirebase={saveProfileImageToFirebase}
-        />
+        {isMyInfoModalOpen && (
+          <MyInfoModal
+            isMyInfoModalOpen={isMyInfoModalOpen}
+            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+            data={mockUser.personalInfo}
+            saveProfileImageToFirebase={saveProfileImageToFirebase}
+          />
+        )}
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
@@ -201,6 +218,9 @@ const ResourcesScreen = ({ navigation }) => {
   );
 };
 
-ResourcesScreen.propTypes = { navigation: PropTypes.object };
+ResourcesScreen.propTypes = {
+  navigation: PropTypes.object,
+  fadeOut: PropTypes.func,
+};
 
 export default ResourcesScreen;

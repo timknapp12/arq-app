@@ -24,7 +24,7 @@ const ThemedTextInputContainer = styled.View`
 `;
 
 const ThemedInput = styled.TextInput`
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.primaryTextColor};
   flex: 1;
   font-size: 16px;
   font-family: 'Roboto-Regular';
@@ -120,7 +120,7 @@ const ThemedAnimatedInput = styled.TextInput`
       : props.focused
       ? props.theme.highlight
       : props.theme.disabledTextColor};
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.primaryTextColor};
   width: 100%;
   font-size: 16px;
   font-family: 'Roboto-Regular';
@@ -221,7 +221,7 @@ const ThemedTextArea = styled.View`
 `;
 
 const TextAreaInput = styled.TextInput`
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.primaryTextColor};
   flex: 1;
   font-size: 16px;
   font-family: 'Roboto-Regular';

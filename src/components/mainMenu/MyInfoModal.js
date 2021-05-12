@@ -28,12 +28,13 @@ import {
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
 // source for files for different languages https://stefangabos.github.io/world_countries/
-import enCountires from '../../translations/countries/en-countries.json';
-import deCountires from '../../translations/countries/de-countries.json';
-import frCountires from '../../translations/countries/fr-countries.json';
-import esCountires from '../../translations/countries/es-countries.json';
-import jaCountires from '../../translations/countries/ja-countries.json';
-import noCountires from '../../translations/countries/no-countries.json';
+import enCountries from '../../translations/countries/en-countries.json';
+import deCountries from '../../translations/countries/de-countries.json';
+import frCountries from '../../translations/countries/fr-countries.json';
+import esCountries from '../../translations/countries/es-countries.json';
+import jaCountries from '../../translations/countries/ja-countries.json';
+import noCountries from '../../translations/countries/no-countries.json';
+import itCountries from '../../translations/countries/it-countries.json';
 import usStates from '../../translations/countries/us-states.json';
 import ProfileImage from './ProfileImage';
 
@@ -204,17 +205,18 @@ const MyInfoModal = ({
   };
 
   let localeLanguageTag = Localization.locale.substring(0, 2);
-  let countryList = enCountires;
+  let countryList = enCountries;
   const countryMap = {
-    de: deCountires,
-    en: enCountires,
-    fr: frCountires,
-    ja: jaCountires,
-    es: esCountires,
-    no: noCountires,
-    nb: noCountires,
+    de: deCountries,
+    en: enCountries,
+    fr: frCountries,
+    ja: jaCountries,
+    es: esCountries,
+    no: noCountries,
+    nb: noCountries,
+    it: itCountries,
   };
-  countryList = countryMap[localeLanguageTag] || enCountires;
+  countryList = countryMap[localeLanguageTag] || enCountries;
 
   const {
     image,
@@ -223,7 +225,7 @@ const MyInfoModal = ({
     displayName,
     email,
     phone,
-    distributorId,
+    associateId,
     address1,
     address2,
     city,
@@ -392,9 +394,9 @@ const MyInfoModal = ({
                     onBlur={validatePhone}
                   />
                   <AnimatedInput
-                    testID="distributor-id-input"
-                    label={Localized('Distributor ID')}
-                    value={distributorId}
+                    testID="ambassador-id-input"
+                    label={Localized('Ambassador ID')}
+                    value={associateId}
                     editable={false}
                   />
                 </Flexbox>

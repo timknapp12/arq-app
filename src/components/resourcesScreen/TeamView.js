@@ -25,15 +25,17 @@ const TeamView = ({
     }
     navigation.navigate('Resources Category Screen', {
       title: item.title.toUpperCase(),
-      assetList: item.assetList,
+      teamAssetList: item.assetList,
       // TODO: integrate permissions with backend
       hasPermissions: true,
     });
     setIsCalloutOpenFromParent(false);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
     const formattedTitle = item.title.split(' ').join('_');
-    const shortenedTitle = formattedTitle.slice(0, 24) + '_category_tapped';
-    Analytics.logEvent(shortenedTitle, {
+    const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
+    // this regex takes out special characters like "&"
+    const strippedTitle = shortenedTitle.replace(/\W/g, '');
+    Analytics.logEvent(strippedTitle, {
       screen: 'Team Resources',
       purpose: `See details for ${item.title}`,
     });

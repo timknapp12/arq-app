@@ -45,7 +45,7 @@ const Checkbox = styled.View`
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  border-color: ${(props) => props.theme.color};
+  border-color: ${(props) => props.theme.primaryTextColor};
   border-width: ${(props) => (props.selected ? '0px' : '1px')};
   background-color: ${(props) => (props.selected ? '#006699' : 'transparent')};
 `;

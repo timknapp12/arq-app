@@ -57,7 +57,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
 
           <RecoverPasswordInstructions testID="recover-password-instructions">
             {Localized(
-              'Enter your email address or distributor ID to receive a link for log in.',
+              'Enter your email address or ambassador ID to receive a link for log in.',
             )}
           </RecoverPasswordInstructions>
           <Flexbox style={{ marginBottom: 22 }}>
@@ -67,7 +67,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
               value={email}
               onChangeText={(text) => setEmail(text)}
               keyboardType="email-address"
-              placeholder={Localized('Email address or distributor ID')}
+              placeholder={Localized('Email address or ambassador ID')}
               placeholderTextColor={theme.disabledTextColor}
               returnKeyType="go"
               onSubmitEditing={onSubmit}

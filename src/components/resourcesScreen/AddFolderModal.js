@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Image, TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, Input } from '../common';
+import { Flexbox, Label, Input, H4 } from '../common';
 import ImageIcon from '../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
@@ -54,7 +54,7 @@ const Title = styled.Text`
   font-family: 'Avenir-Heavy';
   font-size: 10px;
   opacity: 0.83;
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.primaryTextColor};
   padding: 2px;
 `;
 
@@ -70,10 +70,13 @@ const DefaultRectangleImage = styled.View`
   width: ${rectangleImageWidth}px;
 `;
 
+const marginSize = 8;
+
 const AddFolderModal = ({
   visible,
   onClose,
-  // the following 3 props are passed in from ResourceCard.js to populate the info when a user is editing an existing folder
+  // the following props are passed in from ResourceCard.js to populate the info when a user is editing an existing folder
+  editMode,
   folderTitle = '',
   folderUrl = '',
   folderIsWideLayout = false,
@@ -141,7 +144,12 @@ const AddFolderModal = ({
       }}
       onSave={onSave}>
       <Flexbox align="flex-start">
-        <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
+        <Flexbox>
+          <H4 style={{ textAlign: 'center' }}>
+            {Localized(editMode ? `Edit Folder` : `Add Folder`)}
+          </H4>
+        </Flexbox>
+        <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
           autoFocus
           onFocus={() => setIsFileInputFocused(false)}
@@ -149,8 +157,11 @@ const AddFolderModal = ({
           value={title}
           onChangeText={(text) => setTitle(text)}
         />
-        <Label style={{ marginTop: 8 }}>{Localized('Layout')}</Label>
-        <Flexbox style={{ marginTop: 8 }} justify="flex-start" direction="row">
+        <Label style={{ marginTop: marginSize }}>{Localized('Layout')}</Label>
+        <Flexbox
+          style={{ marginTop: marginSize }}
+          justify="flex-start"
+          direction="row">
           <TouchableOpacity
             onPress={() => {
               setIsWideLayout(false);
@@ -176,7 +187,7 @@ const AddFolderModal = ({
                   </Title>
                 </Footer>
               </MiniCard>
-              {!isWideLayout && <Underline style={{ marginTop: 8 }} />}
+              {!isWideLayout && <Underline style={{ marginTop: marginSize }} />}
             </Flexbox>
           </TouchableOpacity>
           <TouchableOpacity
@@ -205,11 +216,11 @@ const AddFolderModal = ({
                   </Title>
                 </Footer>
               </MiniCard>
-              {isWideLayout && <Underline style={{ marginTop: 8 }} />}
+              {isWideLayout && <Underline style={{ marginTop: marginSize }} />}
             </Flexbox>
           </TouchableOpacity>
         </Flexbox>
-        <Label style={{ marginTop: 8 }}>{Localized('Picture')}</Label>
+        <Label style={{ marginTop: marginSize }}>{Localized('Picture')}</Label>
         <TouchableOpacity
           onPress={() => {
             pickImage();
@@ -226,7 +237,7 @@ const AddFolderModal = ({
               </Filename>
               <PaperclipIcon
                 style={{
-                  color: theme.activeTint,
+                  color: theme.primaryTextColor,
                   height: 30,
                   width: 30,
                   marginTop: -6,
@@ -244,6 +255,7 @@ const AddFolderModal = ({
 AddFolderModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  editMode: PropTypes.bool,
   folderTitle: PropTypes.string,
   folderUrl: PropTypes.string,
   folderIsWideLayout: PropTypes.bool,

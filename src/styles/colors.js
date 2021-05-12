@@ -1,4 +1,8 @@
-export const white = '#ffffff';
+export const primaryWhite = 'rgba(255,255,255,.83)';
+
+export const secondaryWhite = 'rgba(255,255,255,.5)';
+
+export const disabledWhite = 'rgba(255,255,255,.35)';
 
 export const black = '#000000';
 
@@ -25,19 +29,19 @@ export const red = '#FF0000';
 export const darkRed = '#993300';
 
 // donut chart
-export const donut1PrimaryColor = '#63B1BC';
+export const donut1primaryColor = '#63B1BC';
 
 // donut chart
-export const donut1SecondaryColor = '#D0E7EB';
+export const donut1secondaryColor = '#D0E7EB';
 
 // donut chart
-export const donut2PrimaryColor = '#E8927C';
+export const donut2primaryColor = '#E8927C';
 
 // donut chart
-export const donut2SecondaryColor = '#F1BDB0';
+export const donut2secondaryColor = '#F1BDB0';
 
 // donut chart
-export const donut3PrimaryColor = '#CDEA80';
+export const donut3primaryColor = '#CDEA80';
 
 // donut chart
-export const donut3SecondaryColor = '#EBF3D4';
+export const donut3secondaryColor = '#EBF3D4';

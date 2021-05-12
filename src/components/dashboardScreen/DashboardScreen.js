@@ -16,8 +16,11 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import { saveProfileImageToFirebase } from '../../utils/saveProfileImageToFirebase';
+import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
+import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
 import AppContext from '../../contexts/AppContext';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -52,7 +55,7 @@ const mockUser = {
     username: 'sloaniejoanie',
     email: 'sloanetaylor@gmail.com',
     phone: '801-435-9064',
-    distributorId: '12340987',
+    associateId: '12340987',
     address1: '1234 S 5600 W',
     address2: '',
     city: 'Lehi',
@@ -63,9 +66,14 @@ const mockUser = {
 };
 
 const DashboardScreen = () => {
-  initLanguage();
-  // TODO add this to the resource screen when there are no merge conflicts
-  const { storeTimeStamp } = useContext(AppContext);
+  const {
+    storeTimeStamp,
+    setCorporateResources,
+    deviceLanguage,
+    userMarket,
+  } = useContext(AppContext);
+  initLanguage;
+  const db = firebase.firestore();
   storeTimeStamp();
   const ranklist = [
     {
@@ -235,6 +243,15 @@ const DashboardScreen = () => {
       fadeOut();
     };
   }, [isFocused]);
+
+  useEffect(() => {
+    getCorporateResources(
+      db,
+      userMarket,
+      deviceLanguage,
+      setCorporateResources,
+    );
+  }, []);
 
   const initialView = {
     name: Localized('OVERVIEW'),

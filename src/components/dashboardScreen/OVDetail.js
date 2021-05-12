@@ -7,9 +7,9 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
 import {
-  donut1PrimaryColor,
-  donut2PrimaryColor,
-  donut3PrimaryColor,
+  donut1primaryColor,
+  donut2primaryColor,
+  donut3primaryColor,
 } from '../../styles/colors';
 import { calculateLegPercentages } from '../../utils/calculateLegPercentages';
 
@@ -91,7 +91,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
               // Ternary as a safety check, in case the calculations for % are wrong -
               // the circle should always be full if the user is qualified for any certain level
               max={isQualified ? user.leg1OV : maxQOV.leg1Max}
-              color={donut1PrimaryColor}
+              color={donut1primaryColor}
             />
           </Flexbox>
 
@@ -110,7 +110,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
               testID="leg-two-donut-svg"
               percentage={user.leg2OV}
               max={isQualified ? user.leg2OV : maxQOV.leg2Max}
-              color={donut2PrimaryColor}
+              color={donut2primaryColor}
             />
           </Flexbox>
         </Flexbox>
@@ -130,7 +130,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
             testID="leg-three-donut-svg"
             percentage={user.leg3OV}
             max={isQualified ? user.leg3OV : maxQOV.leg3Max}
-            color={donut3PrimaryColor}
+            color={donut3primaryColor}
           />
         </Flexbox>
       </Flexbox>

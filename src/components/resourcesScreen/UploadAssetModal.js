@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, Input, TextArea, Picker } from '../common';
+import { Flexbox, Label, Input, TextArea, Picker, H4 } from '../common';
 import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../editModal/EditModal';
 import AppContext from '../../contexts/AppContext';
@@ -29,9 +29,13 @@ const FileUnderline = styled.View`
   border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
 `;
 
+const marginSize = 8;
+
 const UploadAssetModal = ({
   visible,
   onClose,
+  // these props are to populate the fields in the modal with already existing data while in edit modal
+  editMode,
   assetTitle = '',
   assetDescription = '',
   assetContentType = '',
@@ -159,7 +163,12 @@ const UploadAssetModal = ({
       }}
       onSave={onSave}>
       <Flexbox align="flex-start">
-        <Label style={{ marginTop: 8 }}>{Localized('Title')}</Label>
+        <Flexbox>
+          <H4 style={{ textAlign: 'center' }}>
+            {Localized(editMode ? `Edit Item` : `Add Item`)}
+          </H4>
+        </Flexbox>
+        <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
           autoFocus
           onFocus={() => setIsFileInputFocused(false)}
@@ -174,7 +183,7 @@ const UploadAssetModal = ({
           multiline
           numberOfLines={3}
           onChangeText={(text) => setDescription(text)}
-          style={{ marginTop: 8 }}
+          style={{ marginTop: marginSize }}
           onFocus={() => setIsFileInputFocused(false)}
         />
         <Picker
@@ -194,7 +203,7 @@ const UploadAssetModal = ({
         />
         {contentType === 'video' || contentType === 'podcast' ? (
           <>
-            <Label style={{ marginTop: 8 }}>{Localized('Link')}</Label>
+            <Label style={{ marginTop: marginSize }}>{Localized('Link')}</Label>
             <Input
               onFocus={() => setIsFileInputFocused(false)}
               testID="upload-asset-link-input"
@@ -209,7 +218,7 @@ const UploadAssetModal = ({
               setIsFileInputFocused(true);
             }}
             style={{ width: '100%' }}>
-            <Label style={{ marginTop: 8 }}>{Localized('File')}</Label>
+            <Label style={{ marginTop: marginSize }}>{Localized('File')}</Label>
             <FileInput>
               <Filename
                 ellipsizeMode="tail"
@@ -237,7 +246,7 @@ const UploadAssetModal = ({
 UploadAssetModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  // these props are to populate the fields in the modal with already existing data while in edit mode
+  editMode: PropTypes.bool,
   assetTitle: PropTypes.string,
   assetDescription: PropTypes.string,
   assetContentType: PropTypes.string,

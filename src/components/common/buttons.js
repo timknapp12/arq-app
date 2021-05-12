@@ -28,7 +28,9 @@ const ThemedText = styled.Text`
   font-family: 'Avenir-Light';
   font-size: 24px;
   color: ${(props) =>
-    props.disabled ? props.theme.disabledTextColor : props.theme.color};
+    props.disabled
+      ? props.theme.disabledTextColor
+      : props.theme.primaryTextColor};
 `;
 
 export const PrimaryButton = ({ disabled, children, ...props }) => (

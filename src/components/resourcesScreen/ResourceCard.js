@@ -116,16 +116,14 @@ const ResourceCard = ({
   const onCallout = async () => {
     if (isCalloutOpen) {
       closeCallout();
-    }
-    if (!isCalloutOpen) {
+    } else if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
       setIsNavDisabled(true);
     }
     if (isCalloutOpenFromParent) {
       setIsCalloutOpenFromParent(false);
-    }
-    if (!isCalloutOpenFromParent) {
+    } else if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(true);
       setIsNavDisabled(true);
     }
@@ -142,7 +140,6 @@ const ResourceCard = ({
           text: Localized('Cancel'),
           onPress: () => {
             closeCallout();
-            console.log('Cancel Pressed');
           },
           style: 'cancel',
         },
@@ -240,6 +237,7 @@ const ResourceCard = ({
             setIsAddFolderModalOpen(false);
             closeCallout();
           }}
+          editMode
           folderTitle={title}
           folderUrl={url}
           folderIsWideLayout={isWideLayout}

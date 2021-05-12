@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -14,15 +14,22 @@ import {
   Flexbox,
 } from '../common';
 import ProductCard from './productCard/ProductCard';
+import AppContext from '../../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import {
+  getCorporateProductCategories,
+  getCorporateProducts,
+} from '../../utils/firebase/getCorporateProducts';
 
 // this will make the image a 2 x 1 ratio with taking padding into account
 const { width } = Dimensions.get('window');
 const imageHeight = width / 2 - 20;
 
-const ProductCategoryScreen = ({ navigation }) => {
+const ProductCategoryScreen = ({ route, navigation }) => {
+  const { deviceLanguage } = useContext(AppContext);
+  const { market } = route.params;
   const db = firebase.firestore();
   const [categoryList, setCategoryList] = useState([]);
   const [view, setView] = useState({ title: '' });
@@ -30,54 +37,32 @@ const ProductCategoryScreen = ({ navigation }) => {
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
-  const categoryRef = db
-    .collection('corporate resources us market english language')
-    .doc('products')
-    .collection('product categories');
-
-  const getSubcategory = (item) => {
-    const listRef = categoryRef.doc(item.id).collection('list');
-    listRef
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const subcategories = [];
-        querySnapshot.forEach((doc) => {
-          const resourceWithID = {
-            id: doc.id,
-            ...doc.data(),
-          };
-          subcategories.push(resourceWithID);
-        });
-        setSubcategoryList(subcategories);
-      });
-  };
 
   useEffect(() => {
-    categoryRef
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const productCategories = [];
-        querySnapshot.forEach((doc) => {
-          const resourceWithID = { id: doc.id, ...doc.data() };
-          productCategories.push(resourceWithID);
-        });
-        setCategoryList(productCategories);
-        navigate(productCategories[0]);
-      });
-    return () => {
-      setCategoryList([]);
-    };
+    getCorporateProductCategories(
+      db,
+      market,
+      deviceLanguage,
+      setCategoryList,
+      navigate,
+    );
   }, []);
 
   const navigate = (item) => {
     setView(item);
-    getSubcategory(item);
+    getCorporateProducts(
+      db,
+      market,
+      deviceLanguage,
+      setSubcategoryList,
+      item.id,
+    );
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
     const formattedTitle = item.title.split(' ').join('_');
-    const shortenedTitle = formattedTitle.slice(0, 24) + '_category_tapped';
-    Analytics.logEvent(shortenedTitle, {
+    const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
+    // this regex takes out special characters like "&"
+    const strippedTitle = shortenedTitle.replace(/\W/g, '');
+    Analytics.logEvent(strippedTitle, {
       screen: 'Corporate Products',
       purpose: `See details for ${item.title}`,
     });
@@ -128,6 +113,7 @@ const ProductCategoryScreen = ({ navigation }) => {
                   productID={item.id}
                   navigation={navigation}
                   isFavorite={false}
+                  market={market}
                   onPress={() => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {
@@ -146,6 +132,7 @@ const ProductCategoryScreen = ({ navigation }) => {
 };
 
 ProductCategoryScreen.propTypes = {
+  route: PropTypes.object,
   navigation: PropTypes.object,
 };
 

@@ -10,6 +10,7 @@ import firebaseConfig from './firebase.config';
 import * as firebase from 'firebase';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
+import { initLanguage } from './src/translations/Localized';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
@@ -38,7 +39,9 @@ const App = () => {
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
-
+  const [corporateResources, setCorporateResources] = useState([]);
+  const [deviceLanguage, setDeviceLanguage] = useState('en');
+  const [userMarket, setUserMarket] = useState('us');
   const [isUserActive, setIsUserActive] = useState(true);
   const [timer] = useState(1000 * 60 * 20);
 
@@ -84,6 +87,10 @@ const App = () => {
     });
   }, []);
 
+  useEffect(() => {
+    setDeviceLanguage(initLanguage());
+  }, [initLanguage]);
+
   if (!loaded) {
     return <AppLoading />;
   }
@@ -100,6 +107,11 @@ const App = () => {
             useBiometrics,
             setUseBiometrics,
             storeTimeStamp,
+            corporateResources,
+            setCorporateResources,
+            deviceLanguage,
+            userMarket,
+            setUserMarket,
           }}>
           <StatusBar
             backgroundColor={theme.backgroundColor}

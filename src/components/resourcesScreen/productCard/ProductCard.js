@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Share, Alert } from 'react-native';
+import AppContext from '../../../contexts/AppContext';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { getProductAssets } from '../../../utils/firebase/getCorporateProducts';
 
 const ProductCardContainer = styled.View`
   width: 100%;
@@ -21,38 +23,25 @@ const ProductCard = ({
   productID,
   navigation,
   isFavorite,
+  market,
   ...props
 }) => {
+  const { deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [assetList, setAssetList] = useState([]);
 
   const db = firebase.firestore();
-  const getAssetList = (categoryID, productID) =>
-    db
-      .collection('corporate resources us market english language')
-      .doc('products')
-      .collection('product categories')
-      .doc(categoryID)
-      .collection('list')
-      .doc(productID)
-      .collection('assets')
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        const assetList = [];
-        querySnapshot.forEach((doc) => {
-          const assetWithID = {
-            id: doc.id,
-            ...doc.data(),
-          };
-          assetList.push(assetWithID);
-        });
-        setAssetList(assetList);
-      });
 
   useEffect(() => {
-    getAssetList(categoryID, productID);
+    getProductAssets(
+      db,
+      market,
+      deviceLanguage,
+      setAssetList,
+      categoryID,
+      productID,
+    );
   }, []);
 
   useEffect(() => {
@@ -72,8 +61,7 @@ const ProductCard = ({
     if (isCalloutOpen) {
       setIsCalloutOpen(false);
       setIsCalloutOpenFromParent(false);
-    }
-    if (!isCalloutOpen) {
+    } else if (!isCalloutOpen) {
       await setIsCalloutOpenFromParent(true);
       setIsCalloutOpen(true);
     }
@@ -148,6 +136,7 @@ ProductCard.propTypes = {
   /* the list id will be something like "q fuse plus", or "q focus" */
   productID: PropTypes.string,
   index: PropTypes.number,
+  market: PropTypes.string,
   isFavorite: PropTypes.bool,
 };
 

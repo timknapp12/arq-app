@@ -33,7 +33,7 @@ export const mockUser = {
     username: 'sloaniejoanie',
     email: 'sloanetaylor@gmail.com',
     phone: '801-435-9064',
-    distributorId: '12340987',
+    associateId: '12340987',
     address1: '1234 S 5600 W',
     address2: '',
     city: 'Lehi',
