@@ -46,7 +46,7 @@ async function copyCollection(srcCollectionName, destCollectionName) {
     console.log('Firebase batch operation completed.');
   }
 }
-
+// wrap the function below in useeffect in dashboardscreen.js
 copyCollection(
   'corporate resources us market english language',
   'corporate resources us market es language',
