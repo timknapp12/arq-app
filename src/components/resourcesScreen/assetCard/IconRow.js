@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
-import HeartFillIcon from '../../../../assets/icons/heart-fill-icon.svg';
-import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
+// TODO put heart icons back when we have backend support
+// import HeartFillIcon from '../../../../assets/icons/heart-fill-icon.svg';
+// import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
@@ -16,7 +17,7 @@ const Container = styled.View`
 `;
 
 const IconRow = ({
-  isFavorite,
+  // isFavorite,
   hasPermissions,
   contentType,
   onShare,
@@ -51,7 +52,7 @@ const IconRow = ({
           </TouchableOpacity>
         </>
       )}
-      {isFavorite ? (
+      {/* {isFavorite ? (
         <TouchableOpacity onPress={() => {}}>
           <HeartFillIcon
             style={{
@@ -73,7 +74,7 @@ const IconRow = ({
             }}
           />
         </TouchableOpacity>
-      )}
+      )} */}
       {contentType !== 'video' && (
         <TouchableOpacity onPress={onDownload}>
           <DownloadIcon

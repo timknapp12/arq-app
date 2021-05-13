@@ -4,8 +4,9 @@ import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { H4Book, Flexbox } from '../common';
-import HeartFillIcon from '../../../assets/icons/heart-fill-icon.svg';
-import HeartOutlineIcon from '../../../assets/icons/heart-outline-icon.svg';
+// TODO put heart icons back when we have backend support
+// import HeartFillIcon from '../../../assets/icons/heart-fill-icon.svg';
+// import HeartOutlineIcon from '../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
@@ -28,8 +29,8 @@ const CalloutButton = styled(
 )``;
 
 const CalloutMenu = ({
-  isFavorite,
-  setIsFavorite,
+  // isFavorite,
+  // setIsFavorite,
   // TODO: integrate hasPermissions prop with backend
   hasPermissions,
   contentType = 'image',
@@ -75,7 +76,7 @@ const CalloutMenu = ({
           </CalloutButton>
         </>
       )}
-      {isFavorite ? (
+      {/* {isFavorite ? (
         <CalloutButton onPress={() => setIsFavorite(false)}>
           <Flexbox direction="row" justify="flex-start">
             <HeartFillIcon
@@ -103,7 +104,7 @@ const CalloutMenu = ({
             <H4Book>{Localized('Favorite')}</H4Book>
           </Flexbox>
         </CalloutButton>
-      )}
+      )} */}
       {contentType !== 'video' && (
         <CalloutButton
           onPress={() => {
