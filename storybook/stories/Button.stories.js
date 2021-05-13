@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react-native';
-
 import {
   ScreenContainer,
   PrimaryButton,
