@@ -32,7 +32,13 @@ const TeamSearchScreen = ({ route, navigation }) => {
     <TouchableWithoutFeedback
       onPress={() => setIsCalloutOpenFromParent(false)}
       style={{ flex: 1 }}>
-      <ScreenContainer style={{ justifyContent: 'flex-start', height: '100%' }}>
+      <ScreenContainer
+        style={{
+          justifyContent: 'flex-start',
+          paddingTop: 0,
+          paddingBottom: 0,
+          height: '100%',
+        }}>
         <DownloadToast
           title={toastTitle}
           body={toastBody}
@@ -58,6 +64,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
             onPress={() => setIsCalloutOpenFromParent(false)}>
             <Flexbox
               justify="flex-start"
+              padding={10}
               onStartShouldSetResponder={() => true}
               height="100%">
               {categories[0].assetList.map((item, index) => (
