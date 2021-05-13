@@ -49,7 +49,10 @@ const TeamView = ({
   return (
     <>
       <FilterSearchBar
-        onPress={() => navigation.navigate('Team Search Screen')}>
+        onPress={() =>
+          // TODO pass in a real access code
+          navigation.navigate('Team Search Screen', { accessCode: '3' })
+        }>
         <Flexbox direction="row" width="auto">
           <FilterIcon
             style={{
