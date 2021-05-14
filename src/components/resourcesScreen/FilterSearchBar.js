@@ -14,12 +14,12 @@ const Container = styled.View`
   align-items: center;
 `;
 
-const FilterSearchBar = ({ children }) => {
+const FilterSearchBar = ({ children, onPress }) => {
   const { theme } = useContext(AppContext);
   return (
     <Container>
       {children}
-      <TouchableOpacity onPress={() => console.log('search button pressed')}>
+      <TouchableOpacity onPress={onPress}>
         <SearchIcon
           style={{ height: 36, width: 36, color: theme.primaryTextColor }}
         />
@@ -30,6 +30,7 @@ const FilterSearchBar = ({ children }) => {
 
 FilterSearchBar.propTypes = {
   children: PropTypes.any,
+  onPress: PropTypes.func,
 };
 
 export default FilterSearchBar;

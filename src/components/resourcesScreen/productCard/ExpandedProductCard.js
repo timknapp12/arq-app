@@ -13,8 +13,9 @@ import PdfIcon from '../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../assets/icons/video-icon.svg';
 import PodcastIcon from '../../../../assets/icons/podcast-icon.svg';
 import ImageIcon from '../../../../assets/icons/image-icon.svg';
-import HeartFillIcon from '../../../../assets/icons/heart-fill-icon.svg';
-import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
+// TODO put heart icons back when we have backend support
+// import HeartFillIcon from '../../../../assets/icons/heart-fill-icon.svg';
+// import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
@@ -66,13 +67,13 @@ const TitleAndDescription = styled.View`
 `;
 
 const ExpandedProductCard = ({
+  // isFavorite,
   title,
   url,
   isExpanded,
   setIsExpanded,
   description,
   navigation,
-  isFavorite,
   assetList,
   onShare,
   hasPermissions,
@@ -194,7 +195,7 @@ const ExpandedProductCard = ({
         </TitleAndDescription>
       </InnerContainer>
       <IconRow>
-        {isFavorite ? (
+        {/* {isFavorite ? (
           <HeartFillIcon
             style={{
               marginEnd: 8,
@@ -212,7 +213,7 @@ const ExpandedProductCard = ({
               color: theme.primaryTextColor,
             }}
           />
-        )}
+        )} */}
         {hasPermissions && (
           <RemoveIcon
             style={{

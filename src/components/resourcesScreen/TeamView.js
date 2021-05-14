@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, Platform } from 'react-native';
+import { Flexbox, H5 } from '../common';
+import FilterSearchBar from './FilterSearchBar';
+import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 import { categories } from './mockTeamData';
 import AddFolderModal from './AddFolderModal';
+import AppContext from '../../contexts/AppContext';
 
 const TeamView = ({
   fadeOut,
@@ -14,6 +18,7 @@ const TeamView = ({
   isAddFolderModalOpen,
   setIsAddFolderModalOpen,
 }) => {
+  const { theme } = useContext(AppContext);
   const [isNavDisabled, setIsNavDisabled] = useState(false);
 
   const navigateToResource = (item) => {
@@ -43,6 +48,23 @@ const TeamView = ({
 
   return (
     <>
+      <FilterSearchBar
+        onPress={() =>
+          // TODO pass in a real access code
+          navigation.navigate('Team Search Screen', { accessCode: '3' })
+        }>
+        <Flexbox direction="row" width="auto">
+          <FilterIcon
+            style={{
+              height: 30,
+              width: 30,
+              color: theme.primaryTextColor,
+              marginTop: -2,
+            }}
+          />
+          <H5>Team Awesome!</H5>
+        </Flexbox>
+      </FilterSearchBar>
       <View
         style={{
           flexDirection: 'row',

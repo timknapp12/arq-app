@@ -19,8 +19,8 @@ export const getCorporateProductCategories = (
     .collection('product categories')
     .orderBy('order', 'asc')
     .get()
-    .then(async (querySnapshot) => {
-      querySnapshot.forEach(async (doc) => {
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
         const data = doc.data();
         const { title, defaultTitle, ...rest } = data;
         // if no "title" field is in the database then the default title will be used
@@ -61,8 +61,8 @@ export const getCorporateProducts = (
     .collection('list')
     .orderBy('order', 'asc')
     .get()
-    .then(async (querySnapshot) => {
-      querySnapshot.forEach(async (doc) => {
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
         const data = doc.data();
         const {
           title,
@@ -121,8 +121,8 @@ export const getProductAssets = (
     .collection('assets')
     .orderBy('order', 'asc')
     .get()
-    .then(async (querySnapshot) => {
-      querySnapshot.forEach(async (doc) => {
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
         const data = doc.data();
         const { title, defaultTitle, ...rest } = data;
         // if no "title" field is in the database then the default title will be used

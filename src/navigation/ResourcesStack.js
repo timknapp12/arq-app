@@ -3,7 +3,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import ResourcesCategoryScreen from '../components/resourcesScreen/ResourcesCategoryScreen';
 import ProductCategoryScreen from '../components/resourcesScreen/ProductCategoryScreen';
+import CorporateSearchScreen from '../components/resourcesScreen/CorporateSearchScreen';
+import TeamSearchScreen from '../components/resourcesScreen/TeamSearchScreen';
 import AppContext from '../contexts/AppContext';
+import { Localized } from '../translations/Localized';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Resources = createStackNavigator();
@@ -41,6 +44,16 @@ const ResourcesStack = () => {
         name="Product Category Screen"
         component={ProductCategoryScreen}
         options={({ route }) => ({ title: route.params.title })}
+      />
+      <Resources.Screen
+        name="Corporate Search Screen"
+        component={CorporateSearchScreen}
+        options={{ title: Localized('SEARCH') }}
+      />
+      <Resources.Screen
+        name="Team Search Screen"
+        component={TeamSearchScreen}
+        options={{ title: Localized('SEARCH') }}
       />
     </Resources.Navigator>
   );
