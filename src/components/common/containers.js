@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { ScrollView } from 'react-native';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 
@@ -53,4 +54,23 @@ Flexbox.propTypes = {
   justify: PropTypes.string,
   align: PropTypes.string,
   direction: PropTypes.string,
+};
+
+export const MainScrollView = ({ children }) => (
+  <ScrollView
+    contentContainerStyle={{
+      flexGrow: 1,
+      paddingBottom: 220,
+    }}
+    style={{
+      width: '100%',
+      height: '100%',
+      zIndex: -1,
+    }}>
+    {children}
+  </ScrollView>
+);
+
+MainScrollView.propTypes = {
+  children: PropTypes.any,
 };

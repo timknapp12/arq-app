@@ -10,6 +10,7 @@ import {
   TopButtonBar,
   Flexbox,
   H3,
+  MainScrollView,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -145,20 +146,14 @@ const ResourcesScreen = ({ navigation }) => {
             setIsSettingsModalOpen={setIsSettingsModalOpen}
           />
         </Flexbox>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: 220,
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-          }}>
-          {view.name === Localized('CORPORATE') && (
+        {view.name === Localized('CORPORATE') && (
+          // each view needs its own scrollview so the scrolling on one view does not persist when the user changes the view
+          <MainScrollView>
             <CorporateView fadeOut={fadeOut} navigation={navigation} />
-          )}
-          {view.name === Localized('TEAM') && (
+          </MainScrollView>
+        )}
+        {view.name === Localized('TEAM') && (
+          <MainScrollView>
             <TeamView
               fadeOut={fadeOut}
               navigation={navigation}
@@ -167,10 +162,14 @@ const ResourcesScreen = ({ navigation }) => {
               isAddFolderModalOpen={isAddFolderModalOpen}
               setIsAddFolderModalOpen={setIsAddFolderModalOpen}
             />
-          )}
-          {view.name === Localized('SERVICES') && <ServicesView />}
-          {view.name === Localized('FAVORITES') && <FavoritesView />}
-        </ScrollView>
+          </MainScrollView>
+        )}
+        {view.name === Localized('SERVICES') && (
+          <MainScrollView>
+            <ServicesView />
+          </MainScrollView>
+        )}
+        {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('TEAM') && (
           <AddButton
             onPress={() => {
