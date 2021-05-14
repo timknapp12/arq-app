@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, Platform } from 'react-native';
-import { Flexbox, H5 } from '../common';
+import { Flexbox, H5, MainScrollView } from '../common';
 import FilterSearchBar from './FilterSearchBar';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import ResourceCard from './ResourceCard';
@@ -65,33 +65,35 @@ const TeamView = ({
           <H5>Team Awesome!</H5>
         </Flexbox>
       </FilterSearchBar>
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          padding: 10,
-        }}
-        accessibilityLabel="Team Resources"
-        onStartShouldSetResponder={() => true}>
-        {categories.map((item, index) => (
-          <ResourceCard
-            isCalloutOpenFromParent={isCalloutOpenFromParent}
-            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-            style={{ zIndex: -index }}
-            key={item.title}
-            url={item.url}
-            title={item.title}
-            isWideLayout={item.isWideLayout}
-            // TODO: integrate hasPermissions prop with backend
-            hasPermissions={true}
-            setIsNavDisabled={setIsNavDisabled}
-            onPress={() => {
-              navigateToResource(item);
-            }}
-          />
-        ))}
-      </View>
+      <MainScrollView>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            padding: 10,
+          }}
+          accessibilityLabel="Team Resources"
+          onStartShouldSetResponder={() => true}>
+          {categories.map((item, index) => (
+            <ResourceCard
+              isCalloutOpenFromParent={isCalloutOpenFromParent}
+              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+              style={{ zIndex: -index }}
+              key={item.title}
+              url={item.url}
+              title={item.title}
+              isWideLayout={item.isWideLayout}
+              // TODO: integrate hasPermissions prop with backend
+              hasPermissions={true}
+              setIsNavDisabled={setIsNavDisabled}
+              onPress={() => {
+                navigateToResource(item);
+              }}
+            />
+          ))}
+        </View>
+      </MainScrollView>
       <AddFolderModal
         visible={isAddFolderModalOpen}
         onClose={() => setIsAddFolderModalOpen(false)}

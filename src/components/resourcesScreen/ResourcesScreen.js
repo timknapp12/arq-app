@@ -10,7 +10,6 @@ import {
   TopButtonBar,
   Flexbox,
   H3,
-  MainScrollView,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -150,22 +149,16 @@ const ResourcesScreen = ({ navigation }) => {
           <CorporateView fadeOut={fadeOut} navigation={navigation} />
         )}
         {view.name === Localized('TEAM') && (
-          <MainScrollView>
-            <TeamView
-              fadeOut={fadeOut}
-              navigation={navigation}
-              isCalloutOpenFromParent={isCalloutOpenFromParent}
-              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-              isAddFolderModalOpen={isAddFolderModalOpen}
-              setIsAddFolderModalOpen={setIsAddFolderModalOpen}
-            />
-          </MainScrollView>
+          <TeamView
+            fadeOut={fadeOut}
+            navigation={navigation}
+            isCalloutOpenFromParent={isCalloutOpenFromParent}
+            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+            isAddFolderModalOpen={isAddFolderModalOpen}
+            setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+          />
         )}
-        {view.name === Localized('SERVICES') && (
-          <MainScrollView>
-            <ServicesView />
-          </MainScrollView>
-        )}
+        {view.name === Localized('SERVICES') && <ServicesView />}
         {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('TEAM') && (
           <AddButton
