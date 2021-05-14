@@ -1,11 +1,17 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
+import styled from 'styled-components/native';
 import {
   ScreenContainer,
   Flexbox,
   TertiaryButton,
   TopButtonBar,
 } from '../common';
-import { Animated, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import {
+  Animated,
+  TouchableWithoutFeedback,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import { MainScrollView } from '../common';
 import { useIsFocused } from '@react-navigation/native';
 import MainHeader from '../mainHeader/MainHeader';
@@ -15,6 +21,9 @@ import FeaturedNewsCard from './FeaturedNewsCard';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+import MarketModal from '../marketModal/MarketModal';
+import { markets } from '../../utils/markets/markets';
+import { findMarketUrl } from '../../utils/markets/findMarketUrl';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { Localized, initLanguage } from '../../translations/Localized';
 import NewsCardMap from './NewsCardMap';
@@ -22,14 +31,32 @@ import NewsCardMap from './NewsCardMap';
 import { mockUser } from '../common/mockUser';
 import { mockNews } from './mockNews';
 
+const FlagIcon = styled.Image`
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  margin: 8px 12px;
+`;
+
 const NewsScreen = () => {
   initLanguage();
-  const { storeTimeStamp } = useContext(AppContext);
+  const { storeTimeStamp, userMarket } = useContext(AppContext);
   storeTimeStamp();
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+  const [selectedMarket, setSelectedMarket] = useState(userMarket);
+  const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
+  const initialMarketUrl = markets[0].url;
+  const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
+
+  useEffect(() => {
+    if (selectedMarket) {
+      setMarketUrl(findMarketUrl(selectedMarket, markets));
+    }
+  }, [selectedMarket]);
 
   useEffect(() => {
     if (isFocused) {
@@ -119,6 +146,15 @@ const NewsScreen = () => {
             setIsSettingsModalOpen={setIsSettingsModalOpen}
           />
         </Flexbox>
+        <Flexbox align="flex-start">
+          <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
+            <FlagIcon
+              source={{
+                uri: marketUrl,
+              }}
+            />
+          </TouchableOpacity>
+        </Flexbox>
         {view.name === Localized('Q NEWS') && (
           // each view needs its own scrollview so the scrolling on one view does not persist when the user changes the view
           <MainScrollView>
@@ -153,6 +189,16 @@ const NewsScreen = () => {
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
             data={mockUser.personalInfo}
+          />
+        )}
+        {isMarketModalOpen && (
+          <MarketModal
+            visible={isMarketModalOpen}
+            onClose={() => setIsMarketModalOpen(false)}
+            context="news"
+            items={markets}
+            value={selectedMarket}
+            onValueChange={(value) => setSelectedMarket(value)}
           />
         )}
       </ScreenContainer>

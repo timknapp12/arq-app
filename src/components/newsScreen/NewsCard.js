@@ -19,7 +19,7 @@ const OuterContainer = styled.View`
   padding-left: ${(props) => (props.isStillNew ? '10px' : '16px')};
   border-radius: 5px;
   margin-bottom: 10px;
-  min-height: 90px;
+  min-height: 95px;
   height: ${(props) => (props.isExpanded ? 'auto' : '95px')};
   overflow: hidden;
 `;
