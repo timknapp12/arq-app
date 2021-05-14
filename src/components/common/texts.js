@@ -45,6 +45,12 @@ export const H4Book = styled.Text`
   color: ${(props) => props.theme.primaryTextColor};
 `;
 
+export const H4Black = styled.Text`
+  font-family: 'Avenir-Black';
+  font-size: 18px;
+  color: ${(props) => props.theme.primaryTextColor};
+`;
+
 export const H5 = styled.Text`
   font-family: 'Avenir-Light';
   font-size: 16px;

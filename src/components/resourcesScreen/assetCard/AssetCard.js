@@ -217,7 +217,7 @@ const AssetCard = ({
           {isExpanded ? (
             <TouchableOpacity onPress={() => setIsExpanded((state) => !state)}>
               <MaterialCommunityIcon
-                name={isExpanded ? 'chevron-up' : 'chevron-down'}
+                name="chevron-up"
                 color={theme.primaryTextColor}
                 size={24}
               />
@@ -229,7 +229,7 @@ const AssetCard = ({
                   setIsExpanded((state) => !state);
                 }}>
                 <MaterialCommunityIcon
-                  name={isExpanded ? 'chevron-up' : 'chevron-down'}
+                  name="chevron-down"
                   color={theme.primaryTextColor}
                   size={24}
                 />

@@ -45,5 +45,6 @@ export const TopButtonBar = styled.View`
   height: 36px;
   justify-content: space-between;
   padding: 0 12px;
+  margin-bottom: 10px;
   background-color: ${(props) => props.theme.topButtonBarBackground};
 `;
