@@ -6,9 +6,8 @@ import { View } from 'react-native';
 const NewsCardMap = ({ items }) => {
   return (
     <View>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <NewsCard
-          style={{ zIndex: -index }}
           key={item.id}
           url={item.url}
           title={item.title}
