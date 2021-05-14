@@ -147,10 +147,7 @@ const ResourcesScreen = ({ navigation }) => {
           />
         </Flexbox>
         {view.name === Localized('CORPORATE') && (
-          // each view needs its own scrollview so the scrolling on one view does not persist when the user changes the view
-          <MainScrollView>
-            <CorporateView fadeOut={fadeOut} navigation={navigation} />
-          </MainScrollView>
+          <CorporateView fadeOut={fadeOut} navigation={navigation} />
         )}
         {view.name === Localized('TEAM') && (
           <MainScrollView>

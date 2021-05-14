@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { MainScrollView } from '../common';
 import FilterSearchBar from './FilterSearchBar';
 import ResourceCard from './ResourceCard';
 import MarketModal from '../marketModal/MarketModal';
@@ -88,33 +89,35 @@ const CorporateView = ({ navigation, fadeOut }) => {
           />
         </TouchableOpacity>
       </FilterSearchBar>
-      <TouchableWithoutFeedback
-        onPress={() => setIsCalloutOpenFromParent(false)}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            padding: 10,
-          }}
-          accessibilityLabel="Corporate Resources"
-          onStartShouldSetResponder={() => true}>
-          {corporateResources.map((item, index) => (
-            <ResourceCard
-              isCalloutOpenFromParent={isCalloutOpenFromParent}
-              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-              style={{ zIndex: -index }}
-              key={item.id}
-              url={item.url}
-              title={item.title}
-              onPress={() => {
-                setIsCalloutOpenFromParent(false);
-                navigateToResource(item);
-              }}
-            />
-          ))}
-        </View>
-      </TouchableWithoutFeedback>
+      <MainScrollView>
+        <TouchableWithoutFeedback
+          onPress={() => setIsCalloutOpenFromParent(false)}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              padding: 10,
+            }}
+            accessibilityLabel="Corporate Resources"
+            onStartShouldSetResponder={() => true}>
+            {corporateResources.map((item, index) => (
+              <ResourceCard
+                isCalloutOpenFromParent={isCalloutOpenFromParent}
+                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                style={{ zIndex: -index }}
+                key={item.id}
+                url={item.url}
+                title={item.title}
+                onPress={() => {
+                  setIsCalloutOpenFromParent(false);
+                  navigateToResource(item);
+                }}
+              />
+            ))}
+          </View>
+        </TouchableWithoutFeedback>
+      </MainScrollView>
       {isMarketModalOpen && (
         <MarketModal
           visible={isMarketModalOpen}
