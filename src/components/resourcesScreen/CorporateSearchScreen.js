@@ -83,6 +83,7 @@ const CorporateSearchScreen = ({ route, navigation }) => {
         />
         <Flexbox padding={4} width="85%">
           <Input
+            autoFocus
             testID="corporate-search-input"
             value={value}
             onChangeText={(text) => setValue(text)}

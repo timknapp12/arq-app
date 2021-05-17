@@ -86,7 +86,11 @@ const Tabs = () => {
       <Tab.Screen
         name="NewsScreen"
         component={NewsScreen}
-        options={{ title: Localized('NEWS') }}
+        options={{
+          title: Localized('NEWS'),
+          tabBarBadge: 2,
+          tabBarBadgeStyle: { backgroundColor: theme.highlight },
+        }}
       />
       {/* eslint-disable-next-line no-undef */}
       {__DEV__ && showStorybook && (

@@ -145,32 +145,21 @@ const ResourcesScreen = ({ navigation }) => {
             setIsSettingsModalOpen={setIsSettingsModalOpen}
           />
         </Flexbox>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: 220,
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-          }}>
-          {view.name === Localized('CORPORATE') && (
-            <CorporateView fadeOut={fadeOut} navigation={navigation} />
-          )}
-          {view.name === Localized('TEAM') && (
-            <TeamView
-              fadeOut={fadeOut}
-              navigation={navigation}
-              isCalloutOpenFromParent={isCalloutOpenFromParent}
-              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-              isAddFolderModalOpen={isAddFolderModalOpen}
-              setIsAddFolderModalOpen={setIsAddFolderModalOpen}
-            />
-          )}
-          {view.name === Localized('SERVICES') && <ServicesView />}
-          {view.name === Localized('FAVORITES') && <FavoritesView />}
-        </ScrollView>
+        {view.name === Localized('CORPORATE') && (
+          <CorporateView fadeOut={fadeOut} navigation={navigation} />
+        )}
+        {view.name === Localized('TEAM') && (
+          <TeamView
+            fadeOut={fadeOut}
+            navigation={navigation}
+            isCalloutOpenFromParent={isCalloutOpenFromParent}
+            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+            isAddFolderModalOpen={isAddFolderModalOpen}
+            setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+          />
+        )}
+        {view.name === Localized('SERVICES') && <ServicesView />}
+        {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('TEAM') && (
           <AddButton
             onPress={() => {

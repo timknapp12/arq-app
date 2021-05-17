@@ -47,6 +47,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
         />
         <Flexbox width="85%">
           <Input
+            autoFocus
             testID="team-search-input"
             value={value}
             onChangeText={(text) => setValue(text)}
