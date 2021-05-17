@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Switch as NativeSwitch, Platform } from 'react-native';
+import { H4Book } from './texts';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -121,4 +122,42 @@ export const Switch = ({ value, onValueChange, ...props }) => {
 Switch.propTypes = {
   value: PropTypes.bool,
   onValueChange: PropTypes.func,
+};
+
+// RADIO BUTTON
+const RadioContainer = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Button = styled.View`
+  height: 16px;
+  width: 16px;
+  border-color: ${(props) => props.theme.primaryTextColor};
+  border-width: 1px;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Fill = styled.View`
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  background-color: ${(props) => props.theme.highlight};
+`;
+
+export const RadioButton = ({ label = '', isSelected, onPress, ...props }) => {
+  return (
+    <RadioContainer onPress={onPress} {...props}>
+      <Button style={{ marginEnd: 8 }}>{isSelected && <Fill />}</Button>
+      <H4Book>{label}</H4Book>
+    </RadioContainer>
+  );
+};
+
+RadioButton.propTypes = {
+  label: PropTypes.string,
+  isSelected: PropTypes.bool,
+  onPress: PropTypes.func,
 };
