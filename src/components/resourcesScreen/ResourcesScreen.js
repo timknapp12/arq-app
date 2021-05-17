@@ -33,7 +33,7 @@ const AddButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 90px;
+  bottom: 130px;
   right: 12px;
 `;
 
