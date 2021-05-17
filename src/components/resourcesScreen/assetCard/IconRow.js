@@ -9,6 +9,7 @@ import DownloadIcon from '../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import EditIcon from '../../../../assets/icons/edit-icon.svg';
+import SendIcon from '../../../../assets/icons/send-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 
 const Container = styled.View`
@@ -24,6 +25,7 @@ const IconRow = ({
   onDownload,
   onEdit,
   onRemove,
+  onSend,
 }) => {
   const { theme } = useContext(AppContext);
   return (
@@ -97,6 +99,16 @@ const IconRow = ({
           }}
         />
       </TouchableOpacity>
+      <TouchableOpacity onPress={onSend}>
+        <SendIcon
+          style={{
+            marginEnd: 8,
+            height: 24,
+            width: 24,
+            color: theme.primaryTextColor,
+          }}
+        />
+      </TouchableOpacity>
     </Container>
   );
 };
@@ -109,6 +121,7 @@ IconRow.propTypes = {
   onDownload: PropTypes.func,
   onEdit: PropTypes.func,
   onRemove: PropTypes.func,
+  onSend: PropTypes.func,
 };
 
 export default IconRow;

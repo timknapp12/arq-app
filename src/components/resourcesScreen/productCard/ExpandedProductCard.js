@@ -19,6 +19,7 @@ import ImageIcon from '../../../../assets/icons/image-icon.svg';
 import DownloadIcon from '../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
+import SendIcon from '../../../../assets/icons/send-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../contexts/AppContext';
 
@@ -75,7 +76,9 @@ const ExpandedProductCard = ({
   description,
   navigation,
   assetList,
+  onDownload,
   onShare,
+  onSend,
   hasPermissions,
   ...props
 }) => {
@@ -224,16 +227,28 @@ const ExpandedProductCard = ({
             }}
           />
         )}
-        <DownloadIcon
-          style={{
-            marginEnd: 8,
-            height: 24,
-            width: 24,
-            color: theme.primaryTextColor,
-          }}
-        />
+        <TouchableOpacity onPress={onDownload}>
+          <DownloadIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.primaryTextColor,
+            }}
+          />
+        </TouchableOpacity>
         <TouchableOpacity onPress={onShare}>
           <ShareIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.primaryTextColor,
+            }}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onSend}>
+          <SendIcon
             style={{
               marginEnd: 8,
               height: 24,
@@ -256,7 +271,9 @@ ExpandedProductCard.propTypes = {
   setIsExpanded: PropTypes.func,
   isFavorite: PropTypes.bool,
   assetList: PropTypes.array,
+  onDownload: PropTypes.func,
   onShare: PropTypes.func,
+  onSend: PropTypes.func,
   hasPermissions: PropTypes.bool,
 };
 export default ExpandedProductCard;

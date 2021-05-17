@@ -78,7 +78,7 @@ const AssetCard = ({
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
-  const download = async () => {
+  const onDownload = async () => {
     const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
     try {
       await downloadFile(url, filename, contentType, setToastInfo);
@@ -268,7 +268,7 @@ const AssetCard = ({
             contentType={contentType}
             hasPermissions={hasPermissions}
             onShare={onShare}
-            onDownload={download}
+            onDownload={onDownload}
             onEdit={() => setIsUploadAssetModalOpen(true)}
             onRemove={onRemove}
           />
@@ -284,7 +284,7 @@ const AssetCard = ({
           contentType={contentType}
           hasPermissions={hasPermissions}
           onShare={onShare}
-          onDownload={download}
+          onDownload={onDownload}
           closeCallout={closeCallout}
           onEdit={() => setIsUploadAssetModalOpen(true)}
           onRemove={onRemove}
