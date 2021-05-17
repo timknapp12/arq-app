@@ -14,6 +14,7 @@ import {
   Flexbox,
 } from '../common';
 import ProductCard from './productCard/ProductCard';
+import DownloadToast from './DownloadToast';
 import AppContext from '../../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
@@ -34,6 +35,18 @@ const ProductCategoryScreen = ({ route, navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [view, setView] = useState({ title: '' });
   const [subcategoryList, setSubcategoryList] = useState([]);
+
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastTitle, setToastTitle] = useState('');
+  const [toastBody, setToastBody] = useState('');
+  const [toastProgress, setToastProgress] = useState(0);
+
+  const setToastInfo = (title, body, visible, progress) => {
+    setToastTitle(title);
+    setToastBody(body);
+    setIsToastVisible(visible);
+    setToastProgress(progress);
+  };
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
@@ -70,6 +83,12 @@ const ProductCategoryScreen = ({ route, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
       <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <DownloadToast
+          title={toastTitle}
+          body={toastBody}
+          visible={isToastVisible}
+          progress={toastProgress}
+        />
         <TopButtonBar>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {categoryList.map((item) => (
@@ -112,6 +131,7 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                   categoryID={view.id}
                   productID={item.id}
                   navigation={navigation}
+                  setToastInfo={setToastInfo}
                   isFavorite={false}
                   market={market}
                   onPress={() => {

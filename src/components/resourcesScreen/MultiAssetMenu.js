@@ -12,6 +12,10 @@ const Container = styled.View`
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
   padding: 12px;
   min-width: 180px;
+  border-radius: 2px;
+  position: absolute;
+  right: 4px;
+  top: 64px;
 `;
 
 const contentTypeMap = {
@@ -28,9 +32,9 @@ const CalloutButton = styled(
 
 const MultiAssetMenu = ({ title, options, onPress }) => {
   const filteredOptions =
-    title === Localized('Share')
-      ? options
-      : filterAssetDownloadOptions(options);
+    title === Localized('Download')
+      ? filterAssetDownloadOptions(options)
+      : options;
   const [selectedAsset, setSelectedAsset] = useState(filteredOptions[0]);
 
   return (
@@ -43,7 +47,7 @@ const MultiAssetMenu = ({ title, options, onPress }) => {
           isSelected={item.title === selectedAsset.title}
         />
       ))}
-      <CalloutButton onPress={onPress}>
+      <CalloutButton onPress={() => onPress(selectedAsset)}>
         <H4Black style={{ textAlign: 'center', marginTop: 6 }}>{title}</H4Black>
       </CalloutButton>
     </Container>
