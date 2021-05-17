@@ -29,4 +29,13 @@ storiesOf('Multi Asset Menu', module)
         options={options}
       />
     </Flexbox>
+  ))
+  .add('send', () => (
+    <Flexbox height="300px" style={{ backgroundColor: '#2C2C2C' }}>
+      <MultiAssetMenu
+        title="Send to Prospect"
+        onPress={() => console.log('share pressed')}
+        options={options}
+      />
+    </Flexbox>
   ));
