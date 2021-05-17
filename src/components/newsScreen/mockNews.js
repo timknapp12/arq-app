@@ -4,7 +4,7 @@ export const mockNews = {
       url:
         'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fbanners%2FEventsBanner_355x176.jpg?alt=media&token=72e6d8fa-4406-43cc-9198-80f76eb0c880',
       title: 'Featured Story Headline',
-      body: `This is featheured story text. We nned to determine how many lines if test are going to be displayed before we cut it off and force the user to click the tile to send them to an outside source to further consume the wonderful content that the communications team has ready for them. But this is more text to help us see where the cut off is going to be.`,
+      body: `This is featured story text. We need to determine how many lines if test are going to be displayed before we cut it off and force the user to click the tile to send them to an outside source to further consume the wonderful content that the communications team has ready for them. But this is more text to help us see where the cut off is going to be.`,
     },
     storyList: [
       {
@@ -42,6 +42,12 @@ export const mockNews = {
     ],
   },
   blog: {
+    featured: {
+      url:
+        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fbanners%2FFFMBanner_355x176.jpg?alt=media&token=b5e7483d-bef8-43cd-a958-58423f7c9ed5',
+      title: 'Blog Featured Story',
+      body: `This is featured story text. We need to determine how many lines if test are going to be displayed before we cut it off and force the user to click the tile to send them to an outside source to further consume the wonderful content that the communications team has ready for them. But this is more text to help us see where the cut off is going to be.`,
+    },
     storyList: [
       {
         id: 0,
@@ -78,6 +84,12 @@ export const mockNews = {
     ],
   },
   events: {
+    featured: {
+      url:
+        'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2Fbanners%2FCompPlanBanner_355x176.jpg?alt=media&token=ed482437-f2cb-43bc-8ee0-8bbb73af991d',
+      title: 'Headline for Events',
+      body: `This is featured story text. We need to determine how many lines if test are going to be displayed before we cut it off and force the user to click the tile to send them to an outside source to further consume the wonderful content that the communications team has ready for them. But this is more text to help us see where the cut off is going to be.`,
+    },
     storyList: [
       {
         id: 0,

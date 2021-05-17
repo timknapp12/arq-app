@@ -168,11 +168,21 @@ const NewsScreen = () => {
         )}
         {view.name === Localized('BLOG') && (
           <MainScrollView>
+            <FeaturedNewsCard
+              url={mockNews.blog.featured.url}
+              title={mockNews.blog.featured.title}
+              body={mockNews.blog.featured.body}
+            />
             <NewsCardMap items={mockNews.blog.storyList} />
           </MainScrollView>
         )}
         {view.name === Localized('EVENTS') && (
           <MainScrollView>
+            <FeaturedNewsCard
+              url={mockNews.events.featured.url}
+              title={mockNews.events.featured.title}
+              body={mockNews.events.featured.body}
+            />
             <NewsCardMap items={mockNews.events.storyList} />
           </MainScrollView>
         )}
