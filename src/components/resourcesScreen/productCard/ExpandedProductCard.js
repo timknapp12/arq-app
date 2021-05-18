@@ -1,13 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
-import {
-  View,
-  Linking,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import { View, Linking, Image, TouchableOpacity } from 'react-native';
 import { H4Book, H6Book } from '../../common';
 import PdfIcon from '../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../assets/icons/video-icon.svg';
@@ -22,50 +15,15 @@ import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import SendIcon from '../../../../assets/icons/send-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../contexts/AppContext';
-
-const { width } = Dimensions.get('window');
-
-const OuterContainer = styled.View`
-  width: 100%;
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  padding: 6px 0;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  height: ${(props) => (props.isExpanded ? 'auto' : '60px')};
-  overflow: hidden;
-`;
-
-const InnerContainer = styled.View`
-  width: 100%;
-  padding: 0 6px;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const ImageAndIconContainer = styled.View`
-  width: 100%;
-  flex-direction: row;
-  display: ${(props) => (props.isExpanded ? 'flex' : 'none')};
-`;
-
-const IconRow = styled.View`
-  flex-direction: row;
-  justify-content: flex-end;
-`;
-
-const assetIconContainerWidth = 45;
-const smallerImageWidth = width - assetIconContainerWidth - 40;
-const smallerImageHeight = smallerImageWidth / 2;
-
-const AssetIconContainer = styled.View`
-  width: ${assetIconContainerWidth}px;
-  align-items: flex-end;
-`;
-
-const TitleAndDescription = styled.View`
-  flex: 1;
-  padding: 4px 0;
-`;
+import {
+  OuterContainer,
+  InnerContainer,
+  ImageAndIconContainer,
+  IconRow,
+  smallerImageHeight,
+  AssetIconContainer,
+  TitleAndDescription,
+} from './ExpandedProductCard.styles';
 
 const ExpandedProductCard = ({
   // isFavorite,
