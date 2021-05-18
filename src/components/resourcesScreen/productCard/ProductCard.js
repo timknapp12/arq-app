@@ -22,6 +22,7 @@ const ProductCard = ({
   url,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
+  setDisableTouchEvent,
   categoryID,
   productID,
   navigation,
@@ -69,6 +70,7 @@ const ProductCard = ({
   const onCallout = async (e) => {
     e.stopPropagation();
     if (isCalloutOpen) {
+      await setDisableTouchEvent(false);
       setIsCalloutOpen(false);
       setIsCalloutOpenFromParent(false);
     } else if (!isCalloutOpen) {
@@ -102,11 +104,12 @@ const ProductCard = ({
     setIsMultiAssetMenuOpen(false);
   };
   // This function will automatically open the device share option if there is only one item, and open the popup to select an asset if there are multiple items
-  const onShare = () => {
+  const onShare = async () => {
     if (assetList.length === 1) {
       return shareSingleUrl(assetList[0].url);
     } else {
-      setIsCalloutOpenFromParent(true);
+      await setIsCalloutOpenFromParent(true);
+      await setDisableTouchEvent(true);
       setIsMultiAssetMenuOpen(true);
       setMultiAssetMenuTitle(Localized('Share'));
     }
@@ -126,17 +129,18 @@ const ProductCard = ({
   };
 
   // This function will automatically download if there is only one item, and open the popup to select an asset if there are multiple items
-  const onDownload = () => {
+  const onDownload = async () => {
     if (assetList.length === 1) {
       return downloadSingleItem(assetList[0]);
     } else {
-      setIsCalloutOpenFromParent(true);
+      await setIsCalloutOpenFromParent(true);
+      await setDisableTouchEvent(true);
       setIsMultiAssetMenuOpen(true);
       setMultiAssetMenuTitle(Localized('Download'));
     }
   };
 
-  const onPress = (item) => {
+  const onAction = async (item) => {
     if (multiAssetMenuTitle === Localized('Share')) {
       return shareSingleUrl(item.url);
     }
@@ -179,7 +183,11 @@ const ProductCard = ({
         <MultiAssetMenu
           title={multiAssetMenuTitle}
           options={assetList}
-          onPress={onPress}
+          onPress={onAction}
+          onClose={() => {
+            setIsMultiAssetMenuOpen(false);
+            setIsCalloutOpenFromParent(false);
+          }}
         />
       )}
     </ProductCardContainer>
@@ -195,6 +203,7 @@ ProductCard.propTypes = {
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
+  setDisableTouchEvent: PropTypes.func,
   /* the category id will be something like "hemp", or "energy" */
   categoryID: PropTypes.string,
   /* the list id will be something like "q fuse plus", or "q focus" */

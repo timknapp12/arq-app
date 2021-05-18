@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -50,6 +51,14 @@ const ProductCategoryScreen = ({ route, navigation }) => {
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const [disableTouchEvent, setDisableTouchEvent] = useState(false);
+  // e.stopPropagation() does not work on android on an element that is absolute positioned so it has to be done manually
+  const dismiss = () => {
+    if (Platform.OS === 'android' && disableTouchEvent) {
+      return;
+    }
+    setIsCalloutOpenFromParent(false);
+  };
 
   useEffect(() => {
     getCorporateProductCategories(
@@ -81,7 +90,7 @@ const ProductCategoryScreen = ({ route, navigation }) => {
     });
   };
   return (
-    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
+    <TouchableWithoutFeedback onPress={dismiss}>
       <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
         <DownloadToast
           title={toastTitle}
@@ -106,8 +115,7 @@ const ProductCategoryScreen = ({ route, navigation }) => {
           onStartShouldSetResponder={() => true}
           style={{ width: '100%' }}
           contentContainerStyle={{ paddingBottom: 120 }}>
-          <TouchableWithoutFeedback
-            onPress={() => setIsCalloutOpenFromParent(false)}>
+          <TouchableWithoutFeedback onPress={dismiss}>
             <Flexbox
               justify="flex-start"
               height="100%"
@@ -128,6 +136,7 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                   url={item.url}
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                  setDisableTouchEvent={setDisableTouchEvent}
                   categoryID={view.id}
                   productID={item.id}
                   navigation={navigation}

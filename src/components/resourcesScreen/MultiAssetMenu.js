@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-import { H4Black, RadioButton } from '../common';
+import { H4Black, RadioButton, CloseIcon, Flexbox } from '../common';
 import { filterAssetDownloadOptions } from '../../utils/filterAssetDownloadOptions/filterAssetDownloadOtions';
 import { Localized } from '../../translations/Localized';
 
@@ -30,7 +30,7 @@ const CalloutButton = styled(
   Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
 )``;
 
-const MultiAssetMenu = ({ title, options, onPress }) => {
+const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
   const filteredOptions =
     title === Localized('Download')
       ? filterAssetDownloadOptions(options)
@@ -39,6 +39,11 @@ const MultiAssetMenu = ({ title, options, onPress }) => {
 
   return (
     <Container>
+      <Flexbox align="flex-end">
+        <CalloutButton onPress={onClose}>
+          <CloseIcon />
+        </CalloutButton>
+      </Flexbox>
       {filteredOptions.map((item) => (
         <RadioButton
           onPress={() => setSelectedAsset(item)}
@@ -58,6 +63,7 @@ MultiAssetMenu.propTypes = {
   title: PropTypes.string.isRequired,
   options: PropTypes.array,
   onPress: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default MultiAssetMenu;

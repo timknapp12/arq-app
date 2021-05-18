@@ -1,7 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Switch as NativeSwitch, Platform } from 'react-native';
+import {
+  Switch as NativeSwitch,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
+import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { H4Book } from './texts';
 import AppContext from '../../contexts/AppContext';
 
@@ -125,7 +130,12 @@ Switch.propTypes = {
 };
 
 // RADIO BUTTON
-const RadioContainer = styled.TouchableOpacity`
+
+// react native TouchableOpacity does not work on android on elements with absolute positioning
+// so this uses TouchableOpacity from a library called react-native-gesture-handler for android
+const RadioContainer = styled(
+  Platform.OS === 'android' ? GestureTouchable : TouchableOpacity,
+)`
   flex-direction: row;
   align-items: center;
 `;
