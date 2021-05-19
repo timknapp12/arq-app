@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Modal, View, TouchableOpacity, Alert } from 'react-native';
-import { H4, Picker, ScreenContainer, H5Heavy } from '../common';
+import { H4, Picker, ScreenContainer, H5Heavy, Flexbox } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 
 const Container = styled.View`
@@ -22,14 +22,21 @@ const MarketModal = ({
   onValueChange,
 }) => {
   initLanguage();
+  const ref = useRef(value);
   const closeModal = () => {
     if (!value) {
       return Alert.alert(Localized('Please select a market'));
     }
     return onClose();
   };
+
+  const onCancel = () => {
+    onValueChange(ref.current);
+    onClose();
+  };
+
   return (
-    <Modal animationType="slide" visible={visible} onRequestClose={onClose}>
+    <Modal animationType="slide" visible={visible} onRequestClose={onCancel}>
       <ScreenContainer style={{ justifyContent: 'flex-start' }}>
         <Container>
           <H4
@@ -55,14 +62,22 @@ const MarketModal = ({
                 value: null,
               }}
             />
-            <View
-              style={{ width: '100%', alignItems: 'flex-end', marginTop: 16 }}>
+            <Flexbox
+              direction="row"
+              justify="flex-end"
+              style={{ marginTop: 16 }}>
               <TouchableOpacity
+                testID="cancel-button-in-market-modal"
+                onPress={onCancel}>
+                <H5Heavy>{Localized('CANCEL')}</H5Heavy>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ marginStart: 16 }}
                 testID="save-button-in-market-modal"
                 onPress={closeModal}>
                 <H5Heavy>{Localized('SAVE')}</H5Heavy>
               </TouchableOpacity>
-            </View>
+            </Flexbox>
           </View>
         </Container>
       </ScreenContainer>

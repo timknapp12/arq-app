@@ -5,9 +5,12 @@ import { Share, Alert } from 'react-native';
 import AppContext from '../../../contexts/AppContext';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
+import MultiAssetMenu from '../MultiAssetMenu';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { getProductAssets } from '../../../utils/firebase/getCorporateProducts';
+import { downloadFile } from '../../../utils/downloadFile';
+import { Localized, initLanguage } from '../../../translations/Localized';
 
 const ProductCardContainer = styled.View`
   width: 100%;
@@ -19,17 +22,22 @@ const ProductCard = ({
   url,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
+  setDisableTouchEvent,
   categoryID,
   productID,
   navigation,
+  setToastInfo,
   isFavorite,
   market,
   ...props
 }) => {
+  initLanguage();
   const { deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [assetList, setAssetList] = useState([]);
+  const [isMultiAssetMenuOpen, setIsMultiAssetMenuOpen] = useState(false);
+  const [multiAssetMenuTitle, setMultiAssetMenuTitle] = useState('');
 
   const db = firebase.firestore();
 
@@ -48,17 +56,21 @@ const ProductCard = ({
     if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(false);
     }
+    if (!isCalloutOpenFromParent && isMultiAssetMenuOpen) {
+      setIsMultiAssetMenuOpen(false);
+    }
     if (isExpanded) {
       setIsCalloutOpen(false);
     }
     return () => {
       setIsCalloutOpen(false);
     };
-  }, [isCalloutOpenFromParent, isExpanded]);
+  }, [isCalloutOpenFromParent, isExpanded, isMultiAssetMenuOpen]);
 
   const onCallout = async (e) => {
     e.stopPropagation();
     if (isCalloutOpen) {
+      await setDisableTouchEvent(false);
       setIsCalloutOpen(false);
       setIsCalloutOpenFromParent(false);
     } else if (!isCalloutOpen) {
@@ -70,7 +82,7 @@ const ProductCard = ({
     }
   };
 
-  const onShare = async () => {
+  const shareSingleUrl = async (url) => {
     try {
       const result = await Share.share({
         message: url,
@@ -89,6 +101,52 @@ const ProductCard = ({
     }
     setIsCalloutOpen(false);
     setIsCalloutOpenFromParent(false);
+    setIsMultiAssetMenuOpen(false);
+  };
+  // This function will automatically open the device share option if there is only one item, and open the popup to select an asset if there are multiple items
+  const onShare = async () => {
+    if (assetList.length === 1) {
+      return shareSingleUrl(assetList[0].url);
+    } else {
+      await setIsCalloutOpenFromParent(true);
+      await setDisableTouchEvent(true);
+      setIsMultiAssetMenuOpen(true);
+      setMultiAssetMenuTitle(Localized('Share'));
+    }
+  };
+
+  const downloadSingleItem = async (item) => {
+    const { url, title, contentType, ext } = item;
+    const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
+    try {
+      await downloadFile(url, filename, contentType, setToastInfo);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+    setIsCalloutOpen(false);
+    setIsCalloutOpenFromParent(false);
+    setIsMultiAssetMenuOpen(false);
+  };
+
+  // This function will automatically download if there is only one item, and open the popup to select an asset if there are multiple items
+  const onDownload = async () => {
+    if (assetList.length === 1) {
+      return downloadSingleItem(assetList[0]);
+    } else {
+      await setIsCalloutOpenFromParent(true);
+      await setDisableTouchEvent(true);
+      setIsMultiAssetMenuOpen(true);
+      setMultiAssetMenuTitle(Localized('Download'));
+    }
+  };
+
+  const onAction = async (item) => {
+    if (multiAssetMenuTitle === Localized('Share')) {
+      return shareSingleUrl(item.url);
+    }
+    if (multiAssetMenuTitle === Localized('Download')) {
+      return downloadSingleItem(item);
+    }
   };
 
   return (
@@ -104,6 +162,7 @@ const ProductCard = ({
           isFavorite={isFavorite}
           assetList={assetList}
           onShare={onShare}
+          onDownload={onDownload}
         />
       ) : (
         <CollapsedProductCard
@@ -117,6 +176,18 @@ const ProductCard = ({
           setIsCalloutOpen={setIsCalloutOpen}
           onCallout={onCallout}
           onShare={onShare}
+          onDownload={onDownload}
+        />
+      )}
+      {isMultiAssetMenuOpen && (
+        <MultiAssetMenu
+          title={multiAssetMenuTitle}
+          options={assetList}
+          onPress={onAction}
+          onClose={() => {
+            setIsMultiAssetMenuOpen(false);
+            setIsCalloutOpenFromParent(false);
+          }}
         />
       )}
     </ProductCardContainer>
@@ -128,9 +199,11 @@ ProductCard.propTypes = {
   description: PropTypes.string,
   url: PropTypes.string,
   navigation: PropTypes.object,
+  setToastInfo: PropTypes.func,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
+  setDisableTouchEvent: PropTypes.func,
   /* the category id will be something like "hemp", or "energy" */
   categoryID: PropTypes.string,
   /* the list id will be something like "q fuse plus", or "q focus" */

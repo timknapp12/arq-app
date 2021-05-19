@@ -110,6 +110,7 @@
   "Remove": "Remove",
   "Upload": "Upload",
   "Edit": "Edit",
+  "Send to Prospect": "Send to Prospect",
   "Downloading to Photos...": "Downloading to Photos...",
   "Downloading...": "Downloading...",
   "Saved to Photos": "Saved to Photos",
@@ -136,6 +137,7 @@
   "Video": "Video",
   "Podcast": "Podcast",
   "Link": "Link",
+  "Document": "Document",
   "Please first select a file type above": "Please first select a file type above",
   "You selected a File Type of 'image' but uploaded a document that doesn't match. Please make sure these match": "You selected a File Type of 'image' but uploaded a document that doesn't match. Please make sure these match",
   "You selected a File Type of 'pdf' but uploaded a document that doesn't match. Please make sure these match": "You selected a File Type of 'pdf' but uploaded a document that doesn't match. Please make sure these match",
@@ -174,5 +176,7 @@
   "SEARCH": "SEARCH",
   "Q NEWS": "Q NEWS",
   "BLOG": "BLOG",
-  "EVENTS": "EVENTS"
+  "EVENTS": "EVENTS",
+  "Add Team Access Code": "Add Team Access Code",
+  "Please enter a team access code": "Please enter a team access code"
 }

@@ -77,3 +77,9 @@ export const categories = [
       'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2FSprayBanner_355x176.jpg?alt=media&token=7b95b273-279f-4f29-a13e-efd4dda0cfcc',
   },
 ];
+
+export const teamCodes = [
+  { id: 0, name: 'Team Awesome' },
+  { id: 1, name: 'Q Warriors' },
+  { id: 2, name: `Sue's Team` },
+];

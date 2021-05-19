@@ -1,38 +1,15 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { Linking, TouchableOpacity } from 'react-native';
 import { H4Black, H6Book } from '../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../contexts/AppContext';
-
-const CardContainer = styled.View`
-  width: 100%;
-`;
-
-const OuterContainer = styled.View`
-  width: 100%;
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  border-left-color: ${(props) => props.theme.highlight};
-  border-left-width: ${(props) => (props.isStillNew ? '6px' : '0px')};
-  padding: 8px 20px 8px 16px;
-  padding-left: ${(props) => (props.isStillNew ? '10px' : '16px')};
-  border-radius: 5px;
-  margin-bottom: 10px;
-  min-height: 95px;
-  height: ${(props) => (props.isExpanded ? 'auto' : '95px')};
-  overflow: hidden;
-`;
-
-const InnerContainer = styled.View`
-  flex: 1;
-  padding: 4px 0;
-`;
-
-const TitleAndDateContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
+import {
+  CardContainer,
+  OuterContainer,
+  InnerContainer,
+  TitleAndDateContainer,
+} from './NewsCard.styles';
 
 const NewsCard = ({ title, body, date, url, isNew, ...props }) => {
   const options = {

@@ -21,6 +21,7 @@ const AddButton = styled.TouchableOpacity`
   position: absolute;
   bottom: 10px;
   right: 12px;
+  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
 const ButtonText = styled(H3)`

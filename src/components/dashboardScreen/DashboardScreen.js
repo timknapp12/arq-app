@@ -322,7 +322,6 @@ const DashboardScreen = () => {
         <Flexbox>
           <PopoutMenu
             fadeAnim={fadeAnim}
-            isMenuOpen={isMenuOpen}
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}

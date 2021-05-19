@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import BellSvg from '../../../assets/icons/ic_notificationBell.svg';
+import NotificationsIcon from '../../../assets/icons/notification-icon.svg';
 import accountIcon from '../../../assets/icons/ic_account.png';
 import smallQ from '../../../assets/icons/Q-Sciences-small-logo.png';
 import close from '../../../assets/icons/ic_close.png';
@@ -37,8 +37,8 @@ const BadgeContainer = styled.View`
   position: absolute;
   justify-content: center;
   align-items: center;
-  top: 0;
-  right: 0;
+  top: 6px;
+  right: -6px;
   height: ${badgeCircumfrance}px;
   width: ${badgeCircumfrance}px;
   border-radius: ${badgeCircumfrance / 2}px;
@@ -54,7 +54,13 @@ export const BellIcon = ({ badgeValue }) => {
   const { theme } = useContext(AppContext);
   return (
     <IconContainer>
-      <BellSvg fill={theme.primaryTextColor} />
+      <NotificationsIcon
+        style={{
+          color: theme.primaryTextColor,
+          height: 36,
+          width: 36,
+        }}
+      />
       {badgeValue ? (
         <BadgeContainer>
           <BadgeText>{badgeValue}</BadgeText>

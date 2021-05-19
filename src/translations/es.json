@@ -110,6 +110,7 @@
   "Remove": "es Remove",
   "Upload": "es Upload",
   "Edit": "es Edit",
+  "Send to Prospect": "es Send to Prospect",
   "Downloading to Photos...": "es Downloading to Photos...",
   "Downloading...": "es Downloading...",
   "Saved to Photos": "es Saved to Photos",
@@ -136,6 +137,7 @@
   "Video": "es Video",
   "Podcast": "es Podcast",
   "Link": "es Link",
+  "Document": "es Document",
   "Please first select a file type above": "es Please first select a file type above",
   "You selected a File Type of 'image' but uploaded a document that doesn't match. Please make sure these match": "es You selected a File Type of 'image' but uploaded a document that doesn't match. Please make sure these match",
   "You selected a File Type of 'pdf' but uploaded a document that doesn't match. Please make sure these match": "es You selected a File Type of 'pdf' but uploaded a document that doesn't match. Please make sure these match",
@@ -174,5 +176,7 @@
   "SEARCH": "es SEARCH",
   "Q NEWS": "es Q NEWS",
   "BLOG": "es BLOG",
-  "EVENTS": "es EVENTS"
+  "EVENTS": "es EVENTS",
+  "Add Team Access Code": "es Add Team Access Code",
+  "Please enter a team access code": "es Please enter a team access code"
 }

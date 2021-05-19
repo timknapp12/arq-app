@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import {
   TouchableOpacity,
   Share,
@@ -19,41 +18,17 @@ import IconRow from './IconRow';
 import UploadAssetModal from '../UploadAssetModal';
 import { downloadFile } from '../../../utils/downloadFile';
 import { Localized, initLanguage } from '../../../translations/Localized';
+import {
+  AssetCardContainer,
+  OuterContainer,
+  InnerContainer,
+  TitleAndDescription,
+  IconColumn,
+} from './AssetCard.styles';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
 // the two options above are used to handle different use cases depending on desired behavior
-
-const AssetCardContainer = styled.View`
-  width: 100%;
-`;
-
-const OuterContainer = styled.View`
-  width: 100%;
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  padding: 4px 0;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  height: ${(props) => (props.isExpanded ? 'auto' : '60px')};
-  overflow: hidden;
-`;
-
-const InnerContainer = styled.View`
-  width: 100%;
-  padding: 0 6px;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const TitleAndDescription = styled.View`
-  flex: 1;
-  padding: 4px 0;
-`;
-
-const IconColumn = styled.View`
-  height: 50px;
-  justify-content: space-between;
-`;
 
 const AssetCard = ({
   title,
@@ -78,7 +53,7 @@ const AssetCard = ({
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
-  const download = async () => {
+  const onDownload = async () => {
     const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
     try {
       await downloadFile(url, filename, contentType, setToastInfo);
@@ -268,7 +243,7 @@ const AssetCard = ({
             contentType={contentType}
             hasPermissions={hasPermissions}
             onShare={onShare}
-            onDownload={download}
+            onDownload={onDownload}
             onEdit={() => setIsUploadAssetModalOpen(true)}
             onRemove={onRemove}
           />
@@ -284,7 +259,7 @@ const AssetCard = ({
           contentType={contentType}
           hasPermissions={hasPermissions}
           onShare={onShare}
-          onDownload={download}
+          onDownload={onDownload}
           closeCallout={closeCallout}
           onEdit={() => setIsUploadAssetModalOpen(true)}
           onRemove={onRemove}

@@ -11,6 +11,7 @@ import DownloadIcon from '../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
+import SendIcon from '../../../assets/icons/send-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { Localized, initLanguage } from '../../translations/Localized';
 
@@ -39,6 +40,7 @@ const CalloutMenu = ({
   closeCallout = () => {},
   onEdit = () => {},
   onRemove = () => {},
+  onSend = () => {},
   ...props
 }) => {
   initLanguage();
@@ -137,6 +139,19 @@ const CalloutMenu = ({
           <H4Book>{Localized('Share')}</H4Book>
         </Flexbox>
       </CalloutButton>
+      <CalloutButton onPress={onSend}>
+        <Flexbox direction="row" justify="flex-start">
+          <SendIcon
+            style={{
+              marginEnd: 8,
+              height: 24,
+              width: 24,
+              color: theme.primaryTextColor,
+            }}
+          />
+          <H4Book>{Localized('Send to Prospect')}</H4Book>
+        </Flexbox>
+      </CalloutButton>
     </Container>
   );
 };
@@ -151,6 +166,7 @@ CalloutMenu.propTypes = {
   closeCallout: PropTypes.func,
   onEdit: PropTypes.func,
   onRemove: PropTypes.func,
+  onSend: PropTypes.func,
 };
 
 export default CalloutMenu;
