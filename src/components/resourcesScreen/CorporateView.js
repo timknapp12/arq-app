@@ -76,11 +76,12 @@ const CorporateView = ({ navigation, fadeOut }) => {
   return (
     <>
       <FilterSearchBar
-        onPress={() =>
+        onPress={() => {
+          fadeOut();
           navigation.navigate('Corporate Search Screen', {
             market: selectedMarket,
-          })
-        }>
+          });
+        }}>
         <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
           <FlagIcon
             source={{

@@ -1,14 +1,18 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Platform } from 'react-native';
-import { Flexbox, H5, MainScrollView } from '../common';
+import { View, Platform, TouchableOpacity, Alert } from 'react-native';
+import { Flexbox, H5, MainScrollView, Label, Input } from '../common';
 import FilterSearchBar from './FilterSearchBar';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import ResourceCard from './ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
-import { categories } from './mockTeamData';
+// TODO: remove mock data when we get real data
+import { categories, teamCodes } from './mockTeamData';
 import AddFolderModal from './AddFolderModal';
 import AppContext from '../../contexts/AppContext';
+import TeamMenu from './TeamMenu';
+import EditModal from '../editModal/EditModal';
+import { Localized } from '../../translations/Localized';
 
 const TeamView = ({
   fadeOut,
@@ -17,9 +21,17 @@ const TeamView = ({
   setIsCalloutOpenFromParent,
   isAddFolderModalOpen,
   setIsAddFolderModalOpen,
+  openTeamMenu,
+  closeTeamMenu,
+  isTeamMenuOpen,
+  teamFadeAnim,
 }) => {
   const { theme } = useContext(AppContext);
   const [isNavDisabled, setIsNavDisabled] = useState(false);
+  const [isAccessCodeModalOpen, setIsAccessCodeModalOpen] = useState(false);
+  const initialCode = teamCodes[0].name;
+  const [selectedAccessCode, setSelectedAccessCode] = useState(initialCode);
+  const [accessCode, setAccessCode] = useState('');
 
   const navigateToResource = (item) => {
     fadeOut();
@@ -46,25 +58,63 @@ const TeamView = ({
     });
   };
 
+  const toggleTeamMenu = () => {
+    if (isTeamMenuOpen) {
+      closeTeamMenu();
+      setIsNavDisabled(false);
+    } else {
+      setIsNavDisabled(true);
+      openTeamMenu();
+    }
+  };
+  // this helps allow proper navigation of folders on android
+  useEffect(() => {
+    if (!isTeamMenuOpen) {
+      setIsNavDisabled(false);
+    }
+  }, [isTeamMenuOpen]);
+
+  const saveAccessCode = () => {
+    if (!accessCode) {
+      return Alert.alert(Localized('Please enter a team access code'));
+    }
+    // TODO: fire mutation to find access code in database
+    setSelectedAccessCode(accessCode);
+    return setIsAccessCodeModalOpen(false);
+  };
+
   return (
     <>
       <FilterSearchBar
-        onPress={() =>
+        onPress={() => {
           // TODO pass in a real access code
-          navigation.navigate('Team Search Screen', { accessCode: '3' })
-        }>
-        <Flexbox direction="row" width="auto">
-          <FilterIcon
-            style={{
-              height: 30,
-              width: 30,
-              color: theme.primaryTextColor,
-              marginTop: -2,
-            }}
-          />
-          <H5>Team Awesome!</H5>
-        </Flexbox>
+          fadeOut();
+          navigation.navigate('Team Search Screen', { accessCode: '3' });
+        }}>
+        <TouchableOpacity onPress={toggleTeamMenu}>
+          <Flexbox direction="row" width="auto">
+            <FilterIcon
+              style={{
+                height: 30,
+                width: 30,
+                color: theme.primaryTextColor,
+                marginTop: -2,
+                marginEnd: 6,
+              }}
+            />
+            <H5>{selectedAccessCode}</H5>
+          </Flexbox>
+        </TouchableOpacity>
       </FilterSearchBar>
+      <Flexbox align="flex-start">
+        <TeamMenu
+          items={teamCodes}
+          style={{ left: teamFadeAnim }}
+          onClose={closeTeamMenu}
+          onSelect={(name) => setSelectedAccessCode(name)}
+          setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
+        />
+      </Flexbox>
       <MainScrollView>
         <View
           style={{
@@ -98,6 +148,18 @@ const TeamView = ({
         visible={isAddFolderModalOpen}
         onClose={() => setIsAddFolderModalOpen(false)}
       />
+      <EditModal
+        visible={isAccessCodeModalOpen}
+        onClose={() => setIsAccessCodeModalOpen(false)}
+        onSave={saveAccessCode}>
+        <Label>Team Access Code</Label>
+        <Input
+          autoFocus
+          testID="access-code-input"
+          value={accessCode}
+          onChangeText={(text) => setAccessCode(text)}
+        />
+      </EditModal>
     </>
   );
 };
@@ -109,6 +171,10 @@ TeamView.propTypes = {
   setIsCalloutOpenFromParent: PropTypes.func.isRequired,
   isAddFolderModalOpen: PropTypes.bool.isRequired,
   setIsAddFolderModalOpen: PropTypes.func.isRequired,
+  openTeamMenu: PropTypes.func,
+  closeTeamMenu: PropTypes.func,
+  isTeamMenuOpen: PropTypes.bool,
+  teamFadeAnim: PropTypes.object,
 };
 
 export default TeamView;

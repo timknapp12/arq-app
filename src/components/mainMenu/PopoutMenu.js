@@ -12,7 +12,7 @@ const SideMenu = styled.View`
   z-index: 2;
   position: absolute;
   align-items: flex-start;
-  top: 10px;
+  top: 0;
   background-color: ${(props) => props.theme.sideMenuBackground};
   padding: 18px;
 `;
@@ -21,6 +21,10 @@ const TouchableContainer = styled.View`
   width: 100%;
 `;
 const AnimatedMenu = Animated.createAnimatedComponent(SideMenu);
+
+const Touchable = styled(TouchableOpacity)`
+  padding: 2px;
+`;
 
 const PopoutMenu = ({
   fadeAnim,
@@ -33,45 +37,41 @@ const PopoutMenu = ({
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableContainer>
-        <TouchableOpacity
-          style={{ padding: 4 }}
+        <Touchable
           onPress={() => {
             fadeOut();
             setIsMyInfoModalOpen(true);
           }}>
           <H4Book>{Localized('My Info')}</H4Book>
-        </TouchableOpacity>
+        </Touchable>
       </TouchableContainer>
 
       <TouchableContainer>
-        <TouchableOpacity
-          style={{ padding: 4 }}
+        <Touchable
           onPress={() => {
             fadeOut();
             setIsSettingsModalOpen(true);
           }}>
           <H4Book>{Localized('Settings')}</H4Book>
-        </TouchableOpacity>
+        </Touchable>
       </TouchableContainer>
 
       <TouchableContainer>
-        <TouchableOpacity style={{ padding: 4 }}>
+        <Touchable>
           <H4Book>{Localized('Chat With Support')}</H4Book>
-        </TouchableOpacity>
+        </Touchable>
       </TouchableContainer>
 
       <TouchableContainer>
-        <TouchableOpacity style={{ padding: 4 }}>
+        <Touchable>
           <H4Book>{Localized('Share My Shop')}</H4Book>
-        </TouchableOpacity>
+        </Touchable>
       </TouchableContainer>
 
       <TouchableContainer>
-        <TouchableOpacity
-          style={{ padding: 4 }}
-          onPress={() => setIsSignedIn(false)}>
+        <Touchable onPress={() => setIsSignedIn(false)}>
           <H4Book>{Localized('Log Out')}</H4Book>
-        </TouchableOpacity>
+        </Touchable>
       </TouchableContainer>
     </AnimatedMenu>
   );

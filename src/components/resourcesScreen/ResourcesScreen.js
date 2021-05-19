@@ -35,6 +35,7 @@ const AddButton = styled.TouchableOpacity`
   position: absolute;
   bottom: 130px;
   right: 12px;
+  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
 const ButtonText = styled(H3)`
@@ -74,11 +75,14 @@ const ResourcesScreen = ({ navigation }) => {
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(-500)).current;
+  const teamFadeAnim = useRef(new Animated.Value(-500)).current;
 
   const fadeIn = () => {
     setIsMenuOpen(true);
+    closeTeamMenu();
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
@@ -86,11 +90,29 @@ const ResourcesScreen = ({ navigation }) => {
     }).start();
   };
   const fadeOut = () => {
+    closeTeamMenu();
     Animated.timing(fadeAnim, {
       toValue: -500,
       duration: 700,
       useNativeDriver: false,
     }).start(() => setIsMenuOpen(false));
+  };
+
+  const openTeamMenu = () => {
+    setIsTeamMenuOpen(true);
+    Animated.timing(teamFadeAnim, {
+      toValue: 0,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const closeTeamMenu = () => {
+    Animated.timing(teamFadeAnim, {
+      toValue: -500,
+      duration: 700,
+      useNativeDriver: false,
+    }).start(() => setIsTeamMenuOpen(false));
   };
 
   const navigate = (item) => {
@@ -139,7 +161,6 @@ const ResourcesScreen = ({ navigation }) => {
         <Flexbox>
           <PopoutMenu
             fadeAnim={fadeAnim}
-            isMenuOpen={isMenuOpen}
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
@@ -156,6 +177,10 @@ const ResourcesScreen = ({ navigation }) => {
             setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
             isAddFolderModalOpen={isAddFolderModalOpen}
             setIsAddFolderModalOpen={setIsAddFolderModalOpen}
+            openTeamMenu={openTeamMenu}
+            closeTeamMenu={closeTeamMenu}
+            isTeamMenuOpen={isTeamMenuOpen}
+            teamFadeAnim={teamFadeAnim}
           />
         )}
         {view.name === Localized('SERVICES') && <ServicesView />}
