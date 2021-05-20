@@ -15,7 +15,7 @@ import { H5Black, H6Book } from '../../common';
 import AssetIcon from './AssetIcon';
 import CalloutMenu from '../CalloutMenu';
 import IconRow from './IconRow';
-import UploadAssetModal from '../UploadAssetModal';
+import UploadAssetModal from '../teamView/UploadAssetModal';
 import { downloadFile } from '../../../utils/downloadFile';
 import { Localized, initLanguage } from '../../../translations/Localized';
 import {

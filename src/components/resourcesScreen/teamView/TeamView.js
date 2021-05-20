@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Platform, TouchableOpacity, Alert } from 'react-native';
-import { Flexbox, H5, MainScrollView, Label, Input } from '../common';
-import FilterSearchBar from './FilterSearchBar';
-import FilterIcon from '../../../assets/icons/filter-icon.svg';
-import ResourceCard from './ResourceCard';
+import { Flexbox, H5, MainScrollView, Label, Input } from '../../common';
+import FilterSearchBar from '../FilterSearchBar';
+import FilterIcon from '../../../../assets/icons/filter-icon.svg';
+import ResourceCard from '../ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 // TODO: remove mock data when we get real data
 import { categories, teamCodes } from './mockTeamData';
 import AddFolderModal from './AddFolderModal';
-import AppContext from '../../contexts/AppContext';
+import AppContext from '../../../contexts/AppContext';
 import TeamMenu from './TeamMenu';
-import EditModal from '../editModal/EditModal';
-import { Localized } from '../../translations/Localized';
+import EditModal from '../../editModal/EditModal';
+import { Localized } from '../../../translations/Localized';
 
 const TeamView = ({
   fadeOut,

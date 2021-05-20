@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Animated } from 'react-native';
-import { H4Book, H4Black } from '../common';
+import { H4Book, H4Black } from '../../common';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Localized } from '../../translations/Localized';
+import { Localized } from '../../../translations/Localized';
 
 const SideMenu = styled.View`
   z-index: -1;
@@ -52,6 +52,15 @@ const TeamMenu = ({
           onClose();
         }}>
         <H4Book>{Localized('Add Team Access Code')}</H4Book>
+        <H4Black> +</H4Black>
+      </Touchable>
+      <Touchable
+        style={{ flexDirection: 'row' }}
+        onPress={() => {
+          setIsAccessCodeModalOpen(true);
+          onClose();
+        }}>
+        <H4Book>{Localized('Create Team Access Code')}</H4Book>
         <H4Black> +</H4Black>
       </Touchable>
     </Menu>

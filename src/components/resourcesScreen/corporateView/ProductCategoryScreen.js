@@ -13,17 +13,17 @@ import {
   TopButtonBar,
   TertiaryButton,
   Flexbox,
-} from '../common';
+} from '../../common';
 import ProductCard from './productCard/ProductCard';
-import DownloadToast from './DownloadToast';
-import AppContext from '../../contexts/AppContext';
+import DownloadToast from '../DownloadToast';
+import AppContext from '../../../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import {
   getCorporateProductCategories,
   getCorporateProducts,
-} from '../../utils/firebase/getCorporateProducts';
+} from '../../../utils/firebase/getCorporateProducts';
 
 // this will make the image a 2 x 1 ratio with taking padding into account
 const { width } = Dimensions.get('window');

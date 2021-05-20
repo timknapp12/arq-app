@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-import { H4Black, RadioButton, CloseIcon, Flexbox } from '../common';
-import { filterAssetDownloadOptions } from '../../utils/filterAssetDownloadOptions/filterAssetDownloadOtions';
-import { Localized } from '../../translations/Localized';
+import { H4Black, RadioButton, CloseIcon, Flexbox } from '../../common';
+import { filterAssetDownloadOptions } from '../../../utils/filterAssetDownloadOptions/filterAssetDownloadOtions';
+import { Localized } from '../../../translations/Localized';
 
 const Container = styled.View`
   background-color: ${(props) => props.theme.backgroundColor};

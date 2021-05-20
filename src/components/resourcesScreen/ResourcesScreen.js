@@ -18,8 +18,8 @@ import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 // TODO remove this once we get real data
 import { mockUser } from '../common/mockUser';
-import CorporateView from './CorporateView';
-import TeamView from './TeamView';
+import CorporateView from './corporateView/CorporateView';
+import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import AppContext from '../../contexts/AppContext';

@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Share, Alert } from 'react-native';
-import AppContext from '../../../contexts/AppContext';
+import AppContext from '../../../../contexts/AppContext';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import MultiAssetMenu from '../MultiAssetMenu';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { getProductAssets } from '../../../utils/firebase/getCorporateProducts';
-import { downloadFile } from '../../../utils/downloadFile';
-import { Localized, initLanguage } from '../../../translations/Localized';
+import { getProductAssets } from '../../../../utils/firebase/getCorporateProducts';
+import { downloadFile } from '../../../../utils/downloadFile';
+import { Localized, initLanguage } from '../../../../translations/Localized';
 
 const ProductCardContainer = styled.View`
   width: 100%;

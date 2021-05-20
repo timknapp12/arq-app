@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, Input, TextArea, Picker, H4 } from '../common';
-import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
-import EditModal from '../editModal/EditModal';
-import AppContext from '../../contexts/AppContext';
+import { Flexbox, Label, Input, TextArea, Picker, H4 } from '../../common';
+import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
+import EditModal from '../../editModal/EditModal';
+import AppContext from '../../../contexts/AppContext';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized, initLanguage } from '../../../translations/Localized';
 
 const Filename = styled(Label)`
   opacity: 0.83;

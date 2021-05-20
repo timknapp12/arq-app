@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-import { H5Black, H6Book } from '../../common';
-import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AppContext from '../../../contexts/AppContext';
-import CalloutMenu from '../CalloutMenu';
+import { H5Black, H6Book } from '../../../common';
+import KebobIcon from '../../../../../assets/icons/kebob-icon.svg';
+import AppContext from '../../../../contexts/AppContext';
+import CalloutMenu from '../../CalloutMenu';
 import {
   Container,
   OuterContainer,

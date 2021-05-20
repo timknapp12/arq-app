@@ -11,3 +11,4 @@ import './Picker.stories';
 import './Toast.stories';
 import './Notifications.stories';
 import './MultiAssetMenu.stories';
+import './Messaging.stories';
