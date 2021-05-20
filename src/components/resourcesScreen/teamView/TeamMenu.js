@@ -30,6 +30,8 @@ const TeamMenu = ({
   onClose,
   setIsAccessCodeModalOpen,
   onSelect,
+  setIsNewAccessCode,
+  hasPermissions,
   ...props
 }) => {
   return (
@@ -48,21 +50,25 @@ const TeamMenu = ({
       <Touchable
         style={{ marginTop: 16, flexDirection: 'row' }}
         onPress={() => {
+          setIsNewAccessCode(false);
           setIsAccessCodeModalOpen(true);
           onClose();
         }}>
         <H4Book>{Localized('Add Team Access Code')}</H4Book>
         <H4Black> +</H4Black>
       </Touchable>
-      <Touchable
-        style={{ flexDirection: 'row' }}
-        onPress={() => {
-          setIsAccessCodeModalOpen(true);
-          onClose();
-        }}>
-        <H4Book>{Localized('Create Team Access Code')}</H4Book>
-        <H4Black> +</H4Black>
-      </Touchable>
+      {hasPermissions && (
+        <Touchable
+          style={{ flexDirection: 'row' }}
+          onPress={() => {
+            setIsNewAccessCode(true);
+            setIsAccessCodeModalOpen(true);
+            onClose();
+          }}>
+          <H4Book>{Localized('Create Team Access Code')}</H4Book>
+          <H4Black> +</H4Black>
+        </Touchable>
+      )}
     </Menu>
   );
 };
@@ -72,6 +78,8 @@ TeamMenu.propTypes = {
   onClose: PropTypes.func,
   setIsAccessCodeModalOpen: PropTypes.func,
   onSelect: PropTypes.func,
+  setIsNewAccessCode: PropTypes.func,
+  hasPermissions: PropTypes.bool,
 };
 
 export default TeamMenu;

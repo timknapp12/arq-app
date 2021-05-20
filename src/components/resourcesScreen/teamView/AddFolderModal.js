@@ -1,76 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { Image, TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, Input, H4 } from '../../common';
+import { Flexbox, Label, Input, H5Black } from '../../common';
 import ImageIcon from '../../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
 import AppContext from '../../../contexts/AppContext';
 import * as ImagePicker from 'expo-image-picker';
 import { Localized, initLanguage } from '../../../translations/Localized';
-
-const imageHeight = 76;
-const squareImageWidth = imageHeight;
-const rectangleImageWidth = imageHeight * 2;
-
-const Underline = styled.View`
-  width: 100%;
-  border-bottom-color: ${(props) => props.theme.highlight};
-  border-bottom-width: 3px;
-`;
-
-const Filename = styled(Label)`
-  opacity: 0.83;
-`;
-
-const FileInput = styled.View`
-  flex-direction: row;
-  width: 100%;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 0 0 0 4px;
-`;
-
-const FileUnderline = styled.View`
-  width: 100%;
-  border-bottom-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
-  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
-`;
-
-const MiniCard = styled.View`
-  height: 96px;
-`;
-
-const Footer = styled.View`
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  height: 20px;
-  justify-content: center;
-`;
-
-const Title = styled.Text`
-  flex: 1;
-  font-family: 'Avenir-Heavy';
-  font-size: 10px;
-  opacity: 0.83;
-  color: ${(props) => props.theme.primaryTextColor};
-  padding: 2px;
-`;
-
-const DefaultSquareImage = styled.View`
-  background-color: ${(props) => props.theme.disabledBackgroundColor};
-  height: ${imageHeight}px;
-  width: ${squareImageWidth}px;
-`;
-
-const DefaultRectangleImage = styled.View`
-  background-color: ${(props) => props.theme.disabledBackgroundColor};
-  height: ${imageHeight}px;
-  width: ${rectangleImageWidth}px;
-`;
-
-const marginSize = 8;
+import {
+  imageHeight,
+  squareImageWidth,
+  rectangleImageWidth,
+  Underline,
+  Filename,
+  FileInput,
+  FileUnderline,
+  MiniCard,
+  Footer,
+  Title,
+  DefaultSquareImage,
+  DefaultRectangleImage,
+  marginSize,
+} from './modal.styles';
 
 const AddFolderModal = ({
   visible,
@@ -145,9 +97,11 @@ const AddFolderModal = ({
       onSave={onSave}>
       <Flexbox align="flex-start">
         <Flexbox>
-          <H4 style={{ textAlign: 'center' }}>
-            {Localized(editMode ? `Edit Folder` : `Add Folder`)}
-          </H4>
+          <H5Black style={{ textAlign: 'center' }}>
+            {Localized(
+              editMode ? Localized(`Edit Folder`) : Localized(`Add Folder`),
+            )}
+          </H5Black>
         </Flexbox>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
