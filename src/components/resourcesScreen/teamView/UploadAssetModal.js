@@ -1,35 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { TouchableOpacity, Platform, Alert } from 'react-native';
-import { Flexbox, Label, Input, TextArea, Picker, H4 } from '../common';
-import PaperclipIcon from '../../../assets/icons/paperclip-icon.svg';
-import EditModal from '../editModal/EditModal';
-import AppContext from '../../contexts/AppContext';
+import { Flexbox, Label, Input, TextArea, Picker, H5Black } from '../../common';
+import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
+import EditModal from '../../editModal/EditModal';
+import AppContext from '../../../contexts/AppContext';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { Localized, initLanguage } from '../../translations/Localized';
-
-const Filename = styled(Label)`
-  opacity: 0.83;
-`;
-
-const FileInput = styled.View`
-  flex-direction: row;
-  width: 100%;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 0 0 0 4px;
-`;
-
-const FileUnderline = styled.View`
-  width: 100%;
-  border-bottom-color: ${(props) =>
-    props.focused ? props.theme.highlight : props.theme.disabledTextColor};
-  border-bottom-width: ${(props) => (props.focused ? '3px' : '1px')};
-`;
-
-const marginSize = 8;
+import { Filename, FileInput, FileUnderline, marginSize } from './modal.styles';
+import { Localized, initLanguage } from '../../../translations/Localized';
 
 const UploadAssetModal = ({
   visible,
@@ -164,9 +143,9 @@ const UploadAssetModal = ({
       onSave={onSave}>
       <Flexbox align="flex-start">
         <Flexbox>
-          <H4 style={{ textAlign: 'center' }}>
+          <H5Black style={{ textAlign: 'center' }}>
             {Localized(editMode ? `Edit Item` : `Add Item`)}
-          </H4>
+          </H5Black>
         </Flexbox>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input

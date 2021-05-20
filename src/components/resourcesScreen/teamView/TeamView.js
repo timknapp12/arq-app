@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Platform, TouchableOpacity, Alert } from 'react-native';
-import { Flexbox, H5, MainScrollView, Label, Input } from '../common';
-import FilterSearchBar from './FilterSearchBar';
-import FilterIcon from '../../../assets/icons/filter-icon.svg';
-import ResourceCard from './ResourceCard';
+import { Flexbox, H5, MainScrollView } from '../../common';
+import FilterSearchBar from '../FilterSearchBar';
+import FilterIcon from '../../../../assets/icons/filter-icon.svg';
+import ResourceCard from '../ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 // TODO: remove mock data when we get real data
 import { categories, teamCodes } from './mockTeamData';
 import AddFolderModal from './AddFolderModal';
-import AppContext from '../../contexts/AppContext';
+import AppContext from '../../../contexts/AppContext';
 import TeamMenu from './TeamMenu';
-import EditModal from '../editModal/EditModal';
-import { Localized } from '../../translations/Localized';
+import AccessCodeModal from './AccessCodeModal';
+import { Localized } from '../../../translations/Localized';
 
 const TeamView = ({
   fadeOut,
@@ -25,6 +25,8 @@ const TeamView = ({
   closeTeamMenu,
   isTeamMenuOpen,
   teamFadeAnim,
+  // TODO: integrate hasPermissions prop with backend
+  hasPermissions,
 }) => {
   const { theme } = useContext(AppContext);
   const [isNavDisabled, setIsNavDisabled] = useState(false);
@@ -32,6 +34,7 @@ const TeamView = ({
   const initialCode = teamCodes[0].name;
   const [selectedAccessCode, setSelectedAccessCode] = useState(initialCode);
   const [accessCode, setAccessCode] = useState('');
+  const [isNewAccessCode, setIsNewAccessCode] = useState(false);
 
   const navigateToResource = (item) => {
     fadeOut();
@@ -74,6 +77,15 @@ const TeamView = ({
     }
   }, [isTeamMenuOpen]);
 
+  useEffect(() => {
+    if (teamCodes.length < 1) {
+      setIsAccessCodeModalOpen(true);
+    }
+    if (hasPermissions) {
+      setIsNewAccessCode(true);
+    }
+  }, [teamCodes]);
+
   const saveAccessCode = () => {
     if (!accessCode) {
       return Alert.alert(Localized('Please enter a team access code'));
@@ -113,6 +125,9 @@ const TeamView = ({
           onClose={closeTeamMenu}
           onSelect={(name) => setSelectedAccessCode(name)}
           setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
+          setIsNewAccessCode={setIsNewAccessCode}
+          // TODO: wire up permissions from backend - see if user qualifies to add access codes
+          hasPermissions={true}
         />
       </Flexbox>
       <MainScrollView>
@@ -125,6 +140,11 @@ const TeamView = ({
           }}
           accessibilityLabel="Team Resources"
           onStartShouldSetResponder={() => true}>
+          {categories.length < 1 ? (
+            <Flexbox>
+              <H5>There are no resources found for this access code</H5>
+            </Flexbox>
+          ) : null}
           {categories.map((item, index) => (
             <ResourceCard
               isCalloutOpenFromParent={isCalloutOpenFromParent}
@@ -148,18 +168,15 @@ const TeamView = ({
         visible={isAddFolderModalOpen}
         onClose={() => setIsAddFolderModalOpen(false)}
       />
-      <EditModal
+      <AccessCodeModal
         visible={isAccessCodeModalOpen}
         onClose={() => setIsAccessCodeModalOpen(false)}
-        onSave={saveAccessCode}>
-        <Label>Team Access Code</Label>
-        <Input
-          autoFocus
-          testID="access-code-input"
-          value={accessCode}
-          onChangeText={(text) => setAccessCode(text)}
-        />
-      </EditModal>
+        onSave={saveAccessCode}
+        testID="access-code-input"
+        value={accessCode}
+        onChangeText={(text) => setAccessCode(text)}
+        isNew={isNewAccessCode}
+      />
     </>
   );
 };
@@ -175,6 +192,7 @@ TeamView.propTypes = {
   closeTeamMenu: PropTypes.func,
   isTeamMenuOpen: PropTypes.bool,
   teamFadeAnim: PropTypes.object,
+  hasPermissions: PropTypes.bool,
 };
 
 export default TeamView;

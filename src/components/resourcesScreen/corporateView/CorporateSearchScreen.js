@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ScreenContainer, Flexbox, Input } from '../common';
+import { ScreenContainer, Flexbox, Input } from '../../common';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import AppContext from '../../contexts/AppContext';
-import AssetCard from './assetCard/AssetCard';
+import AppContext from '../../../contexts/AppContext';
+import AssetCard from '../assetCard/AssetCard';
 import ProductCard from './productCard/ProductCard';
-import DownloadToast from './DownloadToast';
-import { categories } from './mockTeamData';
+import DownloadToast from '../DownloadToast';
+import { categories } from '../teamView/mockTeamData';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 

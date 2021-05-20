@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer, Flexbox, H3 } from '../common';
 import AssetCard from './assetCard/AssetCard';
-import UploadAssetModal from './UploadAssetModal';
+import UploadAssetModal from './teamView/UploadAssetModal';
 import DownloadToast from './DownloadToast';
 import AppContext from '../../contexts/AppContext';
 import firebase from 'firebase/app';

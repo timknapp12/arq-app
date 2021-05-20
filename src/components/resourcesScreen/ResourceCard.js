@@ -17,8 +17,8 @@ import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { H6, H4Book, Flexbox } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-import AddFolderModal from './AddFolderModal';
-import UploadAssetModal from './UploadAssetModal';
+import AddFolderModal from './teamView/AddFolderModal';
+import UploadAssetModal from './teamView/UploadAssetModal';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events

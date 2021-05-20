@@ -1,20 +1,20 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, Linking, Image, TouchableOpacity } from 'react-native';
-import { H4Book, H6Book } from '../../common';
-import PdfIcon from '../../../../assets/icons/pdf-icon.svg';
-import VideoIcon from '../../../../assets/icons/video-icon.svg';
-import PodcastIcon from '../../../../assets/icons/podcast-icon.svg';
-import ImageIcon from '../../../../assets/icons/image-icon.svg';
+import { H4Book, H6Book } from '../../../common';
+import PdfIcon from '../../../../../assets/icons/pdf-icon.svg';
+import VideoIcon from '../../../../../assets/icons/video-icon.svg';
+import PodcastIcon from '../../../../../assets/icons/podcast-icon.svg';
+import ImageIcon from '../../../../../assets/icons/image-icon.svg';
 // TODO put heart icons back when we have backend support
-// import HeartFillIcon from '../../../../assets/icons/heart-fill-icon.svg';
-// import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
-import DownloadIcon from '../../../../assets/icons/download-icon.svg';
-import ShareIcon from '../../../../assets/icons/share-icon.svg';
-import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
-import SendIcon from '../../../../assets/icons/send-icon.svg';
+// import HeartFillIcon from '../../../../../assets/icons/heart-fill-icon.svg';
+// import HeartOutlineIcon from '../../../../../assets/icons/heart-outline-icon.svg';
+import DownloadIcon from '../../../../../assets/icons/download-icon.svg';
+import ShareIcon from '../../../../../assets/icons/share-icon.svg';
+import RemoveIcon from '../../../../../assets/icons/remove-icon.svg';
+import SendIcon from '../../../../../assets/icons/send-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AppContext from '../../../contexts/AppContext';
+import AppContext from '../../../../contexts/AppContext';
 import {
   OuterContainer,
   InnerContainer,

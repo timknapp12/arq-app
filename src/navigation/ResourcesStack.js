@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import ResourcesCategoryScreen from '../components/resourcesScreen/ResourcesCategoryScreen';
-import ProductCategoryScreen from '../components/resourcesScreen/ProductCategoryScreen';
-import CorporateSearchScreen from '../components/resourcesScreen/CorporateSearchScreen';
-import TeamSearchScreen from '../components/resourcesScreen/TeamSearchScreen';
+import ProductCategoryScreen from '../components/resourcesScreen/corporateView/ProductCategoryScreen';
+import CorporateSearchScreen from '../components/resourcesScreen/corporateView/CorporateSearchScreen';
+import TeamSearchScreen from '../components/resourcesScreen/teamView/TeamSearchScreen';
 import AppContext from '../contexts/AppContext';
 import { Localized } from '../translations/Localized';
 

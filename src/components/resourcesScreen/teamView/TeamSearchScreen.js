@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ScreenContainer, Flexbox, Input } from '../common';
+import { ScreenContainer, Flexbox, Input } from '../../common';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import AssetCard from './assetCard/AssetCard';
-import DownloadToast from './DownloadToast';
+import AssetCard from '../assetCard/AssetCard';
+import DownloadToast from '../DownloadToast';
 // TODO: remove this once we get real data
 import { categories } from './mockTeamData';
 

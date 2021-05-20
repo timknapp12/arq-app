@@ -5,14 +5,14 @@ import { I18nManager } from 'react-native';
 // source https://dev.to/vikrantnegi/creating-a-multi-language-app-in-react-native-1joj
 // or https://www.instamobile.io/mobile-development/react-native-localization/
 
-// TODO - android might use "no" as the code for Norweigan, need to confirm
+// TODO - android might use "no" as the code for Norwegian, need to confirm
 const languageCodes = {
   english: 'en',
   spanish: 'es',
   french: 'fr',
   arabic: 'ar',
   japanese: 'ja',
-  norweigan: 'nb',
+  norwegian: 'nb',
   german: 'de',
   italian: 'it',
 };
