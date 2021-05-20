@@ -179,5 +179,11 @@
   "EVENTS": "EVENTS",
   "Add Team Access Code": "Add Team Access Code",
   "Create Team Access Code": "Create Team Access Code",
-  "Please enter a team access code": "Please enter a team access code"
+  "Please enter a team access code": "Please enter a team access code",
+  "Team Access Code": "Team Access Code",
+  "A team access code allows you to view, download, and share team resources. If you don't have a team access code you can get one from your leader.": "A team access code allows you to view, download, and share team resources. If you don't have a team access code you can get one from your leader.",
+  "Create a team access code to share resources with your team members. An access code can be 1-20 characters in length.": "Create a team access code to share resources with your team members. An access code can be 1-20 characters in length.",
+  "There are no resources found for this access code": "There are no resources found for this access code",
+  "This code is not available. Please try again.": "This code is not available. Please try again.",
+  "This code does not exist. Please try again.": "This code does not exist. Please try again."
 }
