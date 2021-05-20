@@ -98,9 +98,7 @@ const AddFolderModal = ({
       <Flexbox align="flex-start">
         <Flexbox>
           <H5Black style={{ textAlign: 'center' }}>
-            {Localized(
-              editMode ? Localized(`Edit Folder`) : Localized(`Add Folder`),
-            )}
+            {Localized(editMode ? `Edit Folder` : `Add Folder`)}
           </H5Black>
         </Flexbox>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>

@@ -144,9 +144,7 @@ const UploadAssetModal = ({
       <Flexbox align="flex-start">
         <Flexbox>
           <H5Black style={{ textAlign: 'center' }}>
-            {Localized(
-              editMode ? Localized(`Edit Item`) : Localized(`Add Item`),
-            )}
+            {Localized(editMode ? `Edit Item` : `Add Item`)}
           </H5Black>
         </Flexbox>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
