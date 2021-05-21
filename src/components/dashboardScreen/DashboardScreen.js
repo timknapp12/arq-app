@@ -313,6 +313,7 @@ const DashboardScreen = ({ navigation }) => {
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
+              style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view.name === item.name}
               key={item.name}>

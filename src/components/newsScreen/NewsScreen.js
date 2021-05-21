@@ -10,7 +10,6 @@ import {
 import {
   Animated,
   TouchableWithoutFeedback,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import { MainScrollView } from '../common';
@@ -119,24 +118,15 @@ const NewsScreen = ({ navigation }) => {
           profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
-          <ScrollView
-            contentContainerStyle={{
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              minWidth: '100%',
-            }}
-            horizontal
-            showsHorizontalScrollIndicator={false}>
-            {tertiaryButtonText.map((item) => (
-              <TertiaryButton
-                style={{ marginRight: 15 }}
-                onPress={() => navigate(item)}
-                selected={view.name === item.name}
-                key={item.name}>
-                {item.name}
-              </TertiaryButton>
-            ))}
-          </ScrollView>
+          {tertiaryButtonText.map((item) => (
+            <TertiaryButton
+              style={{ marginRight: 15 }}
+              onPress={() => navigate(item)}
+              selected={view.name === item.name}
+              key={item.name}>
+              {item.name}
+            </TertiaryButton>
+          ))}
         </TopButtonBar>
         <Flexbox>
           <PopoutMenu
@@ -148,7 +138,7 @@ const NewsScreen = ({ navigation }) => {
             navigation={navigation}
           />
         </Flexbox>
-        <Flexbox align="flex-start">
+        <Flexbox style={{ zIndex: -1 }} align="flex-start">
           <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
             <FlagIcon
               source={{

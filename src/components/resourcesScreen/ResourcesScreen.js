@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Animated, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { Animated, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -139,24 +139,15 @@ const ResourcesScreen = ({ navigation }) => {
           profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
-          <ScrollView
-            contentContainerStyle={{
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              minWidth: '100%',
-            }}
-            horizontal
-            showsHorizontalScrollIndicator={false}>
-            {tertiaryButtonText.map((item) => (
-              <TertiaryButton
-                style={{ marginRight: 15 }}
-                onPress={() => navigate(item)}
-                selected={view.name === item.name}
-                key={item.name}>
-                {item.name}
-              </TertiaryButton>
-            ))}
-          </ScrollView>
+          {tertiaryButtonText.map((item) => (
+            <TertiaryButton
+              style={{ marginRight: 15 }}
+              onPress={() => navigate(item)}
+              selected={view.name === item.name}
+              key={item.name}>
+              {item.name}
+            </TertiaryButton>
+          ))}
         </TopButtonBar>
         <Flexbox>
           <PopoutMenu

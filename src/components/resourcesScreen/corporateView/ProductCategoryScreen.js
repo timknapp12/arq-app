@@ -99,17 +99,15 @@ const ProductCategoryScreen = ({ route, navigation }) => {
           progress={toastProgress}
         />
         <TopButtonBar>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {categoryList.map((item) => (
-              <TertiaryButton
-                style={{ marginRight: 15 }}
-                onPress={() => navigate(item)}
-                selected={view.title === item.title}
-                key={item.title}>
-                {item.title.toUpperCase()}
-              </TertiaryButton>
-            ))}
-          </ScrollView>
+          {categoryList.map((item) => (
+            <TertiaryButton
+              style={{ marginRight: 15 }}
+              onPress={() => navigate(item)}
+              selected={view.title === item.title}
+              key={item.title}>
+              {item.title.toUpperCase()}
+            </TertiaryButton>
+          ))}
         </TopButtonBar>
         <ScrollView
           onStartShouldSetResponder={() => true}
