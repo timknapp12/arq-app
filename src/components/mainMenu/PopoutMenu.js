@@ -59,7 +59,7 @@ const PopoutMenu = ({
 
       <TouchableContainer>
         <Touchable onPress={() => navigation.navigate('Prospects Stack')}>
-          <H4Book>{Localized('Prospets')}</H4Book>
+          <H4Book>{Localized('Contacts')}</H4Book>
         </Touchable>
       </TouchableContainer>
 

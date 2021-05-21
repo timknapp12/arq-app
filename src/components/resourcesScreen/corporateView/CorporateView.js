@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { MainScrollView } from '../../common';
-import FilterSearchBar from '../FilterSearchBar';
+import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import ResourceCard from '../ResourceCard';
 import MarketModal from '../../marketModal/MarketModal';
 import * as Analytics from 'expo-firebase-analytics';

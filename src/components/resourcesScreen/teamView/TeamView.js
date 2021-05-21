@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Platform, TouchableOpacity, Alert } from 'react-native';
 import { Flexbox, H5, MainScrollView } from '../../common';
-import FilterSearchBar from '../FilterSearchBar';
+import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import ResourceCard from '../ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';

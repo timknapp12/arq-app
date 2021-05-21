@@ -12,10 +12,10 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import { MainScrollView } from '../common';
-import { useIsFocused } from '@react-navigation/native';
-import MainHeader from '../mainHeader/MainHeader';
 import * as Analytics from 'expo-firebase-analytics';
+import { useIsFocused } from '@react-navigation/native';
+import { MainScrollView } from '../common';
+import MainHeader from '../mainHeader/MainHeader';
 import AppContext from '../../contexts/AppContext';
 import FeaturedNewsCard from './FeaturedNewsCard';
 import PopoutMenu from '../mainMenu/PopoutMenu';

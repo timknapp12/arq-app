@@ -54,7 +54,7 @@ export const TopButtonBar = ({ children }) => (
   <ButtonBar>
     <ScrollView
       contentContainerStyle={{
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'flex-end',
         minWidth: '100%',
       }}
