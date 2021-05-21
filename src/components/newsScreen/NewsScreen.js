@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
   ScreenContainer,
@@ -38,7 +39,7 @@ const FlagIcon = styled.Image`
   margin: 8px 12px;
 `;
 
-const NewsScreen = () => {
+const NewsScreen = ({ navigation }) => {
   initLanguage();
   const { storeTimeStamp, userMarket } = useContext(AppContext);
   storeTimeStamp();
@@ -144,6 +145,7 @@ const NewsScreen = () => {
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
+            navigation={navigation}
           />
         </Flexbox>
         <Flexbox align="flex-start">
@@ -214,6 +216,10 @@ const NewsScreen = () => {
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
+};
+
+NewsScreen.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default NewsScreen;

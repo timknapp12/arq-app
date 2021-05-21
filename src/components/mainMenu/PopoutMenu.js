@@ -31,6 +31,7 @@ const PopoutMenu = ({
   fadeOut,
   setIsMyInfoModalOpen,
   setIsSettingsModalOpen,
+  navigation,
 }) => {
   initLanguage();
   const { setIsSignedIn } = useContext(AppContext);
@@ -57,6 +58,12 @@ const PopoutMenu = ({
       </TouchableContainer>
 
       <TouchableContainer>
+        <Touchable onPress={() => navigation.navigate('Prospects Stack')}>
+          <H4Book>{Localized('Prospets')}</H4Book>
+        </Touchable>
+      </TouchableContainer>
+
+      <TouchableContainer>
         <Touchable>
           <H4Book>{Localized('Chat With Support')}</H4Book>
         </Touchable>
@@ -78,10 +85,11 @@ const PopoutMenu = ({
 };
 
 PopoutMenu.propTypes = {
-  fadeAnim: PropTypes.object,
-  fadeOut: PropTypes.func,
-  setIsMyInfoModalOpen: PropTypes.func,
-  setIsSettingsModalOpen: PropTypes.func,
+  fadeAnim: PropTypes.object.isRequired,
+  fadeOut: PropTypes.func.isRequired,
+  setIsMyInfoModalOpen: PropTypes.func.isRequired,
+  setIsSettingsModalOpen: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
 
 export default PopoutMenu;

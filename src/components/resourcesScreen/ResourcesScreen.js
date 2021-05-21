@@ -164,6 +164,7 @@ const ResourcesScreen = ({ navigation }) => {
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
+            navigation={navigation}
           />
         </Flexbox>
         {view.name === Localized('CORPORATE') && (
