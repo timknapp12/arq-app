@@ -101,7 +101,10 @@ const TeamView = ({
         onPress={() => {
           // TODO pass in a real access code
           fadeOut();
-          navigation.navigate('Team Search Screen', { accessCode: '3' });
+          navigation.navigate('Team Search Screen', {
+            accessCode: '3',
+            title: selectedAccessCode.toUpperCase(),
+          });
         }}>
         <TouchableOpacity onPress={toggleTeamMenu}>
           <Flexbox direction="row" width="auto">
