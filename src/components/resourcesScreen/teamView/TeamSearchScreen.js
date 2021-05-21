@@ -88,15 +88,6 @@ const TeamSearchScreen = ({ route, navigation }) => {
                   // hasPermissions={hasPermissions}
                 />
               ))}
-              {/* <Flexbox
-              style={{
-                height: 80,
-                backgroundColor: 'lightblue',
-                marginTop: 9,
-                width: '100%',
-              }}>
-              <H4>Hi</H4>
-            </Flexbox> */}
             </Flexbox>
           </TouchableWithoutFeedback>
         </ScrollView>

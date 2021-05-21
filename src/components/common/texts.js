@@ -15,6 +15,12 @@ export const H2 = styled.Text`
   color: ${(props) => props.theme.primaryTextColor};
 `;
 
+export const H2Book = styled.Text`
+  font-family: 'Avenir-Light';
+  font-size: 24px;
+  color: ${(props) => props.theme.primaryTextColor};
+`;
+
 export const H3 = styled.Text`
   font-family: 'Avenir-Light';
   font-size: 21px;

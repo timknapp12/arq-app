@@ -145,7 +145,9 @@ const TeamView = ({
           onStartShouldSetResponder={() => true}>
           {categories.length < 1 ? (
             <Flexbox>
-              <H5>There are no resources found for this access code</H5>
+              <H5>
+                {Localized('There are no resources found for this access code')}
+              </H5>
             </Flexbox>
           ) : null}
           {categories.map((item, index) => (

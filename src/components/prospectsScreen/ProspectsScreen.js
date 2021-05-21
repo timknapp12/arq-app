@@ -13,6 +13,7 @@ import {
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
 import AppContext from '../../contexts/AppContext';
+import ProspectsView from './ProspectsView';
 import { initLanguage, Localized } from '../../translations/Localized';
 // TODO replace mock user with real data
 
@@ -84,7 +85,7 @@ const ProspectsScreen = ({ navigation }) => {
             </Flexbox>
           </TouchableOpacity>
         </FilterSearchBar>
-        {view.name === Localized('PROSPECTS') && <H4>Prospects</H4>}
+        {view.name === Localized('PROSPECTS') && <ProspectsView />}
         {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
       </ScreenContainer>
     </TouchableWithoutFeedback>
