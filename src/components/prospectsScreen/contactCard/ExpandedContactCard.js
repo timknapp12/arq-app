@@ -4,6 +4,9 @@ import { TouchableOpacity } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
+import EditIcon from '../../../../assets/icons/edit-icon.svg';
+import MoveIcon from '../../../../assets/icons/move-icon.svg';
+import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import account from '../../../../assets/icons/ic_account.png';
 import { H2Book, H4Book, H6, Flexbox } from '../../common';
 import AppContext from '../../../contexts/AppContext';
@@ -14,6 +17,7 @@ import {
   ExpandedImage,
   ExpandedImageDefault,
   Gap,
+  IconRow,
 } from './card.styles';
 
 const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
@@ -30,7 +34,17 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
     state,
     zipcode,
   } = data;
-  const iconStyle = { color: theme.primaryTextColor, height: 42, width: 42 };
+  const largeIconStyle = {
+    color: theme.primaryTextColor,
+    height: 42,
+    width: 42,
+  };
+  const smallIconStyle = {
+    color: theme.primaryTextColor,
+    height: 24,
+    width: 24,
+    marginStart: 8,
+  };
   return (
     <CardContainer {...props}>
       <TouchableOpacity onPress={toggleExpanded}>
@@ -52,12 +66,12 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
           <Row>
             {email ? (
               <TouchableOpacity>
-                <EmailIcon style={iconStyle} />
+                <EmailIcon style={largeIconStyle} />
               </TouchableOpacity>
             ) : null}
             {phone ? (
               <TouchableOpacity>
-                <MessageIcon style={iconStyle} />
+                <MessageIcon style={largeIconStyle} />
               </TouchableOpacity>
             ) : null}
           </Row>
@@ -72,6 +86,17 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
           <H6>{`${city}, ${state} ${zipcode}`}</H6>
         </Stack>
       </TouchableOpacity>
+      <IconRow>
+        <TouchableOpacity>
+          <EditIcon style={smallIconStyle} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <MoveIcon style={smallIconStyle} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <RemoveIcon style={smallIconStyle} />
+        </TouchableOpacity>
+      </IconRow>
     </CardContainer>
   );
 };

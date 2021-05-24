@@ -53,6 +53,12 @@ export const IconColumn = styled.View`
   align-items: center;
 `;
 
+export const IconRow = styled.View`
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 export const ExpandedImage = styled.Image`
   ${largeImage};
 `;

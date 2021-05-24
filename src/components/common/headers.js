@@ -50,8 +50,8 @@ export const ButtonBar = styled.View`
   background-color: ${(props) => props.theme.topButtonBarBackground};
 `;
 
-export const TopButtonBar = ({ children }) => (
-  <ButtonBar>
+export const TopButtonBar = ({ children, ...props }) => (
+  <ButtonBar {...props}>
     <ScrollView
       contentContainerStyle={{
         justifyContent: 'center',
