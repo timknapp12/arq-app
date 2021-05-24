@@ -8,7 +8,13 @@ const ContactCard = ({ data }) => {
   const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
   const [isExpanded, setIsExpanded] = useState(false);
   if (isExpanded) {
-    return <ExpandedContactCard data={data} />;
+    return (
+      <ExpandedContactCard
+        setIsExpanded={setIsExpanded}
+        data={data}
+        initials={initials}
+      />
+    );
   }
   return (
     <CollapsedContactCard

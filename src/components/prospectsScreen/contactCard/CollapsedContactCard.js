@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
+import account from '../../../../assets/icons/ic_account.png';
 import { H2Book, H4Book, H6 } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import {
@@ -15,13 +16,13 @@ import {
 } from './card.styles';
 
 const CollapsedContactCard = ({ setIsExpanded, data, initials }) => {
-  const { image, firstName, lastName, phone, email } = data;
   const { theme } = useContext(AppContext);
+  const { image, firstName, lastName, phone, email } = data;
   return (
     <CardContainer>
       <Row>
         {image.url ? (
-          <CollapsedImage source={{ uri: image.url }} />
+          <CollapsedImage source={{ uri: image.url }} defualtSource={account} />
         ) : (
           <CollapsedImageDefault>
             <H2Book>{initials}</H2Book>
@@ -29,8 +30,8 @@ const CollapsedContactCard = ({ setIsExpanded, data, initials }) => {
         )}
         <Stack>
           <H4Book>{`${firstName} ${lastName}`}</H4Book>
-          <H6>{phone}</H6>
-          <H6>{email}</H6>
+          {phone ? <H6>{phone}</H6> : null}
+          {email ? <H6>{email}</H6> : null}
         </Stack>
         <IconColumn>
           <TouchableOpacity onPress={() => setIsExpanded(true)}>
