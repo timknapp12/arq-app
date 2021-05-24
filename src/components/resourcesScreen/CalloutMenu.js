@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-import { H4Book, Flexbox } from '../common';
+import { H4Book } from '../common';
 // TODO put heart icons back when we have backend support
 // import HeartFillIcon from '../../../assets/icons/heart-fill-icon.svg';
 // import HeartOutlineIcon from '../../../assets/icons/heart-outline-icon.svg';
@@ -29,6 +29,10 @@ const CalloutButton = styled(
   Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
 )``;
 
+const Row = styled.View`
+  flex-direction: row;
+`;
+
 const CalloutMenu = ({
   // isFavorite,
   // setIsFavorite,
@@ -45,42 +49,33 @@ const CalloutMenu = ({
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-
+  const iconStyle = {
+    marginEnd: 8,
+    height: 24,
+    width: 24,
+    color: theme.primaryTextColor,
+  };
   return (
     <Container {...props}>
       {hasPermissions && (
         <>
           <CalloutButton onPress={onEdit}>
-            <Flexbox direction="row" justify="flex-start">
-              <EditIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
+            <Row>
+              <EditIcon style={iconStyle} />
               <H4Book>{Localized('Edit')}</H4Book>
-            </Flexbox>
+            </Row>
           </CalloutButton>
           <CalloutButton onPress={onRemove}>
-            <Flexbox direction="row" justify="flex-start">
-              <RemoveIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
+            <Row>
+              <RemoveIcon style={iconStyle} />
               <H4Book>{Localized('Remove')}</H4Book>
-            </Flexbox>
+            </Row>
           </CalloutButton>
         </>
       )}
       {/* {isFavorite ? (
         <CalloutButton onPress={() => setIsFavorite(false)}>
-          <Flexbox direction="row" justify="flex-start">
+          <Row >
             <HeartFillIcon
               style={{
                 marginEnd: 8,
@@ -90,21 +85,16 @@ const CalloutMenu = ({
               }}
             />
             <H4Book>{Localized('Favorite')}</H4Book>
-          </Flexbox>
+          </Row>
         </CalloutButton>
       ) : (
         <CalloutButton onPress={() => setIsFavorite(true)}>
-          <Flexbox direction="row" justify="flex-start">
+          <Row >
             <HeartOutlineIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.primaryTextColor,
-              }}
+              style={iconStyle}
             />
             <H4Book>{Localized('Favorite')}</H4Book>
-          </Flexbox>
+          </Row>
         </CalloutButton>
       )} */}
       {contentType !== 'video' && (
@@ -113,44 +103,23 @@ const CalloutMenu = ({
             onDownload();
             closeCallout();
           }}>
-          <Flexbox direction="row" justify="flex-start">
-            <DownloadIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.primaryTextColor,
-              }}
-            />
+          <Row>
+            <DownloadIcon style={iconStyle} />
             <H4Book>{Localized('Download')}</H4Book>
-          </Flexbox>
+          </Row>
         </CalloutButton>
       )}
       <CalloutButton onPress={onShare}>
-        <Flexbox direction="row" justify="flex-start">
-          <ShareIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
-          />
+        <Row>
+          <ShareIcon style={iconStyle} />
           <H4Book>{Localized('Share')}</H4Book>
-        </Flexbox>
+        </Row>
       </CalloutButton>
       <CalloutButton onPress={onSend}>
-        <Flexbox direction="row" justify="flex-start">
-          <SendIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
-          />
+        <Row>
+          <SendIcon style={iconStyle} />
           <H4Book>{Localized('Send to Prospect')}</H4Book>
-        </Flexbox>
+        </Row>
       </CalloutButton>
     </Container>
   );

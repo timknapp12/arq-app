@@ -20,7 +20,7 @@ const FlagIcon = styled.Image`
   border-radius: 10px;
 `;
 
-const CorporateView = ({ navigation, fadeOut }) => {
+const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const {
     corporateResources,
     userMarket,
@@ -49,6 +49,10 @@ const CorporateView = ({ navigation, fadeOut }) => {
   }, [selectedMarket]);
 
   const navigateToResource = (item) => {
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    if (isMenuOpen) {
+      return;
+    }
     fadeOut();
     if (item.id === 'products') {
       navigation.navigate('Product Category Screen', {
@@ -73,6 +77,10 @@ const CorporateView = ({ navigation, fadeOut }) => {
     });
   };
 
+  const openMarketModal = () => {
+    setIsMarketModalOpen(true);
+  };
+
   return (
     <>
       <FilterSearchBar
@@ -82,7 +90,7 @@ const CorporateView = ({ navigation, fadeOut }) => {
             market: selectedMarket,
           });
         }}>
-        <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
+        <TouchableOpacity disabled={isMenuOpen} onPress={openMarketModal}>
           <FlagIcon
             source={{
               uri: marketUrl,
@@ -110,6 +118,7 @@ const CorporateView = ({ navigation, fadeOut }) => {
                 key={item.id}
                 url={item.url}
                 title={item.title}
+                isMenuOpen={isMenuOpen}
                 onPress={() => {
                   setIsCalloutOpenFromParent(false);
                   navigateToResource(item);
@@ -134,8 +143,9 @@ const CorporateView = ({ navigation, fadeOut }) => {
 };
 
 CorporateView.propTypes = {
-  navigation: PropTypes.object,
-  fadeOut: PropTypes.func,
+  navigation: PropTypes.object.isRequired,
+  fadeOut: PropTypes.func.isRequired,
+  isMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default CorporateView;

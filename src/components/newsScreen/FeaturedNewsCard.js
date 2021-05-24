@@ -18,10 +18,13 @@ const BannerImage = styled.Image`
   height: ${imageHeight}px;
 `;
 
-const FeaturedNewsCard = ({ url, title, body }) => {
+const FeaturedNewsCard = ({ url, title, body, isMenuOpen }) => {
+  const openLink = () => {
+    url ? Linking.openURL(url) : {};
+  };
   return (
     <Container>
-      <TouchableOpacity onPress={() => Linking.openURL(url)}>
+      <TouchableOpacity disabled={isMenuOpen} onPress={openLink}>
         <BannerImage source={{ uri: url }} defaultSource={defaultImage} />
         <Flexbox align="flex-start" padding={4}>
           <H4Black style={{ marginBottom: 4 }}>{title}</H4Black>
@@ -38,6 +41,7 @@ FeaturedNewsCard.propTypes = {
   url: PropTypes.string,
   title: PropTypes.string,
   body: PropTypes.string,
+  isMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default FeaturedNewsCard;

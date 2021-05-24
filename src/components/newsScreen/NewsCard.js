@@ -11,7 +11,7 @@ import {
   TitleAndDateContainer,
 } from './NewsCard.styles';
 
-const NewsCard = ({ title, body, date, url, isNew, ...props }) => {
+const NewsCard = ({ title, body, date, url, isNew, isMenuOpen, ...props }) => {
   const options = {
     month: 'short',
     day: 'numeric',
@@ -20,16 +20,19 @@ const NewsCard = ({ title, body, date, url, isNew, ...props }) => {
   const { theme, deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isStillNew, setIsStillNew] = useState(isNew);
+
+  const openLink = () => {
+    setIsStillNew(false);
+    url ? Linking.openURL(url) : {};
+  };
+
   return (
     <CardContainer {...props}>
       <OuterContainer isExpanded={isExpanded} isStillNew={isStillNew}>
         <TouchableOpacity
+          disabled={isMenuOpen}
           style={{ flex: 1 }}
-          onPress={() => {
-            setIsStillNew(false);
-            // TODO add a mutation that indicates the item has been read and is no longer new
-            url ? Linking.openURL(url) : {};
-          }}>
+          onPress={openLink}>
           <InnerContainer>
             <TitleAndDateContainer>
               <H4Black style={{ marginBottom: 4 }}>{title}</H4Black>
@@ -79,6 +82,7 @@ NewsCard.propTypes = {
   url: PropTypes.string,
   date: PropTypes.object,
   isNew: PropTypes.bool,
+  isMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default NewsCard;

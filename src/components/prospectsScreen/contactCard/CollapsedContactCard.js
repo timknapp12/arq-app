@@ -14,52 +14,74 @@ import {
   CollapsedImage,
   CollapsedImageDefault,
 } from './card.styles';
+import ContactCalloutMenu from './ContactCalloutMenu';
 
-const CollapsedContactCard = ({ setIsExpanded, data, initials }) => {
+const CollapsedContactCard = ({
+  toggleExpanded,
+  data,
+  initials,
+  isCalloutOpen,
+  onCallout,
+  ...props
+}) => {
   const { theme } = useContext(AppContext);
   const { image, firstName, lastName, phone, email } = data;
   return (
-    <CardContainer>
-      <Row>
-        {image.url ? (
-          <CollapsedImage source={{ uri: image.url }} defualtSource={account} />
-        ) : (
-          <CollapsedImageDefault>
-            <H2Book>{initials}</H2Book>
-          </CollapsedImageDefault>
-        )}
-        <Stack>
-          <H4Book>{`${firstName} ${lastName}`}</H4Book>
-          {phone ? <H6>{phone}</H6> : null}
-          {email ? <H6>{email}</H6> : null}
-        </Stack>
-        <IconColumn>
-          <TouchableOpacity onPress={() => setIsExpanded(true)}>
+    <CardContainer {...props}>
+      <TouchableOpacity onPress={toggleExpanded}>
+        <Row>
+          {image.url ? (
+            <CollapsedImage
+              source={{ uri: image.url }}
+              defualtSource={account}
+            />
+          ) : (
+            <CollapsedImageDefault>
+              <H2Book>{initials}</H2Book>
+            </CollapsedImageDefault>
+          )}
+          <Stack>
+            <H4Book>{`${firstName} ${lastName}`}</H4Book>
+            {phone ? <H6>{phone}</H6> : null}
+            {email ? <H6>{email}</H6> : null}
+          </Stack>
+          <IconColumn>
             <MaterialCommunityIcon
               name="chevron-down"
               color={theme.primaryTextColor}
               size={24}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsExpanded(true)}>
-            <KebobIcon
-              style={{
-                height: 20,
-                width: 20,
-                color: theme.primaryTextColor,
-              }}
-            />
-          </TouchableOpacity>
-        </IconColumn>
-      </Row>
+            <TouchableOpacity onPress={onCallout}>
+              <KebobIcon
+                style={{
+                  height: 20,
+                  width: 20,
+                  color: theme.primaryTextColor,
+                }}
+              />
+            </TouchableOpacity>
+          </IconColumn>
+        </Row>
+        {isCalloutOpen && (
+          <ContactCalloutMenu
+            onEdit={() => {}}
+            onMove={() => {}}
+            onRemove={() => {}}
+            onEmail={() => {}}
+            onMessage={() => {}}
+          />
+        )}
+      </TouchableOpacity>
     </CardContainer>
   );
 };
 
 CollapsedContactCard.propTypes = {
-  setIsExpanded: PropTypes.func.isRequired,
+  toggleExpanded: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   initials: PropTypes.string.isRequired,
+  isCalloutOpen: PropTypes.bool.isRequired,
+  onCallout: PropTypes.func.isRequired,
 };
 
 export default CollapsedContactCard;

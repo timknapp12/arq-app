@@ -139,7 +139,9 @@ const NewsScreen = ({ navigation }) => {
           />
         </Flexbox>
         <Flexbox style={{ zIndex: -1 }} align="flex-start">
-          <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
+          <TouchableOpacity
+            disabled={isMenuOpen}
+            onPress={() => setIsMarketModalOpen(true)}>
             <FlagIcon
               source={{
                 uri: marketUrl,
@@ -154,8 +156,12 @@ const NewsScreen = ({ navigation }) => {
               url={mockNews.qnews.featured.url}
               title={mockNews.qnews.featured.title}
               body={mockNews.qnews.featured.body}
+              isMenuOpen={isMenuOpen}
             />
-            <NewsCardMap items={mockNews.qnews.storyList} />
+            <NewsCardMap
+              items={mockNews.qnews.storyList}
+              isMenuOpen={isMenuOpen}
+            />
           </MainScrollView>
         )}
         {view.name === Localized('BLOG') && (
@@ -164,8 +170,12 @@ const NewsScreen = ({ navigation }) => {
               url={mockNews.blog.featured.url}
               title={mockNews.blog.featured.title}
               body={mockNews.blog.featured.body}
+              isMenuOpen={isMenuOpen}
             />
-            <NewsCardMap items={mockNews.blog.storyList} />
+            <NewsCardMap
+              items={mockNews.blog.storyList}
+              isMenuOpen={isMenuOpen}
+            />
           </MainScrollView>
         )}
         {view.name === Localized('EVENTS') && (
@@ -174,8 +184,12 @@ const NewsScreen = ({ navigation }) => {
               url={mockNews.events.featured.url}
               title={mockNews.events.featured.title}
               body={mockNews.events.featured.body}
+              isMenuOpen={isMenuOpen}
             />
-            <NewsCardMap items={mockNews.events.storyList} />
+            <NewsCardMap
+              items={mockNews.events.storyList}
+              isMenuOpen={isMenuOpen}
+            />
           </MainScrollView>
         )}
         {isMyInfoModalOpen && (

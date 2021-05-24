@@ -99,6 +99,10 @@ const ResourcesScreen = ({ navigation }) => {
   };
 
   const openTeamMenu = () => {
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    if (isMenuOpen) {
+      return;
+    }
     setIsTeamMenuOpen(true);
     Animated.timing(teamFadeAnim, {
       toValue: 0,
@@ -108,6 +112,10 @@ const ResourcesScreen = ({ navigation }) => {
   };
 
   const closeTeamMenu = () => {
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    if (isMenuOpen) {
+      return;
+    }
     Animated.timing(teamFadeAnim, {
       toValue: -500,
       duration: 700,
@@ -159,7 +167,11 @@ const ResourcesScreen = ({ navigation }) => {
           />
         </Flexbox>
         {view.name === Localized('CORPORATE') && (
-          <CorporateView fadeOut={fadeOut} navigation={navigation} />
+          <CorporateView
+            fadeOut={fadeOut}
+            navigation={navigation}
+            isMenuOpen={isMenuOpen}
+          />
         )}
         {view.name === Localized('TEAM') && (
           <TeamView
@@ -173,6 +185,7 @@ const ResourcesScreen = ({ navigation }) => {
             closeTeamMenu={closeTeamMenu}
             isTeamMenuOpen={isTeamMenuOpen}
             teamFadeAnim={teamFadeAnim}
+            isMenuOpen={isMenuOpen}
           />
         )}
         {view.name === Localized('SERVICES') && <ServicesView />}

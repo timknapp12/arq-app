@@ -148,6 +148,7 @@ const AssetCard = ({
   const openAsset = () => {
     // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
     if (Platform.OS === 'android' && isNavDisabled) {
+      setIsCalloutOpenFromParent(false);
       setIsNavDisabled(false);
       return;
     }

@@ -26,7 +26,8 @@ const ProspectsScreen = ({ navigation }) => {
     name: Localized('PROSPECTS'),
     testID: 'prospects_button',
   };
-
+  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const [isTouchDisabled, setIsTouchDisabled] = useState(false);
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
@@ -52,8 +53,13 @@ const ProspectsScreen = ({ navigation }) => {
     }
   }, [isFocused]);
   return (
-    <TouchableWithoutFeedback>
-      <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
+      <ScreenContainer
+        style={{
+          justifyContent: 'flex-start',
+          paddingTop: 0,
+          paddingBottom: 0,
+        }}>
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
@@ -85,7 +91,14 @@ const ProspectsScreen = ({ navigation }) => {
             </Flexbox>
           </TouchableOpacity>
         </FilterSearchBar>
-        {view.name === Localized('PROSPECTS') && <ProspectsView />}
+        {view.name === Localized('PROSPECTS') && (
+          <ProspectsView
+            isCalloutOpenFromParent={isCalloutOpenFromParent}
+            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+            isTouchDisabled={isTouchDisabled}
+            setIsTouchDisabled={setIsTouchDisabled}
+          />
+        )}
         {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
       </ScreenContainer>
     </TouchableWithoutFeedback>
