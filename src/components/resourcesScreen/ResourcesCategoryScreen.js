@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { ScreenContainer, Flexbox, H3 } from '../common';
+import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../common';
 import AssetCard from './assetCard/AssetCard';
 import UploadAssetModal from './teamView/UploadAssetModal';
 import DownloadToast from './DownloadToast';
@@ -10,23 +9,6 @@ import AppContext from '../../contexts/AppContext';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { getCorporateAssets } from '../../utils/firebase/getCorporateAssets';
-
-const AddButton = styled.TouchableOpacity`
-  height: 56px;
-  width: 56px;
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
-  border-radius: 28px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 10px;
-  right: 12px;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
-`;
-
-const ButtonText = styled(H3)`
-  font-family: 'Avenir-Black';
-`;
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
   const { deviceLanguage } = useContext(AppContext);
@@ -109,6 +91,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
         </ScrollView>
         {hasPermissions && (
           <AddButton
+            bottom="10px"
             onPress={() => {
               setIsUploadAssetModalOpen(true);
               setIsCalloutOpenFromParent(false);

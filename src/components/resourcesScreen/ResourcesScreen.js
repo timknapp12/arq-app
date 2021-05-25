@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { Animated, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
@@ -9,7 +8,8 @@ import {
   TertiaryButton,
   TopButtonBar,
   Flexbox,
-  H3,
+  AddButton,
+  ButtonText,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -24,23 +24,6 @@ import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import AppContext from '../../contexts/AppContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
-
-const AddButton = styled.TouchableOpacity`
-  height: 56px;
-  width: 56px;
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
-  border-radius: 28px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 130px;
-  right: 12px;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
-`;
-
-const ButtonText = styled(H3)`
-  font-family: 'Avenir-Black';
-`;
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
@@ -192,6 +175,7 @@ const ResourcesScreen = ({ navigation }) => {
         {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('TEAM') && (
           <AddButton
+            bottom="130px"
             onPress={() => {
               setIsAddFolderModalOpen(true);
               setIsCalloutOpenFromParent(false);

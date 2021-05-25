@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-import { H4Book } from './texts';
+import { H4Book, H3 } from './texts';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -171,3 +171,20 @@ RadioButton.propTypes = {
   isSelected: PropTypes.bool,
   onPress: PropTypes.func,
 };
+
+export const AddButton = styled.TouchableOpacity`
+  height: 56px;
+  width: 56px;
+  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  border-radius: 28px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: ${(props) => props.bottom};
+  right: 12px;
+  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+`;
+
+export const ButtonText = styled(H3)`
+  font-family: 'Avenir-Black';
+`;

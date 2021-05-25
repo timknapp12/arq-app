@@ -9,6 +9,8 @@ import {
   TertiaryButton,
   TopButtonBar,
   Flexbox,
+  AddButton,
+  ButtonText,
 } from '../common';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
@@ -100,6 +102,9 @@ const ProspectsScreen = ({ navigation }) => {
           />
         )}
         {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
+        <AddButton bottom="130px">
+          <ButtonText>+</ButtonText>
+        </AddButton>
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
