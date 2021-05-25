@@ -10,6 +10,7 @@ import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
 import AppContext from '../../../contexts/AppContext';
+import ProspectsContext from '../../../contexts/ProspectsContext';
 import { Localized, initLanguage } from '../../../translations/Localized';
 
 const Container = styled.View`
@@ -40,6 +41,7 @@ const ContactCalloutMenu = ({
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
+  const { view } = useContext(ProspectsContext);
 
   const iconStyle = {
     marginEnd: 8,
@@ -47,6 +49,12 @@ const ContactCalloutMenu = ({
     width: 24,
     color: theme.primaryTextColor,
   };
+
+  const moveText =
+    view.name === Localized('PROSPECTS')
+      ? Localized('Move to Partners')
+      : Localized('Move to Prospects');
+
   return (
     <Container {...props}>
       <CalloutButton onPress={onEdit}>
@@ -58,8 +66,7 @@ const ContactCalloutMenu = ({
       <CalloutButton onPress={onMove}>
         <Row>
           <MoveIcon style={iconStyle} />
-          {/* TODO add propsects ternary */}
-          <H4Book>{Localized('Move to Partners')}</H4Book>
+          <H4Book>{moveText}</H4Book>
         </Row>
       </CalloutButton>
       <CalloutButton onPress={onRemove}>

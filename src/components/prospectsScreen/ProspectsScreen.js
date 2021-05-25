@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
-import { TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import {
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import {
   ScreenContainer,
   H4,
@@ -14,7 +18,9 @@ import {
 } from '../common';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
+import FilterMenu from './FilterMenu';
 import AppContext from '../../contexts/AppContext';
+import ProspectsContext from '../../contexts/ProspectsContext';
 import ProspectsView from './ProspectsView';
 import { initLanguage, Localized } from '../../translations/Localized';
 // TODO replace mock user with real data
@@ -54,59 +60,91 @@ const ProspectsScreen = ({ navigation }) => {
       });
     }
   }, [isFocused]);
+
+  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(-500)).current;
+
+  const openFilterMenu = () => {
+    setIsFilterMenuOpen(true);
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
+  };
+  const closeFilterMenu = () => {
+    Animated.timing(fadeAnim, {
+      toValue: -500,
+      duration: 700,
+      useNativeDriver: false,
+    }).start(() => setIsFilterMenuOpen(false));
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <ScreenContainer
-        style={{
-          justifyContent: 'flex-start',
-          paddingTop: 0,
-          paddingBottom: 0,
+    <ProspectsContext.Provider
+      value={{
+        isCalloutOpenFromParent,
+        setIsCalloutOpenFromParent,
+        isTouchDisabled,
+        setIsTouchDisabled,
+        isFilterMenuOpen,
+        closeFilterMenu,
+        view,
+      }}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          closeFilterMenu();
+          setIsCalloutOpenFromParent(false);
         }}>
-        <TopButtonBar>
-          {tertiaryButtonText.map((item) => (
-            <TertiaryButton
-              style={{ marginRight: 15 }}
-              onPress={() => navigate(item)}
-              selected={view.name === item.name}
-              key={item.name}>
-              {item.name}
-            </TertiaryButton>
-          ))}
-        </TopButtonBar>
-        <FilterSearchBar
-          onPress={() =>
-            navigation.navigate('Prospects Search Screen', {
-              title: view.name,
-            })
-          }>
-          <TouchableOpacity onPress={() => {}}>
-            <Flexbox direction="row" width="auto">
-              <FilterIcon
-                style={{
-                  height: 30,
-                  width: 30,
-                  color: theme.primaryTextColor,
-                  marginTop: -2,
-                  marginEnd: 6,
-                }}
-              />
-            </Flexbox>
-          </TouchableOpacity>
-        </FilterSearchBar>
-        {view.name === Localized('PROSPECTS') && (
-          <ProspectsView
-            isCalloutOpenFromParent={isCalloutOpenFromParent}
-            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-            isTouchDisabled={isTouchDisabled}
-            setIsTouchDisabled={setIsTouchDisabled}
-          />
-        )}
-        {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
-        <AddButton bottom="130px">
-          <ButtonText>+</ButtonText>
-        </AddButton>
-      </ScreenContainer>
-    </TouchableWithoutFeedback>
+        <ScreenContainer
+          style={{
+            justifyContent: 'flex-start',
+            paddingTop: 0,
+            paddingBottom: 0,
+          }}>
+          <TopButtonBar>
+            {tertiaryButtonText.map((item) => (
+              <TertiaryButton
+                style={{ marginRight: 15 }}
+                onPress={() => navigate(item)}
+                selected={view.name === item.name}
+                key={item.name}>
+                {item.name}
+              </TertiaryButton>
+            ))}
+          </TopButtonBar>
+          <FilterSearchBar
+            onPress={() =>
+              navigation.navigate('Prospects Search Screen', {
+                title: view.name,
+              })
+            }>
+            <TouchableOpacity
+              onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}>
+              <Flexbox direction="row" width="auto">
+                <FilterIcon
+                  style={{
+                    height: 30,
+                    width: 30,
+                    color: theme.primaryTextColor,
+                    marginTop: -2,
+                    marginEnd: 6,
+                  }}
+                />
+              </Flexbox>
+            </TouchableOpacity>
+          </FilterSearchBar>
+          <Flexbox>
+            <FilterMenu style={{ left: fadeAnim }} />
+          </Flexbox>
+          {view.name === Localized('PROSPECTS') && <ProspectsView />}
+          {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
+          <AddButton bottom="130px">
+            <ButtonText>+</ButtonText>
+          </AddButton>
+        </ScreenContainer>
+      </TouchableWithoutFeedback>
+    </ProspectsContext.Provider>
   );
 };
 

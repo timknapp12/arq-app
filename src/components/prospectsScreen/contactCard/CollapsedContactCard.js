@@ -26,6 +26,7 @@ const CollapsedContactCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+
   const { image, firstName, lastName, phone, email } = data;
   return (
     <CardContainer {...props}>
