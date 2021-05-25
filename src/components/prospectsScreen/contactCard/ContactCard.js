@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Platform } from 'react-native';
 import ExpandedContactCard from './ExpandedContactCard';
 import CollapsedContactCard from './CollapsedContactCard';
+import ProspectsContext from '../../../contexts/ProspectsContext';
 
-const ContactCard = ({
-  data,
-  isCalloutOpenFromParent,
-  setIsCalloutOpenFromParent,
-  isTouchDisabled,
-  setIsTouchDisabled,
-  ...props
-}) => {
+const ContactCard = ({ data, ...props }) => {
+  const {
+    isCalloutOpenFromParent,
+    setIsCalloutOpenFromParent,
+    isTouchDisabled,
+    setIsTouchDisabled,
+    isFilterMenuOpen,
+    closeFilterMenu,
+  } = useContext(ProspectsContext);
   const { firstName = '', lastName = '' } = data;
   const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -56,8 +58,12 @@ const ContactCard = ({
     if (isTouchDisabled && Platform.OS === 'android') {
       return setIsCalloutOpenFromParent(false);
     }
+    if (isFilterMenuOpen && Platform.OS === 'android') {
+      return closeFilterMenu();
+    }
     setIsExpanded((state) => !state);
     setIsCalloutOpenFromParent(false);
+    closeFilterMenu();
   };
 
   if (isExpanded) {
@@ -78,16 +84,13 @@ const ContactCard = ({
       initials={initials}
       isCalloutOpen={isCalloutOpen}
       onCallout={onCallout}
+      isFilterMenuOpen={isFilterMenuOpen}
     />
   );
 };
 
 ContactCard.propTypes = {
-  data: PropTypes.object.isRequired,
-  isCalloutOpenFromParent: PropTypes.bool.isRequired,
-  setIsCalloutOpenFromParent: PropTypes.func.isRequired,
-  isTouchDisabled: PropTypes.bool.isRequired,
-  setIsTouchDisabled: PropTypes.func.isRequired,
+  data: PropTypes.object,
 };
 
 export default ContactCard;

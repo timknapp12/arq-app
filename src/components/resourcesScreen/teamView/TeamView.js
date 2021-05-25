@@ -44,6 +44,10 @@ const TeamView = ({
       setIsNavDisabled(false);
       return;
     }
+    // this prevents a team resource folder opening when it is underneath a the main menu
+    if (isMenuOpen && Platform.OS === 'android') {
+      return fadeOut();
+    }
     navigation.navigate('Resources Category Screen', {
       title: item.title.toUpperCase(),
       teamAssetList: item.assetList,

@@ -172,6 +172,7 @@ RadioButton.propTypes = {
   onPress: PropTypes.func,
 };
 
+// ADD BUTTON
 export const AddButton = styled.TouchableOpacity`
   height: 56px;
   width: 56px;

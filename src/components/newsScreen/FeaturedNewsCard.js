@@ -18,22 +18,31 @@ const BannerImage = styled.Image`
   height: ${imageHeight}px;
 `;
 
-const FeaturedNewsCard = ({ url, title, body, isMenuOpen }) => {
+const FeaturedNewsCard = ({ url, title, body, isMenuOpen, fadeOut }) => {
   const openLink = () => {
+    if (isMenuOpen) {
+      return fadeOut();
+    }
     url ? Linking.openURL(url) : {};
   };
+
   return (
-    <Container>
-      <TouchableOpacity disabled={isMenuOpen} onPress={openLink}>
+    <TouchableOpacity activeOpacity={isMenuOpen ? 1 : 0.2} onPress={openLink}>
+      <Container>
         <BannerImage source={{ uri: url }} defaultSource={defaultImage} />
         <Flexbox align="flex-start" padding={4}>
-          <H4Black style={{ marginBottom: 4 }}>{title}</H4Black>
+          <H4Black
+            ellipsizeMode="tail"
+            numberOfLines={1}
+            style={{ marginBottom: 4 }}>
+            {title}
+          </H4Black>
           <H6Book ellipsizeMode="tail" numberOfLines={5} style={{ flex: 1 }}>
             {body}
           </H6Book>
         </Flexbox>
-      </TouchableOpacity>
-    </Container>
+      </Container>
+    </TouchableOpacity>
   );
 };
 
@@ -42,6 +51,7 @@ FeaturedNewsCard.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
   isMenuOpen: PropTypes.bool.isRequired,
+  fadeOut: PropTypes.func.isRequired,
 };
 
 export default FeaturedNewsCard;

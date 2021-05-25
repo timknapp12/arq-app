@@ -1,7 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import { MainScrollView } from '../../common';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import ResourceCard from '../ResourceCard';
@@ -50,8 +55,8 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
 
   const navigateToResource = (item) => {
     // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
-    if (isMenuOpen) {
-      return;
+    if (isMenuOpen && Platform.OS === 'android') {
+      return fadeOut();
     }
     fadeOut();
     if (item.id === 'products') {

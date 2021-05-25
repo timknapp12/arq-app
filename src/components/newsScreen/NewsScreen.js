@@ -157,10 +157,12 @@ const NewsScreen = ({ navigation }) => {
               title={mockNews.qnews.featured.title}
               body={mockNews.qnews.featured.body}
               isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
             <NewsCardMap
               items={mockNews.qnews.storyList}
               isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
           </MainScrollView>
         )}
@@ -171,10 +173,12 @@ const NewsScreen = ({ navigation }) => {
               title={mockNews.blog.featured.title}
               body={mockNews.blog.featured.body}
               isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
             <NewsCardMap
               items={mockNews.blog.storyList}
               isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
           </MainScrollView>
         )}
@@ -185,10 +189,12 @@ const NewsScreen = ({ navigation }) => {
               title={mockNews.events.featured.title}
               body={mockNews.events.featured.body}
               isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
             <NewsCardMap
               items={mockNews.events.storyList}
               isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
           </MainScrollView>
         )}

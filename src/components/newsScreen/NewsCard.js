@@ -11,7 +11,16 @@ import {
   TitleAndDateContainer,
 } from './NewsCard.styles';
 
-const NewsCard = ({ title, body, date, url, isNew, isMenuOpen, ...props }) => {
+const NewsCard = ({
+  title,
+  body,
+  date,
+  url,
+  isNew,
+  isMenuOpen,
+  fadeOut,
+  ...props
+}) => {
   const options = {
     month: 'short',
     day: 'numeric',
@@ -22,6 +31,9 @@ const NewsCard = ({ title, body, date, url, isNew, isMenuOpen, ...props }) => {
   const [isStillNew, setIsStillNew] = useState(isNew);
 
   const openLink = () => {
+    if (isMenuOpen) {
+      return fadeOut();
+    }
     setIsStillNew(false);
     url ? Linking.openURL(url) : {};
   };
@@ -30,12 +42,18 @@ const NewsCard = ({ title, body, date, url, isNew, isMenuOpen, ...props }) => {
     <CardContainer {...props}>
       <OuterContainer isExpanded={isExpanded} isStillNew={isStillNew}>
         <TouchableOpacity
-          disabled={isMenuOpen}
+          /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
+          activeOpacity={isMenuOpen ? 1 : 0.2}
           style={{ flex: 1 }}
           onPress={openLink}>
           <InnerContainer>
             <TitleAndDateContainer>
-              <H4Black style={{ marginBottom: 4 }}>{title}</H4Black>
+              <H4Black
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={{ marginBottom: 4, flex: 1 }}>
+                {title}
+              </H4Black>
               {date ? (
                 <H6Book style={{ marginEnd: 16 }}>
                   {date.toLocaleDateString(deviceLanguage, options)}
@@ -83,6 +101,7 @@ NewsCard.propTypes = {
   date: PropTypes.object,
   isNew: PropTypes.bool,
   isMenuOpen: PropTypes.bool.isRequired,
+  fadeOut: PropTypes.func.isRequired,
 };
 
 export default NewsCard;

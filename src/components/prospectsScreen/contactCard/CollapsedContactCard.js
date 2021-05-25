@@ -22,13 +22,17 @@ const CollapsedContactCard = ({
   initials,
   isCalloutOpen,
   onCallout,
+  isFilterMenuOpen,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
   const { image, firstName, lastName, phone, email } = data;
   return (
     <CardContainer {...props}>
-      <TouchableOpacity onPress={toggleExpanded}>
+      <TouchableOpacity
+        /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
+        activeOpacity={isFilterMenuOpen ? 1 : 0.2}
+        onPress={toggleExpanded}>
         <Row>
           {image.url ? (
             <CollapsedImage
@@ -82,6 +86,7 @@ CollapsedContactCard.propTypes = {
   initials: PropTypes.string.isRequired,
   isCalloutOpen: PropTypes.bool.isRequired,
   onCallout: PropTypes.func.isRequired,
+  isFilterMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default CollapsedContactCard;

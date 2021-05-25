@@ -48,7 +48,12 @@ const CollapsedProductCard = ({
                 setIsExpanded(true);
               }}>
               <View style={{ height: '100%' }}>
-                <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+                <H5Black
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={{ marginBottom: 4, flex: 1 }}>
+                  {title}
+                </H5Black>
                 <H6Book
                   ellipsizeMode="tail"
                   numberOfLines={1}

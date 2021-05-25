@@ -159,7 +159,8 @@ const ResourceCard = ({
   return (
     <CardContainer isWideLayout={isWideLayout} {...props}>
       <TouchableOpacity
-        disabled={isMenuOpen || isTeamMenuOpen}
+        /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
+        activeOpacity={isMenuOpen || isTeamMenuOpen ? 1 : 0.2}
         onPress={onPress}>
         <CardImage source={{ uri: url }} defaultSource={baseImage} />
       </TouchableOpacity>

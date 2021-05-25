@@ -177,7 +177,12 @@ const AssetCard = ({
           />
           <TouchableOpacity style={{ flex: 1 }} onPress={openAsset}>
             <TitleAndDescription>
-              <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+              <H5Black
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={{ marginBottom: 4 }}>
+                {title}
+              </H5Black>
               {isExpanded ? (
                 <H6Book style={{ flex: 1 }}>{description}</H6Book>
               ) : (
