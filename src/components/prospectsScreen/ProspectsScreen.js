@@ -23,7 +23,6 @@ import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
 import ProspectsView from './ProspectsView';
 import { initLanguage, Localized } from '../../translations/Localized';
-// TODO replace mock user with real data
 
 const ProspectsScreen = ({ navigation }) => {
   initLanguage();
