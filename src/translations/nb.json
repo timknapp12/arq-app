@@ -1,10 +1,9 @@
 {
-  "Log in if you already have a username and password": "nb Log in if you already have a username and password",
   "Username": "nb Username",
   "Password": "nb Password",
   "Sorry, we couldn't log you in. Please re-enter your username and password": "nb Sorry, we couldn't log you in. Please re-enter your username and password",
   "Forgot password?": "nb Forgot password?",
-  "Log In": "nb Log In",
+  "SIGN IN": "nb SIGN IN",
   "Terms": "nb Terms",
   "Privacy": "nb Privacy",
   "Data": "nb Data",
