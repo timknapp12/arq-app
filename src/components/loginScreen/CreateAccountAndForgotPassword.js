@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Linking } from 'react-native';
+import { TouchableOpacity, Linking, View } from 'react-native';
 import { H6, AlertText, Flexbox, Checkmark } from '../common';
 import { Localized } from '../../translations/Localized';
 
@@ -20,21 +20,26 @@ const CreateAccountAndForgotPassword = ({
   isError,
   saveUsername,
   setSaveUsername,
+  navigateToCreateAccount,
 }) => {
   return (
-    <Flexbox>
-      {isError && (
-        <AlertText
-          style={{
-            textAlign: 'center',
-          }}>
-          {Localized(
-            `Sorry, we couldn't log you in. Please re-enter your username and password`,
-          )}
-        </AlertText>
+    <Flexbox justify="flex-start">
+      {isError ? (
+        <View style={{ height: 36 }}>
+          <AlertText
+            style={{
+              textAlign: 'center',
+            }}>
+            {Localized(
+              `Sorry, we couldn't log you in. Please re-enter your username and password`,
+            )}
+          </AlertText>
+        </View>
+      ) : (
+        <View style={{ height: 36 }} />
       )}
-      <Flexbox height="60px" direction="row">
-        <TouchableOpacity>
+      <Flexbox height="30px" direction="row">
+        <TouchableOpacity onPress={navigateToCreateAccount}>
           <H6 style={{ textDecorationLine: 'underline' }}>Create Q account</H6>
         </TouchableOpacity>
         <TouchableOpacity
@@ -56,6 +61,7 @@ const CreateAccountAndForgotPassword = ({
             flexDirection: 'row',
             alignItems: 'flex-start',
             marginBottom: 4,
+            marginTop: 4,
           }}
           onPress={() => setSaveUsername((state) => !state)}>
           <Checkbox selected={saveUsername}>
@@ -72,6 +78,7 @@ CreateAccountAndForgotPassword.propTypes = {
   isError: PropTypes.bool.isRequired,
   saveUsername: PropTypes.bool.isRequired,
   setSaveUsername: PropTypes.func.isRequired,
+  navigateToCreateAccount: PropTypes.func.isRequired,
 };
 
 export default CreateAccountAndForgotPassword;

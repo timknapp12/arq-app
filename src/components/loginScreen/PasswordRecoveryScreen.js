@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Keyboard, TouchableWithoutFeedback } from 'react-native';
-import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
+import styled from 'styled-components/native';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Image } from 'react-native';
 import { ScreenContainer, Flexbox, Input, H4, PrimaryButton } from '../common';
 import AppContext from '../../contexts/AppContext';

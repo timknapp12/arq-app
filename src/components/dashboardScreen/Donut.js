@@ -86,6 +86,7 @@ const Donut = ({
             cy="50%"
             stroke={color}
             strokeWidth={strokeWidth}
+            strokeLinecap="round"
             r={radius}
             fill="transparent"
             strokeDasharray={circleCircumference}

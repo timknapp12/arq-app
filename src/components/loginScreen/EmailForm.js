@@ -1,44 +1,96 @@
-import React, { useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Flexbox, Input } from '../common';
+import { Flexbox, Input, Label } from '../common';
 import { Localized } from '../../translations/Localized';
-import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 
-const EmailForm = ({
-  username,
-  setUsername,
-  password,
-  setPassword,
-  //   confirmPassword,
-  //   setConfirmPassword,
-  passwordRef,
-  onNext,
-  onSubmit,
-}) => {
-  const { theme } = useContext(AppContext);
+const EmailForm = ({ onSubmit, createAccount }) => {
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+  } = useContext(LoginContext);
+
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+
+  const onNext = () => {
+    passwordRef.current.focus();
+  };
+
+  const onToConfirm = () => {
+    confirmPasswordRef.current.focus();
+  };
+
+  if (createAccount) {
+    return (
+      <Flexbox>
+        <Flexbox align="flex-start" height="50px" style={{ marginBottom: 8 }}>
+          <Label>{Localized('Email')}</Label>
+          <Input
+            testID="email-input"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            keyboardType="email-address"
+            returnKeyType="next"
+            onSubmitEditing={onNext}
+            autoCapitalize="none"
+          />
+        </Flexbox>
+
+        <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
+          <Label>{Localized('Password')}</Label>
+          <Input
+            testID="password-input"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            ref={passwordRef}
+            textContentType="password"
+            returnKeyType="next"
+            onSubmitEditing={onToConfirm}
+          />
+        </Flexbox>
+
+        <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
+          <Label>{Localized('Password')}</Label>
+          <Input
+            testID="password-input"
+            value={confirmPassword}
+            onChangeText={(text) => setConfirmPassword(text)}
+            ref={confirmPasswordRef}
+            textContentType="password"
+            returnKeyType="go"
+            onSubmitEditing={onSubmit}
+          />
+        </Flexbox>
+      </Flexbox>
+    );
+  }
   return (
     <Flexbox>
-      <Flexbox height="50px" style={{ marginBottom: 8 }}>
+      <Flexbox align="flex-start" height="50px" style={{ marginBottom: 8 }}>
+        <Label>{Localized('Email')}</Label>
         <Input
-          testID="username-input"
-          value={username}
-          onChangeText={(text) => setUsername(text)}
+          testID="email-input"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
           keyboardType="email-address"
-          placeholder={Localized('Username')}
-          placeholderTextColor={theme.disabledTextColor}
           returnKeyType="next"
           onSubmitEditing={onNext}
+          autoCapitalize="none"
         />
       </Flexbox>
 
-      <Flexbox style={{ marginBottom: 4 }}>
+      <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
+        <Label>{Localized('Password')}</Label>
         <Input
           testID="password-input"
           value={password}
           onChangeText={(text) => setPassword(text)}
           ref={passwordRef}
-          placeholder={Localized('Password')}
-          placeholderTextColor={theme.disabledTextColor}
           textContentType="password"
           returnKeyType="go"
           onSubmitEditing={onSubmit}
@@ -49,15 +101,8 @@ const EmailForm = ({
 };
 
 EmailForm.propTypes = {
-  username: PropTypes.string.isRequired,
-  setUsername: PropTypes.func.isRequired,
-  password: PropTypes.string.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  confirmPassword: PropTypes.string,
-  setConfirmPassword: PropTypes.func,
-  passwordRef: PropTypes.object.isRequired,
-  onNext: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  createAccount: PropTypes.bool,
 };
 
 export default EmailForm;
