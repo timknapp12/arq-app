@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 
-export const loginUser = (email, password, setIsError) => {
+export const signInWithEmail = (email, password, setErrorMessage) => {
+  setErrorMessage('');
   try {
     firebase
       .auth()
@@ -14,40 +15,23 @@ export const loginUser = (email, password, setIsError) => {
         console.log(`result`, result);
       })
       .catch((error) => {
-        console.log('error', error);
-        setIsError(true);
+        setErrorMessage(error.message);
       });
   } catch (error) {
     console.log('error', error.toString());
   }
 };
 
-export const createAccount = async (email, password) => {
+export const createAccount = async (email, password, setErrorMessage) => {
+  setErrorMessage('');
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
     const currentUser = firebase.auth().currentUser;
     console.log(`currentUser`, currentUser);
-
-    //   const db = firebase.firestore();
-    //   db.collection("users")
-    //     .doc(currentUser.uid)
-    //     .set({
-    //       email: currentUser.email,
-    //       lastName: lastName,
-    //       firstName: firstName,
-    //     });
   } catch (err) {
-    console.log(`err`, err.message);
+    setErrorMessage(err.message);
   }
 };
-
-export async function signInWithEmail(email, password) {
-  try {
-    await firebase.auth().signInWithEmailAndPassword(email, password);
-  } catch (err) {
-    console.log(`err`, err.message);
-  }
-}
 
 export async function logOut() {
   try {
@@ -56,3 +40,16 @@ export async function logOut() {
     console.log(`err`, err.message);
   }
 }
+
+// SIGN IN WITH GOOGLE
+
+// https://docs.expo.io/guides/authentication/#google
+
+// const config = {
+//   // expoClientId is the same as web client id
+//   expoClientId: `348281014348-lplk3ptkokcjse46og4uc5ektcnago28.apps.googleusercontent.com`,
+//   iosClientId: `<YOUR_IOS_CLIENT_ID>`,
+//   androidClientId: `<YOUR_ANDROID_CLIENT_ID>`,
+//   iosStandaloneAppClientId: `<YOUR_IOS_CLIENT_ID>`,
+//   androidStandaloneAppClientId: `<YOUR_ANDROID_CLIENT_ID>`,
+// };

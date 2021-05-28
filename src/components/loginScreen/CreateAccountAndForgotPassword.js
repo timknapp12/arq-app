@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Linking, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { H6, AlertText, Flexbox, Checkmark } from '../common';
 import { Localized } from '../../translations/Localized';
+import LoginContext from '../../contexts/LoginContext';
 
 const Checkbox = styled.View`
   justify-content: center;
@@ -17,22 +18,21 @@ const Checkbox = styled.View`
 `;
 
 const CreateAccountAndForgotPassword = ({
-  isError,
-  saveUsername,
-  setSaveUsername,
   navigateToCreateAccount,
+  navigateToPasswordRecovery,
 }) => {
+  const { errorMessage, keepLoggedIn, setKeepLoggedIn } = useContext(
+    LoginContext,
+  );
   return (
     <Flexbox justify="flex-start">
-      {isError ? (
+      {errorMessage ? (
         <View style={{ height: 36 }}>
           <AlertText
             style={{
               textAlign: 'center',
             }}>
-            {Localized(
-              `Sorry, we couldn't log you in. Please re-enter your username and password`,
-            )}
+            {errorMessage}
           </AlertText>
         </View>
       ) : (
@@ -44,12 +44,7 @@ const CreateAccountAndForgotPassword = ({
         </TouchableOpacity>
         <TouchableOpacity
           // TODO integrate password recovery screen
-          // onPress={() =>
-          //   navigation.navigate('Password Recovery Screen')
-          // }
-          onPress={() =>
-            Linking.openURL('https://office2.myqsciences.com/#/Login')
-          }
+          onPress={navigateToPasswordRecovery}
           testID="forgot-password-button">
           <H6>{Localized('Forgot password?')}</H6>
         </TouchableOpacity>
@@ -63,9 +58,9 @@ const CreateAccountAndForgotPassword = ({
             marginBottom: 4,
             marginTop: 4,
           }}
-          onPress={() => setSaveUsername((state) => !state)}>
-          <Checkbox selected={saveUsername}>
-            {saveUsername && <Checkmark>&#10003;</Checkmark>}
+          onPress={() => setKeepLoggedIn((state) => !state)}>
+          <Checkbox selected={keepLoggedIn}>
+            {keepLoggedIn && <Checkmark>&#10003;</Checkmark>}
           </Checkbox>
           <H6 style={{ marginStart: 12 }}>{Localized('Keep me logged in')}</H6>
         </TouchableOpacity>
@@ -75,10 +70,8 @@ const CreateAccountAndForgotPassword = ({
 };
 
 CreateAccountAndForgotPassword.propTypes = {
-  isError: PropTypes.bool.isRequired,
-  saveUsername: PropTypes.bool.isRequired,
-  setSaveUsername: PropTypes.func.isRequired,
   navigateToCreateAccount: PropTypes.func.isRequired,
+  navigateToPasswordRecovery: PropTypes.func.isRequired,
 };
 
 export default CreateAccountAndForgotPassword;
