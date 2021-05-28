@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../components/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/loginScreen/PasswordRecoveryScreen';
 import CreateAccountScreen from '../components/loginScreen/CreateAccountScreen';
-import { white, blue } from '../styles/colors';
 import LoginContext from '../contexts/LoginContext';
+import AppContext from '../contexts/AppContext';
+import { Localized } from '../translations/Localized';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Login = createStackNavigator();
 
 const LoginStack = () => {
+  const { theme } = useContext(AppContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isError, setIsError] = useState(false);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const clearFields = () => {
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setErrorMessage('');
+  };
   return (
     <LoginContext.Provider
       value={{
@@ -25,12 +32,11 @@ const LoginStack = () => {
         setPassword,
         confirmPassword,
         setConfirmPassword,
-        isError,
-        setIsError,
-        isErrorModalOpen,
-        setIsErrorModalOpen,
         errorMessage,
         setErrorMessage,
+        keepLoggedIn,
+        setKeepLoggedIn,
+        clearFields,
       }}>
       <Login.Navigator
         screenOptions={{
@@ -52,13 +58,16 @@ const LoginStack = () => {
           name="Password Recovery Screen"
           component={PasswordRecoveryScreen}
           options={{
-            title: 'Password Recovery',
-            headerStyle: { backgroundColor: blue },
-            headerTintColor: white,
+            title: Localized('RECOVER PASSWORD'),
+            headerBackTitleVisible: false,
+            headerStyle: { backgroundColor: theme.backgroundColor },
+            headerTintColor: theme.primaryTextColor,
+            headerTitleAlign: 'center',
             headerTitleStyle: {
-              fontSize: 24,
+              fontSize: 20,
               opacity: 0.83,
               fontFamily: 'Avenir-Light',
+              letterSpacing: 1.43,
             },
           }}
         />
@@ -66,10 +75,13 @@ const LoginStack = () => {
           name="Create Account Screen"
           component={CreateAccountScreen}
           options={{
-            headerShown: false,
-            headerLeft: () => {
-              return null;
+            title: '',
+            headerBackTitleVisible: false,
+            headerStyle: {
+              backgroundColor: theme.backgroundColor,
+              shadowOpacity: 0,
             },
+            headerTintColor: theme.primaryTextColor,
           }}
         />
       </Login.Navigator>

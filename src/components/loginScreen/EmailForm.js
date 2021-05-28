@@ -12,6 +12,7 @@ const EmailForm = ({ onSubmit, createAccount }) => {
     setPassword,
     confirmPassword,
     setConfirmPassword,
+    setErrorMessage,
   } = useContext(LoginContext);
 
   const passwordRef = useRef(null);
@@ -29,11 +30,14 @@ const EmailForm = ({ onSubmit, createAccount }) => {
     return (
       <Flexbox>
         <Flexbox align="flex-start" height="50px" style={{ marginBottom: 8 }}>
-          <Label>{Localized('Email')}</Label>
+          <Label>{Localized('Email Address')}</Label>
           <Input
-            testID="email-input"
+            testID="new-account-email-input"
             value={email}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => {
+              setErrorMessage('');
+              setEmail(text);
+            }}
             keyboardType="email-address"
             returnKeyType="next"
             onSubmitEditing={onNext}
@@ -42,11 +46,14 @@ const EmailForm = ({ onSubmit, createAccount }) => {
         </Flexbox>
 
         <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
-          <Label>{Localized('Password')}</Label>
+          <Label>{Localized('Type a password')}</Label>
           <Input
-            testID="password-input"
+            testID="new-account-password-input"
             value={password}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => {
+              setErrorMessage('');
+              setPassword(text);
+            }}
             ref={passwordRef}
             textContentType="password"
             returnKeyType="next"
@@ -55,11 +62,14 @@ const EmailForm = ({ onSubmit, createAccount }) => {
         </Flexbox>
 
         <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
-          <Label>{Localized('Password')}</Label>
+          <Label>{Localized('Re-type a password')}</Label>
           <Input
-            testID="password-input"
+            testID="confirm-password-input"
             value={confirmPassword}
-            onChangeText={(text) => setConfirmPassword(text)}
+            onChangeText={(text) => {
+              setErrorMessage('');
+              setConfirmPassword(text);
+            }}
             ref={confirmPasswordRef}
             textContentType="password"
             returnKeyType="go"
@@ -72,11 +82,14 @@ const EmailForm = ({ onSubmit, createAccount }) => {
   return (
     <Flexbox>
       <Flexbox align="flex-start" height="50px" style={{ marginBottom: 8 }}>
-        <Label>{Localized('Email')}</Label>
+        <Label>{Localized('Email Address')}</Label>
         <Input
           testID="email-input"
           value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={(text) => {
+            setErrorMessage('');
+            setEmail(text);
+          }}
           keyboardType="email-address"
           returnKeyType="next"
           onSubmitEditing={onNext}
@@ -89,7 +102,10 @@ const EmailForm = ({ onSubmit, createAccount }) => {
         <Input
           testID="password-input"
           value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={(text) => {
+            setErrorMessage('');
+            setPassword(text);
+          }}
           ref={passwordRef}
           textContentType="password"
           returnKeyType="go"
