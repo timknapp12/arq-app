@@ -21,7 +21,7 @@ const CreateAccountAndForgotPassword = ({
   navigateToCreateAccount,
   navigateToPasswordRecovery,
 }) => {
-  const { errorMessage, keepLoggedIn, setKeepLoggedIn } = useContext(
+  const { errorMessage, keepLoggedIn, onKeepLoggedIn } = useContext(
     LoginContext,
   );
   return (
@@ -40,7 +40,9 @@ const CreateAccountAndForgotPassword = ({
       )}
       <Flexbox height="30px" direction="row">
         <TouchableOpacity onPress={navigateToCreateAccount}>
-          <H6 style={{ textDecorationLine: 'underline' }}>Create Q account</H6>
+          <H6 style={{ textDecorationLine: 'underline' }}>
+            {Localized('Create Q account')}
+          </H6>
         </TouchableOpacity>
         <TouchableOpacity
           // TODO integrate password recovery screen
@@ -58,7 +60,7 @@ const CreateAccountAndForgotPassword = ({
             marginBottom: 4,
             marginTop: 4,
           }}
-          onPress={() => setKeepLoggedIn((state) => !state)}>
+          onPress={() => onKeepLoggedIn(!keepLoggedIn)}>
           <Checkbox selected={keepLoggedIn}>
             {keepLoggedIn && <Checkmark>&#10003;</Checkmark>}
           </Checkbox>

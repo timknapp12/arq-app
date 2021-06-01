@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as Analytics from 'expo-firebase-analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableOpacity, Platform, Linking, Alert } from 'react-native';
 import {
   Flexbox,
@@ -35,9 +36,14 @@ const DividerLine = styled.View`
 const LoginScreen = ({ navigation }) => {
   initLanguage();
   const { setIsSignedIn, theme, useBiometrics } = useContext(AppContext);
-  const { email, password, setIsErrorModalOpen, setErrorMessage } = useContext(
-    LoginContext,
-  );
+  const {
+    email,
+    password,
+    setIsErrorModalOpen,
+    setErrorMessage,
+    keepLoggedIn,
+    setKeepLoggedIn,
+  } = useContext(LoginContext);
 
   // const checkIfLoggedIn = () => {
   //   firebase.auth().onAuthStateChanged((user) => {
@@ -54,6 +60,24 @@ const LoginScreen = ({ navigation }) => {
   // useEffect(() => {
   //   checkIfLoggedIn();
   // }, []);
+
+  const getKeepLoggedInAsyncStorage = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@keep_me_logged_in');
+      // if local storage is either null or an empty object then state will be set to false
+      const result = jsonValue != null ? JSON.parse(jsonValue) : false;
+      return (result == Object.keys(result).length) === 0
+        ? setKeepLoggedIn(false)
+        : setKeepLoggedIn(result);
+    } catch (e) {
+      // error reading value
+      console.log(`error in getting async storage:`, e);
+    }
+  };
+
+  useEffect(() => {
+    getKeepLoggedInAsyncStorage();
+  }, []);
 
   const onFindOutMore = () => {
     Linking.openURL('https://qsciences.com');
@@ -91,7 +115,7 @@ const LoginScreen = ({ navigation }) => {
     if (!password) {
       return Alert.alert('Please enter a password');
     }
-    await signInWithEmail(email, password, setErrorMessage);
+    await signInWithEmail(email, password, setErrorMessage, keepLoggedIn);
   };
 
   return (

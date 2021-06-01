@@ -15,6 +15,7 @@ const CreateAccountScreen = () => {
     confirmPassword,
     setErrorMessage,
     errorMessage,
+    keepLoggedIn,
     clearFields,
   } = useContext(LoginContext);
 
@@ -33,7 +34,7 @@ const CreateAccountScreen = () => {
     if (password !== confirmPassword) {
       return Alert.alert('Passwords must be matching. Please try again');
     }
-    await createAccount(email, password, setErrorMessage);
+    await createAccount(email, password, setErrorMessage, keepLoggedIn);
     clearFields();
     console.log('login successful');
     // navigation.navigate('Login Screen');

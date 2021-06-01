@@ -1,7 +1,19 @@
 import firebase from 'firebase';
 
-export const signInWithEmail = (email, password, setErrorMessage) => {
+const sessionPersistence = (value) => {
+  value === true
+    ? firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    : firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+};
+
+export const signInWithEmail = (
+  email,
+  password,
+  setErrorMessage,
+  keepLoggedIn,
+) => {
   setErrorMessage('');
+  sessionPersistence(keepLoggedIn);
   try {
     firebase
       .auth()
@@ -22,8 +34,14 @@ export const signInWithEmail = (email, password, setErrorMessage) => {
   }
 };
 
-export const createAccount = async (email, password, setErrorMessage) => {
+export const createAccount = async (
+  email,
+  password,
+  setErrorMessage,
+  keepLoggedIn,
+) => {
   setErrorMessage('');
+  sessionPersistence(keepLoggedIn);
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
     const currentUser = firebase.auth().currentUser;

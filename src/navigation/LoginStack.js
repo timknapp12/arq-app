@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../components/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/loginScreen/PasswordRecoveryScreen';
 import CreateAccountScreen from '../components/loginScreen/CreateAccountScreen';
@@ -23,6 +24,20 @@ const LoginStack = () => {
     setConfirmPassword('');
     setErrorMessage('');
   };
+
+  const storeKeepLoggedInAsyncStorage = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@keep_me_logged_in', jsonValue);
+    } catch (e) {
+      console.log(`error in storing async storage:`, e);
+    }
+  };
+
+  const onKeepLoggedIn = (value) => {
+    setKeepLoggedIn(value);
+    storeKeepLoggedInAsyncStorage(value);
+  };
   return (
     <LoginContext.Provider
       value={{
@@ -36,6 +51,7 @@ const LoginStack = () => {
         setErrorMessage,
         keepLoggedIn,
         setKeepLoggedIn,
+        onKeepLoggedIn,
         clearFields,
       }}>
       <Login.Navigator
