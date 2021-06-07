@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import * as LocalAuthentication from 'expo-local-authentication';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -31,7 +32,6 @@ import {
 import { Localized, initLanguage } from '../../translations/Localized';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
-import * as LocalAuthentication from 'expo-local-authentication';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;

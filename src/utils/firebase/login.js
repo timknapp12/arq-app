@@ -50,10 +50,8 @@ export const checkIfLoggedIn = (setIsSignedInToApp) => {
     console.log('AUTH STATE CHANGED CALLED ');
     if (user) {
       user.getIdToken().then((idToken) => {
-        // <------ Check this line
-        // alert(idToken); // It shows the Firebase token now
-        // return idToken;
-        console.log(`idToken`, idToken);
+        // console.log(`idToken`, idToken);
+        return idToken;
       });
       // TODO do something here with user info
       // console.log(`user in auth state changed`, user);
@@ -96,6 +94,7 @@ export const googleConfig = {
 
 // to run a test build
 // expo build:ios -t simulator
+// build https://docs.expo.io/distribution/building-standalone-apps/#building-standalone-apps
 
 const facebookAppId = '319892812842607';
 export const loginWithFacebook = async () => {

@@ -4,7 +4,7 @@ export const GET_USER = gql`
   query TreeNodeFor($associateId: Int!) {
     treeNodeFor(associateId: $associateId) {
       associateId
-      uplineId
+      uplineAssociateId
       orders {
         orderId
       }
@@ -14,21 +14,20 @@ export const GET_USER = gql`
       cv
       pv
       ov
-      isActive
+      canSee
       associate {
         associateId
-        lastModified
+        dateModified
         companyName
         emailAddress
         firstName
         lastName
-        primaryPhone
-        signupDate
+        primaryPhoneNumber
+        dateSignedUp
         associateType
         languageCode
-        statusId
+        associateStatus
       }
-      associateType
       qoV
       leg1
       leg2
@@ -36,8 +35,8 @@ export const GET_USER = gql`
       totalOv
       rank {
         rankId
-        qoV
-        maxOv
+        minimumQoV
+        maximumPerLeg
         rankName
         commission
       }

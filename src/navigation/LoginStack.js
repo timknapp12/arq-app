@@ -9,6 +9,7 @@ import ConfirmAccountScreen from '../components/loginScreen/ConfirmAccountScreen
 import VerificationCodeScreen from '../components/loginScreen/VerificationCodeScreen';
 import BiometricsScreen from '../components/loginScreen/BiometricsScreen';
 import CreateTeamScreen from '../components/loginScreen/CreateTeamScreen';
+import AppStack from './AppStack';
 import LoginContext from '../contexts/LoginContext';
 import AppContext from '../contexts/AppContext';
 import { Localized } from '../translations/Localized';
@@ -128,6 +129,14 @@ const LoginStack = () => {
           name="Create Team Screen"
           component={CreateTeamScreen}
           options={onboardingScreenOptions}
+        />
+        <Login.Screen
+          name="App Stack"
+          component={AppStack}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
         />
       </Login.Navigator>
     </LoginContext.Provider>

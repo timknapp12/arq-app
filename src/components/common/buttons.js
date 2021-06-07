@@ -7,7 +7,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { H4Book, H3 } from './texts';
+import { H4Book, H3, Checkmark } from './texts';
 import googleLogo from '../../../assets/icons/logo_google.png';
 import facebookLogo from '../../../assets/icons/f_logo_RGB-White_1024.png';
 import AppContext from '../../contexts/AppContext';
@@ -172,6 +172,30 @@ RadioButton.propTypes = {
   label: PropTypes.string,
   isSelected: PropTypes.bool,
   onPress: PropTypes.func,
+};
+
+// CHECKBOX BUTTON
+
+const StyledCheckbox = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  border-color: ${(props) => props.theme.primaryTextColor};
+  border-width: ${(props) => (props.selected ? '0px' : '1px')};
+  background-color: ${(props) =>
+    props.selected ? props.theme.primaryButtonBackgroundColor : 'transparent'};
+`;
+
+export const Checkbox = ({ selected = false }) => (
+  <StyledCheckbox selected={selected}>
+    {selected && <Checkmark>&#10003;</Checkmark>}
+  </StyledCheckbox>
+);
+
+Checkbox.propTypes = {
+  selected: PropTypes.bool.isRequired,
 };
 
 // ADD BUTTON

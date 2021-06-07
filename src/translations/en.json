@@ -202,5 +202,8 @@
   "Check your email to reset your password and then login": "Check your email to reset your password and then login",
   "Create Q account": "Create Q account",
   "Back Office User ID": "Back Office User ID",
-  "Please enter your back office user id": "Please enter your back office user id"
+  "Please enter your back office user id": "Please enter your back office user id",
+  "Verification Code": "Verification Code",
+  "Log in with Face ID": "Log in with Face ID",
+  "Log in with Fingerprint": "Log in with Fingerprint"
 }
