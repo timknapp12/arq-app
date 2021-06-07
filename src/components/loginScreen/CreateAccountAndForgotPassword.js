@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import { TouchableOpacity, View } from 'react-native';
 import { H6, AlertText, Flexbox, Checkmark } from '../common';
 import { Localized } from '../../translations/Localized';
+import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const Checkbox = styled.View`
@@ -21,9 +22,8 @@ const CreateAccountAndForgotPassword = ({
   navigateToCreateAccount,
   navigateToPasswordRecovery,
 }) => {
-  const { errorMessage, keepLoggedIn, onKeepLoggedIn } = useContext(
-    LoginContext,
-  );
+  const { keepLoggedIn } = useContext(AppContext);
+  const { errorMessage, onKeepLoggedIn } = useContext(LoginContext);
   return (
     <Flexbox justify="flex-start">
       {errorMessage ? (

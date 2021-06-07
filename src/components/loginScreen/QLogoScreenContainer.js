@@ -4,7 +4,7 @@ import { Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { ScreenContainer } from '../common';
 import logo from '../../../assets/icons/q-sciences-stacked-logo-white.png';
 
-const QLogoScreen = ({ children, ...props }) => {
+const QLogoScreenContainer = ({ children, ...props }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScreenContainer
@@ -25,7 +25,7 @@ const QLogoScreen = ({ children, ...props }) => {
   );
 };
 
-QLogoScreen.propTypes = {
+QLogoScreenContainer.propTypes = {
   children: PropTypes.any.isRequired,
 };
-export default QLogoScreen;
+export default QLogoScreenContainer;

@@ -2,20 +2,19 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 import { Flexbox, PrimaryButton, AlertText } from '../common';
-import QLogoScreen from './QLogoScreen';
+import QLogoScreen from './QLogoScreenContainer';
 import EmailForm from './EmailForm';
 import { createAccount } from '../../utils/firebase/login';
 import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 
-const CreateAccountScreen = () => {
+const CreateAccountScreen = ({ navigation }) => {
   const {
     email,
     password,
     confirmPassword,
     setErrorMessage,
     errorMessage,
-    keepLoggedIn,
     clearFields,
   } = useContext(LoginContext);
 
@@ -34,10 +33,13 @@ const CreateAccountScreen = () => {
     if (password !== confirmPassword) {
       return Alert.alert('Passwords must be matching. Please try again');
     }
-    await createAccount(email, password, setErrorMessage, keepLoggedIn);
-    clearFields();
-    console.log('login successful');
-    // navigation.navigate('Login Screen');
+    try {
+      await createAccount(email, password, setErrorMessage);
+      clearFields();
+      navigation.navigate('Enter Id Screen');
+    } catch (error) {
+      console.log(`error`, error);
+    }
   };
   return (
     <QLogoScreen>

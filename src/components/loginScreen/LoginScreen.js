@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as Analytics from 'expo-firebase-analytics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableOpacity, Platform, Linking, Alert } from 'react-native';
+import * as Google from 'expo-auth-session/providers/google';
+import firebase from 'firebase';
 import {
   Flexbox,
   H6,
@@ -18,13 +19,17 @@ import {
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { Localized, initLanguage } from '../../translations/Localized';
-import QLogoScreen from './QLogoScreen';
+import QLogoScreen from './QLogoScreenContainer';
 import EmailForm from './EmailForm';
 import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import {
   signInWithEmail,
-  signInWithGoogleAsync,
+  // signInWithGoogleAsync,
+  signOutOfFirebase,
+  checkIfLoggedIn,
+  loginWithFacebook,
+  googleConfig,
 } from '../../utils/firebase/login';
 
 const DividerLine = styled.View`
@@ -35,49 +40,46 @@ const DividerLine = styled.View`
 
 const LoginScreen = ({ navigation }) => {
   initLanguage();
-  const { setIsSignedIn, theme, useBiometrics } = useContext(AppContext);
   const {
-    email,
-    password,
-    setIsErrorModalOpen,
-    setErrorMessage,
+    theme,
+    setIsSignedInToApp,
+    // isSignedInToApp,
+    useBiometrics,
     keepLoggedIn,
-    setKeepLoggedIn,
-  } = useContext(LoginContext);
+  } = useContext(AppContext);
+  const { email, password, setIsErrorModalOpen, setErrorMessage } = useContext(
+    LoginContext,
+  );
 
-  // const checkIfLoggedIn = () => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     console.log("AUTH STATE CHANGED CALLED ");
-  //     if (user) {
-  //       getUser(user.uid);
-  //       navigation.navigate("Tabs");
-  //     } else {
-  //       props.navigation.navigate("LoginScreen");
-  //     }
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   checkIfLoggedIn();
-  // }, []);
-
-  const getKeepLoggedInAsyncStorage = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('@keep_me_logged_in');
-      // if local storage is either null or an empty object then state will be set to false
-      const result = jsonValue != null ? JSON.parse(jsonValue) : false;
-      return (result == Object.keys(result).length) === 0
-        ? setKeepLoggedIn(false)
-        : setKeepLoggedIn(result);
-    } catch (e) {
-      // error reading value
-      console.log(`error in getting async storage:`, e);
+  const initializeAuthStatus = async () => {
+    console.log(`keepLoggedIn`, keepLoggedIn);
+    if (!keepLoggedIn) {
+      // TODO consider whether we need to sign out of firebase, what if they use biometrics??
+      return signOutOfFirebase();
     }
+    return checkIfLoggedIn(setIsSignedInToApp);
   };
 
   useEffect(() => {
-    getKeepLoggedInAsyncStorage();
+    initializeAuthStatus();
   }, []);
+
+  const [
+    googleRequest,
+    googleResponse,
+    promptAsync,
+  ] = Google.useIdTokenAuthRequest(googleConfig);
+
+  // TODO move this to login.js like Facebook example
+  useEffect(() => {
+    if (googleResponse?.type === 'success') {
+      const { id_token } = googleResponse.params;
+
+      const credential = firebase.auth.GoogleAuthProvider.credential(id_token);
+      firebase.auth().signInWithCredential(credential);
+      console.log(`credential`, credential);
+    }
+  }, [googleResponse]);
 
   const onFindOutMore = () => {
     Linking.openURL('https://qsciences.com');
@@ -92,13 +94,21 @@ const LoginScreen = ({ navigation }) => {
       // Authenticate user
       const result = await LocalAuthentication.authenticateAsync();
       if (result.success) {
-        setIsSignedIn(true);
+        setIsSignedInToApp(true);
       }
     } catch (error) {
       setIsErrorModalOpen(true);
       setErrorMessage(error);
     }
   };
+
+  // useEffect(() => {
+  //   if (isSignedInToApp) {
+  //     navigation.navigate('Tabs');
+  //   } else {
+  //     navigation.navigate('Login Screen');
+  //   }
+  // }, [isSignedInToApp]);
 
   useEffect(() => {
     if (useBiometrics) {
@@ -115,7 +125,12 @@ const LoginScreen = ({ navigation }) => {
     if (!password) {
       return Alert.alert('Please enter a password');
     }
-    await signInWithEmail(email, password, setErrorMessage, keepLoggedIn);
+    try {
+      await signInWithEmail(email, password, setErrorMessage);
+      navigation.navigate('Enter Id Screen');
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
   };
 
   return (
@@ -166,11 +181,12 @@ const LoginScreen = ({ navigation }) => {
           <DividerLine />
           <Flexbox width="85%">
             <GoogleLoginButton
-              onPress={signInWithGoogleAsync}
+              disabled={!googleRequest}
+              onPress={promptAsync}
               style={{ marginBottom: 8 }}>
               {Localized('Sign in with Google')}
             </GoogleLoginButton>
-            <FacebookLoginButton>
+            <FacebookLoginButton onPress={loginWithFacebook}>
               {Localized('Continue with Facebook')}
             </FacebookLoginButton>
           </Flexbox>

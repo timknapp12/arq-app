@@ -4,7 +4,6 @@ import AppContext from './src/contexts/AppContext';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
-import AppStack from './src/navigation/AppStack';
 import { NavigationContainer } from '@react-navigation/native';
 import firebaseConfig from './firebase.config';
 import * as firebase from 'firebase';
@@ -15,7 +14,6 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './src/graphql/client';
-import UserInactivity from 'react-native-user-inactivity';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 if (!firebase.apps.length) {
@@ -28,8 +26,25 @@ i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
 const App = () => {
+  const getKeepLoggedInAsyncStorage = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@keep_me_logged_in');
+      // if local storage is either null or an empty object then state will be set to false
+      const result = jsonValue != null ? JSON.parse(jsonValue) : false;
+      return (result == Object.keys(result).length) === 0
+        ? setKeepLoggedIn(false)
+        : setKeepLoggedIn(result);
+    } catch (e) {
+      // error reading value
+      console.log(`error in getting async storage:`, e);
+    }
+  };
+
   const [theme, setTheme] = useState(darkTheme);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSignedInToApp, setIsSignedInToApp] = useState(false);
+  const [isSignedInToFirebase, setIsSignedInToFirebase] = useState(false);
+  const initialState = getKeepLoggedInAsyncStorage();
+  const [keepLoggedIn, setKeepLoggedIn] = useState(initialState);
   const [user, setUser] = useState(null);
   const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
@@ -43,8 +58,6 @@ const App = () => {
   const [corporateResources, setCorporateResources] = useState([]);
   const [deviceLanguage, setDeviceLanguage] = useState('en');
   const [userMarket, setUserMarket] = useState('us');
-  const [isUserActive, setIsUserActive] = useState(true);
-  const [timer] = useState(1000 * 60 * 20);
 
   const storeTimeStamp = async () => {
     let value = new Date().getTime();
@@ -67,23 +80,13 @@ const App = () => {
     }
   };
 
-  const onUserActivity = (isActive) => {
-    if (isActive) {
-      setIsUserActive(true);
-    } else {
-      storeTimeStamp();
-      setIsUserActive(false);
-      setIsSignedIn(false);
-    }
-  };
-
   useEffect(() => {
     const newTimeStamp = new Date().getTime();
     getTimeStamp().then((res) => {
       const value = newTimeStamp - res;
       const minutes = value / 60 / 1000;
       if (minutes < 20) {
-        setIsSignedIn(true);
+        setIsSignedInToApp(true);
       }
     });
   }, []);
@@ -102,7 +105,12 @@ const App = () => {
           value={{
             theme,
             setTheme,
-            setIsSignedIn,
+            isSignedInToApp,
+            setIsSignedInToApp,
+            isSignedInToFirebase,
+            setIsSignedInToFirebase,
+            keepLoggedIn,
+            setKeepLoggedIn,
             user,
             setUser,
             useBiometrics,
@@ -120,7 +128,7 @@ const App = () => {
           />
 
           <NavigationContainer>
-            {isSignedIn ? (
+            {/* {isSignedInToApp ? (
               <UserInactivity
                 isActive={isUserActive}
                 timeForInactivity={timer}
@@ -129,9 +137,9 @@ const App = () => {
                 }}>
                 <AppStack />
               </UserInactivity>
-            ) : (
-              <LoginStack />
-            )}
+            ) : ( */}
+            <LoginStack />
+            {/* )} */}
           </NavigationContainer>
         </AppContext.Provider>
       </ThemeProvider>

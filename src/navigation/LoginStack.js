@@ -4,6 +4,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../components/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/loginScreen/PasswordRecoveryScreen';
 import CreateAccountScreen from '../components/loginScreen/CreateAccountScreen';
+import EnterIdScreen from '../components/loginScreen/EnterIdScreen';
+import ConfirmAccountScreen from '../components/loginScreen/ConfirmAccountScreen';
+import VerificationCodeScreen from '../components/loginScreen/VerificationCodeScreen';
+import BiometricsScreen from '../components/loginScreen/BiometricsScreen';
+import CreateTeamScreen from '../components/loginScreen/CreateTeamScreen';
 import LoginContext from '../contexts/LoginContext';
 import AppContext from '../contexts/AppContext';
 import { Localized } from '../translations/Localized';
@@ -12,12 +17,11 @@ import { Localized } from '../translations/Localized';
 const Login = createStackNavigator();
 
 const LoginStack = () => {
-  const { theme } = useContext(AppContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { theme, setKeepLoggedIn } = useContext(AppContext);
+  const [email, setEmail] = useState('tim@email.com');
+  const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
   const clearFields = () => {
     setEmail('');
     setPassword('');
@@ -38,6 +42,16 @@ const LoginStack = () => {
     setKeepLoggedIn(value);
     storeKeepLoggedInAsyncStorage(value);
   };
+
+  const onboardingScreenOptions = {
+    title: '',
+    headerBackTitleVisible: false,
+    headerStyle: {
+      backgroundColor: theme.backgroundColor,
+      shadowOpacity: 0,
+    },
+    headerTintColor: theme.primaryTextColor,
+  };
   return (
     <LoginContext.Provider
       value={{
@@ -49,8 +63,6 @@ const LoginStack = () => {
         setConfirmPassword,
         errorMessage,
         setErrorMessage,
-        keepLoggedIn,
-        setKeepLoggedIn,
         onKeepLoggedIn,
         clearFields,
       }}>
@@ -90,15 +102,32 @@ const LoginStack = () => {
         <Login.Screen
           name="Create Account Screen"
           component={CreateAccountScreen}
-          options={{
-            title: '',
-            headerBackTitleVisible: false,
-            headerStyle: {
-              backgroundColor: theme.backgroundColor,
-              shadowOpacity: 0,
-            },
-            headerTintColor: theme.primaryTextColor,
-          }}
+          options={onboardingScreenOptions}
+        />
+        <Login.Screen
+          name="Enter Id Screen"
+          component={EnterIdScreen}
+          options={onboardingScreenOptions}
+        />
+        <Login.Screen
+          name="Confirm Account Screen"
+          component={ConfirmAccountScreen}
+          options={onboardingScreenOptions}
+        />
+        <Login.Screen
+          name="Verification Code Screen"
+          component={VerificationCodeScreen}
+          options={onboardingScreenOptions}
+        />
+        <Login.Screen
+          name="Biometrics Screen"
+          component={BiometricsScreen}
+          options={onboardingScreenOptions}
+        />
+        <Login.Screen
+          name="Create Team Screen"
+          component={CreateTeamScreen}
+          options={onboardingScreenOptions}
         />
       </Login.Navigator>
     </LoginContext.Provider>
