@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import NewsCard from './NewsCard';
 import { View } from 'react-native';
 
-const NewsCardMap = ({ items }) => {
+const NewsCardMap = ({ items, isMenuOpen, fadeOut }) => {
   return (
     <View>
       {items.map((item) => (
@@ -14,6 +14,8 @@ const NewsCardMap = ({ items }) => {
           body={item.body}
           isNew={item.isNew}
           date={item.date}
+          isMenuOpen={isMenuOpen}
+          fadeOut={fadeOut}
         />
       ))}
     </View>
@@ -22,6 +24,8 @@ const NewsCardMap = ({ items }) => {
 
 NewsCardMap.propTypes = {
   items: PropTypes.array,
+  isMenuOpen: PropTypes.bool.isRequired,
+  fadeOut: PropTypes.bool.isRequired,
 };
 
 export default NewsCardMap;

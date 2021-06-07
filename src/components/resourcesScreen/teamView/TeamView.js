@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Platform, TouchableOpacity, Alert } from 'react-native';
 import { Flexbox, H5, MainScrollView } from '../../common';
-import FilterSearchBar from '../FilterSearchBar';
-import FilterIcon from '../../../../assets/icons/filter-icon.svg';
+import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
+import SwitchTeamIcon from '../../../../assets/icons/switch-team-icon.svg';
 import ResourceCard from '../ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
 // TODO: remove mock data when we get real data
@@ -27,6 +27,7 @@ const TeamView = ({
   teamFadeAnim,
   // TODO: integrate hasPermissions prop with backend
   hasPermissions,
+  isMenuOpen,
 }) => {
   const { theme } = useContext(AppContext);
   const [isNavDisabled, setIsNavDisabled] = useState(false);
@@ -42,6 +43,10 @@ const TeamView = ({
     if (Platform.OS === 'android' && isNavDisabled) {
       setIsNavDisabled(false);
       return;
+    }
+    // this prevents a team resource folder opening when it is underneath a the main menu
+    if (isMenuOpen && Platform.OS === 'android') {
+      return fadeOut();
     }
     navigation.navigate('Resources Category Screen', {
       title: item.title.toUpperCase(),
@@ -101,11 +106,14 @@ const TeamView = ({
         onPress={() => {
           // TODO pass in a real access code
           fadeOut();
-          navigation.navigate('Team Search Screen', { accessCode: '3' });
+          navigation.navigate('Team Search Screen', {
+            accessCode: '3',
+            title: selectedAccessCode.toUpperCase(),
+          });
         }}>
         <TouchableOpacity onPress={toggleTeamMenu}>
           <Flexbox direction="row" width="auto">
-            <FilterIcon
+            <SwitchTeamIcon
               style={{
                 height: 30,
                 width: 30,
@@ -142,7 +150,9 @@ const TeamView = ({
           onStartShouldSetResponder={() => true}>
           {categories.length < 1 ? (
             <Flexbox>
-              <H5>There are no resources found for this access code</H5>
+              <H5>
+                {Localized('There are no resources found for this access code')}
+              </H5>
             </Flexbox>
           ) : null}
           {categories.map((item, index) => (
@@ -157,6 +167,8 @@ const TeamView = ({
               // TODO: integrate hasPermissions prop with backend
               hasPermissions={true}
               setIsNavDisabled={setIsNavDisabled}
+              isMenuOpen={isMenuOpen}
+              isTeamMenuOpen={isTeamMenuOpen}
               onPress={() => {
                 navigateToResource(item);
               }}
@@ -193,6 +205,7 @@ TeamView.propTypes = {
   isTeamMenuOpen: PropTypes.bool,
   teamFadeAnim: PropTypes.object,
   hasPermissions: PropTypes.bool,
+  isMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default TeamView;

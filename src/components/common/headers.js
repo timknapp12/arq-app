@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { ScrollView } from 'react-native';
 
 const sharedCss = {
   width: '100%',
@@ -40,7 +41,7 @@ Subheader.propTypes = {
 
 export { Subheader };
 
-export const TopButtonBar = styled.View`
+export const ButtonBar = styled.View`
   ${sharedCss};
   height: 36px;
   justify-content: space-between;
@@ -48,3 +49,22 @@ export const TopButtonBar = styled.View`
   margin-bottom: 10px;
   background-color: ${(props) => props.theme.topButtonBarBackground};
 `;
+
+export const TopButtonBar = ({ children, ...props }) => (
+  <ButtonBar {...props}>
+    <ScrollView
+      contentContainerStyle={{
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+        minWidth: '100%',
+      }}
+      horizontal
+      showsHorizontalScrollIndicator={false}>
+      {children}
+    </ScrollView>
+  </ButtonBar>
+);
+
+TopButtonBar.propTypes = {
+  children: PropTypes.any.isRequired,
+};

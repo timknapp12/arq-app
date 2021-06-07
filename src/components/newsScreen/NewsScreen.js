@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
   ScreenContainer,
@@ -9,13 +10,12 @@ import {
 import {
   Animated,
   TouchableWithoutFeedback,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { MainScrollView } from '../common';
-import { useIsFocused } from '@react-navigation/native';
-import MainHeader from '../mainHeader/MainHeader';
 import * as Analytics from 'expo-firebase-analytics';
+import { useIsFocused } from '@react-navigation/native';
+import { MainScrollView } from '../common';
+import MainHeader from '../mainHeader/MainHeader';
 import AppContext from '../../contexts/AppContext';
 import FeaturedNewsCard from './FeaturedNewsCard';
 import PopoutMenu from '../mainMenu/PopoutMenu';
@@ -38,7 +38,7 @@ const FlagIcon = styled.Image`
   margin: 8px 12px;
 `;
 
-const NewsScreen = () => {
+const NewsScreen = ({ navigation }) => {
   initLanguage();
   const { storeTimeStamp, userMarket } = useContext(AppContext);
   storeTimeStamp();
@@ -118,24 +118,15 @@ const NewsScreen = () => {
           profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
-          <ScrollView
-            contentContainerStyle={{
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              minWidth: '100%',
-            }}
-            horizontal
-            showsHorizontalScrollIndicator={false}>
-            {tertiaryButtonText.map((item) => (
-              <TertiaryButton
-                style={{ marginRight: 15 }}
-                onPress={() => navigate(item)}
-                selected={view.name === item.name}
-                key={item.name}>
-                {item.name}
-              </TertiaryButton>
-            ))}
-          </ScrollView>
+          {tertiaryButtonText.map((item) => (
+            <TertiaryButton
+              style={{ marginRight: 15 }}
+              onPress={() => navigate(item)}
+              selected={view.name === item.name}
+              key={item.name}>
+              {item.name}
+            </TertiaryButton>
+          ))}
         </TopButtonBar>
         <Flexbox>
           <PopoutMenu
@@ -144,10 +135,13 @@ const NewsScreen = () => {
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
+            navigation={navigation}
           />
         </Flexbox>
-        <Flexbox align="flex-start">
-          <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
+        <Flexbox style={{ zIndex: -1 }} align="flex-start">
+          <TouchableOpacity
+            disabled={isMenuOpen}
+            onPress={() => setIsMarketModalOpen(true)}>
             <FlagIcon
               source={{
                 uri: marketUrl,
@@ -162,8 +156,14 @@ const NewsScreen = () => {
               url={mockNews.qnews.featured.url}
               title={mockNews.qnews.featured.title}
               body={mockNews.qnews.featured.body}
+              isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
-            <NewsCardMap items={mockNews.qnews.storyList} />
+            <NewsCardMap
+              items={mockNews.qnews.storyList}
+              isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
+            />
           </MainScrollView>
         )}
         {view.name === Localized('BLOG') && (
@@ -172,8 +172,14 @@ const NewsScreen = () => {
               url={mockNews.blog.featured.url}
               title={mockNews.blog.featured.title}
               body={mockNews.blog.featured.body}
+              isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
-            <NewsCardMap items={mockNews.blog.storyList} />
+            <NewsCardMap
+              items={mockNews.blog.storyList}
+              isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
+            />
           </MainScrollView>
         )}
         {view.name === Localized('EVENTS') && (
@@ -182,8 +188,14 @@ const NewsScreen = () => {
               url={mockNews.events.featured.url}
               title={mockNews.events.featured.title}
               body={mockNews.events.featured.body}
+              isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
             />
-            <NewsCardMap items={mockNews.events.storyList} />
+            <NewsCardMap
+              items={mockNews.events.storyList}
+              isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
+            />
           </MainScrollView>
         )}
         {isMyInfoModalOpen && (
@@ -214,6 +226,10 @@ const NewsScreen = () => {
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
+};
+
+NewsScreen.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default NewsScreen;

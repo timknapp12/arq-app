@@ -185,5 +185,14 @@
   "Create a team access code to share resources with your team members. An access code can be 1-20 characters in length.": "Create a team access code to share resources with your team members. An access code can be 1-20 characters in length.",
   "There are no resources found for this access code": "There are no resources found for this access code",
   "This code is not available. Please try again.": "This code is not available. Please try again.",
-  "This code does not exist. Please try again.": "This code does not exist. Please try again."
+  "This code does not exist. Please try again.": "This code does not exist. Please try again.",
+  "Contacts": "Contacts",
+  "PARTNERS": "PARTNERS",
+  "PROSPECTS": "PROSPECTS",
+  "SEARCH CORPORATE RESOURCES": "SEARCH CORPORATE RESOURCES",
+  "There are no saved contacts": "There are no saved contacts",
+  "Move to Partners": "Move to Partners",
+  "Move to Prospects": "Move to Prospects",
+  "Text Message": "Text Message",
+  "Sort by": "Sort by"
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
-import { Animated, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { Animated, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -9,7 +8,8 @@ import {
   TertiaryButton,
   TopButtonBar,
   Flexbox,
-  H3,
+  AddButton,
+  ButtonText,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized, initLanguage } from '../../translations/Localized';
@@ -24,23 +24,6 @@ import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import AppContext from '../../contexts/AppContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
-
-const AddButton = styled.TouchableOpacity`
-  height: 56px;
-  width: 56px;
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
-  border-radius: 28px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 130px;
-  right: 12px;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
-`;
-
-const ButtonText = styled(H3)`
-  font-family: 'Avenir-Black';
-`;
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
@@ -99,6 +82,10 @@ const ResourcesScreen = ({ navigation }) => {
   };
 
   const openTeamMenu = () => {
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    if (isMenuOpen) {
+      return;
+    }
     setIsTeamMenuOpen(true);
     Animated.timing(teamFadeAnim, {
       toValue: 0,
@@ -108,6 +95,10 @@ const ResourcesScreen = ({ navigation }) => {
   };
 
   const closeTeamMenu = () => {
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    if (isMenuOpen) {
+      return;
+    }
     Animated.timing(teamFadeAnim, {
       toValue: -500,
       duration: 700,
@@ -139,24 +130,15 @@ const ResourcesScreen = ({ navigation }) => {
           profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
-          <ScrollView
-            contentContainerStyle={{
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
-              minWidth: '100%',
-            }}
-            horizontal
-            showsHorizontalScrollIndicator={false}>
-            {tertiaryButtonText.map((item) => (
-              <TertiaryButton
-                style={{ marginRight: 15 }}
-                onPress={() => navigate(item)}
-                selected={view.name === item.name}
-                key={item.name}>
-                {item.name}
-              </TertiaryButton>
-            ))}
-          </ScrollView>
+          {tertiaryButtonText.map((item) => (
+            <TertiaryButton
+              style={{ marginRight: 15 }}
+              onPress={() => navigate(item)}
+              selected={view.name === item.name}
+              key={item.name}>
+              {item.name}
+            </TertiaryButton>
+          ))}
         </TopButtonBar>
         <Flexbox>
           <PopoutMenu
@@ -164,10 +146,15 @@ const ResourcesScreen = ({ navigation }) => {
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
+            navigation={navigation}
           />
         </Flexbox>
         {view.name === Localized('CORPORATE') && (
-          <CorporateView fadeOut={fadeOut} navigation={navigation} />
+          <CorporateView
+            fadeOut={fadeOut}
+            navigation={navigation}
+            isMenuOpen={isMenuOpen}
+          />
         )}
         {view.name === Localized('TEAM') && (
           <TeamView
@@ -181,12 +168,14 @@ const ResourcesScreen = ({ navigation }) => {
             closeTeamMenu={closeTeamMenu}
             isTeamMenuOpen={isTeamMenuOpen}
             teamFadeAnim={teamFadeAnim}
+            isMenuOpen={isMenuOpen}
           />
         )}
         {view.name === Localized('SERVICES') && <ServicesView />}
         {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('TEAM') && (
           <AddButton
+            bottom="130px"
             onPress={() => {
               setIsAddFolderModalOpen(true);
               setIsCalloutOpenFromParent(false);

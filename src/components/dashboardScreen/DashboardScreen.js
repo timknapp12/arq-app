@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import {
@@ -65,7 +66,7 @@ const mockUser = {
   },
 };
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   const {
     storeTimeStamp,
     setCorporateResources,
@@ -312,6 +313,7 @@ const DashboardScreen = () => {
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
+              style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view.name === item.name}
               key={item.name}>
@@ -325,6 +327,7 @@ const DashboardScreen = () => {
             fadeOut={fadeOut}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
+            navigation={navigation}
           />
         </Flexbox>
         <ScrollView
@@ -363,6 +366,10 @@ const DashboardScreen = () => {
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
+};
+
+DashboardScreen.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default DashboardScreen;

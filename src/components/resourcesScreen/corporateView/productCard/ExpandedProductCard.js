@@ -55,7 +55,9 @@ const ExpandedProductCard = ({
             justifyContent: 'space-between',
             padding: 4,
           }}>
-          <H4Book>{title}</H4Book>
+          <H4Book ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
+            {title}
+          </H4Book>
           <MaterialCommunityIcon
             name={isExpanded ? 'chevron-up' : 'chevron-down'}
             color={theme.primaryTextColor}

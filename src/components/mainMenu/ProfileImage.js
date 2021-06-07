@@ -24,7 +24,7 @@ const DefaultFiller = styled.View`
   border-radius: 36px;
   height: 100%;
   width: 100%;
-  background-color: grey;
+  background-color: ${(props) => props.theme.disabledTextColor};
   justify-content: center;
   align-items: center;
 `;

@@ -83,6 +83,8 @@ const ResourceCard = ({
   hasPermissions,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
+  isMenuOpen,
+  isTeamMenuOpen,
   // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   ...props
@@ -156,7 +158,10 @@ const ResourceCard = ({
 
   return (
     <CardContainer isWideLayout={isWideLayout} {...props}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity
+        /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
+        activeOpacity={isMenuOpen || isTeamMenuOpen ? 1 : 0.2}
+        onPress={onPress}>
         <CardImage source={{ uri: url }} defaultSource={baseImage} />
       </TouchableOpacity>
 
@@ -265,6 +270,8 @@ ResourceCard.propTypes = {
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
+  isMenuOpen: PropTypes.bool.isRequired,
+  isTeamMenuOpen: PropTypes.bool,
   setIsNavDisabled: PropTypes.func,
 };
 

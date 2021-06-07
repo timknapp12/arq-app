@@ -1,9 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import { MainScrollView } from '../../common';
-import FilterSearchBar from '../FilterSearchBar';
+import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import ResourceCard from '../ResourceCard';
 import MarketModal from '../../marketModal/MarketModal';
 import * as Analytics from 'expo-firebase-analytics';
@@ -20,7 +25,7 @@ const FlagIcon = styled.Image`
   border-radius: 10px;
 `;
 
-const CorporateView = ({ navigation, fadeOut }) => {
+const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const {
     corporateResources,
     userMarket,
@@ -49,6 +54,10 @@ const CorporateView = ({ navigation, fadeOut }) => {
   }, [selectedMarket]);
 
   const navigateToResource = (item) => {
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    if (isMenuOpen && Platform.OS === 'android') {
+      return fadeOut();
+    }
     fadeOut();
     if (item.id === 'products') {
       navigation.navigate('Product Category Screen', {
@@ -73,6 +82,10 @@ const CorporateView = ({ navigation, fadeOut }) => {
     });
   };
 
+  const openMarketModal = () => {
+    setIsMarketModalOpen(true);
+  };
+
   return (
     <>
       <FilterSearchBar
@@ -82,7 +95,7 @@ const CorporateView = ({ navigation, fadeOut }) => {
             market: selectedMarket,
           });
         }}>
-        <TouchableOpacity onPress={() => setIsMarketModalOpen(true)}>
+        <TouchableOpacity disabled={isMenuOpen} onPress={openMarketModal}>
           <FlagIcon
             source={{
               uri: marketUrl,
@@ -110,6 +123,7 @@ const CorporateView = ({ navigation, fadeOut }) => {
                 key={item.id}
                 url={item.url}
                 title={item.title}
+                isMenuOpen={isMenuOpen}
                 onPress={() => {
                   setIsCalloutOpenFromParent(false);
                   navigateToResource(item);
@@ -134,8 +148,9 @@ const CorporateView = ({ navigation, fadeOut }) => {
 };
 
 CorporateView.propTypes = {
-  navigation: PropTypes.object,
-  fadeOut: PropTypes.func,
+  navigation: PropTypes.object.isRequired,
+  fadeOut: PropTypes.func.isRequired,
+  isMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default CorporateView;

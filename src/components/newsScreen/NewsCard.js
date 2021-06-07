@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Linking, TouchableOpacity } from 'react-native';
-import { H4Black, H6Book } from '../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { H4Black, H6Book } from '../common';
 import AppContext from '../../contexts/AppContext';
 import {
   CardContainer,
@@ -11,7 +11,16 @@ import {
   TitleAndDateContainer,
 } from './NewsCard.styles';
 
-const NewsCard = ({ title, body, date, url, isNew, ...props }) => {
+const NewsCard = ({
+  title,
+  body,
+  date,
+  url,
+  isNew,
+  isMenuOpen,
+  fadeOut,
+  ...props
+}) => {
   const options = {
     month: 'short',
     day: 'numeric',
@@ -20,19 +29,31 @@ const NewsCard = ({ title, body, date, url, isNew, ...props }) => {
   const { theme, deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isStillNew, setIsStillNew] = useState(isNew);
+
+  const openLink = () => {
+    if (isMenuOpen) {
+      return fadeOut();
+    }
+    setIsStillNew(false);
+    url ? Linking.openURL(url) : {};
+  };
+
   return (
     <CardContainer {...props}>
       <OuterContainer isExpanded={isExpanded} isStillNew={isStillNew}>
         <TouchableOpacity
+          /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
+          activeOpacity={isMenuOpen ? 1 : 0.2}
           style={{ flex: 1 }}
-          onPress={() => {
-            setIsStillNew(false);
-            // TODO add a mutation that indicates the item has been read and is no longer new
-            url ? Linking.openURL(url) : {};
-          }}>
+          onPress={openLink}>
           <InnerContainer>
             <TitleAndDateContainer>
-              <H4Black style={{ marginBottom: 4 }}>{title}</H4Black>
+              <H4Black
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={{ marginBottom: 4, flex: 1 }}>
+                {title}
+              </H4Black>
               {date ? (
                 <H6Book style={{ marginEnd: 16 }}>
                   {date.toLocaleDateString(deviceLanguage, options)}
@@ -79,6 +100,8 @@ NewsCard.propTypes = {
   url: PropTypes.string,
   date: PropTypes.object,
   isNew: PropTypes.bool,
+  isMenuOpen: PropTypes.bool.isRequired,
+  fadeOut: PropTypes.func.isRequired,
 };
 
 export default NewsCard;

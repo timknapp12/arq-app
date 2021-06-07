@@ -148,6 +148,7 @@ const AssetCard = ({
   const openAsset = () => {
     // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
     if (Platform.OS === 'android' && isNavDisabled) {
+      setIsCalloutOpenFromParent(false);
       setIsNavDisabled(false);
       return;
     }
@@ -176,7 +177,12 @@ const AssetCard = ({
           />
           <TouchableOpacity style={{ flex: 1 }} onPress={openAsset}>
             <TitleAndDescription>
-              <H5Black style={{ marginBottom: 4 }}>{title}</H5Black>
+              <H5Black
+                ellipsizeMode="tail"
+                numberOfLines={1}
+                style={{ marginBottom: 4 }}>
+                {title}
+              </H5Black>
               {isExpanded ? (
                 <H6Book style={{ flex: 1 }}>{description}</H6Book>
               ) : (

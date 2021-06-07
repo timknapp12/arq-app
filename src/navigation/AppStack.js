@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Tabs from './Tabs';
 import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
 import AppContext from '../contexts/AppContext';
+import ProspectsStack from './ProspectsStack';
 
 const App = createStackNavigator();
 
@@ -33,6 +34,14 @@ const AppStack = () => {
         })}
         name="Resources Asset Screen"
         component={ResourcesAssetScreen}
+      />
+      <App.Screen
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+        name="Prospects Stack"
+        component={ProspectsStack}
       />
     </App.Navigator>
   );

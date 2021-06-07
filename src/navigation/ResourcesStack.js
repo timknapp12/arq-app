@@ -48,12 +48,14 @@ const ResourcesStack = () => {
       <Resources.Screen
         name="Corporate Search Screen"
         component={CorporateSearchScreen}
-        options={{ title: Localized('SEARCH') }}
+        options={{ title: Localized('SEARCH CORPORATE RESOURCES') }}
       />
       <Resources.Screen
         name="Team Search Screen"
         component={TeamSearchScreen}
-        options={{ title: Localized('SEARCH') }}
+        options={({ route }) => ({
+          title: `${Localized('SEARCH')} ${route.params.title}`,
+        })}
       />
     </Resources.Navigator>
   );
