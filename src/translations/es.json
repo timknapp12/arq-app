@@ -1,15 +1,13 @@
 {
   "Username": "es Username",
   "Password": "es Password",
-  "Sorry, we couldn't log you in. Please re-enter your username and password": "es Sorry, we couldn't log you in. Please re-enter your username and password",
   "Forgot password?": "es Forgot password?",
   "SIGN IN": "es SIGN IN",
   "Terms": "es Terms",
   "Privacy": "es Privacy",
   "Data": "es Data",
-  "Enter your email address or ambassador ID to receive a link for log in.": "es Enter your email address or ambassador ID to receive a link for log in.",
+  "Enter your email address to receive an email to reset your password": "es Enter your email address to receive an email to reset your password",
   "Send Email": "es Send Email",
-  "Email address or ambassador ID": "es Email address or ambassador ID",
   "DASHBOARD": "es DASHBOARD",
   "RESOURCES": "es RESOURCES",
   "NEWS": "es NEWS",
@@ -193,5 +191,12 @@
   "Move to Partners": "es Move to Partners",
   "Move to Prospects": "es Move to Prospects",
   "Text Message": "es Text Message",
-  "Sort by": "es Sort by"
+  "Sort by": "es Sort by",
+  "Sign in with Google": "es Sign in with Google",
+  "Continue with Facebook": "es Continue with Facebook",
+  "CONTINUE": "es CONTINUE",
+  "Email Address": "es Email Address",
+  "Type a password": "es Type a password",
+  "Re-type a password": "es Re-type a password",
+  "RECOVER PASSWORD": "es RECOVER PASSWORD"
 }

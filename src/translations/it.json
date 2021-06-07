@@ -7,9 +7,8 @@
   "Terms": "it Terms",
   "Privacy": "it Privacy",
   "Data": "it Data",
-  "Enter your email address or ambassador ID to receive a link for log in.": "it Enter your email address or ambassador ID to receive a link for log in.",
+  "Enter your email address to recieve an email to reset your password": "it Enter your email address to recieve an email to reset your password",
   "Send Email": "it Send Email",
-  "Email address or ambassador ID": "it Email address or ambassador ID",
   "DASHBOARD": "it DASHBOARD",
   "RESOURCES": "it RESOURCES",
   "NEWS": "it NEWS",
@@ -169,5 +168,6 @@
   "Add Folder": "it Add Folder",
   "Edit Folder": "it Edit Folder",
   "Add Item": "it Add Item",
-  "Edit Item": "it Edit Item"
+  "Edit Item": "it Edit Item",
+  "Email Address": "some italian for email address"
 }

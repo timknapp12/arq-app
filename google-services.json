@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "348281014348",
+    "firebase_url": "https://q-connect-pro-staging-default-rtdb.firebaseio.com",
     "project_id": "q-connect-pro-staging",
     "storage_bucket": "q-connect-pro-staging.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "348281014348-lplk3ptkokcjse46og4uc5ektcnago28.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.qsciences.q-connect-pro-staging"
+              }
             }
           ]
         }
