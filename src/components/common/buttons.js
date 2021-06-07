@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import {
   Switch as NativeSwitch,
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { H4Book, H3 } from './texts';
+import googleLogo from '../../../assets/icons/logo_google.png';
+import facebookLogo from '../../../assets/icons/f_logo_RGB-White_1024.png';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -189,3 +191,91 @@ export const AddButton = styled.TouchableOpacity`
 export const ButtonText = styled(H3)`
   font-family: 'Avenir-Black';
 `;
+// GOOGLE LOGIN
+const googleColor = '#4285F4';
+
+const imageBackground = {
+  height: 40,
+  width: 40,
+  position: 'absolute',
+  left: 0,
+};
+
+const GoogleButton = styled.TouchableOpacity`
+  ${sharedCss};
+  flex-direction: row;
+  width: 100%;
+  height: 40px;
+  background-color: ${googleColor};
+`;
+
+const ImageBackground = styled.View`
+  ${sharedCss};
+  ${imageBackground};
+  background-color: white;
+`;
+
+const GoogleImage = styled.Image`
+  height: 20px;
+  width: 20px;
+`;
+
+const GoogleText = styled.Text`
+  font-family: 'Roboto-Regular';
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+`;
+
+export const GoogleLoginButton = ({ children, ...props }) => (
+  <GoogleButton {...props}>
+    <ImageBackground>
+      <GoogleImage source={googleLogo} />
+    </ImageBackground>
+    <GoogleText>{children}</GoogleText>
+  </GoogleButton>
+);
+
+GoogleLoginButton.propTypes = {
+  children: PropTypes.string.isRequired,
+};
+
+// FACEBOOK LOGIN
+const facebookColor = '#1778f2';
+
+const FacebookButton = styled.TouchableOpacity`
+  ${sharedCss};
+  width: 100%;
+  height: 40px;
+  background-color: ${facebookColor};
+`;
+
+const FacebookBackground = styled.View`
+  ${sharedCss};
+  ${imageBackground};
+`;
+
+const FacebookImage = styled.Image`
+  height: 26px;
+  width: 26px;
+`;
+
+const FacebookText = styled.Text`
+  font-family: 'Helvetica';
+  font-size: 15px;
+  color: white;
+  font-weight: 500;
+`;
+
+export const FacebookLoginButton = ({ children, ...props }) => (
+  <FacebookButton {...props}>
+    <FacebookBackground>
+      <FacebookImage source={facebookLogo} />
+    </FacebookBackground>
+    <FacebookText>{children}</FacebookText>
+  </FacebookButton>
+);
+
+FacebookLoginButton.propTypes = {
+  children: PropTypes.string.isRequired,
+};

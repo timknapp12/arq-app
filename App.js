@@ -29,7 +29,7 @@ i18n.fallbacks = true;
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
@@ -38,6 +38,7 @@ const App = () => {
     'Avenir-Book': require('./assets/fonts/avenir/AvenirLTStd-Book.otf'),
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
+    Helvetica: require('./assets/fonts/helvetica/Helvetica.ttf'),
   });
   const [corporateResources, setCorporateResources] = useState([]);
   const [deviceLanguage, setDeviceLanguage] = useState('en');
