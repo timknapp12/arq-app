@@ -14,7 +14,6 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './src/graphql/client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -26,25 +25,8 @@ i18n.locale = Localization.locale;
 i18n.fallbacks = true;
 
 const App = () => {
-  const getKeepLoggedInAsyncStorage = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('@keep_me_logged_in');
-      // if local storage is either null or an empty object then state will be set to false
-      const result = jsonValue != null ? JSON.parse(jsonValue) : false;
-      return (result == Object.keys(result).length) === 0
-        ? setKeepLoggedIn(false)
-        : setKeepLoggedIn(result);
-    } catch (e) {
-      // error reading value
-      console.log(`error in getting async storage:`, e);
-    }
-  };
-
   const [theme, setTheme] = useState(darkTheme);
-  const [isSignedInToApp, setIsSignedInToApp] = useState(false);
-  const [isSignedInToFirebase, setIsSignedInToFirebase] = useState(false);
-  const initialState = getKeepLoggedInAsyncStorage();
-  const [keepLoggedIn, setKeepLoggedIn] = useState(initialState);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
@@ -58,38 +40,6 @@ const App = () => {
   const [corporateResources, setCorporateResources] = useState([]);
   const [deviceLanguage, setDeviceLanguage] = useState('en');
   const [userMarket, setUserMarket] = useState('us');
-
-  const storeTimeStamp = async () => {
-    let value = new Date().getTime();
-    try {
-      await AsyncStorage.setItem('@stored_timeStamp', JSON.stringify(value));
-    } catch (error) {
-      console.log(`error`, error);
-    }
-  };
-
-  const getTimeStamp = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@stored_timeStamp');
-      const jsonValue = JSON.parse(value);
-      if (jsonValue !== null) {
-        return jsonValue;
-      }
-    } catch (error) {
-      console.log(`error`, error);
-    }
-  };
-
-  useEffect(() => {
-    const newTimeStamp = new Date().getTime();
-    getTimeStamp().then((res) => {
-      const value = newTimeStamp - res;
-      const minutes = value / 60 / 1000;
-      if (minutes < 20) {
-        setIsSignedInToApp(true);
-      }
-    });
-  }, []);
 
   useEffect(() => {
     setDeviceLanguage(initLanguage());
@@ -105,17 +55,12 @@ const App = () => {
           value={{
             theme,
             setTheme,
-            isSignedInToApp,
-            setIsSignedInToApp,
-            isSignedInToFirebase,
-            setIsSignedInToFirebase,
-            keepLoggedIn,
-            setKeepLoggedIn,
+            isSignedIn,
+            setIsSignedIn,
             user,
             setUser,
             useBiometrics,
             setUseBiometrics,
-            storeTimeStamp,
             corporateResources,
             setCorporateResources,
             deviceLanguage,
@@ -128,18 +73,7 @@ const App = () => {
           />
 
           <NavigationContainer>
-            {/* {isSignedInToApp ? (
-              <UserInactivity
-                isActive={isUserActive}
-                timeForInactivity={timer}
-                onAction={(isActive) => {
-                  onUserActivity(isActive);
-                }}>
-                <AppStack />
-              </UserInactivity>
-            ) : ( */}
             <LoginStack />
-            {/* )} */}
           </NavigationContainer>
         </AppContext.Provider>
       </ThemeProvider>

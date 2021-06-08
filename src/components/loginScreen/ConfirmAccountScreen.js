@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { Alert } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Flexbox, RadioButton, PrimaryButton, Input, H4Book } from '../common';
 import { Localized } from '../../translations/Localized';
@@ -8,19 +10,38 @@ const Gap = styled.View`
   height: 20px;
 `;
 
-const ConfirmAccountScreen = () => {
+const ConfirmAccountScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [selectedOption, setSelectedOption] = useState('password');
 
-  const onSubmit = () => {};
+  // TODO - get real associate Id from query
+  const associateId = 'jsmith';
+
+  const isButtonDisabled =
+    (selectedOption === 'password' && !password) ||
+    (selectedOption === 'email' && !email) ||
+    (selectedOption === 'phone' && !phone);
+
+  const onSubmit = () => {
+    if (selectedOption === 'password' && !password) {
+      return Alert.alert(Localized('Please enter current password'));
+    }
+    if (selectedOption === 'email' && !email) {
+      return Alert.alert(Localized('Please enter a valid email address'));
+    }
+    if (selectedOption === 'phone' && !phone) {
+      return Alert.alert(Localized('Please enter a valid phone number'));
+    }
+    navigation.navigate('Verification Code Screen');
+  };
   return (
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox align="flex-start">
           <H4Book>{Localized('Back Office User ID')}</H4Book>
-          <H4Book>jsmith</H4Book>
+          <H4Book>{associateId}</H4Book>
           <Gap />
           <RadioButton
             label="Back Office Password"
@@ -71,11 +92,17 @@ const ConfirmAccountScreen = () => {
           />
         </Flexbox>
         <Flexbox width="85%" height="60px">
-          <PrimaryButton>{Localized('CONTINUE')}</PrimaryButton>
+          <PrimaryButton disabled={isButtonDisabled} onPress={onSubmit}>
+            {Localized('CONTINUE')}
+          </PrimaryButton>
         </Flexbox>
       </Flexbox>
     </QLogoScreenContainer>
   );
+};
+
+ConfirmAccountScreen.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default ConfirmAccountScreen;

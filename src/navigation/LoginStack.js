@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginScreen from '../components/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/loginScreen/PasswordRecoveryScreen';
 import CreateAccountScreen from '../components/loginScreen/CreateAccountScreen';
@@ -18,7 +17,7 @@ import { Localized } from '../translations/Localized';
 const Login = createStackNavigator();
 
 const LoginStack = () => {
-  const { theme, setKeepLoggedIn } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
   const [email, setEmail] = useState('tim@email.com');
   const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,20 +27,6 @@ const LoginStack = () => {
     setPassword('');
     setConfirmPassword('');
     setErrorMessage('');
-  };
-
-  const storeKeepLoggedInAsyncStorage = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@keep_me_logged_in', jsonValue);
-    } catch (e) {
-      console.log(`error in storing async storage:`, e);
-    }
-  };
-
-  const onKeepLoggedIn = (value) => {
-    setKeepLoggedIn(value);
-    storeKeepLoggedInAsyncStorage(value);
   };
 
   const onboardingScreenOptions = {
@@ -64,7 +49,6 @@ const LoginStack = () => {
         setConfirmPassword,
         errorMessage,
         setErrorMessage,
-        onKeepLoggedIn,
         clearFields,
       }}>
       <Login.Navigator

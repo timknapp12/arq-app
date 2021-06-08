@@ -5,17 +5,11 @@ import Tabs from './Tabs';
 import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
 import AppContext from '../contexts/AppContext';
 import ProspectsStack from './ProspectsStack';
-import { signOutOfFirebase } from '../utils/firebase/login';
 
 const App = createStackNavigator();
 
 const AppStack = () => {
-  const {
-    theme,
-    storeTimeStamp,
-    setIsSignedInToApp,
-    keepLoggedIn,
-  } = useContext(AppContext);
+  const { theme, setIsSignedIn } = useContext(AppContext);
   const [isUserActive, setIsUserActive] = useState(true);
 
   const [timer] = useState(1000 * 60 * 20);
@@ -24,11 +18,9 @@ const AppStack = () => {
     if (isActive) {
       setIsUserActive(true);
     } else {
-      storeTimeStamp();
       setIsUserActive(false);
-      // if user elects to stay signed in, then we only lock them out of the app after inactivity, and then they can get in with face or touch id
-      setIsSignedInToApp(false);
-      !keepLoggedIn && signOutOfFirebase();
+      // if user is inactive after 20 min, we only lock them out of the app after inactivity, and then they can get in with face or touch id
+      setIsSignedIn(false);
     }
   };
   return (

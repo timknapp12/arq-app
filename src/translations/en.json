@@ -79,7 +79,6 @@
   "Twitter": "Twitter",
   "Instagram": "Instagram",
   "Required": "Required",
-  "Keep me logged in": "Keep me logged in",
   "Account": "Account",
   "Notifications": "Notifications",
   "Face ID or Fingerprint Log In": "Face ID or Fingerprint Log In",
@@ -205,5 +204,9 @@
   "Please enter your back office user id": "Please enter your back office user id",
   "Verification Code": "Verification Code",
   "Log in with Face ID": "Log in with Face ID",
-  "Log in with Fingerprint": "Log in with Fingerprint"
+  "Log in with Fingerprint": "Log in with Fingerprint",
+  "Please enter a valid phone number": "Please enter a valid phone number",
+  "Please enter a verification code": "Please enter a verification code",
+  "Skip": "Skip",
+  "Team Name": "Team Name"
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -26,8 +26,7 @@ import TermsAndPrivacy from './TermsAndPrivacy';
 import {
   signInWithEmail,
   // signInWithGoogleAsync,
-  signOutOfFirebase,
-  checkIfLoggedIn,
+  getFirebaseIdToken,
   loginWithFacebook,
   googleConfig,
 } from '../../utils/firebase/login';
@@ -42,23 +41,30 @@ const LoginScreen = ({ navigation }) => {
   initLanguage();
   const {
     theme,
-    setIsSignedInToApp,
-    // isSignedInToApp,
+    setIsSignedIn,
+    // isSignedIn,
     useBiometrics,
-    keepLoggedIn,
   } = useContext(AppContext);
   const { email, password, setIsErrorModalOpen, setErrorMessage } = useContext(
     LoginContext,
   );
+  const [showFaceID, setShowFaceID] = useState(false);
 
   const initializeAuthStatus = async () => {
-    console.log(`keepLoggedIn`, keepLoggedIn);
-    if (!keepLoggedIn) {
-      // TODO consider whether we need to sign out of firebase, what if they use biometrics??
-      return signOutOfFirebase();
+    const userToken = await getFirebaseIdToken();
+    if (userToken && useBiometrics) {
+      setShowFaceID(true);
+      onFaceID();
     }
-    return checkIfLoggedIn(setIsSignedInToApp);
   };
+
+  // useEffect(() => {
+  //   if (isSignedIn) {
+  //     navigation.navigate('Tabs');
+  //   } else {
+  //     navigation.navigate('Login Screen');
+  //   }
+  // }, [isSignedIn]);
 
   useEffect(() => {
     initializeAuthStatus();
@@ -94,27 +100,13 @@ const LoginScreen = ({ navigation }) => {
       // Authenticate user
       const result = await LocalAuthentication.authenticateAsync();
       if (result.success) {
-        setIsSignedInToApp(true);
+        setIsSignedIn(true);
       }
     } catch (error) {
       setIsErrorModalOpen(true);
       setErrorMessage(error);
     }
   };
-
-  // useEffect(() => {
-  //   if (isSignedInToApp) {
-  //     navigation.navigate('Tabs');
-  //   } else {
-  //     navigation.navigate('Login Screen');
-  //   }
-  // }, [isSignedInToApp]);
-
-  useEffect(() => {
-    if (useBiometrics) {
-      onFaceID();
-    }
-  }, [useBiometrics]);
 
   const isButtonDisabled = !email || !password;
 
@@ -158,15 +150,7 @@ const LoginScreen = ({ navigation }) => {
             />
           </Flexbox>
 
-          <Flexbox width="85%">
-            <PrimaryButton
-              testID="login-button"
-              disabled={isButtonDisabled}
-              onPress={onSubmit}>
-              {Localized('SIGN IN')}
-            </PrimaryButton>
-          </Flexbox>
-          {useBiometrics && (
+          {useBiometrics && showFaceID && (
             <Flexbox accessibilityLabel="biometrics button">
               <TouchableOpacity testID="biometrics-button" onPress={onFaceID}>
                 {Platform.OS === 'ios' ? (
@@ -177,6 +161,15 @@ const LoginScreen = ({ navigation }) => {
               </TouchableOpacity>
             </Flexbox>
           )}
+
+          <Flexbox width="85%">
+            <PrimaryButton
+              testID="login-button"
+              disabled={isButtonDisabled}
+              onPress={onSubmit}>
+              {Localized('SIGN IN')}
+            </PrimaryButton>
+          </Flexbox>
 
           <DividerLine />
           <Flexbox width="85%">

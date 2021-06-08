@@ -79,7 +79,6 @@
   "Twitter": "es Twitter",
   "Instagram": "es Instagram",
   "Required": "es Required",
-  "Keep me logged in": "es Keep me logged in",
   "Account": "es Account",
   "Notifications": "es Notifications",
   "Face ID or Fingerprint Log In": "es Face ID or Fingerprint Log In",
@@ -205,5 +204,9 @@
   "Please enter your back office user id": "es Please enter your back office user id",
   "Verification Code": "es Verification Code",
   "Log in with Face ID": "es Log in with Face ID",
-  "Log in with Fingerprint": "es Log in with Fingerprint"
+  "Log in with Fingerprint": "es Log in with Fingerprint",
+  "Please enter a valid phone number": "es Please enter a valid phone number",
+  "Please enter a verification code": "es Please enter a verification code",
+  "Skip": "es Skip",
+  "Team Name": "es Team Name"
 }

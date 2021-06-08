@@ -44,8 +44,7 @@ export const signOutOfFirebase = async () => {
   }
 };
 
-export const checkIfLoggedIn = (setIsSignedInToApp) => {
-  console.log('auth observer is running');
+export const getFirebaseIdToken = () => {
   firebase.auth().onAuthStateChanged((user) => {
     console.log('AUTH STATE CHANGED CALLED ');
     if (user) {
@@ -53,9 +52,6 @@ export const checkIfLoggedIn = (setIsSignedInToApp) => {
         // console.log(`idToken`, idToken);
         return idToken;
       });
-      // TODO do something here with user info
-      // console.log(`user in auth state changed`, user);
-      setIsSignedInToApp(true);
     } else {
       console.log('no user is signed in');
     }

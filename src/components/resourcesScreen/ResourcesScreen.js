@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Animated, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
@@ -22,13 +22,11 @@ import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
-import AppContext from '../../contexts/AppContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
-  const { storeTimeStamp } = useContext(AppContext);
-  storeTimeStamp();
+
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
