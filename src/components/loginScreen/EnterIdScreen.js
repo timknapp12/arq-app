@@ -1,14 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Flexbox, PrimaryButton, Label, Input, AlertText } from '../common';
 import { Localized } from '../../translations/Localized';
 import { Alert } from 'react-native';
-import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
-  const { errorMessage, setErrorMessage } = useContext(LoginContext);
   const [username, setUsername] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = () => {
     if (!username) {

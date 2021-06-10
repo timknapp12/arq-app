@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import UserInactivity from 'react-native-user-inactivity';
 import Tabs from './Tabs';
 import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
@@ -9,10 +10,13 @@ import ProspectsStack from './ProspectsStack';
 const App = createStackNavigator();
 
 const AppStack = () => {
-  const { theme, setIsSignedIn } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
   const [isUserActive, setIsUserActive] = useState(true);
 
   const [timer] = useState(1000 * 60 * 20);
+
+  const navigation = useNavigation();
+  const signOut = () => navigation.navigate('Login Screen');
 
   const onUserActivity = (isActive) => {
     if (isActive) {
@@ -20,7 +24,7 @@ const AppStack = () => {
     } else {
       setIsUserActive(false);
       // if user is inactive after 20 min, we only lock them out of the app after inactivity, and then they can get in with face or touch id
-      setIsSignedIn(false);
+      signOut();
     }
   };
   return (

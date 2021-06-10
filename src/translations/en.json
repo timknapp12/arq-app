@@ -208,5 +208,9 @@
   "Please enter a valid phone number": "Please enter a valid phone number",
   "Please enter a verification code": "Please enter a verification code",
   "Skip": "Skip",
-  "Team Name": "Team Name"
+  "Team Name": "Team Name",
+  "Please enter an email address": "Please enter an email address",
+  "Please enter a password": "Please enter a password",
+  "Face ID": "Face ID",
+  "Fingerprint": "Fingerprint"
 }

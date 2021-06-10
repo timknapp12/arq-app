@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { useNavigation } from '@react-navigation/native';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -30,6 +31,7 @@ import {
   H5Secondary,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
+import { signOutOfFirebase } from '../../utils/firebase/login';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
 
@@ -59,11 +61,14 @@ const SettingsModal = ({
   data,
 }) => {
   initLanguage();
-  const { setIsSignedIn, setUseBiometrics } = useContext(AppContext);
+  const { setUseBiometrics } = useContext(AppContext);
   // TODO wire up a mutation when biometrics switch changes
   const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
   const initialState = data.username;
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
+
+  const navigation = useNavigation();
+  const signOut = () => navigation.navigate('Login Screen');
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
   // https://docs.expo.io/versions/latest/sdk/local-authentication/
@@ -192,7 +197,10 @@ const SettingsModal = ({
                   }}>
                   <PrimaryButton
                     testID="log-out-button-in-settings"
-                    onPress={() => setIsSignedIn(false)}>
+                    onPress={() => {
+                      signOutOfFirebase();
+                      signOut();
+                    }}>
                     {Localized('Log Out').toUpperCase()}
                   </PrimaryButton>
                 </View>

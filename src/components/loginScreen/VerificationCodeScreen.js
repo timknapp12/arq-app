@@ -24,7 +24,6 @@ const VerificationCodeScreen = ({ navigation }) => {
             value={code}
             onChangeText={(text) => setCode(text)}
             textContentType="oneTimeCode"
-            keyboardType="numeric"
             returnKeyType="go"
             onSubmitEditing={onSubmit}
           />

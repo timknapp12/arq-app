@@ -9,12 +9,12 @@ import { client } from '../graphql/client';
 
 // source for set up of config: https://testing-library.com/docs/react-native-testing-library/setup
 jest.mock('@react-navigation/native');
-const setIsSignedIn = jest.fn();
+// const myFunc = jest.fn();
 const AllTheProviders = ({ children }) => {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>
-        <AppContext.Provider value={{ theme: darkTheme, setIsSignedIn }}>
+        <AppContext.Provider value={{ theme: darkTheme }}>
           {children}
         </AppContext.Provider>
       </ThemeProvider>

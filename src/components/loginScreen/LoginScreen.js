@@ -1,18 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import * as LocalAuthentication from 'expo-local-authentication';
-import * as Analytics from 'expo-firebase-analytics';
+import { useMutation } from '@apollo/client';
 import { TouchableOpacity, Platform, Linking, Alert } from 'react-native';
-import * as Google from 'expo-auth-session/providers/google';
-import firebase from 'firebase';
 import {
   Flexbox,
   H6,
   PrimaryButton,
   Link,
-  TouchIDIcon,
-  FaceIDIcon,
   GoogleLoginButton,
   FacebookLoginButton,
 } from '../common';
@@ -25,11 +20,13 @@ import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import {
   signInWithEmail,
-  // signInWithGoogleAsync,
-  getFirebaseIdToken,
   loginWithFacebook,
-  googleConfig,
+  loginWithGoogle,
+  getToken,
+  checkIfUserIsLoggedIn,
 } from '../../utils/firebase/login';
+import { LOGIN_USER } from '../../graphql/mutations';
+import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -39,91 +36,78 @@ const DividerLine = styled.View`
 
 const LoginScreen = ({ navigation }) => {
   initLanguage();
-  const {
-    theme,
-    setIsSignedIn,
-    // isSignedIn,
-    useBiometrics,
-  } = useContext(AppContext);
-  const { email, password, setIsErrorModalOpen, setErrorMessage } = useContext(
-    LoginContext,
-  );
-  const [showFaceID, setShowFaceID] = useState(false);
+  const { theme, setToken, useBiometrics } = useContext(AppContext);
+  const { email, password, setErrorMessage } = useContext(LoginContext);
+  const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
+  const [loginUser, { error, data }] = useMutation(LOGIN_USER);
 
-  const initializeAuthStatus = async () => {
-    const userToken = await getFirebaseIdToken();
-    if (userToken && useBiometrics) {
-      setShowFaceID(true);
-      onFaceID();
-    }
-  };
-
-  // useEffect(() => {
-  //   if (isSignedIn) {
-  //     navigation.navigate('Tabs');
-  //   } else {
-  //     navigation.navigate('Login Screen');
-  //   }
-  // }, [isSignedIn]);
+  const [googleRequest, promptAsync] = loginWithGoogle();
 
   useEffect(() => {
-    initializeAuthStatus();
+    checkIfUserIsLoggedIn(
+      setToken,
+      loginUser,
+      isFirstAppLoad,
+      setIsFirstAppLoad,
+      navigation,
+    );
   }, []);
-
-  const [
-    googleRequest,
-    googleResponse,
-    promptAsync,
-  ] = Google.useIdTokenAuthRequest(googleConfig);
-
-  // TODO move this to login.js like Facebook example
-  useEffect(() => {
-    if (googleResponse?.type === 'success') {
-      const { id_token } = googleResponse.params;
-
-      const credential = firebase.auth.GoogleAuthProvider.credential(id_token);
-      firebase.auth().signInWithCredential(credential);
-      console.log(`credential`, credential);
-    }
-  }, [googleResponse]);
 
   const onFindOutMore = () => {
     Linking.openURL('https://qsciences.com');
-    Analytics.logEvent('Find_Out_More_Link_tapped', {
-      screen: 'Login Screen',
-      purpose: 'follow link to find out how to become an ambassador',
-    });
-  };
-
-  const onFaceID = async () => {
-    try {
-      // Authenticate user
-      const result = await LocalAuthentication.authenticateAsync();
-      if (result.success) {
-        setIsSignedIn(true);
-      }
-    } catch (error) {
-      setIsErrorModalOpen(true);
-      setErrorMessage(error);
-    }
   };
 
   const isButtonDisabled = !email || !password;
 
   const onSubmit = async () => {
+    setIsFirstAppLoad(false);
     if (!email) {
-      return Alert.alert('Please enter an email address');
+      return Alert.alert(Localized('Please enter an email address'));
     }
     if (!password) {
-      return Alert.alert('Please enter a password');
+      return Alert.alert(Localized('Please enter a password'));
     }
     try {
       await signInWithEmail(email, password, setErrorMessage);
-      navigation.navigate('Enter Id Screen');
+      await getToken(setToken);
+      await loginUser({
+        variables: { ambassaderOnly: true },
+      });
     } catch (error) {
-      setErrorMessage(error.message);
+      console.log(`error`, error.message);
     }
   };
+
+  const loginToFirebaseAndAppWithSocial = async (socialSignIn) => {
+    setIsFirstAppLoad(false);
+    try {
+      await socialSignIn();
+      await getToken(setToken);
+      await setIsFirstAppLoad(false);
+      await loginUser({
+        variables: { ambassaderOnly: true },
+      });
+      if (error) {
+        setErrorMessage(error.message);
+      }
+    } catch (error) {
+      console.log(`error.message`, error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      console.log(`if data:`, data?.loginUser);
+      const status = data?.loginUser?.loginStatus;
+      handleLoginUser(
+        status,
+        navigation,
+        useBiometrics,
+        onFaceID,
+        isFirstAppLoad,
+      );
+    }
+  }, [data]);
 
   return (
     <Flexbox
@@ -144,23 +128,11 @@ const LoginScreen = ({ navigation }) => {
               navigateToCreateAccount={() =>
                 navigation.navigate('Create Account Screen')
               }
-              navigateToPasswordRecovery={() => {
-                navigation.navigate('Password Recovery Screen');
-              }}
+              navigateToPasswordRecovery={() =>
+                navigation.navigate('Password Recovery Screen')
+              }
             />
           </Flexbox>
-
-          {useBiometrics && showFaceID && (
-            <Flexbox accessibilityLabel="biometrics button">
-              <TouchableOpacity testID="biometrics-button" onPress={onFaceID}>
-                {Platform.OS === 'ios' ? (
-                  <FaceIDIcon fill={theme.highlight} />
-                ) : (
-                  <TouchIDIcon fill={theme.highlight} />
-                )}
-              </TouchableOpacity>
-            </Flexbox>
-          )}
 
           <Flexbox width="85%">
             <PrimaryButton
@@ -175,11 +147,14 @@ const LoginScreen = ({ navigation }) => {
           <Flexbox width="85%">
             <GoogleLoginButton
               disabled={!googleRequest}
-              onPress={promptAsync}
+              onPress={() => loginToFirebaseAndAppWithSocial(promptAsync)}
               style={{ marginBottom: 8 }}>
               {Localized('Sign in with Google')}
             </GoogleLoginButton>
-            <FacebookLoginButton onPress={loginWithFacebook}>
+            <FacebookLoginButton
+              onPress={() =>
+                loginToFirebaseAndAppWithSocial(loginWithFacebook)
+              }>
               {Localized('Continue with Facebook')}
             </FacebookLoginButton>
           </Flexbox>

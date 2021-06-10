@@ -1,36 +1,39 @@
 import firebase from 'firebase';
 import * as Facebook from 'expo-facebook';
-// import * as Google from 'expo-auth-session/providers/google';
+import * as Google from 'expo-auth-session/providers/google';
+
+export const getToken = (setToken) => {
+  firebase
+    .auth()
+    .currentUser.getIdToken(/* forceRefresh */ true)
+    .then((idToken) => {
+      console.log(`idToken`, idToken);
+      setToken(idToken);
+    })
+    .catch((error) => {
+      console.log(`error`, error);
+    });
+};
 
 export const signInWithEmail = async (email, password, setErrorMessage) => {
   setErrorMessage('');
-  // TODO test session persistence in app
   try {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        // const db = firebase.firestore();
-        // firebase;
-        // db.collection('users').doc(result.user.uid).update({
-        //   lastLoggedIn: Date.now(),
-        // });
-        console.log(`result`, result.additionalUserInfo);
-      })
-      .catch((error) => {
-        setErrorMessage(error.message);
-      });
+      .catch((error) => setErrorMessage(error.message));
   } catch (error) {
-    console.log('error', error.toString());
+    setErrorMessage(error.message);
   }
 };
 
 export const createAccount = async (email, password, setErrorMessage) => {
   setErrorMessage('');
   try {
-    await firebase.auth().createUserWithEmailAndPassword(email, password);
-    const currentUser = firebase.auth().currentUser;
-    console.log(`currentUser`, currentUser);
+    await firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch((error) => setErrorMessage(error.message));
   } catch (err) {
     setErrorMessage(err.message);
   }
@@ -44,16 +47,25 @@ export const signOutOfFirebase = async () => {
   }
 };
 
-export const getFirebaseIdToken = () => {
+export const checkIfUserIsLoggedIn = async (
+  setToken,
+  loginUser,
+  isFirstAppLoad,
+  setIsFirstAppLoad,
+  navigation,
+) => {
   firebase.auth().onAuthStateChanged((user) => {
     console.log('AUTH STATE CHANGED CALLED ');
     if (user) {
-      user.getIdToken().then((idToken) => {
-        // console.log(`idToken`, idToken);
-        return idToken;
+      user.getIdToken().then(async (idToken) => {
+        setToken(idToken);
+        if (isFirstAppLoad) {
+          await loginUser({ variables: { ambassaderOnly: true } });
+          setIsFirstAppLoad(false);
+        }
       });
     } else {
-      console.log('no user is signed in');
+      navigation.navigate('Login Screen');
     }
   });
 };
@@ -83,6 +95,25 @@ export const googleConfig = {
   webClientId,
 };
 
+export const loginWithGoogle = () => {
+  const [
+    googleRequest,
+    googleResponse,
+    promptAsync,
+  ] = Google.useIdTokenAuthRequest(googleConfig);
+
+  if (googleResponse?.type === 'success') {
+    const { id_token } = googleResponse.params;
+
+    const credential = firebase.auth.GoogleAuthProvider.credential(id_token);
+    firebase
+      .auth()
+      .signInWithCredential(credential)
+      .catch((error) => console.log('error', error.message));
+  }
+  return [googleRequest, promptAsync];
+};
+
 // FACEBOOK LOGIN
 // https://docs.expo.io/guides/using-firebase/#user-authentication
 // dev account dashboard https://developers.facebook.com/apps/319892812842607/dashboard/
@@ -100,7 +131,7 @@ export const loginWithFacebook = async () => {
   });
 
   const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-    permissions: ['public_profile'],
+    permissions: ['email', 'public_profile'],
   });
 
   if (type === 'success') {
@@ -113,7 +144,7 @@ export const loginWithFacebook = async () => {
       .signInWithCredential(credential)
       .catch((error) => {
         // Handle Errors here.
-        console.log(`error`, error);
+        console.log(`error`, error.message);
       });
   }
 };
