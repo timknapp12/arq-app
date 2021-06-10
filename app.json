@@ -2,7 +2,7 @@
   "expo": {
     "name": "q-connect-pro-react-native",
     "slug": "q-connect-pro-react-native",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "q-connect-pro-react-native",
@@ -17,7 +17,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.qsciences.q-connect-pro-staging",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
