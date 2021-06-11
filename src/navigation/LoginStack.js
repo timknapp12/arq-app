@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../components/loginScreen/LoginScreen';
-import PasswordRecoveryScreen from '../components/loginScreen/PasswordRecoveryScreen';
-import CreateAccountScreen from '../components/loginScreen/CreateAccountScreen';
-import EnterIdScreen from '../components/loginScreen/EnterIdScreen';
-import ConfirmAccountScreen from '../components/loginScreen/ConfirmAccountScreen';
-import VerificationCodeScreen from '../components/loginScreen/VerificationCodeScreen';
-import BiometricsScreen from '../components/loginScreen/BiometricsScreen';
-import CreateTeamScreen from '../components/loginScreen/CreateTeamScreen';
-import RedirectUnauthorizedUserScreen from '../components/loginScreen/RedirectUnauthorizedUserScreen';
+import LoginScreen from '../components/login/loginScreen/LoginScreen';
+import PasswordRecoveryScreen from '../components/login/loginScreen/PasswordRecoveryScreen';
+import CreateAccountScreen from '../components/login/CreateAccountScreen';
+import EnterIdScreen from '../components/login/EnterIdScreen';
+import ConfirmAccountScreen from '../components/login/ConfirmAccountScreen';
+import VerificationCodeScreen from '../components/login/VerificationCodeScreen';
+import BiometricsScreen from '../components/login/BiometricsScreen';
+import CreateTeamScreen from '../components/login/CreateTeamScreen';
+import RedirectUnauthorizedUserScreen from '../components/login/RedirectUnauthorizedUserScreen';
 import AppStack from './AppStack';
 import LoginContext from '../contexts/LoginContext';
 import AppContext from '../contexts/AppContext';
@@ -60,7 +60,6 @@ const LoginStack = () => {
           name="Login Screen"
           component={LoginScreen}
           options={{
-            title: 'Login',
             headerShown: false,
             gestureEnabled: false,
             headerLeft: () => {
@@ -88,7 +87,13 @@ const LoginStack = () => {
         <Login.Screen
           name="Create Account Screen"
           component={CreateAccountScreen}
-          options={onboardingScreenOptions}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+            headerLeft: () => {
+              return null;
+            },
+          }}
         />
         <Login.Screen
           name="Enter Id Screen"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { H4, Flexbox } from '../common';
-import { Localized } from '../../translations/Localized';
+import { H4, Flexbox } from '../../common';
+import { Localized } from '../../../translations/Localized';
 
 const TermsAndPrivacy = () => {
   const openTerms = () => {};

@@ -1,8 +1,8 @@
 import React, { useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Flexbox, Input, Label } from '../common';
-import { Localized } from '../../translations/Localized';
-import LoginContext from '../../contexts/LoginContext';
+import { Flexbox, Input, Label } from '../../common';
+import { Localized } from '../../../translations/Localized';
+import LoginContext from '../../../contexts/LoginContext';
 
 const EmailForm = ({ onSubmit, createAccount }) => {
   const {

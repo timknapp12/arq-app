@@ -18,10 +18,10 @@ import {
   PrimaryButton,
   AlertText,
   Label,
-} from '../common';
-import logo from '../../../assets/icons/q-sciences-stacked-logo-white.png';
-import { Localized, initLanguage } from '../../translations/Localized';
-import AppContext from '../../contexts/AppContext';
+} from '../../common';
+import logo from '../../../../assets/icons/q-sciences-stacked-logo-white.png';
+import { Localized, initLanguage } from '../../../translations/Localized';
+import AppContext from '../../../contexts/AppContext';
 
 const RecoverPasswordInstructions = styled(H4)`
   text-align: center;

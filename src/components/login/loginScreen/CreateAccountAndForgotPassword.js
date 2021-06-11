@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { H6, Flexbox, Link } from '../common';
-import { Localized } from '../../translations/Localized';
+import { H6, Flexbox, Link } from '../../common';
+import { Localized } from '../../../translations/Localized';
 
 const CreateAccountAndForgotPassword = ({
-  navigateToCreateAccount,
+  navigateToScreen,
   navigateToPasswordRecovery,
+  screen,
 }) => {
   return (
     <Flexbox width="85%" justify="flex-start">
@@ -20,11 +21,19 @@ const CreateAccountAndForgotPassword = ({
       </Flexbox>
 
       <Flexbox height="30px" direction="row">
-        <H6>{Localized('First time using the Q app?')}</H6>
+        <H6>
+          {Localized(
+            screen === 'create account'
+              ? 'Already have an account?'
+              : 'First time using the Q app?',
+          )}
+        </H6>
         <TouchableOpacity
-          onPress={navigateToCreateAccount}
+          onPress={navigateToScreen}
           testID="go-to-signup-screen-button">
-          <Link>{Localized('Sign up')}</Link>
+          <Link>
+            {Localized(screen === 'create account' ? 'Sign in' : 'Sign up')}
+          </Link>
         </TouchableOpacity>
       </Flexbox>
     </Flexbox>
@@ -32,8 +41,9 @@ const CreateAccountAndForgotPassword = ({
 };
 
 CreateAccountAndForgotPassword.propTypes = {
-  navigateToCreateAccount: PropTypes.func.isRequired,
+  navigateToScreen: PropTypes.func.isRequired,
   navigateToPasswordRecovery: PropTypes.func.isRequired,
+  screen: PropTypes.string,
 };
 
 export default CreateAccountAndForgotPassword;

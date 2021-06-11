@@ -10,16 +10,16 @@ import {
   PrimaryButton,
   Link,
   AlertText,
-} from '../common';
-import AppContext from '../../contexts/AppContext';
-import LoginContext from '../../contexts/LoginContext';
-import { Localized, initLanguage } from '../../translations/Localized';
-import QLogoScreen from './QLogoScreenContainer';
+} from '../../common';
+import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
+import { Localized, initLanguage } from '../../../translations/Localized';
+import QLogoScreen from '../QLogoScreenContainer';
 import EmailForm from './EmailForm';
 import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
 import SocialSignIn from './SocialSignIn';
 import TermsAndPrivacy from './TermsAndPrivacy';
-import ErrorModal from '../errorModal/ErrorModal';
+import ErrorModal from '../../errorModal/ErrorModal';
 import {
   signInWithEmail,
   loginWithFacebook,
@@ -27,10 +27,10 @@ import {
   getToken,
   signOutOfFirebase,
   checkIfUserIsLoggedIn,
-} from '../../utils/firebase/login';
-import { LOGIN_USER } from '../../graphql/mutations';
-import { GET_USER } from '../../graphql/queries';
-import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
+} from '../../../utils/firebase/login';
+import { LOGIN_USER } from '../../../graphql/mutations';
+import { GET_USER } from '../../../graphql/queries';
+import { handleLoginUser, onFaceID } from '../../../utils/handleLoginFlow';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -86,8 +86,6 @@ const LoginScreen = ({ navigation }) => {
     },
   });
 
-  const [googleRequest, promptAsync] = loginWithGoogle();
-
   useEffect(() => {
     checkIfUserIsLoggedIn(
       setToken,
@@ -121,6 +119,8 @@ const LoginScreen = ({ navigation }) => {
       console.log(`error`, error.message);
     }
   };
+
+  const [googleRequest, promptAsync] = loginWithGoogle();
 
   const loginToFirebaseAndAppWithSocial = async (socialSignIn) => {
     await setIsFirstAppLoad(false);
@@ -188,7 +188,7 @@ const LoginScreen = ({ navigation }) => {
           </Flexbox>
 
           <CreateAccountAndForgotPassword
-            navigateToCreateAccount={() =>
+            navigateToScreen={() =>
               navigation.navigate('Create Account Screen')
             }
             navigateToPasswordRecovery={() =>

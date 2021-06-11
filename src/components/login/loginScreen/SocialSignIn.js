@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flexbox, H2, GoogleLoginButton, FacebookLoginButton } from '../common';
+import {
+  Flexbox,
+  H2,
+  GoogleLoginButton,
+  FacebookLoginButton,
+} from '../../common';
 
 const SocialSignIn = ({
   title,
