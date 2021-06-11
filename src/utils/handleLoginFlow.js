@@ -31,9 +31,18 @@ export const handleLoginUser = (
       break;
     case 'NOT_AN_AMBASSADOR':
       // send to a screen that says get in touch with an ambassador
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador',
+        ),
+        url: 'https://qsciences.com/opportunity',
+        linkText: Localized('Find out more'),
+      });
       break;
     default:
-    // sign out of firebase and send to login screen
+      // sign out of firebase and send to login screen
+      signOutOfFirebase();
+      navigation.navigate('Login Screen');
   }
 };
 

@@ -94,7 +94,7 @@ const SettingsModal = ({
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
 
-      Alert.alert(Localized('FaceID/TouchID is enabled!'));
+      Alert.alert(Localized('FaceID/Fingerprint is enabled!'));
     } catch (error) {
       Alert.alert(Localized('An error as occured'), error?.message);
     }

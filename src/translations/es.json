@@ -86,7 +86,7 @@
   "Current Password": "es Current Password",
   "New Password": "es New Password",
   "Confirm New Password": "es Confirm New Password",
-  "FaceID/TouchID is enabled!": "es FaceID/TouchID is enabled!",
+  "FaceID/Fingerprint is enabled!": "es FaceID/Fingerprint is enabled!",
   "An error as occured": "es An error as occured",
   "Please add a username": "es Please add a username",
   "Please enter current password": "es Please enter current password",
@@ -212,5 +212,6 @@
   "Please enter an email address": "es Please enter an email address",
   "Please enter a password": "es Please enter a password",
   "Face ID": "es Face ID",
-  "Fingerprint": "es Fingerprint"
+  "Fingerprint": "es Fingerprint",
+  "It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador": "es It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador"
 }

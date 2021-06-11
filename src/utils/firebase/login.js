@@ -60,7 +60,7 @@ export const checkIfUserIsLoggedIn = async (
       user.getIdToken().then(async (idToken) => {
         setToken(idToken);
         if (isFirstAppLoad) {
-          await loginUser({ variables: { ambassaderOnly: true } });
+          await loginUser();
           setIsFirstAppLoad(false);
         }
       });

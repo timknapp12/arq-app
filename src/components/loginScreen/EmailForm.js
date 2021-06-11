@@ -32,6 +32,7 @@ const EmailForm = ({ onSubmit, createAccount }) => {
         <Flexbox align="flex-start" height="50px" style={{ marginBottom: 8 }}>
           <Label>{Localized('Email Address')}</Label>
           <Input
+            auotFocus
             testID="new-account-email-input"
             value={email}
             onChangeText={(text) => {

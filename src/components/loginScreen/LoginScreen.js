@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { useMutation } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import { TouchableOpacity, Platform, Linking, Alert } from 'react-native';
 import {
   Flexbox,
@@ -17,15 +17,18 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import QLogoScreen from './QLogoScreenContainer';
 import EmailForm from './EmailForm';
 import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
+import ErrorModal from '../errorModal/ErrorModal';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import {
   signInWithEmail,
   loginWithFacebook,
   loginWithGoogle,
   getToken,
+  signOutOfFirebase,
   checkIfUserIsLoggedIn,
 } from '../../utils/firebase/login';
 import { LOGIN_USER } from '../../graphql/mutations';
+import { GET_USER } from '../../graphql/queries';
 import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
 
 const DividerLine = styled.View`
@@ -36,10 +39,45 @@ const DividerLine = styled.View`
 
 const LoginScreen = ({ navigation }) => {
   initLanguage();
-  const { theme, setToken, useBiometrics } = useContext(AppContext);
-  const { email, password, setErrorMessage } = useContext(LoginContext);
+  const { theme, setToken, useBiometrics, setUser } = useContext(AppContext);
+  const { email, password, setErrorMessage, errorMessage } = useContext(
+    LoginContext,
+  );
+
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
-  const [loginUser, { error, data }] = useMutation(LOGIN_USER);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
+  const [getUser] = useLazyQuery(GET_USER, {
+    onCompleted: (data) => setUser(data),
+  });
+
+  const [loginUser] = useMutation(LOGIN_USER, {
+    variables: { ambassaderOnly: true },
+    onCompleted: (data) => {
+      console.log(`if data:`, data?.loginUser);
+      const status = data?.loginUser?.loginStatus;
+      handleLoginUser(
+        status,
+        navigation,
+        useBiometrics,
+        onFaceID,
+        isFirstAppLoad,
+      );
+      // get associate id if it exists
+      if (data.associate) {
+        console.log(`data.associate`, data.associate.associateId);
+        // query treeNodeFor with id
+        const id = data.associate.associateId;
+        getUser({
+          variables: { associateId: id },
+        });
+      }
+    },
+    onError: (error) => {
+      setIsErrorModalOpen(true);
+      setErrorMessage(error.message);
+    },
+  });
 
   const [googleRequest, promptAsync] = loginWithGoogle();
 
@@ -60,7 +98,8 @@ const LoginScreen = ({ navigation }) => {
   const isButtonDisabled = !email || !password;
 
   const onSubmit = async () => {
-    setIsFirstAppLoad(false);
+    await setIsFirstAppLoad(false);
+    await signOutOfFirebase;
     if (!email) {
       return Alert.alert(Localized('Please enter an email address'));
     }
@@ -70,44 +109,24 @@ const LoginScreen = ({ navigation }) => {
     try {
       await signInWithEmail(email, password, setErrorMessage);
       await getToken(setToken);
-      await loginUser({
-        variables: { ambassaderOnly: true },
-      });
+      await loginUser();
     } catch (error) {
       console.log(`error`, error.message);
     }
   };
 
   const loginToFirebaseAndAppWithSocial = async (socialSignIn) => {
-    setIsFirstAppLoad(false);
+    await setIsFirstAppLoad(false);
+    await signOutOfFirebase;
     try {
       await socialSignIn();
       await getToken(setToken);
       await setIsFirstAppLoad(false);
-      await loginUser({
-        variables: { ambassaderOnly: true },
-      });
-      if (error) {
-        setErrorMessage(error.message);
-      }
+      await loginUser();
     } catch (error) {
       console.log(`error.message`, error.message);
     }
   };
-
-  useEffect(() => {
-    if (data) {
-      console.log(`if data:`, data?.loginUser);
-      const status = data?.loginUser?.loginStatus;
-      handleLoginUser(
-        status,
-        navigation,
-        useBiometrics,
-        onFaceID,
-        isFirstAppLoad,
-      );
-    }
-  }, [data]);
 
   return (
     <Flexbox
@@ -181,6 +200,11 @@ const LoginScreen = ({ navigation }) => {
 
           <TermsAndPrivacy />
         </Flexbox>
+        <ErrorModal
+          visible={isErrorModalOpen}
+          onClose={() => setIsErrorModalOpen(false)}
+          errorMessage={errorMessage}
+        />
       </QLogoScreen>
     </Flexbox>
   );
