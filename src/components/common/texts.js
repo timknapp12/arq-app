@@ -122,7 +122,6 @@ export const Link = styled.Text`
   font-family: 'Avenir-Heavy';
   color: ${blue};
   font-size: 14px;
-  text-decoration: underline;
   text-decoration-color: ${blue};
   line-height: 19px;
 `;

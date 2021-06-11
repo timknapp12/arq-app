@@ -216,22 +216,10 @@ export const ButtonText = styled(H3)`
   font-family: 'Avenir-Black';
 `;
 // GOOGLE LOGIN
-const googleColor = '#4285F4';
-
 const imageBackground = {
-  height: 40,
-  width: 40,
-  position: 'absolute',
-  left: 0,
+  height: 48,
+  width: 48,
 };
-
-const GoogleButton = styled.TouchableOpacity`
-  ${sharedCss};
-  flex-direction: row;
-  width: 100%;
-  height: 40px;
-  background-color: ${googleColor};
-`;
 
 const ImageBackground = styled.View`
   ${sharedCss};
@@ -240,66 +228,27 @@ const ImageBackground = styled.View`
 `;
 
 const GoogleImage = styled.Image`
-  height: 20px;
-  width: 20px;
+  height: 22px;
+  width: 22px;
 `;
 
-const GoogleText = styled.Text`
-  font-family: 'Roboto-Regular';
-  font-size: 14px;
-  color: white;
-  font-weight: 500;
-`;
-
-export const GoogleLoginButton = ({ children, ...props }) => (
-  <GoogleButton {...props}>
+export const GoogleLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
     <ImageBackground>
       <GoogleImage source={googleLogo} />
     </ImageBackground>
-    <GoogleText>{children}</GoogleText>
-  </GoogleButton>
+  </TouchableOpacity>
 );
-
-GoogleLoginButton.propTypes = {
-  children: PropTypes.string.isRequired,
-};
 
 // FACEBOOK LOGIN
-const facebookColor = '#1778f2';
-
-const FacebookButton = styled.TouchableOpacity`
-  ${sharedCss};
-  width: 100%;
-  height: 40px;
-  background-color: ${facebookColor};
-`;
-
-const FacebookBackground = styled.View`
-  ${sharedCss};
-  ${imageBackground};
-`;
 
 const FacebookImage = styled.Image`
-  height: 26px;
-  width: 26px;
+  height: 48px;
+  width: 48px;
 `;
 
-const FacebookText = styled.Text`
-  font-family: 'Helvetica';
-  font-size: 15px;
-  color: white;
-  font-weight: 500;
-`;
-
-export const FacebookLoginButton = ({ children, ...props }) => (
-  <FacebookButton {...props}>
-    <FacebookBackground>
-      <FacebookImage source={facebookLogo} />
-    </FacebookBackground>
-    <FacebookText>{children}</FacebookText>
-  </FacebookButton>
+export const FacebookLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <FacebookImage source={facebookLogo} />
+  </TouchableOpacity>
 );
-
-FacebookLoginButton.propTypes = {
-  children: PropTypes.string.isRequired,
-};
