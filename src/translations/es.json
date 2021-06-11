@@ -1,8 +1,9 @@
 {
   "Username": "es Username",
   "Password": "es Password",
-  "Forgot password?": "es Forgot password?",
-  "SIGN IN": "es SIGN IN",
+  "Forgot your password?": "es Forgot your password?",
+  "Sign in": "es Sign in",
+  "Sign Up": "Sign Up",
   "Terms": "es Terms",
   "Privacy": "es Privacy",
   "Data": "es Data",
@@ -197,9 +198,9 @@
   "Email Address": "es Email Address",
   "Type a password": "es Type a password",
   "Re-type a password": "es Re-type a password",
-  "RECOVER PASSWORD": "es RECOVER PASSWORD",
+  "Reset password": "es Reset password",
   "Check your email to reset your password and then login": "es Check your email to reset your password and then login",
-  "Create Q account": "es Create Q account",
+  "First time using the Q app?": "es First time using the Q app?",
   "Back Office User ID": "es Back Office User ID",
   "Please enter your back office user id": "es Please enter your back office user id",
   "Verification Code": "es Verification Code",
@@ -213,5 +214,8 @@
   "Please enter a password": "es Please enter a password",
   "Face ID": "es Face ID",
   "Fingerprint": "es Fingerprint",
-  "It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador": "es It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador"
+  "It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador": "es It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador",
+  "Sign in with": "es Sign in with",
+  "Sign up with": "es Sign up with",
+  "or use your email": "es or use your email"
 }
