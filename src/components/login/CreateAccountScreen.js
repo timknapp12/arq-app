@@ -36,12 +36,11 @@ const CreateAccountScreen = ({ navigation }) => {
   const { email, password, confirmPassword, clearFields } = useContext(
     LoginContext,
   );
-  const [userUid, setUserUid] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [loginUser] = useMutation(LOGIN_USER, {
-    variables: { ambassaderOnly: true, fireBaseId: userUid },
+    variables: { ambassaderOnly: true },
     onCompleted: (data) => {
       clearFields();
       console.log(`if data:`, data?.loginUser);
@@ -81,7 +80,7 @@ const CreateAccountScreen = ({ navigation }) => {
     }
     try {
       await createAccount(email, password, setErrorMessage);
-      await getToken(setUserUid);
+      await getToken(setToken);
       await loginUser();
     } catch (error) {
       console.log(`error`, error);

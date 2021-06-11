@@ -228,8 +228,8 @@ const ImageBackground = styled.View`
 `;
 
 const GoogleImage = styled.Image`
-  height: 22px;
-  width: 22px;
+  height: 24px;
+  width: 24px;
 `;
 
 export const GoogleLoginButton = ({ ...props }) => (
