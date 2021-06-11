@@ -56,7 +56,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
 
   const onSuccess = async () => {
     await Alert.alert(
-      Localized('Check your email to reset your password and then login'),
+      Localized('Check your email to reset your password and then sign in'),
     );
     navigation.navigate('Login Screen');
   };

@@ -49,7 +49,7 @@ export const handleLoginUser = (
 // CANCEL FACEID
 const alertTitle = Localized(Platform.OS === 'ios' ? 'Face ID' : 'Fingerprint');
 const alertBody = Localized(
-  Platform.OS === 'ios' ? 'Log in with Face ID' : 'Log in with Fingerprint',
+  Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
 );
 export const cancelFaceIDAlert = (navigation, onFaceID) =>
   Alert.alert(alertTitle, alertBody, [

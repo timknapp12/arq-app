@@ -13,7 +13,7 @@ const BiometricsScreen = ({ navigation }) => {
   const { theme, setUseBiometrics } = useContext(AppContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
-    Platform.OS === 'ios' ? 'Log in with Face ID' : 'Log in with Fingerprint',
+    Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
   );
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4

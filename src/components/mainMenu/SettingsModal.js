@@ -176,7 +176,7 @@ const SettingsModal = ({
 
                     <RowContainer>
                       <H5Secondary>
-                        {Localized('Face ID or Fingerprint Log In')}
+                        {Localized('Face ID or Fingerprint Sign In')}
                       </H5Secondary>
                       <Switch
                         testID="biometrics-switch"
@@ -201,7 +201,7 @@ const SettingsModal = ({
                       signOutOfFirebase();
                       signOut();
                     }}>
-                    {Localized('Log Out').toUpperCase()}
+                    {Localized('Sign Out').toUpperCase()}
                   </PrimaryButton>
                 </View>
               </Flexbox>

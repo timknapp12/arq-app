@@ -84,7 +84,7 @@ const PopoutMenu = ({
             signOutOfFirebase();
             navigation.navigate('Login Screen');
           }}>
-          <H4Book>{Localized('Log Out')}</H4Book>
+          <H4Book>{Localized('Sign Out')}</H4Book>
         </Touchable>
       </TouchableContainer>
     </AnimatedMenu>

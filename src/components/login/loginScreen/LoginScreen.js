@@ -2,15 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation, useLazyQuery } from '@apollo/client';
-import { TouchableOpacity, Platform, Linking, Alert, View } from 'react-native';
-import {
-  Flexbox,
-  H4Secondary,
-  H6,
-  PrimaryButton,
-  Link,
-  AlertText,
-} from '../../common';
+import { Platform, Linking, Alert, View } from 'react-native';
+import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import { Localized, initLanguage } from '../../../translations/Localized';
@@ -18,6 +11,7 @@ import QLogoScreen from '../QLogoScreenContainer';
 import EmailForm from './EmailForm';
 import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
 import SocialSignIn from './SocialSignIn';
+import FindOutMore from './FindOutMore';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import ErrorModal from '../../errorModal/ErrorModal';
 import {
@@ -196,25 +190,7 @@ const LoginScreen = ({ navigation }) => {
             }
           />
 
-          <Flexbox
-            accessibilityLabel="Become an Ambassador"
-            padding={10}
-            height="90px">
-            <H6
-              testID="become-ambassador-text"
-              style={{
-                textAlign: 'center',
-                fontFamily: 'Avenir-Book',
-                opacity: 1,
-              }}>
-              {Localized('Interested in becoming a Q Sciences Ambassador?')}
-            </H6>
-            <TouchableOpacity
-              testID="become-ambassador-link"
-              onPress={onFindOutMore}>
-              <Link>{Localized('Find out more')}</Link>
-            </TouchableOpacity>
-          </Flexbox>
+          <FindOutMore onPress={onFindOutMore} />
 
           <TermsAndPrivacy />
         </Flexbox>

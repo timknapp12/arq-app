@@ -3,7 +3,7 @@ import { render } from '../../../utils/test-utils';
 import LoginScreen from './LoginScreen';
 
 describe('Testing react navigation', () => {
-  test('screeen contains the log in instructions, 2 input fields and Log in Button', () => {
+  test('screeen contains the log in instructions, 2 input fields and Sign in Button', () => {
     const { queryByTestId } = render(<LoginScreen navigation={{}} />);
 
     const title = queryByTestId('login-instructions');

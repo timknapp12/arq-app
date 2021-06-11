@@ -2,12 +2,14 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
-import { Alert, Platform, View } from 'react-native';
+import { Alert, Platform, View, Linking } from 'react-native';
 import { Flexbox, PrimaryButton, AlertText, H4Secondary } from '../common';
 import QLogoScreen from './QLogoScreenContainer';
 import SocialSignIn from './loginScreen/SocialSignIn';
 import EmailForm from './loginScreen/EmailForm';
 import CreateAccountAndForgotPassword from './loginScreen/CreateAccountAndForgotPassword';
+import FindOutMore from './loginScreen/FindOutMore';
+import TermsAndPrivacy from './loginScreen/TermsAndPrivacy';
 import ErrorModal from '../errorModal/ErrorModal';
 import {
   createAccount,
@@ -57,6 +59,11 @@ const CreateAccountScreen = ({ navigation }) => {
       setErrorMessage(error.message);
     },
   });
+
+  const onFindOutMore = () => {
+    Linking.openURL('https://qsciences.com');
+  };
+
   const isButtonDisabled = !email || !password || !confirmPassword;
 
   const onSubmit = async () => {
@@ -107,7 +114,7 @@ const CreateAccountScreen = ({ navigation }) => {
           width="85%"
           accessibilityLabel="Sign up Form">
           <SocialSignIn
-            title={Localized('Sign in with')}
+            title={Localized('Sign up with')}
             googleDisabled={!googleRequest}
             googleSignIn={() => loginToFirebaseAndAppWithSocial(promptAsync)}
             facebookSignIn={() =>
@@ -139,7 +146,7 @@ const CreateAccountScreen = ({ navigation }) => {
 
           <Flexbox width="85%">
             <PrimaryButton
-              testID="login-button"
+              testID="sign-up-button"
               disabled={isButtonDisabled}
               onPress={onSubmit}>
               {Localized('Sign Up').toUpperCase()}
@@ -153,6 +160,10 @@ const CreateAccountScreen = ({ navigation }) => {
               navigation.navigate('Password Recovery Screen')
             }
           />
+
+          <FindOutMore onPress={onFindOutMore} />
+
+          <TermsAndPrivacy />
 
           <ErrorModal
             visible={isErrorModalOpen}
