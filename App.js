@@ -41,7 +41,6 @@ const App = () => {
     'Avenir-Book': require('./assets/fonts/avenir/AvenirLTStd-Book.otf'),
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
-    Helvetica: require('./assets/fonts/helvetica/Helvetica.ttf'),
   });
   const [corporateResources, setCorporateResources] = useState([]);
   const [deviceLanguage, setDeviceLanguage] = useState('en');
