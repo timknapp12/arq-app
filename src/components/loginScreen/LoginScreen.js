@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation, useLazyQuery } from '@apollo/client';
-import { TouchableOpacity, Platform, Linking, Alert } from 'react-native';
+import { TouchableOpacity, Platform, Linking, Alert, View } from 'react-native';
 import {
   Flexbox,
+  H4Secondary,
   H6,
   PrimaryButton,
   Link,
-  GoogleLoginButton,
-  FacebookLoginButton,
+  AlertText,
 } from '../common';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
@@ -17,8 +17,9 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import QLogoScreen from './QLogoScreenContainer';
 import EmailForm from './EmailForm';
 import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
-import ErrorModal from '../errorModal/ErrorModal';
+import SocialSignIn from './SocialSignIn';
 import TermsAndPrivacy from './TermsAndPrivacy';
+import ErrorModal from '../errorModal/ErrorModal';
 import {
   signInWithEmail,
   loginWithFacebook,
@@ -33,16 +34,21 @@ import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
 
 const DividerLine = styled.View`
   height: 1px;
-  width: 100%;
+  margin: 0 8px;
+  flex: 1;
   background-color: ${(props) => props.theme.disabledTextColor};
 `;
 
 const LoginScreen = ({ navigation }) => {
   initLanguage();
   const { theme, setToken, useBiometrics, setUser } = useContext(AppContext);
-  const { email, password, setErrorMessage, errorMessage } = useContext(
-    LoginContext,
-  );
+  const {
+    email,
+    password,
+    setErrorMessage,
+    errorMessage,
+    clearFields,
+  } = useContext(LoginContext);
 
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
@@ -54,6 +60,7 @@ const LoginScreen = ({ navigation }) => {
   const [loginUser] = useMutation(LOGIN_USER, {
     variables: { ambassaderOnly: true },
     onCompleted: (data) => {
+      clearFields();
       console.log(`if data:`, data?.loginUser);
       const status = data?.loginUser?.loginStatus;
       handleLoginUser(
@@ -140,17 +147,35 @@ const LoginScreen = ({ navigation }) => {
           style={{ flex: 1, paddingTop: 20 }}
           width="85%"
           accessibilityLabel="Login Form">
-          <Flexbox justify="flex-start">
-            <EmailForm onSubmit={onSubmit} />
+          <SocialSignIn
+            title={Localized('Sign in with')}
+            googleDisabled={!googleRequest}
+            googleSignIn={() => loginToFirebaseAndAppWithSocial(promptAsync)}
+            facebookSignIn={() =>
+              loginToFirebaseAndAppWithSocial(loginWithFacebook)
+            }
+          />
 
-            <CreateAccountAndForgotPassword
-              navigateToCreateAccount={() =>
-                navigation.navigate('Create Account Screen')
-              }
-              navigateToPasswordRecovery={() =>
-                navigation.navigate('Password Recovery Screen')
-              }
-            />
+          <Flexbox direction="row">
+            <DividerLine />
+            <H4Secondary>{Localized('or use your email')}</H4Secondary>
+            <DividerLine />
+          </Flexbox>
+
+          <Flexbox>
+            <EmailForm onSubmit={onSubmit} />
+            {errorMessage ? (
+              <View style={{ height: 36 }}>
+                <AlertText
+                  style={{
+                    textAlign: 'center',
+                  }}>
+                  {errorMessage}
+                </AlertText>
+              </View>
+            ) : (
+              <View style={{ height: 36 }} />
+            )}
           </Flexbox>
 
           <Flexbox width="85%">
@@ -158,25 +183,18 @@ const LoginScreen = ({ navigation }) => {
               testID="login-button"
               disabled={isButtonDisabled}
               onPress={onSubmit}>
-              {Localized('SIGN IN')}
+              {Localized('Sign in').toUpperCase()}
             </PrimaryButton>
           </Flexbox>
 
-          <DividerLine />
-          <Flexbox width="85%">
-            <GoogleLoginButton
-              disabled={!googleRequest}
-              onPress={() => loginToFirebaseAndAppWithSocial(promptAsync)}
-              style={{ marginBottom: 8 }}>
-              {Localized('Sign in with Google')}
-            </GoogleLoginButton>
-            <FacebookLoginButton
-              onPress={() =>
-                loginToFirebaseAndAppWithSocial(loginWithFacebook)
-              }>
-              {Localized('Continue with Facebook')}
-            </FacebookLoginButton>
-          </Flexbox>
+          <CreateAccountAndForgotPassword
+            navigateToCreateAccount={() =>
+              navigation.navigate('Create Account Screen')
+            }
+            navigateToPasswordRecovery={() =>
+              navigation.navigate('Password Recovery Screen')
+            }
+          />
 
           <Flexbox
             accessibilityLabel="Become an Ambassador"

@@ -74,7 +74,7 @@ export const checkIfUserIsLoggedIn = async (
 
 // expo with firebase https://docs.expo.io/guides/using-firebase/
 
-// SIGN IN WITH GOOGLE
+// Sign in WITH GOOGLE
 
 // https://docs.expo.io/guides/authentication/#google
 

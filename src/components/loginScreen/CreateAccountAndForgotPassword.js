@@ -1,40 +1,30 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, View } from 'react-native';
-import { H6, AlertText, Flexbox } from '../common';
+import { TouchableOpacity } from 'react-native';
+import { H6, Flexbox, Link } from '../common';
 import { Localized } from '../../translations/Localized';
-import LoginContext from '../../contexts/LoginContext';
 
 const CreateAccountAndForgotPassword = ({
   navigateToCreateAccount,
   navigateToPasswordRecovery,
 }) => {
-  const { errorMessage } = useContext(LoginContext);
   return (
-    <Flexbox justify="flex-start">
-      {errorMessage ? (
-        <View style={{ height: 36 }}>
-          <AlertText
-            style={{
-              textAlign: 'center',
-            }}>
-            {errorMessage}
-          </AlertText>
-        </View>
-      ) : (
-        <View style={{ height: 36 }} />
-      )}
+    <Flexbox width="85%" justify="flex-start">
       <Flexbox height="30px" direction="row">
-        <TouchableOpacity onPress={navigateToCreateAccount}>
-          <H6 style={{ textDecorationLine: 'underline' }}>
-            {Localized('Create Q account')}
-          </H6>
-        </TouchableOpacity>
+        <H6>{Localized('Forgot your password?')}</H6>
         <TouchableOpacity
-          // TODO integrate password recovery screen
           onPress={navigateToPasswordRecovery}
-          testID="forgot-password-button">
-          <H6>{Localized('Forgot password?')}</H6>
+          testID="reset-password-button">
+          <Link>{Localized('Reset Password')}</Link>
+        </TouchableOpacity>
+      </Flexbox>
+
+      <Flexbox height="30px" direction="row">
+        <H6>{Localized('First time using the Q app?')}</H6>
+        <TouchableOpacity
+          onPress={navigateToCreateAccount}
+          testID="go-to-signup-screen-button">
+          <Link>{Localized('Sign up')}</Link>
         </TouchableOpacity>
       </Flexbox>
     </Flexbox>

@@ -61,7 +61,7 @@ export const cancelFaceIDAlert = (navigation, onFaceID) =>
       },
     },
     {
-      text: Localized('SIGN IN'),
+      text: Localized('Sign in'),
       onPress: () => onFaceID(navigation, onFaceID),
     },
   ]);

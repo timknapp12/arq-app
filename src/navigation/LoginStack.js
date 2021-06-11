@@ -72,7 +72,7 @@ const LoginStack = () => {
           name="Password Recovery Screen"
           component={PasswordRecoveryScreen}
           options={{
-            title: Localized('RECOVER PASSWORD'),
+            title: Localized('Reset password').toUpperCase(),
             headerBackTitleVisible: false,
             headerStyle: { backgroundColor: theme.backgroundColor },
             headerTintColor: theme.primaryTextColor,

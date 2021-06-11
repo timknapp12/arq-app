@@ -127,7 +127,7 @@ const PasswordRecoveryScreen = ({ navigation }) => {
               disabled={isButtonDisabled}
               style={{ marginTop: 12 }}
               onPress={onSubmit}>
-              {Localized('Send Email')}
+              {Localized('Send Email').toUpperCase()}
             </PrimaryButton>
           </Flexbox>
         </Flexbox>
