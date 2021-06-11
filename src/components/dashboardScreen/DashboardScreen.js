@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   Flexbox,
   ScreenContainer,
@@ -9,7 +12,6 @@ import {
   TopButtonBar,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import * as Analytics from 'expo-firebase-analytics';
 import { Localized, initLanguage } from '../../translations/Localized';
 import Overview from './Overview';
 import Rank from './Rank';
@@ -20,8 +22,6 @@ import SettingsModal from '../mainMenu/SettingsModal';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
 import AppContext from '../../contexts/AppContext';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -67,15 +67,12 @@ const mockUser = {
 };
 
 const DashboardScreen = ({ navigation }) => {
-  const {
-    storeTimeStamp,
-    setCorporateResources,
-    deviceLanguage,
-    userMarket,
-  } = useContext(AppContext);
+  const { setCorporateResources, deviceLanguage, userMarket } = useContext(
+    AppContext,
+  );
   initLanguage;
   const db = firebase.firestore();
-  storeTimeStamp();
+
   const ranklist = [
     {
       legMaxPerc: 0,
