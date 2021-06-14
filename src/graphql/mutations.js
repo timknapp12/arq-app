@@ -26,13 +26,17 @@ export const LOGIN_USER = gql`
   }
 `;
 
+// possible values returned for status: NotFound, NotAnAmbassador, CallSupport, Success
 export const DIRECT_SCALE_INFO = gql`
   mutation DirectScaleInfo($ambassaderOnly: Boolean!, $userName: String!) {
-    directScaleInfo(ambassaderOnly: true, userName: "Alta") {
+    directScaleInfo(ambassaderOnly: $ambassaderOnly, userName: $userName) {
       status
       associate {
         associateId
-        firstName
+        uniqueEmailAddress
+        emailAddress
+        primaryPhoneNumber
+        secondaryPhoneNumber
       }
     }
   }

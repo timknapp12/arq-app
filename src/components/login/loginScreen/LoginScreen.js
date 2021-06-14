@@ -8,6 +8,7 @@ import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import { Localized, initLanguage } from '../../../translations/Localized';
 import QLogoScreen from '../QLogoScreenContainer';
+import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import EmailForm from './EmailForm';
 import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
 import SocialSignIn from './SocialSignIn';
@@ -47,7 +48,7 @@ const LoginScreen = ({ navigation }) => {
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const [getUser] = useLazyQuery(GET_USER, {
+  const [getUser, { loading }] = useLazyQuery(GET_USER, {
     onCompleted: (data) => setUser(data),
   });
 
@@ -129,6 +130,10 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <Flexbox
       style={{
@@ -192,7 +197,7 @@ const LoginScreen = ({ navigation }) => {
 
           <FindOutMore onPress={onFindOutMore} />
 
-          <TermsAndPrivacy />
+          <TermsAndPrivacy navigation={navigation} />
         </Flexbox>
         <ErrorModal
           visible={isErrorModalOpen}

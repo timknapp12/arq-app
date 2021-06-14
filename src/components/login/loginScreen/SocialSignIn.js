@@ -15,8 +15,12 @@ const SocialSignIn = ({
 }) => {
   return (
     <Flexbox direction="row" width="75%">
-      <H2>{title}</H2>
-      <GoogleLoginButton disabled={googleDisabled} onPress={googleSignIn} />
+      <H2 style={{ marginEnd: 8 }}>{title}</H2>
+      <GoogleLoginButton
+        style={{ marginEnd: 8 }}
+        disabled={googleDisabled}
+        onPress={googleSignIn}
+      />
       <FacebookLoginButton onPress={facebookSignIn} />
     </Flexbox>
   );

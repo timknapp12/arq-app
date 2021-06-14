@@ -23,12 +23,19 @@ const LoginStack = () => {
   const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [directScaleUser, setDirectScaleUser] = useState({
+    emailAddress: '',
+    primaryPhoneNumber: '',
+    secondaryPhoneNumber: '',
+  });
   const clearFields = () => {
     setEmail('');
     setPassword('');
     setConfirmPassword('');
     setErrorMessage('');
   };
+
+  console.log(`directScaleUser`, directScaleUser);
 
   const onboardingScreenOptions = {
     title: '',
@@ -50,6 +57,8 @@ const LoginStack = () => {
         setConfirmPassword,
         errorMessage,
         setErrorMessage,
+        directScaleUser,
+        setDirectScaleUser,
         clearFields,
       }}>
       <Login.Navigator

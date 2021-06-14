@@ -28,9 +28,10 @@ export const handleLoginUser = (
       break;
     case 'VERIFICATION_NEEDED':
       navigation.navigate('Enter Id Screen');
+      // navigation.navigate('App Stack');
       break;
     case 'NOT_AN_AMBASSADOR':
-      // send to a screen that says get in touch with an ambassador
+      // send to a screen that gives more info an becoming an ambassador
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: Localized(
           'It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador',
@@ -43,6 +44,51 @@ export const handleLoginUser = (
       // sign out of firebase and send to login screen
       signOutOfFirebase();
       navigation.navigate('Login Screen');
+  }
+};
+
+export const handleGetDirectScaleInfo = (
+  status,
+  navigation,
+  setErrorMessage,
+  username,
+) => {
+  switch (status) {
+    case 'SUCCESS':
+      // TODO - handle Success
+      // return username, email, phone, and navigate to confirm account screen
+      navigation.navigate('Confirm Account Screen', { username });
+      break;
+    case 'NOT_FOUND':
+      // show an error that there are no results with current id
+      setErrorMessage(
+        Localized(
+          `Sorry! We can not find anyone with this id - Please try again`,
+        ),
+      );
+      break;
+    case 'NOT_AN_AMBASSADOR':
+      // send to a screen that gives more info an becoming an ambassador
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador',
+        ),
+        url: 'https://qsciences.com/opportunity',
+        linkText: Localized('Find out more'),
+      });
+      break;
+    case 'CALL_SUPPORT':
+      // send to a screen for user to contact support regarding issue with account
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'Sorry! It looks like there is an issue with your account - Please contact support',
+        ),
+        url: 'https://qsciences.com/contact-us',
+        linkText: Localized('Contact Support'),
+      });
+      break;
+    default:
+    // sign out of firebase and send to login screen
   }
 };
 

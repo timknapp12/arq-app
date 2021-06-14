@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import { Alert, Platform, View, Linking } from 'react-native';
 import { Flexbox, PrimaryButton, AlertText, H4Secondary } from '../common';
 import QLogoScreen from './QLogoScreenContainer';
+import LoadingScreen from '../loadingScreen/LoadingScreen';
 import SocialSignIn from './loginScreen/SocialSignIn';
 import EmailForm from './loginScreen/EmailForm';
 import CreateAccountAndForgotPassword from './loginScreen/CreateAccountAndForgotPassword';
@@ -39,7 +40,7 @@ const CreateAccountScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const [loginUser] = useMutation(LOGIN_USER, {
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     variables: { ambassaderOnly: true },
     onCompleted: (data) => {
       clearFields();
@@ -99,6 +100,10 @@ const CreateAccountScreen = ({ navigation }) => {
       console.log(`error.message`, error.message);
     }
   };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <Flexbox
