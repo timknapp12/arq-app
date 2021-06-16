@@ -26,7 +26,7 @@ export const LOGIN_USER = gql`
   }
 `;
 
-// possible values returned for status: NotFound, NotAnAmbassador, CallSupport, Success
+// possible values returned for status: "NOT_FOUND", "NOT_AN_AMBASSADOR", 'CALL_SUPPORT', "SUCCESS"
 export const DIRECT_SCALE_INFO = gql`
   mutation DirectScaleInfo($ambassaderOnly: Boolean!, $userName: String!) {
     directScaleInfo(ambassaderOnly: $ambassaderOnly, userName: $userName) {
@@ -42,21 +42,28 @@ export const DIRECT_SCALE_INFO = gql`
   }
 `;
 
-// TODO - make into apollo format
+// possible values returned for status: 'VERIFICATION_COMPLETE', 'MESSAGE_SENT', 'FAILURE'
 export const LOGIN_VALIDATION_PROCESS = gql`
-  mutation {
+  mutation LoginValidationProcess(
+    $method: ValidationMethod!
+    $loginName: String!
+    $verificationInfo: String!
+  ) {
     loginValidationProcess(
       input: {
-        method: DIRECT_SCALE
-        loginName: "whyde"
-        verificationInfo: "password" # directscale=password, sms=phone number email=email
+        method: $method
+        loginName: $loginName
+        verificationInfo: $verificationInfo
       }
     )
   }
 `;
 
+// possible values returned for status: 'VERIFICATION_COMPLETE', 'CAN_NOT_FIND_TOKEN'
 export const CONFIRM_ACCESS_CODE = gql`
-  mutation {
-    loginValidationToken(input: { loginName: "whyde", accessCode: "123456" })
+  mutation LoginValidationToken($loginName: String!, $accessCode: String!) {
+    loginValidationToken(
+      input: { loginName: $loginName, accessCode: $accessCode }
+    )
   }
 `;

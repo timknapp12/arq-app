@@ -24,6 +24,7 @@ const LoginStack = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [directScaleUser, setDirectScaleUser] = useState({
+    associateId: null,
     emailAddress: '',
     primaryPhoneNumber: '',
     secondaryPhoneNumber: '',

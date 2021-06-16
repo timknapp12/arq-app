@@ -1,12 +1,40 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import { H4, Flexbox } from '../../common';
 import { Localized } from '../../../translations/Localized';
 
-const TermsAndPrivacy = () => {
-  const openTerms = () => {};
-  const openPrivacy = () => {};
-  const openData = () => {};
+const url =
+  'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2FFeb%202020%20Comp%20Plan.pdf?alt=media&token=5c94e075-d6a5-444a-861e-7442d4325b70';
+
+const TermsAndPrivacy = ({ navigation }) => {
+  const openTerms = () =>
+    navigation.navigate('App Stack', {
+      screen: 'Resources Asset Screen',
+      params: {
+        title: Localized('Terms').toUpperCase(),
+        url: url,
+        contentType: 'pdf',
+      },
+    });
+  const openPrivacy = () =>
+    navigation.navigate('App Stack', {
+      screen: 'Resources Asset Screen',
+      params: {
+        title: Localized('Privacy').toUpperCase(),
+        url: url,
+        contentType: 'pdf',
+      },
+    });
+  const openData = () =>
+    navigation.navigate('App Stack', {
+      screen: 'Resources Asset Screen',
+      params: {
+        title: Localized('Data').toUpperCase(),
+        url: url,
+        contentType: 'pdf',
+      },
+    });
   return (
     <Flexbox
       accessibilityLabel="Terms Privacy Data"
@@ -32,6 +60,10 @@ const TermsAndPrivacy = () => {
       </TouchableOpacity>
     </Flexbox>
   );
+};
+
+TermsAndPrivacy.propTypes = {
+  navigation: PropTypes.object.isRequired,
 };
 
 export default TermsAndPrivacy;

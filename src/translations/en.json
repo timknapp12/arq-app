@@ -218,5 +218,13 @@
   "Sign in with": "Sign in with",
   "Sign up with": "Sign up with",
   "or use your email": "or use your email",
-  "Already have an account?": "Already have an account?"
+  "Already have an account?": "Already have an account?",
+  "Contact Support": "Contact Support",
+  "Sorry! It looks like there is an issue with your account - Please contact support": "Sorry! It looks like there is an issue with your account - Please contact support",
+  "Sorry! We can not find anyone with this id - Please try again": "Sorry! We can not find anyone with this id - Please try again",
+  "Send verification code to email address": "Send verification code to email address",
+  "Send verification code to phone number": "Send verification code to phone number",
+  "Message failed to send - Please check your info and try again": "Message failed to send - Please check your info and try again",
+  "Resend code": "Resend code",
+  "The access code may have expired - Please get a new code try again": "The access code may have expired - Please get a new code try again"
 }

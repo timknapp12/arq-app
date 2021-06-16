@@ -11,7 +11,7 @@ import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
   const { setDirectScaleUser } = useContext(LoginContext);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState('15F92');
   const [errorMessage, setErrorMessage] = useState('');
 
   const [getDirectScaleInfo] = useMutation(DIRECT_SCALE_INFO, {

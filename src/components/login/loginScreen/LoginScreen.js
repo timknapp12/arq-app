@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Platform, Linking, Alert, View } from 'react-native';
+import * as Analytics from 'expo-firebase-analytics';
 import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import { Localized, initLanguage } from '../../../translations/Localized';
-import QLogoScreen from '../QLogoScreenContainer';
 import LoadingScreen from '../../loadingScreen/LoadingScreen';
+import QLogoScreen from '../QLogoScreenContainer';
 import EmailForm from './EmailForm';
 import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
 import SocialSignIn from './SocialSignIn';
@@ -24,7 +25,6 @@ import {
   checkIfUserIsLoggedIn,
 } from '../../../utils/firebase/login';
 import { LOGIN_USER } from '../../../graphql/mutations';
-import { GET_USER } from '../../../graphql/queries';
 import { handleLoginUser, onFaceID } from '../../../utils/handleLoginFlow';
 
 const DividerLine = styled.View`
@@ -48,14 +48,17 @@ const LoginScreen = ({ navigation }) => {
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const [getUser, { loading }] = useLazyQuery(GET_USER, {
-    onCompleted: (data) => setUser(data),
-  });
-
-  const [loginUser] = useMutation(LOGIN_USER, {
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     variables: { ambassaderOnly: true },
     onCompleted: (data) => {
       clearFields();
+      // get associate id if it exists
+      if (data.associate) {
+        console.log(`data.associate`, data.associate.associateId);
+        // set id so treeNodeFor query can be called in dashboard
+        const id = data.associate.associateId;
+        setUser({ associateId: id });
+      }
       console.log(`if data:`, data?.loginUser);
       const status = data?.loginUser?.loginStatus;
       handleLoginUser(
@@ -65,15 +68,6 @@ const LoginScreen = ({ navigation }) => {
         onFaceID,
         isFirstAppLoad,
       );
-      // get associate id if it exists
-      if (data.associate) {
-        console.log(`data.associate`, data.associate.associateId);
-        // query treeNodeFor with id
-        const id = data.associate.associateId;
-        getUser({
-          variables: { associateId: id },
-        });
-      }
     },
     onError: (error) => {
       setIsErrorModalOpen(true);
@@ -97,6 +91,13 @@ const LoginScreen = ({ navigation }) => {
 
   const isButtonDisabled = !email || !password;
 
+  const loginAnalytics = (method) => {
+    Analytics.logEvent(`login_with_${method}`, {
+      screen: 'Login Screen',
+      purpose: 'User attempted to login to app',
+    });
+  };
+
   const onSubmit = async () => {
     await setIsFirstAppLoad(false);
     await signOutOfFirebase;
@@ -110,6 +111,7 @@ const LoginScreen = ({ navigation }) => {
       await signInWithEmail(email, password, setErrorMessage);
       await getToken(setToken);
       await loginUser();
+      loginAnalytics('email');
     } catch (error) {
       console.log(`error`, error.message);
     }
@@ -117,14 +119,14 @@ const LoginScreen = ({ navigation }) => {
 
   const [googleRequest, promptAsync] = loginWithGoogle();
 
-  const loginToFirebaseAndAppWithSocial = async (socialSignIn) => {
+  const loginToFirebaseAndAppWithSocial = async (socialSignIn, method) => {
     await setIsFirstAppLoad(false);
     await signOutOfFirebase;
     try {
       await socialSignIn();
       await getToken(setToken);
-      await setIsFirstAppLoad(false);
       await loginUser();
+      loginAnalytics(method);
     } catch (error) {
       console.log(`error.message`, error.message);
     }
@@ -149,9 +151,11 @@ const LoginScreen = ({ navigation }) => {
           <SocialSignIn
             title={Localized('Sign in with')}
             googleDisabled={!googleRequest}
-            googleSignIn={() => loginToFirebaseAndAppWithSocial(promptAsync)}
+            googleSignIn={() =>
+              loginToFirebaseAndAppWithSocial(promptAsync, 'google')
+            }
             facebookSignIn={() =>
-              loginToFirebaseAndAppWithSocial(loginWithFacebook)
+              loginToFirebaseAndAppWithSocial(loginWithFacebook, 'facebook')
             }
           />
 

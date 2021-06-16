@@ -23,7 +23,7 @@ export const encodePhone = (phone) => {
   const phoneArray = phone.split('');
   return phoneArray
     .map((digit, index) => {
-      if (index >= phoneIndex) {
+      if (index === 0 || index >= phoneIndex) {
         return digit;
       } else {
         return '*';

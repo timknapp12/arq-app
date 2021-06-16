@@ -92,6 +92,65 @@ export const handleGetDirectScaleInfo = (
   }
 };
 
+export const handleLoginValidationProcess = (
+  status,
+  navigation,
+  setUser,
+  associateId,
+  method,
+  username,
+  verificationInfo,
+  setErrorMessage,
+) => {
+  switch (status) {
+    case 'VERIFICATION_COMPLETE':
+      //  set associate id and send to dashboard screen
+      setUser({ associateId });
+      navigation.navigate('App Stack');
+      break;
+    case 'MESSAGE_SENT':
+      // send to verification code screen
+      navigation.navigate('Verification Code Screen', {
+        method,
+        username,
+        verificationInfo,
+      });
+      break;
+    case 'FAILURE':
+      // display an error message to try again
+      setErrorMessage(
+        Localized(
+          'Message failed to send - Please check your info and try again',
+        ),
+      );
+      break;
+  }
+};
+
+export const handleConfirmAccessCode = (
+  status,
+  navigation,
+  setUser,
+  associateId,
+  setErrorMessage,
+) => {
+  switch (status) {
+    case 'VERIFICATION_COMPLETE':
+      // send to biometrics screen and set associateId
+      setUser({ associateId });
+      navigation.navigate('Biometrics Screen');
+      break;
+    case 'CAN_NOT_FIND_TOKEN':
+      // give error that token can not be found
+      setErrorMessage(
+        Localized(
+          'The access code may have expired - Please get a new code try again',
+        ),
+      );
+      break;
+  }
+};
+
 // CANCEL FACEID
 const alertTitle = Localized(Platform.OS === 'ios' ? 'Face ID' : 'Fingerprint');
 const alertBody = Localized(
