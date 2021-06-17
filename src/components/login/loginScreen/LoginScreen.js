@@ -36,27 +36,32 @@ const DividerLine = styled.View`
 
 const LoginScreen = ({ navigation }) => {
   initLanguage();
-  const { theme, setToken, useBiometrics, setUser } = useContext(AppContext);
+  const { theme, setToken, useBiometrics, getBiometrics, setUser } = useContext(
+    AppContext,
+  );
   const {
     email,
     password,
     setErrorMessage,
     errorMessage,
+    isFirstAppLoad,
+    setIsFirstAppLoad,
     clearFields,
   } = useContext(LoginContext);
 
-  const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
+  //TODO - have app start in loading state
+  const [isLoading, setIsLoading] = useState(true);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+  const [loginUser] = useMutation(LOGIN_USER, {
     variables: { ambassaderOnly: true },
     onCompleted: (data) => {
+      setIsLoading(false);
       clearFields();
       // get associate id if it exists
-      if (data.associate) {
-        console.log(`data.associate`, data.associate.associateId);
+      if (data.loginUser.associate) {
         // set id so treeNodeFor query can be called in dashboard
-        const id = data.associate.associateId;
+        const id = data.loginUser.associate.associateId;
         setUser({ associateId: id });
       }
       console.log(`if data:`, data?.loginUser);
@@ -70,20 +75,25 @@ const LoginScreen = ({ navigation }) => {
       );
     },
     onError: (error) => {
+      setIsLoading(false);
       setIsErrorModalOpen(true);
       setErrorMessage(error.message);
     },
   });
 
   useEffect(() => {
-    checkIfUserIsLoggedIn(
-      setToken,
-      loginUser,
-      isFirstAppLoad,
-      setIsFirstAppLoad,
-      navigation,
-    );
-  }, []);
+    const onAppLoad = async () => {
+      await getBiometrics();
+      checkIfUserIsLoggedIn(
+        setToken,
+        loginUser,
+        isFirstAppLoad,
+        setIsFirstAppLoad,
+        navigation,
+      );
+    };
+    onAppLoad();
+  }, [isFirstAppLoad]);
 
   const onFindOutMore = () => {
     Linking.openURL('https://qsciences.com');
@@ -99,6 +109,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const onSubmit = async () => {
+    setIsLoading(true);
     await setIsFirstAppLoad(false);
     await signOutOfFirebase;
     if (!email) {
@@ -120,6 +131,7 @@ const LoginScreen = ({ navigation }) => {
   const [googleRequest, promptAsync] = loginWithGoogle();
 
   const loginToFirebaseAndAppWithSocial = async (socialSignIn, method) => {
+    setIsLoading(true);
     await setIsFirstAppLoad(false);
     await signOutOfFirebase;
     try {
@@ -132,7 +144,7 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return <LoadingScreen />;
   }
 

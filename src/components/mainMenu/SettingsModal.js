@@ -102,10 +102,8 @@ const SettingsModal = ({
   };
 
   useEffect(() => {
-    if (useBiometrics) {
+    if (useBiometrics === true) {
       onFaceID();
-    } else {
-      storeBiometrics(false);
     }
   }, [useBiometrics]);
 
@@ -182,9 +180,7 @@ const SettingsModal = ({
                       <Switch
                         testID="biometrics-switch"
                         value={useBiometrics}
-                        onValueChange={() =>
-                          storeBiometrics(useBiometrics ? false : true)
-                        }
+                        onValueChange={() => storeBiometrics(!useBiometrics)}
                       />
                     </RowContainer>
                   </Flexbox>

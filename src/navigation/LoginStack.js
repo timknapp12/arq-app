@@ -38,8 +38,6 @@ const LoginStack = () => {
     setErrorMessage('');
   };
 
-  console.log(`directScaleUser`, directScaleUser);
-
   const onboardingScreenOptions = {
     title: '',
     headerBackTitleVisible: false,
