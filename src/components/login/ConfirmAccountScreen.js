@@ -162,7 +162,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox align="flex-start">
-          <H4Book>{Localized('Back Office User ID')}</H4Book>
+          <H4Book>{Localized('Back Office Username')}</H4Book>
           <H4Book>{username}</H4Book>
           <Gap />
           <RadioButton

@@ -167,7 +167,7 @@ const CreateAccountScreen = ({ navigation }) => {
 
           <FindOutMore onPress={onFindOutMore} />
 
-          <TermsAndPrivacy />
+          <TermsAndPrivacy navigation={navigation} />
 
           <ErrorModal
             visible={isErrorModalOpen}

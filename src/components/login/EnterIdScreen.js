@@ -37,7 +37,7 @@ const EnterIdScreen = ({ navigation }) => {
   const onSubmit = async () => {
     await getToken(setToken);
     if (!username) {
-      return Alert.alert(Localized('Please enter your back office user id'));
+      return Alert.alert(Localized('Please enter your back office username'));
     }
     // TODO - set real logic for handling errors
     if (username === 'Error') {
@@ -50,7 +50,7 @@ const EnterIdScreen = ({ navigation }) => {
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox width="100%" align="flex-start">
-          <Label>{Localized('Back Office User ID')}</Label>
+          <Label>{Localized('Back Office Username')}</Label>
           <Input
             autoFocus
             testID="enter-username-input"
