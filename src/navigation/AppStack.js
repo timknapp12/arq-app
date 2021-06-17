@@ -5,18 +5,25 @@ import UserInactivity from 'react-native-user-inactivity';
 import Tabs from './Tabs';
 import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
 import AppContext from '../contexts/AppContext';
+import LoginContext from '../contexts/LoginContext';
 import ProspectsStack from './ProspectsStack';
+import { getToken } from '../utils/firebase/login';
 
 const App = createStackNavigator();
 
 const AppStack = () => {
-  const { theme } = useContext(AppContext);
+  const { theme, setToken } = useContext(AppContext);
+  const { setIsFirstAppLoad } = useContext(LoginContext);
   const [isUserActive, setIsUserActive] = useState(true);
 
   const [timer] = useState(1000 * 60 * 20);
 
   const navigation = useNavigation();
-  const signOut = () => navigation.navigate('Login Screen');
+  const signOut = async () => {
+    await getToken(setToken);
+    await setIsFirstAppLoad(true);
+    navigation.navigate('Login Screen');
+  };
 
   const onUserActivity = (isActive) => {
     if (isActive) {

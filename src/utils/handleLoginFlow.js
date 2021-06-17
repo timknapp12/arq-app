@@ -57,13 +57,14 @@ export const handleGetDirectScaleInfo = (
     case 'SUCCESS':
       // TODO - handle Success
       // return username, email, phone, and navigate to confirm account screen
+      setErrorMessage('');
       navigation.navigate('Confirm Account Screen', { username });
       break;
     case 'NOT_FOUND':
       // show an error that there are no results with current id
       setErrorMessage(
         Localized(
-          `Sorry! We can not find anyone with this id - Please try again`,
+          `This id either does not exist or has already been verified in the app - Did you already sign up with other credentials?`,
         ),
       );
       break;
@@ -106,10 +107,12 @@ export const handleLoginValidationProcess = (
     case 'VERIFICATION_COMPLETE':
       //  set associate id and send to dashboard screen
       setUser({ associateId });
+      setErrorMessage('');
       navigation.navigate('App Stack');
       break;
     case 'MESSAGE_SENT':
       // send to verification code screen
+      setErrorMessage('');
       navigation.navigate('Verification Code Screen', {
         method,
         username,
@@ -138,6 +141,7 @@ export const handleConfirmAccessCode = (
     case 'VERIFICATION_COMPLETE':
       // send to biometrics screen and set associateId
       setUser({ associateId });
+      setErrorMessage('');
       navigation.navigate('Biometrics Screen');
       break;
     case 'CAN_NOT_FIND_TOKEN':
@@ -159,7 +163,7 @@ const alertBody = Localized(
 export const cancelFaceIDAlert = (navigation, onFaceID) =>
   Alert.alert(alertTitle, alertBody, [
     {
-      text: Localized('CANCEL'),
+      text: Localized('Cancel'),
       onPress: () => {
         signOutOfFirebase();
         navigation.navigate('Login Screen');

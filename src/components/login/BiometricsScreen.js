@@ -10,7 +10,7 @@ import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, setUseBiometrics } = useContext(AppContext);
+  const { theme, storeBiometrics } = useContext(AppContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
@@ -39,7 +39,7 @@ const BiometricsScreen = ({ navigation }) => {
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
 
-      Alert.alert(Localized('FaceID/Fingerprint is enabled!'));
+      Alert.alert(Localized('Face ID/Fingerprint is enabled!'));
     } catch (error) {
       Alert.alert(Localized('An error as occured'), error?.message);
     }
@@ -61,7 +61,7 @@ const BiometricsScreen = ({ navigation }) => {
   // TODO - find out from backend the highest rank and navigate to next screen accordingly
   const onSubmit = () => {
     // this sets the biometrics in App.js at the root of the project
-    setUseBiometrics(enableBiometrics);
+    storeBiometrics(enableBiometrics);
     navigation.navigate('Create Team Screen');
   };
 

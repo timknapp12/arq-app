@@ -119,8 +119,6 @@ export const loginWithGoogle = () => {
 // dev account dashboard https://developers.facebook.com/apps/319892812842607/dashboard/
 // expo docs: https://docs.expo.io/versions/latest/sdk/facebook/
 
-// to run a test build
-// expo build:ios -t simulator
 // build https://docs.expo.io/distribution/building-standalone-apps/#building-standalone-apps
 
 const facebookAppId = '319892812842607';

@@ -23,9 +23,10 @@ import {
   handleLoginValidationProcess,
   handleConfirmAccessCode,
 } from '../../utils/handleLoginFlow';
+import { getToken } from '../../utils/firebase/login';
 
 const VerificationCodeScreen = ({ navigation, route }) => {
-  const { setUser } = useContext(AppContext);
+  const { setUser, setToken } = useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const { associateId } = directScaleUser;
 
@@ -78,7 +79,8 @@ const VerificationCodeScreen = ({ navigation, route }) => {
     },
   );
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    await getToken(setToken);
     if (!code) {
       return Alert.alert(Localized('Please enter a verification code'));
     }

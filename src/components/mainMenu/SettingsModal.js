@@ -61,14 +61,17 @@ const SettingsModal = ({
   data,
 }) => {
   initLanguage();
-  const { setUseBiometrics } = useContext(AppContext);
+  const { storeBiometrics, useBiometrics } = useContext(AppContext);
   // TODO wire up a mutation when biometrics switch changes
-  const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
+  // const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(useBiometrics);
   const initialState = data.username;
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
 
   const navigation = useNavigation();
-  const signOut = () => navigation.navigate('Login Screen');
+  const signOut = () => {
+    signOutOfFirebase();
+    navigation.navigate('Login Screen');
+  };
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
   // https://docs.expo.io/versions/latest/sdk/local-authentication/
@@ -78,7 +81,7 @@ const SettingsModal = ({
       const isCompatible = await LocalAuthentication.hasHardwareAsync();
 
       if (!isCompatible) {
-        setIsBiometricsEnabled(false);
+        storeBiometrics(false);
         throw new Error(Localized("Your device isn't compatible"));
       }
 
@@ -86,27 +89,25 @@ const SettingsModal = ({
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
       if (!isEnrolled) {
-        setIsBiometricsEnabled(false);
+        storeBiometrics(false);
         throw new Error(Localized('No Faces / Fingers found'));
       }
-      setUseBiometrics(true);
+      storeBiometrics(true);
       // Authenticate user
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
-
-      Alert.alert(Localized('FaceID/Fingerprint is enabled!'));
     } catch (error) {
       Alert.alert(Localized('An error as occured'), error?.message);
     }
   };
 
   useEffect(() => {
-    if (isBiometricsEnabled) {
+    if (useBiometrics) {
       onFaceID();
     } else {
-      setUseBiometrics(false);
+      storeBiometrics(false);
     }
-  }, [isBiometricsEnabled]);
+  }, [useBiometrics]);
 
   return (
     <Modal
@@ -180,9 +181,9 @@ const SettingsModal = ({
                       </H5Secondary>
                       <Switch
                         testID="biometrics-switch"
-                        value={isBiometricsEnabled}
+                        value={useBiometrics}
                         onValueChange={() =>
-                          setIsBiometricsEnabled((state) => !state)
+                          storeBiometrics(useBiometrics ? false : true)
                         }
                       />
                     </RowContainer>
@@ -197,10 +198,7 @@ const SettingsModal = ({
                   }}>
                   <PrimaryButton
                     testID="log-out-button-in-settings"
-                    onPress={() => {
-                      signOutOfFirebase();
-                      signOut();
-                    }}>
+                    onPress={() => signOut()}>
                     {Localized('Sign Out').toUpperCase()}
                   </PrimaryButton>
                 </View>

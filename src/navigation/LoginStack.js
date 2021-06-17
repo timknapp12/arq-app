@@ -29,6 +29,8 @@ const LoginStack = () => {
     primaryPhoneNumber: '',
     secondaryPhoneNumber: '',
   });
+  // we only want to use FaceID on the launch or opening of the app to automatically login the user (if there is a token), and not if they navigate back to the login screen
+  const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
   const clearFields = () => {
     setEmail('');
     setPassword('');
@@ -60,6 +62,8 @@ const LoginStack = () => {
         setErrorMessage,
         directScaleUser,
         setDirectScaleUser,
+        isFirstAppLoad,
+        setIsFirstAppLoad,
         clearFields,
       }}>
       <Login.Navigator

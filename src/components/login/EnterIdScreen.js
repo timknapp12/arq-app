@@ -6,10 +6,13 @@ import QLogoScreenContainer from './QLogoScreenContainer';
 import { Flexbox, PrimaryButton, Label, Input, AlertText } from '../common';
 import { DIRECT_SCALE_INFO } from '../../graphql/mutations';
 import { handleGetDirectScaleInfo } from '../../utils/handleLoginFlow';
+import { getToken } from '../../utils/firebase/login';
 import { Localized } from '../../translations/Localized';
+import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
+  const { setToken } = useContext(AppContext);
   const { setDirectScaleUser } = useContext(LoginContext);
   const [username, setUsername] = useState('15F92');
   const [errorMessage, setErrorMessage] = useState('');
@@ -31,7 +34,8 @@ const EnterIdScreen = ({ navigation }) => {
     },
   });
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    await getToken(setToken);
     if (!username) {
       return Alert.alert(Localized('Please enter your back office user id'));
     }
