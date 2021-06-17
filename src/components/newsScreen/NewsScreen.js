@@ -40,8 +40,7 @@ const FlagIcon = styled.Image`
 
 const NewsScreen = ({ navigation }) => {
   initLanguage();
-  const { storeTimeStamp, userMarket } = useContext(AppContext);
-  storeTimeStamp();
+  const { userMarket } = useContext(AppContext);
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);

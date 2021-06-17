@@ -7,6 +7,7 @@ import { blue } from '../../styles/colors';
 // Avenir-Book
 // Avenir-Heavy
 // Avenir-Black
+// Helvetica
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 export const H2 = styled.Text`
@@ -121,7 +122,6 @@ export const Link = styled.Text`
   font-family: 'Avenir-Heavy';
   color: ${blue};
   font-size: 14px;
-  text-decoration: underline;
   text-decoration-color: ${blue};
   line-height: 19px;
 `;

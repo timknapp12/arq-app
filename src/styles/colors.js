@@ -20,7 +20,7 @@ export const transparentGray = 'rgba(216,216,216, 0.5)';
 
 export const darkgray = '#2C2C2C';
 
-export const blue = '#006699';
+export const blue = '#007985';
 
 // error message
 export const red = '#FF0000';

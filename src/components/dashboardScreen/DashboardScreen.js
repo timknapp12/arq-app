@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
+// import { useQuery } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   Flexbox,
   ScreenContainer,
@@ -9,19 +13,18 @@ import {
   TopButtonBar,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import * as Analytics from 'expo-firebase-analytics';
 import { Localized, initLanguage } from '../../translations/Localized';
 import Overview from './Overview';
 import Rank from './Rank';
 import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
+// import LoadingScreen from '../loadingScreen/LoadingScreen';
 import SettingsModal from '../mainMenu/SettingsModal';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
+// import { GET_USER } from '../../graphql/queries';
 import AppContext from '../../contexts/AppContext';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
 
 const mockUser = {
   lastMonthPV: 150,
@@ -68,14 +71,24 @@ const mockUser = {
 
 const DashboardScreen = ({ navigation }) => {
   const {
-    storeTimeStamp,
     setCorporateResources,
     deviceLanguage,
     userMarket,
+    // user,
+    // setUser,
   } = useContext(AppContext);
   initLanguage;
   const db = firebase.firestore();
-  storeTimeStamp();
+
+  // const [getUser, { loading }] = useQuery(GET_USER, {
+  //   errorPolicy: 'all',
+  //   onCompleted: (data) => {
+  //     console.log(`data`, data?.treeNodeFor);
+  //     // setUser(data.treeNodeFor);
+  //   },
+  //   onError: (error) => console.log(error),
+  // });
+
   const ranklist = [
     {
       legMaxPerc: 0,
@@ -298,6 +311,10 @@ const DashboardScreen = ({ navigation }) => {
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+  // if (loading) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>

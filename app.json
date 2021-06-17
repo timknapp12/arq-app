@@ -2,9 +2,10 @@
   "expo": {
     "name": "q-connect-pro-react-native",
     "slug": "q-connect-pro-react-native",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "q-connect-pro-react-native",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -16,6 +17,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.qsciences.q-connect-pro-staging",
+      "buildNumber": "1.0.2",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
@@ -26,6 +28,7 @@
     },
     "android": {
       "package": "com.qsciences.q_connect_pro_staging",
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
@@ -48,6 +51,9 @@
         }
       }
     },
+    "facebookAppId": "319892812842607",
+    "facebookScheme": "fb319892812842607",
+    "facebookDisplayName": "Q ConnectPro",
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [

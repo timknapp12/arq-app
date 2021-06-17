@@ -30,5 +30,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:348281014348:ios:28b0e855f12e4e03594ce9</string>
+	<key>DATABASE_URL</key>
+	<string>https://q-connect-pro-staging-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

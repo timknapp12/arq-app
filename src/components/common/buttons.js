@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import {
   Switch as NativeSwitch,
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-import { H4Book, H3 } from './texts';
+import { H4Book, H3, Checkmark } from './texts';
+import googleLogo from '../../../assets/icons/logo_google.png';
+import facebookLogo from '../../../assets/icons/f_logo_RGB-White_1024.png';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -160,7 +162,7 @@ const Fill = styled.View`
 export const RadioButton = ({ label = '', isSelected, onPress, ...props }) => {
   return (
     <RadioContainer onPress={onPress} {...props}>
-      <Button style={{ marginEnd: 8 }}>{isSelected && <Fill />}</Button>
+      <Button style={{ marginEnd: 12 }}>{isSelected && <Fill />}</Button>
       <H4Book>{label}</H4Book>
     </RadioContainer>
   );
@@ -170,6 +172,30 @@ RadioButton.propTypes = {
   label: PropTypes.string,
   isSelected: PropTypes.bool,
   onPress: PropTypes.func,
+};
+
+// CHECKBOX BUTTON
+
+const StyledCheckbox = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  border-color: ${(props) => props.theme.primaryTextColor};
+  border-width: ${(props) => (props.selected ? '0px' : '1px')};
+  background-color: ${(props) =>
+    props.selected ? props.theme.primaryButtonBackgroundColor : 'transparent'};
+`;
+
+export const Checkbox = ({ selected = false }) => (
+  <StyledCheckbox selected={selected}>
+    {selected && <Checkmark>&#10003;</Checkmark>}
+  </StyledCheckbox>
+);
+
+Checkbox.propTypes = {
+  selected: PropTypes.bool.isRequired,
 };
 
 // ADD BUTTON
@@ -189,3 +215,40 @@ export const AddButton = styled.TouchableOpacity`
 export const ButtonText = styled(H3)`
   font-family: 'Avenir-Black';
 `;
+// GOOGLE LOGIN
+const imageBackground = {
+  height: 48,
+  width: 48,
+};
+
+const ImageBackground = styled.View`
+  ${sharedCss};
+  ${imageBackground};
+  background-color: white;
+`;
+
+const GoogleImage = styled.Image`
+  height: 24px;
+  width: 24px;
+`;
+
+export const GoogleLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <ImageBackground>
+      <GoogleImage source={googleLogo} />
+    </ImageBackground>
+  </TouchableOpacity>
+);
+
+// FACEBOOK LOGIN
+
+const FacebookImage = styled.Image`
+  height: 48px;
+  width: 48px;
+`;
+
+export const FacebookLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <FacebookImage source={facebookLogo} />
+  </TouchableOpacity>
+);

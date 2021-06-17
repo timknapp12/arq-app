@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { render } from '@testing-library/react-native';
 import AppContext from '../contexts/AppContext';
+import LoginContext from '../contexts/LoginContext';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from '../styles/themes';
 import { ApolloProvider } from '@apollo/client';
@@ -9,13 +10,24 @@ import { client } from '../graphql/client';
 
 // source for set up of config: https://testing-library.com/docs/react-native-testing-library/setup
 jest.mock('@react-navigation/native');
-const setIsSignedIn = jest.fn();
+// const myFunc = jest.fn();
 const AllTheProviders = ({ children }) => {
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>
-        <AppContext.Provider value={{ theme: darkTheme, setIsSignedIn }}>
-          {children}
+        <AppContext.Provider value={{ theme: darkTheme }}>
+          <LoginContext.Provider
+            value={{
+              email: '',
+              password: '',
+              setErrorMessage: () => {},
+              errorMessage: '',
+              isFirstAppLoad: true,
+              setIsFirstAppLoad: () => {},
+              clearFields: () => {},
+            }}>
+            {children}
+          </LoginContext.Provider>
         </AppContext.Provider>
       </ThemeProvider>
     </ApolloProvider>

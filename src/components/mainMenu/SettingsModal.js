@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { useNavigation } from '@react-navigation/native';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -29,9 +31,9 @@ import {
   H5Secondary,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
+import { signOutOfFirebase } from '../../utils/firebase/login';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
-import * as LocalAuthentication from 'expo-local-authentication';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -59,11 +61,17 @@ const SettingsModal = ({
   data,
 }) => {
   initLanguage();
-  const { setIsSignedIn, setUseBiometrics } = useContext(AppContext);
+  const { storeBiometrics, useBiometrics } = useContext(AppContext);
   // TODO wire up a mutation when biometrics switch changes
-  const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
+  // const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(useBiometrics);
   const initialState = data.username;
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
+
+  const navigation = useNavigation();
+  const signOut = () => {
+    signOutOfFirebase();
+    navigation.navigate('Login Screen');
+  };
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
   // https://docs.expo.io/versions/latest/sdk/local-authentication/
@@ -73,7 +81,7 @@ const SettingsModal = ({
       const isCompatible = await LocalAuthentication.hasHardwareAsync();
 
       if (!isCompatible) {
-        setIsBiometricsEnabled(false);
+        storeBiometrics(false);
         throw new Error(Localized("Your device isn't compatible"));
       }
 
@@ -81,27 +89,23 @@ const SettingsModal = ({
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
       if (!isEnrolled) {
-        setIsBiometricsEnabled(false);
+        storeBiometrics(false);
         throw new Error(Localized('No Faces / Fingers found'));
       }
-      setUseBiometrics(true);
+      storeBiometrics(true);
       // Authenticate user
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
-
-      Alert.alert(Localized('FaceID/TouchID is enabled!'));
     } catch (error) {
       Alert.alert(Localized('An error as occured'), error?.message);
     }
   };
 
   useEffect(() => {
-    if (isBiometricsEnabled) {
+    if (useBiometrics === true) {
       onFaceID();
-    } else {
-      setUseBiometrics(false);
     }
-  }, [isBiometricsEnabled]);
+  }, [useBiometrics]);
 
   return (
     <Modal
@@ -171,14 +175,12 @@ const SettingsModal = ({
 
                     <RowContainer>
                       <H5Secondary>
-                        {Localized('Face ID or Fingerprint Log In')}
+                        {Localized('Face ID or Fingerprint Sign In')}
                       </H5Secondary>
                       <Switch
                         testID="biometrics-switch"
-                        value={isBiometricsEnabled}
-                        onValueChange={() =>
-                          setIsBiometricsEnabled((state) => !state)
-                        }
+                        value={useBiometrics}
+                        onValueChange={() => storeBiometrics(!useBiometrics)}
                       />
                     </RowContainer>
                   </Flexbox>
@@ -192,8 +194,8 @@ const SettingsModal = ({
                   }}>
                   <PrimaryButton
                     testID="log-out-button-in-settings"
-                    onPress={() => setIsSignedIn(false)}>
-                    {Localized('Log Out').toUpperCase()}
+                    onPress={() => signOut()}>
+                    {Localized('Sign Out').toUpperCase()}
                   </PrimaryButton>
                 </View>
               </Flexbox>
