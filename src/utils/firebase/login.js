@@ -53,6 +53,7 @@ export const checkIfUserIsLoggedIn = async (
   isFirstAppLoad,
   setIsFirstAppLoad,
   navigation,
+  setIsLoading = () => {},
 ) => {
   firebase.auth().onAuthStateChanged((user) => {
     console.log('AUTH STATE CHANGED CALLED ');
@@ -65,6 +66,7 @@ export const checkIfUserIsLoggedIn = async (
         }
       });
     } else {
+      setIsLoading(false);
       navigation.navigate('Login Screen');
     }
   });

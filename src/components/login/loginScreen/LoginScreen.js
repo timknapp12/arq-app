@@ -90,6 +90,7 @@ const LoginScreen = ({ navigation }) => {
         isFirstAppLoad,
         setIsFirstAppLoad,
         navigation,
+        setIsLoading,
       );
     };
     onAppLoad();
