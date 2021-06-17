@@ -10,6 +10,7 @@ import {
   concat,
 } from '@apollo/client';
 import fetch from 'cross-fetch';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -34,7 +35,7 @@ i18n.fallbacks = true;
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
   const [user, setUser] = useState(null);
-  const [useBiometrics, setUseBiometrics] = useState(true);
+  const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
     'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
@@ -46,11 +47,32 @@ const App = () => {
   const [deviceLanguage, setDeviceLanguage] = useState('en');
   const [userMarket, setUserMarket] = useState('us');
   const [token, setToken] = useState('');
-  // console.log(`token`, token);
+  console.log(`token`, token);
 
   useEffect(() => {
     setDeviceLanguage(initLanguage());
   }, [initLanguage]);
+
+  const storeBiometrics = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@biometrics', jsonValue);
+      return setUseBiometrics(value);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const getBiometrics = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@biometrics');
+      const parsedValue = jsonValue != null ? JSON.parse(jsonValue) : null;
+      // if there is nothing saved in storage then set to false
+      return setUseBiometrics(parsedValue ? parsedValue : false);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   const httpLink = new HttpLink({
@@ -86,7 +108,8 @@ const App = () => {
             user,
             setUser,
             useBiometrics,
-            setUseBiometrics,
+            storeBiometrics,
+            getBiometrics,
             corporateResources,
             setCorporateResources,
             deviceLanguage,

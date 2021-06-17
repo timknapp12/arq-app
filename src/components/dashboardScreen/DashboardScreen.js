@@ -4,6 +4,7 @@ import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
+// import { useQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
 import {
   Flexbox,
@@ -18,9 +19,11 @@ import Rank from './Rank';
 import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
+// import LoadingScreen from '../loadingScreen/LoadingScreen';
 import SettingsModal from '../mainMenu/SettingsModal';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
+// import { GET_USER } from '../../graphql/queries';
 import AppContext from '../../contexts/AppContext';
 
 const mockUser = {
@@ -67,11 +70,24 @@ const mockUser = {
 };
 
 const DashboardScreen = ({ navigation }) => {
-  const { setCorporateResources, deviceLanguage, userMarket } = useContext(
-    AppContext,
-  );
+  const {
+    setCorporateResources,
+    deviceLanguage,
+    userMarket,
+    // user,
+    // setUser,
+  } = useContext(AppContext);
   initLanguage;
   const db = firebase.firestore();
+
+  // const [getUser, { loading }] = useQuery(GET_USER, {
+  //   errorPolicy: 'all',
+  //   onCompleted: (data) => {
+  //     console.log(`data`, data?.treeNodeFor);
+  //     // setUser(data.treeNodeFor);
+  //   },
+  //   onError: (error) => console.log(error),
+  // });
 
   const ranklist = [
     {
@@ -295,6 +311,10 @@ const DashboardScreen = ({ navigation }) => {
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+  // if (loading) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>

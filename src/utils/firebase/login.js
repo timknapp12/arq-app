@@ -53,6 +53,7 @@ export const checkIfUserIsLoggedIn = async (
   isFirstAppLoad,
   setIsFirstAppLoad,
   navigation,
+  // this is passed from sign IN screen but not sign UP screen
   setIsLoading = () => {},
 ) => {
   firebase.auth().onAuthStateChanged((user) => {

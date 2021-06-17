@@ -20,6 +20,7 @@ import {
   encodeEmail,
   encodePhone,
 } from '../../utils/encodeCredentials/encodeCredentials';
+import { getToken } from '../../utils/firebase/login';
 import { LOGIN_VALIDATION_PROCESS } from '../../graphql/mutations';
 import { handleLoginValidationProcess } from '../../utils/handleLoginFlow';
 
@@ -28,7 +29,7 @@ const Gap = styled.View`
 `;
 
 const ConfirmAccountScreen = ({ navigation, route }) => {
-  const { setUser } = useContext(AppContext);
+  const { setUser, setToken } = useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const {
     associateId,
@@ -113,7 +114,8 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     refMap[selectedOption].current.focus();
   }, [selectedOption]);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    await getToken(setToken);
     if (selectedOption === 'password' && !password) {
       return Alert.alert(Localized('Please enter current password'));
     }
