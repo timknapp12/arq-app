@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { render } from '@testing-library/react-native';
 import AppContext from '../contexts/AppContext';
+import LoginContext from '../contexts/LoginContext';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme } from '../styles/themes';
 import { ApolloProvider } from '@apollo/client';
@@ -15,7 +16,18 @@ const AllTheProviders = ({ children }) => {
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>
         <AppContext.Provider value={{ theme: darkTheme }}>
-          {children}
+          <LoginContext.Provider
+            value={{
+              email: '',
+              password: '',
+              setErrorMessage: () => {},
+              errorMessage: '',
+              isFirstAppLoad: true,
+              setIsFirstAppLoad: () => {},
+              clearFields: () => {},
+            }}>
+            {children}
+          </LoginContext.Provider>
         </AppContext.Provider>
       </ThemeProvider>
     </ApolloProvider>
