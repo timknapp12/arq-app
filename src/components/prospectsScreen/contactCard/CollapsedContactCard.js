@@ -72,8 +72,8 @@ const CollapsedContactCard = ({
             onEdit={() => {}}
             onMove={() => {}}
             onRemove={() => {}}
-            onEmail={() => {}}
-            onMessage={() => {}}
+            email={email}
+            phone={phone}
           />
         )}
       </TouchableOpacity>

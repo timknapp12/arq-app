@@ -35,13 +35,13 @@ const ContactCalloutMenu = ({
   onEdit,
   onMove,
   onRemove,
-  onEmail,
-  onMessage,
+  email,
+  phone,
   ...props
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-  const { view } = useContext(ProspectsContext);
+  const { view, onEmail, onMessage } = useContext(ProspectsContext);
 
   const iconStyle = {
     marginEnd: 8,
@@ -75,18 +75,22 @@ const ContactCalloutMenu = ({
           <H4Book>{Localized('Remove')}</H4Book>
         </Row>
       </CalloutButton>
-      <CalloutButton onPress={onEmail}>
-        <Row>
-          <EmailIcon style={iconStyle} />
-          <H4Book>{Localized('Email')}</H4Book>
-        </Row>
-      </CalloutButton>
-      <CalloutButton onPress={onMessage}>
-        <Row>
-          <MessageIcon style={iconStyle} />
-          <H4Book>{Localized('Text Message')}</H4Book>
-        </Row>
-      </CalloutButton>
+      {email && (
+        <CalloutButton onPress={() => onEmail(email)}>
+          <Row>
+            <EmailIcon style={iconStyle} />
+            <H4Book>{Localized('Email')}</H4Book>
+          </Row>
+        </CalloutButton>
+      )}
+      {phone && (
+        <CalloutButton onPress={() => onMessage(phone)}>
+          <Row>
+            <MessageIcon style={iconStyle} />
+            <H4Book>{Localized('Text Message')}</H4Book>
+          </Row>
+        </CalloutButton>
+      )}
     </Container>
   );
 };
@@ -95,8 +99,8 @@ ContactCalloutMenu.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onEmail: PropTypes.func.isRequired,
-  onMessage: PropTypes.func.isRequired,
+  email: PropTypes.string,
+  phone: PropTypes.string,
 };
 
 export default ContactCalloutMenu;

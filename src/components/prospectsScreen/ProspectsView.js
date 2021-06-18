@@ -20,7 +20,7 @@ const ProspectsView = () => {
         onStartShouldSetResponder={() => true}>
         {contacts.length < 1 ? (
           <Flexbox>
-            <H5>{Localized('There are no saved contacts')}</H5>
+            <H5>{Localized('There are no saved prospects')}</H5>
           </Flexbox>
         ) : null}
         {contacts.map((item, index) => (
