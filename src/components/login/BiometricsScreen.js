@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Platform, Alert } from 'react-native';
+import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Flexbox, PrimaryButton, H4, Checkbox } from '../common';
 import FaceIDIcon from '../../../assets/icons/face-id.svg';
@@ -15,6 +15,11 @@ const BiometricsScreen = ({ navigation }) => {
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
   );
+
+  // if the user uses textContentType="oneTimeCode" on ios on previous screen (VerificationCodeScreen.js) then the keyboard is automatically pulled up on this screen and it is not necessary
+  useEffect(() => {
+    Keyboard.dismiss();
+  }, []);
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
   // https://docs.expo.io/versions/latest/sdk/local-authentication/
