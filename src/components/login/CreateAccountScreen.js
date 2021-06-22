@@ -17,7 +17,6 @@ import {
   loginWithFacebook,
   loginWithGoogle,
   getToken,
-  signOutOfFirebase,
 } from '../../utils/firebase/login';
 import LoginContext from '../../contexts/LoginContext';
 import AppContext from '../../contexts/AppContext';
@@ -33,7 +32,7 @@ const DividerLine = styled.View`
 `;
 
 const CreateAccountScreen = ({ navigation }) => {
-  const { theme, setToken } = useContext(AppContext);
+  const { theme, setToken, signOutOfFirebase } = useContext(AppContext);
   const { email, password, confirmPassword, clearFields } = useContext(
     LoginContext,
   );
@@ -43,7 +42,10 @@ const CreateAccountScreen = ({ navigation }) => {
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     variables: { ambassaderOnly: true },
     onCompleted: (data) => {
+      setIsErrorModalOpen(false);
+      setErrorMessage('');
       clearFields();
+
       console.log(`if data:`, data?.loginUser);
       const status = data?.loginUser?.loginStatus;
       handleLoginUser(
@@ -81,8 +83,11 @@ const CreateAccountScreen = ({ navigation }) => {
     }
     try {
       await createAccount(email, password, setErrorMessage);
-      await getToken(setToken);
-      await loginUser();
+      setTimeout(async () => {
+        await getToken().then((result) => setToken(result));
+        console.log('setting token in create account with email');
+        await loginUser();
+      }, 1000);
     } catch (error) {
       console.log(`error`, error);
     }
@@ -91,7 +96,7 @@ const CreateAccountScreen = ({ navigation }) => {
   const [googleRequest, promptAsync] = loginWithGoogle();
 
   const loginToFirebaseAndAppWithSocial = async (socialSignIn) => {
-    await signOutOfFirebase;
+    await signOutOfFirebase();
     try {
       await socialSignIn();
       await getToken(setToken);

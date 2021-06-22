@@ -43,8 +43,6 @@ const BiometricsScreen = ({ navigation }) => {
       // Authenticate user
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
-
-      Alert.alert(Localized('Face ID/Fingerprint is enabled!'));
     } catch (error) {
       Alert.alert(Localized('An error as occured'), error?.message);
     }

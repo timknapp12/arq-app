@@ -31,7 +31,6 @@ import {
   H5Secondary,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-import { signOutOfFirebase } from '../../utils/firebase/login';
 import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
 
@@ -61,7 +60,9 @@ const SettingsModal = ({
   data,
 }) => {
   initLanguage();
-  const { storeBiometrics, useBiometrics } = useContext(AppContext);
+  const { storeBiometrics, useBiometrics, signOutOfFirebase } = useContext(
+    AppContext,
+  );
   // TODO wire up a mutation when biometrics switch changes
   // const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(useBiometrics);
   const initialState = data.username;

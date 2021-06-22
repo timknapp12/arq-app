@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Animated } from 'react-native';
@@ -6,7 +6,7 @@ import { Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4Book } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-import { signOutOfFirebase } from '../../utils/firebase/login';
+import AppContext from '../../contexts/AppContext';
 
 const SideMenu = styled.View`
   z-index: 2;
@@ -34,6 +34,7 @@ const PopoutMenu = ({
   navigation,
 }) => {
   initLanguage();
+  const { signOutOfFirebase } = useContext(AppContext);
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableContainer>
@@ -80,8 +81,8 @@ const PopoutMenu = ({
 
       <TouchableContainer>
         <Touchable
-          onPress={() => {
-            signOutOfFirebase();
+          onPress={async () => {
+            await signOutOfFirebase();
             navigation.navigate('Login Screen');
           }}>
           <H4Book>{Localized('Sign Out')}</H4Book>
