@@ -1,6 +1,10 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import * as Analytics from 'expo-firebase-analytics';
+import firebase from 'firebase';
+import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Facebook from 'expo-facebook';
 import { useMutation } from '@apollo/client';
 import { Alert, Platform, View, Linking } from 'react-native';
 import { Flexbox, PrimaryButton, AlertText, H4Secondary } from '../common';
@@ -12,15 +16,10 @@ import CreateAccountAndForgotPassword from './loginScreen/CreateAccountAndForgot
 import FindOutMore from './loginScreen/FindOutMore';
 import TermsAndPrivacy from './loginScreen/TermsAndPrivacy';
 import ErrorModal from '../errorModal/ErrorModal';
-import {
-  createAccount,
-  loginWithFacebook,
-  loginWithGoogle,
-  getToken,
-} from '../../utils/firebase/login';
 import LoginContext from '../../contexts/LoginContext';
 import AppContext from '../../contexts/AppContext';
 import { Localized } from '../../translations/Localized';
+import { facebookAppId, facebookDisplayName } from '../../../firebase.config';
 import { LOGIN_USER } from '../../graphql/mutations';
 import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
 
@@ -68,6 +67,13 @@ const CreateAccountScreen = ({ navigation }) => {
 
   const isButtonDisabled = !email || !password || !confirmPassword;
 
+  const loginAnalytics = (method) => {
+    Analytics.logEvent(`login_with_${method}`, {
+      screen: 'Login Screen',
+      purpose: 'User attempted to login to app',
+    });
+  };
+
   const onSubmit = async () => {
     if (!email) {
       return Alert.alert('Please enter an email address');
@@ -81,28 +87,93 @@ const CreateAccountScreen = ({ navigation }) => {
     if (password !== confirmPassword) {
       return Alert.alert('Passwords must be matching. Please try again');
     }
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        var user = userCredential.user;
+        user
+          .getIdToken(/* forceRefresh */ true)
+          .then((idToken) => setToken(idToken))
+          .then(() => loginUser())
+          .then(() => loginAnalytics('email'))
+          .catch((error) => console.log(`error`, error));
+      })
+      .catch((error) => setErrorMessage(error.message));
+  };
+
+  // login with google
+  const signInWithGoogleAsync = async () => {
+    await signOutOfFirebase();
     try {
-      await createAccount(email, password, setErrorMessage);
-      setTimeout(async () => {
-        await getToken().then((result) => setToken(result));
-        console.log('setting token in create account with email');
-        await loginUser();
-      }, 1000);
+      await GoogleSignIn.initAsync();
+    } catch ({ message }) {
+      setErrorMessage(message);
+    }
+
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if (type === 'success') {
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          user.auth.idToken,
+          user.auth.accessToken,
+        );
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((userCredential) => {
+            var user = userCredential.user;
+            user
+              .getIdToken(/* forceRefresh */ true)
+              .then((idToken) => setToken(idToken))
+              .then(() => loginUser())
+              .then(() => loginAnalytics('google'))
+              .catch((error) => console.log(`error`, error));
+          })
+          .catch(function (error) {
+            console.error('Error with Firebase sign in ', error.message);
+          });
+      } else {
+        console.log(`type`, type);
+      }
     } catch (error) {
-      console.log(`error`, error);
+      setErrorMessage(error.message);
     }
   };
 
-  const [googleRequest, promptAsync] = loginWithGoogle();
-
-  const loginToFirebaseAndAppWithSocial = async (socialSignIn) => {
+  // login with facebook
+  const loginWithFacebook = async () => {
     await signOutOfFirebase();
-    try {
-      await socialSignIn();
-      await getToken(setToken);
-      await loginUser();
-    } catch (error) {
-      console.log(`error.message`, error.message);
+    await Facebook.initializeAsync({
+      appId: facebookAppId,
+      appName: facebookDisplayName,
+    });
+
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['email', 'public_profile'],
+    });
+
+    if (type === 'success') {
+      // Build Firebase credential with the Facebook access token.
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      console.log(`credential`, credential);
+      // Sign in with credential from the Facebook user.
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then((userCredential) => {
+          var user = userCredential.user;
+          user
+            .getIdToken(/* forceRefresh */ true)
+            .then((idToken) => setToken(idToken))
+            .then(() => loginUser())
+            .then(() => loginAnalytics('facebook'))
+            .catch((error) => console.log(`error`, error));
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
     }
   };
 
@@ -124,11 +195,8 @@ const CreateAccountScreen = ({ navigation }) => {
           accessibilityLabel="Sign up Form">
           <SocialSignIn
             title={Localized('Sign up with')}
-            googleDisabled={!googleRequest}
-            googleSignIn={() => loginToFirebaseAndAppWithSocial(promptAsync)}
-            facebookSignIn={() =>
-              loginToFirebaseAndAppWithSocial(loginWithFacebook)
-            }
+            googleSignIn={signInWithGoogleAsync}
+            facebookSignIn={loginWithFacebook}
           />
 
           <Flexbox direction="row">

@@ -2,7 +2,7 @@
   "expo": {
     "name": "q-connect-pro-react-native",
     "slug": "q-connect-pro-react-native",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "q-connect-pro-react-native",
@@ -17,7 +17,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.qsciences.q-connect-pro-staging",
-      "buildNumber": "1.0.2",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd"
+        }
+      },
+      "buildNumber": "1.0.4",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {

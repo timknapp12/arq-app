@@ -49,6 +49,15 @@ const App = () => {
   const [token, setToken] = useState('');
   console.log(`token`, token);
 
+  const signOutOfFirebase = () => {
+    try {
+      setToken('');
+      firebase.auth().signOut();
+    } catch (err) {
+      console.log(`err`, err.message);
+    }
+  };
+
   useEffect(() => {
     setDeviceLanguage(initLanguage());
   }, [initLanguage]);
@@ -117,6 +126,7 @@ const App = () => {
             setUserMarket,
             token,
             setToken,
+            signOutOfFirebase,
           }}>
           <StatusBar
             backgroundColor={theme.backgroundColor}

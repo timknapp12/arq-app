@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import * as Analytics from 'expo-firebase-analytics';
+import firebase from 'firebase';
+import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Facebook from 'expo-facebook';
 import { useMutation } from '@apollo/client';
 import { Platform, Linking, Alert, View } from 'react-native';
-import * as Analytics from 'expo-firebase-analytics';
 import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
@@ -16,14 +19,11 @@ import SocialSignIn from './SocialSignIn';
 import FindOutMore from './FindOutMore';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import ErrorModal from '../../errorModal/ErrorModal';
+import { checkIfUserIsLoggedIn } from '../../../utils/firebase/login';
 import {
-  signInWithEmail,
-  loginWithFacebook,
-  loginWithGoogle,
-  getToken,
-  signOutOfFirebase,
-  checkIfUserIsLoggedIn,
-} from '../../../utils/firebase/login';
+  facebookAppId,
+  facebookDisplayName,
+} from '../../../../firebase.config';
 import { LOGIN_USER } from '../../../graphql/mutations';
 import { handleLoginUser, onFaceID } from '../../../utils/handleLoginFlow';
 
@@ -36,9 +36,14 @@ const DividerLine = styled.View`
 
 const LoginScreen = ({ navigation }) => {
   initLanguage();
-  const { theme, setToken, useBiometrics, getBiometrics, setUser } = useContext(
-    AppContext,
-  );
+  const {
+    theme,
+    setToken,
+    useBiometrics,
+    getBiometrics,
+    setUser,
+    signOutOfFirebase,
+  } = useContext(AppContext);
   const {
     email,
     password,
@@ -53,10 +58,12 @@ const LoginScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const [loginUser] = useMutation(LOGIN_USER, {
+  const [loginUser, { loading: loadingLoginUser }] = useMutation(LOGIN_USER, {
     variables: { ambassaderOnly: true },
     onCompleted: (data) => {
       setIsLoading(false);
+      setIsErrorModalOpen(false);
+      setErrorMessage('');
       clearFields();
       // get associate id if it exists
       if (data.loginUser.associate) {
@@ -72,11 +79,11 @@ const LoginScreen = ({ navigation }) => {
         useBiometrics,
         onFaceID,
         isFirstAppLoad,
+        signOutOfFirebase,
       );
     },
     onError: (error) => {
       setIsLoading(false);
-      setIsErrorModalOpen(true);
       setErrorMessage(error.message);
     },
   });
@@ -84,17 +91,24 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     const onAppLoad = async () => {
       await getBiometrics();
-      checkIfUserIsLoggedIn(
-        setToken,
-        loginUser,
-        isFirstAppLoad,
-        setIsFirstAppLoad,
-        navigation,
-        setIsLoading,
-      );
+      if (useBiometrics) {
+        checkIfUserIsLoggedIn(
+          setToken,
+          loginUser,
+          isFirstAppLoad,
+          setIsFirstAppLoad,
+          setIsLoading,
+        );
+      } else {
+        setIsLoading(false);
+      }
     };
     onAppLoad();
-  }, [isFirstAppLoad]);
+    return () => {
+      setIsErrorModalOpen(false);
+      setErrorMessage('');
+    };
+  }, [isFirstAppLoad, useBiometrics]);
 
   const onFindOutMore = () => {
     Linking.openURL('https://qsciences.com');
@@ -109,43 +123,114 @@ const LoginScreen = ({ navigation }) => {
     });
   };
 
+  // login with email and password
   const onSubmit = async () => {
-    setIsLoading(true);
     await setIsFirstAppLoad(false);
-    await signOutOfFirebase;
+    await signOutOfFirebase();
     if (!email) {
       return Alert.alert(Localized('Please enter an email address'));
     }
     if (!password) {
       return Alert.alert(Localized('Please enter a password'));
     }
-    try {
-      await signInWithEmail(email, password, setErrorMessage);
-      await getToken(setToken);
-      await loginUser();
-      loginAnalytics('email');
-    } catch (error) {
-      console.log(`error`, error.message);
-    }
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        var user = userCredential.user;
+        user
+          .getIdToken(/* forceRefresh */ true)
+          .then((idToken) => setToken(idToken))
+          .then(() => loginUser())
+          .then(() => loginAnalytics('email'))
+          .catch((error) => console.log(`error`, error));
+      })
+      .catch((error) => setErrorMessage(error.message));
   };
 
-  const [googleRequest, promptAsync] = loginWithGoogle();
-
-  const loginToFirebaseAndAppWithSocial = async (socialSignIn, method) => {
-    setIsLoading(true);
+  // login with google
+  // standalone app for google sign in https://docs.expo.io/versions/latest/sdk/google-sign-in/
+  // build https://docs.expo.io/distribution/building-standalone-apps/#building-standalone-apps
+  const signInWithGoogleAsync = async () => {
     await setIsFirstAppLoad(false);
-    await signOutOfFirebase;
+    await signOutOfFirebase();
     try {
-      await socialSignIn();
-      await getToken(setToken);
-      await loginUser();
-      loginAnalytics(method);
+      await GoogleSignIn.initAsync();
+    } catch ({ message }) {
+      setErrorMessage(message);
+    }
+
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if (type === 'success') {
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          user.auth.idToken,
+          user.auth.accessToken,
+        );
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((userCredential) => {
+            var user = userCredential.user;
+            user
+              .getIdToken(/* forceRefresh */ true)
+              .then((idToken) => setToken(idToken))
+              .then(() => loginUser())
+              .then(() => loginAnalytics('google'))
+              .catch((error) => console.log(`error`, error));
+          })
+          .catch(function (error) {
+            console.error('Error with Firebase sign in ', error.message);
+          });
+      } else {
+        console.log(`type`, type);
+      }
     } catch (error) {
-      console.log(`error.message`, error.message);
+      setErrorMessage(error.message);
     }
   };
 
-  if (isLoading) {
+  // login with facebook
+  // https://docs.expo.io/guides/using-firebase/#user-authentication
+  // dev account dashboard https://developers.facebook.com/apps/319892812842607/dashboard/
+  // expo docs: https://docs.expo.io/versions/latest/sdk/facebook/
+  const loginWithFacebook = async () => {
+    await setIsFirstAppLoad(false);
+    await signOutOfFirebase();
+    await Facebook.initializeAsync({
+      appId: facebookAppId,
+      appName: facebookDisplayName,
+    });
+
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['email', 'public_profile'],
+    });
+
+    if (type === 'success') {
+      // Build Firebase credential with the Facebook access token.
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      console.log(`credential`, credential);
+      // Sign in with credential from the Facebook user.
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then((userCredential) => {
+          var user = userCredential.user;
+          user
+            .getIdToken(/* forceRefresh */ true)
+            .then((idToken) => setToken(idToken))
+            .then(() => loginUser())
+            .then(() => loginAnalytics('facebook'))
+            .catch((error) => console.log(`error`, error));
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+    }
+  };
+
+  if (isLoading || loadingLoginUser) {
     return <LoadingScreen />;
   }
 
@@ -163,13 +248,8 @@ const LoginScreen = ({ navigation }) => {
           accessibilityLabel="Login Form">
           <SocialSignIn
             title={Localized('Sign in with')}
-            googleDisabled={!googleRequest}
-            googleSignIn={() =>
-              loginToFirebaseAndAppWithSocial(promptAsync, 'google')
-            }
-            facebookSignIn={() =>
-              loginToFirebaseAndAppWithSocial(loginWithFacebook, 'facebook')
-            }
+            googleSignIn={signInWithGoogleAsync}
+            facebookSignIn={loginWithFacebook}
           />
 
           <Flexbox direction="row">
