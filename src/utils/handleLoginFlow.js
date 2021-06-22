@@ -1,7 +1,6 @@
 import { Alert, Platform } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Localized } from '../translations/Localized';
-import { signOutOfFirebase } from '../utils/firebase/login';
 
 // run this anytime login user mutation is called
 export const handleLoginUser = (
@@ -10,6 +9,7 @@ export const handleLoginUser = (
   useBiometrics,
   onFaceID,
   isFirstAppLoad = false,
+  signOutOfFirebase,
 ) => {
   switch (status) {
     case 'SUCCESS':
@@ -17,7 +17,7 @@ export const handleLoginUser = (
       if (isFirstAppLoad) {
         // using faceID is only available if useBiometrics has been set to true in settings or during onboarding flow
         if (useBiometrics) {
-          onFaceID(navigation, onFaceID);
+          onFaceID(navigation, onFaceID, signOutOfFirebase);
         } else {
           signOutOfFirebase();
         }
@@ -160,7 +160,7 @@ const alertTitle = Localized(Platform.OS === 'ios' ? 'Face ID' : 'Fingerprint');
 const alertBody = Localized(
   Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
 );
-export const cancelFaceIDAlert = (navigation, onFaceID) =>
+export const cancelFaceIDAlert = (navigation, onFaceID, signOutOfFirebase) =>
   Alert.alert(alertTitle, alertBody, [
     {
       text: Localized('Cancel'),
@@ -171,19 +171,19 @@ export const cancelFaceIDAlert = (navigation, onFaceID) =>
     },
     {
       text: Localized('Sign in'),
-      onPress: () => onFaceID(navigation, onFaceID),
+      onPress: () => onFaceID(navigation, onFaceID, signOutOfFirebase),
     },
   ]);
 
 // FACE ID/FINGERPRINT LOGIN
-export const onFaceID = async (navigation, onFaceID) => {
+export const onFaceID = async (navigation, onFaceID, signOutOfFirebase) => {
   try {
     // Authenticate user
     const result = await LocalAuthentication.authenticateAsync();
     if (result.success) {
       navigation.navigate('App Stack');
     } else {
-      cancelFaceIDAlert(navigation, onFaceID);
+      cancelFaceIDAlert(navigation, onFaceID, signOutOfFirebase);
     }
   } catch (error) {
     console.log(`error`, error);
