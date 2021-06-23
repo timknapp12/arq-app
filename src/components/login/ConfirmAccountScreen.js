@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Alert } from 'react-native';
+import { Alert, Keyboard } from 'react-native';
 import { useMutation } from '@apollo/client';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import {
@@ -107,7 +107,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     phone: phoneRef,
     secondPhone: secondPhoneRef,
   };
-
+  // TODO - set keyboard avoiding view
   // WARNING - it actually sends an email and text message
 
   useEffect(() => {
@@ -231,8 +231,8 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                 editable={selectedOption === 'phone'}
                 keyboardType="phone-pad"
                 textContentType="telephoneNumber"
-                returnKeyType="go"
-                onSubmitEditing={onSubmit}
+                returnKeyType="done"
+                onSubmitEditing={() => Keyboard.dismiss()}
               />
             </>
           ) : null}

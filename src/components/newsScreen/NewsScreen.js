@@ -114,7 +114,7 @@ const NewsScreen = ({ navigation }) => {
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
-          profileUrl={mockUser.personalInfo.image.url}
+          profileUrl={mockUser.associate.profileUrl}
         />
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
@@ -201,7 +201,7 @@ const NewsScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={mockUser.personalInfo}
+            data={mockUser.associate}
             saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}
@@ -209,7 +209,7 @@ const NewsScreen = ({ navigation }) => {
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={mockUser.personalInfo}
+            data={mockUser.associate}
           />
         )}
         {isMarketModalOpen && (

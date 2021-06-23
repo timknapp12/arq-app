@@ -125,7 +125,7 @@ const ResourcesScreen = ({ navigation }) => {
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
-          profileUrl={mockUser.personalInfo.image.url}
+          profileUrl={mockUser.associate.profileUrl}
         />
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
@@ -185,7 +185,7 @@ const ResourcesScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={mockUser.personalInfo}
+            data={mockUser.associate}
             saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}
@@ -193,7 +193,7 @@ const ResourcesScreen = ({ navigation }) => {
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={mockUser.personalInfo}
+            data={mockUser.associate}
           />
         )}
       </ScreenContainer>

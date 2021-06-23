@@ -25,7 +25,7 @@ const NewsCardMap = ({ items, isMenuOpen, fadeOut }) => {
 NewsCardMap.propTypes = {
   items: PropTypes.array,
   isMenuOpen: PropTypes.bool.isRequired,
-  fadeOut: PropTypes.bool.isRequired,
+  fadeOut: PropTypes.func.isRequired,
 };
 
 export default NewsCardMap;

@@ -51,7 +51,7 @@ const CameraButton = styled.TouchableOpacity`
 
 const ProfileImage = ({
   handleChange,
-  image,
+  profileUrl,
   setIsSaveButtonVisisble,
   initials = '',
   setIsNewImageSelected,
@@ -93,10 +93,7 @@ const ProfileImage = ({
     });
 
     if (!result.cancelled) {
-      handleChange('image', {
-        ...image,
-        url: result.uri,
-      });
+      handleChange('profileUrl', result.uri);
       setIsSaveButtonVisisble(true);
       setIsNewImageSelected(true);
     }
@@ -109,10 +106,7 @@ const ProfileImage = ({
       quality: 1,
     });
     if (!result.cancelled) {
-      handleChange('image', {
-        ...image,
-        url: result.uri,
-      });
+      handleChange('profileUrl', result.uri);
       setIsSaveButtonVisisble(true);
       setIsNewImageSelected(true);
     }
@@ -125,8 +119,8 @@ const ProfileImage = ({
   }
   return (
     <ImageContainer>
-      {image.url ? (
-        <Avatar source={{ uri: image.url }} />
+      {profileUrl ? (
+        <Avatar source={{ uri: profileUrl }} />
       ) : (
         <DefaultFiller>
           <Initials>{initials}</Initials>
@@ -146,7 +140,7 @@ const ProfileImage = ({
 
 ProfileImage.propTypes = {
   handleChange: PropTypes.func.isRequired,
-  image: PropTypes.object.isRequired,
+  profileUrl: PropTypes.string,
   setIsSaveButtonVisisble: PropTypes.func.isRequired,
   initials: PropTypes.string,
   setIsNewImageSelected: PropTypes.func.isRequired,

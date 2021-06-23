@@ -119,7 +119,7 @@ const MyInfoModal = ({
     }
   };
   const validatePhone = () => {
-    if (!phone) {
+    if (!primaryPhoneNumber) {
       setIsPhoneError(true);
       return false;
     } else {
@@ -155,7 +155,7 @@ const MyInfoModal = ({
     }
   };
   const validateZipcode = () => {
-    if (!zipcode) {
+    if (!zip) {
       setIsZipcodeError(true);
       return false;
     } else {
@@ -164,7 +164,7 @@ const MyInfoModal = ({
     }
   };
   const validateCountry = () => {
-    if (!country) {
+    if (!countryCode) {
       setIsCountryError(true);
       return false;
     } else {
@@ -219,29 +219,27 @@ const MyInfoModal = ({
   countryList = countryMap[localeLanguageTag] || enCountries;
 
   const {
-    image,
+    profileUrl,
     firstName,
     lastName,
     displayName,
     email,
-    phone,
+    primaryPhoneNumber,
     associateId,
-    address1,
-    address2,
-    city,
-    state,
-    zipcode,
-    country,
+    address,
   } = myInfo;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
+  const { address1, address2, city, state, zip, countryCode } = address;
+
+  // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
-    if (country === 'us') {
+    if (countryCode === 'us') {
       usStates.find((item) => item.value === state)
-        ? handleChange('state', state)
-        : handleChange('state', null);
+        ? handleChange('address', { ...address, state })
+        : handleChange('address', { ...address, state: null });
     }
-  }, [country]);
+  }, [countryCode]);
   return (
     <Modal
       animationType="slide"
@@ -287,7 +285,7 @@ const MyInfoModal = ({
                 <Flexbox width="85%">
                   <NameContainer>
                     <ProfileImage
-                      image={image}
+                      profileUrl={profileUrl}
                       handleChange={handleChange}
                       setIsSaveButtonVisisble={setIsSaveButtonVisisble}
                       initials={initials}
@@ -379,9 +377,9 @@ const MyInfoModal = ({
                   <AnimatedInput
                     testID="phone-number-input"
                     label={Localized('Phone Number')}
-                    value={phone}
+                    value={primaryPhoneNumber}
                     onChangeText={(text) => {
-                      handleChange('phone', text);
+                      handleChange('primaryPhoneNumber', text);
                       setIsSaveButtonVisisble(true);
                     }}
                     keyboardType="phone-pad"
@@ -409,7 +407,7 @@ const MyInfoModal = ({
                     label={Localized('Address 1')}
                     value={address1}
                     onChangeText={(text) => {
-                      handleChange('address1', text);
+                      handleChange('address', { ...address, address1: text });
                       setIsSaveButtonVisisble(true);
                     }}
                     returnKeyType="done"
@@ -427,7 +425,7 @@ const MyInfoModal = ({
                     label={Localized('Address 2')}
                     value={address2}
                     onChangeText={(text) => {
-                      handleChange('address2', text);
+                      handleChange('address', { ...address, address2: text });
                       setIsSaveButtonVisisble(true);
                     }}
                     returnKeyType="done"
@@ -438,7 +436,7 @@ const MyInfoModal = ({
                     label={Localized('City')}
                     value={city}
                     onChangeText={(text) => {
-                      handleChange('city', text);
+                      handleChange('address', { ...address, city: text });
                       setIsSaveButtonVisisble(true);
                     }}
                     returnKeyType="done"
@@ -457,7 +455,7 @@ const MyInfoModal = ({
                       paddingTop: 4,
                       marginBottom: 4,
                     }}>
-                    {country === 'us' ? (
+                    {countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker
                           items={usStates}
@@ -468,7 +466,10 @@ const MyInfoModal = ({
                             value: null,
                           }}
                           onValueChange={(value) => {
-                            handleChange('state', value);
+                            handleChange('address', {
+                              ...address,
+                              state: value,
+                            });
                             setIsSaveButtonVisisble(true);
                             validateState();
                           }}
@@ -483,7 +484,10 @@ const MyInfoModal = ({
                           label={Localized('State')}
                           value={state}
                           onChangeText={(text) => {
-                            handleChange('state', text);
+                            handleChange('address', {
+                              ...address,
+                              state: text,
+                            });
                             setIsSaveButtonVisisble(true);
                           }}
                           returnKeyType="done"
@@ -497,9 +501,9 @@ const MyInfoModal = ({
                       <AnimatedInput
                         testID="zip-code-input"
                         label={Localized('ZIP Code')}
-                        value={zipcode}
+                        value={zip}
                         onChangeText={(text) => {
-                          handleChange('zipcode', text);
+                          handleChange('address', { ...address, zip: text });
                           setIsSaveButtonVisisble(true);
                         }}
                         keyboardType="phone-pad"
@@ -526,10 +530,13 @@ const MyInfoModal = ({
                     <Picker
                       items={countryList}
                       label={Localized('Country')}
-                      value={country}
+                      value={countryCode}
                       placeholder={{ label: Localized('Country'), value: null }}
                       onValueChange={(value) => {
-                        handleChange('country', value);
+                        handleChange('address', {
+                          ...address,
+                          countryCode: value,
+                        });
                         setIsSaveButtonVisisble(true);
                         validateCountry();
                       }}
