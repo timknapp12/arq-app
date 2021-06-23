@@ -21,7 +21,7 @@ const Slider = ({
 
   const maximumValue = ranklist.length - 1;
 
-  const [value, setValue] = useState(rank?.id);
+  const [value, setValue] = useState(rank?.rankId);
   const [isQualifiedTextDisplayed, setIsQualifiedTextDisplayed] = useState(
     true,
   );
@@ -68,12 +68,12 @@ const Slider = ({
 Slider.propTypes = {
   ranklist: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      rankId: PropTypes.number,
       name: PropTypes.string,
-      requiredPV: PropTypes.number,
-      requiredQOV: PropTypes.number,
-      legMaxPerc: PropTypes.number,
-      legMaxOV: PropTypes.number,
+      requiredPv: PropTypes.number,
+      minimumQoV: PropTypes.number,
+      legMaxPercentage: PropTypes.number,
+      maximumPerLeg: PropTypes.number,
     }),
   ),
   rank: PropTypes.object,

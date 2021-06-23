@@ -26,7 +26,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
   const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
 
-  const [currentUserRankID] = useState(user?.rank.id);
+  const [currentUserRankID] = useState(user?.rank.rankId);
   const [isQualified, setIsQualified] = useState(true);
 
   const initialMaxQOV = {
@@ -37,7 +37,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
   const [maxQOV, setMaxQOV] = useState(initialMaxQOV);
 
   useEffect(() => {
-    if (currentUserRankID >= rank.id) {
+    if (currentUserRankID >= rank.rankId) {
       setIsQualified(true);
     } else {
       setIsQualified(false);
@@ -141,8 +141,8 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
 OVDetail.propTypes = {
   ranklist: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
+      rankId: PropTypes.number,
+      rankName: PropTypes.string,
       requiredPv: PropTypes.number,
       minimumQoV: PropTypes.number,
       legMaxPercentage: PropTypes.number,

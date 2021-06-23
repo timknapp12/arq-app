@@ -13,12 +13,12 @@ export const mockUser = {
   leg2: 115500,
   leg3: 115500,
   rank: {
-    legMaxPercentage: 40,
-    maximumPerLeg: 140000,
     rankId: 10,
+    minimumQoV: 350000,
+    maximumPerLeg: 140000,
+    legMaxPercentage: 40,
     requiredPv: 200,
     requiredPa: 2,
-    minimumQoV: 350000,
     rankName: Localized('Emerald'),
   },
   associate: {
