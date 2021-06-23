@@ -27,14 +27,11 @@ import { getCorporateResources } from '../../utils/firebase/getCorporateResource
 import AppContext from '../../contexts/AppContext';
 
 const mockUser = {
-  lastMonthPV: 150,
-  thisMonthPV: 305,
-  lastMonthQOV: 200000,
-  thisMonthQOV: 350000,
+  pv: 305,
+  qoV: 350000,
   totalOv: 2224731,
-  lastMonthPA: 1,
-  thisMonthPA: 2,
-  thisMonthCV: 256,
+  pa: 2,
+  cv: 256,
   leg1: 1190000,
   leg2: 115500,
   leg3: 115500,
@@ -46,6 +43,11 @@ const mockUser = {
     requiredPv: 200,
     requiredPa: 2,
     rankName: Localized('Emerald'),
+  },
+  previousAmbassadorMonthlyRecord: {
+    personalVolume: 150,
+    personallySponsoredActiveAmbassadorCount: 1,
+    qov: 200000,
   },
   associate: {
     profileImageFileName: 'Sloane.Taylor.2f79ef5f-58d1-4358-b12b-2ab05e3e4dc8',
@@ -93,7 +95,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 0,
       maximumPerLeg: 0,
-      id: 0,
+      rankId: 0,
       requiredPv: 0,
       requiredPa: 0,
       minimumQoV: 0,
@@ -102,7 +104,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 60,
       maximumPerLeg: 180,
-      id: 1,
+      rankId: 1,
       requiredPv: 100,
       requiredPa: 2,
       minimumQoV: 300,
@@ -111,7 +113,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 60,
       maximumPerLeg: 360,
-      id: 2,
+      rankId: 2,
       requiredPv: 100,
       requiredPa: 2,
       minimumQoV: 600,
@@ -120,7 +122,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 60,
       maximumPerLeg: 900,
-      id: 3,
+      rankId: 3,
       requiredPv: 100,
       requiredPa: 2,
       minimumQoV: 1500,
@@ -129,7 +131,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 50,
       maximumPerLeg: 2250,
-      id: 4,
+      rankId: 4,
       requiredPv: 100,
       requiredPa: 2,
       minimumQoV: 4500,
@@ -138,7 +140,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 50,
       maximumPerLeg: 5000,
-      id: 5,
+      rankId: 5,
       requiredPv: 100,
       requiredPa: 2,
       minimumQoV: 10000,
@@ -147,7 +149,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 10000,
-      id: 6,
+      rankId: 6,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 25000,
@@ -156,7 +158,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 20000,
-      id: 7,
+      rankId: 7,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 50000,
@@ -165,7 +167,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 40000,
-      id: 8,
+      rankId: 8,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 100000,
@@ -174,7 +176,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 80000,
-      id: 9,
+      rankId: 9,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 200000,
@@ -183,7 +185,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 140000,
-      id: 10,
+      rankId: 10,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 350000,
@@ -192,7 +194,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 200000,
-      id: 11,
+      rankId: 11,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 500000,
@@ -201,7 +203,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 300000,
-      id: 12,
+      rankId: 12,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 750000,
@@ -210,7 +212,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 400000,
-      id: 13,
+      rankId: 13,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 1000000,
@@ -219,7 +221,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 600000,
-      id: 14,
+      rankId: 14,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 1500000,
@@ -228,7 +230,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 800000,
-      id: 15,
+      rankId: 15,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 2000000,
@@ -237,7 +239,7 @@ const DashboardScreen = ({ navigation }) => {
     {
       legMaxPercentage: 40,
       maximumPerLeg: 1200000,
-      id: 16,
+      rankId: 16,
       requiredPv: 200,
       requiredPa: 2,
       minimumQoV: 3000000,
