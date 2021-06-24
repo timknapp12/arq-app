@@ -1,6 +1,5 @@
 import * as firebase from 'firebase';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-native-uuid';
 
 const calculatePercentage = (numerator = 0, denominator = 1) =>
   Math.round((numerator / denominator) * 100);
@@ -11,8 +10,7 @@ export const saveProfileImageToFirebase = async (user, handleChange) => {
     .ref()
     // in firebase we are using an extension that resizes the image to 72x72 and so "_72x72" is appended as a suffix to the filename once it is successfully resized and saved
     .child(`profile_images/${user.profileImageFileName}_72x72`);
-
-  let newImageName = `${user?.firstName}.${user?.lastName}.${uuidv4()}`;
+  let newImageName = `${user?.firstName}.${user?.lastName}.${uuid.v4()}`;
   try {
     // eslint-disable-next-line no-undef
     const response = await fetch(user.profileUrl);
