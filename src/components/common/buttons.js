@@ -162,8 +162,8 @@ const Fill = styled.View`
 export const RadioButton = ({ label = '', isSelected, onPress, ...props }) => {
   return (
     <RadioContainer onPress={onPress} {...props}>
-      <Button style={{ marginEnd: 12 }}>{isSelected && <Fill />}</Button>
-      <H4Book>{label}</H4Book>
+      <Button>{isSelected && <Fill />}</Button>
+      <H4Book style={{ marginStart: 12, marginEnd: 8 }}>{label}</H4Book>
     </RadioContainer>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Alert, Keyboard } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { useMutation } from '@apollo/client';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import {
@@ -110,7 +110,6 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     phone: phoneRef,
     secondPhone: secondPhoneRef,
   };
-  // TODO - set keyboard avoiding view
   // WARNING - it actually sends an email and text message
 
   useEffect(() => {
@@ -162,130 +161,143 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     return <LoadingScreen />;
   }
   return (
-    <QLogoScreenContainer>
-      <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
-        <Flexbox align="flex-start">
-          <H4Book>{Localized('Back Office Username')}</H4Book>
-          <H4Book>{username}</H4Book>
-          <Gap />
-          <RadioButton
-            label="Back Office Password"
-            isSelected={selectedOption === 'password'}
-            onPress={() => setSelectedOption('password')}
-          />
-          <Input
-            ref={passwordRef}
-            testID="confirm-account-password-input"
-            value={password}
-            onChangeText={(text) => {
-              setErrorMessage('');
-              setPassword(text);
-            }}
-            editable={selectedOption === 'password'}
-            textContentType="password"
-            returnKeyType="go"
-            onSubmitEditing={onSubmit}
-          />
-          {emailAddress ? (
-            <>
-              <Gap />
-              <RadioButton
-                label={`${Localized(
-                  'Send verification code to email address',
-                )} ${encodeEmail(emailAddress)}`}
-                isSelected={selectedOption === 'email'}
-                onPress={() => setSelectedOption('email')}
-              />
-              <Input
-                ref={emailRef}
-                testID="confirm-account-email-input"
-                value={email}
-                onChangeText={(text) => {
-                  setErrorMessage('');
-                  setEmail(text);
-                }}
-                editable={selectedOption === 'email'}
-                keyboardType="email-address"
-                textContentType="emailAddress"
-                autoCapitalize="none"
-                returnKeyType="go"
-                onSubmitEditing={onSubmit}
-              />
-            </>
-          ) : null}
-          {primaryPhoneNumber ? (
-            <>
-              <Gap />
-              <RadioButton
-                label={`${Localized(
-                  'Send verification code to phone number',
-                )} ${encodePhone(primaryPhoneNumber.replace(phoneRegex, ''))}`}
-                isSelected={selectedOption === 'phone'}
-                onPress={() => setSelectedOption('phone')}
-              />
-              <Input
-                ref={phoneRef}
-                testID="confirm-account-phone-input"
-                value={phone}
-                onChangeText={(text) => {
-                  setErrorMessage('');
-                  setPhone(text);
-                }}
-                editable={selectedOption === 'phone'}
-                keyboardType="phone-pad"
-                textContentType="telephoneNumber"
-                returnKeyType="done"
-                onSubmitEditing={() => Keyboard.dismiss()}
-              />
-            </>
-          ) : null}
-          {secondaryPhoneNumber &&
-          primaryPhoneNumber !== secondaryPhoneNumber ? (
-            <>
-              <Gap />
-              <RadioButton
-                label={`${Localized(
-                  'Send verification code to phone number',
-                )} ${encodePhone(
-                  secondaryPhoneNumber.replace(phoneRegex, ''),
-                )}`}
-                isSelected={selectedOption === 'secondPhone'}
-                onPress={() => setSelectedOption('secondPhone')}
-              />
-              <Input
-                ref={secondPhoneRef}
-                testID="confirm-account-secondary-phone-input"
-                value={secondPhone}
-                onChangeText={(text) => {
-                  setErrorMessage('');
-                  setSecondPhone(text);
-                }}
-                editable={selectedOption === 'secondPhone'}
-                keyboardType="phone-pad"
-                textContentType="telephoneNumber"
-                returnKeyType="go"
-                onSubmitEditing={onSubmit}
-              />
-            </>
-          ) : null}
-          {errorMessage ? (
-            <Flexbox>
-              <AlertText
-                style={{
-                  textAlign: 'center',
-                }}>
-                {errorMessage}
-              </AlertText>
-            </Flexbox>
-          ) : null}
+    <KeyboardAvoidingView
+      style={{ flex: 1, width: '100%' }}
+      contentContainerStyle={{ height: '100%', width: '100%' }}
+      behavior={Platform.OS == 'ios' ? 'position' : 'height'}>
+      <QLogoScreenContainer>
+        <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
+          <Flexbox align="flex-start">
+            <H4Book>{Localized('Back Office Username')}</H4Book>
+            <H4Book>{username}</H4Book>
+            <Gap />
+            <RadioButton
+              label="Back Office Password"
+              isSelected={selectedOption === 'password'}
+              onPress={() => setSelectedOption('password')}
+            />
+            <Input
+              style={{ opacity: selectedOption === 'password' ? 1 : 0.5 }}
+              ref={passwordRef}
+              testID="confirm-account-password-input"
+              value={password}
+              onChangeText={(text) => {
+                setErrorMessage('');
+                setPassword(text);
+              }}
+              editable={selectedOption === 'password'}
+              textContentType="password"
+              returnKeyType="go"
+              onSubmitEditing={onSubmit}
+            />
+            {emailAddress ? (
+              <>
+                <Gap />
+                <RadioButton
+                  label={`${Localized(
+                    'Send verification code to email address',
+                  )} ${encodeEmail(emailAddress)}`}
+                  isSelected={selectedOption === 'email'}
+                  onPress={() => setSelectedOption('email')}
+                />
+                <Input
+                  style={{ opacity: selectedOption === 'email' ? 1 : 0.5 }}
+                  ref={emailRef}
+                  testID="confirm-account-email-input"
+                  value={email}
+                  onChangeText={(text) => {
+                    setErrorMessage('');
+                    setEmail(text);
+                  }}
+                  editable={selectedOption === 'email'}
+                  keyboardType="email-address"
+                  textContentType="emailAddress"
+                  autoCapitalize="none"
+                  returnKeyType="go"
+                  onSubmitEditing={onSubmit}
+                />
+              </>
+            ) : null}
+            {primaryPhoneNumber ? (
+              <>
+                <Gap />
+                <RadioButton
+                  label={`${Localized(
+                    'Send verification code to phone number',
+                  )} ${encodePhone(
+                    primaryPhoneNumber.replace(phoneRegex, ''),
+                  )}`}
+                  isSelected={selectedOption === 'phone'}
+                  onPress={() => setSelectedOption('phone')}
+                />
+                <Input
+                  style={{ opacity: selectedOption === 'phone' ? 1 : 0.5 }}
+                  ref={phoneRef}
+                  testID="confirm-account-phone-input"
+                  value={phone}
+                  onChangeText={(text) => {
+                    setErrorMessage('');
+                    setPhone(text);
+                  }}
+                  editable={selectedOption === 'phone'}
+                  keyboardType="phone-pad"
+                  textContentType="telephoneNumber"
+                  returnKeyType="done"
+                  onSubmitEditing={() => Keyboard.dismiss()}
+                />
+              </>
+            ) : null}
+            {secondaryPhoneNumber &&
+            primaryPhoneNumber !== secondaryPhoneNumber ? (
+              <>
+                <Gap />
+                <RadioButton
+                  label={`${Localized(
+                    'Send verification code to phone number',
+                  )} ${encodePhone(
+                    secondaryPhoneNumber.replace(phoneRegex, ''),
+                  )}`}
+                  isSelected={selectedOption === 'secondPhone'}
+                  onPress={() => setSelectedOption('secondPhone')}
+                />
+                <Input
+                  style={{
+                    opacity: selectedOption === 'secondPhone' ? 1 : 0.5,
+                  }}
+                  ref={secondPhoneRef}
+                  testID="confirm-account-secondary-phone-input"
+                  value={secondPhone}
+                  onChangeText={(text) => {
+                    setErrorMessage('');
+                    setSecondPhone(text);
+                  }}
+                  editable={selectedOption === 'secondPhone'}
+                  keyboardType="phone-pad"
+                  textContentType="telephoneNumber"
+                  returnKeyType="done"
+                  onSubmitEditing={() => Keyboard.dismiss()}
+                />
+              </>
+            ) : null}
+            {errorMessage ? (
+              <Flexbox>
+                <AlertText
+                  style={{
+                    textAlign: 'center',
+                  }}>
+                  {errorMessage}
+                </AlertText>
+              </Flexbox>
+            ) : null}
+          </Flexbox>
+          <Flexbox width="85%" height="60px">
+            <PrimaryButton disabled={isButtonDisabled} onPress={onSubmit}>
+              {Localized('CONTINUE')}
+            </PrimaryButton>
+          </Flexbox>
         </Flexbox>
-        <Flexbox width="85%" height="60px">
-          <PrimaryButton disabled={isButtonDisabled} onPress={onSubmit}>
-            {Localized('CONTINUE')}
-          </PrimaryButton>
-        </Flexbox>
-      </Flexbox>
-    </QLogoScreenContainer>
+      </QLogoScreenContainer>
+    </KeyboardAvoidingView>
   );
 };
 
