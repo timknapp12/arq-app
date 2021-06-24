@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useQuery } from '@apollo/client';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../components/login/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/login/loginScreen/PasswordRecoveryScreen';
@@ -13,6 +14,7 @@ import AppStack from './AppStack';
 import LoginContext from '../contexts/LoginContext';
 import AppContext from '../contexts/AppContext';
 import { Localized } from '../translations/Localized';
+import { GET_RANKS, GET_MARKETS } from '../graphql/queries';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Login = createStackNavigator();
@@ -37,6 +39,10 @@ const LoginStack = () => {
     setConfirmPassword('');
     setErrorMessage('');
   };
+
+  const { data: ranksData } = useQuery(GET_RANKS);
+
+  const { data: marketsData } = useQuery(GET_MARKETS);
 
   const onboardingScreenOptions = {
     title: '',
@@ -63,6 +69,8 @@ const LoginStack = () => {
         isFirstAppLoad,
         setIsFirstAppLoad,
         clearFields,
+        ranks: ranksData.ranks,
+        markets: marketsData.activeCountries,
       }}>
       <Login.Navigator
         screenOptions={{

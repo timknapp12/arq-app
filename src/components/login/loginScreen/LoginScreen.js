@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
     clearFields,
   } = useContext(LoginContext);
 
-  //TODO - have app start in loading state
+  // app starts in loading state
   const [isLoading, setIsLoading] = useState(true);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 

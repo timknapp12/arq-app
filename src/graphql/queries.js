@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_USER = gql`
-  query TreeNodeFor($associateId: Int!) {
-    treeNodeFor(associateId: $associateId) {
+  query TreeNodeFor($legacyAssociateId: Int!) {
+    treeNodeFor(legacyAssociateId: $legacyAssociateId) {
       associateId
       uplineAssociateId
       orders {
@@ -65,4 +65,4 @@ export const GET_MARKETS = gql`
   }
 `;
 
-export const GET_FOLDERS = gql``;
+// export const GET_FOLDERS = gql``;
