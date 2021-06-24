@@ -45,4 +45,24 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_RANKS = gql`
+  query {
+    ranks {
+      rankId
+      rankName
+    }
+  }
+`;
+
+export const GET_MARKETS = gql`
+  query {
+    activeCountries {
+      countryId
+      countryCode
+      countryName
+      pictureUrl
+    }
+  }
+`;
+
 export const GET_FOLDERS = gql``;

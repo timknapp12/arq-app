@@ -110,7 +110,7 @@ const MyInfoModal = ({
     const pattern = new RegExp(
       '^([a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+).[a-zA-Z]{2,7})$',
     );
-    if (!pattern.test(email)) {
+    if (!pattern.test(emailAddress)) {
       setIsEmailError(true);
       return false;
     } else {
@@ -219,13 +219,13 @@ const MyInfoModal = ({
   countryList = countryMap[localeLanguageTag] || enCountries;
 
   const {
+    associateId,
     profileUrl,
     firstName,
     lastName,
     displayName,
-    email,
+    emailAddress,
     primaryPhoneNumber,
-    associateId,
     address,
   } = myInfo;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
@@ -357,9 +357,9 @@ const MyInfoModal = ({
                   <AnimatedInput
                     testID="email-input"
                     label={Localized('Email')}
-                    value={email}
+                    value={emailAddress}
                     onChangeText={(text) => {
-                      handleChange('email', text);
+                      handleChange('emailAddress', text);
                       setIsSaveButtonVisisble(true);
                     }}
                     keyboardType="email-address"

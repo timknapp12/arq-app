@@ -57,7 +57,7 @@ const mockUser = {
     lastName: 'Taylor',
     displayName: 'sloanet',
     username: 'sloaniejoanie',
-    email: 'sloanetaylor@gmail.com',
+    emailAddress: 'sloanetaylor@gmail.com',
     primaryPhoneNumber: '801-435-9064',
     associateId: '12340987',
     address: {

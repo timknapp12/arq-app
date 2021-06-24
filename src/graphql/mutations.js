@@ -20,6 +20,7 @@ export const LOGIN_USER = gql`
       loginStatus
       associate {
         associateId
+        legacyAssociateId
         firstName
       }
     }
@@ -33,6 +34,7 @@ export const DIRECT_SCALE_INFO = gql`
       status
       associate {
         associateId
+        legacyAssociateId
         uniqueEmailAddress
         emailAddress
         primaryPhoneNumber
@@ -55,7 +57,12 @@ export const LOGIN_VALIDATION_PROCESS = gql`
         loginName: $loginName
         verificationInfo: $verificationInfo
       }
-    )
+    ) {
+      associate {
+        associateId
+        legacyAssociateId
+      }
+    }
   }
 `;
 
@@ -64,6 +71,49 @@ export const CONFIRM_ACCESS_CODE = gql`
   mutation LoginValidationToken($loginName: String!, $accessCode: String!) {
     loginValidationToken(
       input: { loginName: $loginName, accessCode: $accessCode }
+    ) {
+      associate {
+        associateId
+        legacyAssociateId
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateAssociate(
+    $associateId: Int!
+    $profileUrl: String
+    $profileImageFileName: String
+    $firstName: String
+    $lastName: String
+    $displayName: String
+    $emailAddress: String
+    $primaryPhoneNumber: String
+    $address1: String
+    $address2: String
+    $city: String
+    $state: String
+    $zip: String
+    $countryCode: String
+  ) {
+    updateAssociate(
+      input: {
+        associateId: $associateId
+        profileUrl: $profileUrl
+        profileImageFileName: $profileImageFileName
+        firstName: $firstName
+        lastName: $lastName
+        displayName: $displayName
+        emailAddress: $emailAddress
+        primaryPhoneNumber: $primaryPhoneNumber
+        address1: $address1
+        address2: $address2
+        city: $city
+        state: $state
+        zip: $zip
+        countryCode: $countryCode
+      }
     )
   }
 `;
