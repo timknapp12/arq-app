@@ -12,7 +12,7 @@ import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
-  const { setToken } = useContext(AppContext);
+  const { setToken, setUser } = useContext(AppContext);
   const { setDirectScaleUser } = useContext(LoginContext);
   const [username, setUsername] = useState('15F92');
   const [errorMessage, setErrorMessage] = useState('');
@@ -26,6 +26,9 @@ const EnterIdScreen = ({ navigation }) => {
       handleGetDirectScaleInfo(status, navigation, setErrorMessage, username);
       if (data.directScaleInfo.associate) {
         setDirectScaleUser(data.directScaleInfo.associate);
+        const id = data.directScaleInfo.associate.associateId;
+        const legacyId = data.directScaleInfo.associate.legacyAssociateId;
+        setUser({ associateId: id, legacyAssociateId: legacyId });
       }
     },
     onError: (error) => {

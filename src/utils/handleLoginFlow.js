@@ -96,8 +96,6 @@ export const handleGetDirectScaleInfo = (
 export const handleLoginValidationProcess = (
   status,
   navigation,
-  setUser,
-  associateId,
   method,
   username,
   verificationInfo,
@@ -105,8 +103,7 @@ export const handleLoginValidationProcess = (
 ) => {
   switch (status) {
     case 'VERIFICATION_COMPLETE':
-      //  set associate id and send to dashboard screen
-      setUser({ associateId });
+      //  send to dashboard screen
       setErrorMessage('');
       navigation.navigate('App Stack');
       break;
@@ -133,14 +130,11 @@ export const handleLoginValidationProcess = (
 export const handleConfirmAccessCode = (
   status,
   navigation,
-  setUser,
-  associateId,
   setErrorMessage,
 ) => {
   switch (status) {
     case 'VERIFICATION_COMPLETE':
-      // send to biometrics screen and set associateId
-      setUser({ associateId });
+      // send to biometrics screen
       setErrorMessage('');
       navigation.navigate('Biometrics Screen');
       break;

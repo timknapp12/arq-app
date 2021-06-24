@@ -69,7 +69,8 @@ const LoginScreen = ({ navigation }) => {
       if (data.loginUser.associate) {
         // set id so treeNodeFor query can be called in dashboard
         const id = data.loginUser.associate.associateId;
-        setUser({ associateId: id });
+        const legacyId = data.loginUser.associate.legacyAssociateId;
+        setUser({ associateId: id, legacyAssociateId: legacyId });
       }
       console.log(`if data:`, data?.loginUser);
       const status = data?.loginUser?.loginStatus;

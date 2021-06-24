@@ -58,6 +58,7 @@ export const LOGIN_VALIDATION_PROCESS = gql`
         verificationInfo: $verificationInfo
       }
     ) {
+      status
       associate {
         associateId
         legacyAssociateId
@@ -72,6 +73,7 @@ export const CONFIRM_ACCESS_CODE = gql`
     loginValidationToken(
       input: { loginName: $loginName, accessCode: $accessCode }
     ) {
+      status
       associate {
         associateId
         legacyAssociateId

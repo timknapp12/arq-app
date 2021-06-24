@@ -32,7 +32,6 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   const { setUser, setToken } = useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const {
-    associateId,
     emailAddress,
     primaryPhoneNumber,
     secondaryPhoneNumber,
@@ -80,13 +79,17 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     onError: (error) => setErrorMessage(error.message),
     onCompleted: (data) => {
       console.log(`data`, data);
-      const status = data?.loginValidationProcess;
+      const status = data?.loginValidationProcess.status;
       console.log(`status`, status);
+      if (data.loginValidationProcess.associate) {
+        const id = data.loginValidationProcess.associate.associateId;
+        const legacyId =
+          data.loginValidationProcess.associate.legacyAssociateId;
+        setUser({ associateId: id, legacyAssociateId: legacyId });
+      }
       handleLoginValidationProcess(
         status,
         navigation,
-        setUser,
-        associateId,
         method,
         username,
         verificationInfo,
