@@ -35,6 +35,7 @@ i18n.fallbacks = true;
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
   const [user, setUser] = useState(null);
+  console.log(`user`, user);
   const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
