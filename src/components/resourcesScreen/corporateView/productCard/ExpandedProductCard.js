@@ -82,12 +82,12 @@ const ExpandedProductCard = ({
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('Resources Asset Screen', {
-                      title: asset.title.toUpperCase(),
-                      url: asset.url,
+                      title: asset.linkTitle.toUpperCase(),
+                      url: asset.linkUrl,
                       contentType: asset.contentType,
                     })
                   }
-                  key={asset.id}>
+                  key={asset.linkId}>
                   <PdfIcon
                     style={{
                       color: theme.primaryTextColor,
@@ -101,8 +101,8 @@ const ExpandedProductCard = ({
             if (asset.contentType === 'video') {
               return (
                 <TouchableOpacity
-                  onPress={() => Linking.openURL(asset.url)}
-                  key={asset.id}>
+                  onPress={() => Linking.openURL(asset.linkUrl)}
+                  key={asset.linkId}>
                   <VideoIcon
                     style={{
                       color: theme.primaryTextColor,
@@ -116,8 +116,8 @@ const ExpandedProductCard = ({
             if (asset.contentType === 'podcast') {
               return (
                 <TouchableOpacity
-                  onPress={() => Linking.openURL(asset.url)}
-                  key={asset.id}>
+                  onPress={() => Linking.openURL(asset.linkUrl)}
+                  key={asset.linkId}>
                   <PodcastIcon
                     style={{
                       color: theme.primaryTextColor,
@@ -131,11 +131,11 @@ const ExpandedProductCard = ({
             if (asset.contentType === 'image') {
               return (
                 <TouchableOpacity
-                  key={asset.id}
+                  key={asset.linkId}
                   onPress={() =>
                     navigation.navigate('Resources Asset Screen', {
-                      title: asset.title.toUpperCase(),
-                      url: asset.url,
+                      title: asset.linkTitle.toUpperCase(),
+                      url: asset.linkUrl,
                       contentType: asset.contentType,
                     })
                   }>

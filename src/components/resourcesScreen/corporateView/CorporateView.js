@@ -9,7 +9,6 @@ import {
   Platform,
 } from 'react-native';
 import { MainScrollView } from '../../common';
-import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import ResourceCard from '../ResourceCard';
 import MarketModal from '../../marketModal/MarketModal';
@@ -17,6 +16,7 @@ import * as Analytics from 'expo-firebase-analytics';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import { findMarketUrl } from '../../../utils/markets/findMarketUrl';
+import { findMarketId } from '../../../utils/markets/findMarketId';
 import { GET_CORPORATE_RESOURCES } from '../../../graphql/queries';
 import 'firebase/firestore';
 
@@ -34,21 +34,23 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   } = useContext(AppContext);
   const { markets } = useContext(LoginContext);
 
-  const { loading, data } = useQuery(GET_CORPORATE_RESOURCES, {
-    variables: { countries: 88 },
-  });
-
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
 
-  const [selectedMarket, setSelectedMarket] = useState(userMarket);
+  const [selectedMarket, setSelectedMarket] = useState(userMarket.countryCode);
   const initialMarketUrl = markets?.[0]?.pictureUrl;
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
+  const [marketId, setMarketId] = useState(userMarket.countryId);
+
+  const { data } = useQuery(GET_CORPORATE_RESOURCES, {
+    variables: { countries: marketId },
+  });
 
   useEffect(() => {
     if (selectedMarket) {
       setMarketUrl(findMarketUrl(selectedMarket, markets));
+      setMarketId(findMarketId(selectedMarket, markets));
     }
   }, [selectedMarket]);
 
@@ -84,10 +86,6 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
     setIsMarketModalOpen(true);
   };
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   return (
     <>
       <FilterSearchBar
@@ -117,7 +115,7 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
             }}
             accessibilityLabel="Corporate Resources"
             onStartShouldSetResponder={() => true}>
-            {data.corporateResources.map((item, index) => (
+            {data?.corporateResources.map((item, index) => (
               <ResourceCard
                 isCalloutOpenFromParent={isCalloutOpenFromParent}
                 setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}

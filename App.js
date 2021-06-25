@@ -45,7 +45,10 @@ const App = () => {
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
   const [deviceLanguage, setDeviceLanguage] = useState('en');
-  const [userMarket, setUserMarket] = useState('us');
+  const [userMarket, setUserMarket] = useState({
+    countryId: 88,
+    countryCode: 'us',
+  });
   const [token, setToken] = useState('');
   console.log(`token`, token);
 
