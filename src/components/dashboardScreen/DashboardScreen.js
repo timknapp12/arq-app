@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
 // import { useQuery } from '@apollo/client';
@@ -22,7 +21,6 @@ import MyInfoModal from '../mainMenu/MyInfoModal';
 // import LoadingScreen from '../loadingScreen/LoadingScreen';
 import SettingsModal from '../mainMenu/SettingsModal';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
-import { getCorporateResources } from '../../utils/firebase/getCorporateResources';
 // import { GET_USER } from '../../graphql/queries';
 import AppContext from '../../contexts/AppContext';
 
@@ -72,15 +70,9 @@ const mockUser = {
 };
 
 const DashboardScreen = ({ navigation }) => {
-  const {
-    setCorporateResources,
-    deviceLanguage,
-    userMarket,
-    // user,
-    // setUser,
-  } = useContext(AppContext);
-  initLanguage;
-  const db = firebase.firestore();
+  initLanguage();
+  const { user } = useContext(AppContext);
+  console.log(`user`, user);
 
   // const [getUser, { loading }] = useQuery(GET_USER, {
   //   errorPolicy: 'all',
@@ -259,15 +251,6 @@ const DashboardScreen = ({ navigation }) => {
       fadeOut();
     };
   }, [isFocused]);
-
-  useEffect(() => {
-    getCorporateResources(
-      db,
-      userMarket,
-      deviceLanguage,
-      setCorporateResources,
-    );
-  }, []);
 
   const initialView = {
     name: Localized('OVERVIEW'),

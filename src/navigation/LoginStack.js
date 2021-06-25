@@ -69,8 +69,8 @@ const LoginStack = () => {
         isFirstAppLoad,
         setIsFirstAppLoad,
         clearFields,
-        ranks: ranksData.ranks,
-        markets: marketsData.activeCountries,
+        ranks: ranksData?.ranks,
+        markets: marketsData?.activeCountries,
       }}>
       <Login.Navigator
         screenOptions={{

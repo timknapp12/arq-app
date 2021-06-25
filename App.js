@@ -44,7 +44,6 @@ const App = () => {
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
-  const [corporateResources, setCorporateResources] = useState([]);
   const [deviceLanguage, setDeviceLanguage] = useState('en');
   const [userMarket, setUserMarket] = useState('us');
   const [token, setToken] = useState('');
@@ -120,8 +119,6 @@ const App = () => {
             useBiometrics,
             storeBiometrics,
             getBiometrics,
-            corporateResources,
-            setCorporateResources,
             deviceLanguage,
             userMarket,
             setUserMarket,

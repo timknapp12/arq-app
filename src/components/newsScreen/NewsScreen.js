@@ -16,17 +16,17 @@ import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
 import { MainScrollView } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import AppContext from '../../contexts/AppContext';
 import FeaturedNewsCard from './FeaturedNewsCard';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import MarketModal from '../marketModal/MarketModal';
-import { markets } from '../../utils/markets/markets';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { Localized, initLanguage } from '../../translations/Localized';
 import NewsCardMap from './NewsCardMap';
+import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 // TODO remove this once we get real data
 import { mockUser } from '../common/mockUser';
 import { mockNews } from './mockNews';
@@ -41,14 +41,15 @@ const FlagIcon = styled.Image`
 const NewsScreen = ({ navigation }) => {
   initLanguage();
   const { userMarket } = useContext(AppContext);
+  const { markets } = useContext(LoginContext);
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
-  const [selectedMarket, setSelectedMarket] = useState(userMarket);
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
-  const initialMarketUrl = markets[0].url;
+  const [selectedMarket, setSelectedMarket] = useState(userMarket);
+  const initialMarketUrl = markets[0].pictureUrl;
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
 
   useEffect(() => {

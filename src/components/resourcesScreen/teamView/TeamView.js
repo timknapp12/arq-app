@@ -56,7 +56,7 @@ const TeamView = ({
     });
     setIsCalloutOpenFromParent(false);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
-    const formattedTitle = item.title.split(' ').join('_');
+    const formattedTitle = item.folderName.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
     // this regex takes out special characters like "&"
     const strippedTitle = shortenedTitle.replace(/\W/g, '');

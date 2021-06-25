@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { useQuery } from '@apollo/client';
 import {
   View,
   TouchableWithoutFeedback,
@@ -8,15 +9,15 @@ import {
   Platform,
 } from 'react-native';
 import { MainScrollView } from '../../common';
+import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import ResourceCard from '../ResourceCard';
 import MarketModal from '../../marketModal/MarketModal';
 import * as Analytics from 'expo-firebase-analytics';
 import AppContext from '../../../contexts/AppContext';
-import { markets } from '../../../utils/markets/markets';
+import LoginContext from '../../../contexts/LoginContext';
 import { findMarketUrl } from '../../../utils/markets/findMarketUrl';
-import { getCorporateResources } from '../../../utils/firebase/getCorporateResources';
-import firebase from 'firebase/app';
+import { GET_CORPORATE_RESOURCES } from '../../../graphql/queries';
 import 'firebase/firestore';
 
 const FlagIcon = styled.Image`
@@ -27,29 +28,27 @@ const FlagIcon = styled.Image`
 
 const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const {
-    corporateResources,
     userMarket,
-    deviceLanguage,
-    setCorporateResources,
+    // we might need device language for translations
+    // deviceLanguage,
   } = useContext(AppContext);
-  const db = firebase.firestore();
+  const { markets } = useContext(LoginContext);
+
+  const { loading, data } = useQuery(GET_CORPORATE_RESOURCES, {
+    variables: { countries: 88 },
+  });
+
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
-  const initialMarket = userMarket;
-  const [selectedMarket, setSelectedMarket] = useState(initialMarket);
-  const initialMarketUrl = markets[0].url;
+
+  const [selectedMarket, setSelectedMarket] = useState(userMarket);
+  const initialMarketUrl = markets?.[0]?.pictureUrl;
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
 
   useEffect(() => {
     if (selectedMarket) {
       setMarketUrl(findMarketUrl(selectedMarket, markets));
-      getCorporateResources(
-        db,
-        selectedMarket,
-        deviceLanguage,
-        setCorporateResources,
-      );
     }
   }, [selectedMarket]);
 
@@ -59,20 +58,19 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
       return fadeOut();
     }
     fadeOut();
-    if (item.id === 'products') {
+    if (item.folderName === 'Products') {
       navigation.navigate('Product Category Screen', {
-        title: item.title.toUpperCase(),
-        market: selectedMarket,
+        title: item.folderName.toUpperCase(),
+        categoryList: item.childFolders,
       });
     } else {
       navigation.navigate('Resources Category Screen', {
-        title: item.title.toUpperCase(),
-        documentID: item.id,
-        market: selectedMarket,
+        title: item.folderName.toUpperCase(),
+        assetList: item.links,
       });
     }
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
-    const formattedTitle = item.title.split(' ').join('_');
+    const formattedTitle = item.folderName.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
     // this regex takes out special characters like "&"
     const strippedTitle = shortenedTitle.replace(/\W/g, '');
@@ -85,6 +83,10 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const openMarketModal = () => {
     setIsMarketModalOpen(true);
   };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>
@@ -115,14 +117,14 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
             }}
             accessibilityLabel="Corporate Resources"
             onStartShouldSetResponder={() => true}>
-            {corporateResources.map((item, index) => (
+            {data.corporateResources.map((item, index) => (
               <ResourceCard
                 isCalloutOpenFromParent={isCalloutOpenFromParent}
                 setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                 style={{ zIndex: -index }}
-                key={item.id}
-                url={item.url}
-                title={item.title}
+                key={item.folderId}
+                url={item.pictureUrl}
+                title={item.folderName}
                 isMenuOpen={isMenuOpen}
                 onPress={() => {
                   setIsCalloutOpenFromParent(false);

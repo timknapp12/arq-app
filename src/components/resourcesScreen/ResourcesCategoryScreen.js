@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../common';
 import AssetCard from './assetCard/AssetCard';
 import UploadAssetModal from './teamView/UploadAssetModal';
 import DownloadToast from './DownloadToast';
-import AppContext from '../../contexts/AppContext';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { getCorporateAssets } from '../../utils/firebase/getCorporateAssets';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
-  const { deviceLanguage } = useContext(AppContext);
-  const db = firebase.firestore();
-  const { documentID, teamAssetList, hasPermissions, market } = route.params;
-  const [assetList, setAssetList] = useState(teamAssetList || []);
+  const { assetList, hasPermissions } = route.params;
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
@@ -27,13 +21,6 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
     setIsToastVisible(visible);
     setToastProgress(progress);
   };
-
-  // this will get data from firebase for corporate assets, but data for team assets will just be passed as a prop called teamAssetList
-  useEffect(() => {
-    if (documentID) {
-      getCorporateAssets(db, market, deviceLanguage, setAssetList, documentID);
-    }
-  }, []);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
@@ -73,12 +60,12 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   style={{ zIndex: -index }}
-                  key={item.id}
-                  url={item.url}
-                  title={item.title}
-                  description={item.description}
+                  key={item.linkId}
+                  url={item.linkUrl}
+                  title={item.linkTitle}
+                  description={item.linkDescription}
                   contentType={item.contentType}
-                  ext={item.ext}
+                  ext={item.extension}
                   navigation={navigation}
                   setToastInfo={setToastInfo}
                   setIsNavDisabled={setIsNavDisabled}

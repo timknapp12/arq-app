@@ -27,6 +27,11 @@ export const GET_USER = gql`
         associateType
         languageCode
         associateStatus
+        country {
+          countryId
+          countryCode
+          countryName
+        }
       }
       qoV
       leg1
@@ -65,4 +70,51 @@ export const GET_MARKETS = gql`
   }
 `;
 
-// export const GET_FOLDERS = gql``;
+export const GET_CORPORATE_RESOURCES = gql`
+  query CorporateResoures($countries: [Int!]) {
+    corporateResources(countries: $countries) {
+      folderName
+      folderId
+      folderDescription
+      isWideLayout
+      pictureUrl
+      displayOrder
+      changedBy
+      links {
+        linkId
+        linkTitle
+        linkDescription
+        linkUrl
+        contentType
+        extension
+      }
+      childFolders {
+        folderName
+        folderId
+        folderDescription
+        isWideLayout
+        pictureUrl
+        displayOrder
+        changedBy
+        childFolders {
+          folderId
+          folderName
+          folderId
+          folderDescription
+          isWideLayout
+          pictureUrl
+          displayOrder
+          changedBy
+          links {
+            linkId
+            linkTitle
+            linkDescription
+            linkUrl
+            contentType
+            extension
+          }
+        }
+      }
+    }
+  }
+`;

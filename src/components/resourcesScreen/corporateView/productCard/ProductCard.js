@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Share, Alert } from 'react-native';
-import AppContext from '../../../../contexts/AppContext';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import MultiAssetMenu from '../MultiAssetMenu';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { getProductAssets } from '../../../../utils/firebase/getCorporateProducts';
 import { downloadFile } from '../../../../utils/downloadFile';
 import { Localized, initLanguage } from '../../../../translations/Localized';
 
@@ -20,37 +17,20 @@ const ProductCard = ({
   title,
   description,
   url,
+  assetList,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   setDisableTouchEvent,
-  categoryID,
-  productID,
   navigation,
   setToastInfo,
   isFavorite,
-  market,
   ...props
 }) => {
   initLanguage();
-  const { deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
-  const [assetList, setAssetList] = useState([]);
   const [isMultiAssetMenuOpen, setIsMultiAssetMenuOpen] = useState(false);
   const [multiAssetMenuTitle, setMultiAssetMenuTitle] = useState('');
-
-  const db = firebase.firestore();
-
-  useEffect(() => {
-    getProductAssets(
-      db,
-      market,
-      deviceLanguage,
-      setAssetList,
-      categoryID,
-      productID,
-    );
-  }, []);
 
   useEffect(() => {
     if (!isCalloutOpenFromParent) {
@@ -198,6 +178,7 @@ ProductCard.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   url: PropTypes.string,
+  assetList: PropTypes.array,
   navigation: PropTypes.object,
   setToastInfo: PropTypes.func,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
@@ -209,7 +190,6 @@ ProductCard.propTypes = {
   /* the list id will be something like "q fuse plus", or "q focus" */
   productID: PropTypes.string,
   index: PropTypes.number,
-  market: PropTypes.string,
   isFavorite: PropTypes.bool,
 };
 
