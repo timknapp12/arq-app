@@ -47,9 +47,9 @@ const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
       {filteredOptions.map((item) => (
         <RadioButton
           onPress={() => setSelectedAsset(item)}
-          key={item.id}
+          key={item.linkId}
           label={contentTypeMap[item.contentType]}
-          isSelected={item.title === selectedAsset.title}
+          isSelected={item.linkTitle === selectedAsset.linkTitle}
         />
       ))}
       <CalloutButton onPress={() => onPress(selectedAsset)}>

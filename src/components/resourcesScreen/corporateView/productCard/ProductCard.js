@@ -86,7 +86,7 @@ const ProductCard = ({
   // This function will automatically open the device share option if there is only one item, and open the popup to select an asset if there are multiple items
   const onShare = async () => {
     if (assetList.length === 1) {
-      return shareSingleUrl(assetList[0].url);
+      return shareSingleUrl(assetList[0].linkUrl);
     } else {
       await setIsCalloutOpenFromParent(true);
       await setDisableTouchEvent(true);
@@ -96,10 +96,10 @@ const ProductCard = ({
   };
 
   const downloadSingleItem = async (item) => {
-    const { url, title, contentType, ext } = item;
-    const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
+    const { linkUrl, linkTitle, contentType, extension } = item;
+    const filename = `${linkTitle.split(' ').join('')}.${extension ?? ''}`;
     try {
-      await downloadFile(url, filename, contentType, setToastInfo);
+      await downloadFile(linkUrl, filename, contentType, setToastInfo);
     } catch (error) {
       console.log(`error`, error);
     }
@@ -122,7 +122,7 @@ const ProductCard = ({
 
   const onAction = async (item) => {
     if (multiAssetMenuTitle === Localized('Share')) {
-      return shareSingleUrl(item.url);
+      return shareSingleUrl(item.linkUrl);
     }
     if (multiAssetMenuTitle === Localized('Download')) {
       return downloadSingleItem(item);
@@ -185,10 +185,6 @@ ProductCard.propTypes = {
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
   setDisableTouchEvent: PropTypes.func,
-  /* the category id will be something like "hemp", or "energy" */
-  categoryID: PropTypes.string,
-  /* the list id will be something like "q fuse plus", or "q focus" */
-  productID: PropTypes.string,
   index: PropTypes.number,
   isFavorite: PropTypes.bool,
 };
