@@ -25,7 +25,7 @@ import {
 import { getToken } from '../../utils/firebase/login';
 
 const VerificationCodeScreen = ({ navigation, route }) => {
-  const { setLegacyId, setToken } = useContext(AppContext);
+  const { setAssociateId, setLegacyId, setToken } = useContext(AppContext);
 
   const { method, username, verificationInfo } = route.params;
 
@@ -39,6 +39,8 @@ const VerificationCodeScreen = ({ navigation, route }) => {
       console.log(`data`, data);
       const status = data?.loginValidationToken.status;
       if (data.loginValidationToken.associate) {
+        const id = data.loginValidationToken.associate.associateId;
+        setAssociateId(id);
         const legacyId = data.loginValidationToken.associate.legacyAssociateId;
         setLegacyId(legacyId);
       }
@@ -61,6 +63,8 @@ const VerificationCodeScreen = ({ navigation, route }) => {
         const status = data?.loginValidationProcess.status;
         console.log(`status`, status);
         if (data.loginValidationProcess.associate) {
+          const id = data.loginValidationProcess.associate.associateId;
+          setAssociateId(id);
           const legacyId =
             data.loginValidationProcess.associate.legacyAssociateId;
           setLegacyId(legacyId);

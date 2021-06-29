@@ -6,3 +6,8 @@ export const findRankName = (list, value) => {
   const result = list.find((_, index) => index === value);
   return result.rankName;
 };
+
+export const findRankIndex = (list, name) => {
+  const result = list.findIndex((item) => item.rankName === name);
+  return result;
+};

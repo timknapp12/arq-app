@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
@@ -27,6 +27,7 @@ import {
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
+import LoginContext from '../../contexts/LoginContext';
 // source for files for different languages https://stefangabos.github.io/world_countries/
 import enCountries from '../../translations/countries/en-countries.json';
 import deCountries from '../../translations/countries/de-countries.json';
@@ -55,10 +56,11 @@ const NameContainer = styled.View`
 const MyInfoModal = ({
   setIsMyInfoModalOpen,
   isMyInfoModalOpen,
-  data,
+  // data,
   saveProfileImageToFirebase,
 }) => {
   initLanguage();
+  const { userProfile: data } = useContext(LoginContext);
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
@@ -219,6 +221,7 @@ const MyInfoModal = ({
   countryList = countryMap[localeLanguageTag] || enCountries;
 
   const {
+    legacyAssociateId,
     associateId,
     profileUrl,
     firstName,
@@ -231,6 +234,7 @@ const MyInfoModal = ({
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   const { address1, address2, city, state, zip, countryCode } = address;
+  console.log(`associateId`, associateId);
 
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
@@ -394,7 +398,7 @@ const MyInfoModal = ({
                   <AnimatedInput
                     testID="ambassador-id-input"
                     label={Localized('Ambassador ID')}
-                    value={associateId}
+                    value={legacyAssociateId?.toString()}
                     editable={false}
                   />
                 </Flexbox>
@@ -562,7 +566,6 @@ const MyInfoModal = ({
 MyInfoModal.propTypes = {
   setIsMyInfoModalOpen: PropTypes.func.isRequired,
   isMyInfoModalOpen: PropTypes.bool.isRequired,
-  data: PropTypes.object,
   saveProfileImageToFirebase: PropTypes.func,
 };
 

@@ -115,7 +115,6 @@ const NewsScreen = ({ navigation }) => {
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
-          profileUrl={mockUser.associate.profileUrl}
         />
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
@@ -202,7 +201,6 @@ const NewsScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={mockUser.associate}
             saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}

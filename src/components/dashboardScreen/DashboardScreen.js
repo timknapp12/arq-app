@@ -47,26 +47,6 @@ const DashboardScreen = ({ navigation }) => {
         personallySponsoredActiveAmbassadorCount: 0,
         qov: 0,
       },
-      associate: {
-        profileImageFileName: '',
-        profileUrl: '',
-        firstName: '',
-        lastName: '',
-        displayName: '',
-        username: '',
-        emailAddress: '',
-        primaryPhoneNumber: '',
-        associateId: '',
-        legacyAssociateId: '',
-        address: {
-          address1: '',
-          address2: '',
-          city: '',
-          state: '',
-          zip: '',
-          countryCode: '',
-        },
-      },
     },
   } = useContext(LoginContext);
 
@@ -293,7 +273,6 @@ const DashboardScreen = ({ navigation }) => {
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
-          profileUrl={user?.associate?.profileUrl}
         />
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
@@ -339,7 +318,6 @@ const DashboardScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={user?.associate}
             saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}

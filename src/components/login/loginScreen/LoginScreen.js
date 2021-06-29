@@ -41,6 +41,7 @@ const LoginScreen = ({ navigation }) => {
     setToken,
     useBiometrics,
     getBiometrics,
+    setAssociateId,
     setLegacyId,
     signOutOfFirebase,
   } = useContext(AppContext);
@@ -68,6 +69,8 @@ const LoginScreen = ({ navigation }) => {
       // get associate id if it exists
       if (data.loginUser.associate) {
         // set id so treeNodeFor query can be called in dashboard
+        const id = data.loginUser.associate.associateId;
+        setAssociateId(id);
         const legacyId = data.loginUser.associate.legacyAssociateId;
         setLegacyId(legacyId);
       }

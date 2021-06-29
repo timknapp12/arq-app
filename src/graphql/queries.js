@@ -14,36 +14,6 @@ export const GET_USER = gql`
       qoV
       pa
       canSee
-      associate {
-        associateId
-        legacyAssociateId
-        profileUrl
-        profileImageFileName
-        firstName
-        lastName
-        displayName
-        emailAddress
-        primaryPhoneNumber
-        associateType
-        languageCode
-        associateStatus
-        country {
-          countryId
-          countryCode
-          countryName
-        }
-        address {
-          address1
-          address2
-          city
-          state
-          zip
-          countryCode
-        }
-      }
-      rank {
-        rankId
-      }
       leg1
       leg2
       leg3
@@ -68,6 +38,38 @@ export const GET_USER = gql`
           rankId
           rankName
         }
+      }
+    }
+  }
+`;
+
+export const GET_PROFILE = gql`
+  query ($associateId: Int!) {
+    associates(where: { associateId: { eq: $associateId } }) {
+      associateId
+      legacyAssociateId
+      profileUrl
+      profileImageFileName
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhoneNumber
+      associateType
+      languageCode
+      associateStatus
+      country {
+        countryId
+        countryCode
+        countryName
+      }
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
       }
     }
   }

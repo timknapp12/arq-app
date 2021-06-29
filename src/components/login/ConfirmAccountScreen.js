@@ -29,7 +29,7 @@ const Gap = styled.View`
 `;
 
 const ConfirmAccountScreen = ({ navigation, route }) => {
-  const { setLegacyId, setToken } = useContext(AppContext);
+  const { setAssociateId, setLegacyId, setToken } = useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const { emailAddress, primaryPhoneNumber, secondaryPhoneNumber } =
     directScaleUser;
@@ -79,6 +79,8 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
       const status = data?.loginValidationProcess.status;
       console.log(`status`, status);
       if (data.loginValidationProcess.associate) {
+        const id = data.loginValidationProcess.associate.associateId;
+        setAssociateId(id);
         const legacyId =
           data.loginValidationProcess.associate.legacyAssociateId;
         setLegacyId(legacyId);
