@@ -92,7 +92,7 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
         onPress={() => {
           fadeOut();
           navigation.navigate('Corporate Search Screen', {
-            market: selectedMarket,
+            marketId: marketId,
           });
         }}>
         <TouchableOpacity disabled={isMenuOpen} onPress={openMarketModal}>

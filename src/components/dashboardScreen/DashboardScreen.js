@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
-// import { useQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
 import {
   Flexbox,
@@ -18,224 +17,212 @@ import Rank from './Rank';
 import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
-// import LoadingScreen from '../loadingScreen/LoadingScreen';
 import SettingsModal from '../mainMenu/SettingsModal';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
-// import { GET_USER } from '../../graphql/queries';
-import AppContext from '../../contexts/AppContext';
-
-const mockUser = {
-  pv: 305,
-  qoV: 350000,
-  totalOv: 2224731,
-  pa: 2,
-  cv: 256,
-  leg1: 1190000,
-  leg2: 115500,
-  leg3: 115500,
-  rank: {
-    rankId: 10,
-    minimumQoV: 350000,
-    maximumPerLeg: 140000,
-    legMaxPercentage: 40,
-    requiredPv: 200,
-    requiredPa: 2,
-    rankName: Localized('Emerald'),
-  },
-  previousAmbassadorMonthlyRecord: {
-    personalVolume: 150,
-    personallySponsoredActiveAmbassadorCount: 1,
-    qov: 200000,
-  },
-  associate: {
-    profileImageFileName: 'Sloane.Taylor.2f79ef5f-58d1-4358-b12b-2ab05e3e4dc8',
-    profileUrl:
-      'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FSloane.Taylor.94f93ae8-9b3d-4cf3-a7ee-3f213707ebc6?alt=media&token=52c072d4-62e1-4ab0-b4c4-3090fcb0d4e5',
-    firstName: 'ETHAN',
-    lastName: 'Taylor',
-    displayName: 'sloanet',
-    username: 'sloaniejoanie',
-    emailAddress: 'sloanetaylor@gmail.com',
-    primaryPhoneNumber: '801-435-9064',
-    associateId: '12340987',
-    address: {
-      address1: '1234 S 5600 W',
-      address2: '',
-      city: 'Lehi',
-      state: 'UT',
-      zip: '84043',
-      countryCode: 'us',
-    },
-  },
-};
+import LoginContext from '../../contexts/LoginContext';
 
 const DashboardScreen = ({ navigation }) => {
   initLanguage();
-  const { user } = useContext(AppContext);
-  console.log(`user`, user);
-
-  // const [getUser, { loading }] = useQuery(GET_USER, {
-  //   errorPolicy: 'all',
-  //   onCompleted: (data) => {
-  //     console.log(`data`, data?.treeNodeFor);
-  //     // setUser(data.treeNodeFor);
-  //   },
-  //   onError: (error) => console.log(error),
-  // });
+  const {
+    user = {
+      pv: 0,
+      qoV: 0,
+      totalOv: 0,
+      pa: 0,
+      cv: 0,
+      leg1: 0,
+      leg2: 0,
+      leg3: 0,
+      rank: {
+        rankId: 1,
+        rankName: 'Ambassador',
+        minimumQoV: 0,
+        maximumPerLeg: 0,
+        legMaxPercentage: 100,
+        requiredPv: 0,
+        requiredPa: 0,
+      },
+      previousAmbassadorMonthlyRecord: {
+        personalVolume: 0,
+        personallySponsoredActiveAmbassadorCount: 0,
+        qov: 0,
+      },
+      associate: {
+        profileImageFileName: '',
+        profileUrl: '',
+        firstName: '',
+        lastName: '',
+        displayName: '',
+        username: '',
+        emailAddress: '',
+        primaryPhoneNumber: '',
+        associateId: '',
+        legacyAssociateId: '',
+        address: {
+          address1: '',
+          address2: '',
+          city: '',
+          state: '',
+          zip: '',
+          countryCode: '',
+        },
+      },
+    },
+  } = useContext(LoginContext);
 
   const ranklist = [
     {
-      legMaxPercentage: 0,
+      rankId: 1,
+      rankName: 'Ambassador',
+      minimumQoV: 0,
       maximumPerLeg: 0,
-      rankId: 0,
+      legMaxPercentage: 100,
       requiredPv: 0,
       requiredPa: 0,
-      minimumQoV: 0,
-      rankName: Localized('Distributor'),
     },
     {
-      legMaxPercentage: 60,
-      maximumPerLeg: 180,
-      rankId: 1,
-      requiredPv: 100,
-      requiredPa: 2,
-      minimumQoV: 300,
-      rankName: Localized('Builder'),
-    },
-    {
-      legMaxPercentage: 60,
-      maximumPerLeg: 360,
-      rankId: 2,
-      requiredPv: 100,
-      requiredPa: 2,
-      minimumQoV: 600,
-      rankName: Localized('Pro'),
-    },
-    {
-      legMaxPercentage: 60,
-      maximumPerLeg: 900,
       rankId: 3,
+      rankName: 'Builder',
+      minimumQoV: 300,
+      maximumPerLeg: 180,
+      legMaxPercentage: 60,
       requiredPv: 100,
       requiredPa: 2,
-      minimumQoV: 1500,
-      rankName: Localized('Executive'),
     },
     {
-      legMaxPercentage: 50,
-      maximumPerLeg: 2250,
       rankId: 4,
+      rankName: 'Pro',
+      minimumQoV: 600,
+      maximumPerLeg: 360,
+      legMaxPercentage: 60,
       requiredPv: 100,
       requiredPa: 2,
-      minimumQoV: 4500,
-      rankName: Localized('Elite'),
     },
     {
-      legMaxPercentage: 50,
-      maximumPerLeg: 5000,
       rankId: 5,
+      rankName: 'Executive',
+      minimumQoV: 1500,
+      maximumPerLeg: 900,
+      legMaxPercentage: 60,
       requiredPv: 100,
       requiredPa: 2,
-      minimumQoV: 10000,
-      rankName: Localized('Bronze'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 10000,
       rankId: 6,
-      requiredPv: 200,
+      rankName: 'Elite',
+      minimumQoV: 4500,
+      maximumPerLeg: 2250,
+      legMaxPercentage: 50,
+      requiredPv: 100,
       requiredPa: 2,
-      minimumQoV: 25000,
-      rankName: Localized('Silver'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 20000,
       rankId: 7,
-      requiredPv: 200,
+      rankName: 'Bronze',
+      minimumQoV: 10000,
+      maximumPerLeg: 5000,
+      legMaxPercentage: 50,
+      requiredPv: 100,
       requiredPa: 2,
-      minimumQoV: 50000,
-      rankName: Localized('Gold'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 40000,
       rankId: 8,
+      rankName: 'Silver',
+      minimumQoV: 25000,
+      maximumPerLeg: 10000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 100000,
-      rankName: Localized('Platinum'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 80000,
       rankId: 9,
+      rankName: 'Gold',
+      minimumQoV: 50000,
+      maximumPerLeg: 20000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 200000,
-      rankName: Localized('Ruby'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 140000,
       rankId: 10,
+      rankName: 'Platinum',
+      minimumQoV: 100000,
+      maximumPerLeg: 40000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 350000,
-      rankName: Localized('Emerald'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 200000,
       rankId: 11,
+      rankName: 'Ruby',
+      minimumQoV: 200000,
+      maximumPerLeg: 80000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 500000,
-      rankName: Localized('Diamond'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 300000,
       rankId: 12,
+      rankName: 'Emerald',
+      minimumQoV: 350000,
+      maximumPerLeg: 140000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 750000,
-      rankName: Localized('Blue Diamond'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 400000,
       rankId: 13,
+      rankName: 'Diamond',
+      minimumQoV: 500000,
+      maximumPerLeg: 200000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 1000000,
-      rankName: Localized('Black Diamond'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 600000,
       rankId: 14,
+      rankName: 'Blue Diamond',
+      minimumQoV: 750000,
+      maximumPerLeg: 300000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 1500000,
-      rankName: Localized('Royal Diamond'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 800000,
       rankId: 15,
+      rankName: 'Black Diamond',
+      minimumQoV: 1000000,
+      maximumPerLeg: 400000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
-      minimumQoV: 2000000,
-      rankName: Localized('Presidential Diamond'),
     },
     {
-      legMaxPercentage: 40,
-      maximumPerLeg: 1200000,
       rankId: 16,
+      rankName: 'Royal Diamond',
+      minimumQoV: 1500000,
+      maximumPerLeg: 600000,
+      legMaxPercentage: 40,
       requiredPv: 200,
       requiredPa: 2,
+    },
+    {
+      rankId: 17,
+      rankName: 'Presidential Diamond',
+      minimumQoV: 2000000,
+      maximumPerLeg: 800000,
+      legMaxPercentage: 40,
+      requiredPv: 200,
+      requiredPa: 2,
+    },
+    {
+      rankId: 18,
+      rankName: 'Crown Diamond',
       minimumQoV: 3000000,
-      rankName: Localized('Crown Diamond'),
+      maximumPerLeg: 1200000,
+      legMaxPercentage: 40,
+      requiredPv: 200,
+      requiredPa: 2,
     },
   ];
 
@@ -297,10 +284,6 @@ const DashboardScreen = ({ navigation }) => {
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
-  // if (loading) {
-  //   return <LoadingScreen />;
-  // }
-
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
@@ -310,7 +293,7 @@ const DashboardScreen = ({ navigation }) => {
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
-          profileUrl={mockUser.associate.profileUrl}
+          profileUrl={user?.associate?.profileUrl}
         />
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
@@ -343,26 +326,28 @@ const DashboardScreen = ({ navigation }) => {
             zIndex: -1,
           }}>
           {view.name === Localized('OVERVIEW') && (
-            <Overview user={mockUser} fadeOut={fadeOut} />
+            <Overview user={user} fadeOut={fadeOut} />
           )}
           {view.name === Localized('RANK') && (
-            <Rank ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
+            <Rank ranklist={ranklist} user={user} fadeOut={fadeOut} />
           )}
           {view.name === Localized('OV DETAIL') && (
-            <OVDetail ranklist={ranklist} user={mockUser} fadeOut={fadeOut} />
+            <OVDetail ranklist={ranklist} user={user} fadeOut={fadeOut} />
           )}
         </ScrollView>
-        <MyInfoModal
-          isMyInfoModalOpen={isMyInfoModalOpen}
-          setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-          data={mockUser.associate}
-          saveProfileImageToFirebase={saveProfileImageToFirebase}
-        />
+        {isMyInfoModalOpen && (
+          <MyInfoModal
+            isMyInfoModalOpen={isMyInfoModalOpen}
+            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+            data={user?.associate}
+            saveProfileImageToFirebase={saveProfileImageToFirebase}
+          />
+        )}
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={mockUser.associate}
+            data={user?.associate}
           />
         )}
       </ScreenContainer>

@@ -34,14 +34,15 @@ const Square = styled.View`
 
 const Rank = ({ ranklist, user, fadeOut }) => {
   initLanguage();
+  // TODO get ranks from database once they have the correct data
+  // const {ranks: ranklist} = useContext(LoginContext)
   const { pv, qoV, pa, previousAmbassadorMonthlyRecord } = user;
 
-  // previous month stats are renamed in destructuring so they are more clear
-  const {
-    personalVolume: lastMonthPV,
-    personallySponsoredActiveAmbassadorCount: lastMonthPA,
-    qov: lastMonthQOV,
-  } = previousAmbassadorMonthlyRecord;
+  const lastMonthPV = previousAmbassadorMonthlyRecord?.personalVolume ?? 0;
+  const lastMonthPA =
+    previousAmbassadorMonthlyRecord?.personallySponsoredActiveAmbassadorCount ??
+    0;
+  const lastMonthQOV = previousAmbassadorMonthlyRecord?.qov ?? 0;
 
   const initialRankName = user?.rank?.rankName;
   const [rankName, setRankName] = useState(initialRankName);
@@ -109,10 +110,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <DoubleDonut
               testID="total-pv-donut-svg"
               // ternary to ensure no error with 0 values of distributor rank
-              outerpercentage={rank.id === 0 ? 100 : pvPerc}
+              outerpercentage={rank.rankId === 1 ? 0 : pvPerc}
               outermax={100}
               outercolor={donut1primaryColor}
-              innerpercentage={rank.id === 0 ? 100 : lastMonthPVPerc}
+              innerpercentage={rank.rankId === 1 ? 0 : lastMonthPVPerc}
               innermax={100}
               innercolor={donut1secondaryColor}
               view="rank"
@@ -146,10 +147,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <H4 testID="total-qov-donut-label">{Localized('Total QOV')}</H4>
             <DoubleDonut
               testID="total-qov-donut-svg"
-              outerpercentage={rank.id === 0 ? 100 : qoVPerc}
+              outerpercentage={rank.rankId === 1 ? 0 : qoVPerc}
               outermax={100}
               outercolor={donut2primaryColor}
-              innerpercentage={rank.id === 0 ? 100 : lastMonthQOVPerc}
+              innerpercentage={rank.rankId === 1 ? 0 : lastMonthQOVPerc}
               innermax={100}
               innercolor={donut2secondaryColor}
               view="rank"
@@ -187,10 +188,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           </H4>
           <DoubleDonut
             testID="personally-enrolled-donut-svg"
-            outerpercentage={rank.id === 0 ? 100 : paPerc}
+            outerpercentage={rank.rankId === 1 ? 0 : paPerc}
             outermax={100}
             outercolor={donut3primaryColor}
-            innerpercentage={rank.id === 0 ? 100 : lastMonthPAPerc}
+            innerpercentage={rank.rankId === 1 ? 0 : lastMonthPAPerc}
             innermax={100}
             innercolor={donut3secondaryColor}
             view="rank"

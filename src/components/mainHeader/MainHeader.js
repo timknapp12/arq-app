@@ -16,7 +16,7 @@ const MainHeader = ({
   fadeIn = () => {},
   fadeOut = () => {},
   isMenuOpen,
-  profileUrl,
+  profileUrl = '',
 }) => {
   const [isImageValid, setIsImageValid] = useState(true);
   const toggleMenu = () => {

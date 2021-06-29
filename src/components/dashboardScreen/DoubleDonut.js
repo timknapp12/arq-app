@@ -55,14 +55,15 @@ const DoubleDonut = ({
   };
 
   useEffect(() => {
+    const nonZeroOuterMax = outermax === 0 ? 1 : outermax;
     // to ensure percentage is not greater than 100%
     const filteredPercentage =
       outerpercentage > outermax ? outermax : outerpercentage;
-
     animation(filteredPercentage);
+
     animatedValue.addListener((v) => {
       if (circleRef?.current) {
-        const maxPerc = (100 * v.value) / outermax;
+        const maxPerc = (100 * v.value) / nonZeroOuterMax;
         const strokeDashoffset =
           circleCircumference - (circleCircumference * maxPerc) / 100;
 

@@ -21,7 +21,7 @@ const Overview = ({ user, fadeOut }) => {
           padding={20}
           width="100%">
           <H3>{`${Localized('Welcome back')} ${
-            user?.associate?.firstName
+            user?.associate?.firstName ?? ''
           }`}</H3>
           <H4Secondary>{`${Localized('Rank')}: Distributor`}</H4Secondary>
         </Flexbox>

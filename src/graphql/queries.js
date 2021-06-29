@@ -8,22 +8,22 @@ export const GET_USER = gql`
       orders {
         orderId
       }
-      childAssociates {
-        associateId
-      }
       cv
       pv
       ov
+      qoV
+      pa
       canSee
       associate {
         associateId
-        dateModified
-        companyName
-        emailAddress
+        legacyAssociateId
+        profileUrl
+        profileImageFileName
         firstName
         lastName
+        displayName
+        emailAddress
         primaryPhoneNumber
-        dateSignedUp
         associateType
         languageCode
         associateStatus
@@ -32,8 +32,18 @@ export const GET_USER = gql`
           countryCode
           countryName
         }
+        address {
+          address1
+          address2
+          city
+          state
+          zip
+          countryCode
+        }
       }
-      qoV
+      rank {
+        rankId
+      }
       leg1
       leg2
       leg3
@@ -42,10 +52,23 @@ export const GET_USER = gql`
         rankId
         minimumQoV
         maximumPerLeg
+        legMaxPercentage
         rankName
         commission
+        requiredPv
+        requiredPa
       }
-      pa
+      previousAmbassadorMonthlyRecord {
+        personalVolume
+        personallySponsoredActiveAmbassadorCount
+        qov
+      }
+      currentAmbassadorMonthlyRecord {
+        highestRank {
+          rankId
+          rankName
+        }
+      }
     }
   }
 `;
@@ -55,6 +78,11 @@ export const GET_RANKS = gql`
     ranks {
       rankId
       rankName
+      minimumQoV
+      maximumPerLeg
+      legMaxPercentage
+      requiredPv
+      requiredPa
     }
   }
 `;
@@ -75,11 +103,9 @@ export const GET_CORPORATE_RESOURCES = gql`
     corporateResources(countries: $countries) {
       folderName
       folderId
-      folderDescription
       isWideLayout
       pictureUrl
       displayOrder
-      changedBy
       links {
         linkId
         linkTitle
@@ -91,20 +117,16 @@ export const GET_CORPORATE_RESOURCES = gql`
       childFolders {
         folderName
         folderId
-        folderDescription
         isWideLayout
         pictureUrl
         displayOrder
-        changedBy
         childFolders {
           folderId
           folderName
           folderId
-          folderDescription
           isWideLayout
           pictureUrl
           displayOrder
-          changedBy
           links {
             linkId
             linkTitle
@@ -114,6 +136,32 @@ export const GET_CORPORATE_RESOURCES = gql`
             extension
           }
         }
+      }
+    }
+  }
+`;
+
+export const SEARCH_RESOURCES = gql`
+  query SearchResources(
+    $countries: [Int!]
+    $teams: [String!]
+    $searchList: [String!]
+  ) {
+    searchResources(
+      countries: $countries
+      teams: $teams
+      searchList: $searchList
+    ) {
+      folderId
+      folderName
+      folderDescription
+      links {
+        linkId
+        linkTitle
+        linkDescription
+        linkUrl
+        contentType
+        extension
       }
     }
   }

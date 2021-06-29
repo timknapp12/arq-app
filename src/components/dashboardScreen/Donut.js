@@ -34,13 +34,16 @@ const Donut = ({
     }).start();
   };
   useEffect(() => {
+    // to ensure the max is not zero
+    const nonZeroMax = max === 0 ? 1 : max;
     // to ensure percentage is not greater than 100%
     const filteredPercentage = percentage > max ? max : percentage;
+    // const nonZeroPercentage = filteredPercentage === 0 ? 1 : filteredPercentage;
     animation(filteredPercentage);
 
     animatedValue.addListener((v) => {
       if (circleRef?.current) {
-        const maxPerc = (100 * v.value) / max;
+        const maxPerc = (100 * v.value) / nonZeroMax;
         const strokeDashoffset =
           circleCircumference - (circleCircumference * maxPerc) / 100;
 
