@@ -34,6 +34,7 @@ i18n.fallbacks = true;
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
+  const [associateId, setAssociateId] = useState(null);
   const [legacyId, setLegacyId] = useState(null);
   const [useBiometrics, setUseBiometrics] = useState(false);
   const [loaded] = useFonts({
@@ -116,6 +117,8 @@ const App = () => {
           value={{
             theme,
             setTheme,
+            associateId,
+            setAssociateId,
             legacyId,
             setLegacyId,
             useBiometrics,
