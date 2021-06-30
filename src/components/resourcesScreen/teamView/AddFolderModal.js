@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Image, TouchableOpacity, Platform, Alert } from 'react-native';
+import {
+  Image,
+  TouchableOpacity,
+  Platform,
+  Alert,
+  Keyboard,
+} from 'react-native';
 import { Flexbox, Label, Input, H5Black } from '../../common';
 import ImageIcon from '../../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
@@ -44,9 +50,8 @@ const AddFolderModal = ({
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           Alert.alert(
             Localized(
@@ -108,6 +113,8 @@ const AddFolderModal = ({
           testID="resource-folder-title-input"
           value={title}
           onChangeText={(text) => setTitle(text)}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss()}
         />
         <Label style={{ marginTop: marginSize }}>{Localized('Layout')}</Label>
         <Flexbox

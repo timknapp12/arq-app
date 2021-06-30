@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import { H4, Flexbox, H4Secondary, H3 } from '../common';
@@ -9,10 +9,12 @@ import {
   donut2primaryColor,
   donut3primaryColor,
 } from '../../styles/colors';
+import LoginContext from '../../contexts/LoginContext';
 
 const Overview = ({ user, fadeOut }) => {
   initLanguage();
   const { pv, totalOv, cv } = user;
+  const { userProfile } = useContext(LoginContext);
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <Flexbox width="100%" onStartShouldSetResponder={() => true}>
@@ -21,9 +23,11 @@ const Overview = ({ user, fadeOut }) => {
           padding={20}
           width="100%">
           <H3>{`${Localized('Welcome back')} ${
-            user?.associate?.firstName ?? ''
+            userProfile?.firstName ?? ''
           }`}</H3>
-          <H4Secondary>{`${Localized('Rank')}: Distributor`}</H4Secondary>
+          <H4Secondary>{`${Localized('Rank')}: ${
+            user?.rank?.rankName
+          }`}</H4Secondary>
         </Flexbox>
 
         <Flexbox padding={20} width="100%" direction="row">

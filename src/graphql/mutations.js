@@ -116,6 +116,72 @@ export const UPDATE_USER = gql`
         zip: $zip
         countryCode: $countryCode
       }
+    ) {
+      associateId
+    }
+  }
+`;
+
+export const ADD_TEAM_ACCESS_CODE = gql`
+  mutation AddUpdateTeamAccess(
+    $associateId: Int!
+    $teamName: String!
+    $accessCode: String!
+    $teamAccessId: Int!
+  ) {
+    addUpdateTeamAccess(
+      input: {
+        associateId: $associateId
+        teamName: $teamName
+        accessCode: $accessCode
+        teamAccessId: $teamAccessId
+      }
+    ) {
+      accessCode
+      teamName
+    }
+  }
+`;
+
+export const ADD_UPDATE_FOLDER = gql`
+  mutation AddUpdateFolder(
+    $folderId: Int!
+    $folderName: String!
+    $isWideLayout: Boolean!
+    $pictureUrl: String!
+    $teamName: String
+    $teamAccessCode: String
+  ) {
+    addUpdateFolder(
+      input: {
+        folderId: $folderId
+        folderName: $folderName
+        isWideLayout: $isWideLayout
+        pictureUrl: $pictureUrl
+        teamName: $teamName
+        teamAccessCode: $teamAccessCode
+      }
+    ) {
+      folderId
+      folderName
+    }
+  }
+`;
+
+export const CREATE_TEAM = gql`
+  mutation NewTeamAccess(
+    $associateId: Int!
+    $teamName: String!
+    $accessCode: String!
+    $folderName: String!
+  ) {
+    newTeamAccess(
+      input: {
+        associateId: $associateId
+        teamName: $teamName
+        accessCode: $accessCode
+        folderName: $folderName
+      }
     )
   }
 `;

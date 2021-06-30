@@ -22,7 +22,6 @@ import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import MarketModal from '../marketModal/MarketModal';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
-import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { Localized, initLanguage } from '../../translations/Localized';
 import NewsCardMap from './NewsCardMap';
 import AppContext from '../../contexts/AppContext';
@@ -201,7 +200,6 @@ const NewsScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}
         {isSettingsModalOpen && (

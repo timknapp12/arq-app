@@ -54,18 +54,12 @@ const Divider = styled.View`
   margin: 40px 0px;
 `;
 
-const SettingsModal = ({
-  setIsSettingsModalOpen,
-  isSettingsModalOpen,
-  data,
-}) => {
+const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   initLanguage();
-  const { storeBiometrics, useBiometrics, signOutOfFirebase } = useContext(
-    AppContext,
-  );
+  const { storeBiometrics, useBiometrics, signOutOfFirebase } =
+    useContext(AppContext);
   // TODO wire up a mutation when biometrics switch changes
   // const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(useBiometrics);
-  const initialState = data.username;
   const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
 
   const navigation = useNavigation();
@@ -158,10 +152,7 @@ const SettingsModal = ({
                     padding={12}>
                     <RowContainer>
                       <H5Secondary>{Localized('Username')}</H5Secondary>
-                      <H5 style={{ marginStart: 8 }}>
-                        {/* {username} */}
-                        {initialState}
-                      </H5>
+                      <H5 style={{ marginStart: 8 }}>Firebase email address</H5>
                     </RowContainer>
 
                     <RowContainer>

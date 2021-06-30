@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../components/login/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/login/loginScreen/PasswordRecoveryScreen';
@@ -20,13 +20,15 @@ import {
   GET_USER,
   GET_PROFILE,
 } from '../graphql/queries';
+import { UPDATE_USER } from '../graphql/mutations';
+import { saveProfileImageToFirebase } from '../utils/firebase/saveProfileImageToFirebase';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Login = createStackNavigator();
 
 const LoginStack = () => {
   const { theme, associateId, legacyId } = useContext(AppContext);
-  const [email, setEmail] = useState('tim@email.com');
+  const [email, setEmail] = useState('tim@test.com');
   const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -55,6 +57,19 @@ const LoginStack = () => {
 
   const [getProfile, { data: profileData }] = useLazyQuery(GET_PROFILE, {
     variables: { associateId: associateId },
+    onCompleted: () =>
+      console.log('this fired inside the getProfile lazy query'),
+  });
+
+  const [updateProfile] = useMutation(UPDATE_USER, {
+    // refetchQueries: [GET_PROFILE],
+    onCompleted: (data) => {
+      if (data.updateAssociate.associateId) {
+        getProfile({
+          variables: { associateId: data.updateAssociate.associateId },
+        });
+      }
+    },
   });
 
   useEffect(() => {
@@ -94,6 +109,8 @@ const LoginStack = () => {
         markets: marketsData?.activeCountries,
         user: userData?.treeNodeFor,
         userProfile: profileData?.associates?.[0],
+        saveProfileImageToFirebase,
+        updateProfile,
       }}>
       <Login.Navigator
         screenOptions={{

@@ -18,7 +18,6 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import LoginContext from '../../contexts/LoginContext';
 
 const DashboardScreen = ({ navigation }) => {
@@ -318,7 +317,6 @@ const DashboardScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}
         {isSettingsModalOpen && (

@@ -22,7 +22,6 @@ import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
-import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
@@ -184,7 +183,6 @@ const ResourcesScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}
         {isSettingsModalOpen && (

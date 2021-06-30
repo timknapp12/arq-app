@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Platform, Alert } from 'react-native';
+import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
 import { Flexbox, Label, Input, TextArea, Picker, H5Black } from '../../common';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
@@ -34,9 +34,8 @@ const UploadAssetModal = ({
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           Alert.alert(
             Localized(
@@ -154,6 +153,8 @@ const UploadAssetModal = ({
           testID="upload-asset-title-input"
           value={title}
           onChangeText={(text) => setTitle(text)}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss()}
         />
         <TextArea
           label={Localized('Description')}
