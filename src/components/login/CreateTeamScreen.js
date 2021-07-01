@@ -16,7 +16,6 @@ const Gap = styled.View`
 
 const CreateTeamScreen = ({ navigation }) => {
   const { associateId } = useContext(AppContext);
-  console.log(`associateId`, associateId);
   const [teamName, setTeamName] = useState('');
   const [accessCode, setAccessCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
