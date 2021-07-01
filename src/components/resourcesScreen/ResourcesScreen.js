@@ -16,8 +16,6 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-// TODO remove this once we get real data
-import { mockUser } from '../common/mockUser';
 import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
@@ -189,7 +187,6 @@ const ResourcesScreen = ({ navigation }) => {
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={mockUser.associate}
           />
         )}
       </ScreenContainer>

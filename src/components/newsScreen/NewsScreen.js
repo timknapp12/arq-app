@@ -27,7 +27,6 @@ import NewsCardMap from './NewsCardMap';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 // TODO remove this once we get real data
-import { mockUser } from '../common/mockUser';
 import { mockNews } from './mockNews';
 
 const FlagIcon = styled.Image`
@@ -206,7 +205,6 @@ const NewsScreen = ({ navigation }) => {
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={mockUser.associate}
           />
         )}
         {isMarketModalOpen && (
