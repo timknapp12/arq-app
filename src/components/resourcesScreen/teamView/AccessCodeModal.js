@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Keyboard, View } from 'react-native';
+import { useMutation } from '@apollo/client';
 import EditModal from '../../editModal/EditModal';
 import { Label, Input, H5Black, H5Secondary, AlertText } from '../../common';
 import { Localized } from '../../../translations/Localized';
+import AppContext from '../../../contexts/AppContext';
+import { CREATE_TEAM } from '../../../graphql/mutations';
+import { GET_USERS_ACCESS_CODES } from '../../../graphql/queries';
 
 const AccessCodeModal = ({
   visible,
@@ -14,20 +18,32 @@ const AccessCodeModal = ({
   accessCode,
   setAccessCode,
   isNew,
+  isError,
+  setIsError,
+  setSelectedTeamName,
 }) => {
-  const [isError, setIsError] = useState(false);
+  const { associateId } = useContext(AppContext);
 
-  const onSubmit = () => {
-    // TODO : wire up mutation to check if access code is valid
-    if (accessCode === 'Test') {
-      return setIsError(true);
-    } else {
-      setTeamName('');
-      setAccessCode('');
-      setIsError(false);
-      return onSave();
-    }
-  };
+  const [createTeam] = useMutation(CREATE_TEAM, {
+    variables: {
+      associateId,
+      teamName,
+      accessCode,
+      folderName: 'My Team Folder',
+    },
+    refetchQueries: [GET_USERS_ACCESS_CODES],
+    onCompleted: async (data) => {
+      if (data.newTeamAccess === false) {
+        return setIsError(true);
+      } else {
+        await setSelectedTeamName(teamName);
+        setTeamName('');
+        setAccessCode('');
+        return onClose();
+      }
+    },
+    onError: () => setIsError(true),
+  });
 
   const onCancel = () => {
     setTeamName('');
@@ -49,11 +65,16 @@ const AccessCodeModal = ({
       );
 
   const errorMessage = isNew
-    ? Localized(`This code is not available. Please try again.`)
-    : Localized(`This code does not exist. Please try again.`);
+    ? Localized(
+        `Sorry that team name has already been used - Please try another name`,
+      )
+    : Localized(`The team name or code does not exist - Please try again`);
 
   return (
-    <EditModal visible={visible} onClose={onCancel} onSave={onSubmit}>
+    <EditModal
+      visible={visible}
+      onClose={onCancel}
+      onSave={isNew ? createTeam : onSave}>
       <H5Black style={{ textAlign: 'center' }}>{header}</H5Black>
       <H5Secondary style={{ marginTop: 8, marginBottom: 8 }}>
         {instructions}
@@ -99,6 +120,9 @@ AccessCodeModal.propTypes = {
   accessCode: PropTypes.string.isRequired,
   setAccessCode: PropTypes.func.isRequired,
   isNew: PropTypes.bool,
+  isError: PropTypes.bool,
+  setIsError: PropTypes.func,
+  setSelectedTeamName: PropTypes.func,
 };
 
 export default AccessCodeModal;

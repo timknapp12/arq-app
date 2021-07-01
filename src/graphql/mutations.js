@@ -1,18 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const ADD_USER = gql`
-  mutation AddUser($usernameIn: String!, $passwordIn: String!) {
-    addUser(input: { usernameIn: $usernameIn, passwordIn: $passwordIn }) {
-      user {
-        userId
-        birthDate
-        companyName
-        emailAddress
-      }
-    }
-  }
-`;
-
 // possible values returned for loginStatus: "VERIFICATION_NEEDED", "NOT_AN_AMBASSADOR", "SUCCESS"
 export const LOGIN_USER = gql`
   mutation LoginUser($ambassaderOnly: Boolean!) {

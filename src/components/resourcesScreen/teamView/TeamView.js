@@ -1,18 +1,25 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import { View, Platform, TouchableOpacity, Alert } from 'react-native';
 import { Flexbox, H5, MainScrollView } from '../../common';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import SwitchTeamIcon from '../../../../assets/icons/switch-team-icon.svg';
 import ResourceCard from '../ResourceCard';
 import * as Analytics from 'expo-firebase-analytics';
-// TODO: remove mock data when we get real data
-import { categories, teamCodes } from './mockTeamData';
+import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import AddFolderModal from './AddFolderModal';
 import AppContext from '../../../contexts/AppContext';
 import TeamMenu from './TeamMenu';
 import AccessCodeModal from './AccessCodeModal';
 import { Localized } from '../../../translations/Localized';
+import {
+  GET_USERS_ACCESS_CODES,
+  GET_TEAM_RESOURCES,
+} from '../../../graphql/queries';
+import { ADD_TEAM_ACCESS_CODE } from '../../../graphql/mutations';
+import { findTeamAssociateId } from '../../../utils/teamResources/findTeamAssociateId';
+import { findAssociateIdInListOfTeams } from '../../../utils/teamResources/findAssociateIdInListOfTeams';
 
 const TeamView = ({
   fadeOut,
@@ -25,17 +32,38 @@ const TeamView = ({
   closeTeamMenu,
   isTeamMenuOpen,
   teamFadeAnim,
-  // TODO: integrate hasPermissions prop with backend
-  hasPermissions,
   isMenuOpen,
 }) => {
-  const { theme } = useContext(AppContext);
+  const { theme, associateId, hasPermissions } = useContext(AppContext);
+  console.log(`hasPermissions`, hasPermissions);
+
+  // get all of the access codes that the user has subscribed to
+  const { loading: loadingAccessCodes, data: userAccessCodesData } = useQuery(
+    GET_USERS_ACCESS_CODES,
+    {
+      variables: { associateId },
+    },
+  );
+  console.log(`userAccessCodesData`, userAccessCodesData);
+
   const [isNavDisabled, setIsNavDisabled] = useState(false);
   const [isAccessCodeModalOpen, setIsAccessCodeModalOpen] = useState(false);
-  const initialCode = teamCodes[0].name;
-  const [selectedAccessCode, setSelectedAccessCode] = useState(initialCode);
+
+  const [selectedTeamName, setSelectedTeamName] = useState('');
+  // this is a flag so selected team name does not always reset with new data from the refetch query of access codes
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  const [teamName, setTeamName] = useState('');
   const [accessCode, setAccessCode] = useState('');
   const [isNewAccessCode, setIsNewAccessCode] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const userHasAlreadyCreatedATeam = findAssociateIdInListOfTeams(
+    associateId,
+    userAccessCodesData?.accesses,
+  );
+  console.log(`userHasAlreadyCreatedATeam`, userHasAlreadyCreatedATeam);
 
   const navigateToResource = (item) => {
     fadeOut();
@@ -49,10 +77,10 @@ const TeamView = ({
       return fadeOut();
     }
     navigation.navigate('Resources Category Screen', {
-      title: item.title.toUpperCase(),
-      teamAssetList: item.assetList,
+      title: item.folderName.toUpperCase(),
+      assetList: item.links,
       // TODO: integrate permissions with backend
-      hasPermissions: true,
+      isOwner: isOwner,
     });
     setIsCalloutOpenFromParent(false);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
@@ -83,32 +111,84 @@ const TeamView = ({
   }, [isTeamMenuOpen]);
 
   useEffect(() => {
-    if (teamCodes.length < 1) {
+    if (userAccessCodesData?.length < 1) {
       setIsAccessCodeModalOpen(true);
     }
-    if (hasPermissions) {
+    if (
+      userAccessCodesData?.length < 1 &&
+      userAccessCodesData.associateId === associateId
+    ) {
       setIsNewAccessCode(true);
     }
-  }, [teamCodes]);
+  }, [userAccessCodesData]);
+
+  const [addTeamAccessCode] = useMutation(ADD_TEAM_ACCESS_CODE, {
+    variables: {
+      associateId,
+      teamName,
+      accessCode,
+      teamAccessId: 0,
+    },
+    refetchQueries: [GET_USERS_ACCESS_CODES],
+    onCompleted: async () => {
+      await setSelectedTeamName(teamName);
+      setTeamName('');
+      setAccessCode('');
+      return setIsAccessCodeModalOpen(false);
+    },
+    onError: () => setIsError(true),
+  });
+
+  useEffect(() => {
+    if (userAccessCodesData && initialLoad) {
+      setSelectedTeamName(userAccessCodesData.accesses[0].teamName);
+      setInitialLoad(false);
+    }
+  }, [userAccessCodesData, initialLoad]);
+
+  const [
+    getTeamResources,
+    { loading: loadingResources, data: teamResourceData },
+  ] = useLazyQuery(GET_TEAM_RESOURCES, {
+    variables: { teams: [selectedTeamName] },
+  });
+
+  useEffect(() => {
+    getTeamResources();
+    const teamAssociateId = findTeamAssociateId(
+      selectedTeamName,
+      userAccessCodesData?.accesses ?? [],
+    );
+    if (teamAssociateId === associateId) {
+      setIsOwner(true);
+    } else {
+      setIsOwner(false);
+    }
+  }, [selectedTeamName]);
+  console.log(`isOwner`, isOwner);
 
   const saveAccessCode = () => {
+    if (!teamName) {
+      return Alert.alert(Localized('Please enter a team name'));
+    }
     if (!accessCode) {
       return Alert.alert(Localized('Please enter a team access code'));
     }
-    // TODO: fire mutation to find access code in database
-    setSelectedAccessCode(accessCode);
-    return setIsAccessCodeModalOpen(false);
+    addTeamAccessCode();
   };
+
+  if (loadingAccessCodes || loadingResources) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>
       <FilterSearchBar
         onPress={() => {
-          // TODO pass in a real access code
           fadeOut();
           navigation.navigate('Team Search Screen', {
             accessCode: '3',
-            title: selectedAccessCode.toUpperCase(),
+            title: selectedTeamName.toUpperCase(),
           });
         }}>
         <TouchableOpacity onPress={toggleTeamMenu}>
@@ -122,20 +202,20 @@ const TeamView = ({
                 marginEnd: 6,
               }}
             />
-            <H5>{selectedAccessCode}</H5>
+            <H5>{selectedTeamName}</H5>
           </Flexbox>
         </TouchableOpacity>
       </FilterSearchBar>
       <Flexbox align="flex-start">
         <TeamMenu
-          items={teamCodes}
+          items={userAccessCodesData?.accesses}
           style={{ left: teamFadeAnim }}
           onClose={closeTeamMenu}
-          onSelect={(name) => setSelectedAccessCode(name)}
+          onSelect={(name) => setSelectedTeamName(name)}
           setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
           setIsNewAccessCode={setIsNewAccessCode}
-          // TODO: wire up permissions from backend - see if user qualifies to add access codes
-          hasPermissions={true}
+          hasPermissions={hasPermissions}
+          userHasAlreadyCreatedATeam={userHasAlreadyCreatedATeam}
         />
       </Flexbox>
       <MainScrollView>
@@ -148,24 +228,23 @@ const TeamView = ({
           }}
           accessibilityLabel="Team Resources"
           onStartShouldSetResponder={() => true}>
-          {categories.length < 1 ? (
+          {teamResourceData?.teamResources.length < 1 ? (
             <Flexbox>
               <H5>
                 {Localized('There are no resources found for this access code')}
               </H5>
             </Flexbox>
           ) : null}
-          {categories.map((item, index) => (
+          {teamResourceData?.teamResources.map((item, index) => (
             <ResourceCard
               isCalloutOpenFromParent={isCalloutOpenFromParent}
               setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
               style={{ zIndex: -index }}
-              key={item.title}
-              url={item.url}
-              title={item.title}
+              key={item.folderId}
+              url={item.pictureUrl}
+              title={item.folderName}
               isWideLayout={item.isWideLayout}
-              // TODO: integrate hasPermissions prop with backend
-              hasPermissions={true}
+              isOwner={isOwner}
               setIsNavDisabled={setIsNavDisabled}
               isMenuOpen={isMenuOpen}
               isTeamMenuOpen={isTeamMenuOpen}
@@ -185,9 +264,14 @@ const TeamView = ({
         onClose={() => setIsAccessCodeModalOpen(false)}
         onSave={saveAccessCode}
         testID="access-code-input"
-        value={accessCode}
-        onChangeText={(text) => setAccessCode(text)}
+        teamName={teamName}
+        setTeamName={setTeamName}
+        accessCode={accessCode}
+        setAccessCode={setAccessCode}
         isNew={isNewAccessCode}
+        isError={isError}
+        setIsError={setIsError}
+        setSelectedTeamName={setSelectedTeamName}
       />
     </>
   );
@@ -204,7 +288,6 @@ TeamView.propTypes = {
   closeTeamMenu: PropTypes.func,
   isTeamMenuOpen: PropTypes.bool,
   teamFadeAnim: PropTypes.object,
-  hasPermissions: PropTypes.bool,
   isMenuOpen: PropTypes.bool.isRequired,
 };
 
