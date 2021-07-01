@@ -227,5 +227,6 @@
   "Send verification code to phone number": "es Send verification code to phone number",
   "Message failed to send - Please check your info and try again": "es Message failed to send - Please check your info and try again",
   "Resend code": "es Resend code",
-  "The access code may have expired - Please get a new code try again": "es The access code may have expired - Please get a new code try again"
+  "The access code may have expired - Please get a new code try again": "es The access code may have expired - Please get a new code try again",
+  "Sorry that team name has already been used - Please try another name": "es Sorry that team name has already been used - Please try another name"
 }
