@@ -10,7 +10,7 @@ import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, storeBiometrics } = useContext(AppContext);
+  const { theme, storeBiometrics, hasPermissions } = useContext(AppContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
@@ -65,7 +65,10 @@ const BiometricsScreen = ({ navigation }) => {
   const onSubmit = () => {
     // this sets the biometrics in App.js at the root of the project
     storeBiometrics(enableBiometrics);
-    navigation.navigate('Create Team Screen');
+    // if the user has ever been ruby or above then they can create a team name, otherwise we don't let them go to that screen
+    hasPermissions
+      ? navigation.navigate('Create Team Screen')
+      : navigation.navigate('App Stack');
   };
 
   return (
