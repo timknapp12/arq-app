@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Animated, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
@@ -20,10 +20,11 @@ import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
+import AppContext from '../../contexts/AppContext';
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
-
+  const { hasPermissions } = useContext(AppContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -167,7 +168,7 @@ const ResourcesScreen = ({ navigation }) => {
         )}
         {view.name === Localized('SERVICES') && <ServicesView />}
         {view.name === Localized('FAVORITES') && <FavoritesView />}
-        {view.name === Localized('TEAM') && (
+        {view.name === Localized('TEAM') && hasPermissions && (
           <AddButton
             bottom="130px"
             onPress={() => {

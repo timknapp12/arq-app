@@ -27,7 +27,8 @@ import { saveProfileImageToFirebase } from '../utils/firebase/saveProfileImageTo
 const Login = createStackNavigator();
 
 const LoginStack = () => {
-  const { theme, associateId, legacyId } = useContext(AppContext);
+  const { theme, associateId, legacyId, setHasPermissions } =
+    useContext(AppContext);
   const [email, setEmail] = useState('tim@test.com');
   const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -53,6 +54,14 @@ const LoginStack = () => {
 
   const [getUser, { data: userData }] = useLazyQuery(GET_USER, {
     variables: { legacyAssociateId: legacyId },
+    onCompleted: (data) => {
+      console.log(`data`, data);
+      if (
+        data.treeNodeFor.currentAmbassadorMonthlyRecord.highestRank.rankId > 10
+      ) {
+        setHasPermissions(true);
+      }
+    },
   });
 
   const [getProfile, { data: profileData }] = useLazyQuery(GET_PROFILE, {

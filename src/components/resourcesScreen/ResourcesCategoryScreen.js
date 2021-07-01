@@ -8,7 +8,7 @@ import DownloadToast from './DownloadToast';
 import 'firebase/firestore';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
-  const { assetList, hasPermissions } = route.params;
+  const { assetList, isOwner } = route.params;
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
@@ -70,13 +70,13 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   setToastInfo={setToastInfo}
                   setIsNavDisabled={setIsNavDisabled}
                   isNavDisabled={isNavDisabled}
-                  hasPermissions={hasPermissions}
+                  isOwner={isOwner}
                 />
               ))}
             </Flexbox>
           </TouchableWithoutFeedback>
         </ScrollView>
-        {hasPermissions && (
+        {isOwner && (
           <AddButton
             bottom="10px"
             onPress={() => {

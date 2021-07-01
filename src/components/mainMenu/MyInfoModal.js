@@ -53,16 +53,16 @@ const NameContainer = styled.View`
   width: 100%;
 `;
 
-const MyInfoModal = ({
-  setIsMyInfoModalOpen,
-  isMyInfoModalOpen,
-  // data,
-  saveProfileImageToFirebase,
-}) => {
+const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   initLanguage();
-  const { userProfile: data } = useContext(LoginContext);
+  const {
+    userProfile: data,
+    saveProfileImageToFirebase,
+    updateProfile,
+  } = useContext(LoginContext);
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
+  console.log(`data`, data);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const handleChange = (field, text) => {
@@ -194,15 +194,34 @@ const MyInfoModal = ({
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // TODO add saving logic here
     if (!validateAllFields()) {
       return false;
     } else {
       // only save image if it has been changed
-      isNewImageSelected && saveProfileImageToFirebase(myInfo, handleChange);
+      isNewImageSelected &&
+        (await saveProfileImageToFirebase(myInfo, handleChange));
       setIsMyInfoModalOpen(false);
       setIsNewImageSelected(false);
+      updateProfile({
+        variables: {
+          associateId: associateId,
+          profileUrl: profileUrl,
+          profileImageFileName: profileImageFileName,
+          firstName: firstName,
+          lastName: lastName,
+          displayName: displayName,
+          emailAddress: emailAddress,
+          primaryPhoneNumber: primaryPhoneNumber,
+          address1: address1,
+          address2: address2,
+          city: city,
+          state: state,
+          zip: zip,
+          countryCode: countryCode,
+        },
+      });
     }
   };
 
@@ -224,6 +243,7 @@ const MyInfoModal = ({
     legacyAssociateId,
     associateId,
     profileUrl,
+    profileImageFileName,
     firstName,
     lastName,
     displayName,
@@ -566,7 +586,6 @@ const MyInfoModal = ({
 MyInfoModal.propTypes = {
   setIsMyInfoModalOpen: PropTypes.func.isRequired,
   isMyInfoModalOpen: PropTypes.bool.isRequired,
-  saveProfileImageToFirebase: PropTypes.func,
 };
 
 export default MyInfoModal;

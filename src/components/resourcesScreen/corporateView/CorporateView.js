@@ -39,7 +39,7 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
 
   const [selectedMarket, setSelectedMarket] = useState(userMarket.countryCode);
-  const initialMarketUrl = markets?.[0]?.pictureUrl;
+  const initialMarketUrl = markets?.[0]?.pictureUrl ?? '';
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
   const [marketId, setMarketId] = useState(userMarket.countryId);
 

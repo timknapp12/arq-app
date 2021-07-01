@@ -80,7 +80,7 @@ const ResourceCard = ({
   isWideLayout = true,
   title,
   onPress,
-  hasPermissions,
+  isOwner,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   isMenuOpen,
@@ -176,7 +176,7 @@ const ResourceCard = ({
           <H6>{title}</H6>
         </TouchableOpacity>
 
-        {hasPermissions && (
+        {isOwner && (
           <View>
             <TouchableOpacity
               style={{ alignItems: 'center' }}
@@ -266,7 +266,7 @@ ResourceCard.propTypes = {
   isWideLayout: PropTypes.bool,
   url: PropTypes.string,
   onPress: PropTypes.func,
-  hasPermissions: PropTypes.bool,
+  isOwner: PropTypes.bool,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,

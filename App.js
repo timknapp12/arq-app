@@ -37,6 +37,8 @@ const App = () => {
   const [associateId, setAssociateId] = useState(null);
   const [legacyId, setLegacyId] = useState(null);
   const [useBiometrics, setUseBiometrics] = useState(false);
+  // if user has been rank of Ruby or higher they have permissions to create team content
+  const [hasPermissions, setHasPermissions] = useState(false);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
     'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
@@ -130,6 +132,8 @@ const App = () => {
             token,
             setToken,
             signOutOfFirebase,
+            hasPermissions,
+            setHasPermissions,
           }}>
           <StatusBar
             backgroundColor={theme.backgroundColor}

@@ -168,3 +168,33 @@ export const SEARCH_RESOURCES = gql`
     }
   }
 `;
+
+export const GET_USERS_ACCESS_CODES = gql`
+  query Accesses($associateId: Int!) {
+    accesses(where: { associateId: { eq: $associateId } }) {
+      associateId
+      teamAccessId
+      teamName
+      accessCode
+    }
+  }
+`;
+
+export const GET_TEAM_RESOURCES = gql`
+  query TeamResources($teams: [String!]!) {
+    teamResources(teams: $teams) {
+      folderId
+      folderName
+      isWideLayout
+      pictureUrl
+      links {
+        linkId
+        linkTitle
+        linkDescription
+        linkUrl
+        contentType
+        extension
+      }
+    }
+  }
+`;

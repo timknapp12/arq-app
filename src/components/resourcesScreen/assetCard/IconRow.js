@@ -19,7 +19,7 @@ const Container = styled.View`
 
 const IconRow = ({
   // isFavorite,
-  hasPermissions,
+  isOwner,
   contentType,
   onShare,
   onDownload,
@@ -30,7 +30,7 @@ const IconRow = ({
   const { theme } = useContext(AppContext);
   return (
     <Container>
-      {hasPermissions && (
+      {isOwner && (
         <>
           <TouchableOpacity onPress={onEdit}>
             <EditIcon
@@ -115,7 +115,7 @@ const IconRow = ({
 
 IconRow.propTypes = {
   isFavorite: PropTypes.bool,
-  hasPermissions: PropTypes.bool,
+  isOwner: PropTypes.bool,
   contentType: PropTypes.string,
   onShare: PropTypes.func,
   onDownload: PropTypes.func,

@@ -40,7 +40,7 @@ const AssetCard = ({
   setIsCalloutOpenFromParent,
   navigation,
   isFavorite,
-  hasPermissions,
+  isOwner,
   setToastInfo,
   // this prop is passed from ResourceCategoryScreen.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
@@ -247,7 +247,7 @@ const AssetCard = ({
           <IconRow
             isFavorite={isFavorite}
             contentType={contentType}
-            hasPermissions={hasPermissions}
+            isOwner={isOwner}
             onShare={onShare}
             onDownload={onDownload}
             onEdit={() => setIsUploadAssetModalOpen(true)}
@@ -263,7 +263,7 @@ const AssetCard = ({
           isFavorite={isFavorite}
           setIsFavorite={() => {}}
           contentType={contentType}
-          hasPermissions={hasPermissions}
+          isOwner={isOwner}
           onShare={onShare}
           onDownload={onDownload}
           closeCallout={closeCallout}
@@ -311,7 +311,7 @@ AssetCard.propTypes = {
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
   isFavorite: PropTypes.bool,
-  hasPermissions: PropTypes.bool,
+  isOwner: PropTypes.bool,
   setToastInfo: PropTypes.func,
   setIsNavDisabled: PropTypes.func,
   isNavDisabled: PropTypes.bool,

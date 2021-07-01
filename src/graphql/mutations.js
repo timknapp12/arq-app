@@ -151,6 +151,7 @@ export const ADD_UPDATE_FOLDER = gql`
     $pictureUrl: String!
     $teamName: String
     $teamAccessCode: String
+    $changedBy: String!
   ) {
     addUpdateFolder(
       input: {
@@ -160,6 +161,7 @@ export const ADD_UPDATE_FOLDER = gql`
         pictureUrl: $pictureUrl
         teamName: $teamName
         teamAccessCode: $teamAccessCode
+        changedBy: $changedBy
       }
     ) {
       folderId
@@ -168,6 +170,8 @@ export const ADD_UPDATE_FOLDER = gql`
   }
 `;
 
+// this will automatically create a folder for the user under the team name
+// it will return with a 200 BUT false if the team name is not unique
 export const CREATE_TEAM = gql`
   mutation NewTeamAccess(
     $associateId: Int!

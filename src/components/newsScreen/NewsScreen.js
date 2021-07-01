@@ -46,8 +46,8 @@ const NewsScreen = ({ navigation }) => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
-  const [selectedMarket, setSelectedMarket] = useState(userMarket);
-  const initialMarketUrl = markets[0].pictureUrl;
+  const [selectedMarket, setSelectedMarket] = useState(userMarket.countryCode);
+  const initialMarketUrl = markets[0].pictureUrl ?? '';
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const NewsScreen = ({ navigation }) => {
   const tertiaryButtonText = [
     { name: Localized('Q NEWS'), testID: 'Q_NEWS_button' },
     { name: Localized('BLOG'), testID: 'blog_button' },
-    { name: Localized('EVENTS'), testID: 'events_button' },
+    { name: Localized('IN THE QUEUE'), testID: 'queue_button' },
   ];
 
   const navigate = (item) => {
@@ -179,7 +179,7 @@ const NewsScreen = ({ navigation }) => {
             />
           </MainScrollView>
         )}
-        {view.name === Localized('EVENTS') && (
+        {view.name === Localized('IN THE QUEUE') && (
           <MainScrollView>
             <FeaturedNewsCard
               url={mockNews.events.featured.url}
