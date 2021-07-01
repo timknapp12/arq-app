@@ -30,7 +30,15 @@ const CreateTeamScreen = ({ navigation }) => {
     },
     onCompleted: (data) => {
       console.log(`data`, data);
-      navigation.navigate('App Stack');
+      if (data.newTeamAccess === false) {
+        return setErrorMessage(
+          Localized(
+            'Sorry that team name has already been used - Please try another name',
+          ),
+        );
+      } else {
+        navigation.navigate('App Stack');
+      }
     },
     onError: (error) => setErrorMessage(error.message),
   });
