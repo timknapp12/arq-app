@@ -14,7 +14,6 @@ const Container = styled.View`
   flex: 1;
 `;
 const Inner = styled.KeyboardAvoidingView`
-  max-height: 50%;
   width: 80%;
   background-color: ${(props) => props.theme.backgroundColor};
   padding: 20px 20px 0px 20px;
@@ -26,7 +25,7 @@ const EditModal = ({
   onClose,
   children,
   onSave,
-  verticalOffset = 20,
+  verticalOffset = 60,
 }) => {
   initLanguage();
   return (
@@ -38,8 +37,9 @@ const EditModal = ({
       onRequestClose={onClose}>
       <Container>
         <Inner
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={verticalOffset}>
+          contentContainerStyle={{ width: '100%' }}
+          keyboardVerticalOffset={verticalOffset}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
           {children}
           <Flexbox padding={10} direction="row" justify="flex-end">
             <TouchableOpacity
