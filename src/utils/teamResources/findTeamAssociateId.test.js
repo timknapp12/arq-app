@@ -1,36 +1,75 @@
-import { findTeamAssociateId } from './findTeamAssociateId';
+import {
+  findTeamAssociateId,
+  findAssociateIdInListOfTeams,
+  findTeamAccessCode,
+} from './findTeamAssociateId';
 
 const testArray = [
   {
-    teamName: 'Test',
-    associateId: 123,
+    accessCode: '123',
+    associateId: 211,
+    teamAccessId: 3,
+    teamName: 'Team Awesome',
   },
   {
-    teamName: 'Test 2',
-    associateId: 321,
+    accessCode: '123123',
+    associateId: 330,
+    teamAccessId: 4,
+    teamName: 'Test Team',
   },
   {
-    teamName: 'Test 3',
-    associateId: 989,
+    accessCode: '121212',
+    associateId: 113,
+    teamAccessId: 4,
+    teamName: 'Test Team 2',
   },
 ];
-describe('find associate id by team name', () => {
-  test('team name "Test" returns id: 123', () => {
-    const input = 'Test';
-    const output = 123;
+
+describe('findTeamAssociateId', () => {
+  test('team name "Test Team" returns id: 330', () => {
+    const input = 'Test Team';
+    const output = 330;
 
     expect(findTeamAssociateId(input, testArray)).toBe(output);
   });
-  test('team name "Test 2" returns id: 321', () => {
-    const input = 'Test 2';
-    const output = 321;
+  test('team name "Team Awesome" returns id: 211', () => {
+    const input = 'Team Awesome';
+    const output = 211;
 
     expect(findTeamAssociateId(input, testArray)).toBe(output);
   });
-  test('team name "Test 3" returns id: 989', () => {
-    const input = 'Test 3';
-    const output = 989;
+  test('team name "Test Team 2" returns id: 113', () => {
+    const input = 'Test Team 2';
+    const output = 113;
 
     expect(findTeamAssociateId(input, testArray)).toBe(output);
+  });
+});
+
+describe('findAssociateIdInListOfTeams', () => {
+  test('id 330 is found in array', () => {
+    const input = 330;
+    const output = true;
+    expect(findAssociateIdInListOfTeams(input, testArray)).toBe(output);
+  });
+  test('id 1234 is NOT found in array', () => {
+    const input = 1234;
+    const output = false;
+    expect(findAssociateIdInListOfTeams(input, testArray)).toBe(output);
+  });
+});
+
+describe('findTeamAccessCode', () => {
+  test('Test Team 2 returns 121212', () => {
+    const input = 'Test Team 2';
+    const output = '121212';
+
+    expect(findTeamAccessCode(input, testArray)).toBe(output);
+  });
+  test('Team Awesome returns 123', () => {
+    const input = 'Team Awesome';
+    const output = '123';
+
+    expect(findTeamAccessCode(input, testArray)).toBe(output);
   });
 });
