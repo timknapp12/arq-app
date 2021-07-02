@@ -89,7 +89,7 @@ const AccessCodeModal = ({
           setTeamName(text);
         }}
         returnKeyType="done"
-        onSubmitEditing={Keyboard.dismiss()}
+        onSubmitEditing={Keyboard.dismiss}
         maxLength={20}
       />
       <Label style={{ marginTop: 8 }}>{Localized(`Team Access Code`)}</Label>
@@ -101,7 +101,7 @@ const AccessCodeModal = ({
           setAccessCode(text);
         }}
         returnKeyType="done"
-        onSubmitEditing={Keyboard.dismiss()}
+        onSubmitEditing={Keyboard.dismiss}
         maxLength={20}
       />
       <View style={{ height: 20 }}>

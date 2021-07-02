@@ -154,7 +154,7 @@ const UploadAssetModal = ({
           value={title}
           onChangeText={(text) => setTitle(text)}
           returnKeyType="done"
-          onSubmitEditing={Keyboard.dismiss()}
+          onSubmitEditing={Keyboard.dismiss}
         />
         <TextArea
           label={Localized('Description')}

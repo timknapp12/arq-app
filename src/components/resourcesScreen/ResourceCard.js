@@ -76,6 +76,7 @@ const CalloutButton = styled(
 )``;
 
 const ResourceCard = ({
+  folderId,
   url,
   isWideLayout = true,
   title,
@@ -85,6 +86,8 @@ const ResourceCard = ({
   setIsCalloutOpenFromParent,
   isMenuOpen,
   isTeamMenuOpen,
+  selectedTeamName,
+  selectedTeamAccessCode,
   // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   ...props
@@ -243,9 +246,12 @@ const ResourceCard = ({
             closeCallout();
           }}
           editMode
+          folderId={folderId}
           folderTitle={title}
           folderUrl={url}
           folderIsWideLayout={isWideLayout}
+          selectedTeamName={selectedTeamName}
+          selectedTeamAccessCode={selectedTeamAccessCode}
         />
       )}
       {isUploadAssetModalOpen && (
@@ -262,6 +268,7 @@ const ResourceCard = ({
 };
 
 ResourceCard.propTypes = {
+  folderId: PropTypes.number,
   title: PropTypes.string,
   isWideLayout: PropTypes.bool,
   url: PropTypes.string,
@@ -272,6 +279,8 @@ ResourceCard.propTypes = {
   setIsCalloutOpenFromParent: PropTypes.func,
   isMenuOpen: PropTypes.bool.isRequired,
   isTeamMenuOpen: PropTypes.bool,
+  selectedTeamName: PropTypes.string,
+  selectedTeamAccessCode: PropTypes.string,
   setIsNavDisabled: PropTypes.func,
 };
 

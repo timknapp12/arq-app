@@ -1,19 +1,26 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
 import {
   Image,
   TouchableOpacity,
   Platform,
   Alert,
   Keyboard,
+  ActivityIndicator,
+  View,
 } from 'react-native';
 import { Flexbox, Label, Input, H5Black } from '../../common';
 import ImageIcon from '../../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
 import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
 import * as ImagePicker from 'expo-image-picker';
 import { Localized, initLanguage } from '../../../translations/Localized';
+import { ADD_UPDATE_FOLDER } from '../../../graphql/mutations';
+import { GET_TEAM_RESOURCES } from '../../../graphql/queries';
+import { saveFileToFirebase } from '../../../utils/firebase/saveFileToFirebase';
 import {
   imageHeight,
   squareImageWidth,
@@ -33,18 +40,25 @@ import {
 const AddFolderModal = ({
   visible,
   onClose,
+  selectedTeamName,
+  selectedTeamAccessCode,
   // the following props are passed in from ResourceCard.js to populate the info when a user is editing an existing folder
   editMode,
+  folderId,
   folderTitle = '',
   folderUrl = '',
   folderIsWideLayout = false,
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
+  const { userProfile } = useContext(LoginContext);
   const [title, setTitle] = useState(folderTitle);
   const [isWideLayout, setIsWideLayout] = useState(folderIsWideLayout);
+  const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const [imageFile, setImageFile] = useState({ url: folderUrl });
+  const [downloadUrl, setDownloadUrl] = useState('');
   const [isFileInputFocused, setIsFileInputFocused] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // permissions for photo library
   useEffect(() => {
@@ -72,6 +86,7 @@ const AddFolderModal = ({
     });
 
     if (!result.cancelled) {
+      setIsNewImageSelected(true);
       setImageFile({ url: result.uri });
     }
   };
@@ -82,14 +97,45 @@ const AddFolderModal = ({
     setIsWideLayout(false);
     setIsFileInputFocused(false);
   };
-  // TODO: add graphql mutation
-  const onSave = () => {
+
+  const variables = {
+    folderId: folderId ? folderId : 0,
+    folderName: title,
+    isWideLayout,
+    pictureUrl: isNewImageSelected ? downloadUrl : folderUrl,
+    teamName: selectedTeamName,
+    teamAccessCode: selectedTeamAccessCode,
+    changedBy: `${userProfile.firstName} ${userProfile.lastName}`,
+  };
+  const [addUpdateFolder] = useMutation(ADD_UPDATE_FOLDER, {
+    variables: variables,
+    refetchQueries: [
+      { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
+    ],
+    onCompleted: () => setIsLoading(false),
+    onError: (error) => {
+      setIsLoading(false);
+      console.log(`error`, error);
+    },
+  });
+
+  const onSave = async () => {
     if (!title) {
       return Alert.alert(Localized('Please enter a title'));
     }
     if (!imageFile.url) {
       return Alert.alert(Localized('Please select an image'));
     }
+    setIsLoading(true);
+    isNewImageSelected &&
+      (await saveFileToFirebase(
+        imageFile,
+        setDownloadUrl,
+        selectedTeamName,
+        title,
+        folderId,
+      ));
+    addUpdateFolder({ variables: variables });
   };
 
   return (
@@ -106,6 +152,15 @@ const AddFolderModal = ({
             {Localized(editMode ? `Edit Folder` : `Add Folder`)}
           </H5Black>
         </Flexbox>
+        <View
+          style={{
+            height: 20,
+            width: '100%',
+            padding: 4,
+            alignItems: 'center',
+          }}>
+          {isLoading && <ActivityIndicator />}
+        </View>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
           autoFocus
@@ -114,7 +169,7 @@ const AddFolderModal = ({
           value={title}
           onChangeText={(text) => setTitle(text)}
           returnKeyType="done"
-          onSubmitEditing={Keyboard.dismiss()}
+          onSubmitEditing={Keyboard.dismiss}
         />
         <Label style={{ marginTop: marginSize }}>{Localized('Layout')}</Label>
         <Flexbox
@@ -214,7 +269,10 @@ const AddFolderModal = ({
 AddFolderModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  selectedTeamName: PropTypes.string.isRequired,
+  selectedTeamAccessCode: PropTypes.string.isRequired,
   editMode: PropTypes.bool,
+  folderId: PropTypes.number,
   folderTitle: PropTypes.string,
   folderUrl: PropTypes.string,
   folderIsWideLayout: PropTypes.bool,

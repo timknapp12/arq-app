@@ -18,8 +18,11 @@ import {
   GET_TEAM_RESOURCES,
 } from '../../../graphql/queries';
 import { ADD_TEAM_ACCESS_CODE } from '../../../graphql/mutations';
-import { findTeamAssociateId } from '../../../utils/teamResources/findTeamAssociateId';
-import { findAssociateIdInListOfTeams } from '../../../utils/teamResources/findAssociateIdInListOfTeams';
+import {
+  findTeamAssociateId,
+  findAssociateIdInListOfTeams,
+  findTeamAccessCode,
+} from '../../../utils/teamResources/findTeamAssociateId';
 
 const TeamView = ({
   fadeOut,
@@ -50,6 +53,7 @@ const TeamView = ({
   const [isAccessCodeModalOpen, setIsAccessCodeModalOpen] = useState(false);
 
   const [selectedTeamName, setSelectedTeamName] = useState('');
+  const [selectedTeamAccessCode, setSelectedTeamAccessCode] = useState('');
   // this is a flag so selected team name does not always reset with new data from the refetch query of access codes
   const [initialLoad, setInitialLoad] = useState(true);
 
@@ -63,7 +67,6 @@ const TeamView = ({
     associateId,
     userAccessCodesData?.accesses,
   );
-  console.log(`userHasAlreadyCreatedATeam`, userHasAlreadyCreatedATeam);
 
   const navigateToResource = (item) => {
     fadeOut();
@@ -129,7 +132,9 @@ const TeamView = ({
       accessCode,
       teamAccessId: 0,
     },
-    refetchQueries: [GET_USERS_ACCESS_CODES],
+    refetchQueries: [
+      { query: GET_USERS_ACCESS_CODES, variables: { associateId } },
+    ],
     onCompleted: async () => {
       await setSelectedTeamName(teamName);
       setTeamName('');
@@ -152,13 +157,18 @@ const TeamView = ({
   ] = useLazyQuery(GET_TEAM_RESOURCES, {
     variables: { teams: [selectedTeamName] },
   });
-
+  console.log(`teamResourceData`, teamResourceData);
   useEffect(() => {
     getTeamResources();
     const teamAssociateId = findTeamAssociateId(
       selectedTeamName,
       userAccessCodesData?.accesses ?? [],
     );
+    const newTeamAccessCode = findTeamAccessCode(
+      selectedTeamName,
+      userAccessCodesData?.accesses ?? [],
+    );
+    setSelectedTeamAccessCode(newTeamAccessCode);
     if (teamAssociateId === associateId) {
       setIsOwner(true);
     } else {
@@ -241,6 +251,7 @@ const TeamView = ({
               setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
               style={{ zIndex: -index }}
               key={item.folderId}
+              folderId={item.folderId}
               url={item.pictureUrl}
               title={item.folderName}
               isWideLayout={item.isWideLayout}
@@ -248,6 +259,8 @@ const TeamView = ({
               setIsNavDisabled={setIsNavDisabled}
               isMenuOpen={isMenuOpen}
               isTeamMenuOpen={isTeamMenuOpen}
+              selectedTeamName={selectedTeamName}
+              selectedTeamAccessCode={selectedTeamAccessCode}
               onPress={() => {
                 navigateToResource(item);
               }}
@@ -258,6 +271,8 @@ const TeamView = ({
       <AddFolderModal
         visible={isAddFolderModalOpen}
         onClose={() => setIsAddFolderModalOpen(false)}
+        selectedTeamName={selectedTeamName}
+        selectedTeamAccessCode={selectedTeamAccessCode}
       />
       <AccessCodeModal
         visible={isAccessCodeModalOpen}
