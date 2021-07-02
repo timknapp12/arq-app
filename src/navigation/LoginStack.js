@@ -71,7 +71,7 @@ const LoginStack = () => {
   });
 
   const [updateProfile] = useMutation(UPDATE_USER, {
-    // refetchQueries: [GET_PROFILE],
+    refetchQueries: [{ query: GET_PROFILE, variables: { associateId } }],
     onCompleted: (data) => {
       if (data.updateAssociate.associateId) {
         getProfile({

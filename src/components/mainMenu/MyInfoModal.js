@@ -62,7 +62,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   } = useContext(LoginContext);
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
-  console.log(`data`, data);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const handleChange = (field, text) => {
@@ -254,7 +253,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   const { address1, address2, city, state, zip, countryCode } = address;
-  console.log(`associateId`, associateId);
 
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
