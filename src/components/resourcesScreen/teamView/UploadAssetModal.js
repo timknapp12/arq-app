@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
+import { useMutation } from '@apollo/client';
+import {
+  TouchableOpacity,
+  Platform,
+  Alert,
+  Keyboard,
+  ActivityIndicator,
+  View,
+} from 'react-native';
 import { Flexbox, Label, Input, TextArea, Picker, H5Black } from '../../common';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
@@ -9,12 +17,19 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { Filename, FileInput, FileUnderline, marginSize } from './modal.styles';
 import { Localized, initLanguage } from '../../../translations/Localized';
+import { ADD_UPDATE_ASSET } from '../../../graphql/mutations';
+import { GET_TEAM_RESOURCES } from '../../../graphql/queries';
+import { saveFileToFirebase } from '../../../utils/firebase/saveFileToFirebase';
 
 const UploadAssetModal = ({
   visible,
   onClose,
+  folderId,
   // these props are to populate the fields in the modal with already existing data while in edit modal
   editMode,
+  linkId,
+  displayOrder,
+  selectedTeamName,
   assetTitle = '',
   assetDescription = '',
   assetContentType = '',
@@ -29,6 +44,9 @@ const UploadAssetModal = ({
   const [file, setFile] = useState(assetFile);
   const [link, setLink] = useState(assetLink);
   const [isFileInputFocused, setIsFileInputFocused] = useState(false);
+
+  const [isNewImageSelected, setIsNewImageSelected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // permissions for photo library
   useEffect(() => {
@@ -55,6 +73,7 @@ const UploadAssetModal = ({
     });
 
     if (!result.cancelled) {
+      setIsNewImageSelected(true);
       setFile({ url: result.uri, contentType: 'image' });
     }
   };
@@ -68,6 +87,7 @@ const UploadAssetModal = ({
       return;
     }
     if (!result.cancelled) {
+      setIsNewImageSelected(true);
       setFile({ url: result.uri, contentType: 'pdf' });
     }
   };
@@ -92,9 +112,42 @@ const UploadAssetModal = ({
     setIsFileInputFocused(false);
   };
 
-  // TODO: add graphql mutation
+  const variables = {
+    folderId,
+    linkId: linkId ? linkId : 0,
+    linkTitle: title,
+    linkUrl: link,
+    linkDescription: description,
+    contentType,
+    extension:
+      contentType === 'pdf' ? 'pdf' : contentType === 'image' ? 'jpg' : '',
+    comments: '',
+    displayOrder: displayOrder,
+  };
+
+  const [addUpdateAsset] = useMutation(ADD_UPDATE_ASSET, {
+    variables: variables,
+    refetchQueries: [
+      { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
+    ],
+    options: {
+      awaitRefetchQueries: true,
+    },
+    onCompleted: (data) => {
+      setIsLoading(false);
+      console.log(`addUpdateAsset mutation complete data:`, data);
+    },
+    onError: (error) => {
+      setIsLoading(false);
+      console.log(`error`, error);
+    },
+  });
+
+  console.log(`isNewImageSelected`, isNewImageSelected);
+  console.log(`variables`, variables);
+
   // TODO: consider breaking this function out to a separate file
-  const onSave = () => {
+  const onSave = async () => {
     if (!title) {
       return Alert.alert(Localized('Please enter a title'));
     }
@@ -124,6 +177,16 @@ const UploadAssetModal = ({
         ),
       );
     }
+    setIsLoading(true);
+    isNewImageSelected &&
+      (await saveFileToFirebase(
+        file,
+        setLink,
+        selectedTeamName,
+        title,
+        folderId,
+      ));
+    addUpdateAsset();
   };
   const contentTypeList = [
     { id: 0, label: Localized('Image'), value: 'image' },
@@ -145,6 +208,15 @@ const UploadAssetModal = ({
           <H5Black style={{ textAlign: 'center' }}>
             {Localized(editMode ? `Edit Item` : `Add Item`)}
           </H5Black>
+          <View
+            style={{
+              height: 20,
+              width: '100%',
+              padding: 4,
+              alignItems: 'center',
+            }}>
+            {isLoading && <ActivityIndicator />}
+          </View>
         </Flexbox>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
@@ -165,6 +237,8 @@ const UploadAssetModal = ({
           onChangeText={(text) => setDescription(text)}
           style={{ marginTop: marginSize }}
           onFocus={() => setIsFileInputFocused(false)}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
         />
         <Picker
           style={{ marginTop: 8, width: '100%' }}
@@ -189,6 +263,8 @@ const UploadAssetModal = ({
               testID="upload-asset-link-input"
               value={link}
               onChangeText={(text) => setLink(text)}
+              returnKeyType="done"
+              onSubmitEditing={Keyboard.dismiss}
             />
           </>
         ) : (
@@ -226,7 +302,11 @@ const UploadAssetModal = ({
 UploadAssetModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  folderId: PropTypes.number.isRequired,
+  linkId: PropTypes.number,
+  displayOrder: PropTypes.number,
   editMode: PropTypes.bool,
+  selectedTeamName: PropTypes.string,
   assetTitle: PropTypes.string,
   assetDescription: PropTypes.string,
   assetContentType: PropTypes.string,

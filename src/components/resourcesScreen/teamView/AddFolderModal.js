@@ -42,6 +42,7 @@ const AddFolderModal = ({
   onClose,
   selectedTeamName,
   selectedTeamAccessCode,
+  displayOrder,
   // the following props are passed in from ResourceCard.js to populate the info when a user is editing an existing folder
   editMode,
   folderId,
@@ -50,7 +51,7 @@ const AddFolderModal = ({
   folderIsWideLayout = false,
 }) => {
   initLanguage();
-  const { theme } = useContext(AppContext);
+  const { theme, associateId } = useContext(AppContext);
   const { userProfile } = useContext(LoginContext);
   const [title, setTitle] = useState(folderTitle);
   const [isWideLayout, setIsWideLayout] = useState(folderIsWideLayout);
@@ -100,19 +101,23 @@ const AddFolderModal = ({
 
   const variables = {
     folderId: folderId ? folderId : 0,
+    teamAssociateId: associateId,
     folderName: title,
+    folderDescription: '',
     isWideLayout,
     pictureUrl: isNewImageSelected ? downloadUrl : folderUrl,
     teamName: selectedTeamName,
     teamAccessCode: selectedTeamAccessCode,
     changedBy: `${userProfile.firstName} ${userProfile.lastName}`,
+    displayOrder,
   };
   const [addUpdateFolder] = useMutation(ADD_UPDATE_FOLDER, {
     variables: variables,
     refetchQueries: [
       { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
     ],
-    onCompleted: () => setIsLoading(false),
+    onCompleted: (data) =>
+      console.log('done with mutation', data) || setIsLoading(false),
     onError: (error) => {
       setIsLoading(false);
       console.log(`error`, error);
@@ -271,6 +276,7 @@ AddFolderModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   selectedTeamName: PropTypes.string.isRequired,
   selectedTeamAccessCode: PropTypes.string.isRequired,
+  displayOrder: PropTypes.number,
   editMode: PropTypes.bool,
   folderId: PropTypes.number,
   folderTitle: PropTypes.string,

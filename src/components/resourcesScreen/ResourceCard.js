@@ -79,6 +79,7 @@ const ResourceCard = ({
   folderId,
   url,
   isWideLayout = true,
+  displayOrder,
   title,
   onPress,
   isOwner,
@@ -88,6 +89,7 @@ const ResourceCard = ({
   isTeamMenuOpen,
   selectedTeamName,
   selectedTeamAccessCode,
+  assetList,
   // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   ...props
@@ -250,6 +252,7 @@ const ResourceCard = ({
           folderTitle={title}
           folderUrl={url}
           folderIsWideLayout={isWideLayout}
+          displayOrder={displayOrder}
           selectedTeamName={selectedTeamName}
           selectedTeamAccessCode={selectedTeamAccessCode}
         />
@@ -261,6 +264,9 @@ const ResourceCard = ({
             setIsUploadAssetModalOpen(false);
             closeCallout();
           }}
+          folderId={folderId}
+          displayOrder={assetList.length + 1}
+          selectedTeamName={selectedTeamName}
         />
       )}
     </CardContainer>
@@ -271,6 +277,7 @@ ResourceCard.propTypes = {
   folderId: PropTypes.number,
   title: PropTypes.string,
   isWideLayout: PropTypes.bool,
+  displayOrder: PropTypes.number,
   url: PropTypes.string,
   onPress: PropTypes.func,
   isOwner: PropTypes.bool,
@@ -281,6 +288,7 @@ ResourceCard.propTypes = {
   isTeamMenuOpen: PropTypes.bool,
   selectedTeamName: PropTypes.string,
   selectedTeamAccessCode: PropTypes.string,
+  assetList: PropTypes.array,
   setIsNavDisabled: PropTypes.func,
 };
 

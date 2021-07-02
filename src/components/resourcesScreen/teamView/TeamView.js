@@ -82,8 +82,10 @@ const TeamView = ({
     navigation.navigate('Resources Category Screen', {
       title: item.folderName.toUpperCase(),
       assetList: item.links,
+      folderId: item.folderId,
       // TODO: integrate permissions with backend
       isOwner: isOwner,
+      selectedTeamName: selectedTeamName,
     });
     setIsCalloutOpenFromParent(false);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
@@ -255,12 +257,14 @@ const TeamView = ({
               url={item.pictureUrl}
               title={item.folderName}
               isWideLayout={item.isWideLayout}
+              displayOrder={item.displayOrder}
               isOwner={isOwner}
               setIsNavDisabled={setIsNavDisabled}
               isMenuOpen={isMenuOpen}
               isTeamMenuOpen={isTeamMenuOpen}
               selectedTeamName={selectedTeamName}
               selectedTeamAccessCode={selectedTeamAccessCode}
+              assetList={item.links}
               onPress={() => {
                 navigateToResource(item);
               }}
@@ -273,6 +277,7 @@ const TeamView = ({
         onClose={() => setIsAddFolderModalOpen(false)}
         selectedTeamName={selectedTeamName}
         selectedTeamAccessCode={selectedTeamAccessCode}
+        displayOrder={teamResourceData?.teamResources?.length + 1}
       />
       <AccessCodeModal
         visible={isAccessCodeModalOpen}
@@ -291,7 +296,7 @@ const TeamView = ({
     </>
   );
 };
-
+// teamOwnerAssociateId
 TeamView.propTypes = {
   fadeOut: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,

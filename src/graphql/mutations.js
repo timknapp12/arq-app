@@ -131,27 +131,32 @@ export const ADD_TEAM_ACCESS_CODE = gql`
 `;
 
 export const ADD_UPDATE_FOLDER = gql`
-  mutation AddUpdateFolder(
+  mutation AddUpateFolder(
     $folderId: Int!
+    $teamAssociateId: Int!
     $folderName: String!
+    $folderDescription: String!
     $isWideLayout: Boolean!
     $pictureUrl: String!
-    $teamName: String
-    $teamAccessCode: String
+    $teamName: String!
+    $teamAccessCode: String!
     $changedBy: String!
+    $displayOrder: Int!
   ) {
     addUpdateFolder(
       input: {
         folderId: $folderId
+        teamAssociateId: $teamAssociateId
         folderName: $folderName
+        folderDescription: $folderDescription
         isWideLayout: $isWideLayout
         pictureUrl: $pictureUrl
         teamName: $teamName
         teamAccessCode: $teamAccessCode
         changedBy: $changedBy
+        displayOrder: $displayOrder
       }
     ) {
-      folderId
       folderName
     }
   }
@@ -174,5 +179,35 @@ export const CREATE_TEAM = gql`
         folderName: $folderName
       }
     )
+  }
+`;
+
+export const ADD_UPDATE_ASSET = gql`
+  mutation AddUpdateLinks(
+    $folderId: Int!
+    $linkId: Int!
+    $linkTitle: String!
+    $linkUrl: String!
+    $linkDescription: String!
+    $contentType: String!
+    $extension: String
+    $comments: String
+    $displayOrder: Int!
+  ) {
+    addUpdateLinks(
+      input: {
+        folderId: $folderId
+        linkId: $linkId
+        linkTitle: $linkTitle
+        linkUrl: $linkUrl
+        linkDescription: $linkDescription
+        contentType: $contentType
+        extension: $extension
+        comments: $comments
+        displayOrder: $displayOrder
+      }
+    ) {
+      linkTitle
+    }
   }
 `;

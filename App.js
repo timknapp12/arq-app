@@ -22,7 +22,8 @@ import { initLanguage } from './src/translations/Localized';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
-
+// this allows apollo refetch queries to happen from apollo
+import 'core-js/features/promise';
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }

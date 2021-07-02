@@ -187,6 +187,7 @@ export const GET_TEAM_RESOURCES = gql`
       folderName
       isWideLayout
       pictureUrl
+      displayOrder
       links {
         linkId
         linkTitle
@@ -194,6 +195,7 @@ export const GET_TEAM_RESOURCES = gql`
         linkUrl
         contentType
         extension
+        displayOrder
       }
     }
   }

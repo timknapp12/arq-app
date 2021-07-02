@@ -8,7 +8,7 @@ import DownloadToast from './DownloadToast';
 import 'firebase/firestore';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
-  const { assetList, isOwner } = route.params;
+  const { assetList, folderId, isOwner, selectedTeamName } = route.params;
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
@@ -61,6 +61,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   style={{ zIndex: -index }}
                   key={item.linkId}
+                  linkId={item.linkId}
                   url={item.linkUrl}
                   title={item.linkTitle}
                   description={item.linkDescription}
@@ -71,6 +72,9 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   setIsNavDisabled={setIsNavDisabled}
                   isNavDisabled={isNavDisabled}
                   isOwner={isOwner}
+                  folderId={folderId}
+                  displayOrder={item.displayOrder}
+                  selectedTeamName={selectedTeamName}
                 />
               ))}
             </Flexbox>
@@ -92,6 +96,9 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
             onClose={() => {
               setIsUploadAssetModalOpen(false);
             }}
+            folderId={folderId}
+            displayOrder={assetList.length + 1}
+            selectedTeamName={selectedTeamName}
           />
         )}
       </ScreenContainer>

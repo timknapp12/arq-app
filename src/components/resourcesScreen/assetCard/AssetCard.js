@@ -31,6 +31,7 @@ import {
 // the two options above are used to handle different use cases depending on desired behavior
 
 const AssetCard = ({
+  linkId,
   title,
   description,
   url,
@@ -40,8 +41,11 @@ const AssetCard = ({
   setIsCalloutOpenFromParent,
   navigation,
   isFavorite,
+  folderId,
   isOwner,
   setToastInfo,
+  displayOrder,
+  selectedTeamName,
   // this prop is passed from ResourceCategoryScreen.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   isNavDisabled,
@@ -278,8 +282,12 @@ const AssetCard = ({
             setIsUploadAssetModalOpen(false);
             closeCallout();
           }}
+          selectedTeamName={selectedTeamName}
           // These props are passed to populate the corresponding fields in the edit phase of the modal
           editMode
+          folderId={folderId}
+          linkId={linkId}
+          displayOrder={displayOrder}
           assetTitle={title}
           assetDescription={description}
           assetContentType={contentType}
@@ -301,6 +309,7 @@ const AssetCard = ({
 };
 
 AssetCard.propTypes = {
+  linkId: PropTypes.number,
   title: PropTypes.string,
   description: PropTypes.string,
   url: PropTypes.string,
@@ -311,9 +320,12 @@ AssetCard.propTypes = {
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
   isFavorite: PropTypes.bool,
+  folderId: PropTypes.number,
   isOwner: PropTypes.bool,
   setToastInfo: PropTypes.func,
+  displayOrder: PropTypes.number,
   setIsNavDisabled: PropTypes.func,
+  selectedTeamName: PropTypes.string,
   isNavDisabled: PropTypes.bool,
 };
 
