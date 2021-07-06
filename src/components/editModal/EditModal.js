@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Flexbox, H5Heavy } from '../common';
-import { Modal, TouchableOpacity, Platform } from 'react-native';
+import { Modal, Platform } from 'react-native';
 import { Localized, initLanguage } from '../../translations/Localized';
 
 const Container = styled.View`
@@ -20,11 +20,16 @@ const Inner = styled.KeyboardAvoidingView`
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
+const SaveButton = styled.TouchableOpacity`
+  opacity: ${(props) => (props.disabled ? 0.35 : 0.83)};
+`;
+
 const EditModal = ({
   visible,
   onClose,
   children,
   onSave,
+  saveButtonDisabled,
   verticalOffset = 60,
 }) => {
   initLanguage();
@@ -42,17 +47,16 @@ const EditModal = ({
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
           {children}
           <Flexbox padding={10} direction="row" justify="flex-end">
-            <TouchableOpacity
-              testID="cancel-button-in-edit-modal"
-              onPress={onClose}>
+            <SaveButton testID="cancel-button-in-edit-modal" onPress={onClose}>
               <H5Heavy>{Localized('CANCEL')}</H5Heavy>
-            </TouchableOpacity>
-            <TouchableOpacity
+            </SaveButton>
+            <SaveButton
               testID="save-button-in-edit-modal"
               style={{ marginStart: 16 }}
+              disabled={saveButtonDisabled}
               onPress={onSave}>
               <H5Heavy>{Localized('SAVE')}</H5Heavy>
-            </TouchableOpacity>
+            </SaveButton>
           </Flexbox>
         </Inner>
       </Container>
@@ -65,6 +69,7 @@ EditModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   children: PropTypes.any,
   onSave: PropTypes.func,
+  saveButtonDisabled: PropTypes.bool,
   verticalOffset: PropTypes.number,
 };
 
