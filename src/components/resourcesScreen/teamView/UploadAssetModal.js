@@ -137,6 +137,7 @@ const UploadAssetModal = ({
     onCompleted: (data) => {
       setIsLoading(false);
       console.log(`addUpdateAsset mutation complete data:`, data);
+      onClose();
     },
     onError: (error) => {
       setIsLoading(false);
@@ -145,7 +146,6 @@ const UploadAssetModal = ({
   });
 
   console.log(`isNewImageSelected`, isNewImageSelected);
-  console.log(`variables`, variables);
 
   // TODO: consider breaking this function out to a separate file
   const onSave = async () => {
@@ -179,15 +179,16 @@ const UploadAssetModal = ({
       );
     }
     setIsLoading(true);
-    isNewImageSelected &&
-      (await saveFileToFirebase(
-        file,
-        setLink,
-        selectedTeamName,
-        title,
-        folderId,
-      ));
-    addUpdateAsset();
+    isNewImageSelected
+      ? await saveFileToFirebase(
+          file,
+          selectedTeamName,
+          title,
+          folderId,
+          addUpdateAsset,
+          variables,
+        )
+      : addUpdateAsset();
   };
   const contentTypeList = [
     { id: 0, label: Localized('Image'), value: 'image' },
@@ -203,7 +204,8 @@ const UploadAssetModal = ({
         clearFields();
         onClose();
       }}
-      onSave={onSave}>
+      onSave={onSave}
+      saveButtonDisabled={isLoading}>
       <Flexbox align="flex-start">
         <Flexbox>
           <H5Black style={{ textAlign: 'center' }}>

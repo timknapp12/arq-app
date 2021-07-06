@@ -5,10 +5,11 @@ const calculatePercentage = (numerator = 0, denominator = 1) =>
 
 export const saveFileToFirebase = async (
   file,
-  setDownloadUrl,
   selectedTeamName = '',
   title = 'title',
   folderId = 0,
+  mutation,
+  variables,
 ) => {
   try {
     // eslint-disable-next-line no-undef
@@ -39,7 +40,10 @@ export const saveFileToFirebase = async (
         uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
           const newUrl = downloadUrl;
           console.log('newUrl', newUrl);
-          setDownloadUrl(newUrl);
+          mutation({
+            // pictureUrl is used for folders and linkUrl is used for assets
+            variables: { ...variables, pictureUrl: newUrl, linkUrl: newUrl },
+          });
         });
       },
     );

@@ -57,7 +57,6 @@ const AddFolderModal = ({
   const [isWideLayout, setIsWideLayout] = useState(folderIsWideLayout);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const [imageFile, setImageFile] = useState({ url: folderUrl });
-  const [downloadUrl, setDownloadUrl] = useState('');
   const [isFileInputFocused, setIsFileInputFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -105,7 +104,7 @@ const AddFolderModal = ({
     folderName: title,
     folderDescription: '',
     isWideLayout,
-    pictureUrl: isNewImageSelected ? downloadUrl : folderUrl,
+    pictureUrl: folderUrl,
     teamName: selectedTeamName,
     teamAccessCode: selectedTeamAccessCode,
     changedBy: `${userProfile.firstName} ${userProfile.lastName}`,
@@ -116,8 +115,10 @@ const AddFolderModal = ({
     refetchQueries: [
       { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
     ],
-    onCompleted: (data) =>
-      console.log('done with mutation', data) || setIsLoading(false),
+    onCompleted: (data) => {
+      console.log('done with mutation', data) || setIsLoading(false);
+      onClose();
+    },
     onError: (error) => {
       setIsLoading(false);
       console.log(`error`, error);
@@ -132,15 +133,16 @@ const AddFolderModal = ({
       return Alert.alert(Localized('Please select an image'));
     }
     setIsLoading(true);
-    isNewImageSelected &&
-      (await saveFileToFirebase(
-        imageFile,
-        setDownloadUrl,
-        selectedTeamName,
-        title,
-        folderId,
-      ));
-    addUpdateFolder({ variables: variables });
+    isNewImageSelected
+      ? await saveFileToFirebase(
+          imageFile,
+          selectedTeamName,
+          title,
+          folderId,
+          addUpdateFolder,
+          variables,
+        )
+      : addUpdateFolder({ variables: variables });
   };
 
   return (
@@ -150,7 +152,8 @@ const AddFolderModal = ({
         clearFields();
         onClose();
       }}
-      onSave={onSave}>
+      onSave={onSave}
+      saveButtonDisabled={isLoading}>
       <Flexbox align="flex-start">
         <Flexbox>
           <H5Black style={{ textAlign: 'center' }}>
