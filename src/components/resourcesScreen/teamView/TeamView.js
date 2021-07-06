@@ -247,9 +247,7 @@ const TeamView = ({
           onStartShouldSetResponder={() => true}>
           {teamResourceData?.teamResources.length < 1 ? (
             <Flexbox>
-              <H5>
-                {Localized('There are no resources found for this access code')}
-              </H5>
+              <H5>{Localized('There are no resources found')}</H5>
             </Flexbox>
           ) : null}
           {teamResourceData?.teamResources.map((item, index) => (
@@ -277,27 +275,31 @@ const TeamView = ({
           ))}
         </View>
       </MainScrollView>
-      <AddFolderModal
-        visible={isAddFolderModalOpen}
-        onClose={() => setIsAddFolderModalOpen(false)}
-        selectedTeamName={selectedTeamName}
-        selectedTeamAccessCode={selectedTeamAccessCode}
-        displayOrder={teamResourceData?.teamResources?.length + 1}
-      />
-      <AccessCodeModal
-        visible={isAccessCodeModalOpen}
-        onClose={() => setIsAccessCodeModalOpen(false)}
-        onSave={saveAccessCode}
-        testID="access-code-input"
-        teamName={teamName}
-        setTeamName={setTeamName}
-        accessCode={accessCode}
-        setAccessCode={setAccessCode}
-        isNew={isNewAccessCode}
-        isError={isError}
-        setIsError={setIsError}
-        setSelectedTeamName={setSelectedTeamName}
-      />
+      {isAddFolderModalOpen && (
+        <AddFolderModal
+          visible={isAddFolderModalOpen}
+          onClose={() => setIsAddFolderModalOpen(false)}
+          selectedTeamName={selectedTeamName}
+          selectedTeamAccessCode={selectedTeamAccessCode}
+          displayOrder={teamResourceData?.teamResources?.length + 1}
+        />
+      )}
+      {isAccessCodeModalOpen && (
+        <AccessCodeModal
+          visible={isAccessCodeModalOpen}
+          onClose={() => setIsAccessCodeModalOpen(false)}
+          onSave={saveAccessCode}
+          testID="access-code-input"
+          teamName={teamName}
+          setTeamName={setTeamName}
+          accessCode={accessCode}
+          setAccessCode={setAccessCode}
+          isNew={isNewAccessCode}
+          isError={isError}
+          setIsError={setIsError}
+          setSelectedTeamName={setSelectedTeamName}
+        />
+      )}
     </>
   );
 };
