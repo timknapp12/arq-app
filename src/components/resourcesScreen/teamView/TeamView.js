@@ -45,6 +45,7 @@ const TeamView = ({
     GET_USERS_ACCESS_CODES,
     {
       variables: { associateId },
+      onError: (err) => console.log(`err`, err),
     },
   );
   console.log(`userAccessCodesData`, userAccessCodesData);
@@ -65,7 +66,7 @@ const TeamView = ({
 
   const userHasAlreadyCreatedATeam = findAssociateIdInListOfTeams(
     associateId,
-    userAccessCodesData?.accesses,
+    userAccessCodesData?.accesses ?? '',
   );
 
   const navigateToResource = (item) => {
@@ -147,8 +148,11 @@ const TeamView = ({
   });
 
   useEffect(() => {
-    if (userAccessCodesData && initialLoad) {
-      setSelectedTeamName(userAccessCodesData.accesses[0].teamName);
+    if (userAccessCodesData?.accesses[0]?.teamName && initialLoad) {
+      const name = userAccessCodesData?.accesses[0]?.teamName
+        ? userAccessCodesData?.accesses[0]?.teamName
+        : '';
+      setSelectedTeamName(name);
       setInitialLoad(false);
     }
   }, [userAccessCodesData, initialLoad]);
@@ -159,6 +163,7 @@ const TeamView = ({
   ] = useLazyQuery(GET_TEAM_RESOURCES, {
     variables: { teams: [selectedTeamName] },
   });
+
   console.log(`teamResourceData`, teamResourceData);
   useEffect(() => {
     getTeamResources();

@@ -125,6 +125,7 @@ export const GET_CORPORATE_RESOURCES = gql`
         childFolders {
           folderId
           folderName
+          folderDescription
           folderId
           isWideLayout
           pictureUrl
