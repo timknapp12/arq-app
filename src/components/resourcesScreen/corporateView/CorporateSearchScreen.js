@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { ScreenContainer, Flexbox, Input } from '../../common';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
@@ -6,17 +6,18 @@ import AppContext from '../../../contexts/AppContext';
 import AssetCard from '../assetCard/AssetCard';
 import ProductCard from './productCard/ProductCard';
 import DownloadToast from '../DownloadToast';
-import { categories } from '../teamView/mockTeamData';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import debounce from 'lodash.debounce';
 
 const CorporateSearchScreen = ({ route, navigation }) => {
   const { deviceLanguage } = useContext(AppContext);
-  const { market } = route.params;
+  const { marketId } = route.params;
   console.log(`deviceLanguage`, deviceLanguage);
-  console.log(`market`, market);
+  console.log(`marketId`, marketId);
   const [value, setValue] = useState('');
-
+  const [productList, setProductList] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  console.log(`setProductList`, setProductList);
+  console.log(`setSearchResults`, setSearchResults);
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
@@ -34,35 +35,16 @@ const CorporateSearchScreen = ({ route, navigation }) => {
     setToastProgress(progress);
   };
 
-  // TODO: remove all of this firebase stuff and mock data when wiring up to graphql
-  const db = firebase.firestore();
-  const [productList, setProductList] = useState([]);
+  const searchResources = () => {};
+  const debounceSearch = useCallback(
+    debounce((value) => searchResources(value), 1000),
+    [],
+  );
 
-  const products = [];
-  const getProductMockData = () => {
-    db.collection('corporate resources us market en language')
-      .doc('products')
-      .collection('product categories')
-      .doc('hemp')
-      .collection('list')
-      .orderBy('order', 'asc')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const resourceWithID = {
-            id: doc.id,
-            ...data,
-          };
-          products.push(resourceWithID);
-        });
-        setProductList(products);
-      });
+  const handleChange = (value) => {
+    setValue(value);
+    debounceSearch(value);
   };
-
-  useEffect(() => {
-    getProductMockData();
-  }, []);
 
   return (
     <TouchableWithoutFeedback
@@ -86,7 +68,7 @@ const CorporateSearchScreen = ({ route, navigation }) => {
             autoFocus
             testID="corporate-search-input"
             value={value}
-            onChangeText={(text) => setValue(text)}
+            onChangeText={handleChange}
             returnKeyType="done"
           />
         </Flexbox>
@@ -104,26 +86,6 @@ const CorporateSearchScreen = ({ route, navigation }) => {
               padding={10}
               onStartShouldSetResponder={() => true}
               height="100%">
-              {categories[0].assetList.map((item, index) => (
-                <AssetCard
-                  isCalloutOpenFromParent={isCalloutOpenFromParent}
-                  setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                  style={{ zIndex: -index }}
-                  key={item.id}
-                  url={item.url}
-                  title={item.title}
-                  description={item.description}
-                  contentType={item.contentType}
-                  ext={item.ext}
-                  navigation={navigation}
-                  setToastInfo={setToastInfo}
-                  setIsNavDisabled={setIsNavDisabled}
-                  isNavDisabled={isNavDisabled}
-                  hasPermissions
-                  // TODO: get real data from asset and compare agaisnt associate id to determoine permissions
-                  // hasPermissions={hasPermissions}
-                />
-              ))}
               {productList.map((item, index) => (
                 <ProductCard
                   key={item.id}
@@ -133,11 +95,8 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                   url={item.url}
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                  categoryID="hemp"
-                  productID={item.id}
                   navigation={navigation}
                   isFavorite={false}
-                  market={market}
                   onPress={() => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {
@@ -147,7 +106,7 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                   }}
                 />
               ))}
-              {categories[0].assetList.map((item, index) => (
+              {searchResults.map((item, index) => (
                 <AssetCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}

@@ -123,6 +123,7 @@ const UploadAssetModal = ({
       contentType === 'pdf' ? 'pdf' : contentType === 'image' ? 'jpg' : '',
     comments: '',
     displayOrder: displayOrder,
+    fileName: '',
   };
 
   const [addUpdateAsset] = useMutation(ADD_UPDATE_ASSET, {

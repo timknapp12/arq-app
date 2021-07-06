@@ -5,7 +5,6 @@ import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import AssetCard from '../assetCard/AssetCard';
 import DownloadToast from '../DownloadToast';
 // TODO: remove this once we get real data
-import { categories } from './mockTeamData';
 
 const TeamSearchScreen = ({ route, navigation }) => {
   const { accessCode } = route.params;
@@ -20,7 +19,8 @@ const TeamSearchScreen = ({ route, navigation }) => {
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
   const [toastProgress, setToastProgress] = useState(0);
-
+  const [searchResults, setSearchResults] = useState([]);
+  console.log(`setSearchResults`, setSearchResults);
   const setToastInfo = (title, body, visible, progress) => {
     setToastTitle(title);
     setToastBody(body);
@@ -68,7 +68,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
               padding={10}
               onStartShouldSetResponder={() => true}
               height="100%">
-              {categories[0].assetList.map((item, index) => (
+              {searchResults.map((item, index) => (
                 <AssetCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
