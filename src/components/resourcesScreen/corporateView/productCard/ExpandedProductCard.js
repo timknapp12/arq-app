@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, Linking, Image, TouchableOpacity } from 'react-native';
-import { H4Book, H6Book } from '../../../common';
+import { H5, H6Secodnary } from '../../../common';
 import PdfIcon from '../../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../../assets/icons/video-icon.svg';
 import PodcastIcon from '../../../../../assets/icons/podcast-icon.svg';
@@ -55,9 +55,9 @@ const ExpandedProductCard = ({
             justifyContent: 'space-between',
             padding: 4,
           }}>
-          <H4Book ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
+          <H5 ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
             {title}
-          </H4Book>
+          </H5>
           <MaterialCommunityIcon
             name={isExpanded ? 'chevron-up' : 'chevron-down'}
             color={theme.primaryTextColor}
@@ -154,7 +154,7 @@ const ExpandedProductCard = ({
       </ImageAndIconContainer>
       <InnerContainer>
         <TitleAndDescription>
-          <H6Book>{description}</H6Book>
+          <H6Secodnary>{description}</H6Secodnary>
         </TitleAndDescription>
       </InnerContainer>
       <IconRow>
