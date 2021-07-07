@@ -227,5 +227,6 @@
   "Message failed to send - Please check your info and try again": "Message failed to send - Please check your info and try again",
   "Resend code": "Resend code",
   "The access code may have expired - Please get a new code try again": "The access code may have expired - Please get a new code try again",
-  "Sorry that team name has already been used - Please try another name": "Sorry that team name has already been used - Please try another name"
+  "Sorry that team name has already been used - Please try another name": "Sorry that team name has already been used - Please try another name",
+  "Add a file from your device": "Add a file from your device"
 }

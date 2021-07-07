@@ -267,6 +267,8 @@ const UploadAssetModal = ({
               testID="upload-asset-link-input"
               value={link}
               onChangeText={(text) => setLink(text)}
+              placeholder="Enter a url"
+              placeholderTextColor={theme.disabledTextColor}
               returnKeyType="done"
               onSubmitEditing={Keyboard.dismiss}
             />
@@ -284,7 +286,7 @@ const UploadAssetModal = ({
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={{ flex: 1 }}>
-                {file.url}
+                {file.url ? file.url : Localized('Add a file from your device')}
               </Filename>
               <PaperclipIcon
                 style={{
