@@ -57,7 +57,8 @@ const LoginStack = () => {
     onCompleted: (data) => {
       console.log(`data`, data);
       if (
-        data.treeNodeFor.currentAmbassadorMonthlyRecord.highestRank.rankId > 10
+        data?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank?.rankId >
+        10
       ) {
         setHasPermissions(true);
       }

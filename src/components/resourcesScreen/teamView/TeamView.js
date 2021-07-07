@@ -80,7 +80,7 @@ const TeamView = ({
     if (isMenuOpen && Platform.OS === 'android') {
       return fadeOut();
     }
-    navigation.navigate('Resources Category Screen', {
+    navigation.navigate('Team Resources Category Screen', {
       title: item.folderName.toUpperCase(),
       assetList: item.links,
       folderId: item.folderId,
@@ -165,6 +165,8 @@ const TeamView = ({
   });
 
   console.log(`teamResourceData`, teamResourceData);
+
+  // each time a new team is selected, get resources for that team
   useEffect(() => {
     getTeamResources();
     const teamAssociateId = findTeamAssociateId(

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import ResourcesScreen from '../components/resourcesScreen/ResourcesScreen';
 import ResourcesCategoryScreen from '../components/resourcesScreen/ResourcesCategoryScreen';
+import TeamResourcesCategoryScreen from '../components/resourcesScreen/teamView/TeamResourcesCategoryScreen';
 import ProductCategoryScreen from '../components/resourcesScreen/corporateView/ProductCategoryScreen';
 import CorporateSearchScreen from '../components/resourcesScreen/corporateView/CorporateSearchScreen';
 import TeamSearchScreen from '../components/resourcesScreen/teamView/TeamSearchScreen';
@@ -38,6 +39,11 @@ const ResourcesStack = () => {
       <Resources.Screen
         name="Resources Category Screen"
         component={ResourcesCategoryScreen}
+        options={({ route }) => ({ title: route.params.title })}
+      />
+      <Resources.Screen
+        name="Team Resources Category Screen"
+        component={TeamResourcesCategoryScreen}
         options={({ route }) => ({ title: route.params.title })}
       />
       <Resources.Screen

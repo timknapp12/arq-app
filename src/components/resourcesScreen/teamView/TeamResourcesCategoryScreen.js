@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import 'firebase/firestore';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../common';
-import AssetCard from './assetCard/AssetCard';
-import UploadAssetModal from './teamView/UploadAssetModal';
-import DownloadToast from './DownloadToast';
+import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../../common';
+import AssetCard from '../assetCard/AssetCard';
+import UploadAssetModal from '../teamView/UploadAssetModal';
+import DownloadToast from '../DownloadToast';
 
-const ResourcesCategoryScreen = ({ route, navigation }) => {
+const TeamResourcesCategoryScreen = ({ route, navigation }) => {
   const { assetList, folderId, isOwner, selectedTeamName } = route.params;
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
@@ -106,10 +106,10 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   );
 };
 
-ResourcesCategoryScreen.propTypes = {
+TeamResourcesCategoryScreen.propTypes = {
   route: PropTypes.object,
   navigation: PropTypes.object,
   teamAssetList: PropTypes.array,
 };
 
-export default ResourcesCategoryScreen;
+export default TeamResourcesCategoryScreen;
