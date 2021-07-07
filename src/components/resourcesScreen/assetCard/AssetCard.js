@@ -177,6 +177,8 @@ const AssetCard = ({
     }
   };
 
+  const onSend = () => Alert.alert('This feature is not quite ready yet :)');
+
   return (
     <AssetCardContainer {...props}>
       <OuterContainer isExpanded={isExpanded}>
@@ -265,6 +267,7 @@ const AssetCard = ({
             onDownload={onDownload}
             onEdit={() => setIsUploadAssetModalOpen(true)}
             onRemove={onRemove}
+            onSend={onSend}
           />
         )}
       </OuterContainer>
@@ -282,6 +285,7 @@ const AssetCard = ({
           closeCallout={closeCallout}
           onEdit={() => setIsUploadAssetModalOpen(true)}
           onRemove={onRemove}
+          onSend={onSend}
         />
       )}
       {isUploadAssetModalOpen && (

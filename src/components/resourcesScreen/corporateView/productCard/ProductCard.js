@@ -129,6 +129,8 @@ const ProductCard = ({
     }
   };
 
+  const onSend = () => Alert.alert('This feature is not quite ready yet :)');
+
   return (
     <ProductCardContainer {...props}>
       {isExpanded ? (
@@ -143,6 +145,7 @@ const ProductCard = ({
           assetList={assetList}
           onShare={onShare}
           onDownload={onDownload}
+          onSend={onSend}
         />
       ) : (
         <CollapsedProductCard
@@ -157,6 +160,7 @@ const ProductCard = ({
           onCallout={onCallout}
           onShare={onShare}
           onDownload={onDownload}
+          onSend={onSend}
         />
       )}
       {isMultiAssetMenuOpen && (
