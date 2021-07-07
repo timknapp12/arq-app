@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Flexbox, SmallQIcon, BellIcon, AccountIcon, Header } from '../common';
@@ -48,7 +48,10 @@ const MainHeader = ({
       </Flexbox>
       <SmallQIcon />
       <Flexbox width="60px" align="flex-end">
-        <BellIcon badgeValue={badgeValue} />
+        <TouchableOpacity
+          onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
+          <BellIcon badgeValue={badgeValue} />
+        </TouchableOpacity>
       </Flexbox>
     </Header>
   );
