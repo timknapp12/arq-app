@@ -10,7 +10,6 @@ import {
   Platform,
 } from 'react-native';
 import { MainScrollView } from '../../common';
-import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import ResourceCard from '../ResourceCard';
 import MarketModal from '../../marketModal/MarketModal';
@@ -44,7 +43,7 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
   const [marketId, setMarketId] = useState(userMarket.countryId);
 
-  const { data, loading } = useQuery(GET_CORPORATE_RESOURCES, {
+  const { data } = useQuery(GET_CORPORATE_RESOURCES, {
     variables: { countries: marketId },
   });
 
@@ -86,10 +85,6 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const openMarketModal = () => {
     setIsMarketModalOpen(true);
   };
-
-  if (loading) {
-    return <LoadingScreen />;
-  }
 
   return (
     <>

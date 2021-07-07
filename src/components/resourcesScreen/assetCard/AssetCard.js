@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
 import {
   TouchableOpacity,
   Share,
@@ -25,6 +26,8 @@ import {
   TitleAndDescription,
   IconColumn,
 } from './AssetCard.styles';
+import { DELETE_ASSET } from '../../../graphql/mutations';
+import { GET_ASSETS } from '../../../graphql/queries';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
@@ -123,7 +126,13 @@ const AssetCard = ({
     closeCallout();
   };
 
-  // TODO: wire this up to the backend with a mutation
+  const [deleteAsset] = useMutation(DELETE_ASSET, {
+    variables: { linkId },
+    refetchQueries: [{ query: GET_ASSETS, variables: { folderId } }],
+    onCompleted: () => closeCallout(),
+    onError: (error) => console.log(`error`, error),
+  });
+
   const onRemove = () =>
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
@@ -141,7 +150,7 @@ const AssetCard = ({
         {
           text: Localized('Yes'),
           onPress: () => {
-            closeCallout();
+            deleteAsset();
             console.log('Yes Pressed');
           },
         },
