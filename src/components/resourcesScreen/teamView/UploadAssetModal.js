@@ -267,7 +267,7 @@ const UploadAssetModal = ({
               testID="upload-asset-link-input"
               value={link}
               onChangeText={(text) => setLink(text)}
-              placeholder="Enter a url"
+              placeholder={Localized('Enter a url')}
               placeholderTextColor={theme.disabledTextColor}
               returnKeyType="done"
               onSubmitEditing={Keyboard.dismiss}
