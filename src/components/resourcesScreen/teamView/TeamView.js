@@ -82,7 +82,6 @@ const TeamView = ({
     }
     navigation.navigate('Team Resources Category Screen', {
       title: item.folderName.toUpperCase(),
-      assetList: item.links,
       folderId: item.folderId,
       // TODO: integrate permissions with backend
       isOwner: isOwner,

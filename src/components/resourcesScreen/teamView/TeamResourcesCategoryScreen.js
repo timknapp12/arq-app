@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import 'firebase/firestore';
+import { useQuery } from '@apollo/client';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../../common';
+import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import AssetCard from '../assetCard/AssetCard';
 import UploadAssetModal from '../teamView/UploadAssetModal';
 import DownloadToast from '../DownloadToast';
+import { GET_ASSETS } from '../../../graphql/queries';
 
 const TeamResourcesCategoryScreen = ({ route, navigation }) => {
-  const { assetList, folderId, isOwner, selectedTeamName } = route.params;
+  const { folderId, isOwner, selectedTeamName } = route.params;
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
@@ -26,6 +29,13 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
   const [isNavDisabled, setIsNavDisabled] = useState(false);
+
+  const { loading, data } = useQuery(GET_ASSETS, { variables: { folderId } });
+  console.log(`data`, data);
+  console.log(`folderId`, folderId);
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
@@ -55,7 +65,7 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
                 progress={toastProgress}
               />
 
-              {assetList.map((item, index) => (
+              {data?.links?.map((item, index) => (
                 <AssetCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
@@ -97,7 +107,7 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
               setIsUploadAssetModalOpen(false);
             }}
             folderId={folderId}
-            displayOrder={assetList.length + 1}
+            displayOrder={data?.links?.length + 1}
             selectedTeamName={selectedTeamName}
           />
         )}
@@ -109,7 +119,6 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
 TeamResourcesCategoryScreen.propTypes = {
   route: PropTypes.object,
   navigation: PropTypes.object,
-  teamAssetList: PropTypes.array,
 };
 
 export default TeamResourcesCategoryScreen;

@@ -201,3 +201,18 @@ export const GET_TEAM_RESOURCES = gql`
     }
   }
 `;
+
+export const GET_ASSETS = gql`
+  query Links($folderId: Int!) {
+    links(where: { folderId: { eq: $folderId } }) {
+      folderId
+      linkId
+      linkTitle
+      linkDescription
+      linkUrl
+      contentType
+      extension
+      displayOrder
+    }
+  }
+`;

@@ -18,7 +18,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Filename, FileInput, FileUnderline, marginSize } from './modal.styles';
 import { Localized, initLanguage } from '../../../translations/Localized';
 import { ADD_UPDATE_ASSET } from '../../../graphql/mutations';
-import { GET_TEAM_RESOURCES } from '../../../graphql/queries';
+import { GET_ASSETS, GET_TEAM_RESOURCES } from '../../../graphql/queries';
 import { saveFileToFirebase } from '../../../utils/firebase/saveFileToFirebase';
 
 const UploadAssetModal = ({
@@ -130,6 +130,7 @@ const UploadAssetModal = ({
     variables: variables,
     refetchQueries: [
       { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
+      { query: GET_ASSETS, variables: { folderId } },
     ],
     options: {
       awaitRefetchQueries: true,

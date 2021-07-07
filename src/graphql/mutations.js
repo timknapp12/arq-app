@@ -192,8 +192,7 @@ export const ADD_UPDATE_ASSET = gql`
     $contentType: String!
     $extension: String
     $comments: String
-    $displayOrder: Int!
-    $fileName: String!
+    $displayOrder: Int! # $fileName: String!
   ) {
     addUpdateLinks(
       input: {
@@ -206,7 +205,7 @@ export const ADD_UPDATE_ASSET = gql`
         extension: $extension
         comments: $comments
         displayOrder: $displayOrder
-        fileName: $fileName
+        # fileName: $fileName
       }
     ) {
       linkTitle
