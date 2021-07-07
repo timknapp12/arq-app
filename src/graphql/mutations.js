@@ -212,3 +212,15 @@ export const ADD_UPDATE_ASSET = gql`
     }
   }
 `;
+
+export const DELETE_FOLDER = gql`
+  mutation DeleteFolder($folderId: Int!) {
+    deleteFolder(folderId: $folderId)
+  }
+`;
+
+export const DELETE_ASSET = gql`
+  mutation DeleteLinks($linkId: Int!) {
+    deleteLinks(linkId: $linkId)
+  }
+`;
