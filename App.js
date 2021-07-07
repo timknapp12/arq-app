@@ -106,7 +106,12 @@ const App = () => {
   });
 
   const client = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Folders: { keyFields: ['folderId'] },
+        Links: { keyFields: ['linkId'] },
+      },
+    }),
     link: concat(authMiddleware, httpLink),
   });
 
