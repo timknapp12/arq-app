@@ -37,8 +37,8 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   const { username } = route.params;
 
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('tknapp@qsciences.com');
-  const [phone, setPhone] = useState('801-830-9674');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [secondPhone, setSecondPhone] = useState('');
   const [selectedOption, setSelectedOption] = useState('password');
   const [errorMessage, setErrorMessage] = useState('');
@@ -108,7 +108,6 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     phone: phoneRef,
     secondPhone: secondPhoneRef,
   };
-  // WARNING - it actually sends an email and text message
 
   useEffect(() => {
     refMap[selectedOption].current.focus();

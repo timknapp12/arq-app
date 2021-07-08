@@ -13,7 +13,7 @@ const CorporateSearchScreen = ({ route, navigation }) => {
   const { marketId } = route.params;
   console.log(`deviceLanguage`, deviceLanguage);
   console.log(`marketId`, marketId);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('Search feature is not quite ready yet');
   const [productList, setProductList] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   console.log(`setProductList`, setProductList);

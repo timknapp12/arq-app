@@ -9,7 +9,7 @@ import DownloadToast from '../DownloadToast';
 const TeamSearchScreen = ({ route, navigation }) => {
   const { accessCode } = route.params;
   console.log(`accessCode`, accessCode);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('Search feature is not quite ready yet');
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card

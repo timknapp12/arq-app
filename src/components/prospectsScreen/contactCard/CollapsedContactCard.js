@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
+import { H2Book, H4Book, H6 } from '../../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import account from '../../../../assets/icons/ic_account.png';
-import { H2Book, H4Book, H6 } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import {
   CardContainer,
@@ -69,9 +69,9 @@ const CollapsedContactCard = ({
         </Row>
         {isCalloutOpen && (
           <ContactCalloutMenu
-            onEdit={() => {}}
-            onMove={() => {}}
-            onRemove={() => {}}
+            onEdit={() => Alert.alert('This feature is coming soon!')}
+            onMove={() => Alert.alert('This feature is coming soon!')}
+            onRemove={() => Alert.alert('This feature is coming soon!')}
             email={email}
             phone={phone}
           />

@@ -66,7 +66,7 @@ const ContactCalloutMenu = ({
       <CalloutButton onPress={onMove}>
         <Row>
           <MoveIcon style={iconStyle} />
-          <H4Book>{moveText}</H4Book>
+          <H4Book>{moveText ? moveText : ''}</H4Book>
         </Row>
       </CalloutButton>
       <CalloutButton onPress={onRemove}>
