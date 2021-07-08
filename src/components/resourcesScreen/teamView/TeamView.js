@@ -19,10 +19,10 @@ import {
 } from '../../../graphql/queries';
 import { ADD_TEAM_ACCESS_CODE } from '../../../graphql/mutations';
 import {
-  findTeamAssociateId,
+  findTeamOwnerId,
   findAssociateIdInListOfTeams,
   findTeamAccessCode,
-} from '../../../utils/teamResources/findTeamAssociateId';
+} from '../../../utils/teamResources/findTeamResourceData';
 
 const TeamView = ({
   fadeOut,
@@ -36,6 +36,8 @@ const TeamView = ({
   isTeamMenuOpen,
   teamFadeAnim,
   isMenuOpen,
+  isOwner,
+  setIsOwner,
 }) => {
   const { theme, associateId, hasPermissions } = useContext(AppContext);
   console.log(`hasPermissions`, hasPermissions);
@@ -48,7 +50,7 @@ const TeamView = ({
       onError: (err) => console.log(`err`, err),
     },
   );
-  console.log(`userAccessCodesData`, userAccessCodesData);
+  // console.log(`userAccessCodesData`, userAccessCodesData);
 
   const [isNavDisabled, setIsNavDisabled] = useState(false);
   const [isAccessCodeModalOpen, setIsAccessCodeModalOpen] = useState(false);
@@ -61,7 +63,6 @@ const TeamView = ({
   const [teamName, setTeamName] = useState('');
   const [accessCode, setAccessCode] = useState('');
   const [isNewAccessCode, setIsNewAccessCode] = useState(false);
-  const [isOwner, setIsOwner] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const userHasAlreadyCreatedATeam = findAssociateIdInListOfTeams(
@@ -163,12 +164,12 @@ const TeamView = ({
     variables: { teams: [selectedTeamName] },
   });
 
-  console.log(`teamResourceData`, teamResourceData);
+  // console.log(`teamResourceData`, teamResourceData);
 
   // each time a new team is selected, get resources for that team
   useEffect(() => {
     getTeamResources();
-    const teamAssociateId = findTeamAssociateId(
+    const teamOwnerAssociateId = findTeamOwnerId(
       selectedTeamName,
       userAccessCodesData?.accesses ?? [],
     );
@@ -176,8 +177,9 @@ const TeamView = ({
       selectedTeamName,
       userAccessCodesData?.accesses ?? [],
     );
+    console.log(`teamOwnerAssociateId`, teamOwnerAssociateId);
     setSelectedTeamAccessCode(newTeamAccessCode);
-    if (teamAssociateId === associateId) {
+    if (teamOwnerAssociateId === associateId) {
       setIsOwner(true);
     } else {
       setIsOwner(false);
@@ -304,7 +306,7 @@ const TeamView = ({
     </>
   );
 };
-// teamOwnerAssociateId
+
 TeamView.propTypes = {
   fadeOut: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
@@ -317,6 +319,8 @@ TeamView.propTypes = {
   isTeamMenuOpen: PropTypes.bool,
   teamFadeAnim: PropTypes.object,
   isMenuOpen: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  setIsOwner: PropTypes.func.isRequired,
 };
 
 export default TeamView;

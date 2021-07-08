@@ -44,6 +44,8 @@ const ResourcesScreen = ({ navigation }) => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
 
+  const [isOwner, setIsOwner] = useState(false);
+
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
@@ -164,11 +166,13 @@ const ResourcesScreen = ({ navigation }) => {
             isTeamMenuOpen={isTeamMenuOpen}
             teamFadeAnim={teamFadeAnim}
             isMenuOpen={isMenuOpen}
+            isOwner={isOwner}
+            setIsOwner={setIsOwner}
           />
         )}
         {view.name === Localized('SERVICES') && <ServicesView />}
         {view.name === Localized('FAVORITES') && <FavoritesView />}
-        {view.name === Localized('TEAM') && hasPermissions && (
+        {view.name === Localized('TEAM') && hasPermissions && isOwner && (
           <AddButton
             bottom="130px"
             onPress={() => {

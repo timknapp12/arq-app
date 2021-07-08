@@ -1,8 +1,8 @@
-export const findTeamAssociateId = (teamName = '', array = []) => {
+export const findTeamOwnerId = (teamName = '', array = []) => {
   if (array) {
     const result = array.find((item) => item.teamName === teamName);
     if (result) {
-      return result.associateId;
+      return result.teamOwnerAssociateId;
     }
   }
 };

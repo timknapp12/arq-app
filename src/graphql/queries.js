@@ -177,6 +177,7 @@ export const GET_USERS_ACCESS_CODES = gql`
       teamAccessId
       teamName
       accessCode
+      teamOwnerAssociateId
     }
   }
 `;

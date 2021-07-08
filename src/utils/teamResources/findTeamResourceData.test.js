@@ -1,8 +1,8 @@
 import {
-  findTeamAssociateId,
+  findTeamOwnerId,
   findAssociateIdInListOfTeams,
   findTeamAccessCode,
-} from './findTeamAssociateId';
+} from './findTeamResourceData';
 
 const testArray = [
   {
@@ -10,39 +10,42 @@ const testArray = [
     associateId: 211,
     teamAccessId: 3,
     teamName: 'Team Awesome',
+    teamOwnerAssociateId: 111,
   },
   {
     accessCode: '123123',
     associateId: 330,
     teamAccessId: 4,
     teamName: 'Test Team',
+    teamOwnerAssociateId: 222,
   },
   {
     accessCode: '121212',
     associateId: 113,
     teamAccessId: 4,
     teamName: 'Test Team 2',
+    teamOwnerAssociateId: 333,
   },
 ];
 
-describe('findTeamAssociateId', () => {
-  test('team name "Test Team" returns id: 330', () => {
+describe('findTeamOwnerId', () => {
+  test('team name "Test Team" returns id: 222', () => {
     const input = 'Test Team';
-    const output = 330;
+    const output = 222;
 
-    expect(findTeamAssociateId(input, testArray)).toBe(output);
+    expect(findTeamOwnerId(input, testArray)).toBe(output);
   });
-  test('team name "Team Awesome" returns id: 211', () => {
+  test('team name "Team Awesome" returns id: 111', () => {
     const input = 'Team Awesome';
-    const output = 211;
+    const output = 111;
 
-    expect(findTeamAssociateId(input, testArray)).toBe(output);
+    expect(findTeamOwnerId(input, testArray)).toBe(output);
   });
-  test('team name "Test Team 2" returns id: 113', () => {
+  test('team name "Test Team 2" returns id: 333', () => {
     const input = 'Test Team 2';
-    const output = 113;
+    const output = 333;
 
-    expect(findTeamAssociateId(input, testArray)).toBe(output);
+    expect(findTeamOwnerId(input, testArray)).toBe(output);
   });
 });
 
