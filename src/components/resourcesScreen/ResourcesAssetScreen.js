@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Image, Dimensions, ScrollView } from 'react-native';
 import { ScreenContainer } from '../common';
 import PDFReader from 'rn-pdf-reader-js';
+import baseImage from '../../../assets/icons/image.png';
 import AppContext from '../../contexts/AppContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
@@ -37,7 +38,7 @@ const ResourcesAssetScreen = ({ route }) => {
           marginStart: -4,
           padding: 0,
         }}
-        source={{ uri: url }}
+        source={{ uri: url ? url : baseImage }}
       />
     );
   }
