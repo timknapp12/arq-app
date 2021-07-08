@@ -22,6 +22,7 @@ import LoginContext from '../../contexts/LoginContext';
 
 const DashboardScreen = ({ navigation }) => {
   initLanguage();
+  // set defaults for user so UI doesn't crash before real data loads
   const {
     user = {
       pv: 0,

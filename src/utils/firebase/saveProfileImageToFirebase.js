@@ -1,10 +1,16 @@
 import * as firebase from 'firebase';
 import uuid from 'react-native-uuid';
+import { reshapeUrl } from './reshapeUrl';
 
 const calculatePercentage = (numerator = 0, denominator = 1) =>
   Math.round((numerator / denominator) * 100);
 
-export const saveProfileImageToFirebase = async (user, handleChange) => {
+export const saveProfileImageToFirebase = async (
+  user,
+  updateProfile,
+  variables,
+  onCompleted,
+) => {
   const refToBeDeleted = firebase
     .storage()
     .ref()
@@ -37,13 +43,26 @@ export const saveProfileImageToFirebase = async (user, handleChange) => {
       },
       () => {
         // Handle successful uploads on complete
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
-          const newUrl = downloadUrl;
-          // console.log('newUrl', newUrl);
-          // console.log('newImageName *********', newImageName);
-          handleChange('profileUrl', newUrl);
-          return handleChange('profileImageFileName', newImageName);
-        });
+        uploadTask.snapshot.ref
+          .getDownloadURL()
+          .then((downloadUrl) => {
+            const newUrl = downloadUrl;
+            // console.log('newUrl', newUrl);
+            // console.log('newImageName *********', newImageName);
+            const reformattedUrl = reshapeUrl(newUrl, '_72x72');
+            updateProfile({
+              variables: {
+                ...variables,
+                profileImageFileName: newImageName,
+                profileUrl: reformattedUrl,
+              },
+              onError: (error) => {
+                console.log(`error`, error);
+                onCompleted();
+              },
+            });
+          })
+          .then(() => onCompleted());
       },
     );
     await uploadTask;

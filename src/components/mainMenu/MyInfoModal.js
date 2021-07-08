@@ -11,6 +11,7 @@ import {
   Platform,
   View,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -28,6 +29,7 @@ import {
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
 import LoginContext from '../../contexts/LoginContext';
+import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 // source for files for different languages https://stefangabos.github.io/world_countries/
 import enCountries from '../../translations/countries/en-countries.json';
 import deCountries from '../../translations/countries/de-countries.json';
@@ -55,11 +57,7 @@ const NameContainer = styled.View`
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   initLanguage();
-  const {
-    userProfile: data,
-    saveProfileImageToFirebase,
-    updateProfile,
-  } = useContext(LoginContext);
+  const { updateProfile, userProfile: data } = useContext(LoginContext);
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
@@ -78,6 +76,23 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const [isStateError, setIsStateError] = useState(false);
   const [isZipcodeError, setIsZipcodeError] = useState(false);
   const [isCountryError, setIsCountryError] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const {
+    legacyAssociateId,
+    associateId,
+    profileUrl,
+    profileImageFileName,
+    firstName,
+    lastName,
+    displayName,
+    emailAddress,
+    primaryPhoneNumber,
+    address,
+  } = myInfo;
+
+  const { address1, address2, city, state, zip, countryCode } = address;
 
   const validateFirstName = () => {
     if (!firstName) {
@@ -193,34 +208,44 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
 
-  const onSubmit = async () => {
-    // TODO add saving logic here
+  const onCompleted = () => {
+    setIsMyInfoModalOpen(false);
+  };
+
+  const variables = {
+    associateId: associateId,
+    profileUrl: profileUrl,
+    profileImageFileName: profileImageFileName,
+    firstName: firstName,
+    lastName: lastName,
+    displayName: displayName,
+    emailAddress: emailAddress,
+    primaryPhoneNumber: primaryPhoneNumber,
+    address1: address1,
+    address2: address2,
+    city: city,
+    state: state,
+    zip: zip,
+    countryCode: countryCode,
+  };
+
+  const onSubmit = () => {
+    setLoading(true);
     if (!validateAllFields()) {
       return false;
     } else {
       // only save image if it has been changed
-      isNewImageSelected &&
-        (await saveProfileImageToFirebase(myInfo, handleChange));
-      setIsMyInfoModalOpen(false);
-      setIsNewImageSelected(false);
-      updateProfile({
-        variables: {
-          associateId: associateId,
-          profileUrl: profileUrl,
-          profileImageFileName: profileImageFileName,
-          firstName: firstName,
-          lastName: lastName,
-          displayName: displayName,
-          emailAddress: emailAddress,
-          primaryPhoneNumber: primaryPhoneNumber,
-          address1: address1,
-          address2: address2,
-          city: city,
-          state: state,
-          zip: zip,
-          countryCode: countryCode,
-        },
-      });
+      isNewImageSelected
+        ? saveProfileImageToFirebase(
+            myInfo,
+            updateProfile,
+            variables,
+            onCompleted,
+          )
+        : updateProfile({
+            variables: variables,
+            onCompleted: onCompleted(),
+          });
     }
   };
 
@@ -238,21 +263,9 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   };
   countryList = countryMap[localeLanguageTag] || enCountries;
 
-  const {
-    legacyAssociateId,
-    associateId,
-    profileUrl,
-    profileImageFileName,
-    firstName,
-    lastName,
-    displayName,
-    emailAddress,
-    primaryPhoneNumber,
-    address,
-  } = myInfo;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
-  const { address1, address2, city, state, zip, countryCode } = address;
+  // https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FJena.Tomer.17a243ef-ca1e-4bc8-90d1-ca3a65683432_72x72?alt=media&token=cb1ccb74-a51b-408d-bb9a-6cecb5ae9694
 
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
@@ -261,6 +274,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
         ? handleChange('address', { ...address, state })
         : handleChange('address', { ...address, state: null });
     }
+    return () => {
+      setIsNewImageSelected(false);
+      setLoading(false);
+    };
   }, [countryCode]);
   return (
     <Modal
@@ -293,7 +310,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       <TouchableOpacity
                         testID="my-info-save-button"
                         onPress={onSubmit}>
-                        <H4Heavy>{Localized('SAVE')}</H4Heavy>
+                        {loading ? (
+                          <ActivityIndicator />
+                        ) : (
+                          <H4Heavy>{Localized('SAVE')}</H4Heavy>
+                        )}
                       </TouchableOpacity>
                     ) : (
                       <View />

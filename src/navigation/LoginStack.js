@@ -21,7 +21,6 @@ import {
   GET_PROFILE,
 } from '../graphql/queries';
 import { UPDATE_USER } from '../graphql/mutations';
-import { saveProfileImageToFirebase } from '../utils/firebase/saveProfileImageToFirebase';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Login = createStackNavigator();
@@ -29,6 +28,7 @@ const Login = createStackNavigator();
 const LoginStack = () => {
   const { theme, associateId, legacyId, setHasPermissions } =
     useContext(AppContext);
+  // TODO: remove creds before build
   const [email, setEmail] = useState('tim@test.com');
   const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,7 +55,6 @@ const LoginStack = () => {
   const [getUser, { data: userData }] = useLazyQuery(GET_USER, {
     variables: { legacyAssociateId: legacyId },
     onCompleted: (data) => {
-      console.log(`data`, data);
       if (
         data?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank?.rankId >
         10
@@ -66,9 +65,7 @@ const LoginStack = () => {
   });
 
   const [getProfile, { data: profileData }] = useLazyQuery(GET_PROFILE, {
-    variables: { associateId: associateId },
-    onCompleted: () =>
-      console.log('this fired inside the getProfile lazy query'),
+    variables: { associateId },
   });
 
   const [updateProfile] = useMutation(UPDATE_USER, {
@@ -119,7 +116,6 @@ const LoginStack = () => {
         markets: marketsData?.activeCountries,
         user: userData?.treeNodeFor,
         userProfile: profileData?.associates?.[0],
-        saveProfileImageToFirebase,
         updateProfile,
       }}>
       <Login.Navigator
