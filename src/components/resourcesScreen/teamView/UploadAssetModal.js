@@ -116,11 +116,18 @@ const UploadAssetModal = ({
     folderId,
     linkId: linkId ? linkId : 0,
     linkTitle: title,
-    linkUrl: link,
+    linkUrl:
+      contentType === 'podcast' || contentType === 'video' ? link : file.url,
     linkDescription: description,
     contentType,
     extension:
-      contentType === 'pdf' ? 'pdf' : contentType === 'image' ? 'jpg' : '',
+      contentType === 'pdf'
+        ? 'pdf'
+        : contentType === 'image'
+        ? 'jpg'
+        : contentType === 'podcast'
+        ? 'mp3'
+        : '',
     comments: '',
     displayOrder: displayOrder,
     fileName: '',
