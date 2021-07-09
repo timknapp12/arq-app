@@ -91,7 +91,8 @@ const App = () => {
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   const httpLink = new HttpLink({
-    uri: 'https://qservicesstagingapp.azurewebsites.net/graphql',
+    // uri: 'https://qservicesstagingapp.azurewebsites.net/graphql',
+    uri: 'https://qservicesapi-dev.azurewebsites.net/graphql',
     fetch,
   });
 
@@ -110,6 +111,7 @@ const App = () => {
       typePolicies: {
         Folders: { keyFields: ['folderId'] },
         Links: { keyFields: ['linkId'] },
+        Associate: { keyFields: ['associateId'] },
       },
     }),
     link: concat(authMiddleware, httpLink),

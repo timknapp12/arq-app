@@ -185,7 +185,6 @@ const TeamView = ({
       setIsOwner(false);
     }
   }, [selectedTeamName]);
-  console.log(`isOwner`, isOwner);
 
   const saveAccessCode = () => {
     if (!teamName) {
