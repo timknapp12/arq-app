@@ -60,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [loginUser, { loading: loadingLoginUser }] = useMutation(LOGIN_USER, {
-    variables: { ambassaderOnly: true },
+    variables: { ambassadorOnly: true },
     onCompleted: (data) => {
       setIsLoading(false);
       setIsErrorModalOpen(false);

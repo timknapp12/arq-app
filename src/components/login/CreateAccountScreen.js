@@ -32,14 +32,13 @@ const DividerLine = styled.View`
 
 const CreateAccountScreen = ({ navigation }) => {
   const { theme, setToken, signOutOfFirebase } = useContext(AppContext);
-  const { email, password, confirmPassword, clearFields } = useContext(
-    LoginContext,
-  );
+  const { email, password, confirmPassword, clearFields } =
+    useContext(LoginContext);
   const [errorMessage, setErrorMessage] = useState('');
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    variables: { ambassaderOnly: true },
+    variables: { ambassadorOnly: true },
     onCompleted: (data) => {
       setIsErrorModalOpen(false);
       setErrorMessage('');

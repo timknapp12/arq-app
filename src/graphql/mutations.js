@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 
 // possible values returned for loginStatus: "VERIFICATION_NEEDED", "NOT_AN_AMBASSADOR", "SUCCESS"
 export const LOGIN_USER = gql`
-  mutation LoginUser($ambassaderOnly: Boolean!) {
-    loginUser(ambassaderOnly: $ambassaderOnly) {
+  mutation LoginUser($ambassadorOnly: Boolean!) {
+    loginUser(ambassadorOnly: $ambassadorOnly) {
       loginStatus
       associate {
         associateId
@@ -16,8 +16,8 @@ export const LOGIN_USER = gql`
 
 // possible values returned for status: "NOT_FOUND", "NOT_AN_AMBASSADOR", 'CALL_SUPPORT', "SUCCESS"
 export const DIRECT_SCALE_INFO = gql`
-  mutation DirectScaleInfo($ambassaderOnly: Boolean!, $userName: String!) {
-    directScaleInfo(ambassaderOnly: $ambassaderOnly, userName: $userName) {
+  mutation DirectScaleInfo($ambassadorOnly: Boolean!, $userName: String!) {
+    directScaleInfo(ambassadorOnly: $ambassadorOnly, userName: $userName) {
       status
       associate {
         associateId
@@ -105,6 +105,30 @@ export const UPDATE_USER = gql`
       }
     ) {
       associateId
+      legacyAssociateId
+      profileUrl
+      profileImageFileName
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhoneNumber
+      associateType
+      languageCode
+      associateStatus
+      country {
+        countryId
+        countryCode
+        countryName
+      }
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
     }
   }
 `;
@@ -193,6 +217,7 @@ export const ADD_UPDATE_ASSET = gql`
     $extension: String
     $comments: String
     $displayOrder: Int! # $fileName: String!
+    $fileName: String!
   ) {
     addUpdateLinks(
       input: {
@@ -205,7 +230,7 @@ export const ADD_UPDATE_ASSET = gql`
         extension: $extension
         comments: $comments
         displayOrder: $displayOrder
-        # fileName: $fileName
+        fileName: $fileName
       }
     ) {
       linkTitle
