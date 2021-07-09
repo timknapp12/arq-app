@@ -29,8 +29,8 @@ const LoginStack = () => {
   const { theme, associateId, legacyId, setHasPermissions } =
     useContext(AppContext);
   // TODO: remove creds before build
-  const [email, setEmail] = useState('tim@test.com');
-  const [password, setPassword] = useState('test123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [directScaleUser, setDirectScaleUser] = useState({
@@ -69,7 +69,7 @@ const LoginStack = () => {
   });
 
   const [updateProfile] = useMutation(UPDATE_USER, {
-    // refetchQueries: [{ query: GET_PROFILE, variables: { associateId } }],
+    refetchQueries: [{ query: GET_PROFILE, variables: { associateId } }],
   });
 
   useEffect(() => {

@@ -128,19 +128,19 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
         );
       }
     }
-    // if (selectedOption === 'phone') {
-    //   if (!phone) {
-    //     return Alert.alert(Localized('Please enter a valid phone number'));
-    //   }
-    //   if (
-    //     phone.replace(phoneRegex, '') !==
-    //     primaryPhoneNumber.replace(phoneRegex, '')
-    //   ) {
-    //     return Alert.alert(
-    //       'The phone number you entered does not match the phone number we have for you',
-    //     );
-    //   }
-    // }
+    if (selectedOption === 'phone') {
+      if (!phone) {
+        return Alert.alert(Localized('Please enter a valid phone number'));
+      }
+      if (
+        phone.replace(phoneRegex, '') !==
+        primaryPhoneNumber.replace(phoneRegex, '')
+      ) {
+        return Alert.alert(
+          'The phone number you entered does not match the phone number we have for you',
+        );
+      }
+    }
     if (selectedOption === 'secondPhone') {
       if (!secondPhone) {
         return Alert.alert(Localized('Please enter a valid phone number'));
