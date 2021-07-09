@@ -182,7 +182,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                 setErrorMessage('');
                 setPassword(text);
               }}
-              editable={selectedOption === 'password'}
+              onFocus={() => setSelectedOption('password')}
               textContentType="password"
               returnKeyType="go"
               onSubmitEditing={onSubmit}
@@ -206,7 +206,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                     setErrorMessage('');
                     setEmail(text);
                   }}
-                  editable={selectedOption === 'email'}
+                  onFocus={() => setSelectedOption('email')}
                   keyboardType="email-address"
                   textContentType="emailAddress"
                   autoCapitalize="none"
@@ -236,7 +236,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                     setErrorMessage('');
                     setPhone(text);
                   }}
-                  editable={selectedOption === 'phone'}
+                  onFocus={() => setSelectedOption('phone')}
                   keyboardType="phone-pad"
                   textContentType="telephoneNumber"
                   returnKeyType="done"
@@ -268,7 +268,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                     setErrorMessage('');
                     setSecondPhone(text);
                   }}
-                  editable={selectedOption === 'secondPhone'}
+                  onFocus={() => setSelectedOption('secondPhone')}
                   keyboardType="phone-pad"
                   textContentType="telephoneNumber"
                   returnKeyType="done"
