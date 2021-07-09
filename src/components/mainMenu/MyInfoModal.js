@@ -30,6 +30,8 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
 import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
+import ProfileImage from './ProfileImage';
+import { GET_PROFILE } from '../../graphql/queries';
 // source for files for different languages https://stefangabos.github.io/world_countries/
 import enCountries from '../../translations/countries/en-countries.json';
 import deCountries from '../../translations/countries/de-countries.json';
@@ -39,7 +41,6 @@ import jaCountries from '../../translations/countries/ja-countries.json';
 import noCountries from '../../translations/countries/no-countries.json';
 import itCountries from '../../translations/countries/it-countries.json';
 import usStates from '../../translations/countries/us-states.json';
-import ProfileImage from './ProfileImage';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -244,6 +245,9 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
           )
         : updateProfile({
             variables: variables,
+            refetchQueries: [
+              { query: GET_PROFILE, variables: { associateId } },
+            ],
             onCompleted: onCompleted(),
           });
     }

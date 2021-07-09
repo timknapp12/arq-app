@@ -1,6 +1,7 @@
 import * as firebase from 'firebase';
 import uuid from 'react-native-uuid';
 import { reshapeUrl } from './reshapeUrl';
+import { GET_PROFILE } from '../../graphql/queries';
 
 const calculatePercentage = (numerator = 0, denominator = 1) =>
   Math.round((numerator / denominator) * 100);
@@ -47,9 +48,10 @@ export const saveProfileImageToFirebase = async (
           .getDownloadURL()
           .then((downloadUrl) => {
             const newUrl = downloadUrl;
-            // console.log('newUrl', newUrl);
+            console.log('newUrl', newUrl);
             // console.log('newImageName *********', newImageName);
             const reformattedUrl = reshapeUrl(newUrl, '_72x72');
+            const { associateId } = variables;
             updateProfile({
               variables: {
                 ...variables,
@@ -59,6 +61,25 @@ export const saveProfileImageToFirebase = async (
               onError: (error) => {
                 console.log(`error`, error);
                 onCompleted();
+              },
+              update: (cache) => {
+                const data = cache.readQuery({
+                  query: GET_PROFILE,
+                  variables: { associateId },
+                });
+                console.log(`data in update cache:`, data);
+                const newData = [];
+                const profileCopy = {
+                  ...data.associates[0],
+                  profileUrl: reformattedUrl,
+                };
+                newData.push(profileCopy);
+                console.log(`newData:`, newData);
+
+                cache.writeQuery(
+                  { query: GET_PROFILE, variables: { associateId } },
+                  newData,
+                );
               },
             });
           })
