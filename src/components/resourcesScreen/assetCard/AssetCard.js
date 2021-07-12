@@ -49,6 +49,8 @@ const AssetCard = ({
   setToastInfo,
   displayOrder,
   selectedTeamName,
+  // this prop is passed from TeamSearchScreen.js for the refetch query of seaching so user can edit assets in search screen
+  searchTerm,
   // this prop is passed from ResourceCategoryScreen.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   isNavDisabled,
@@ -315,6 +317,7 @@ const AssetCard = ({
           assetLink={
             contentType === 'video' || contentType === 'podcast' ? url : ''
           }
+          searchTerm={searchTerm}
         />
       )}
     </AssetCardContainer>
@@ -337,6 +340,7 @@ AssetCard.propTypes = {
   isOwner: PropTypes.bool,
   setToastInfo: PropTypes.func,
   displayOrder: PropTypes.number,
+  searchTerm: PropTypes.string,
   setIsNavDisabled: PropTypes.func,
   selectedTeamName: PropTypes.string,
   isNavDisabled: PropTypes.bool,

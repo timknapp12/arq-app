@@ -204,8 +204,9 @@ const TeamView = ({
         onPress={() => {
           fadeOut();
           navigation.navigate('Team Search Screen', {
-            accessCode: '3',
             title: selectedTeamName.toUpperCase(),
+            selectedTeamName,
+            isOwner,
           });
         }}>
         <TouchableOpacity onPress={toggleTeamMenu}>
