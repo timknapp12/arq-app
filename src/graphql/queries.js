@@ -102,7 +102,7 @@ export const GET_MARKETS = gql`
 
 export const GET_CORPORATE_RESOURCES = gql`
   query CorporateResoures($countries: [Int!]) {
-    corporateResources(countries: $countries) {
+    corporateResources(countries: $countries, order: { displayOrder: ASC }) {
       folderName
       folderId
       isWideLayout
@@ -155,9 +155,20 @@ export const SEARCH_RESOURCES = gql`
       teams: $teams
       searchList: $searchList
     ) {
-      folderId
-      folderName
-      folderDescription
+      productFolders {
+        folderId
+        folderName
+        folderDescription
+        pictureUrl
+        links {
+          linkId
+          linkTitle
+          linkDescription
+          linkUrl
+          contentType
+          extension
+        }
+      }
       links {
         linkId
         linkTitle
