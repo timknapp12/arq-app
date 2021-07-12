@@ -176,6 +176,8 @@ export const SEARCH_RESOURCES = gql`
         linkUrl
         contentType
         extension
+        folderId
+        displayOrder
       }
     }
   }
