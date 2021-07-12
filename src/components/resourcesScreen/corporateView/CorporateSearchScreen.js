@@ -1,6 +1,7 @@
 import React, { useState, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
+import debounce from 'lodash.debounce';
 import { ScreenContainer, Flexbox, Input } from '../../common';
 import {
   ScrollView,
@@ -13,7 +14,6 @@ import AppContext from '../../../contexts/AppContext';
 import AssetCard from '../assetCard/AssetCard';
 import ProductCard from './productCard/ProductCard';
 import DownloadToast from '../DownloadToast';
-import debounce from 'lodash.debounce';
 import { SEARCH_RESOURCES } from '../../../graphql/queries';
 
 const CorporateSearchScreen = ({ route, navigation }) => {
