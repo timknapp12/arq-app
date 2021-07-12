@@ -31,7 +31,6 @@ import * as Localization from 'expo-localization';
 import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from './ProfileImage';
-import { GET_PROFILE } from '../../graphql/queries';
 // source for files for different languages https://stefangabos.github.io/world_countries/
 import enCountries from '../../translations/countries/en-countries.json';
 import deCountries from '../../translations/countries/de-countries.json';
@@ -58,7 +57,11 @@ const NameContainer = styled.View`
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   initLanguage();
-  const { updateProfile, userProfile: data } = useContext(LoginContext);
+  const {
+    updateProfile,
+    userProfile: data,
+    refetchProfile,
+  } = useContext(LoginContext);
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
@@ -211,6 +214,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   const onCompleted = () => {
     setIsMyInfoModalOpen(false);
+    refetchProfile();
   };
 
   const variables = {
@@ -245,9 +249,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
           )
         : updateProfile({
             variables: variables,
-            refetchQueries: [
-              { query: GET_PROFILE, variables: { associateId } },
-            ],
             onCompleted: onCompleted(),
           });
     }

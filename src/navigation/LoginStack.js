@@ -29,8 +29,8 @@ const LoginStack = () => {
   const { theme, associateId, legacyId, setHasPermissions } =
     useContext(AppContext);
   // TODO: remove creds before build
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('tim@test.com');
+  const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [directScaleUser, setDirectScaleUser] = useState({
@@ -64,13 +64,13 @@ const LoginStack = () => {
     },
   });
 
-  const [getProfile, { data: profileData }] = useLazyQuery(GET_PROFILE, {
-    variables: { associateId },
-  });
+  const [getProfile, { data: profileData, refetch: refetchProfile }] =
+    useLazyQuery(GET_PROFILE, {
+      variables: { associateId },
+      fetchPolicy: 'cache-and-network',
+    });
 
-  const [updateProfile] = useMutation(UPDATE_USER, {
-    refetchQueries: [{ query: GET_PROFILE, variables: { associateId } }],
-  });
+  const [updateProfile] = useMutation(UPDATE_USER);
 
   useEffect(() => {
     getUser();
@@ -110,6 +110,7 @@ const LoginStack = () => {
         user: userData?.treeNodeFor,
         userProfile: profileData?.associates?.[0],
         updateProfile,
+        refetchProfile,
       }}>
       <Login.Navigator
         screenOptions={{

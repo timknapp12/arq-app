@@ -47,7 +47,7 @@ export const saveProfileImageToFirebase = async (
           .getDownloadURL()
           .then((downloadUrl) => {
             const newUrl = downloadUrl;
-            console.log('newUrl', newUrl);
+            // console.log('***** NEW URL *******:', newUrl);
             // console.log('newImageName *********', newImageName);
             const reformattedUrl = reshapeUrl(newUrl, '_72x72');
             updateProfile({

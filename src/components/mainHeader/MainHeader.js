@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
@@ -17,8 +17,12 @@ const MainHeader = ({
   fadeOut = () => {},
   isMenuOpen,
 }) => {
-  const [isImageValid, setIsImageValid] = useState(true);
   const { userProfile = { profileUrl: '' } } = useContext(LoginContext);
+  const [isImageValid, setIsImageValid] = useState(true);
+  const [url, setUrl] = useState(userProfile?.profileUrl ?? '');
+  // this flag triggers react to re-render the UI
+  const [urlHasChanged, setUrlHasChanged] = useState(false);
+
   const toggleMenu = () => {
     if (isMenuOpen) {
       fadeOut();
@@ -26,8 +30,17 @@ const MainHeader = ({
       fadeIn();
     }
   };
+
+  useEffect(() => {
+    setUrlHasChanged(true);
+    setUrl(userProfile?.profileUrl);
+    return () => {
+      setUrlHasChanged(false);
+    };
+  }, [userProfile?.profileUrl]);
+
   return (
-    <Header>
+    <Header key={url}>
       <Flexbox width="60px" align="flex-start">
         <TouchableOpacity
           testID="profile-button"
@@ -35,9 +48,10 @@ const MainHeader = ({
             e.stopPropagation();
             toggleMenu();
           }}>
-          {userProfile.profileUrl && isImageValid ? (
+          {url && isImageValid && urlHasChanged ? (
             <ProfileImage
-              source={{ uri: userProfile?.profileUrl }}
+              key={url}
+              source={{ uri: url }}
               defaultSource={account}
               onError={() => setIsImageValid(false)}
             />
