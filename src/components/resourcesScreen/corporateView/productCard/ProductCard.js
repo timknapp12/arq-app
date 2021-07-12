@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Share, Alert } from 'react-native';
-import AppContext from '../../../../contexts/AppContext';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import MultiAssetMenu from '../MultiAssetMenu';
-import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { getProductAssets } from '../../../../utils/firebase/getCorporateProducts';
 import { downloadFile } from '../../../../utils/downloadFile';
 import { Localized, initLanguage } from '../../../../translations/Localized';
 
@@ -20,37 +17,20 @@ const ProductCard = ({
   title,
   description,
   url,
+  assetList,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   setDisableTouchEvent,
-  categoryID,
-  productID,
   navigation,
   setToastInfo,
   isFavorite,
-  market,
   ...props
 }) => {
   initLanguage();
-  const { deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
-  const [assetList, setAssetList] = useState([]);
   const [isMultiAssetMenuOpen, setIsMultiAssetMenuOpen] = useState(false);
   const [multiAssetMenuTitle, setMultiAssetMenuTitle] = useState('');
-
-  const db = firebase.firestore();
-
-  useEffect(() => {
-    getProductAssets(
-      db,
-      market,
-      deviceLanguage,
-      setAssetList,
-      categoryID,
-      productID,
-    );
-  }, []);
 
   useEffect(() => {
     if (!isCalloutOpenFromParent) {
@@ -106,7 +86,7 @@ const ProductCard = ({
   // This function will automatically open the device share option if there is only one item, and open the popup to select an asset if there are multiple items
   const onShare = async () => {
     if (assetList.length === 1) {
-      return shareSingleUrl(assetList[0].url);
+      return shareSingleUrl(assetList[0].linkUrl);
     } else {
       await setIsCalloutOpenFromParent(true);
       await setDisableTouchEvent(true);
@@ -116,10 +96,10 @@ const ProductCard = ({
   };
 
   const downloadSingleItem = async (item) => {
-    const { url, title, contentType, ext } = item;
-    const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
+    const { linkUrl, linkTitle, contentType, extension } = item;
+    const filename = `${linkTitle.split(' ').join('')}.${extension ?? ''}`;
     try {
-      await downloadFile(url, filename, contentType, setToastInfo);
+      await downloadFile(linkUrl, filename, contentType, setToastInfo);
     } catch (error) {
       console.log(`error`, error);
     }
@@ -142,12 +122,14 @@ const ProductCard = ({
 
   const onAction = async (item) => {
     if (multiAssetMenuTitle === Localized('Share')) {
-      return shareSingleUrl(item.url);
+      return shareSingleUrl(item.linkUrl);
     }
     if (multiAssetMenuTitle === Localized('Download')) {
       return downloadSingleItem(item);
     }
   };
+
+  const onSend = () => Alert.alert('This feature is not quite ready yet :)');
 
   return (
     <ProductCardContainer {...props}>
@@ -163,6 +145,7 @@ const ProductCard = ({
           assetList={assetList}
           onShare={onShare}
           onDownload={onDownload}
+          onSend={onSend}
         />
       ) : (
         <CollapsedProductCard
@@ -177,6 +160,7 @@ const ProductCard = ({
           onCallout={onCallout}
           onShare={onShare}
           onDownload={onDownload}
+          onSend={onSend}
         />
       )}
       {isMultiAssetMenuOpen && (
@@ -198,18 +182,14 @@ ProductCard.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   url: PropTypes.string,
+  assetList: PropTypes.array,
   navigation: PropTypes.object,
   setToastInfo: PropTypes.func,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
   setDisableTouchEvent: PropTypes.func,
-  /* the category id will be something like "hemp", or "energy" */
-  categoryID: PropTypes.string,
-  /* the list id will be something like "q fuse plus", or "q focus" */
-  productID: PropTypes.string,
   index: PropTypes.number,
-  market: PropTypes.string,
   isFavorite: PropTypes.bool,
 };
 

@@ -1,18 +1,46 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { useMutation } from '@apollo/client';
 import { TouchableOpacity } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
-import { Flexbox, PrimaryButton, Input, Label, H4 } from '../common';
+import { Flexbox, PrimaryButton, Input, Label, H4, AlertText } from '../common';
 import { Localized } from '../../translations/Localized';
+import LoadingScreen from '../loadingScreen/LoadingScreen';
+import AppContext from '../../contexts/AppContext';
+import { CREATE_TEAM } from '../../graphql/mutations';
 
 const Gap = styled.View`
   height: 20px;
 `;
 
 const CreateTeamScreen = ({ navigation }) => {
+  const { associateId } = useContext(AppContext);
   const [teamName, setTeamName] = useState('');
   const [accessCode, setAccessCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const [createTeam, { loading }] = useMutation(CREATE_TEAM, {
+    variables: {
+      associateId,
+      teamName,
+      accessCode,
+      folderName: 'My Team Folder',
+    },
+    onCompleted: (data) => {
+      console.log(`data`, data);
+      if (data.newTeamAccess === false) {
+        return setErrorMessage(
+          Localized(
+            'Sorry that team name has already been used - Please try another name',
+          ),
+        );
+      } else {
+        navigation.navigate('App Stack');
+      }
+    },
+    onError: (error) => setErrorMessage(error.message),
+  });
 
   const accessCodeRef = useRef(null);
 
@@ -20,7 +48,13 @@ const CreateTeamScreen = ({ navigation }) => {
     accessCodeRef.current.focus();
   };
   const onSkip = () => navigation.navigate('App Stack');
-  const onSubmit = () => navigation.navigate('App Stack');
+  const onSubmit = () => {
+    createTeam();
+  };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
   return (
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
@@ -30,7 +64,10 @@ const CreateTeamScreen = ({ navigation }) => {
             autoFocus
             testID="create-team-name-onboarding-input"
             value={teamName}
-            onChangeText={(text) => setTeamName(text)}
+            onChangeText={(text) => {
+              setErrorMessage('');
+              setTeamName(text);
+            }}
             returnKeyType="next"
             onSubmitEditing={onNext}
           />
@@ -39,11 +76,24 @@ const CreateTeamScreen = ({ navigation }) => {
           <Input
             testID="create-team-code-onboarding-input"
             value={accessCode}
-            onChangeText={(text) => setAccessCode(text)}
+            onChangeText={(text) => {
+              setErrorMessage('');
+              setAccessCode(text);
+            }}
             ref={accessCodeRef}
             returnKeyType="go"
             onSubmitEditing={onSubmit}
           />
+          {errorMessage ? (
+            <Flexbox>
+              <AlertText
+                style={{
+                  textAlign: 'center',
+                }}>
+                {errorMessage}
+              </AlertText>
+            </Flexbox>
+          ) : null}
         </Flexbox>
         <Flexbox>
           <TouchableOpacity style={{ padding: 12 }} onPress={onSkip}>

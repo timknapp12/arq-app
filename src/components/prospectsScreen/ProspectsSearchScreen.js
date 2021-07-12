@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { ScreenContainer, Flexbox, Input, H4 } from '../common';
 
 const ProspectsSearchScreen = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('Search feature is not quite ready yet');
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   //   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);

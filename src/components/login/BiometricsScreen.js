@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Platform, Alert } from 'react-native';
+import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Flexbox, PrimaryButton, H4, Checkbox } from '../common';
 import FaceIDIcon from '../../../assets/icons/face-id.svg';
@@ -10,11 +10,16 @@ import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, storeBiometrics } = useContext(AppContext);
+  const { theme, storeBiometrics, hasPermissions } = useContext(AppContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
   );
+
+  // if the user uses textContentType="oneTimeCode" on ios on previous screen (VerificationCodeScreen.js) then the keyboard is automatically pulled up on this screen and it is not necessary
+  useEffect(() => {
+    Keyboard.dismiss();
+  }, []);
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
   // https://docs.expo.io/versions/latest/sdk/local-authentication/
@@ -38,8 +43,6 @@ const BiometricsScreen = ({ navigation }) => {
       // Authenticate user
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
-
-      Alert.alert(Localized('Face ID/Fingerprint is enabled!'));
     } catch (error) {
       Alert.alert(Localized('An error as occured'), error?.message);
     }
@@ -62,7 +65,10 @@ const BiometricsScreen = ({ navigation }) => {
   const onSubmit = () => {
     // this sets the biometrics in App.js at the root of the project
     storeBiometrics(enableBiometrics);
-    navigation.navigate('Create Team Screen');
+    // if the user has ever been ruby or above then they can create a team name, otherwise we don't let them go to that screen
+    hasPermissions
+      ? navigation.navigate('Create Team Screen')
+      : navigation.navigate('App Stack');
   };
 
   return (

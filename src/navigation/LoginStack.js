@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../components/login/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/login/loginScreen/PasswordRecoveryScreen';
@@ -13,13 +14,22 @@ import AppStack from './AppStack';
 import LoginContext from '../contexts/LoginContext';
 import AppContext from '../contexts/AppContext';
 import { Localized } from '../translations/Localized';
+import {
+  GET_RANKS,
+  GET_MARKETS,
+  GET_USER,
+  GET_PROFILE,
+} from '../graphql/queries';
+import { UPDATE_USER } from '../graphql/mutations';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
 const Login = createStackNavigator();
 
 const LoginStack = () => {
-  const { theme } = useContext(AppContext);
-  const [email, setEmail] = useState('tim@email.com');
+  const { theme, associateId, legacyId, setHasPermissions } =
+    useContext(AppContext);
+  // TODO: remove creds before build
+  const [email, setEmail] = useState('tim@test.com');
   const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -37,6 +47,38 @@ const LoginStack = () => {
     setConfirmPassword('');
     setErrorMessage('');
   };
+
+  const { data: ranksData } = useQuery(GET_RANKS);
+
+  const { data: marketsData } = useQuery(GET_MARKETS);
+
+  const [getUser, { data: userData }] = useLazyQuery(GET_USER, {
+    variables: { legacyAssociateId: legacyId },
+    onCompleted: (data) => {
+      if (
+        data?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank?.rankId >
+        10
+      ) {
+        setHasPermissions(true);
+      }
+    },
+  });
+
+  const [getProfile, { data: profileData, refetch: refetchProfile }] =
+    useLazyQuery(GET_PROFILE, {
+      variables: { associateId },
+      fetchPolicy: 'cache-and-network',
+    });
+
+  const [updateProfile] = useMutation(UPDATE_USER);
+
+  useEffect(() => {
+    getUser();
+  }, [legacyId]);
+
+  useEffect(() => {
+    getProfile();
+  }, [associateId]);
 
   const onboardingScreenOptions = {
     title: '',
@@ -63,6 +105,12 @@ const LoginStack = () => {
         isFirstAppLoad,
         setIsFirstAppLoad,
         clearFields,
+        ranks: ranksData?.ranks,
+        markets: marketsData?.activeCountries,
+        user: userData?.treeNodeFor,
+        userProfile: profileData?.associates?.[0],
+        updateProfile,
+        refetchProfile,
       }}>
       <Login.Navigator
         screenOptions={{

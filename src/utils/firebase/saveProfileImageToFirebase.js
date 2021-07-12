@@ -1,21 +1,25 @@
 import * as firebase from 'firebase';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-native-uuid';
+import { reshapeUrl } from './reshapeUrl';
 
 const calculatePercentage = (numerator = 0, denominator = 1) =>
   Math.round((numerator / denominator) * 100);
 
-export const saveProfileImageToFirebase = async (user, handleChange) => {
+export const saveProfileImageToFirebase = async (
+  user,
+  updateProfile,
+  variables,
+  onCompleted,
+) => {
   const refToBeDeleted = firebase
     .storage()
     .ref()
     // in firebase we are using an extension that resizes the image to 72x72 and so "_72x72" is appended as a suffix to the filename once it is successfully resized and saved
-    .child(`profile_images/${user.image.imageName}_72x72`);
-
-  let newImageName = `${user?.firstName}.${user?.lastName}.${uuidv4()}`;
+    .child(`profile_images/${user.profileImageFileName}_72x72`);
+  let newImageName = `${user?.firstName}.${user?.lastName}.${uuid.v4()}`;
   try {
     // eslint-disable-next-line no-undef
-    const response = await fetch(user.image.url);
+    const response = await fetch(user.profileUrl);
     const blob = await response.blob();
     const ref = firebase
       .storage()
@@ -39,15 +43,26 @@ export const saveProfileImageToFirebase = async (user, handleChange) => {
       },
       () => {
         // Handle successful uploads on complete
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
-          const newUrl = downloadUrl;
-          // console.log('newUrl', newUrl);
-          // console.log('newImageName *********', newImageName);
-          return handleChange('image', {
-            url: newUrl,
-            imageName: newImageName,
-          });
-        });
+        uploadTask.snapshot.ref
+          .getDownloadURL()
+          .then((downloadUrl) => {
+            const newUrl = downloadUrl;
+            // console.log('***** NEW URL *******:', newUrl);
+            // console.log('newImageName *********', newImageName);
+            const reformattedUrl = reshapeUrl(newUrl, '_72x72');
+            updateProfile({
+              variables: {
+                ...variables,
+                profileImageFileName: newImageName,
+                profileUrl: reformattedUrl,
+              },
+              onError: (error) => {
+                console.log(`error`, error);
+                onCompleted();
+              },
+            });
+          })
+          .then(() => onCompleted());
       },
     );
     await uploadTask;

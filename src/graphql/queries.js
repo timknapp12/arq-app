@@ -1,34 +1,19 @@
 import { gql } from '@apollo/client';
 
 export const GET_USER = gql`
-  query TreeNodeFor($associateId: Int!) {
-    treeNodeFor(associateId: $associateId) {
+  query TreeNodeFor($legacyAssociateId: Int!) {
+    treeNodeFor(legacyAssociateId: $legacyAssociateId) {
       associateId
       uplineAssociateId
       orders {
         orderId
       }
-      childAssociates {
-        associateId
-      }
       cv
       pv
       ov
-      canSee
-      associate {
-        associateId
-        dateModified
-        companyName
-        emailAddress
-        firstName
-        lastName
-        primaryPhoneNumber
-        dateSignedUp
-        associateType
-        languageCode
-        associateStatus
-      }
       qoV
+      pa
+      canSee
       leg1
       leg2
       leg3
@@ -37,12 +22,198 @@ export const GET_USER = gql`
         rankId
         minimumQoV
         maximumPerLeg
+        legMaxPercentage
         rankName
         commission
+        requiredPv
+        requiredPa
       }
-      pa
+      previousAmbassadorMonthlyRecord {
+        personalVolume
+        personallySponsoredActiveAmbassadorCount
+        qov
+      }
+      currentAmbassadorMonthlyRecord {
+        highestRank {
+          rankId
+          rankName
+        }
+      }
     }
   }
 `;
 
-export const GET_FOLDERS = gql``;
+export const GET_PROFILE = gql`
+  query ($associateId: Int!) {
+    associates(where: { associateId: { eq: $associateId } }) {
+      associateId
+      legacyAssociateId
+      profileUrl
+      profileImageFileName
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhoneNumber
+      associateType
+      languageCode
+      associateStatus
+      country {
+        countryId
+        countryCode
+        countryName
+      }
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
+    }
+  }
+`;
+
+export const GET_RANKS = gql`
+  query {
+    ranks {
+      rankId
+      rankName
+      minimumQoV
+      maximumPerLeg
+      legMaxPercentage
+      requiredPv
+      requiredPa
+    }
+  }
+`;
+
+export const GET_MARKETS = gql`
+  query {
+    activeCountries {
+      countryId
+      countryCode
+      countryName
+      pictureUrl
+    }
+  }
+`;
+
+export const GET_CORPORATE_RESOURCES = gql`
+  query CorporateResoures($countries: [Int!]) {
+    corporateResources(countries: $countries) {
+      folderName
+      folderId
+      isWideLayout
+      pictureUrl
+      displayOrder
+      links {
+        linkId
+        linkTitle
+        linkDescription
+        linkUrl
+        contentType
+        extension
+      }
+      childFolders {
+        folderName
+        folderId
+        isWideLayout
+        pictureUrl
+        displayOrder
+        childFolders {
+          folderId
+          folderName
+          folderDescription
+          folderId
+          isWideLayout
+          pictureUrl
+          displayOrder
+          links {
+            linkId
+            linkTitle
+            linkDescription
+            linkUrl
+            contentType
+            extension
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const SEARCH_RESOURCES = gql`
+  query SearchResources(
+    $countries: [Int!]
+    $teams: [String!]
+    $searchList: [String!]
+  ) {
+    searchResources(
+      countries: $countries
+      teams: $teams
+      searchList: $searchList
+    ) {
+      folderId
+      folderName
+      folderDescription
+      links {
+        linkId
+        linkTitle
+        linkDescription
+        linkUrl
+        contentType
+        extension
+      }
+    }
+  }
+`;
+
+export const GET_USERS_ACCESS_CODES = gql`
+  query Accesses($associateId: Int!) {
+    accesses(where: { associateId: { eq: $associateId } }) {
+      associateId
+      teamAccessId
+      teamName
+      accessCode
+      teamOwnerAssociateId
+    }
+  }
+`;
+
+export const GET_TEAM_RESOURCES = gql`
+  query TeamResources($teams: [String!]!) {
+    teamResources(teams: $teams) {
+      folderId
+      folderName
+      isWideLayout
+      pictureUrl
+      displayOrder
+      links {
+        linkId
+        linkTitle
+        linkDescription
+        linkUrl
+        contentType
+        extension
+        displayOrder
+      }
+    }
+  }
+`;
+
+export const GET_ASSETS = gql`
+  query Links($folderId: Int!) {
+    links(where: { folderId: { eq: $folderId } }) {
+      folderId
+      linkId
+      linkTitle
+      linkDescription
+      linkUrl
+      contentType
+      extension
+      displayOrder
+    }
+  }
+`;

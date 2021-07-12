@@ -4,6 +4,7 @@ import Slider from 'react-native-slider';
 import AppContext from '../../contexts/AppContext';
 
 // source: https://github.com/jeanregisser/react-native-slider
+// fork with fix for console warning: https://github.com/newn-team/react-native-slider
 const CustomSlider = ({
   value,
   setValue,

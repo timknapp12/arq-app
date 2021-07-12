@@ -36,8 +36,7 @@ const Row = styled.View`
 const CalloutMenu = ({
   // isFavorite,
   // setIsFavorite,
-  // TODO: integrate hasPermissions prop with backend
-  hasPermissions,
+  isOwner,
   contentType = 'image',
   onShare,
   onDownload = () => {},
@@ -57,7 +56,7 @@ const CalloutMenu = ({
   };
   return (
     <Container {...props}>
-      {hasPermissions && (
+      {isOwner && (
         <>
           <CalloutButton onPress={onEdit}>
             <Row>
@@ -128,7 +127,7 @@ const CalloutMenu = ({
 CalloutMenu.propTypes = {
   isFavorite: PropTypes.bool,
   setIsFavorite: PropTypes.func,
-  hasPermissions: PropTypes.bool,
+  isOwner: PropTypes.bool,
   contentType: PropTypes.string,
   onShare: PropTypes.func,
   onDownload: PropTypes.func,

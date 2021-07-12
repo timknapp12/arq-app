@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Animated } from 'react-native';
+import { Alert, Animated } from 'react-native';
 // using the standard "TouchableOpacity" from react native didn't work on android with buttons inside a position: absolute view
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4Book } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-import { signOutOfFirebase } from '../../utils/firebase/login';
+import AppContext from '../../contexts/AppContext';
 
 const SideMenu = styled.View`
   z-index: 2;
@@ -34,6 +34,7 @@ const PopoutMenu = ({
   navigation,
 }) => {
   initLanguage();
+  const { signOutOfFirebase } = useContext(AppContext);
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableContainer>
@@ -67,21 +68,23 @@ const PopoutMenu = ({
       </TouchableContainer>
 
       <TouchableContainer>
-        <Touchable>
+        <Touchable
+          onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
           <H4Book>{Localized('Chat With Support')}</H4Book>
         </Touchable>
       </TouchableContainer>
 
       <TouchableContainer>
-        <Touchable>
+        <Touchable
+          onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
           <H4Book>{Localized('Share My Shop')}</H4Book>
         </Touchable>
       </TouchableContainer>
 
       <TouchableContainer>
         <Touchable
-          onPress={() => {
-            signOutOfFirebase();
+          onPress={async () => {
+            await signOutOfFirebase();
             navigation.navigate('Login Screen');
           }}>
           <H4Book>{Localized('Sign Out')}</H4Book>

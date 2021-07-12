@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
 import {
   TouchableOpacity,
   Share,
@@ -11,7 +12,7 @@ import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handl
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../contexts/AppContext';
-import { H5Black, H6Book } from '../../common';
+import { H5, H6Secodnary } from '../../common';
 import AssetIcon from './AssetIcon';
 import CalloutMenu from '../CalloutMenu';
 import IconRow from './IconRow';
@@ -25,12 +26,15 @@ import {
   TitleAndDescription,
   IconColumn,
 } from './AssetCard.styles';
+import { DELETE_ASSET } from '../../../graphql/mutations';
+import { GET_ASSETS } from '../../../graphql/queries';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
 // TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
 // the two options above are used to handle different use cases depending on desired behavior
 
 const AssetCard = ({
+  linkId,
   title,
   description,
   url,
@@ -40,8 +44,11 @@ const AssetCard = ({
   setIsCalloutOpenFromParent,
   navigation,
   isFavorite,
-  hasPermissions,
+  folderId,
+  isOwner,
   setToastInfo,
+  displayOrder,
+  selectedTeamName,
   // this prop is passed from ResourceCategoryScreen.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   isNavDisabled,
@@ -119,7 +126,13 @@ const AssetCard = ({
     closeCallout();
   };
 
-  // TODO: wire this up to the backend with a mutation
+  const [deleteAsset] = useMutation(DELETE_ASSET, {
+    variables: { linkId },
+    refetchQueries: [{ query: GET_ASSETS, variables: { folderId } }],
+    onCompleted: () => closeCallout(),
+    onError: (error) => console.log(`error`, error),
+  });
+
   const onRemove = () =>
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
@@ -137,7 +150,7 @@ const AssetCard = ({
         {
           text: Localized('Yes'),
           onPress: () => {
-            closeCallout();
+            deleteAsset();
             console.log('Yes Pressed');
           },
         },
@@ -164,6 +177,8 @@ const AssetCard = ({
     }
   };
 
+  const onSend = () => Alert.alert('This feature is not quite ready yet :)');
+
   return (
     <AssetCardContainer {...props}>
       <OuterContainer isExpanded={isExpanded}>
@@ -177,21 +192,21 @@ const AssetCard = ({
           />
           <TouchableOpacity style={{ flex: 1 }} onPress={openAsset}>
             <TitleAndDescription>
-              <H5Black
+              <H5
                 ellipsizeMode="tail"
                 numberOfLines={1}
                 style={{ marginBottom: 4 }}>
                 {title}
-              </H5Black>
+              </H5>
               {isExpanded ? (
-                <H6Book style={{ flex: 1 }}>{description}</H6Book>
+                <H6Secodnary style={{ flex: 1 }}>{description}</H6Secodnary>
               ) : (
-                <H6Book
+                <H6Secodnary
                   ellipsizeMode="tail"
                   numberOfLines={1}
                   style={{ flex: 1 }}>
                   {description}
-                </H6Book>
+                </H6Secodnary>
               )}
             </TitleAndDescription>
           </TouchableOpacity>
@@ -247,11 +262,12 @@ const AssetCard = ({
           <IconRow
             isFavorite={isFavorite}
             contentType={contentType}
-            hasPermissions={hasPermissions}
+            isOwner={isOwner}
             onShare={onShare}
             onDownload={onDownload}
             onEdit={() => setIsUploadAssetModalOpen(true)}
             onRemove={onRemove}
+            onSend={onSend}
           />
         )}
       </OuterContainer>
@@ -263,12 +279,13 @@ const AssetCard = ({
           isFavorite={isFavorite}
           setIsFavorite={() => {}}
           contentType={contentType}
-          hasPermissions={hasPermissions}
+          isOwner={isOwner}
           onShare={onShare}
           onDownload={onDownload}
           closeCallout={closeCallout}
           onEdit={() => setIsUploadAssetModalOpen(true)}
           onRemove={onRemove}
+          onSend={onSend}
         />
       )}
       {isUploadAssetModalOpen && (
@@ -278,8 +295,12 @@ const AssetCard = ({
             setIsUploadAssetModalOpen(false);
             closeCallout();
           }}
+          selectedTeamName={selectedTeamName}
           // These props are passed to populate the corresponding fields in the edit phase of the modal
           editMode
+          folderId={folderId}
+          linkId={linkId}
+          displayOrder={displayOrder}
           assetTitle={title}
           assetDescription={description}
           assetContentType={contentType}
@@ -301,6 +322,7 @@ const AssetCard = ({
 };
 
 AssetCard.propTypes = {
+  linkId: PropTypes.number,
   title: PropTypes.string,
   description: PropTypes.string,
   url: PropTypes.string,
@@ -311,9 +333,12 @@ AssetCard.propTypes = {
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
   isFavorite: PropTypes.bool,
-  hasPermissions: PropTypes.bool,
+  folderId: PropTypes.number,
+  isOwner: PropTypes.bool,
   setToastInfo: PropTypes.func,
+  displayOrder: PropTypes.number,
   setIsNavDisabled: PropTypes.func,
+  selectedTeamName: PropTypes.string,
   isNavDisabled: PropTypes.bool,
 };
 

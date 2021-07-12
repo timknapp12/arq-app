@@ -35,6 +35,14 @@ const MarketModal = ({
     onClose();
   };
 
+  // we need to restructure the markets from the database into a structure that fits the dropdown picker
+  const reshapedItems = items?.map((item) => ({
+    id: item.countryId,
+    label: item.countryName,
+    value: item.countryCode,
+    pictureUrl: item.pictureUrl,
+  }));
+
   return (
     <Modal animationType="slide" visible={visible} onRequestClose={onCancel}>
       <ScreenContainer style={{ justifyContent: 'flex-start' }}>
@@ -54,7 +62,7 @@ const MarketModal = ({
           </H4>
           <View style={{ width: '100%' }}>
             <Picker
-              items={items}
+              items={reshapedItems}
               value={value}
               onValueChange={onValueChange}
               placeholder={{

@@ -21,23 +21,23 @@ const TitleContainer = styled.View`
 
 const OVDetail = ({ ranklist, fadeOut, user }) => {
   initLanguage();
-  const initialRankName = user?.currentRank.name;
+  const initialRankName = user?.rank.name;
   const [rankName, setRankName] = useState(initialRankName);
-  const initialRank = user?.currentRank;
+  const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
 
-  const [currentUserRankID] = useState(user?.currentRank.id);
+  const [currentUserRankID] = useState(user?.rank.rankId);
   const [isQualified, setIsQualified] = useState(true);
 
   const initialMaxQOV = {
-    leg1Max: user?.currentRank?.legMaxOV,
-    leg2Max: user?.currentRank?.legMaxOV,
-    leg3Max: user?.currentRank?.legMaxOV / 2,
+    leg1Max: user?.rank?.maximumPerLeg,
+    leg2Max: user?.rank?.maximumPerLeg,
+    leg3Max: user?.rank?.maximumPerLeg / 2,
   };
   const [maxQOV, setMaxQOV] = useState(initialMaxQOV);
 
   useEffect(() => {
-    if (currentUserRankID >= rank.id) {
+    if (currentUserRankID >= rank.rankId) {
       setIsQualified(true);
     } else {
       setIsQualified(false);
@@ -48,10 +48,10 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
   }, [rank]);
 
   useEffect(() => {
-    const { legMaxPerc, requiredQOV, legMaxOV } = rank;
-    const { leg1OV, leg2OV, leg3OV } = user;
-    const userLegs = { leg1OV, leg2OV, leg3OV };
-    const requirements = { legMaxPerc, requiredQOV, legMaxOV };
+    const { legMaxPercentage, minimumQoV, maximumPerLeg } = rank;
+    const { leg1, leg2, leg3 } = user;
+    const userLegs = { leg1, leg2, leg3 };
+    const requirements = { legMaxPercentage, minimumQoV, maximumPerLeg };
     setMaxQOV(calculateLegPercentages(userLegs, requirements));
     return () => {
       setMaxQOV(initialMaxQOV);
@@ -69,14 +69,14 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
           ranklist={ranklist}
           isQualified={isQualified}
         />
-        <H4>{`${Localized('Maximum QOV Per Leg')}: ${rank.legMaxOV
+        <H4>{`${Localized('Maximum QOV Per Leg')}: ${rank.maximumPerLeg
           // this adds commas, since toLocalString() does not work on android
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H4>
         <Flexbox padding={20} width="100%" direction="row">
           <Flexbox accessibilityLabel="Distributor leg one" width="auto">
             <TitleContainer>
-              {isQualified || user.leg1OV >= maxQOV.leg1Max ? (
+              {isQualified || user.leg1 >= maxQOV.leg1Max ? (
                 <QualifiedIcon />
               ) : (
                 <NotQualifiedIcon />
@@ -87,17 +87,17 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
             </TitleContainer>
             <Donut
               testID="leg-one-donut-svg"
-              percentage={user.leg1OV}
+              percentage={user.leg1}
               // Ternary as a safety check, in case the calculations for % are wrong -
               // the circle should always be full if the user is qualified for any certain level
-              max={isQualified ? user.leg1OV : maxQOV.leg1Max}
+              max={isQualified ? user.leg1 : maxQOV.leg1Max}
               color={donut1primaryColor}
             />
           </Flexbox>
 
           <Flexbox accessibilityLabel="Distributor leg two" width="auto">
             <TitleContainer>
-              {isQualified || user.leg2OV >= maxQOV.leg2Max ? (
+              {isQualified || user.leg2 >= maxQOV.leg2Max ? (
                 <QualifiedIcon />
               ) : (
                 <NotQualifiedIcon />
@@ -108,8 +108,8 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
             </TitleContainer>
             <Donut
               testID="leg-two-donut-svg"
-              percentage={user.leg2OV}
-              max={isQualified ? user.leg2OV : maxQOV.leg2Max}
+              percentage={user.leg2}
+              max={isQualified ? user.leg2 : maxQOV.leg2Max}
               color={donut2primaryColor}
             />
           </Flexbox>
@@ -117,7 +117,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
 
         <Flexbox accessibilityLabel="Distributor leg three" width="auto">
           <TitleContainer>
-            {isQualified || user.leg3OV >= maxQOV.leg3Max ? (
+            {isQualified || user.leg3 >= maxQOV.leg3Max ? (
               <QualifiedIcon />
             ) : (
               <NotQualifiedIcon />
@@ -128,8 +128,8 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
           </TitleContainer>
           <Donut
             testID="leg-three-donut-svg"
-            percentage={user.leg3OV}
-            max={isQualified ? user.leg3OV : maxQOV.leg3Max}
+            percentage={user.leg3}
+            max={isQualified ? user.leg3 : maxQOV.leg3Max}
             color={donut3primaryColor}
           />
         </Flexbox>
@@ -141,12 +141,12 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
 OVDetail.propTypes = {
   ranklist: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      requiredPV: PropTypes.number,
-      requiredQOV: PropTypes.number,
-      legMaxPerc: PropTypes.number,
-      legMaxOV: PropTypes.number,
+      rankId: PropTypes.number,
+      rankName: PropTypes.string,
+      requiredPv: PropTypes.number,
+      minimumQoV: PropTypes.number,
+      legMaxPercentage: PropTypes.number,
+      maximumPerLeg: PropTypes.number,
     }),
   ),
   fadeOut: PropTypes.func,

@@ -1,33 +1,53 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { Keyboard, View } from 'react-native';
+import { useMutation } from '@apollo/client';
 import EditModal from '../../editModal/EditModal';
 import { Label, Input, H5Black, H5Secondary, AlertText } from '../../common';
 import { Localized } from '../../../translations/Localized';
+import AppContext from '../../../contexts/AppContext';
+import { CREATE_TEAM } from '../../../graphql/mutations';
+import { GET_USERS_ACCESS_CODES } from '../../../graphql/queries';
 
 const AccessCodeModal = ({
   visible,
   onClose,
   onSave,
-  value,
-  onChangeText,
+  teamName,
+  setTeamName,
+  accessCode,
+  setAccessCode,
   isNew,
+  isError,
+  setIsError,
+  setSelectedTeamName,
 }) => {
-  const [isError, setIsError] = useState(false);
+  const { associateId } = useContext(AppContext);
 
-  const onSubmit = () => {
-    // TODO : wire up mutation to check if access code is valid
-    if (value === 'Test') {
-      return setIsError(true);
-    } else {
-      onChangeText('');
-      setIsError(false);
-      return onSave();
-    }
-  };
+  const [createTeam] = useMutation(CREATE_TEAM, {
+    variables: {
+      associateId,
+      teamName,
+      accessCode,
+      folderName: 'My Team Folder',
+    },
+    refetchQueries: [GET_USERS_ACCESS_CODES],
+    onCompleted: async (data) => {
+      if (data.newTeamAccess === false) {
+        return setIsError(true);
+      } else {
+        await setSelectedTeamName(teamName);
+        setTeamName('');
+        setAccessCode('');
+        return onClose();
+      }
+    },
+    onError: () => setIsError(true),
+  });
 
   const onCancel = () => {
-    onChangeText('');
+    setTeamName('');
+    setAccessCode('');
     setIsError(false);
     onClose();
   };
@@ -45,26 +65,43 @@ const AccessCodeModal = ({
       );
 
   const errorMessage = isNew
-    ? Localized(`This code is not available. Please try again.`)
-    : Localized(`This code does not exist. Please try again.`);
+    ? Localized(
+        `Sorry that team name has already been used - Please try another name`,
+      )
+    : Localized(`The team name or code does not exist - Please try again`);
 
   return (
-    <EditModal visible={visible} onClose={onCancel} onSave={onSubmit}>
+    <EditModal
+      visible={visible}
+      onClose={onCancel}
+      onSave={isNew ? createTeam : onSave}>
       <H5Black style={{ textAlign: 'center' }}>{header}</H5Black>
       <H5Secondary style={{ marginTop: 8, marginBottom: 8 }}>
         {instructions}
       </H5Secondary>
-      <Label>{Localized(`Team Access Code`)}</Label>
+      <Label>{Localized(`Team Name`)}</Label>
       <Input
         autoFocus
-        testID="access-code-input"
-        value={value}
+        testID="access-code-team-name-input"
+        value={teamName}
         onChangeText={(text) => {
           setIsError(false);
-          onChangeText(text);
+          setTeamName(text);
         }}
-        returnKeyType="go"
-        onSubmitEditing={onSubmit}
+        returnKeyType="done"
+        onSubmitEditing={Keyboard.dismiss}
+        maxLength={20}
+      />
+      <Label style={{ marginTop: 8 }}>{Localized(`Team Access Code`)}</Label>
+      <Input
+        testID="access-code-input"
+        value={accessCode}
+        onChangeText={(text) => {
+          setIsError(false);
+          setAccessCode(text);
+        }}
+        returnKeyType="done"
+        onSubmitEditing={Keyboard.dismiss}
         maxLength={20}
       />
       <View style={{ height: 20 }}>
@@ -75,12 +112,17 @@ const AccessCodeModal = ({
 };
 
 AccessCodeModal.propTypes = {
-  visible: PropTypes.bool,
-  onClose: PropTypes.func,
-  onSave: PropTypes.func,
-  value: PropTypes.string,
-  onChangeText: PropTypes.func,
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  teamName: PropTypes.string.isRequired,
+  setTeamName: PropTypes.func.isRequired,
+  accessCode: PropTypes.string.isRequired,
+  setAccessCode: PropTypes.func.isRequired,
   isNew: PropTypes.bool,
+  isError: PropTypes.bool,
+  setIsError: PropTypes.func,
+  setSelectedTeamName: PropTypes.func,
 };
 
 export default AccessCodeModal;

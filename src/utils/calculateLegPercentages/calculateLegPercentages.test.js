@@ -1,49 +1,49 @@
 import { calculateLegPercentages, reshapePerc } from '.';
 
 const emeraldRequiremments = {
-  legMaxPerc: 40,
-  legMaxOV: 140000,
+  legMaxPercentage: 40,
+  maximumPerLeg: 140000,
   id: 10,
-  requiredPV: 200,
-  requiredPA: 2,
-  requiredQOV: 350000,
+  requiredPv: 200,
+  requiredPa: 2,
+  minimumQoV: 350000,
   name: 'emerald',
 };
 
 const bronzeRequirements = {
-  legMaxPerc: 50,
-  legMaxOV: 5000,
+  legMaxPercentage: 50,
+  maximumPerLeg: 5000,
   id: 5,
-  requiredPV: 100,
-  requiredPA: 2,
-  requiredQOV: 10000,
+  requiredPv: 100,
+  requiredPa: 2,
+  minimumQoV: 10000,
   name: 'bronze',
 };
 const executiveRequirements = {
-  legMaxPerc: 60,
-  legMaxOV: 900,
+  legMaxPercentage: 60,
+  maximumPerLeg: 900,
   id: 3,
-  requiredPV: 100,
-  requiredPA: 2,
-  requiredQOV: 1500,
+  requiredPv: 100,
+  requiredPa: 2,
+  minimumQoV: 1500,
   name: 'executive',
 };
 const diamondRequirements = {
-  legMaxPerc: 40,
-  legMaxOV: 200000,
+  legMaxPercentage: 40,
+  maximumPerLeg: 200000,
   id: 11,
-  requiredPV: 200,
-  requiredPA: 2,
-  requiredQOV: 500000,
+  requiredPv: 200,
+  requiredPa: 2,
+  minimumQoV: 500000,
   name: 'Diamond',
 };
 
 describe('calculate leg percentages', () => {
   test('emerald returns 40 40 20', () => {
     const user = {
-      leg1OV: 1992193,
-      leg2OV: 156931,
-      leg3OV: 75607,
+      leg1: 1992193,
+      leg2: 156931,
+      leg3: 75607,
     };
 
     const output = {
@@ -57,9 +57,9 @@ describe('calculate leg percentages', () => {
   });
   test('emerald returns 34 33 33', () => {
     const user = {
-      leg1OV: 119000,
-      leg2OV: 115500,
-      leg3OV: 115500,
+      leg1: 119000,
+      leg2: 115500,
+      leg3: 115500,
     };
 
     const output = {
@@ -73,9 +73,9 @@ describe('calculate leg percentages', () => {
   });
   test('diamond returns 40 40 20', () => {
     const user = {
-      leg1OV: 119000,
-      leg2OV: 115500,
-      leg3OV: 115500,
+      leg1: 119000,
+      leg2: 115500,
+      leg3: 115500,
     };
 
     const output = {
@@ -89,9 +89,9 @@ describe('calculate leg percentages', () => {
   });
   test('diamond returns 40 40 27 with high first leg', () => {
     const user = {
-      leg1OV: 1190000,
-      leg2OV: 115500,
-      leg3OV: 115500,
+      leg1: 1190000,
+      leg2: 115500,
+      leg3: 115500,
     };
 
     const output = {
@@ -105,9 +105,9 @@ describe('calculate leg percentages', () => {
   });
   test('bronze returns 50 50 0', () => {
     const user = {
-      leg1OV: 6000,
-      leg2OV: 5500,
-      leg3OV: 1000,
+      leg1: 6000,
+      leg2: 5500,
+      leg3: 1000,
     };
 
     const output = {
@@ -121,9 +121,9 @@ describe('calculate leg percentages', () => {
   });
   test('bronze returns 50 25 25', () => {
     const user = {
-      leg1OV: 6000,
-      leg2OV: 2500,
-      leg3OV: 1000,
+      leg1: 6000,
+      leg2: 2500,
+      leg3: 1000,
     };
 
     const output = {
@@ -137,9 +137,9 @@ describe('calculate leg percentages', () => {
   });
   test('bronze returns 50 50 50 with low numbers', () => {
     const user = {
-      leg1OV: 600,
-      leg2OV: 250,
-      leg3OV: 100,
+      leg1: 600,
+      leg2: 250,
+      leg3: 100,
     };
 
     const output = {
@@ -153,9 +153,9 @@ describe('calculate leg percentages', () => {
   });
   test('bronze returns 50 50 25 with high first leg', () => {
     const user = {
-      leg1OV: 6000,
-      leg2OV: 250,
-      leg3OV: 100,
+      leg1: 6000,
+      leg2: 250,
+      leg3: 100,
     };
 
     const output = {
@@ -169,9 +169,9 @@ describe('calculate leg percentages', () => {
   });
   test('executive returns 60 40 0 ', () => {
     const user = {
-      leg1OV: 1000,
-      leg2OV: 700,
-      leg3OV: 100,
+      leg1: 1000,
+      leg2: 700,
+      leg3: 100,
     };
 
     const output = {
@@ -185,9 +185,9 @@ describe('calculate leg percentages', () => {
   });
   test('executive returns 60 20 20', () => {
     const user = {
-      leg1OV: 1000,
-      leg2OV: 300,
-      leg3OV: 230,
+      leg1: 1000,
+      leg2: 300,
+      leg3: 230,
     };
 
     const output = {
@@ -201,9 +201,9 @@ describe('calculate leg percentages', () => {
   });
   test('executive returns 34 33 33', () => {
     const user = {
-      leg1OV: 510,
-      leg2OV: 495,
-      leg3OV: 400,
+      leg1: 510,
+      leg2: 495,
+      leg3: 400,
     };
 
     const output = {
@@ -217,9 +217,9 @@ describe('calculate leg percentages', () => {
   });
   test('executive returns 60 40 33 with low numbers', () => {
     const user = {
-      leg1OV: 310,
-      leg2OV: 195,
-      leg3OV: 100,
+      leg1: 310,
+      leg2: 195,
+      leg3: 100,
     };
 
     const output = {
@@ -233,9 +233,9 @@ describe('calculate leg percentages', () => {
   });
   test('executive returns 60 40 33 with high first leg', () => {
     const user = {
-      leg1OV: 3000,
-      leg2OV: 195,
-      leg3OV: 100,
+      leg1: 3000,
+      leg2: 195,
+      leg3: 100,
     };
 
     const output = {

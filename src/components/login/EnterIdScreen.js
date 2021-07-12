@@ -12,13 +12,13 @@ import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
-  const { setToken } = useContext(AppContext);
+  const { setToken, setAssociateId, setLegacyId } = useContext(AppContext);
   const { setDirectScaleUser } = useContext(LoginContext);
-  const [username, setUsername] = useState('15F92');
+  const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const [getDirectScaleInfo] = useMutation(DIRECT_SCALE_INFO, {
-    variables: { ambassaderOnly: true, userName: username },
+    variables: { ambassadorOnly: true, userName: username },
     onCompleted: (data) => {
       console.log(`if data:`, data);
       const status = data?.directScaleInfo?.status;
@@ -26,6 +26,10 @@ const EnterIdScreen = ({ navigation }) => {
       handleGetDirectScaleInfo(status, navigation, setErrorMessage, username);
       if (data.directScaleInfo.associate) {
         setDirectScaleUser(data.directScaleInfo.associate);
+        const id = data.directScaleInfo.associate.associateId;
+        setAssociateId(id);
+        const legacyId = data.directScaleInfo.associate.legacyAssociateId;
+        setLegacyId(legacyId);
       }
     },
     onError: (error) => {
@@ -37,7 +41,7 @@ const EnterIdScreen = ({ navigation }) => {
   const onSubmit = async () => {
     await getToken(setToken);
     if (!username) {
-      return Alert.alert(Localized('Please enter your back office user id'));
+      return Alert.alert(Localized('Please enter your back office username'));
     }
     // TODO - set real logic for handling errors
     if (username === 'Error') {
@@ -50,7 +54,7 @@ const EnterIdScreen = ({ navigation }) => {
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox width="100%" align="flex-start">
-          <Label>{Localized('Back Office User ID')}</Label>
+          <Label>{Localized('Back Office Username')}</Label>
           <Input
             autoFocus
             testID="enter-username-input"

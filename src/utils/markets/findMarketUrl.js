@@ -1,4 +1,4 @@
-export const findMarketUrl = (market, array) => {
-  const result = array.find((item) => item.value === market);
-  return result.url;
+export const findMarketUrl = (marketCode, array) => {
+  const result = array.find((item) => item.countryCode === marketCode);
+  return result.pictureUrl;
 };

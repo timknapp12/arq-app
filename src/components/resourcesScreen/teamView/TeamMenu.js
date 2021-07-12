@@ -32,18 +32,19 @@ const TeamMenu = ({
   onSelect,
   setIsNewAccessCode,
   hasPermissions,
+  userHasAlreadyCreatedATeam,
   ...props
 }) => {
   return (
     <Menu {...props}>
       {items.map((item) => (
-        <TouchableContainer key={item.id}>
+        <TouchableContainer key={item.teamAccessId}>
           <Touchable
             onPress={() => {
-              onSelect(item.name);
+              onSelect(item.teamName);
               onClose();
             }}>
-            <H4Book>{item.name}</H4Book>
+            <H4Book>{item.teamName}</H4Book>
           </Touchable>
         </TouchableContainer>
       ))}
@@ -57,7 +58,7 @@ const TeamMenu = ({
         <H4Book>{Localized('Add Team Access Code')}</H4Book>
         <H4Black> +</H4Black>
       </Touchable>
-      {hasPermissions && (
+      {hasPermissions && !userHasAlreadyCreatedATeam && (
         <Touchable
           style={{ flexDirection: 'row' }}
           onPress={() => {
@@ -80,6 +81,7 @@ TeamMenu.propTypes = {
   onSelect: PropTypes.func,
   setIsNewAccessCode: PropTypes.func,
   hasPermissions: PropTypes.bool,
+  userHasAlreadyCreatedATeam: PropTypes.bool,
 };
 
 export default TeamMenu;

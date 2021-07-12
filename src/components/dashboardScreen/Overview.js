@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import { H4, Flexbox, H4Secondary, H3 } from '../common';
@@ -9,10 +9,12 @@ import {
   donut2primaryColor,
   donut3primaryColor,
 } from '../../styles/colors';
+import LoginContext from '../../contexts/LoginContext';
 
 const Overview = ({ user, fadeOut }) => {
   initLanguage();
-  const { thisMonthPV, OV, thisMonthCV } = user;
+  const { pv, totalOv, cv } = user;
+  const { userProfile } = useContext(LoginContext);
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
       <Flexbox width="100%" onStartShouldSetResponder={() => true}>
@@ -20,8 +22,12 @@ const Overview = ({ user, fadeOut }) => {
           accessibilityLabel="Distributor name and rank"
           padding={20}
           width="100%">
-          <H3>{`${Localized('Welcome back')} Sloane`}</H3>
-          <H4Secondary>{`${Localized('Rank')}: Distributor`}</H4Secondary>
+          <H3>{`${Localized('Welcome back')} ${
+            userProfile?.firstName ?? ''
+          }`}</H3>
+          <H4Secondary>{`${Localized('Rank')}: ${
+            user?.rank?.rankName
+          }`}</H4Secondary>
         </Flexbox>
 
         <Flexbox padding={20} width="100%" direction="row">
@@ -29,8 +35,8 @@ const Overview = ({ user, fadeOut }) => {
             <H4 testID="pv-donut-label">{Localized('PV')}</H4>
             <Donut
               testID="pv-donut-svg"
-              percentage={thisMonthPV}
-              max={thisMonthPV}
+              percentage={pv}
+              max={pv}
               color={donut1primaryColor}
             />
           </Flexbox>
@@ -39,8 +45,8 @@ const Overview = ({ user, fadeOut }) => {
             <H4 testID="cv-donut-label">{Localized('CV')}</H4>
             <Donut
               testID="cv-donut-svg"
-              percentage={thisMonthCV}
-              max={thisMonthCV}
+              percentage={cv}
+              max={cv}
               color={donut2primaryColor}
             />
           </Flexbox>
@@ -50,8 +56,8 @@ const Overview = ({ user, fadeOut }) => {
           <H4 testID="ov-donut-label">{Localized('OV')}</H4>
           <Donut
             testID="ov-donut-svg"
-            percentage={OV}
-            max={OV}
+            percentage={totalOv}
+            max={totalOv}
             color={donut3primaryColor}
           />
         </Flexbox>

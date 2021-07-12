@@ -7,20 +7,11 @@ import {
   FacebookLoginButton,
 } from '../../common';
 
-const SocialSignIn = ({
-  title,
-  googleSignIn,
-  googleDisabled,
-  facebookSignIn,
-}) => {
+const SocialSignIn = ({ title, googleSignIn, facebookSignIn }) => {
   return (
     <Flexbox direction="row" width="75%">
       <H2 style={{ marginEnd: 8 }}>{title}</H2>
-      <GoogleLoginButton
-        style={{ marginEnd: 8 }}
-        disabled={googleDisabled}
-        onPress={googleSignIn}
-      />
+      <GoogleLoginButton style={{ marginEnd: 8 }} onPress={googleSignIn} />
       <FacebookLoginButton onPress={facebookSignIn} />
     </Flexbox>
   );
@@ -28,7 +19,6 @@ const SocialSignIn = ({
 
 SocialSignIn.propTypes = {
   title: PropTypes.string.isRequired,
-  googleDisabled: PropTypes.bool,
   googleSignIn: PropTypes.func.isRequired,
   facebookSignIn: PropTypes.func.isRequired,
 };

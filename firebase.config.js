@@ -9,3 +9,7 @@ const firebaseConfig = {
 };
 
 export default firebaseConfig;
+
+export const facebookAppId = '319892812842607';
+
+export const facebookDisplayName = 'Q ConnectPro';

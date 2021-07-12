@@ -22,7 +22,8 @@ import { initLanguage } from './src/translations/Localized';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
-
+// this allows apollo refetch queries to happen from apollo
+import 'core-js/features/promise';
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -34,8 +35,11 @@ i18n.fallbacks = true;
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
-  const [user, setUser] = useState(null);
+  const [associateId, setAssociateId] = useState(null);
+  const [legacyId, setLegacyId] = useState(null);
   const [useBiometrics, setUseBiometrics] = useState(false);
+  // if user has been rank of Ruby or higher they have permissions to create team content
+  const [hasPermissions, setHasPermissions] = useState(false);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
     'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
@@ -43,11 +47,22 @@ const App = () => {
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
-  const [corporateResources, setCorporateResources] = useState([]);
   const [deviceLanguage, setDeviceLanguage] = useState('en');
-  const [userMarket, setUserMarket] = useState('us');
+  const [userMarket, setUserMarket] = useState({
+    countryId: 88,
+    countryCode: 'us',
+  });
   const [token, setToken] = useState('');
   console.log(`token`, token);
+
+  const signOutOfFirebase = () => {
+    try {
+      setToken('');
+      firebase.auth().signOut();
+    } catch (err) {
+      console.log(`err`, err.message);
+    }
+  };
 
   useEffect(() => {
     setDeviceLanguage(initLanguage());
@@ -76,7 +91,8 @@ const App = () => {
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   const httpLink = new HttpLink({
-    uri: 'https://qservicesstagingapp.azurewebsites.net/graphql',
+    // uri: 'https://qservicesstagingapp.azurewebsites.net/graphql',
+    uri: 'https://qservicesapi-dev.azurewebsites.net/graphql',
     fetch,
   });
 
@@ -91,7 +107,13 @@ const App = () => {
   });
 
   const client = new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Folders: { keyFields: ['folderId'] },
+        Links: { keyFields: ['linkId'] },
+        Associate: { keyFields: ['associateId'] },
+      },
+    }),
     link: concat(authMiddleware, httpLink),
   });
 
@@ -105,18 +127,21 @@ const App = () => {
           value={{
             theme,
             setTheme,
-            user,
-            setUser,
+            associateId,
+            setAssociateId,
+            legacyId,
+            setLegacyId,
             useBiometrics,
             storeBiometrics,
             getBiometrics,
-            corporateResources,
-            setCorporateResources,
             deviceLanguage,
             userMarket,
             setUserMarket,
             token,
             setToken,
+            signOutOfFirebase,
+            hasPermissions,
+            setHasPermissions,
           }}>
           <StatusBar
             backgroundColor={theme.backgroundColor}

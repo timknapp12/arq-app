@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -16,24 +16,14 @@ import {
 } from '../../common';
 import ProductCard from './productCard/ProductCard';
 import DownloadToast from '../DownloadToast';
-import AppContext from '../../../contexts/AppContext';
 import * as Analytics from 'expo-firebase-analytics';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import {
-  getCorporateProductCategories,
-  getCorporateProducts,
-} from '../../../utils/firebase/getCorporateProducts';
 
 // this will make the image a 2 x 1 ratio with taking padding into account
 const { width } = Dimensions.get('window');
 const imageHeight = width / 2 - 20;
 
 const ProductCategoryScreen = ({ route, navigation }) => {
-  const { deviceLanguage } = useContext(AppContext);
-  const { market } = route.params;
-  const db = firebase.firestore();
-  const [categoryList, setCategoryList] = useState([]);
+  const { categoryList } = route.params;
   const [view, setView] = useState({ title: '' });
   const [subcategoryList, setSubcategoryList] = useState([]);
 
@@ -61,32 +51,21 @@ const ProductCategoryScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    getCorporateProductCategories(
-      db,
-      market,
-      deviceLanguage,
-      setCategoryList,
-      navigate,
-    );
+    navigate(categoryList[0]);
   }, []);
 
   const navigate = (item) => {
     setView(item);
-    getCorporateProducts(
-      db,
-      market,
-      deviceLanguage,
-      setSubcategoryList,
-      item.id,
-    );
+    setSubcategoryList(item.childFolders);
+
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
-    const formattedTitle = item.title.split(' ').join('_');
+    const formattedTitle = item.folderName.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
     // this regex takes out special characters like "&"
     const strippedTitle = shortenedTitle.replace(/\W/g, '');
     Analytics.logEvent(strippedTitle, {
       screen: 'Corporate Products',
-      purpose: `See details for ${item.title}`,
+      purpose: `See details for ${item.folderName}`,
     });
   };
   return (
@@ -103,9 +82,9 @@ const ProductCategoryScreen = ({ route, navigation }) => {
             <TertiaryButton
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
-              selected={view.title === item.title}
-              key={item.title}>
-              {item.title.toUpperCase()}
+              selected={view.folderName === item.folderName}
+              key={item.folderId}>
+              {item.folderName.toUpperCase()}
             </TertiaryButton>
           ))}
         </TopButtonBar>
@@ -121,31 +100,30 @@ const ProductCategoryScreen = ({ route, navigation }) => {
               onStartShouldSetResponder={() => true}>
               <View style={{ width: '100%', marginBottom: 20 }}>
                 <Image
-                  source={{ uri: view.url }}
+                  source={{ uri: view.pictureUrl }}
                   style={{ width: '100%', height: imageHeight }}
                 />
               </View>
               {subcategoryList.map((item, index) => (
                 <ProductCard
-                  key={item.id}
+                  key={item.folderId}
                   style={{ zIndex: -index }}
-                  title={item.title}
-                  description={item.description}
-                  url={item.url}
+                  title={item.folderName}
+                  description={item.folderDescription}
+                  url={item.pictureUrl}
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   setDisableTouchEvent={setDisableTouchEvent}
                   categoryID={view.id}
-                  productID={item.id}
                   navigation={navigation}
                   setToastInfo={setToastInfo}
                   isFavorite={false}
-                  market={market}
+                  assetList={item.links}
                   onPress={() => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {
-                      title: item.title.toUpperCase(),
-                      documentID: item.id,
+                      title: item.folderName.toUpperCase(),
+                      documentID: item.folderId,
                     });
                   }}
                 />

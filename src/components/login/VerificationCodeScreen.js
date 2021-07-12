@@ -11,7 +11,6 @@ import {
   Link,
 } from '../common';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
-import LoginContext from '../../contexts/LoginContext';
 import AppContext from '../../contexts/AppContext';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Localized } from '../../translations/Localized';
@@ -26,9 +25,7 @@ import {
 import { getToken } from '../../utils/firebase/login';
 
 const VerificationCodeScreen = ({ navigation, route }) => {
-  const { setUser, setToken } = useContext(AppContext);
-  const { directScaleUser } = useContext(LoginContext);
-  const { associateId } = directScaleUser;
+  const { setAssociateId, setLegacyId, setToken } = useContext(AppContext);
 
   const { method, username, verificationInfo } = route.params;
 
@@ -40,14 +37,14 @@ const VerificationCodeScreen = ({ navigation, route }) => {
     onError: (error) => setErrorMessage(error.message),
     onCompleted: (data) => {
       console.log(`data`, data);
-      const status = data?.loginValidationToken;
-      handleConfirmAccessCode(
-        status,
-        navigation,
-        setUser,
-        associateId,
-        setErrorMessage,
-      );
+      const status = data?.loginValidationToken.status;
+      if (data.loginValidationToken.associate) {
+        const id = data.loginValidationToken.associate.associateId;
+        setAssociateId(id);
+        const legacyId = data.loginValidationToken.associate.legacyAssociateId;
+        setLegacyId(legacyId);
+      }
+      handleConfirmAccessCode(status, navigation, setErrorMessage);
     },
   });
 
@@ -63,13 +60,18 @@ const VerificationCodeScreen = ({ navigation, route }) => {
       onError: (error) => setErrorMessage(error.message),
       onCompleted: (data) => {
         console.log(`data`, data);
-        const status = data?.loginValidationProcess;
+        const status = data?.loginValidationProcess.status;
         console.log(`status`, status);
+        if (data.loginValidationProcess.associate) {
+          const id = data.loginValidationProcess.associate.associateId;
+          setAssociateId(id);
+          const legacyId =
+            data.loginValidationProcess.associate.legacyAssociateId;
+          setLegacyId(legacyId);
+        }
         handleLoginValidationProcess(
           status,
           navigation,
-          setUser,
-          associateId,
           method,
           username,
           verificationInfo,

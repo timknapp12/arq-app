@@ -16,19 +16,17 @@ import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
 import { MainScrollView } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import AppContext from '../../contexts/AppContext';
 import FeaturedNewsCard from './FeaturedNewsCard';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import MarketModal from '../marketModal/MarketModal';
-import { markets } from '../../utils/markets/markets';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
-import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import { Localized, initLanguage } from '../../translations/Localized';
 import NewsCardMap from './NewsCardMap';
+import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 // TODO remove this once we get real data
-import { mockUser } from '../common/mockUser';
 import { mockNews } from './mockNews';
 
 const FlagIcon = styled.Image`
@@ -41,14 +39,15 @@ const FlagIcon = styled.Image`
 const NewsScreen = ({ navigation }) => {
   initLanguage();
   const { userMarket } = useContext(AppContext);
+  const { markets } = useContext(LoginContext);
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
-  const [selectedMarket, setSelectedMarket] = useState(userMarket);
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
-  const initialMarketUrl = markets[0].url;
+  const [selectedMarket, setSelectedMarket] = useState(userMarket.countryCode);
+  const initialMarketUrl = markets[0]?.pictureUrl ?? '';
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
 
   useEffect(() => {
@@ -75,7 +74,7 @@ const NewsScreen = ({ navigation }) => {
   const tertiaryButtonText = [
     { name: Localized('Q NEWS'), testID: 'Q_NEWS_button' },
     { name: Localized('BLOG'), testID: 'blog_button' },
-    { name: Localized('EVENTS'), testID: 'events_button' },
+    { name: Localized('IN THE QUEUE'), testID: 'queue_button' },
   ];
 
   const navigate = (item) => {
@@ -114,7 +113,6 @@ const NewsScreen = ({ navigation }) => {
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
-          profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
@@ -181,7 +179,7 @@ const NewsScreen = ({ navigation }) => {
             />
           </MainScrollView>
         )}
-        {view.name === Localized('EVENTS') && (
+        {view.name === Localized('IN THE QUEUE') && (
           <MainScrollView>
             <FeaturedNewsCard
               url={mockNews.events.featured.url}
@@ -201,15 +199,12 @@ const NewsScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={mockUser.personalInfo}
-            saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={mockUser.personalInfo}
           />
         )}
         {isMarketModalOpen && (

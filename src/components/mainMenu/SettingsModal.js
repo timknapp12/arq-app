@@ -1,7 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as LocalAuthentication from 'expo-local-authentication';
+import * as firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
 import {
   TouchableOpacity,
@@ -12,17 +13,14 @@ import {
   KeyboardAvoidingView,
   Platform,
   View,
-  Pressable,
   Alert,
 } from 'react-native';
 import {
   ScreenContainer,
   Flexbox,
   CloseIcon,
-  H4,
   Header,
   PrimaryButton,
-  EditIcon,
   Switch,
   Subheader,
   H5Heavy,
@@ -31,8 +29,6 @@ import {
   H5Secondary,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-import { signOutOfFirebase } from '../../utils/firebase/login';
-import PasswordEditModal from './PasswordEditModal';
 import AppContext from '../../contexts/AppContext';
 
 const HeaderButtonContainer = styled.View`
@@ -55,17 +51,12 @@ const Divider = styled.View`
   margin: 40px 0px;
 `;
 
-const SettingsModal = ({
-  setIsSettingsModalOpen,
-  isSettingsModalOpen,
-  data,
-}) => {
+const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   initLanguage();
-  const { storeBiometrics, useBiometrics } = useContext(AppContext);
-  // TODO wire up a mutation when biometrics switch changes
-  // const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(useBiometrics);
-  const initialState = data.username;
-  const [isPasswordEditModalOpen, setIsPasswordEditModalOpen] = useState(false);
+  const { storeBiometrics, useBiometrics, signOutOfFirebase } =
+    useContext(AppContext);
+  const user = firebase.auth().currentUser;
+  const email = user?.email;
 
   const navigation = useNavigation();
   const signOut = () => {
@@ -157,20 +148,7 @@ const SettingsModal = ({
                     padding={12}>
                     <RowContainer>
                       <H5Secondary>{Localized('Username')}</H5Secondary>
-                      <H5 style={{ marginStart: 8 }}>
-                        {/* {username} */}
-                        {initialState}
-                      </H5>
-                    </RowContainer>
-
-                    <RowContainer>
-                      <H5Secondary>{Localized('Password')}</H5Secondary>
-                      <Pressable
-                        testID="edit-new-password-modal-button"
-                        onPress={() => setIsPasswordEditModalOpen(true)}
-                        hitSlop={8}>
-                        <EditIcon />
-                      </Pressable>
+                      <H5 style={{ marginStart: 8 }}>{email}</H5>
                     </RowContainer>
 
                     <RowContainer>
@@ -200,33 +178,7 @@ const SettingsModal = ({
                 </View>
               </Flexbox>
             </ScrollView>
-            <PasswordEditModal
-              visible={isPasswordEditModalOpen}
-              setIsPasswordEditModalOpen={setIsPasswordEditModalOpen}
-            />
           </KeyboardAvoidingView>
-
-          <Flexbox
-            accessibilityLabel="Terms Privacy Data"
-            justify="center"
-            direction="row"
-            padding={14}>
-            <TouchableOpacity testID="terms-button-settings-screen">
-              <H4>{Localized('Terms')}</H4>
-            </TouchableOpacity>
-            <H4 style={{ marginStart: 8 }}>|</H4>
-            <TouchableOpacity
-              testID="privacy-button-settings-screen"
-              style={{ marginStart: 8 }}>
-              <H4>{Localized('Privacy')}</H4>
-            </TouchableOpacity>
-            <H4 style={{ marginStart: 8 }}>|</H4>
-            <TouchableOpacity
-              testID="data-button-settings-screen"
-              style={{ marginStart: 8 }}>
-              <H4>{Localized('Data')}</H4>
-            </TouchableOpacity>
-          </Flexbox>
         </ScreenContainer>
       </TouchableWithoutFeedback>
     </Modal>
@@ -236,7 +188,6 @@ const SettingsModal = ({
 SettingsModal.propTypes = {
   setIsSettingsModalOpen: PropTypes.func.isRequired,
   isSettingsModalOpen: PropTypes.bool.isRequired,
-  data: PropTypes.object,
 };
 
 export default SettingsModal;

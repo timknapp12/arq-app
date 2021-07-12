@@ -34,18 +34,19 @@ const Square = styled.View`
 
 const Rank = ({ ranklist, user, fadeOut }) => {
   initLanguage();
-  const {
-    lastMonthPV,
-    thisMonthPV,
-    lastMonthQOV,
-    thisMonthQOV,
-    lastMonthPA,
-    thisMonthPA,
-    currentRank,
-  } = user;
-  const initialRankName = currentRank?.name;
+  // TODO get ranks from database once they have the correct data
+  // const {ranks: ranklist} = useContext(LoginContext)
+  const { pv, qoV, pa, previousAmbassadorMonthlyRecord } = user;
+
+  const lastMonthPV = previousAmbassadorMonthlyRecord?.personalVolume ?? 0;
+  const lastMonthPA =
+    previousAmbassadorMonthlyRecord?.personallySponsoredActiveAmbassadorCount ??
+    0;
+  const lastMonthQOV = previousAmbassadorMonthlyRecord?.qov ?? 0;
+
+  const initialRankName = user?.rank?.rankName;
   const [rankName, setRankName] = useState(initialRankName);
-  const initialRank = user?.currentRank;
+  const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
 
   const [isQualified, setIsQualified] = useState(false);
@@ -54,11 +55,11 @@ const Rank = ({ ranklist, user, fadeOut }) => {
     PV,
     QOV,
     PA,
-    requiredPV,
-    requiredQOV,
-    requiredPA,
+    requiredPv,
+    minimumQoV,
+    requiredPa,
   ) => {
-    if (PV >= requiredPV && QOV >= requiredQOV && PA >= requiredPA) {
+    if (PV >= requiredPv && QOV >= minimumQoV && PA >= requiredPa) {
       setIsQualified(true);
     } else {
       setIsQualified(false);
@@ -66,30 +67,23 @@ const Rank = ({ ranklist, user, fadeOut }) => {
   };
 
   useEffect(() => {
-    const { thisMonthPV, thisMonthQOV, thisMonthPA } = user;
-    const { requiredPV, requiredQOV, requiredPA } = rank;
-    validateQualification(
-      thisMonthPV,
-      thisMonthQOV,
-      thisMonthPA,
-      requiredPV,
-      requiredQOV,
-      requiredPA,
-    );
+    const { pv, qoV, pa } = user;
+    const { requiredPv, minimumQoV, requiredPa } = rank;
+    validateQualification(pv, qoV, pa, requiredPv, minimumQoV, requiredPa);
   }, [user, rank]);
 
   // These are used to restrain the percentages from being way higher than the max causing a ton of extra revolutions on the animations
-  const lastMonthPVPerc = reshapePerc(lastMonthPV, rank.requiredPV);
+  const lastMonthPVPerc = reshapePerc(lastMonthPV, rank.requiredPv);
 
-  const thisMonthPVPerc = reshapePerc(thisMonthPV, rank.requiredPV);
+  const pvPerc = reshapePerc(pv, rank.requiredPv);
 
-  const lastMonthQOVPerc = reshapePerc(lastMonthQOV, rank.requiredQOV);
+  const lastMonthQOVPerc = reshapePerc(lastMonthQOV, rank.minimumQoV);
 
-  const thisMonthQOVPerc = reshapePerc(thisMonthQOV, rank.requiredQOV);
+  const qoVPerc = reshapePerc(qoV, rank.minimumQoV);
 
-  const lastMonthPAPerc = reshapePerc(lastMonthPA, rank.requiredPA);
+  const lastMonthPAPerc = reshapePerc(lastMonthPA, rank.requiredPa);
 
-  const thisMonthPAPerc = reshapePerc(thisMonthPA, rank.requiredPA);
+  const paPerc = reshapePerc(pa, rank.requiredPa);
 
   return (
     <TouchableWithoutFeedback onPress={fadeOut}>
@@ -116,10 +110,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <DoubleDonut
               testID="total-pv-donut-svg"
               // ternary to ensure no error with 0 values of distributor rank
-              outerpercentage={rank.id === 0 ? 100 : thisMonthPVPerc}
+              outerpercentage={rank.rankId === 1 ? 0 : pvPerc}
               outermax={100}
               outercolor={donut1primaryColor}
-              innerpercentage={rank.id === 0 ? 100 : lastMonthPVPerc}
+              innerpercentage={rank.rankId === 1 ? 0 : lastMonthPVPerc}
               innermax={100}
               innercolor={donut1secondaryColor}
               view="rank"
@@ -128,11 +122,11 @@ const Rank = ({ ranklist, user, fadeOut }) => {
               <Legend>
                 <Square squareFill={donut1primaryColor} />
                 {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
-                <H5 testID="this-month-total-pv">{`${thisMonthPV
+                <H5 testID="this-month-total-pv">{`${pv
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredPV
+                )} ${rank?.requiredPv
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
@@ -142,7 +136,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredPV
+                )} ${rank?.requiredPv
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
@@ -153,10 +147,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <H4 testID="total-qov-donut-label">{Localized('Total QOV')}</H4>
             <DoubleDonut
               testID="total-qov-donut-svg"
-              outerpercentage={rank.id === 0 ? 100 : thisMonthQOVPerc}
+              outerpercentage={rank.rankId === 1 ? 0 : qoVPerc}
               outermax={100}
               outercolor={donut2primaryColor}
-              innerpercentage={rank.id === 0 ? 100 : lastMonthQOVPerc}
+              innerpercentage={rank.rankId === 1 ? 0 : lastMonthQOVPerc}
               innermax={100}
               innercolor={donut2secondaryColor}
               view="rank"
@@ -164,11 +158,11 @@ const Rank = ({ ranklist, user, fadeOut }) => {
             <LegendContainer>
               <Legend>
                 <Square squareFill={donut2primaryColor} />
-                <H5 testID="this-month-total-qov">{`${thisMonthQOV
+                <H5 testID="this-month-total-qov">{`${qoV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV
+                )} ${rank?.minimumQoV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
@@ -178,7 +172,7 @@ const Rank = ({ ranklist, user, fadeOut }) => {
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
-                )} ${rank?.requiredQOV
+                )} ${rank?.minimumQoV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
@@ -194,10 +188,10 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           </H4>
           <DoubleDonut
             testID="personally-enrolled-donut-svg"
-            outerpercentage={rank.id === 0 ? 100 : thisMonthPAPerc}
+            outerpercentage={rank.rankId === 1 ? 0 : paPerc}
             outermax={100}
             outercolor={donut3primaryColor}
-            innerpercentage={rank.id === 0 ? 100 : lastMonthPAPerc}
+            innerpercentage={rank.rankId === 1 ? 0 : lastMonthPAPerc}
             innermax={100}
             innercolor={donut3secondaryColor}
             view="rank"
@@ -205,15 +199,15 @@ const Rank = ({ ranklist, user, fadeOut }) => {
           <LegendContainer>
             <Legend>
               <Square squareFill={donut3primaryColor} />
-              <H5 testID="this-month-personally-enrolled">{`${thisMonthPA} ${Localized(
+              <H5 testID="this-month-personally-enrolled">{`${pa} ${Localized(
                 'of',
-              )} ${rank?.requiredPA}`}</H5>
+              )} ${rank?.requiredPa}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={donut3secondaryColor} />
               <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
                 'of',
-              )} ${rank?.requiredPA}`}</H5>
+              )} ${rank?.requiredPa}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -225,13 +219,13 @@ const Rank = ({ ranklist, user, fadeOut }) => {
 Rank.propTypes = {
   ranklist: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      requiredPV: PropTypes.number,
-      requiredQOV: PropTypes.number,
-      legMaxPerc: PropTypes.number,
-      legMaxOV: PropTypes.number,
-      requiredPA: PropTypes.number,
+      rankId: PropTypes.number,
+      rankName: PropTypes.string,
+      requiredPv: PropTypes.number,
+      minimumQoV: PropTypes.number,
+      legMaxPercentage: PropTypes.number,
+      maximumPerLeg: PropTypes.number,
+      requiredPa: PropTypes.number,
     }),
   ),
   user: PropTypes.object,

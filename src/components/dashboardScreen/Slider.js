@@ -3,7 +3,11 @@ import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { H4, H6Secodnary, Flexbox } from '../common';
 import CustomSlider from './CustomSlider';
-import { findRankName, findRankObject } from '../../utils/findRankInSlider';
+import {
+  findRankName,
+  findRankObject,
+  findRankIndex,
+} from '../../utils/findRankInSlider';
 import { Localized, initLanguage } from '../../translations/Localized';
 
 const { width } = Dimensions.get('window');
@@ -20,11 +24,10 @@ const Slider = ({
   initLanguage();
 
   const maximumValue = ranklist.length - 1;
-
-  const [value, setValue] = useState(rank?.id);
-  const [isQualifiedTextDisplayed, setIsQualifiedTextDisplayed] = useState(
-    true,
-  );
+  const initialValue = findRankIndex(ranklist, rank.rankName);
+  const [value, setValue] = useState(initialValue);
+  const [isQualifiedTextDisplayed, setIsQualifiedTextDisplayed] =
+    useState(true);
 
   useEffect(() => {
     setRankName(findRankName(ranklist, value));
@@ -68,12 +71,12 @@ const Slider = ({
 Slider.propTypes = {
   ranklist: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
+      rankId: PropTypes.number,
       name: PropTypes.string,
-      requiredPV: PropTypes.number,
-      requiredQOV: PropTypes.number,
-      legMaxPerc: PropTypes.number,
-      legMaxOV: PropTypes.number,
+      requiredPv: PropTypes.number,
+      minimumQoV: PropTypes.number,
+      legMaxPercentage: PropTypes.number,
+      maximumPerLeg: PropTypes.number,
     }),
   ),
   rank: PropTypes.object,

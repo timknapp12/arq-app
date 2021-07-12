@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { H5Black, H6Book } from '../../../common';
+import { H5, H6Secodnary } from '../../../common';
 import KebobIcon from '../../../../../assets/icons/kebob-icon.svg';
 import AppContext from '../../../../contexts/AppContext';
 import CalloutMenu from '../../CalloutMenu';
@@ -32,6 +32,7 @@ const CollapsedProductCard = ({
   isFavorite,
   onShare,
   onDownload,
+  onSend,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -48,18 +49,18 @@ const CollapsedProductCard = ({
                 setIsExpanded(true);
               }}>
               <View style={{ height: '100%' }}>
-                <H5Black
+                <H5
                   ellipsizeMode="tail"
                   numberOfLines={1}
                   style={{ marginBottom: 4, flex: 1 }}>
                   {title}
-                </H5Black>
-                <H6Book
+                </H5>
+                <H6Secodnary
                   ellipsizeMode="tail"
                   numberOfLines={1}
                   style={{ flex: 1 }}>
                   {description}
-                </H6Book>
+                </H6Secodnary>
               </View>
             </GestureTouchable>
           </TitleAndDescription>
@@ -110,6 +111,7 @@ const CollapsedProductCard = ({
           setIsFavorite={() => {}}
           onShare={onShare}
           onDownload={onDownload}
+          onSend={onSend}
         />
       )}
     </Container>
@@ -130,6 +132,7 @@ CollapsedProductCard.propTypes = {
   isFavorite: PropTypes.bool,
   onShare: PropTypes.func,
   onDownload: PropTypes.func,
+  onSend: PropTypes.func,
 };
 
 export default CollapsedProductCard;

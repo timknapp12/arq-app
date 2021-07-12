@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
@@ -11,6 +11,7 @@ import {
   Platform,
   View,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -27,6 +28,9 @@ import {
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
+import LoginContext from '../../contexts/LoginContext';
+import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
+import ProfileImage from './ProfileImage';
 // source for files for different languages https://stefangabos.github.io/world_countries/
 import enCountries from '../../translations/countries/en-countries.json';
 import deCountries from '../../translations/countries/de-countries.json';
@@ -36,7 +40,6 @@ import jaCountries from '../../translations/countries/ja-countries.json';
 import noCountries from '../../translations/countries/no-countries.json';
 import itCountries from '../../translations/countries/it-countries.json';
 import usStates from '../../translations/countries/us-states.json';
-import ProfileImage from './ProfileImage';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -52,13 +55,13 @@ const NameContainer = styled.View`
   width: 100%;
 `;
 
-const MyInfoModal = ({
-  setIsMyInfoModalOpen,
-  isMyInfoModalOpen,
-  data,
-  saveProfileImageToFirebase,
-}) => {
+const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   initLanguage();
+  const {
+    updateProfile,
+    userProfile: data,
+    refetchProfile,
+  } = useContext(LoginContext);
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
@@ -77,6 +80,23 @@ const MyInfoModal = ({
   const [isStateError, setIsStateError] = useState(false);
   const [isZipcodeError, setIsZipcodeError] = useState(false);
   const [isCountryError, setIsCountryError] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const {
+    legacyAssociateId,
+    associateId,
+    profileUrl,
+    profileImageFileName,
+    firstName,
+    lastName,
+    displayName,
+    emailAddress,
+    primaryPhoneNumber,
+    address,
+  } = myInfo;
+
+  const { address1, address2, city, state, zip, countryCode } = address;
 
   const validateFirstName = () => {
     if (!firstName) {
@@ -110,7 +130,7 @@ const MyInfoModal = ({
     const pattern = new RegExp(
       '^([a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+).[a-zA-Z]{2,7})$',
     );
-    if (!pattern.test(email)) {
+    if (!pattern.test(emailAddress)) {
       setIsEmailError(true);
       return false;
     } else {
@@ -119,7 +139,7 @@ const MyInfoModal = ({
     }
   };
   const validatePhone = () => {
-    if (!phone) {
+    if (!primaryPhoneNumber) {
       setIsPhoneError(true);
       return false;
     } else {
@@ -155,7 +175,7 @@ const MyInfoModal = ({
     }
   };
   const validateZipcode = () => {
-    if (!zipcode) {
+    if (!zip) {
       setIsZipcodeError(true);
       return false;
     } else {
@@ -164,7 +184,7 @@ const MyInfoModal = ({
     }
   };
   const validateCountry = () => {
-    if (!country) {
+    if (!countryCode) {
       setIsCountryError(true);
       return false;
     } else {
@@ -192,15 +212,45 @@ const MyInfoModal = ({
     }
   };
 
+  const onCompleted = () => {
+    setIsMyInfoModalOpen(false);
+    refetchProfile();
+  };
+
+  const variables = {
+    associateId: associateId,
+    profileUrl: profileUrl,
+    profileImageFileName: profileImageFileName,
+    firstName: firstName,
+    lastName: lastName,
+    displayName: displayName,
+    emailAddress: emailAddress,
+    primaryPhoneNumber: primaryPhoneNumber,
+    address1: address1,
+    address2: address2,
+    city: city,
+    state: state,
+    zip: zip,
+    countryCode: countryCode,
+  };
+
   const onSubmit = () => {
-    // TODO add saving logic here
+    setLoading(true);
     if (!validateAllFields()) {
       return false;
     } else {
       // only save image if it has been changed
-      isNewImageSelected && saveProfileImageToFirebase(myInfo, handleChange);
-      setIsMyInfoModalOpen(false);
-      setIsNewImageSelected(false);
+      isNewImageSelected
+        ? saveProfileImageToFirebase(
+            myInfo,
+            updateProfile,
+            variables,
+            onCompleted,
+          )
+        : updateProfile({
+            variables: variables,
+            onCompleted: onCompleted(),
+          });
     }
   };
 
@@ -218,30 +268,22 @@ const MyInfoModal = ({
   };
   countryList = countryMap[localeLanguageTag] || enCountries;
 
-  const {
-    image,
-    firstName,
-    lastName,
-    displayName,
-    email,
-    phone,
-    associateId,
-    address1,
-    address2,
-    city,
-    state,
-    zipcode,
-    country,
-  } = myInfo;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
+  // https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/profile_images%2FJena.Tomer.17a243ef-ca1e-4bc8-90d1-ca3a65683432_72x72?alt=media&token=cb1ccb74-a51b-408d-bb9a-6cecb5ae9694
+
+  // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
-    if (country === 'us') {
+    if (countryCode === 'us') {
       usStates.find((item) => item.value === state)
-        ? handleChange('state', state)
-        : handleChange('state', null);
+        ? handleChange('address', { ...address, state })
+        : handleChange('address', { ...address, state: null });
     }
-  }, [country]);
+    return () => {
+      setIsNewImageSelected(false);
+      setLoading(false);
+    };
+  }, [countryCode]);
   return (
     <Modal
       animationType="slide"
@@ -273,7 +315,11 @@ const MyInfoModal = ({
                       <TouchableOpacity
                         testID="my-info-save-button"
                         onPress={onSubmit}>
-                        <H4Heavy>{Localized('SAVE')}</H4Heavy>
+                        {loading ? (
+                          <ActivityIndicator />
+                        ) : (
+                          <H4Heavy>{Localized('SAVE')}</H4Heavy>
+                        )}
                       </TouchableOpacity>
                     ) : (
                       <View />
@@ -287,7 +333,7 @@ const MyInfoModal = ({
                 <Flexbox width="85%">
                   <NameContainer>
                     <ProfileImage
-                      image={image}
+                      profileUrl={profileUrl}
                       handleChange={handleChange}
                       setIsSaveButtonVisisble={setIsSaveButtonVisisble}
                       initials={initials}
@@ -359,9 +405,9 @@ const MyInfoModal = ({
                   <AnimatedInput
                     testID="email-input"
                     label={Localized('Email')}
-                    value={email}
+                    value={emailAddress}
                     onChangeText={(text) => {
-                      handleChange('email', text);
+                      handleChange('emailAddress', text);
                       setIsSaveButtonVisisble(true);
                     }}
                     keyboardType="email-address"
@@ -379,9 +425,9 @@ const MyInfoModal = ({
                   <AnimatedInput
                     testID="phone-number-input"
                     label={Localized('Phone Number')}
-                    value={phone}
+                    value={primaryPhoneNumber}
                     onChangeText={(text) => {
-                      handleChange('phone', text);
+                      handleChange('primaryPhoneNumber', text);
                       setIsSaveButtonVisisble(true);
                     }}
                     keyboardType="phone-pad"
@@ -396,7 +442,7 @@ const MyInfoModal = ({
                   <AnimatedInput
                     testID="ambassador-id-input"
                     label={Localized('Ambassador ID')}
-                    value={associateId}
+                    value={legacyAssociateId?.toString()}
                     editable={false}
                   />
                 </Flexbox>
@@ -409,7 +455,7 @@ const MyInfoModal = ({
                     label={Localized('Address 1')}
                     value={address1}
                     onChangeText={(text) => {
-                      handleChange('address1', text);
+                      handleChange('address', { ...address, address1: text });
                       setIsSaveButtonVisisble(true);
                     }}
                     returnKeyType="done"
@@ -427,7 +473,7 @@ const MyInfoModal = ({
                     label={Localized('Address 2')}
                     value={address2}
                     onChangeText={(text) => {
-                      handleChange('address2', text);
+                      handleChange('address', { ...address, address2: text });
                       setIsSaveButtonVisisble(true);
                     }}
                     returnKeyType="done"
@@ -438,7 +484,7 @@ const MyInfoModal = ({
                     label={Localized('City')}
                     value={city}
                     onChangeText={(text) => {
-                      handleChange('city', text);
+                      handleChange('address', { ...address, city: text });
                       setIsSaveButtonVisisble(true);
                     }}
                     returnKeyType="done"
@@ -457,7 +503,7 @@ const MyInfoModal = ({
                       paddingTop: 4,
                       marginBottom: 4,
                     }}>
-                    {country === 'us' ? (
+                    {countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker
                           items={usStates}
@@ -468,7 +514,10 @@ const MyInfoModal = ({
                             value: null,
                           }}
                           onValueChange={(value) => {
-                            handleChange('state', value);
+                            handleChange('address', {
+                              ...address,
+                              state: value,
+                            });
                             setIsSaveButtonVisisble(true);
                             validateState();
                           }}
@@ -483,7 +532,10 @@ const MyInfoModal = ({
                           label={Localized('State')}
                           value={state}
                           onChangeText={(text) => {
-                            handleChange('state', text);
+                            handleChange('address', {
+                              ...address,
+                              state: text,
+                            });
                             setIsSaveButtonVisisble(true);
                           }}
                           returnKeyType="done"
@@ -497,9 +549,9 @@ const MyInfoModal = ({
                       <AnimatedInput
                         testID="zip-code-input"
                         label={Localized('ZIP Code')}
-                        value={zipcode}
+                        value={zip}
                         onChangeText={(text) => {
-                          handleChange('zipcode', text);
+                          handleChange('address', { ...address, zip: text });
                           setIsSaveButtonVisisble(true);
                         }}
                         keyboardType="phone-pad"
@@ -526,10 +578,13 @@ const MyInfoModal = ({
                     <Picker
                       items={countryList}
                       label={Localized('Country')}
-                      value={country}
+                      value={countryCode}
                       placeholder={{ label: Localized('Country'), value: null }}
                       onValueChange={(value) => {
-                        handleChange('country', value);
+                        handleChange('address', {
+                          ...address,
+                          countryCode: value,
+                        });
                         setIsSaveButtonVisisble(true);
                         validateCountry();
                       }}
@@ -555,8 +610,6 @@ const MyInfoModal = ({
 MyInfoModal.propTypes = {
   setIsMyInfoModalOpen: PropTypes.func.isRequired,
   isMyInfoModalOpen: PropTypes.bool.isRequired,
-  data: PropTypes.object,
-  saveProfileImageToFirebase: PropTypes.func,
 };
 
 export default MyInfoModal;

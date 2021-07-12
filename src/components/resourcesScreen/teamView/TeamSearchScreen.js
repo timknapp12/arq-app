@@ -5,12 +5,11 @@ import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import AssetCard from '../assetCard/AssetCard';
 import DownloadToast from '../DownloadToast';
 // TODO: remove this once we get real data
-import { categories } from './mockTeamData';
 
 const TeamSearchScreen = ({ route, navigation }) => {
   const { accessCode } = route.params;
   console.log(`accessCode`, accessCode);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('Search feature is not quite ready yet');
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
@@ -20,7 +19,8 @@ const TeamSearchScreen = ({ route, navigation }) => {
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
   const [toastProgress, setToastProgress] = useState(0);
-
+  const [searchResults, setSearchResults] = useState([]);
+  console.log(`setSearchResults`, setSearchResults);
   const setToastInfo = (title, body, visible, progress) => {
     setToastTitle(title);
     setToastBody(body);
@@ -68,7 +68,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
               padding={10}
               onStartShouldSetResponder={() => true}
               height="100%">
-              {categories[0].assetList.map((item, index) => (
+              {searchResults.map((item, index) => (
                 <AssetCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}

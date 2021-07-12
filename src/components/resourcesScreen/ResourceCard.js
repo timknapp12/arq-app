@@ -1,14 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
-import {
-  TouchableOpacity,
-  Dimensions,
-  View,
-  Platform,
-  Alert,
-} from 'react-native';
-import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
+import { TouchableOpacity, View, Alert } from 'react-native';
+import { useMutation } from '@apollo/client';
 import baseImage from '../../../assets/icons/image.png';
 import KebobIcon from '../../../assets/icons/kebob-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
@@ -19,72 +12,31 @@ import { H6, H4Book, Flexbox } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import AddFolderModal from './teamView/AddFolderModal';
 import UploadAssetModal from './teamView/UploadAssetModal';
-
-// TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
-// TouchableOpacity (renamed as GestureTouchable) from react-native-gesture-handler does not accept the native touch event but will accept nested touch events
-// the two options above are used to handle different use cases depending on desired behavior
-
-const containerHeight = 224;
-const footerHeight = 48;
-
-// this will make the image a 2 x 1 ratio with taking padding into account
-const { width } = Dimensions.get('window');
-const imageHeight = width / 2 - 20;
-
-const CardContainer = styled.View`
-  flex: ${(props) => (props.isWideLayout ? '0 1 100%' : '0 1 48%')};
-  /* height: ${containerHeight}px; */
-  margin-bottom: 20px;
-  border-radius: 5px;
-`;
-
-CardContainer.propTypes = {
-  isWideLayout: PropTypes.bool,
-};
-
-const CardImage = styled.Image`
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  height: ${imageHeight}px;
-`;
-
-const CardFooter = styled.View`
-  height: ${footerHeight}px;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  padding: 8px;
-`;
-
-const ResourceCallout = styled.View`
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  padding: 10px;
-  border-radius: 5px;
-  position: absolute;
-  right: 0;
-  top: ${containerHeight}px;
-`;
-
-// The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
-const CalloutButton = styled(
-  Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
-)``;
+import {
+  CardContainer,
+  CardImage,
+  CardFooter,
+  ResourceCallout,
+  CalloutButton,
+} from './resourceCard.styles';
+import { DELETE_FOLDER } from '../../graphql/mutations';
+import { GET_TEAM_RESOURCES } from '../../graphql/queries';
 
 const ResourceCard = ({
+  folderId,
   url,
   isWideLayout = true,
+  displayOrder,
   title,
   onPress,
-  hasPermissions,
+  isOwner,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   isMenuOpen,
   isTeamMenuOpen,
+  selectedTeamName,
+  selectedTeamAccessCode,
+  assetList,
   // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   ...props
@@ -131,6 +83,15 @@ const ResourceCard = ({
     }
   };
 
+  const [deleteFolder] = useMutation(DELETE_FOLDER, {
+    variables: { folderId },
+    refetchQueries: [
+      { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
+    ],
+    onCompleted: () => closeCallout(),
+    onError: (error) => console.log(`error`, error),
+  });
+
   const onRemove = () =>
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
@@ -147,10 +108,7 @@ const ResourceCard = ({
         },
         {
           text: Localized('Yes'),
-          onPress: () => {
-            closeCallout();
-            console.log('Yes Pressed');
-          },
+          onPress: () => deleteFolder(),
         },
       ],
       { cancelable: false },
@@ -176,7 +134,7 @@ const ResourceCard = ({
           <H6>{title}</H6>
         </TouchableOpacity>
 
-        {hasPermissions && (
+        {isOwner && (
           <View>
             <TouchableOpacity
               style={{ alignItems: 'center' }}
@@ -243,9 +201,13 @@ const ResourceCard = ({
             closeCallout();
           }}
           editMode
+          folderId={folderId}
           folderTitle={title}
           folderUrl={url}
           folderIsWideLayout={isWideLayout}
+          displayOrder={displayOrder}
+          selectedTeamName={selectedTeamName}
+          selectedTeamAccessCode={selectedTeamAccessCode}
         />
       )}
       {isUploadAssetModalOpen && (
@@ -255,6 +217,9 @@ const ResourceCard = ({
             setIsUploadAssetModalOpen(false);
             closeCallout();
           }}
+          folderId={folderId}
+          displayOrder={assetList.length + 1}
+          selectedTeamName={selectedTeamName}
         />
       )}
     </CardContainer>
@@ -262,16 +227,21 @@ const ResourceCard = ({
 };
 
 ResourceCard.propTypes = {
+  folderId: PropTypes.number,
   title: PropTypes.string,
   isWideLayout: PropTypes.bool,
+  displayOrder: PropTypes.number,
   url: PropTypes.string,
   onPress: PropTypes.func,
-  hasPermissions: PropTypes.bool,
+  isOwner: PropTypes.bool,
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
   isMenuOpen: PropTypes.bool.isRequired,
   isTeamMenuOpen: PropTypes.bool,
+  selectedTeamName: PropTypes.string,
+  selectedTeamAccessCode: PropTypes.string,
+  assetList: PropTypes.array,
   setIsNavDisabled: PropTypes.func,
 };
 

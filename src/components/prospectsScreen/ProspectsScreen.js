@@ -6,6 +6,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Animated,
+  Platform,
+  Linking,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -79,6 +81,15 @@ const ProspectsScreen = ({ navigation }) => {
     }).start(() => setIsFilterMenuOpen(false));
   };
 
+  const subject = 'This is a test subject';
+  const message = 'this is test body and should be updated';
+  const separator = Platform.OS === 'ios' ? '&' : '?';
+
+  const onEmail = (email) =>
+    Linking.openURL(`mailto:${email}?subject=${subject}&body=${message}`);
+  const onMessage = (phone) =>
+    Linking.openURL(`sms:${phone}${separator}body=${message}`);
+
   return (
     <ProspectsContext.Provider
       value={{
@@ -89,6 +100,8 @@ const ProspectsScreen = ({ navigation }) => {
         isFilterMenuOpen,
         closeFilterMenu,
         view,
+        onEmail,
+        onMessage,
       }}>
       <TouchableWithoutFeedback
         onPress={() => {

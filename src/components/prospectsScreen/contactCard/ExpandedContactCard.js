@@ -10,6 +10,7 @@ import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import account from '../../../../assets/icons/ic_account.png';
 import { H2Book, H4Book, H6, Flexbox } from '../../common';
 import AppContext from '../../../contexts/AppContext';
+import ProspectsContext from '../../../contexts/ProspectsContext';
 import {
   CardContainer,
   Row,
@@ -22,6 +23,7 @@ import {
 
 const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
   const { theme } = useContext(AppContext);
+  const { onEmail, onMessage } = useContext(ProspectsContext);
   const {
     image,
     firstName,
@@ -65,12 +67,12 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
         <Stack expanded>
           <Row>
             {email ? (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => onEmail(email)}>
                 <EmailIcon style={largeIconStyle} />
               </TouchableOpacity>
             ) : null}
             {phone ? (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => onMessage(phone)}>
                 <MessageIcon style={largeIconStyle} />
               </TouchableOpacity>
             ) : null}

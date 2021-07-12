@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Animated, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
@@ -16,17 +16,15 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-// TODO remove this once we get real data
-import { mockUser } from '../common/mockUser';
 import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
-import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
+import AppContext from '../../contexts/AppContext';
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
-
+  const { hasPermissions } = useContext(AppContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -45,6 +43,8 @@ const ResourcesScreen = ({ navigation }) => {
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
+
+  const [isOwner, setIsOwner] = useState(false);
 
   const [view, setView] = useState(initialView);
 
@@ -125,7 +125,6 @@ const ResourcesScreen = ({ navigation }) => {
           fadeOut={fadeOut}
           setIsMenuOpen={setIsMenuOpen}
           badgeValue={2}
-          profileUrl={mockUser.personalInfo.image.url}
         />
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
@@ -167,11 +166,13 @@ const ResourcesScreen = ({ navigation }) => {
             isTeamMenuOpen={isTeamMenuOpen}
             teamFadeAnim={teamFadeAnim}
             isMenuOpen={isMenuOpen}
+            isOwner={isOwner}
+            setIsOwner={setIsOwner}
           />
         )}
         {view.name === Localized('SERVICES') && <ServicesView />}
         {view.name === Localized('FAVORITES') && <FavoritesView />}
-        {view.name === Localized('TEAM') && (
+        {view.name === Localized('TEAM') && hasPermissions && isOwner && (
           <AddButton
             bottom="130px"
             onPress={() => {
@@ -185,15 +186,12 @@ const ResourcesScreen = ({ navigation }) => {
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
             setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            data={mockUser.personalInfo}
-            saveProfileImageToFirebase={saveProfileImageToFirebase}
           />
         )}
         {isSettingsModalOpen && (
           <SettingsModal
             isSettingsModalOpen={isSettingsModalOpen}
             setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={mockUser.personalInfo}
           />
         )}
       </ScreenContainer>
