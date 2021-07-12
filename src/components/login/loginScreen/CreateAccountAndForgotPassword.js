@@ -25,7 +25,7 @@ const CreateAccountAndForgotPassword = ({
           {Localized(
             screen === 'create account'
               ? 'Already have an account?'
-              : 'First time using the Q app?',
+              : 'First time using ARQ?',
           )}
         </H6>
         <TouchableOpacity
