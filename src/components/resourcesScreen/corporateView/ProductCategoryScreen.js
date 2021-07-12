@@ -114,7 +114,6 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   setDisableTouchEvent={setDisableTouchEvent}
-                  categoryID={view.id}
                   navigation={navigation}
                   setToastInfo={setToastInfo}
                   isFavorite={false}
@@ -123,7 +122,6 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {
                       title: item.folderName.toUpperCase(),
-                      documentID: item.folderId,
                     });
                   }}
                 />

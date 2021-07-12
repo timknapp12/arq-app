@@ -28,6 +28,7 @@ import {
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
+import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from './ProfileImage';
@@ -57,6 +58,7 @@ const NameContainer = styled.View`
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   initLanguage();
+  const { theme } = useContext(AppContext);
   const {
     updateProfile,
     userProfile: data,
@@ -316,7 +318,9 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         testID="my-info-save-button"
                         onPress={onSubmit}>
                         {loading ? (
-                          <ActivityIndicator />
+                          <ActivityIndicator
+                            color={theme.disabledBackgroundColor}
+                          />
                         ) : (
                           <H4Heavy>{Localized('SAVE')}</H4Heavy>
                         )}

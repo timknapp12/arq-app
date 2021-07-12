@@ -226,7 +226,9 @@ const UploadAssetModal = ({
               padding: 4,
               alignItems: 'center',
             }}>
-            {isLoading && <ActivityIndicator />}
+            {isLoading && (
+              <ActivityIndicator color={theme.disabledBackgroundColor} />
+            )}
           </View>
         </Flexbox>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>

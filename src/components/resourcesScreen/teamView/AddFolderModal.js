@@ -167,7 +167,9 @@ const AddFolderModal = ({
             padding: 4,
             alignItems: 'center',
           }}>
-          {isLoading && <ActivityIndicator />}
+          {isLoading && (
+            <ActivityIndicator color={theme.disabledBackgroundColor} />
+          )}
         </View>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
