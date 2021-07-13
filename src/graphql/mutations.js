@@ -249,3 +249,60 @@ export const DELETE_ASSET = gql`
     deleteLinks(linkId: $linkId)
   }
 `;
+
+export const ADD_UPDATE_CONTACT = gql`
+  mutation AddUpdateProspect(
+    $associateId: Int!
+    $prospectId: String!
+    $thumbnailUrl: String
+    $firstName: String!
+    $lastName: String!
+    $displayName: String
+    $emailAddress: String
+    $primaryPhone: String
+    $address1: String
+    $address2: String
+    $city: String
+    $state: String
+    $zip: String
+    $countryCode: String
+    $notes: String
+  ) {
+    addUpdateProspect(
+      input: {
+        associateId: $associateId
+        prospectId: $prospectId
+        thumbnailUrl: $thumbnailUrl
+        firstName: $firstName
+        lastName: $lastName
+        displayName: $displayName
+        emailAddress: $emailAddress
+        primaryPhone: $primaryPhone
+        address1: $address1
+        address2: $address2
+        city: $city
+        state: $state
+        zip: $zip
+        countryCode: $countryCode
+        notes: $notes
+      }
+    ) {
+      associateId
+      prospectId
+      thumbnailUrl
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhone
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
+    }
+  }
+`;

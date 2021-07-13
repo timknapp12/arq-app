@@ -24,6 +24,7 @@ import FilterMenu from './FilterMenu';
 import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
 import ProspectsView from './ProspectsView';
+import AddContactModal from './AddContactModal';
 import { initLanguage, Localized } from '../../translations/Localized';
 
 const ProspectsScreen = ({ navigation }) => {
@@ -38,6 +39,7 @@ const ProspectsScreen = ({ navigation }) => {
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
   const [view, setView] = useState(initialView);
+  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   const tertiaryButtonText = [
     { name: Localized('PROSPECTS'), testID: 'prospects_button' },
@@ -151,11 +153,19 @@ const ProspectsScreen = ({ navigation }) => {
           </Flexbox>
           {view.name === Localized('PROSPECTS') && <ProspectsView />}
           {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
-          <AddButton bottom="130px">
+          <AddButton
+            onPress={() => setIsAddContactModalOpen(true)}
+            bottom="130px">
             <ButtonText>+</ButtonText>
           </AddButton>
         </ScreenContainer>
       </TouchableWithoutFeedback>
+      {isAddContactModalOpen && (
+        <AddContactModal
+          isAddContactModalOpen={isAddContactModalOpen}
+          setIsAddContactModalOpen={setIsAddContactModalOpen}
+        />
+      )}
     </ProspectsContext.Provider>
   );
 };

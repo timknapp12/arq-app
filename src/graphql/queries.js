@@ -230,3 +230,25 @@ export const GET_ASSETS = gql`
     }
   }
 `;
+
+export const GET_CONTACTS = gql`
+  query Prospects($associateId: Int!) {
+    prospects(where: { associateId: { eq: $associateId } }) {
+      prospectId
+      thumbnailUrl
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhone
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
+    }
+  }
+`;

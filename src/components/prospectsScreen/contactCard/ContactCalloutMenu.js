@@ -75,22 +75,22 @@ const ContactCalloutMenu = ({
           <H4Book>{Localized('Remove')}</H4Book>
         </Row>
       </CalloutButton>
-      {email && (
+      {email.length > 0 ? (
         <CalloutButton onPress={() => onEmail(email)}>
           <Row>
             <EmailIcon style={iconStyle} />
             <H4Book>{Localized('Email')}</H4Book>
           </Row>
         </CalloutButton>
-      )}
-      {phone && (
+      ) : null}
+      {phone.length > 0 ? (
         <CalloutButton onPress={() => onMessage(phone)}>
           <Row>
             <MessageIcon style={iconStyle} />
             <H4Book>{Localized('Text Message')}</H4Book>
           </Row>
         </CalloutButton>
-      )}
+      ) : null}
     </Container>
   );
 };
