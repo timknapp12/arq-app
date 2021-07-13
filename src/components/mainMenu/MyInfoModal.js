@@ -369,7 +369,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         onBlur={validateFirstName}
                       />
                       <AnimatedInput
-                        testID="first-name-input"
+                        testID="last-name-input"
                         label={Localized('Last Name')}
                         value={lastName}
                         onChangeText={(text) => {
