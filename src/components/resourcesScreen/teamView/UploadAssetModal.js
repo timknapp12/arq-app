@@ -144,7 +144,7 @@ const UploadAssetModal = ({
     refetchQueries: [
       { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
       { query: GET_ASSETS, variables: { folderId } },
-      searchTerm && {
+      searchTerm !== null && {
         query: SEARCH_RESOURCES,
         variables: { teams: selectedTeamName, searchList: searchTerm },
       },
