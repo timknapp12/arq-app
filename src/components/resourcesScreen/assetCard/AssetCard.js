@@ -153,7 +153,6 @@ const AssetCard = ({
           text: Localized('Yes'),
           onPress: () => {
             deleteAsset();
-            console.log('Yes Pressed');
           },
         },
       ],
