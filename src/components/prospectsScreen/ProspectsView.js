@@ -1,12 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { MainScrollView, Flexbox, H5 } from '../common';
 import ContactCard from './contactCard/ContactCard';
 import { Localized } from '../../translations/Localized';
-// TODO delete this after getting real contacts
-import { contacts } from './mockContacts';
 
-const ProspectsView = () => {
+const ProspectsView = ({ contacts }) => {
   return (
     <MainScrollView>
       <View
@@ -24,11 +23,19 @@ const ProspectsView = () => {
           </Flexbox>
         ) : null}
         {contacts.map((item, index) => (
-          <ContactCard key={item.id} style={{ zIndex: -index }} data={item} />
+          <ContactCard
+            key={item.prospectId}
+            style={{ zIndex: -index }}
+            data={item}
+          />
         ))}
       </View>
     </MainScrollView>
   );
+};
+
+ProspectsView.propTypes = {
+  contacts: PropTypes.array.isRequired,
 };
 
 export default ProspectsView;

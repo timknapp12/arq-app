@@ -25,17 +25,16 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
   const { theme } = useContext(AppContext);
   const { onEmail, onMessage } = useContext(ProspectsContext);
   const {
-    image,
+    thumbnailUrl,
     firstName,
     lastName,
-    phone,
-    email,
-    address1,
-    address2,
-    city,
-    state,
-    zipcode,
+    primaryPhone,
+    emailAddress,
+    address,
   } = data;
+
+  const { address1, address2, city, state, zipcode } = address;
+
   const largeIconStyle = {
     color: theme.primaryTextColor,
     height: 42,
@@ -57,8 +56,11 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
             size={24}
           />
         </Flexbox>
-        {image.url ? (
-          <ExpandedImage source={{ uri: image.url }} defualtSource={account} />
+        {thumbnailUrl ? (
+          <ExpandedImage
+            source={{ uri: thumbnailUrl }}
+            defualtSource={account}
+          />
         ) : (
           <ExpandedImageDefault>
             <H2Book>{initials}</H2Book>
@@ -66,22 +68,22 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
         )}
         <Stack expanded>
           <Row>
-            {email ? (
-              <TouchableOpacity onPress={() => onEmail(email)}>
+            {emailAddress ? (
+              <TouchableOpacity onPress={() => onEmail(emailAddress)}>
                 <EmailIcon style={largeIconStyle} />
               </TouchableOpacity>
             ) : null}
-            {phone ? (
-              <TouchableOpacity onPress={() => onMessage(phone)}>
+            {primaryPhone ? (
+              <TouchableOpacity onPress={() => onMessage(primaryPhone)}>
                 <MessageIcon style={largeIconStyle} />
               </TouchableOpacity>
             ) : null}
           </Row>
           <H4Book>{`${firstName} ${lastName}`}</H4Book>
           <Gap />
-          {phone ? <H6>{phone}</H6> : null}
+          {primaryPhone ? <H6>{primaryPhone}</H6> : null}
           <Gap />
-          {email ? <H6>{email}</H6> : null}
+          {emailAddress ? <H6>{emailAddress}</H6> : null}
           <Gap />
           {address1 ? <H6>{address1}</H6> : null}
           {address2 ? <H6>{address2}</H6> : null}

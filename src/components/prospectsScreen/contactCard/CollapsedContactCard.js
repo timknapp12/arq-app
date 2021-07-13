@@ -27,7 +27,8 @@ const CollapsedContactCard = ({
 }) => {
   const { theme } = useContext(AppContext);
 
-  const { image, firstName, lastName, phone, email } = data;
+  const { thumbnailUrl, firstName, lastName, primaryPhone, emailAddress } =
+    data;
   return (
     <CardContainer {...props}>
       <TouchableOpacity
@@ -35,9 +36,9 @@ const CollapsedContactCard = ({
         activeOpacity={isFilterMenuOpen ? 1 : 0.2}
         onPress={toggleExpanded}>
         <Row>
-          {image.url ? (
+          {thumbnailUrl ? (
             <CollapsedImage
-              source={{ uri: image.url }}
+              source={{ uri: thumbnailUrl }}
               defualtSource={account}
             />
           ) : (
@@ -47,8 +48,8 @@ const CollapsedContactCard = ({
           )}
           <Stack>
             <H4Book>{`${firstName} ${lastName}`}</H4Book>
-            {phone ? <H6>{phone}</H6> : null}
-            {email ? <H6>{email}</H6> : null}
+            {primaryPhone ? <H6>{primaryPhone}</H6> : null}
+            {emailAddress ? <H6>{emailAddress}</H6> : null}
           </Stack>
           <IconColumn>
             <MaterialCommunityIcon
@@ -72,8 +73,8 @@ const CollapsedContactCard = ({
             onEdit={() => Alert.alert('This feature is coming soon!')}
             onMove={() => Alert.alert('This feature is coming soon!')}
             onRemove={() => Alert.alert('This feature is coming soon!')}
-            email={email}
-            phone={phone}
+            emailAddress={emailAddress}
+            primaryPhone={primaryPhone}
           />
         )}
       </TouchableOpacity>
