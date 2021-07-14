@@ -50,8 +50,9 @@ const CameraButton = styled.TouchableOpacity`
 `;
 
 const ProfileImage = ({
-  handleChange,
   profileUrl,
+  handleChange,
+  fieldName,
   setIsSaveButtonVisisble,
   initials = '',
   setIsNewImageSelected,
@@ -70,9 +71,8 @@ const ProfileImage = ({
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           Alert.alert(
             Localized(
@@ -93,7 +93,7 @@ const ProfileImage = ({
     });
 
     if (!result.cancelled) {
-      handleChange('profileUrl', result.uri);
+      handleChange(fieldName, result.uri);
       setIsSaveButtonVisisble(true);
       setIsNewImageSelected(true);
     }
@@ -106,7 +106,7 @@ const ProfileImage = ({
       quality: 1,
     });
     if (!result.cancelled) {
-      handleChange('profileUrl', result.uri);
+      handleChange(fieldName, result.uri);
       setIsSaveButtonVisisble(true);
       setIsNewImageSelected(true);
     }
@@ -141,6 +141,7 @@ const ProfileImage = ({
 ProfileImage.propTypes = {
   handleChange: PropTypes.func.isRequired,
   profileUrl: PropTypes.string,
+  fieldName: PropTypes.string,
   setIsSaveButtonVisisble: PropTypes.func.isRequired,
   initials: PropTypes.string,
   setIsNewImageSelected: PropTypes.func.isRequired,

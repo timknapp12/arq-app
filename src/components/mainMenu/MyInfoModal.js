@@ -245,6 +245,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       isNewImageSelected
         ? saveProfileImageToFirebase(
             myInfo,
+            profileUrl,
             updateProfile,
             variables,
             onCompleted,
@@ -339,6 +340,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     <ProfileImage
                       profileUrl={profileUrl}
                       handleChange={handleChange}
+                      fieldName="profileUrl"
                       setIsSaveButtonVisisble={setIsSaveButtonVisisble}
                       initials={initials}
                       setIsNewImageSelected={setIsNewImageSelected}

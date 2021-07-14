@@ -94,7 +94,7 @@ const ProspectsScreen = ({ navigation }) => {
 
   const [addUpdateContact] = useMutation(ADD_UPDATE_CONTACT, {
     refetchQueries: [{ query: GET_CONTACTS, variables: { associateId } }],
-    onError: (error) => console.log(`error`, error),
+    onError: (error) => console.log(`error in update contact:`, error),
   });
 
   const [deleteContact] = useMutation(DELETE_CONTACT, {

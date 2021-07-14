@@ -73,7 +73,7 @@ const AddContactModal = ({
       city: '',
       state: '',
       zip: '',
-      countryCode: '',
+      countryCode: 'us',
     },
   },
 }) => {
@@ -81,7 +81,8 @@ const AddContactModal = ({
   const { theme, associateId } = useContext(AppContext);
   const { addUpdateContact } = useContext(ProspectsContext);
 
-  const [contactInfo, setContactInfo] = useState(data);
+  const initialState = data;
+  const [contactInfo, setContactInfo] = useState(initialState);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const handleChange = (field, text) => {
@@ -103,8 +104,6 @@ const AddContactModal = ({
     address,
     notes,
   } = contactInfo;
-
-  const { address1, address2, city, state, zip, countryCode } = address;
 
   const validateFirstName = () => {
     if (!firstName) {
@@ -138,16 +137,15 @@ const AddContactModal = ({
     displayName: displayName,
     emailAddress: emailAddress,
     primaryPhone: primaryPhone,
-    address1: address1,
-    address2: address2,
-    city: city,
-    state: state,
-    zip: zip,
-    countryCode: countryCode,
+    address1: address?.address1,
+    address2: address?.address2,
+    city: address?.city,
+    state: address?.state,
+    zip: address?.zip,
+    countryCode: address?.countryCode,
     notes: notes,
   };
 
-  console.log(`variables`, variables);
   const onSubmit = () => {
     setLoading(true);
     if (!validateAllFields()) {
@@ -158,6 +156,7 @@ const AddContactModal = ({
       isNewImageSelected
         ? saveProfileImageToFirebase(
             contactInfo,
+            thumbnailUrl,
             addUpdateContact,
             variables,
             onCompleted,
@@ -189,16 +188,16 @@ const AddContactModal = ({
 
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
-    if (countryCode === 'us') {
-      usStates.find((item) => item.value === state)
-        ? handleChange('address', { ...address, state })
+    if (address?.countryCode === 'us') {
+      usStates.find((item) => item.value === address?.state)
+        ? handleChange('address', { ...address, state: address?.state })
         : handleChange('address', { ...address, state: null });
     }
     return () => {
       setIsNewImageSelected(false);
       setLoading(false);
     };
-  }, [countryCode]);
+  }, [address?.countryCode]);
 
   return (
     <Modal
@@ -253,6 +252,7 @@ const AddContactModal = ({
                     <ProfileImage
                       profileUrl={thumbnailUrl}
                       handleChange={handleChange}
+                      fieldName="thumbnailUrl"
                       setIsSaveButtonVisisble={setIsSaveButtonVisisble}
                       initials={initials}
                       setIsNewImageSelected={setIsNewImageSelected}
@@ -339,7 +339,7 @@ const AddContactModal = ({
                   <AnimatedInput
                     testID="address-1-input"
                     label={Localized('Address 1')}
-                    value={address1}
+                    value={address?.address1}
                     onChangeText={(text) => {
                       handleChange('address', { ...address, address1: text });
                       setIsSaveButtonVisisble(true);
@@ -350,7 +350,7 @@ const AddContactModal = ({
                   <AnimatedInput
                     testID="address-2-input"
                     label={Localized('Address 2')}
-                    value={address2}
+                    value={address?.address2}
                     onChangeText={(text) => {
                       handleChange('address', { ...address, address2: text });
                       setIsSaveButtonVisisble(true);
@@ -361,7 +361,7 @@ const AddContactModal = ({
                   <AnimatedInput
                     testID="city-input"
                     label={Localized('City')}
-                    value={city}
+                    value={address?.city}
                     onChangeText={(text) => {
                       handleChange('address', { ...address, city: text });
                       setIsSaveButtonVisisble(true);
@@ -377,12 +377,12 @@ const AddContactModal = ({
                       paddingTop: 4,
                       marginBottom: 4,
                     }}>
-                    {countryCode === 'us' ? (
+                    {address?.countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker
                           items={usStates}
                           label={Localized('State')}
-                          value={state}
+                          value={address?.state}
                           placeholder={{
                             label: Localized('State'),
                             value: null,
@@ -402,7 +402,7 @@ const AddContactModal = ({
                         <AnimatedInput
                           testID="state-input"
                           label={Localized('State')}
-                          value={state}
+                          value={address?.state}
                           onChangeText={(text) => {
                             handleChange('address', {
                               ...address,
@@ -419,7 +419,7 @@ const AddContactModal = ({
                       <AnimatedInput
                         testID="zip-code-input"
                         label={Localized('ZIP Code')}
-                        value={zip}
+                        value={address?.zip}
                         onChangeText={(text) => {
                           handleChange('address', { ...address, zip: text });
                           setIsSaveButtonVisisble(true);
@@ -435,7 +435,7 @@ const AddContactModal = ({
                     <Picker
                       items={countryList}
                       label={Localized('Country')}
-                      value={countryCode}
+                      value={address?.countryCode}
                       placeholder={{ label: Localized('Country'), value: null }}
                       onValueChange={(value) => {
                         handleChange('address', {
