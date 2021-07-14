@@ -306,3 +306,9 @@ export const ADD_UPDATE_CONTACT = gql`
     }
   }
 `;
+
+export const DELETE_CONTACT = gql`
+  mutation DeleteProspect($prospectId: String!) {
+    deleteProspect(prospectId: $prospectId)
+  }
+`;
