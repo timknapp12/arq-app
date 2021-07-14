@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
+import { useQuery, useMutation } from '@apollo/client';
 import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Animated,
   Platform,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -26,10 +28,12 @@ import ProspectsContext from '../../contexts/ProspectsContext';
 import ProspectsView from './ProspectsView';
 import AddContactModal from './AddContactModal';
 import { initLanguage, Localized } from '../../translations/Localized';
+import { GET_CONTACTS } from '../../graphql/queries';
+import { ADD_UPDATE_CONTACT, DELETE_CONTACT } from '../../graphql/mutations';
 
 const ProspectsScreen = ({ navigation }) => {
   initLanguage();
-  const { theme } = useContext(AppContext);
+  const { theme, associateId } = useContext(AppContext);
   const isFocused = useIsFocused();
 
   const initialView = {
@@ -83,6 +87,21 @@ const ProspectsScreen = ({ navigation }) => {
     }).start(() => setIsFilterMenuOpen(false));
   };
 
+  const { loading, data } = useQuery(GET_CONTACTS, {
+    variables: { associateId },
+  });
+  // console.log(`data in contacts:`, data);
+
+  const [addUpdateContact] = useMutation(ADD_UPDATE_CONTACT, {
+    refetchQueries: [{ query: GET_CONTACTS, variables: { associateId } }],
+    onError: (error) => console.log(`error`, error),
+  });
+
+  const [deleteContact] = useMutation(DELETE_CONTACT, {
+    refetchQueries: [{ query: GET_CONTACTS, variables: { associateId } }],
+    onError: (error) => console.log(`error`, error),
+  });
+
   const subject = 'This is a test subject';
   const message = 'this is test body and should be updated';
   const separator = Platform.OS === 'ios' ? '&' : '?';
@@ -104,6 +123,8 @@ const ProspectsScreen = ({ navigation }) => {
         view,
         onEmail,
         onMessage,
+        addUpdateContact,
+        deleteContact,
       }}>
       <TouchableWithoutFeedback
         onPress={() => {
@@ -151,8 +172,19 @@ const ProspectsScreen = ({ navigation }) => {
           <Flexbox>
             <FilterMenu style={{ left: fadeAnim }} />
           </Flexbox>
-          {view.name === Localized('PROSPECTS') && <ProspectsView />}
-          {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
+          {loading ? (
+            <ActivityIndicator
+              size="large"
+              color={theme.disabledBackgroundColor}
+            />
+          ) : (
+            <>
+              {view.name === Localized('PROSPECTS') && (
+                <ProspectsView contacts={data?.prospects} />
+              )}
+              {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
+            </>
+          )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
             bottom="130px">

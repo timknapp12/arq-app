@@ -112,6 +112,7 @@ const App = () => {
         Folders: { keyFields: ['folderId'] },
         Links: { keyFields: ['linkId'] },
         Associate: { keyFields: ['associateId'] },
+        Prospect: { keyFields: ['prospectId'] },
       },
     }),
     link: concat(authMiddleware, httpLink),

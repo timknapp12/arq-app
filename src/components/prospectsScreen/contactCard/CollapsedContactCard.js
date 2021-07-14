@@ -23,6 +23,7 @@ const CollapsedContactCard = ({
   isCalloutOpen,
   onCallout,
   isFilterMenuOpen,
+  onRemove,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -72,7 +73,7 @@ const CollapsedContactCard = ({
           <ContactCalloutMenu
             onEdit={() => Alert.alert('This feature is coming soon!')}
             onMove={() => Alert.alert('This feature is coming soon!')}
-            onRemove={() => Alert.alert('This feature is coming soon!')}
+            onRemove={onRemove}
             emailAddress={emailAddress}
             primaryPhone={primaryPhone}
           />
@@ -89,6 +90,7 @@ CollapsedContactCard.propTypes = {
   isCalloutOpen: PropTypes.bool.isRequired,
   onCallout: PropTypes.func.isRequired,
   isFilterMenuOpen: PropTypes.bool.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default CollapsedContactCard;

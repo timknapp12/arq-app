@@ -21,19 +21,23 @@ import {
   IconRow,
 } from './card.styles';
 
-const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
+const ExpandedContactCard = ({
+  toggleExpanded,
+  data,
+  initials,
+  onRemove,
+  ...props
+}) => {
   const { theme } = useContext(AppContext);
   const { onEmail, onMessage } = useContext(ProspectsContext);
   const {
-    thumbnailUrl,
-    firstName,
-    lastName,
-    primaryPhone,
-    emailAddress,
+    thumbnailUrl = '',
+    firstName = '',
+    lastName = '',
+    primaryPhone = '',
+    emailAddress = '',
     address,
   } = data;
-
-  const { address1, address2, city, state, zipcode } = address;
 
   const largeIconStyle = {
     color: theme.primaryTextColor,
@@ -85,9 +89,11 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
           <Gap />
           {emailAddress ? <H6>{emailAddress}</H6> : null}
           <Gap />
-          {address1 ? <H6>{address1}</H6> : null}
-          {address2 ? <H6>{address2}</H6> : null}
-          <H6>{`${city}, ${state} ${zipcode}`}</H6>
+          {address?.address1 ? <H6>{address?.address1}</H6> : null}
+          {address?.address2 ? <H6>{address?.address2}</H6> : null}
+          <H6>{`${address?.city ?? ''} ${address?.state ?? ''} ${
+            address?.zip ?? ''
+          }`}</H6>
         </Stack>
       </TouchableOpacity>
       <IconRow>
@@ -97,7 +103,7 @@ const ExpandedContactCard = ({ toggleExpanded, data, initials, ...props }) => {
         <TouchableOpacity>
           <MoveIcon style={smallIconStyle} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onRemove}>
           <RemoveIcon style={smallIconStyle} />
         </TouchableOpacity>
       </IconRow>
@@ -109,6 +115,7 @@ ExpandedContactCard.propTypes = {
   toggleExpanded: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   initials: PropTypes.string.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default ExpandedContactCard;

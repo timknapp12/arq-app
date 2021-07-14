@@ -35,8 +35,8 @@ const ContactCalloutMenu = ({
   onEdit,
   onMove,
   onRemove,
-  email,
-  phone,
+  emailAddress,
+  primaryPhone,
   ...props
 }) => {
   initLanguage();
@@ -75,16 +75,16 @@ const ContactCalloutMenu = ({
           <H4Book>{Localized('Remove')}</H4Book>
         </Row>
       </CalloutButton>
-      {email.length > 0 ? (
-        <CalloutButton onPress={() => onEmail(email)}>
+      {emailAddress.length > 0 ? (
+        <CalloutButton onPress={() => onEmail(emailAddress)}>
           <Row>
             <EmailIcon style={iconStyle} />
             <H4Book>{Localized('Email')}</H4Book>
           </Row>
         </CalloutButton>
       ) : null}
-      {phone.length > 0 ? (
-        <CalloutButton onPress={() => onMessage(phone)}>
+      {primaryPhone.length > 0 ? (
+        <CalloutButton onPress={() => onMessage(primaryPhone)}>
           <Row>
             <MessageIcon style={iconStyle} />
             <H4Book>{Localized('Text Message')}</H4Book>
@@ -99,8 +99,8 @@ ContactCalloutMenu.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  email: PropTypes.string,
-  phone: PropTypes.string,
+  emailAddress: PropTypes.string,
+  primaryPhone: PropTypes.string,
 };
 
 export default ContactCalloutMenu;

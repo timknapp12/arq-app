@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import ExpandedContactCard from './ExpandedContactCard';
 import CollapsedContactCard from './CollapsedContactCard';
 import ProspectsContext from '../../../contexts/ProspectsContext';
+import { Localized } from '../../../translations/Localized';
 
 const ContactCard = ({ data, ...props }) => {
   const {
@@ -13,8 +14,9 @@ const ContactCard = ({ data, ...props }) => {
     setIsTouchDisabled,
     isFilterMenuOpen,
     closeFilterMenu,
+    deleteContact,
   } = useContext(ProspectsContext);
-  const { firstName = '', lastName = '' } = data;
+  const { prospectId = '', firstName = '', lastName = '' } = data;
   const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
@@ -66,6 +68,32 @@ const ContactCard = ({ data, ...props }) => {
     closeFilterMenu();
   };
 
+  const onRemove = () => {
+    Alert.alert(
+      `${Localized('Remove')} "${firstName} ${lastName}"?`,
+      Localized('Are you sure you want to remove this person?'),
+      [
+        {
+          text: Localized('Cancel'),
+          onPress: () => {
+            setIsCalloutOpenFromParent(false);
+          },
+          style: 'cancel',
+        },
+        {
+          text: Localized('Yes'),
+          onPress: () => {
+            deleteContact({
+              variables: { prospectId },
+              onCompleted: () => setIsCalloutOpenFromParent(false),
+            });
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+
   if (isExpanded) {
     return (
       <ExpandedContactCard
@@ -73,6 +101,7 @@ const ContactCard = ({ data, ...props }) => {
         toggleExpanded={toggleExpanded}
         data={data}
         initials={initials}
+        onRemove={onRemove}
       />
     );
   }
@@ -85,6 +114,7 @@ const ContactCard = ({ data, ...props }) => {
       isCalloutOpen={isCalloutOpen}
       onCallout={onCallout}
       isFilterMenuOpen={isFilterMenuOpen}
+      onRemove={onRemove}
     />
   );
 };
