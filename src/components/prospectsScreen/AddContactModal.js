@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import * as Contacts from 'expo-contacts';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -31,6 +32,7 @@ import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from '../mainMenu/ProfileImage';
+import DeviceContactsModal from './DeviceContactsModal';
 // source for files for different languages https://stefangabos.github.io/world_countries/
 import enCountries from '../../translations/countries/en-countries.json';
 import deCountries from '../../translations/countries/de-countries.json';
@@ -95,6 +97,10 @@ const AddContactModal = ({
 
   const [loading, setLoading] = useState(false);
 
+  const [deviceContacts, setDeviceContacts] = useState([]);
+  const [isDeviceContactsModalOpen, setIsDeviceContactsModalOpen] =
+    useState(false);
+
   const {
     prospectId,
     thumbnailUrl,
@@ -106,6 +112,28 @@ const AddContactModal = ({
     address,
     notes,
   } = contactInfo;
+
+  const getDeviceContacts = async () => {
+    const { status } = await Contacts.requestPermissionsAsync();
+    if (status === 'granted') {
+      const { data } = await Contacts.getContactsAsync({
+        fields: [
+          Contacts.Fields.Image,
+          Contacts.Fields.FirstName,
+          Contacts.Fields.LastName,
+          Contacts.Fields.Nickname,
+          Contacts.Fields.Emails,
+          Contacts.Fields.PhoneNumbers,
+          Contacts.Fields.Addresses,
+        ],
+      });
+
+      if (data.length > 0) {
+        setDeviceContacts(data);
+        setIsDeviceContactsModalOpen(true);
+      }
+    }
+  };
 
   const validateFirstName = () => {
     if (!firstName) {
@@ -240,7 +268,7 @@ const AddContactModal = ({
                         )}
                       </TouchableOpacity>
                     ) : newContact ? (
-                      <TouchableOpacity>
+                      <TouchableOpacity onPress={getDeviceContacts}>
                         <H4Heavy>{Localized('import').toUpperCase()}</H4Heavy>
                       </TouchableOpacity>
                     ) : (
@@ -458,6 +486,13 @@ const AddContactModal = ({
           </KeyboardAvoidingView>
         </ScreenContainer>
       </TouchableWithoutFeedback>
+      {isDeviceContactsModalOpen && (
+        <DeviceContactsModal
+          data={deviceContacts}
+          visible={isDeviceContactsModalOpen}
+          onClose={() => setIsDeviceContactsModalOpen(false)}
+        />
+      )}
     </Modal>
   );
 };
