@@ -166,6 +166,7 @@ export const ADD_UPDATE_FOLDER = gql`
     $teamAccessCode: String!
     $changedBy: String!
     $displayOrder: Int!
+    $folderType: FolderTypeEnum!
   ) {
     addUpdateFolder(
       input: {
@@ -179,6 +180,7 @@ export const ADD_UPDATE_FOLDER = gql`
         teamAccessCode: $teamAccessCode
         changedBy: $changedBy
         displayOrder: $displayOrder
+        folderType: $folderType
       }
     ) {
       folderName
@@ -207,7 +209,7 @@ export const CREATE_TEAM = gql`
 `;
 
 export const ADD_UPDATE_ASSET = gql`
-  mutation AddUpdateLinks(
+  mutation AddUpdateLink(
     $folderId: Int!
     $linkId: Int!
     $linkTitle: String!
@@ -218,8 +220,11 @@ export const ADD_UPDATE_ASSET = gql`
     $comments: String
     $displayOrder: Int! # $fileName: String!
     $fileName: String!
+    $imageUrl: String
+    $dateStart: DateTime
+    $dateEnd: DateTime
   ) {
-    addUpdateLinks(
+    addUpdateLink(
       input: {
         folderId: $folderId
         linkId: $linkId
@@ -231,6 +236,9 @@ export const ADD_UPDATE_ASSET = gql`
         comments: $comments
         displayOrder: $displayOrder
         fileName: $fileName
+        imageUrl: $imageUrl
+        dateStart: $dateStart
+        dateEnd: $dateEnd
       }
     ) {
       linkTitle
@@ -245,8 +253,8 @@ export const DELETE_FOLDER = gql`
 `;
 
 export const DELETE_ASSET = gql`
-  mutation DeleteLinks($linkId: Int!) {
-    deleteLinks(linkId: $linkId)
+  mutation DeleteLink($linkId: Int!) {
+    deleteLink(linkId: $linkId)
   }
 `;
 

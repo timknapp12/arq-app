@@ -137,6 +137,9 @@ const UploadAssetModal = ({
     comments: '',
     displayOrder: displayOrder,
     fileName: '',
+    imageUrl: '',
+    dateStart: new Date().toISOString(),
+    dateEnd: new Date().toISOString(),
   };
 
   const [addUpdateAsset] = useMutation(ADD_UPDATE_ASSET, {
