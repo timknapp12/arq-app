@@ -42,7 +42,7 @@ import itCountries from '../../translations/countries/it-countries.json';
 import usStates from '../../translations/countries/us-states.json';
 
 const HeaderButtonContainer = styled.View`
-  width: 60px;
+  width: 100px;
 `;
 const { width } = Dimensions.get('window');
 const nameInputWidth = `${width - 150}px`;
@@ -58,6 +58,7 @@ const NameContainer = styled.View`
 const AddContactModal = ({
   isAddContactModalOpen,
   setIsAddContactModalOpen,
+  newContact,
   data = {
     prospectId: '',
     thumbnailUrl: '',
@@ -85,6 +86,7 @@ const AddContactModal = ({
   const [contactInfo, setContactInfo] = useState(initialState);
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
+
   const handleChange = (field, text) => {
     setContactInfo({ ...contactInfo, [field]: text });
   };
@@ -224,7 +226,7 @@ const AddContactModal = ({
                     </TouchableOpacity>
                   </HeaderButtonContainer>
                   <H3>{Localized('My Info').toUpperCase()}</H3>
-                  <HeaderButtonContainer>
+                  <HeaderButtonContainer style={{ alignItems: 'flex-end' }}>
                     {isSaveButtonVisisble ? (
                       <TouchableOpacity
                         testID="my-info-save-button"
@@ -234,8 +236,12 @@ const AddContactModal = ({
                             color={theme.disabledBackgroundColor}
                           />
                         ) : (
-                          <H4Heavy>{Localized('SAVE')}</H4Heavy>
+                          <H4Heavy>{Localized('save').toUpperCase()}</H4Heavy>
                         )}
+                      </TouchableOpacity>
+                    ) : newContact ? (
+                      <TouchableOpacity>
+                        <H4Heavy>{Localized('import').toUpperCase()}</H4Heavy>
                       </TouchableOpacity>
                     ) : (
                       <View />
@@ -459,6 +465,7 @@ const AddContactModal = ({
 AddContactModal.propTypes = {
   isAddContactModalOpen: PropTypes.bool.isRequired,
   setIsAddContactModalOpen: PropTypes.func.isRequired,
+  newContact: PropTypes.bool,
   data: PropTypes.object,
 };
 

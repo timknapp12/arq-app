@@ -72,7 +72,7 @@
   "Country": "es Country",
   "Sorry there was an error! Please try again later": "es Sorry there was an error! Please try again later",
   "Lead Capture": "es Lead Capture",
-  "SAVE": "es SAVE",
+  "save": "es save",
   "CANCEL": "es CANCEL",
   "ADD": "es ADD",
   "Social Display": "es Social Display",
@@ -230,5 +230,6 @@
   "Sorry that team name has already been used - Please try another name": "es Sorry that team name has already been used - Please try another name",
   "Add a file from your device": "es Add a file from your device",
   "Enter a url": "es Enter a url",
-  "Are you sure you want to remove this person?": "es Are you sure you want to remove this person?"
+  "Are you sure you want to remove this person?": "es Are you sure you want to remove this person?",
+  "import": "es import"
 }

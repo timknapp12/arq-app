@@ -321,7 +321,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                             color={theme.disabledBackgroundColor}
                           />
                         ) : (
-                          <H4Heavy>{Localized('SAVE')}</H4Heavy>
+                          <H4Heavy>{Localized('save').toUpperCase()}</H4Heavy>
                         )}
                       </TouchableOpacity>
                     ) : (

@@ -196,6 +196,7 @@ const ProspectsScreen = ({ navigation }) => {
         <AddContactModal
           isAddContactModalOpen={isAddContactModalOpen}
           setIsAddContactModalOpen={setIsAddContactModalOpen}
+          newContact
         />
       )}
     </ProspectsContext.Provider>

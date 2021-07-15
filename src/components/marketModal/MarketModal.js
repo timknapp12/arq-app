@@ -83,7 +83,7 @@ const MarketModal = ({
                 style={{ marginStart: 16 }}
                 testID="save-button-in-market-modal"
                 onPress={closeModal}>
-                <H5Heavy>{Localized('SAVE')}</H5Heavy>
+                <H5Heavy>{Localized('save').toUpperCase()}</H5Heavy>
               </TouchableOpacity>
             </Flexbox>
           </View>

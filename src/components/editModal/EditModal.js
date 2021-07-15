@@ -55,7 +55,7 @@ const EditModal = ({
               style={{ marginStart: 16 }}
               disabled={saveButtonDisabled}
               onPress={onSave}>
-              <H5Heavy>{Localized('SAVE')}</H5Heavy>
+              <H5Heavy>{Localized('save').toUpperCase()}</H5Heavy>
             </SaveButton>
           </Flexbox>
         </Inner>
