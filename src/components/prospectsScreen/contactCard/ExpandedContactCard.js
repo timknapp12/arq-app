@@ -30,7 +30,8 @@ const ExpandedContactCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
-  const { onEmail, onMessage } = useContext(ProspectsContext);
+  const { onEmail, onMessage, isCalloutOpenFromParent } =
+    useContext(ProspectsContext);
 
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
@@ -57,7 +58,9 @@ const ExpandedContactCard = ({
   return (
     <>
       <CardContainer {...props}>
-        <TouchableOpacity onPress={toggleExpanded}>
+        <TouchableOpacity
+          activeOpacity={isCalloutOpenFromParent ? 1 : 0.2}
+          onPress={toggleExpanded}>
           <Flexbox align="flex-end">
             <MaterialCommunityIcon
               name="chevron-up"

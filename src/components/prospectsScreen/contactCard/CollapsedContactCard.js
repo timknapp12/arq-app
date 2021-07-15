@@ -7,6 +7,7 @@ import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import account from '../../../../assets/icons/ic_account.png';
 import AddContactModal from '../AddContactModal';
 import AppContext from '../../../contexts/AppContext';
+import ProspectsContext from '../../../contexts/ProspectsContext';
 import {
   CardContainer,
   Row,
@@ -28,7 +29,7 @@ const CollapsedContactCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
-
+  const { isCalloutOpenFromParent } = useContext(ProspectsContext);
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   const { thumbnailUrl, firstName, lastName, primaryPhone, emailAddress } =
@@ -38,7 +39,7 @@ const CollapsedContactCard = ({
       <CardContainer {...props}>
         <TouchableOpacity
           /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
-          activeOpacity={isFilterMenuOpen ? 1 : 0.2}
+          activeOpacity={isFilterMenuOpen || isCalloutOpenFromParent ? 1 : 0.2}
           onPress={toggleExpanded}>
           <Row>
             {thumbnailUrl ? (
