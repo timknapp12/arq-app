@@ -98,8 +98,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     address,
   } = myInfo;
 
-  const { address1, address2, city, state, zip, countryCode } = address;
-
   const validateFirstName = () => {
     if (!firstName) {
       setIsFirstNameError(true);
@@ -150,7 +148,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
   const validateAddress1 = () => {
-    if (!address1) {
+    if (!address?.address1) {
       setIsAddress1Error(true);
       return false;
     } else {
@@ -159,7 +157,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
   const validateCity = () => {
-    if (!city) {
+    if (!address?.city) {
       setIsCityError(true);
       return false;
     } else {
@@ -168,7 +166,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
   const validateState = () => {
-    if (!state) {
+    if (!address?.state) {
       setIsStateError(true);
       return false;
     } else {
@@ -177,7 +175,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
   const validateZipcode = () => {
-    if (!zip) {
+    if (!address?.zip) {
       setIsZipcodeError(true);
       return false;
     } else {
@@ -186,7 +184,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
   const validateCountry = () => {
-    if (!countryCode) {
+    if (!address?.countryCode) {
       setIsCountryError(true);
       return false;
     } else {
@@ -228,19 +226,19 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     displayName: displayName,
     emailAddress: emailAddress,
     primaryPhoneNumber: primaryPhoneNumber,
-    address1: address1,
-    address2: address2,
-    city: city,
-    state: state,
-    zip: zip,
-    countryCode: countryCode,
+    address1: address?.address1,
+    address2: address?.address2,
+    city: address?.city,
+    state: address?.state,
+    zip: address?.zip,
+    countryCode: address?.countryCode,
   };
 
   const onSubmit = () => {
-    setLoading(true);
     if (!validateAllFields()) {
       return false;
     } else {
+      setLoading(true);
       // only save image if it has been changed
       isNewImageSelected
         ? saveProfileImageToFirebase(
@@ -277,16 +275,16 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
-    if (countryCode === 'us') {
-      usStates.find((item) => item.value === state)
-        ? handleChange('address', { ...address, state })
+    if (address?.countryCode === 'us') {
+      usStates.find((item) => item.value === address?.state)
+        ? handleChange('address', { ...address, state: address?.state })
         : handleChange('address', { ...address, state: null });
     }
     return () => {
       setIsNewImageSelected(false);
       setLoading(false);
     };
-  }, [countryCode]);
+  }, [address?.countryCode]);
   return (
     <Modal
       animationType="slide"
@@ -459,7 +457,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   <AnimatedInput
                     testID="address-1-input"
                     label={Localized('Address 1')}
-                    value={address1}
+                    value={address?.address1}
                     onChangeText={(text) => {
                       handleChange('address', { ...address, address1: text });
                       setIsSaveButtonVisisble(true);
@@ -477,7 +475,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   <AnimatedInput
                     testID="address-2-input"
                     label={Localized('Address 2')}
-                    value={address2}
+                    value={address?.address2}
                     onChangeText={(text) => {
                       handleChange('address', { ...address, address2: text });
                       setIsSaveButtonVisisble(true);
@@ -488,7 +486,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   <AnimatedInput
                     testID="city-input"
                     label={Localized('City')}
-                    value={city}
+                    value={address?.city}
                     onChangeText={(text) => {
                       handleChange('address', { ...address, city: text });
                       setIsSaveButtonVisisble(true);
@@ -509,12 +507,12 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       paddingTop: 4,
                       marginBottom: 4,
                     }}>
-                    {countryCode === 'us' ? (
+                    {address?.countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker
                           items={usStates}
                           label={Localized('State')}
-                          value={state}
+                          value={address?.state}
                           placeholder={{
                             label: Localized('State'),
                             value: null,
@@ -536,7 +534,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         <AnimatedInput
                           testID="state-input"
                           label={Localized('State')}
-                          value={state}
+                          value={address?.state}
                           onChangeText={(text) => {
                             handleChange('address', {
                               ...address,
@@ -555,7 +553,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       <AnimatedInput
                         testID="zip-code-input"
                         label={Localized('ZIP Code')}
-                        value={zip}
+                        value={address?.zip}
                         onChangeText={(text) => {
                           handleChange('address', { ...address, zip: text });
                           setIsSaveButtonVisisble(true);
@@ -584,7 +582,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     <Picker
                       items={countryList}
                       label={Localized('Country')}
-                      value={countryCode}
+                      value={address?.countryCode}
                       placeholder={{ label: Localized('Country'), value: null }}
                       onValueChange={(value) => {
                         handleChange('address', {

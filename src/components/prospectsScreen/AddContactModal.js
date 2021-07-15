@@ -147,11 +147,10 @@ const AddContactModal = ({
   };
 
   const onSubmit = () => {
-    setLoading(true);
     if (!validateAllFields()) {
-      setLoading(false);
       return false;
     } else {
+      setLoading(true);
       // only save image if it has been changed
       isNewImageSelected
         ? saveProfileImageToFirebase(
