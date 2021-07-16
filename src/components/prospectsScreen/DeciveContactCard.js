@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { H2Book, H4Book, H6 } from '../common';
 import {
-  CardContainer,
+  TouchableCardContainer,
   Row,
   CollapsedImage,
   CollapsedImageDefault,
@@ -10,13 +10,12 @@ import {
 } from './contactCard/card.styles';
 
 const DeciveContactCard = ({ contact }) => {
-  //   console.log(`contact`, contact);
   const initials = `${contact?.firstName?.charAt(0) ?? ''}${
     contact?.lastName?.charAt(0) ?? ''
   }`;
 
   return (
-    <CardContainer>
+    <TouchableCardContainer>
       <Row>
         {contact?.image?.uri ? (
           <CollapsedImage source={{ uri: contact?.image?.uri }} />
@@ -35,7 +34,7 @@ const DeciveContactCard = ({ contact }) => {
           {contact?.emails ? <H6>{contact?.emails[0]?.email ?? ''}</H6> : null}
         </Stack>
       </Row>
-    </CardContainer>
+    </TouchableCardContainer>
   );
 };
 

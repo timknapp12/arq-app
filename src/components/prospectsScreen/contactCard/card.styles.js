@@ -26,6 +26,15 @@ export const CardContainer = styled.View`
   height: auto;
 `;
 
+export const TouchableCardContainer = styled.TouchableOpacity`
+  width: 100%;
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  height: auto;
+`;
+
 export const Row = styled.View`
   flex-direction: row;
 `;

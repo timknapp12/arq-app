@@ -118,9 +118,9 @@ const AddContactModal = ({
     if (status === 'granted') {
       const { data } = await Contacts.getContactsAsync({
         fields: [
-          Contacts.Fields.Image,
           Contacts.Fields.FirstName,
           Contacts.Fields.LastName,
+          Contacts.Fields.Image,
           Contacts.Fields.Nickname,
           Contacts.Fields.Emails,
           Contacts.Fields.PhoneNumbers,
@@ -253,7 +253,7 @@ const AddContactModal = ({
                       <CloseIcon />
                     </TouchableOpacity>
                   </HeaderButtonContainer>
-                  <H3>{Localized('My Info').toUpperCase()}</H3>
+                  <H3>{Localized('Add Prospect').toUpperCase()}</H3>
                   <HeaderButtonContainer style={{ alignItems: 'flex-end' }}>
                     {isSaveButtonVisisble ? (
                       <TouchableOpacity
