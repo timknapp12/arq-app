@@ -167,6 +167,8 @@ export const ADD_UPDATE_FOLDER = gql`
     $changedBy: String!
     $displayOrder: Int!
     $folderType: FolderTypeEnum!
+    $fileName: String!
+    $comments: String!
   ) {
     addUpdateFolder(
       input: {
@@ -181,6 +183,8 @@ export const ADD_UPDATE_FOLDER = gql`
         changedBy: $changedBy
         displayOrder: $displayOrder
         folderType: $folderType
+        fileName: $fileName
+        comments: $comments
       }
     ) {
       folderName

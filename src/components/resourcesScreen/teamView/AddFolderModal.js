@@ -110,6 +110,8 @@ const AddFolderModal = ({
     changedBy: `${userProfile.firstName} ${userProfile.lastName}`,
     displayOrder,
     folderType: 'TEAM',
+    fileName: '',
+    comments: '',
   };
   const [addUpdateFolder] = useMutation(ADD_UPDATE_FOLDER, {
     variables: variables,
