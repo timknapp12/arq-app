@@ -26,7 +26,7 @@ const ProspectsStack = () => {
       }}>
       <Prospects.Screen
         options={() => ({
-          title: Localized('Contacts').toUpperCase(),
+          title: Localized('Prospects').toUpperCase(),
         })}
         name="Prospects Screen"
         component={ProspectsScreen}
@@ -34,8 +34,10 @@ const ProspectsStack = () => {
       <Prospects.Screen
         name="Prospects Search Screen"
         component={ProspectsSearchScreen}
-        options={({ route }) => ({
-          title: `${Localized('SEARCH')} ${route.params.title}`,
+        options={() => ({
+          title: `${Localized('Search').toUpperCase()} ${Localized(
+            'Prospects',
+          ).toUpperCase()}`,
         })}
       />
     </Prospects.Navigator>

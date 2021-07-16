@@ -60,7 +60,7 @@ const ResourcesStack = () => {
         name="Team Search Screen"
         component={TeamSearchScreen}
         options={({ route }) => ({
-          title: `${Localized('SEARCH')} ${route.params.title}`,
+          title: `${Localized('Search').toUpperCase()} ${route.params.title}`,
         })}
       />
     </Resources.Navigator>

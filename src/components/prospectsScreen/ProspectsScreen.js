@@ -11,15 +11,7 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import {
-  ScreenContainer,
-  H4,
-  TertiaryButton,
-  TopButtonBar,
-  Flexbox,
-  AddButton,
-  ButtonText,
-} from '../common';
+import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../common';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
 import FilterMenu from './FilterMenu';
@@ -27,37 +19,16 @@ import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
 import ProspectsView from './ProspectsView';
 import AddContactModal from './AddContactModal';
-import { initLanguage, Localized } from '../../translations/Localized';
 import { GET_CONTACTS } from '../../graphql/queries';
 import { ADD_UPDATE_CONTACT, DELETE_CONTACT } from '../../graphql/mutations';
 
 const ProspectsScreen = ({ navigation }) => {
-  initLanguage();
   const { theme, associateId } = useContext(AppContext);
   const isFocused = useIsFocused();
 
-  const initialView = {
-    name: Localized('PROSPECTS'),
-    testID: 'prospects_button',
-  };
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
-  const [view, setView] = useState(initialView);
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
-
-  const tertiaryButtonText = [
-    { name: Localized('PROSPECTS'), testID: 'prospects_button' },
-    { name: Localized('PARTNERS'), testID: 'partners_button' },
-  ];
-
-  const navigate = (item) => {
-    // close callout
-    setView(item);
-    Analytics.logEvent(`${item.testID}_tapped`, {
-      screen: 'ProspectsScreen',
-      purpose: `See details for ${item.name}`,
-    });
-  };
 
   useEffect(() => {
     if (isFocused) {
@@ -120,7 +91,6 @@ const ProspectsScreen = ({ navigation }) => {
         setIsTouchDisabled,
         isFilterMenuOpen,
         closeFilterMenu,
-        view,
         onEmail,
         onMessage,
         addUpdateContact,
@@ -137,23 +107,8 @@ const ProspectsScreen = ({ navigation }) => {
             paddingTop: 0,
             paddingBottom: 0,
           }}>
-          <TopButtonBar>
-            {tertiaryButtonText.map((item) => (
-              <TertiaryButton
-                style={{ marginRight: 15 }}
-                onPress={() => navigate(item)}
-                selected={view.name === item.name}
-                key={item.name}>
-                {item.name}
-              </TertiaryButton>
-            ))}
-          </TopButtonBar>
           <FilterSearchBar
-            onPress={() =>
-              navigation.navigate('Prospects Search Screen', {
-                title: view.name,
-              })
-            }>
+            onPress={() => navigation.navigate('Prospects Search Screen')}>
             <TouchableOpacity
               onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}>
               <Flexbox direction="row" width="auto">
@@ -178,12 +133,7 @@ const ProspectsScreen = ({ navigation }) => {
               color={theme.disabledBackgroundColor}
             />
           ) : (
-            <>
-              {view.name === Localized('PROSPECTS') && (
-                <ProspectsView contacts={data?.prospects} />
-              )}
-              {view.name === Localized('PARTNERS') && <H4>PARTNERS</H4>}
-            </>
+            <ProspectsView contacts={data?.prospects} />
           )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}

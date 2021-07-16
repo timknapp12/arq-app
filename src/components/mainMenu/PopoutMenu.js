@@ -63,7 +63,7 @@ const PopoutMenu = ({
             fadeOut();
             navigation.navigate('Prospects Stack');
           }}>
-          <H4Book>{Localized('Contacts')}</H4Book>
+          <H4Book>{Localized('Prospects')}</H4Book>
         </Touchable>
       </TouchableContainer>
 

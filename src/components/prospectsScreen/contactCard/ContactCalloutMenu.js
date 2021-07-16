@@ -5,7 +5,6 @@ import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { H4Book } from '../../common';
 import EditIcon from '../../../../assets/icons/edit-icon.svg';
-import MoveIcon from '../../../../assets/icons/move-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
@@ -33,7 +32,6 @@ const Row = styled.View`
 
 const ContactCalloutMenu = ({
   onEdit,
-  onMove,
   onRemove,
   emailAddress,
   primaryPhone,
@@ -41,7 +39,7 @@ const ContactCalloutMenu = ({
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-  const { view, onEmail, onMessage } = useContext(ProspectsContext);
+  const { onEmail, onMessage } = useContext(ProspectsContext);
 
   const iconStyle = {
     marginEnd: 8,
@@ -50,23 +48,12 @@ const ContactCalloutMenu = ({
     color: theme.primaryTextColor,
   };
 
-  const moveText =
-    view.name === Localized('PROSPECTS')
-      ? Localized('Move to Partners')
-      : Localized('Move to Prospects');
-
   return (
     <Container {...props}>
       <CalloutButton onPress={onEdit}>
         <Row>
           <EditIcon style={iconStyle} />
           <H4Book>{Localized('Edit')}</H4Book>
-        </Row>
-      </CalloutButton>
-      <CalloutButton onPress={onMove}>
-        <Row>
-          <MoveIcon style={iconStyle} />
-          <H4Book>{moveText ? moveText : ''}</H4Book>
         </Row>
       </CalloutButton>
       <CalloutButton onPress={onRemove}>
@@ -97,7 +84,6 @@ const ContactCalloutMenu = ({
 
 ContactCalloutMenu.propTypes = {
   onEdit: PropTypes.func.isRequired,
-  onMove: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   emailAddress: PropTypes.string,
   primaryPhone: PropTypes.string,

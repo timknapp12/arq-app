@@ -6,7 +6,6 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
 import EditIcon from '../../../../assets/icons/edit-icon.svg';
-import MoveIcon from '../../../../assets/icons/move-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import account from '../../../../assets/icons/ic_account.png';
 import AppContext from '../../../contexts/AppContext';
@@ -104,13 +103,12 @@ const ExpandedContactCard = ({
             }`}</H6>
           </Stack>
         </TouchableOpacity>
+
         <IconRow>
           <TouchableOpacity onPress={() => setIsAddContactModalOpen(true)}>
             <EditIcon style={smallIconStyle} />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <MoveIcon style={smallIconStyle} />
-          </TouchableOpacity>
+
           <TouchableOpacity onPress={onRemove}>
             <RemoveIcon style={smallIconStyle} />
           </TouchableOpacity>
