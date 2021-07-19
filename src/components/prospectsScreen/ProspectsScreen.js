@@ -2,13 +2,11 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
-import { useQuery, useMutation } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Animated,
-  Platform,
-  Linking,
   ActivityIndicator,
 } from 'react-native';
 import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../common';
@@ -19,15 +17,19 @@ import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
 import ProspectsView from './ProspectsView';
 import AddContactModal from './AddContactModal';
-import { GET_PROSPECTS } from '../../graphql/queries';
-import { ADD_UPDATE_CONTACT, DELETE_CONTACT } from '../../graphql/mutations';
+import {
+  GET_PROSPECTS_BY_FIRSTNAME,
+  GET_PROSPECTS_BY_LASTNAME,
+} from '../../graphql/queries';
 
 const ProspectsScreen = ({ navigation }) => {
   const { theme, associateId } = useContext(AppContext);
+  const { sortBy, setSortBy } = useContext(ProspectsContext);
   const isFocused = useIsFocused();
 
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
+
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   useEffect(() => {
@@ -58,44 +60,35 @@ const ProspectsScreen = ({ navigation }) => {
     }).start(() => setIsFilterMenuOpen(false));
   };
 
-  const { loading, data } = useQuery(GET_PROSPECTS, {
+  const [getProspectsByLastName, { loading, data }] = useLazyQuery(
+    GET_PROSPECTS_BY_LASTNAME,
+    {
+      variables: { associateId },
+    },
+  );
+
+  const [
+    getProspectsByFirstName,
+    { loading: loadingByFirstName, data: dataByFistName },
+  ] = useLazyQuery(GET_PROSPECTS_BY_FIRSTNAME, {
     variables: { associateId },
   });
-  // console.log(`data in contacts:`, data);
 
-  const [addUpdateContact] = useMutation(ADD_UPDATE_CONTACT, {
-    refetchQueries: [{ query: GET_PROSPECTS, variables: { associateId } }],
-    onError: (error) => console.log(`error in update contact:`, error),
-  });
+  useEffect(() => {
+    if (sortBy === 'firstName') {
+      getProspectsByFirstName();
+    } else {
+      getProspectsByLastName();
+    }
+  }, [sortBy]);
 
-  const [deleteContact] = useMutation(DELETE_CONTACT, {
-    refetchQueries: [{ query: GET_PROSPECTS, variables: { associateId } }],
-    onError: (error) => console.log(`error`, error),
-  });
-
-  const subject = 'This is a test subject';
-  const message = 'this is test body and should be updated';
-  const separator = Platform.OS === 'ios' ? '&' : '?';
-
-  const onEmail = (email) =>
-    Linking.openURL(`mailto:${email}?subject=${subject}&body=${message}`);
-  const onMessage = (phone) =>
-    Linking.openURL(`sms:${phone}${separator}body=${message}`);
+  const prospects =
+    sortBy === 'firstName'
+      ? dataByFistName?.prospects ?? []
+      : data?.prospects ?? [];
 
   return (
-    <ProspectsContext.Provider
-      value={{
-        isCalloutOpenFromParent,
-        setIsCalloutOpenFromParent,
-        isTouchDisabled,
-        setIsTouchDisabled,
-        isFilterMenuOpen,
-        closeFilterMenu,
-        onEmail,
-        onMessage,
-        addUpdateContact,
-        deleteContact,
-      }}>
+    <>
       <TouchableWithoutFeedback
         onPress={() => {
           closeFilterMenu();
@@ -108,7 +101,11 @@ const ProspectsScreen = ({ navigation }) => {
             paddingBottom: 0,
           }}>
           <FilterSearchBar
-            onPress={() => navigation.navigate('Prospects Search Screen')}>
+            onPress={() =>
+              navigation.navigate('Prospects Search Screen', {
+                prospects: prospects,
+              })
+            }>
             <TouchableOpacity
               onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}>
               <Flexbox direction="row" width="auto">
@@ -125,15 +122,27 @@ const ProspectsScreen = ({ navigation }) => {
             </TouchableOpacity>
           </FilterSearchBar>
           <Flexbox>
-            <FilterMenu style={{ left: fadeAnim }} />
+            <FilterMenu
+              onClose={() => setIsFilterMenuOpen(false)}
+              setSortBy={setSortBy}
+              style={{ left: fadeAnim }}
+            />
           </Flexbox>
-          {loading ? (
+          {loading || loadingByFirstName ? (
             <ActivityIndicator
               size="large"
               color={theme.disabledBackgroundColor}
             />
           ) : (
-            <ProspectsView contacts={data?.prospects} />
+            <ProspectsView
+              prospects={prospects}
+              isCalloutOpenFromParent={isCalloutOpenFromParent}
+              setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+              isTouchDisabled={isTouchDisabled}
+              setIsTouchDisabled={setIsTouchDisabled}
+              isFilterMenuOpen={isFilterMenuOpen}
+              closeFilterMenu={closeFilterMenu}
+            />
           )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
@@ -145,11 +154,14 @@ const ProspectsScreen = ({ navigation }) => {
       {isAddContactModalOpen && (
         <AddContactModal
           isAddContactModalOpen={isAddContactModalOpen}
-          setIsAddContactModalOpen={setIsAddContactModalOpen}
+          onClose={() => {
+            setIsAddContactModalOpen(false);
+            setIsCalloutOpenFromParent(false);
+          }}
           newContact
         />
       )}
-    </ProspectsContext.Provider>
+    </>
   );
 };
 

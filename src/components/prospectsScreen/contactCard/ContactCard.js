@@ -6,16 +6,17 @@ import CollapsedContactCard from './CollapsedContactCard';
 import ProspectsContext from '../../../contexts/ProspectsContext';
 import { Localized } from '../../../translations/Localized';
 
-const ContactCard = ({ data, ...props }) => {
-  const {
-    isCalloutOpenFromParent,
-    setIsCalloutOpenFromParent,
-    isTouchDisabled,
-    setIsTouchDisabled,
-    isFilterMenuOpen,
-    closeFilterMenu,
-    deleteContact,
-  } = useContext(ProspectsContext);
+const ContactCard = ({
+  data,
+  isCalloutOpenFromParent,
+  setIsCalloutOpenFromParent,
+  isTouchDisabled,
+  setIsTouchDisabled,
+  isFilterMenuOpen = false,
+  closeFilterMenu = () => {},
+  ...props
+}) => {
+  const { deleteContact } = useContext(ProspectsContext);
   const { prospectId = '', firstName = '', lastName = '' } = data;
   const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -121,6 +122,12 @@ const ContactCard = ({ data, ...props }) => {
 
 ContactCard.propTypes = {
   data: PropTypes.object,
+  isCalloutOpenFromParent: PropTypes.bool.isRequired,
+  setIsCalloutOpenFromParent: PropTypes.func.isRequired,
+  isTouchDisabled: PropTypes.bool.isRequired,
+  setIsTouchDisabled: PropTypes.func.isRequired,
+  isFilterMenuOpen: PropTypes.bool,
+  closeFilterMenu: PropTypes.func,
 };
 
 export default ContactCard;

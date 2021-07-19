@@ -88,7 +88,10 @@ const CollapsedContactCard = ({
       {isAddContactModalOpen && (
         <AddContactModal
           isAddContactModalOpen={isAddContactModalOpen}
-          setIsAddContactModalOpen={setIsAddContactModalOpen}
+          onClose={() => {
+            onCallout();
+            setIsAddContactModalOpen(false);
+          }}
           data={data}
         />
       )}

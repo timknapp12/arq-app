@@ -117,7 +117,7 @@ const ExpandedContactCard = ({
       {isAddContactModalOpen && (
         <AddContactModal
           isAddContactModalOpen={isAddContactModalOpen}
-          setIsAddContactModalOpen={setIsAddContactModalOpen}
+          onClose={() => setIsAddContactModalOpen(false)}
           data={data}
         />
       )}

@@ -5,7 +5,15 @@ import { MainScrollView, Flexbox, H5 } from '../common';
 import ContactCard from './contactCard/ContactCard';
 import { Localized } from '../../translations/Localized';
 
-const ProspectsView = ({ prospects }) => {
+const ProspectsView = ({
+  prospects,
+  isCalloutOpenFromParent,
+  setIsCalloutOpenFromParent,
+  isTouchDisabled,
+  setIsTouchDisabled,
+  isFilterMenuOpen,
+  closeFilterMenu,
+}) => {
   return (
     <MainScrollView>
       <View
@@ -27,6 +35,12 @@ const ProspectsView = ({ prospects }) => {
             key={item.prospectId}
             style={{ zIndex: -index }}
             data={item}
+            isCalloutOpenFromParent={isCalloutOpenFromParent}
+            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+            isTouchDisabled={isTouchDisabled}
+            setIsTouchDisabled={setIsTouchDisabled}
+            isFilterMenuOpen={isFilterMenuOpen}
+            closeFilterMenu={closeFilterMenu}
           />
         ))}
       </View>
@@ -36,6 +50,12 @@ const ProspectsView = ({ prospects }) => {
 
 ProspectsView.propTypes = {
   prospects: PropTypes.array.isRequired,
+  isCalloutOpenFromParent: PropTypes.bool.isRequired,
+  setIsCalloutOpenFromParent: PropTypes.func.isRequired,
+  isTouchDisabled: PropTypes.bool.isRequired,
+  setIsTouchDisabled: PropTypes.func.isRequired,
+  isFilterMenuOpen: PropTypes.bool.isRequired,
+  closeFilterMenu: PropTypes.func.isRequired,
 };
 
 export default ProspectsView;

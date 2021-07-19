@@ -59,7 +59,7 @@ const NameContainer = styled.View`
 
 const AddContactModal = ({
   isAddContactModalOpen,
-  setIsAddContactModalOpen,
+  onClose,
   newContact,
   data = {
     prospectId: '',
@@ -154,8 +154,7 @@ const AddContactModal = ({
   };
 
   const onCompleted = () => {
-    setIsAddContactModalOpen(false);
-    // refetchProfile();
+    onClose();
   };
 
   const variables = {
@@ -234,7 +233,7 @@ const AddContactModal = ({
       transparent={false}
       visible={isAddContactModalOpen}
       statusBarTranslucent={true}
-      onRequestClose={() => setIsAddContactModalOpen(false)}>
+      onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
@@ -249,7 +248,7 @@ const AddContactModal = ({
                   <HeaderButtonContainer>
                     <TouchableOpacity
                       testID="my-info-close-modal-button"
-                      onPress={() => setIsAddContactModalOpen(false)}>
+                      onPress={onClose}>
                       <CloseIcon />
                     </TouchableOpacity>
                   </HeaderButtonContainer>
@@ -499,7 +498,7 @@ const AddContactModal = ({
 
 AddContactModal.propTypes = {
   isAddContactModalOpen: PropTypes.bool.isRequired,
-  setIsAddContactModalOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   newContact: PropTypes.bool,
   data: PropTypes.object,
 };
