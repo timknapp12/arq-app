@@ -19,7 +19,7 @@ import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
 import ProspectsView from './ProspectsView';
 import AddContactModal from './AddContactModal';
-import { GET_CONTACTS } from '../../graphql/queries';
+import { GET_PROSPECTS } from '../../graphql/queries';
 import { ADD_UPDATE_CONTACT, DELETE_CONTACT } from '../../graphql/mutations';
 
 const ProspectsScreen = ({ navigation }) => {
@@ -58,18 +58,18 @@ const ProspectsScreen = ({ navigation }) => {
     }).start(() => setIsFilterMenuOpen(false));
   };
 
-  const { loading, data } = useQuery(GET_CONTACTS, {
+  const { loading, data } = useQuery(GET_PROSPECTS, {
     variables: { associateId },
   });
   // console.log(`data in contacts:`, data);
 
   const [addUpdateContact] = useMutation(ADD_UPDATE_CONTACT, {
-    refetchQueries: [{ query: GET_CONTACTS, variables: { associateId } }],
+    refetchQueries: [{ query: GET_PROSPECTS, variables: { associateId } }],
     onError: (error) => console.log(`error in update contact:`, error),
   });
 
   const [deleteContact] = useMutation(DELETE_CONTACT, {
-    refetchQueries: [{ query: GET_CONTACTS, variables: { associateId } }],
+    refetchQueries: [{ query: GET_PROSPECTS, variables: { associateId } }],
     onError: (error) => console.log(`error`, error),
   });
 
