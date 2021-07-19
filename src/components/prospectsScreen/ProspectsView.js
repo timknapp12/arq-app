@@ -5,7 +5,7 @@ import { MainScrollView, Flexbox, H5 } from '../common';
 import ContactCard from './contactCard/ContactCard';
 import { Localized } from '../../translations/Localized';
 
-const ProspectsView = ({ contacts }) => {
+const ProspectsView = ({ prospects }) => {
   return (
     <MainScrollView>
       <View
@@ -17,12 +17,12 @@ const ProspectsView = ({ contacts }) => {
         }}
         accessibilityLabel="Team Resources"
         onStartShouldSetResponder={() => true}>
-        {contacts.length < 1 ? (
+        {prospects?.length < 1 ? (
           <Flexbox>
             <H5>{Localized('There are no saved prospects')}</H5>
           </Flexbox>
         ) : null}
-        {contacts.map((item, index) => (
+        {prospects?.map((item, index) => (
           <ContactCard
             key={item.prospectId}
             style={{ zIndex: -index }}
@@ -35,7 +35,7 @@ const ProspectsView = ({ contacts }) => {
 };
 
 ProspectsView.propTypes = {
-  contacts: PropTypes.array.isRequired,
+  prospects: PropTypes.array.isRequired,
 };
 
 export default ProspectsView;

@@ -231,9 +231,37 @@ export const GET_ASSETS = gql`
   }
 `;
 
-export const GET_CONTACTS = gql`
+export const GET_PROSPECTS_BY_FIRSTNAME = gql`
   query Prospects($associateId: Int!) {
-    prospects(where: { associateId: { eq: $associateId } }) {
+    prospects(
+      where: { associateId: { eq: $associateId } }
+      order: { firstName: ASC }
+    ) {
+      prospectId
+      thumbnailUrl
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhone
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
+    }
+  }
+`;
+
+export const GET_PROSPECTS_BY_LASTNAME = gql`
+  query Prospects($associateId: Int!) {
+    prospects(
+      where: { associateId: { eq: $associateId } }
+      order: { lastName: ASC }
+    ) {
       prospectId
       thumbnailUrl
       firstName

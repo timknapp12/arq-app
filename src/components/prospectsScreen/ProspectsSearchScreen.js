@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback, ScrollView } from 'react-native';
-import { ScreenContainer, Flexbox, Input, H4 } from '../common';
+import { ScreenContainer, Flexbox, Input } from '../common';
+import ContactCard from './contactCard/ContactCard';
 
-const ProspectsSearchScreen = () => {
+const ProspectsSearchScreen = ({ route }) => {
+  const { prospects = [] } = route.params;
+
+  console.log(`prospects`, prospects);
+
   const [value, setValue] = useState('Search feature is not quite ready yet');
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
@@ -24,7 +30,7 @@ const ProspectsSearchScreen = () => {
         <Flexbox width="85%">
           <Input
             autoFocus
-            testID="team-search-input"
+            testID="propsect-search-input"
             value={value}
             onChangeText={(text) => setValue(text)}
             returnKeyType="done"
@@ -45,13 +51,23 @@ const ProspectsSearchScreen = () => {
               padding={10}
               onStartShouldSetResponder={() => true}
               height="100%">
-              <H4>Search</H4>
+              {prospects?.map((item, index) => (
+                <ContactCard
+                  key={item.prospectId}
+                  style={{ zIndex: -index }}
+                  data={item}
+                />
+              ))}
             </Flexbox>
           </TouchableWithoutFeedback>
         </ScrollView>
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
+};
+
+ProspectsSearchScreen.propTypes = {
+  route: PropTypes.object.isRequired,
 };
 
 export default ProspectsSearchScreen;
