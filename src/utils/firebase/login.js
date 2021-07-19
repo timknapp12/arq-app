@@ -6,7 +6,6 @@ export const getToken = async () => {
     const user = firebase.auth().currentUser;
     if (user) {
       user.getIdToken(/* forceRefresh */ true).then((idToken) => {
-        console.log(`idToken`, idToken);
         if (idToken) {
           resolve(idToken);
         } else {

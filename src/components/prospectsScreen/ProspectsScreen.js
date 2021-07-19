@@ -101,11 +101,7 @@ const ProspectsScreen = ({ navigation }) => {
             paddingBottom: 0,
           }}>
           <FilterSearchBar
-            onPress={() =>
-              navigation.navigate('Prospects Search Screen', {
-                prospects: prospects,
-              })
-            }>
+            onPress={() => navigation.navigate('Prospects Search Screen')}>
             <TouchableOpacity
               onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}>
               <Flexbox direction="row" width="auto">
