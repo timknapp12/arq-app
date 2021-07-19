@@ -38,7 +38,7 @@ const ProspectsSearchScreen = () => {
           paddingBottom: 0,
           height: '100%',
         }}>
-        <Flexbox width="85%">
+        <Flexbox width="85%" style={{ marginTop: 8 }}>
           <Input
             autoFocus
             testID="propsect-search-input"
