@@ -9,13 +9,35 @@ import {
   Stack,
 } from './contactCard/card.styles';
 
-const DeciveContactCard = ({ contact }) => {
+const DeciveContactCard = ({ contact, setContactInfo, onClose, ...props }) => {
   const initials = `${contact?.firstName?.charAt(0) ?? ''}${
     contact?.lastName?.charAt(0) ?? ''
   }`;
 
+  const importData = async () => {
+    await setContactInfo({
+      prospectId: '',
+      thumbnailUrl: contact?.image?.uri ?? '',
+      firstName: contact?.firstName ?? '',
+      lastName: contact?.lastName ?? '',
+      displayName: contact?.nickname ?? '',
+      emailAddress: contact?.emails[0]?.email ?? '',
+      primaryPhone: contact?.phoneNumbers[0]?.number ?? '',
+      notes: '',
+      address: {
+        address1: contact?.addresses[0]?.street ?? '',
+        address2: '',
+        city: contact?.addresses[0]?.city ?? '',
+        state: contact?.addresses[0]?.region ?? '',
+        zip: contact?.addresses[0]?.postalCode ?? '',
+        countryCode: contact?.addresses[0]?.isoCountryCode ?? '',
+      },
+    });
+    onClose();
+  };
+
   return (
-    <TouchableCardContainer>
+    <TouchableCardContainer onPress={importData} {...props}>
       <Row>
         {contact?.image?.uri ? (
           <CollapsedImage source={{ uri: contact?.image?.uri }} />
@@ -40,6 +62,8 @@ const DeciveContactCard = ({ contact }) => {
 
 DeciveContactCard.propTypes = {
   contact: PropTypes.object.isRequired,
+  setContactInfo: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default DeciveContactCard;

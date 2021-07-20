@@ -33,6 +33,7 @@ const DeviceContactsModal = ({
   data = [{ firstName: '', lastName: '' }],
   visible,
   onClose,
+  setContactInfo,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -44,7 +45,13 @@ const DeviceContactsModal = ({
     return bothNames?.includes(searchTerm.toLocaleLowerCase());
   });
 
-  const renderItem = ({ item }) => <DeciveContactCard contact={item} />;
+  const renderItem = ({ item }) => (
+    <DeciveContactCard
+      contact={item}
+      setContactInfo={setContactInfo}
+      onClose={onClose}
+    />
+  );
   return (
     <Modal
       animationType="fade"
@@ -92,6 +99,7 @@ DeviceContactsModal.propTypes = {
   data: PropTypes.array,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  setContactInfo: PropTypes.func.isRequired,
 };
 
 export default DeviceContactsModal;

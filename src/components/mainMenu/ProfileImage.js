@@ -31,7 +31,7 @@ const DefaultFiller = styled.View`
 
 const Initials = styled.Text`
   font-family: 'Avenir-Heavy';
-  font-size: 48px;
+  font-size: 42px;
   color: ${(props) => props.theme.primaryTextColor};
 `;
 

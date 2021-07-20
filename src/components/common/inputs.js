@@ -152,6 +152,12 @@ export const AnimatedInput = ({
     }
   };
 
+  useEffect(() => {
+    if (value) {
+      expand();
+    }
+  }, [value]);
+
   const initialValue = value ? 24 : 3;
   const fadeAnim = useRef(new Animated.Value(initialValue)).current;
 

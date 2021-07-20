@@ -490,6 +490,7 @@ const AddContactModal = ({
           data={deviceContacts}
           visible={isDeviceContactsModalOpen}
           onClose={() => setIsDeviceContactsModalOpen(false)}
+          setContactInfo={setContactInfo}
         />
       )}
     </Modal>
