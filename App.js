@@ -92,8 +92,8 @@ const App = () => {
   const httpLink = new HttpLink({
     // uri: 'https://qservicesstagingapp.azurewebsites.net/graphql',
     // this is the new one from Paul
-    uri: 'https://qservicesapi-staging.azurewebsites.net/graphql',
-    // uri: 'https://qservicesapi-dev.azurewebsites.net/graphql',
+    // uri: 'https://qservicesapi-staging.azurewebsites.net/graphql',
+    uri: 'https://qservicesapi-dev.azurewebsites.net/graphql',
     fetch,
   });
 
