@@ -47,7 +47,7 @@ export const Flexbox = ({ children, ...props }) => (
 );
 
 Flexbox.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   padding: PropTypes.number,
   height: PropTypes.string,
   width: PropTypes.string,

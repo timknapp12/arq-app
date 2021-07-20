@@ -31,8 +31,7 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
   const [isNavDisabled, setIsNavDisabled] = useState(false);
 
   const { loading, data } = useQuery(GET_ASSETS, { variables: { folderId } });
-  console.log(`data`, data);
-  console.log(`folderId`, folderId);
+
   if (loading) {
     return <LoadingScreen />;
   }

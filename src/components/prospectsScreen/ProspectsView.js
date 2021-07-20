@@ -1,12 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { MainScrollView, Flexbox, H5 } from '../common';
 import ContactCard from './contactCard/ContactCard';
 import { Localized } from '../../translations/Localized';
-// TODO delete this after getting real contacts
-import { contacts } from './mockContacts';
 
-const ProspectsView = () => {
+const ProspectsView = ({
+  prospects,
+  isCalloutOpenFromParent,
+  setIsCalloutOpenFromParent,
+  isTouchDisabled,
+  setIsTouchDisabled,
+  isFilterMenuOpen,
+  closeFilterMenu,
+}) => {
   return (
     <MainScrollView>
       <View
@@ -18,17 +25,37 @@ const ProspectsView = () => {
         }}
         accessibilityLabel="Team Resources"
         onStartShouldSetResponder={() => true}>
-        {contacts.length < 1 ? (
+        {prospects?.length < 1 ? (
           <Flexbox>
             <H5>{Localized('There are no saved prospects')}</H5>
           </Flexbox>
         ) : null}
-        {contacts.map((item, index) => (
-          <ContactCard key={item.id} style={{ zIndex: -index }} data={item} />
+        {prospects?.map((item, index) => (
+          <ContactCard
+            key={item.prospectId}
+            style={{ zIndex: -index }}
+            data={item}
+            isCalloutOpenFromParent={isCalloutOpenFromParent}
+            setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+            isTouchDisabled={isTouchDisabled}
+            setIsTouchDisabled={setIsTouchDisabled}
+            isFilterMenuOpen={isFilterMenuOpen}
+            closeFilterMenu={closeFilterMenu}
+          />
         ))}
       </View>
     </MainScrollView>
   );
+};
+
+ProspectsView.propTypes = {
+  prospects: PropTypes.array.isRequired,
+  isCalloutOpenFromParent: PropTypes.bool.isRequired,
+  setIsCalloutOpenFromParent: PropTypes.func.isRequired,
+  isTouchDisabled: PropTypes.bool.isRequired,
+  setIsTouchDisabled: PropTypes.func.isRequired,
+  isFilterMenuOpen: PropTypes.bool.isRequired,
+  closeFilterMenu: PropTypes.func.isRequired,
 };
 
 export default ProspectsView;

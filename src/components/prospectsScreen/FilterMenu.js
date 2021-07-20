@@ -25,25 +25,25 @@ const Touchable = styled(TouchableOpacity)`
 
 const Menu = Animated.createAnimatedComponent(SideMenu);
 
-const FilterMenu = ({ ...props }) => {
+const FilterMenu = ({ onClose, setSortBy, ...props }) => {
   return (
     <Menu {...props}>
       <H4Book style={{ padding: 2 }}>{`${Localized('Sort by')}:`}</H4Book>
       <TouchableContainer>
         <Touchable
-        //   onPress={() => {
-        //     onClose();
-        //   }}
-        >
+          onPress={() => {
+            setSortBy('firstName');
+            onClose();
+          }}>
           <H4Book>{Localized('First Name')}</H4Book>
         </Touchable>
       </TouchableContainer>
       <TouchableContainer>
         <Touchable
-        //   onPress={() => {
-        //     onClose();
-        //   }}
-        >
+          onPress={() => {
+            setSortBy('lastName');
+            onClose();
+          }}>
           <H4Book>{Localized('Last Name')}</H4Book>
         </Touchable>
       </TouchableContainer>
@@ -52,7 +52,8 @@ const FilterMenu = ({ ...props }) => {
 };
 
 FilterMenu.propTypes = {
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
+  setSortBy: PropTypes.func.isRequired,
 };
 
 export default FilterMenu;

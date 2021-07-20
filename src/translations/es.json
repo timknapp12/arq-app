@@ -72,7 +72,7 @@
   "Country": "es Country",
   "Sorry there was an error! Please try again later": "es Sorry there was an error! Please try again later",
   "Lead Capture": "es Lead Capture",
-  "SAVE": "es SAVE",
+  "save": "es save",
   "CANCEL": "es CANCEL",
   "ADD": "es ADD",
   "Social Display": "es Social Display",
@@ -170,7 +170,7 @@
   "Edit Folder": "es Edit Folder",
   "Add Item": "es Add Item",
   "Edit Item": "es Edit Item",
-  "SEARCH": "es SEARCH",
+  "Search": "es Search",
   "Q NEWS": "es Q NEWS",
   "BLOG": "es BLOG",
   "IN THE QUEUE": "es IN THE QUEUE",
@@ -184,8 +184,7 @@
   "There are no resources found": "es There are no resources found",
   "The team name or code does not exist - Please try again": "es The team name or code does not exist - Please try again",
   "Contacts": "es Contacts",
-  "PARTNERS": "es PARTNERS",
-  "PROSPECTS": "es PROSPECTS",
+  "Prospects": "es Prospects",
   "SEARCH CORPORATE RESOURCES": "es SEARCH CORPORATE RESOURCES",
   "There are no saved prospects": "es There are no saved prospects",
   "Move to Partners": "es Move to Partners",
@@ -229,5 +228,8 @@
   "The access code may have expired - Please get a new code try again": "es The access code may have expired - Please get a new code try again",
   "Sorry that team name has already been used - Please try another name": "es Sorry that team name has already been used - Please try another name",
   "Add a file from your device": "es Add a file from your device",
-  "Enter a url": "es Enter a url"
+  "Enter a url": "es Enter a url",
+  "Are you sure you want to remove this person?": "es Are you sure you want to remove this person?",
+  "import": "es import",
+  "Add Prospect": "es Add Prospect"
 }

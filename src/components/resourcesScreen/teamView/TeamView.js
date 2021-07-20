@@ -40,7 +40,6 @@ const TeamView = ({
   setIsOwner,
 }) => {
   const { theme, associateId, hasPermissions } = useContext(AppContext);
-  console.log(`hasPermissions`, hasPermissions);
 
   // get all of the access codes that the user has subscribed to
   const { loading: loadingAccessCodes, data: userAccessCodesData } = useQuery(
@@ -177,7 +176,6 @@ const TeamView = ({
       selectedTeamName,
       userAccessCodesData?.accesses ?? [],
     );
-    console.log(`teamOwnerAssociateId`, teamOwnerAssociateId);
     setSelectedTeamAccessCode(newTeamAccessCode);
     if (teamOwnerAssociateId === associateId) {
       setIsOwner(true);
@@ -206,8 +204,9 @@ const TeamView = ({
         onPress={() => {
           fadeOut();
           navigation.navigate('Team Search Screen', {
-            accessCode: '3',
             title: selectedTeamName.toUpperCase(),
+            selectedTeamName,
+            isOwner,
           });
         }}>
         <TouchableOpacity onPress={toggleTeamMenu}>

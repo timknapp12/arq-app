@@ -18,7 +18,11 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Filename, FileInput, FileUnderline, marginSize } from './modal.styles';
 import { Localized, initLanguage } from '../../../translations/Localized';
 import { ADD_UPDATE_ASSET } from '../../../graphql/mutations';
-import { GET_ASSETS, GET_TEAM_RESOURCES } from '../../../graphql/queries';
+import {
+  GET_ASSETS,
+  GET_TEAM_RESOURCES,
+  SEARCH_RESOURCES,
+} from '../../../graphql/queries';
 import { saveFileToFirebase } from '../../../utils/firebase/saveFileToFirebase';
 
 const UploadAssetModal = ({
@@ -35,6 +39,8 @@ const UploadAssetModal = ({
   assetContentType = '',
   assetFile = { url: '', contentType: '' },
   assetLink = '',
+  // this is when user edits an asset from TeamSearchScreen.js
+  searchTerm,
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
@@ -131,6 +137,9 @@ const UploadAssetModal = ({
     comments: '',
     displayOrder: displayOrder,
     fileName: '',
+    imageUrl: '',
+    dateStart: new Date().toISOString(),
+    dateEnd: new Date().toISOString(),
   };
 
   const [addUpdateAsset] = useMutation(ADD_UPDATE_ASSET, {
@@ -138,13 +147,16 @@ const UploadAssetModal = ({
     refetchQueries: [
       { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
       { query: GET_ASSETS, variables: { folderId } },
+      searchTerm !== null && {
+        query: SEARCH_RESOURCES,
+        variables: { teams: selectedTeamName, searchList: searchTerm },
+      },
     ],
     options: {
       awaitRefetchQueries: true,
     },
-    onCompleted: (data) => {
+    onCompleted: () => {
       setIsLoading(false);
-      console.log(`addUpdateAsset mutation complete data:`, data);
       onClose();
     },
     onError: (error) => {
@@ -152,8 +164,6 @@ const UploadAssetModal = ({
       console.log(`error`, error);
     },
   });
-
-  console.log(`isNewImageSelected`, isNewImageSelected);
 
   // TODO: consider breaking this function out to a separate file
   const onSave = async () => {
@@ -226,7 +236,9 @@ const UploadAssetModal = ({
               padding: 4,
               alignItems: 'center',
             }}>
-            {isLoading && <ActivityIndicator />}
+            {isLoading && (
+              <ActivityIndicator color={theme.disabledBackgroundColor} />
+            )}
           </View>
         </Flexbox>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
@@ -325,6 +337,7 @@ UploadAssetModal.propTypes = {
   assetContentType: PropTypes.string,
   assetFile: PropTypes.object,
   assetLink: PropTypes.string,
+  searchTerm: PropTypes.string,
 };
 
 export default UploadAssetModal;

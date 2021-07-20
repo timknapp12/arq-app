@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
-import { TouchableWithoutFeedback, ScrollView } from 'react-native';
-import { ScreenContainer, Flexbox, Input, H4 } from '../common';
+import React, { useState, useContext } from 'react';
+import { useQuery } from '@apollo/client';
+import {
+  TouchableWithoutFeedback,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
+import { ScreenContainer, Flexbox, Input } from '../common';
+import AppContext from '../../contexts/AppContext';
+import ContactCard from './contactCard/ContactCard';
+import { GET_PROSPECTS_BY_LASTNAME } from '../../graphql/queries';
 
 const ProspectsSearchScreen = () => {
-  const [value, setValue] = useState('Search feature is not quite ready yet');
+  const { theme, associateId } = useContext(AppContext);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // this is to dismiss the little callout popup menu by tapping anywhere on the screen
-  //   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
-  // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
-  //   const [isNavDisabled, setIsNavDisabled] = useState(false);
+  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const [isTouchDisabled, setIsTouchDisabled] = useState(false);
+
+  const { loading, data } = useQuery(GET_PROSPECTS_BY_LASTNAME, {
+    variables: { associateId },
+  });
+
+  const filterData = data?.prospects?.filter((item) => {
+    const bothNames =
+      `${item?.firstName} ${item?.lastName}`.toLocaleLowerCase();
+    return bothNames?.includes(searchTerm.toLocaleLowerCase());
+  });
 
   return (
     <TouchableWithoutFeedback
-      //   onPress={() => setIsCalloutOpenFromParent(false)}
+      onPress={() => setIsCalloutOpenFromParent(false)}
       style={{ flex: 1 }}>
       <ScreenContainer
         style={{
@@ -21,34 +38,52 @@ const ProspectsSearchScreen = () => {
           paddingBottom: 0,
           height: '100%',
         }}>
-        <Flexbox width="85%">
+        <Flexbox width="85%" style={{ marginTop: 8 }}>
           <Input
             autoFocus
-            testID="team-search-input"
-            value={value}
-            onChangeText={(text) => setValue(text)}
+            testID="propsect-search-input"
+            value={searchTerm}
+            onChangeText={(text) => setSearchTerm(text)}
             returnKeyType="done"
           />
         </Flexbox>
-        <ScrollView
-          style={{ flex: 1, width: '100%', height: '100%' }}
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: 120,
-            marginTop: 8,
-          }}>
-          <TouchableWithoutFeedback
-          // onPress={() => setIsCalloutOpenFromParent(false)}
-          >
-            <Flexbox
-              justify="flex-start"
-              padding={10}
-              onStartShouldSetResponder={() => true}
-              height="100%">
-              <H4>Search</H4>
-            </Flexbox>
-          </TouchableWithoutFeedback>
-        </ScrollView>
+        {loading && searchTerm.length > 0 ? (
+          <ActivityIndicator
+            style={{ marginTop: 30 }}
+            size="large"
+            color={theme.disabledBackgroundColor}
+          />
+        ) : (
+          <ScrollView
+            style={{ flex: 1, width: '100%', height: '100%' }}
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingBottom: 120,
+              marginTop: 8,
+            }}>
+            <TouchableWithoutFeedback
+              onPress={() => setIsCalloutOpenFromParent(false)}>
+              <Flexbox
+                justify="flex-start"
+                padding={10}
+                onStartShouldSetResponder={() => true}
+                height="100%">
+                {searchTerm.length > 0 &&
+                  filterData?.map((item, index) => (
+                    <ContactCard
+                      key={item.prospectId}
+                      style={{ zIndex: -index }}
+                      data={item}
+                      isCalloutOpenFromParent={isCalloutOpenFromParent}
+                      setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                      isTouchDisabled={isTouchDisabled}
+                      setIsTouchDisabled={setIsTouchDisabled}
+                    />
+                  ))}
+              </Flexbox>
+            </TouchableWithoutFeedback>
+          </ScrollView>
+        )}
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );

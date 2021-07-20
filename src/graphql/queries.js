@@ -102,7 +102,7 @@ export const GET_MARKETS = gql`
 
 export const GET_CORPORATE_RESOURCES = gql`
   query CorporateResoures($countries: [Int!]) {
-    corporateResources(countries: $countries) {
+    corporateResources(countries: $countries, order: { displayOrder: ASC }) {
       folderName
       folderId
       isWideLayout
@@ -155,9 +155,20 @@ export const SEARCH_RESOURCES = gql`
       teams: $teams
       searchList: $searchList
     ) {
-      folderId
-      folderName
-      folderDescription
+      productFolders {
+        folderId
+        folderName
+        folderDescription
+        pictureUrl
+        links {
+          linkId
+          linkTitle
+          linkDescription
+          linkUrl
+          contentType
+          extension
+        }
+      }
       links {
         linkId
         linkTitle
@@ -165,6 +176,8 @@ export const SEARCH_RESOURCES = gql`
         linkUrl
         contentType
         extension
+        folderId
+        displayOrder
       }
     }
   }
@@ -214,6 +227,56 @@ export const GET_ASSETS = gql`
       contentType
       extension
       displayOrder
+    }
+  }
+`;
+
+export const GET_PROSPECTS_BY_FIRSTNAME = gql`
+  query Prospects($associateId: Int!) {
+    prospects(
+      where: { associateId: { eq: $associateId } }
+      order: { firstName: ASC }
+    ) {
+      prospectId
+      thumbnailUrl
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhone
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
+    }
+  }
+`;
+
+export const GET_PROSPECTS_BY_LASTNAME = gql`
+  query Prospects($associateId: Int!) {
+    prospects(
+      where: { associateId: { eq: $associateId } }
+      order: { lastName: ASC }
+    ) {
+      prospectId
+      thumbnailUrl
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhone
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
     }
   }
 `;

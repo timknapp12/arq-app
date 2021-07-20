@@ -5,7 +5,6 @@ import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { H4Book } from '../../common';
 import EditIcon from '../../../../assets/icons/edit-icon.svg';
-import MoveIcon from '../../../../assets/icons/move-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
@@ -33,15 +32,14 @@ const Row = styled.View`
 
 const ContactCalloutMenu = ({
   onEdit,
-  onMove,
   onRemove,
-  email,
-  phone,
+  emailAddress,
+  primaryPhone,
   ...props
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-  const { view, onEmail, onMessage } = useContext(ProspectsContext);
+  const { onEmail, onMessage } = useContext(ProspectsContext);
 
   const iconStyle = {
     marginEnd: 8,
@@ -49,11 +47,6 @@ const ContactCalloutMenu = ({
     width: 24,
     color: theme.primaryTextColor,
   };
-
-  const moveText =
-    view.name === Localized('PROSPECTS')
-      ? Localized('Move to Partners')
-      : Localized('Move to Prospects');
 
   return (
     <Container {...props}>
@@ -63,44 +56,37 @@ const ContactCalloutMenu = ({
           <H4Book>{Localized('Edit')}</H4Book>
         </Row>
       </CalloutButton>
-      <CalloutButton onPress={onMove}>
-        <Row>
-          <MoveIcon style={iconStyle} />
-          <H4Book>{moveText ? moveText : ''}</H4Book>
-        </Row>
-      </CalloutButton>
       <CalloutButton onPress={onRemove}>
         <Row>
           <RemoveIcon style={iconStyle} />
           <H4Book>{Localized('Remove')}</H4Book>
         </Row>
       </CalloutButton>
-      {email && (
-        <CalloutButton onPress={() => onEmail(email)}>
+      {emailAddress.length > 0 ? (
+        <CalloutButton onPress={() => onEmail(emailAddress)}>
           <Row>
             <EmailIcon style={iconStyle} />
             <H4Book>{Localized('Email')}</H4Book>
           </Row>
         </CalloutButton>
-      )}
-      {phone && (
-        <CalloutButton onPress={() => onMessage(phone)}>
+      ) : null}
+      {primaryPhone.length > 0 ? (
+        <CalloutButton onPress={() => onMessage(primaryPhone)}>
           <Row>
             <MessageIcon style={iconStyle} />
             <H4Book>{Localized('Text Message')}</H4Book>
           </Row>
         </CalloutButton>
-      )}
+      ) : null}
     </Container>
   );
 };
 
 ContactCalloutMenu.propTypes = {
   onEdit: PropTypes.func.isRequired,
-  onMove: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  email: PropTypes.string,
-  phone: PropTypes.string,
+  emailAddress: PropTypes.string,
+  primaryPhone: PropTypes.string,
 };
 
 export default ContactCalloutMenu;

@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useLazyQuery } from '@apollo/client';
+import debounce from 'lodash.debounce';
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+  ActivityIndicator,
+} from 'react-native';
 import { ScreenContainer, Flexbox, Input } from '../../common';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import AssetCard from '../assetCard/AssetCard';
 import DownloadToast from '../DownloadToast';
-// TODO: remove this once we get real data
+import AppContext from '../../../contexts/AppContext';
+import { SEARCH_RESOURCES } from '../../../graphql/queries';
 
 const TeamSearchScreen = ({ route, navigation }) => {
-  const { accessCode } = route.params;
-  console.log(`accessCode`, accessCode);
-  const [value, setValue] = useState('Search feature is not quite ready yet');
+  const { theme } = useContext(AppContext);
+  const { selectedTeamName, isOwner } = route.params;
+  const [value, setValue] = useState('');
+
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
@@ -19,13 +27,31 @@ const TeamSearchScreen = ({ route, navigation }) => {
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
   const [toastProgress, setToastProgress] = useState(0);
-  const [searchResults, setSearchResults] = useState([]);
-  console.log(`setSearchResults`, setSearchResults);
+
   const setToastInfo = (title, body, visible, progress) => {
     setToastTitle(title);
     setToastBody(body);
     setIsToastVisible(visible);
     setToastProgress(progress);
+  };
+
+  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES);
+
+  const debounceSearch = useCallback(
+    debounce(
+      (value) =>
+        value.length > 0 &&
+        searchResources({
+          variables: { teams: selectedTeamName, searchList: value },
+        }),
+      1000,
+    ),
+    [],
+  );
+
+  const handleChange = (value) => {
+    setValue(value);
+    debounceSearch(value);
   };
 
   return (
@@ -50,7 +76,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
             autoFocus
             testID="team-search-input"
             value={value}
-            onChangeText={(text) => setValue(text)}
+            onChangeText={handleChange}
             returnKeyType="done"
           />
         </Flexbox>
@@ -61,35 +87,46 @@ const TeamSearchScreen = ({ route, navigation }) => {
             paddingBottom: 120,
             marginTop: 8,
           }}>
-          <TouchableWithoutFeedback
-            onPress={() => setIsCalloutOpenFromParent(false)}>
-            <Flexbox
-              justify="flex-start"
-              padding={10}
-              onStartShouldSetResponder={() => true}
-              height="100%">
-              {searchResults.map((item, index) => (
-                <AssetCard
-                  isCalloutOpenFromParent={isCalloutOpenFromParent}
-                  setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                  style={{ zIndex: -index }}
-                  key={item.id}
-                  url={item.url}
-                  title={item.title}
-                  description={item.description}
-                  contentType={item.contentType}
-                  ext={item.ext}
-                  navigation={navigation}
-                  setToastInfo={setToastInfo}
-                  setIsNavDisabled={setIsNavDisabled}
-                  isNavDisabled={isNavDisabled}
-                  hasPermissions
-                  // TODO: get real data from asset and compare agaisnt associate id to determoine permissions
-                  // hasPermissions={hasPermissions}
-                />
-              ))}
-            </Flexbox>
-          </TouchableWithoutFeedback>
+          {loading ? (
+            <ActivityIndicator
+              style={{ marginTop: 30 }}
+              size="large"
+              color={theme.disabledBackgroundColor}
+            />
+          ) : (
+            <TouchableWithoutFeedback
+              onPress={() => setIsCalloutOpenFromParent(false)}>
+              <Flexbox
+                justify="flex-start"
+                padding={10}
+                onStartShouldSetResponder={() => true}
+                height="100%">
+                {data?.searchResources?.links?.map((item, index) => (
+                  <AssetCard
+                    isCalloutOpenFromParent={isCalloutOpenFromParent}
+                    setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                    style={{ zIndex: -index }}
+                    key={item.linkId}
+                    linkId={item.linkId}
+                    url={item.linkUrl}
+                    title={item.linkTitle}
+                    description={item.linkDescription}
+                    contentType={item.contentType}
+                    ext={item.extension}
+                    navigation={navigation}
+                    setToastInfo={setToastInfo}
+                    setIsNavDisabled={setIsNavDisabled}
+                    isNavDisabled={isNavDisabled}
+                    isOwner={isOwner}
+                    folderId={item.folderId}
+                    displayOrder={item.displayOrder}
+                    selectedTeamName={selectedTeamName}
+                    searchTerm={value}
+                  />
+                ))}
+              </Flexbox>
+            </TouchableWithoutFeedback>
+          )}
         </ScrollView>
       </ScreenContainer>
     </TouchableWithoutFeedback>

@@ -109,6 +109,9 @@ const AddFolderModal = ({
     teamAccessCode: selectedTeamAccessCode,
     changedBy: `${userProfile.firstName} ${userProfile.lastName}`,
     displayOrder,
+    folderType: 'TEAM',
+    fileName: '',
+    comments: '',
   };
   const [addUpdateFolder] = useMutation(ADD_UPDATE_FOLDER, {
     variables: variables,
@@ -167,7 +170,9 @@ const AddFolderModal = ({
             padding: 4,
             alignItems: 'center',
           }}>
-          {isLoading && <ActivityIndicator />}
+          {isLoading && (
+            <ActivityIndicator color={theme.disabledBackgroundColor} />
+          )}
         </View>
         <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input

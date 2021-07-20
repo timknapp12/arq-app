@@ -48,7 +48,7 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   });
 
   useEffect(() => {
-    if (selectedMarket) {
+    if (selectedMarket && markets) {
       setMarketUrl(findMarketUrl(selectedMarket, markets));
       setMarketId(findMarketId(selectedMarket, markets));
     }

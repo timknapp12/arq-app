@@ -166,6 +166,9 @@ export const ADD_UPDATE_FOLDER = gql`
     $teamAccessCode: String!
     $changedBy: String!
     $displayOrder: Int!
+    $folderType: FolderTypeEnum!
+    $fileName: String!
+    $comments: String!
   ) {
     addUpdateFolder(
       input: {
@@ -179,6 +182,9 @@ export const ADD_UPDATE_FOLDER = gql`
         teamAccessCode: $teamAccessCode
         changedBy: $changedBy
         displayOrder: $displayOrder
+        folderType: $folderType
+        fileName: $fileName
+        comments: $comments
       }
     ) {
       folderName
@@ -207,7 +213,7 @@ export const CREATE_TEAM = gql`
 `;
 
 export const ADD_UPDATE_ASSET = gql`
-  mutation AddUpdateLinks(
+  mutation AddUpdateLink(
     $folderId: Int!
     $linkId: Int!
     $linkTitle: String!
@@ -218,8 +224,11 @@ export const ADD_UPDATE_ASSET = gql`
     $comments: String
     $displayOrder: Int! # $fileName: String!
     $fileName: String!
+    $imageUrl: String
+    $dateStart: DateTime
+    $dateEnd: DateTime
   ) {
-    addUpdateLinks(
+    addUpdateLink(
       input: {
         folderId: $folderId
         linkId: $linkId
@@ -231,6 +240,9 @@ export const ADD_UPDATE_ASSET = gql`
         comments: $comments
         displayOrder: $displayOrder
         fileName: $fileName
+        imageUrl: $imageUrl
+        dateStart: $dateStart
+        dateEnd: $dateEnd
       }
     ) {
       linkTitle
@@ -245,7 +257,70 @@ export const DELETE_FOLDER = gql`
 `;
 
 export const DELETE_ASSET = gql`
-  mutation DeleteLinks($linkId: Int!) {
-    deleteLinks(linkId: $linkId)
+  mutation DeleteLink($linkId: Int!) {
+    deleteLink(linkId: $linkId)
+  }
+`;
+
+export const ADD_UPDATE_CONTACT = gql`
+  mutation AddUpdateProspect(
+    $associateId: Int!
+    $prospectId: String!
+    $thumbnailUrl: String
+    $firstName: String!
+    $lastName: String!
+    $displayName: String
+    $emailAddress: String
+    $primaryPhone: String
+    $address1: String
+    $address2: String
+    $city: String
+    $state: String
+    $zip: String
+    $countryCode: String
+    $notes: String
+  ) {
+    addUpdateProspect(
+      input: {
+        associateId: $associateId
+        prospectId: $prospectId
+        thumbnailUrl: $thumbnailUrl
+        firstName: $firstName
+        lastName: $lastName
+        displayName: $displayName
+        emailAddress: $emailAddress
+        primaryPhone: $primaryPhone
+        address1: $address1
+        address2: $address2
+        city: $city
+        state: $state
+        zip: $zip
+        countryCode: $countryCode
+        notes: $notes
+      }
+    ) {
+      associateId
+      prospectId
+      thumbnailUrl
+      firstName
+      lastName
+      displayName
+      emailAddress
+      primaryPhone
+      address {
+        address1
+        address2
+        city
+        state
+        zip
+        countryCode
+      }
+    }
+  }
+`;
+
+export const DELETE_CONTACT = gql`
+  mutation DeleteProspect($prospectId: String!) {
+    deleteProspect(prospectId: $prospectId)
   }
 `;

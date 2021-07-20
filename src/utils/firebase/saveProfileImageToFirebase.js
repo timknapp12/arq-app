@@ -7,6 +7,7 @@ const calculatePercentage = (numerator = 0, denominator = 1) =>
 
 export const saveProfileImageToFirebase = async (
   user,
+  profileUrl,
   updateProfile,
   variables,
   onCompleted,
@@ -15,11 +16,11 @@ export const saveProfileImageToFirebase = async (
     .storage()
     .ref()
     // in firebase we are using an extension that resizes the image to 72x72 and so "_72x72" is appended as a suffix to the filename once it is successfully resized and saved
-    .child(`profile_images/${user.profileImageFileName}_72x72`);
+    .child(`profile_images/${user?.profileImageFileName}_72x72`);
   let newImageName = `${user?.firstName}.${user?.lastName}.${uuid.v4()}`;
   try {
     // eslint-disable-next-line no-undef
-    const response = await fetch(user.profileUrl);
+    const response = await fetch(profileUrl);
     const blob = await response.blob();
     const ref = firebase
       .storage()
@@ -55,6 +56,8 @@ export const saveProfileImageToFirebase = async (
                 ...variables,
                 profileImageFileName: newImageName,
                 profileUrl: reformattedUrl,
+                // this variable is for saving "contacts"
+                thumbnailUrl: reformattedUrl,
               },
               onError: (error) => {
                 console.log(`error`, error);
