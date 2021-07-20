@@ -262,7 +262,7 @@ export const DELETE_ASSET = gql`
   }
 `;
 
-export const ADD_UPDATE_CONTACT = gql`
+export const ADD_UPDATE_PROSPECT = gql`
   mutation AddUpdateProspect(
     $associateId: Int!
     $prospectId: String!
@@ -319,7 +319,7 @@ export const ADD_UPDATE_CONTACT = gql`
   }
 `;
 
-export const DELETE_CONTACT = gql`
+export const DELETE_PROSPECT = gql`
   mutation DeleteProspect($prospectId: String!) {
     deleteProspect(prospectId: $prospectId)
   }

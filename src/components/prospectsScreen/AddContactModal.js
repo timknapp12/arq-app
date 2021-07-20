@@ -82,7 +82,7 @@ const AddContactModal = ({
 }) => {
   initLanguage();
   const { theme, associateId } = useContext(AppContext);
-  const { addUpdateContact } = useContext(ProspectsContext);
+  const { addUpdateProspect } = useContext(ProspectsContext);
 
   const initialState = data;
   const [contactInfo, setContactInfo] = useState(initialState);
@@ -185,11 +185,11 @@ const AddContactModal = ({
         ? saveProfileImageToFirebase(
             contactInfo,
             thumbnailUrl,
-            addUpdateContact,
+            addUpdateProspect,
             variables,
             onCompleted,
           )
-        : addUpdateContact({
+        : addUpdateProspect({
             variables: variables,
             onCompleted: onCompleted(),
           });

@@ -16,7 +16,7 @@ const ContactCard = ({
   closeFilterMenu = () => {},
   ...props
 }) => {
-  const { deleteContact } = useContext(ProspectsContext);
+  const { deleteProspect } = useContext(ProspectsContext);
   const { prospectId = '', firstName = '', lastName = '' } = data;
   const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -84,7 +84,7 @@ const ContactCard = ({
         {
           text: Localized('Yes'),
           onPress: () => {
-            deleteContact({
+            deleteProspect({
               variables: { prospectId },
               onCompleted: () => setIsCalloutOpenFromParent(false),
             });
