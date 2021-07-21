@@ -6,18 +6,21 @@ import { View } from 'react-native';
 const NewsCardMap = ({ items, isMenuOpen, fadeOut }) => {
   return (
     <View>
-      {items.map((item) => (
-        <NewsCard
-          key={item.linkId}
-          url={item.linkUrl}
-          title={item.linkTitle}
-          body={item.linkDescription}
-          isNew={item.isViewedByAssociate}
-          date={item.dateStart}
-          isMenuOpen={isMenuOpen}
-          fadeOut={fadeOut}
-        />
-      ))}
+      {items.map(
+        (item, index) =>
+          index > 0 && (
+            <NewsCard
+              key={item?.linkId}
+              url={item?.linkUrl}
+              title={item?.linkTitle}
+              body={item?.linkDescription}
+              isRead={item?.isViewedByAssociate}
+              date={item?.dateStart}
+              isMenuOpen={isMenuOpen}
+              fadeOut={fadeOut}
+            />
+          ),
+      )}
     </View>
   );
 };

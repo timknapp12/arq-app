@@ -16,31 +16,35 @@ const NewsCard = ({
   body,
   date,
   url,
-  isNew,
+  isRead,
   isMenuOpen,
   fadeOut,
   ...props
 }) => {
-  const options = {
-    month: 'short',
-    day: 'numeric',
-  };
-
   const { theme, deviceLanguage } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isStillNew, setIsStillNew] = useState(isNew);
+  const [isReadYet, setIsReadYet] = useState(isRead);
 
   const openLink = () => {
     if (isMenuOpen) {
       return fadeOut();
     }
-    setIsStillNew(false);
+    setIsReadYet(true);
     url ? Linking.openURL(url) : {};
   };
 
+  const options = {
+    month: 'short',
+    day: 'numeric',
+  };
+
+  let [y, m, d, hh, mm, ss, ms] = date.match(/\d+/g);
+  let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
+  let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
+
   return (
     <CardContainer {...props}>
-      <OuterContainer isExpanded={isExpanded} isStillNew={isStillNew}>
+      <OuterContainer isExpanded={isExpanded} isReadYet={!isReadYet}>
         <TouchableOpacity
           /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
           activeOpacity={isMenuOpen ? 1 : 0.2}
@@ -54,10 +58,8 @@ const NewsCard = ({
                 style={{ marginBottom: 4, flex: 1 }}>
                 {title}
               </H4Black>
-              {date ? (
-                <H6Book style={{ marginEnd: 16 }}>
-                  {date.toLocaleDateString(deviceLanguage, options)}
-                </H6Book>
+              {formattedDate ? (
+                <H6Book style={{ marginEnd: 16 }}>{formattedDate}</H6Book>
               ) : null}
             </TitleAndDateContainer>
             {isExpanded ? (
@@ -80,7 +82,7 @@ const NewsCard = ({
         <TouchableOpacity
           style={{ position: 'absolute', top: 8, right: 4 }}
           onPress={() => {
-            setIsStillNew(false);
+            setIsReadYet(true);
             setIsExpanded((state) => !state);
           }}>
           <MaterialCommunityIcon
@@ -98,8 +100,8 @@ NewsCard.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
   url: PropTypes.string,
-  date: PropTypes.object,
-  isNew: PropTypes.bool,
+  date: PropTypes.string,
+  isRead: PropTypes.bool,
   isMenuOpen: PropTypes.bool.isRequired,
   fadeOut: PropTypes.func.isRequired,
 };
