@@ -280,3 +280,25 @@ export const GET_PROSPECTS_BY_LASTNAME = gql`
     }
   }
 `;
+
+export const GET_NEWS = gql`
+  query NewsResources($associateId: Int!, $countries: [Int!]) {
+    newsResources(
+      associateId: $associateId
+      countries: $countries
+      order: { displayOrder: ASC }
+    ) {
+      folderId
+      folderName
+      links {
+        linkId
+        linkUrl
+        linkTitle
+        linkDescription
+        dateStart
+        imageUrl
+        isViewedByAssociate
+      }
+    }
+  }
+`;

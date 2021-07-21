@@ -226,7 +226,7 @@ export const ADD_UPDATE_ASSET = gql`
     $fileName: String!
     $imageUrl: String
     $dateStart: DateTime
-    $dateEnd: DateTime
+    $dateEnd: DateTime # TODO changedBy
   ) {
     addUpdateLink(
       input: {
@@ -322,5 +322,21 @@ export const ADD_UPDATE_PROSPECT = gql`
 export const DELETE_PROSPECT = gql`
   mutation DeleteProspect($prospectId: String!) {
     deleteProspect(prospectId: $prospectId)
+  }
+`;
+
+export const NEWS_STORY_HAS_BEEN_VIEWED = gql`
+  mutation AddUpdateLinkView(
+    $associateId: Int!
+    $linkId: Int!
+    $linkViewId: Int!
+  ) {
+    addUpdateLinkView(
+      input: {
+        associateId: $associateId
+        linkId: $linkId
+        linkViewId: $linkViewId
+      }
+    )
   }
 `;

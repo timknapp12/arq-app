@@ -8,12 +8,12 @@ const NewsCardMap = ({ items, isMenuOpen, fadeOut }) => {
     <View>
       {items.map((item) => (
         <NewsCard
-          key={item.id}
-          url={item.url}
-          title={item.title}
-          body={item.body}
-          isNew={item.isNew}
-          date={item.date}
+          key={item.linkId}
+          url={item.linkUrl}
+          title={item.linkTitle}
+          body={item.linkDescription}
+          isNew={item.isViewedByAssociate}
+          date={item.dateStart}
           isMenuOpen={isMenuOpen}
           fadeOut={fadeOut}
         />
