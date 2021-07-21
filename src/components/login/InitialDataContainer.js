@@ -8,11 +8,15 @@ import {
   GET_MARKETS,
   GET_USER,
   GET_PROFILE,
+  GET_NEWS,
 } from '../../graphql/queries';
 import { UPDATE_USER } from '../../graphql/mutations';
+import { findMarketId } from '../../utils/markets/findMarketId';
+import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 
 const InitialDataContainer = ({ children }) => {
-  const { associateId, legacyId, setHasPermissions } = useContext(AppContext);
+  const { associateId, legacyId, setHasPermissions, userMarket } =
+    useContext(AppContext);
 
   const [email, setEmail] = useState('tim@test.com');
   const [password, setPassword] = useState('test123');
@@ -57,6 +61,31 @@ const InitialDataContainer = ({ children }) => {
 
   const [updateProfile] = useMutation(UPDATE_USER);
 
+  // get news by market
+  const [marketId, setMarketId] = useState(userMarket.countryId);
+  const [newsNotificationCount, setNewsNotificationCount] = useState(0);
+
+  useEffect(() => {
+    if (userMarket?.countryCode && marketsData?.activeCountries)
+      setMarketId(
+        findMarketId(userMarket?.countryCode, marketsData?.activeCountries),
+      );
+  }, [userMarket?.countryCode, marketsData?.activeCountries]);
+
+  const { loading: loadingNews, data: newsData } = useQuery(GET_NEWS, {
+    variables: { associateId, countries: marketId },
+  });
+
+  const news = newsData?.newsResources ?? [];
+
+  useEffect(() => {
+    const count = calculateUnreadNews(news);
+    setNewsNotificationCount(count);
+    return () => {
+      setNewsNotificationCount(0);
+    };
+  }, [news]);
+
   useEffect(() => {
     getUser();
   }, [legacyId]);
@@ -87,6 +116,11 @@ const InitialDataContainer = ({ children }) => {
         userProfile: profileData?.associates?.[0],
         updateProfile,
         refetchProfile,
+        marketId,
+        setMarketId,
+        loadingNews,
+        news,
+        newsNotificationCount,
       }}>
       {children}
     </LoginContext.Provider>
