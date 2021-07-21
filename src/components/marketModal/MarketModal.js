@@ -65,10 +65,7 @@ const MarketModal = ({
               items={reshapedItems}
               value={value}
               onValueChange={onValueChange}
-              placeholder={{
-                label: Localized('Market'),
-                value: null,
-              }}
+              placeholder={{}}
             />
             <Flexbox
               direction="row"

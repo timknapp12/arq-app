@@ -332,17 +332,6 @@ const AddContactModal = ({
                     </Flexbox>
                   </NameContainer>
                   <AnimatedInput
-                    testID="display-name-input"
-                    label={Localized('Display Name')}
-                    value={displayName}
-                    onChangeText={(text) => {
-                      handleChange('displayName', text);
-                      setIsSaveButtonVisisble(true);
-                    }}
-                    returnKeyType="done"
-                    textContentType="nickname"
-                  />
-                  <AnimatedInput
                     testID="email-input"
                     label={Localized('Email')}
                     value={emailAddress}
@@ -420,8 +409,8 @@ const AddContactModal = ({
                           label={Localized('State')}
                           value={address?.state}
                           placeholder={{
-                            label: Localized('State'),
-                            value: null,
+                            label: '',
+                            value: '',
                           }}
                           onValueChange={(value) => {
                             handleChange('address', {
@@ -472,7 +461,7 @@ const AddContactModal = ({
                       items={countryList}
                       label={Localized('Country')}
                       value={address?.countryCode}
-                      placeholder={{ label: Localized('Country'), value: null }}
+                      placeholder={{}}
                       onValueChange={(value) => {
                         handleChange('address', {
                           ...address,

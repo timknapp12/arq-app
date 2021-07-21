@@ -514,7 +514,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                           label={Localized('State')}
                           value={address?.state}
                           placeholder={{
-                            label: Localized('State'),
+                            label: '',
                             value: null,
                           }}
                           onValueChange={(value) => {
@@ -583,7 +583,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       items={countryList}
                       label={Localized('Country')}
                       value={address?.countryCode}
-                      placeholder={{ label: Localized('Country'), value: null }}
+                      placeholder={{}}
                       onValueChange={(value) => {
                         handleChange('address', {
                           ...address,

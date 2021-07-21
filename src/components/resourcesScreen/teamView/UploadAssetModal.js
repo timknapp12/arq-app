@@ -269,7 +269,7 @@ const UploadAssetModal = ({
           label={Localized('File Type')}
           value={contentType}
           placeholder={{
-            label: Localized('Select a file type'),
+            label: '',
             value: null,
           }}
           onValueChange={(value) => {
