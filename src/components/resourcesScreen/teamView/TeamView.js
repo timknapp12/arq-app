@@ -147,9 +147,9 @@ const TeamView = ({
   });
 
   useEffect(() => {
-    if (userAccessCodesData?.accesses[0]?.teamName && initialLoad) {
-      const name = userAccessCodesData?.accesses[0]?.teamName
-        ? userAccessCodesData?.accesses[0]?.teamName
+    if (userAccessCodesData?.accesses?.[0]?.teamName && initialLoad) {
+      const name = userAccessCodesData?.accesses?.[0]?.teamName
+        ? userAccessCodesData?.accesses?.[0]?.teamName
         : '';
       setSelectedTeamName(name);
       setInitialLoad(false);

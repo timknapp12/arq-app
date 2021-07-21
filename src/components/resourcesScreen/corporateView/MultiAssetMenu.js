@@ -35,7 +35,7 @@ const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
     title === Localized('Download')
       ? filterAssetDownloadOptions(options)
       : options;
-  const [selectedAsset, setSelectedAsset] = useState(filteredOptions[0]);
+  const [selectedAsset, setSelectedAsset] = useState(filteredOptions?.[0]);
 
   return (
     <Container>

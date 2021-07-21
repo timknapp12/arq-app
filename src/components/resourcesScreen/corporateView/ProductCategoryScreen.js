@@ -51,7 +51,7 @@ const ProductCategoryScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    navigate(categoryList[0]);
+    navigate(categoryList?.[0]);
   }, []);
 
   const navigate = (item) => {

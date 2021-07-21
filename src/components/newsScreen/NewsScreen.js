@@ -69,7 +69,7 @@ const NewsScreen = ({ navigation }) => {
     }
   }, [isFocused]);
 
-  const initialView = newsResources[0];
+  const initialView = newsResources?.[0];
   const [view, setView] = useState(initialView);
 
   const navigate = (item) => {
@@ -163,10 +163,10 @@ const NewsScreen = ({ navigation }) => {
         ) : (
           <MainScrollView>
             <FeaturedNewsCard
-              key={view?.links[0]?.linkId}
-              url={view?.links[0]?.linkUrl}
-              title={view?.links[0]?.linkTitle}
-              body={view?.links[0]?.linkDescription}
+              key={view?.links?.[0]?.linkId}
+              url={view?.links?.[0]?.linkUrl}
+              title={view?.links?.[0]?.linkTitle}
+              body={view?.links?.[0]?.linkDescription}
               isMenuOpen={isMenuOpen}
               fadeOut={fadeOut}
             />
