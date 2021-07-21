@@ -252,7 +252,11 @@ const AddContactModal = ({
                       <CloseIcon />
                     </TouchableOpacity>
                   </HeaderButtonContainer>
-                  <H3>{Localized('Add Prospect').toUpperCase()}</H3>
+                  <H3>
+                    {newContact
+                      ? Localized('Add Prospect').toUpperCase()
+                      : Localized('Edit Prospect').toUpperCase()}
+                  </H3>
                   <HeaderButtonContainer style={{ alignItems: 'flex-end' }}>
                     {isSaveButtonVisisble ? (
                       <TouchableOpacity

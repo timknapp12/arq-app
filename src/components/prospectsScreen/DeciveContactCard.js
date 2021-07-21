@@ -21,16 +21,16 @@ const DeciveContactCard = ({ contact, setContactInfo, onClose, ...props }) => {
       firstName: contact?.firstName ?? '',
       lastName: contact?.lastName ?? '',
       displayName: contact?.nickname ?? '',
-      emailAddress: contact?.emails[0]?.email ?? '',
-      primaryPhone: contact?.phoneNumbers[0]?.number ?? '',
+      emailAddress: contact?.emails?.[0]?.email ?? '',
+      primaryPhone: contact?.phoneNumbers?.[0]?.number ?? '',
       notes: '',
       address: {
-        address1: contact?.addresses[0]?.street ?? '',
+        address1: contact?.addresses?.[0]?.street ?? '',
         address2: '',
-        city: contact?.addresses[0]?.city ?? '',
-        state: contact?.addresses[0]?.region ?? '',
-        zip: contact?.addresses[0]?.postalCode ?? '',
-        countryCode: contact?.addresses[0]?.isoCountryCode ?? '',
+        city: contact?.addresses?.[0]?.city ?? '',
+        state: contact?.addresses?.[0]?.region ?? '',
+        zip: contact?.addresses?.[0]?.postalCode ?? '',
+        countryCode: contact?.addresses?.[0]?.isoCountryCode ?? '',
       },
     });
     onClose();

@@ -97,6 +97,7 @@ const ProspectsScreen = ({ navigation }) => {
         <ScreenContainer
           style={{
             justifyContent: 'flex-start',
+            height: '100%',
             paddingTop: 0,
             paddingBottom: 0,
           }}>
@@ -142,7 +143,7 @@ const ProspectsScreen = ({ navigation }) => {
           )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
-            bottom="130px">
+            bottom="40px">
             <ButtonText>+</ButtonText>
           </AddButton>
         </ScreenContainer>
