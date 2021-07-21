@@ -32,7 +32,7 @@ const ProspectsView = ({
         ) : null}
         {prospects?.map((item, index) => (
           <ContactCard
-            key={item.prospectId}
+            key={item?.prospectId}
             style={{ zIndex: -index }}
             data={item}
             isCalloutOpenFromParent={isCalloutOpenFromParent}

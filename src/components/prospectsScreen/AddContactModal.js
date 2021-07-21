@@ -217,7 +217,7 @@ const AddContactModal = ({
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
     if (address?.countryCode === 'us') {
-      usStates.find((item) => item.value === address?.state)
+      usStates.find((item) => item?.value === address?.state)
         ? handleChange('address', { ...address, state: address?.state })
         : handleChange('address', { ...address, state: null });
     }

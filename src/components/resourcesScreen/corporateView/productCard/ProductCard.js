@@ -122,7 +122,7 @@ const ProductCard = ({
 
   const onAction = async (item) => {
     if (multiAssetMenuTitle === Localized('Share')) {
-      return shareSingleUrl(item.linkUrl);
+      return shareSingleUrl(item?.linkUrl);
     }
     if (multiAssetMenuTitle === Localized('Download')) {
       return downloadSingleItem(item);

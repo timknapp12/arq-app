@@ -56,16 +56,16 @@ const ProductCategoryScreen = ({ route, navigation }) => {
 
   const navigate = (item) => {
     setView(item);
-    setSubcategoryList(item.childFolders);
+    setSubcategoryList(item?.childFolders);
 
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
-    const formattedTitle = item.folderName.split(' ').join('_');
+    const formattedTitle = item?.folderName.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
     // this regex takes out special characters like "&"
     const strippedTitle = shortenedTitle.replace(/\W/g, '');
     Analytics.logEvent(strippedTitle, {
       screen: 'Corporate Products',
-      purpose: `See details for ${item.folderName}`,
+      purpose: `See details for ${item?.folderName}`,
     });
   };
   return (
@@ -82,9 +82,9 @@ const ProductCategoryScreen = ({ route, navigation }) => {
             <TertiaryButton
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
-              selected={view.folderName === item.folderName}
-              key={item.folderId}>
-              {item.folderName.toUpperCase()}
+              selected={view?.folderName === item?.folderName}
+              key={item?.folderId}>
+              {item?.folderName.toUpperCase()}
             </TertiaryButton>
           ))}
         </TopButtonBar>
@@ -106,22 +106,22 @@ const ProductCategoryScreen = ({ route, navigation }) => {
               </View>
               {subcategoryList.map((item, index) => (
                 <ProductCard
-                  key={item.folderId}
+                  key={item?.folderId}
                   style={{ zIndex: -index }}
-                  title={item.folderName}
-                  description={item.folderDescription}
-                  url={item.pictureUrl}
+                  title={item?.folderName}
+                  description={item?.folderDescription}
+                  url={item?.pictureUrl}
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   setDisableTouchEvent={setDisableTouchEvent}
                   navigation={navigation}
                   setToastInfo={setToastInfo}
                   isFavorite={false}
-                  assetList={item.links}
+                  assetList={item?.links}
                   onPress={() => {
                     setIsCalloutOpenFromParent(false);
                     navigation.navigate('Resources Asset Screen', {
-                      title: item.folderName.toUpperCase(),
+                      title: item?.folderName.toUpperCase(),
                     });
                   }}
                 />

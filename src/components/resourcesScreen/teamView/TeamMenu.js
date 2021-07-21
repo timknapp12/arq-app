@@ -38,13 +38,13 @@ const TeamMenu = ({
   return (
     <Menu {...props}>
       {items.map((item) => (
-        <TouchableContainer key={item.teamAccessId}>
+        <TouchableContainer key={item?.teamAccessId}>
           <Touchable
             onPress={() => {
-              onSelect(item.teamName);
+              onSelect(item?.teamName);
               onClose();
             }}>
-            <H4Book>{item.teamName}</H4Book>
+            <H4Book>{item?.teamName}</H4Book>
           </Touchable>
         </TouchableContainer>
       ))}
