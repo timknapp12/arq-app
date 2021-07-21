@@ -118,7 +118,11 @@ const ResourcesScreen = ({ navigation }) => {
         setIsCalloutOpenFromParent(false);
         fadeOut();
       }}>
-      <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
+      <ScreenContainer
+        style={{
+          justifyContent: 'flex-start',
+          height: '100%',
+        }}>
         <MainHeader
           isMenuOpen={isMenuOpen}
           fadeIn={fadeIn}
@@ -174,7 +178,7 @@ const ResourcesScreen = ({ navigation }) => {
         {view.name === Localized('FAVORITES') && <FavoritesView />}
         {view.name === Localized('TEAM') && hasPermissions && isOwner && (
           <AddButton
-            bottom="130px"
+            bottom="10px"
             onPress={() => {
               setIsAddFolderModalOpen(true);
               setIsCalloutOpenFromParent(false);

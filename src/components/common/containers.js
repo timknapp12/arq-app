@@ -60,7 +60,7 @@ export const MainScrollView = ({ children }) => (
   <ScrollView
     contentContainerStyle={{
       flexGrow: 1,
-      paddingBottom: 220,
+      paddingBottom: 240,
     }}
     style={{
       width: '100%',

@@ -18,7 +18,8 @@ const Container = styled.View`
   border-radius: 5px;
   position: absolute;
   right: 0;
-  top: 72px;
+  top: 64px;
+  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
 // The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
