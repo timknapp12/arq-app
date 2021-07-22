@@ -337,6 +337,8 @@ export const NEWS_STORY_HAS_BEEN_VIEWED = gql`
         linkId: $linkId
         linkViewId: $linkViewId
       }
-    )
+    ) {
+      linkId
+    }
   }
 `;

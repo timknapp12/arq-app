@@ -72,7 +72,11 @@ const InitialDataContainer = ({ children }) => {
       );
   }, [userMarket?.countryCode, marketsData?.activeCountries]);
 
-  const { loading: loadingNews, data: newsData } = useQuery(GET_NEWS, {
+  const {
+    loading: loadingNews,
+    data: newsData,
+    refetch: refetchNews,
+  } = useQuery(GET_NEWS, {
     variables: { associateId, countries: marketId },
   });
 
@@ -121,6 +125,7 @@ const InitialDataContainer = ({ children }) => {
         loadingNews,
         news,
         newsNotificationCount,
+        refetchNews,
       }}>
       {children}
     </LoginContext.Provider>

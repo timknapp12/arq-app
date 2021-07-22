@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
 import { Linking, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { H4Black, H6Book } from '../common';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
+import { NEWS_STORY_HAS_BEEN_VIEWED } from '../../graphql/mutations';
 import {
   CardContainer,
   OuterContainer,
@@ -12,6 +15,7 @@ import {
 } from './NewsCard.styles';
 
 const NewsCard = ({
+  linkId,
   title,
   body,
   date,
@@ -21,15 +25,23 @@ const NewsCard = ({
   fadeOut,
   ...props
 }) => {
-  const { theme, deviceLanguage } = useContext(AppContext);
+  const { theme, deviceLanguage, associateId } = useContext(AppContext);
+  const { refetchNews } = useContext(LoginContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReadYet, setIsReadYet] = useState(isRead);
+
+  const [storyHasBeenViewed] = useMutation(NEWS_STORY_HAS_BEEN_VIEWED, {
+    variables: { associateId, linkId, linkViewId: 0 },
+    onCompleted: () => refetchNews(),
+    onError: (error) => console.log(`error`, error),
+  });
 
   const openLink = () => {
     if (isMenuOpen) {
       return fadeOut();
     }
     setIsReadYet(true);
+    storyHasBeenViewed();
     url ? Linking.openURL(url) : {};
   };
 
@@ -82,6 +94,7 @@ const NewsCard = ({
         <TouchableOpacity
           style={{ position: 'absolute', top: 8, right: 4 }}
           onPress={() => {
+            storyHasBeenViewed();
             setIsReadYet(true);
             setIsExpanded((state) => !state);
           }}>
@@ -97,6 +110,7 @@ const NewsCard = ({
 };
 
 NewsCard.propTypes = {
+  linkId: PropTypes.number.isRequired,
   title: PropTypes.string,
   body: PropTypes.string,
   url: PropTypes.string,

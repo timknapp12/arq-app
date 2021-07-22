@@ -11,6 +11,7 @@ const NewsCardMap = ({ items, isMenuOpen, fadeOut }) => {
           index > 0 && (
             <NewsCard
               key={item?.linkId}
+              linkId={item?.linkId}
               url={item?.linkUrl}
               title={item?.linkTitle}
               body={item?.linkDescription}
