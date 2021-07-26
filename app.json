@@ -2,7 +2,7 @@
   "expo": {
     "name": "ambassador-resources-q",
     "slug": "ambassador-resources-q",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "ambassador-resources-q",

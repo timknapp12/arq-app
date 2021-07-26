@@ -86,7 +86,7 @@ const DeviceContactsModal = ({
             <FlatList
               data={filterData}
               renderItem={renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item?.id}
             />
           </Inner>
         </Container>

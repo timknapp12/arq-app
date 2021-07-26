@@ -100,9 +100,9 @@ const DashboardScreen = ({ navigation }) => {
   const navigate = (item) => {
     fadeOut();
     setView(item);
-    Analytics.logEvent(`${item.testID}_tapped`, {
+    Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'Dashboard Screen',
-      purpose: `See details for ${item.name}`,
+      purpose: `See details for ${item?.name}`,
     });
   };
 
@@ -124,9 +124,9 @@ const DashboardScreen = ({ navigation }) => {
             <TertiaryButton
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
-              selected={view.name === item.name}
-              key={item.name}>
-              {item.name}
+              selected={view.name === item?.name}
+              key={item?.name}>
+              {item?.name}
             </TertiaryButton>
           ))}
         </TopButtonBar>

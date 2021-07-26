@@ -37,10 +37,10 @@ const MarketModal = ({
 
   // we need to restructure the markets from the database into a structure that fits the dropdown picker
   const reshapedItems = items?.map((item) => ({
-    id: item.countryId,
-    label: item.countryName,
-    value: item.countryCode,
-    pictureUrl: item.pictureUrl,
+    id: item?.countryId,
+    label: item?.countryName,
+    value: item?.countryCode,
+    pictureUrl: item?.pictureUrl,
   }));
 
   return (
@@ -65,10 +65,7 @@ const MarketModal = ({
               items={reshapedItems}
               value={value}
               onValueChange={onValueChange}
-              placeholder={{
-                label: Localized('Market'),
-                value: null,
-              }}
+              placeholder={{}}
             />
             <Flexbox
               direction="row"

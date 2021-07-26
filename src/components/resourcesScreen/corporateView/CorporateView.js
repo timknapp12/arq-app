@@ -60,25 +60,25 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
       return fadeOut();
     }
     fadeOut();
-    if (item.folderName === 'Products') {
+    if (item?.folderName === 'Products') {
       navigation.navigate('Product Category Screen', {
-        title: item.folderName.toUpperCase(),
-        categoryList: item.childFolders,
+        title: item?.folderName.toUpperCase(),
+        categoryList: item?.childFolders,
       });
     } else {
       navigation.navigate('Resources Category Screen', {
-        title: item.folderName.toUpperCase(),
-        assetList: item.links,
+        title: item?.folderName.toUpperCase(),
+        assetList: item?.links,
       });
     }
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
-    const formattedTitle = item.folderName.split(' ').join('_');
+    const formattedTitle = item?.folderName.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
     // this regex takes out special characters like "&"
     const strippedTitle = shortenedTitle.replace(/\W/g, '');
     Analytics.logEvent(strippedTitle, {
       screen: 'Corporate Resources',
-      purpose: `See details for ${item.title}`,
+      purpose: `See details for ${item?.title}`,
     });
   };
 
@@ -120,9 +120,9 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
                 isCalloutOpenFromParent={isCalloutOpenFromParent}
                 setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                 style={{ zIndex: -index }}
-                key={item.folderId}
-                url={item.pictureUrl}
-                title={item.folderName}
+                key={item?.folderId}
+                url={item?.pictureUrl}
+                title={item?.folderName}
                 isMenuOpen={isMenuOpen}
                 onPress={() => {
                   setIsCalloutOpenFromParent(false);

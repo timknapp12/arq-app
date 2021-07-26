@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { useMutation } from '@apollo/client';
 import { TouchableOpacity, Dimensions, Linking } from 'react-native';
-import { H4Black, H6Book, Flexbox } from '../common';
+import { H4Black, H6Book } from '../common';
 import defaultImage from '../../../assets/icons/image.png';
+import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
+import { NEWS_STORY_HAS_BEEN_VIEWED } from '../../graphql/mutations';
 
 const { width } = Dimensions.get('window');
 const imageHeight = width / 2;
@@ -11,6 +15,8 @@ const imageHeight = width / 2;
 const Container = styled.View`
   background-color: ${(props) => props.theme.cardBackgroundColor};
   margin-bottom: 10px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 `;
 
 const BannerImage = styled.Image`
@@ -18,19 +24,49 @@ const BannerImage = styled.Image`
   height: ${imageHeight}px;
 `;
 
-const FeaturedNewsCard = ({ url, title, body, isMenuOpen, fadeOut }) => {
+const TitleAndDescriptionContainer = styled.View`
+  padding: 4px;
+  border-left-color: ${(props) => props.theme.highlight};
+  border-left-width: ${(props) => (props.isReadYet ? '6px' : '0px')};
+  padding-left: ${(props) => (props.isReadYet ? '10px' : '16px')};
+  border-bottom-left-radius: 5px;
+`;
+
+const FeaturedNewsCard = ({
+  linkId,
+  url,
+  imageUrl,
+  title,
+  body,
+  isRead,
+  isMenuOpen,
+  fadeOut,
+}) => {
+  const { associateId } = useContext(AppContext);
+  const { refetchNews } = useContext(LoginContext);
+
+  const [isReadYet, setIsReadYet] = useState(isRead);
+
+  const [storyHasBeenViewed] = useMutation(NEWS_STORY_HAS_BEEN_VIEWED, {
+    variables: { associateId, linkId, linkViewId: 0 },
+    onCompleted: () => refetchNews(),
+    onError: (error) => console.log(`error`, error),
+  });
+
   const openLink = () => {
     if (isMenuOpen) {
       return fadeOut();
     }
+    setIsReadYet(true);
+    storyHasBeenViewed();
     url ? Linking.openURL(url) : {};
   };
 
   return (
     <TouchableOpacity activeOpacity={isMenuOpen ? 1 : 0.2} onPress={openLink}>
       <Container>
-        <BannerImage source={{ uri: url }} defaultSource={defaultImage} />
-        <Flexbox align="flex-start" padding={4}>
+        <BannerImage source={{ uri: imageUrl }} defaultSource={defaultImage} />
+        <TitleAndDescriptionContainer isReadYet={!isReadYet}>
           <H4Black
             ellipsizeMode="tail"
             numberOfLines={1}
@@ -40,16 +76,19 @@ const FeaturedNewsCard = ({ url, title, body, isMenuOpen, fadeOut }) => {
           <H6Book ellipsizeMode="tail" numberOfLines={5} style={{ flex: 1 }}>
             {body}
           </H6Book>
-        </Flexbox>
+        </TitleAndDescriptionContainer>
       </Container>
     </TouchableOpacity>
   );
 };
 
 FeaturedNewsCard.propTypes = {
+  linkId: PropTypes.number.isRequired,
   url: PropTypes.string,
+  imageUrl: PropTypes.string,
   title: PropTypes.string,
   body: PropTypes.string,
+  isRead: PropTypes.bool,
   isMenuOpen: PropTypes.bool.isRequired,
   fadeOut: PropTypes.func.isRequired,
 };

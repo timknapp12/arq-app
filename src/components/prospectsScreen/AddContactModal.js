@@ -82,7 +82,7 @@ const AddContactModal = ({
 }) => {
   initLanguage();
   const { theme, associateId } = useContext(AppContext);
-  const { addUpdateContact } = useContext(ProspectsContext);
+  const { addUpdateProspect } = useContext(ProspectsContext);
 
   const initialState = data;
   const [contactInfo, setContactInfo] = useState(initialState);
@@ -185,11 +185,11 @@ const AddContactModal = ({
         ? saveProfileImageToFirebase(
             contactInfo,
             thumbnailUrl,
-            addUpdateContact,
+            addUpdateProspect,
             variables,
             onCompleted,
           )
-        : addUpdateContact({
+        : addUpdateProspect({
             variables: variables,
             onCompleted: onCompleted(),
           });
@@ -217,7 +217,7 @@ const AddContactModal = ({
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
     if (address?.countryCode === 'us') {
-      usStates.find((item) => item.value === address?.state)
+      usStates.find((item) => item?.value === address?.state)
         ? handleChange('address', { ...address, state: address?.state })
         : handleChange('address', { ...address, state: null });
     }
@@ -332,17 +332,6 @@ const AddContactModal = ({
                     </Flexbox>
                   </NameContainer>
                   <AnimatedInput
-                    testID="display-name-input"
-                    label={Localized('Display Name')}
-                    value={displayName}
-                    onChangeText={(text) => {
-                      handleChange('displayName', text);
-                      setIsSaveButtonVisisble(true);
-                    }}
-                    returnKeyType="done"
-                    textContentType="nickname"
-                  />
-                  <AnimatedInput
                     testID="email-input"
                     label={Localized('Email')}
                     value={emailAddress}
@@ -420,8 +409,8 @@ const AddContactModal = ({
                           label={Localized('State')}
                           value={address?.state}
                           placeholder={{
-                            label: Localized('State'),
-                            value: null,
+                            label: '',
+                            value: '',
                           }}
                           onValueChange={(value) => {
                             handleChange('address', {
@@ -472,7 +461,7 @@ const AddContactModal = ({
                       items={countryList}
                       label={Localized('Country')}
                       value={address?.countryCode}
-                      placeholder={{ label: Localized('Country'), value: null }}
+                      placeholder={{}}
                       onValueChange={(value) => {
                         handleChange('address', {
                           ...address,

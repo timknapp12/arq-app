@@ -71,7 +71,7 @@ const ProspectsSearchScreen = () => {
                 {searchTerm.length > 0 &&
                   filterData?.map((item, index) => (
                     <ContactCard
-                      key={item.prospectId}
+                      key={item?.prospectId}
                       style={{ zIndex: -index }}
                       data={item}
                       isCalloutOpenFromParent={isCalloutOpenFromParent}

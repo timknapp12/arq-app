@@ -86,7 +86,7 @@ const ProductCard = ({
   // This function will automatically open the device share option if there is only one item, and open the popup to select an asset if there are multiple items
   const onShare = async () => {
     if (assetList.length === 1) {
-      return shareSingleUrl(assetList[0].linkUrl);
+      return shareSingleUrl(assetList?.[0].linkUrl);
     } else {
       await setIsCalloutOpenFromParent(true);
       await setDisableTouchEvent(true);
@@ -111,7 +111,7 @@ const ProductCard = ({
   // This function will automatically download if there is only one item, and open the popup to select an asset if there are multiple items
   const onDownload = async () => {
     if (assetList.length === 1) {
-      return downloadSingleItem(assetList[0]);
+      return downloadSingleItem(assetList?.[0]);
     } else {
       await setIsCalloutOpenFromParent(true);
       await setDisableTouchEvent(true);
@@ -122,7 +122,7 @@ const ProductCard = ({
 
   const onAction = async (item) => {
     if (multiAssetMenuTitle === Localized('Share')) {
-      return shareSingleUrl(item.linkUrl);
+      return shareSingleUrl(item?.linkUrl);
     }
     if (multiAssetMenuTitle === Localized('Download')) {
       return downloadSingleItem(item);

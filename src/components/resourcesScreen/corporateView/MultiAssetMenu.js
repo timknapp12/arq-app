@@ -35,7 +35,7 @@ const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
     title === Localized('Download')
       ? filterAssetDownloadOptions(options)
       : options;
-  const [selectedAsset, setSelectedAsset] = useState(filteredOptions[0]);
+  const [selectedAsset, setSelectedAsset] = useState(filteredOptions?.[0]);
 
   return (
     <Container>
@@ -47,9 +47,9 @@ const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
       {filteredOptions.map((item) => (
         <RadioButton
           onPress={() => setSelectedAsset(item)}
-          key={item.linkId}
-          label={contentTypeMap[item.contentType]}
-          isSelected={item.linkTitle === selectedAsset.linkTitle}
+          key={item?.linkId}
+          label={contentTypeMap[item?.contentType]}
+          isSelected={item?.linkTitle === selectedAsset.linkTitle}
         />
       ))}
       <CalloutButton onPress={() => onPress(selectedAsset)}>

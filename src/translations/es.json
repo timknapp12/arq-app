@@ -83,7 +83,6 @@
   "Account": "es Account",
   "Notifications": "es Notifications",
   "Face ID or Fingerprint Sign In": "es Face ID or Fingerprint Sign In",
-  "Market": "es Market",
   "Current Password": "es Current Password",
   "New Password": "es New Password",
   "Confirm New Password": "es Confirm New Password",
@@ -128,7 +127,6 @@
   "Description": "es Description",
   "File": "es File",
   "File Type": "es File Type",
-  "Select a file type": "es Select a file type",
   "Image": "es Image",
   "Pdf": "es Pdf",
   "Video": "es Video",
@@ -232,5 +230,6 @@
   "Are you sure you want to remove this person?": "es Are you sure you want to remove this person?",
   "import": "es import",
   "Add Prospect": "es Add Prospect",
-  "Edit Prospect": "es Edit Prospect"
+  "Edit Prospect": "es Edit Prospect",
+  "There are no news items at this time - Please check back later": "es There are no news items at this time - Please check back later"
 }

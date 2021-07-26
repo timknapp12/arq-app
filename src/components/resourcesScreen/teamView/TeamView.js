@@ -81,21 +81,21 @@ const TeamView = ({
       return fadeOut();
     }
     navigation.navigate('Team Resources Category Screen', {
-      title: item.folderName.toUpperCase(),
-      folderId: item.folderId,
+      title: item?.folderName.toUpperCase(),
+      folderId: item?.folderId,
       // TODO: integrate permissions with backend
       isOwner: isOwner,
       selectedTeamName: selectedTeamName,
     });
     setIsCalloutOpenFromParent(false);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
-    const formattedTitle = item.folderName.split(' ').join('_');
+    const formattedTitle = item?.folderName.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
     // this regex takes out special characters like "&"
     const strippedTitle = shortenedTitle.replace(/\W/g, '');
     Analytics.logEvent(strippedTitle, {
       screen: 'Team Resources',
-      purpose: `See details for ${item.title}`,
+      purpose: `See details for ${item?.title}`,
     });
   };
 
@@ -147,9 +147,9 @@ const TeamView = ({
   });
 
   useEffect(() => {
-    if (userAccessCodesData?.accesses[0]?.teamName && initialLoad) {
-      const name = userAccessCodesData?.accesses[0]?.teamName
-        ? userAccessCodesData?.accesses[0]?.teamName
+    if (userAccessCodesData?.accesses?.[0]?.teamName && initialLoad) {
+      const name = userAccessCodesData?.accesses?.[0]?.teamName
+        ? userAccessCodesData?.accesses?.[0]?.teamName
         : '';
       setSelectedTeamName(name);
       setInitialLoad(false);
@@ -256,19 +256,19 @@ const TeamView = ({
               isCalloutOpenFromParent={isCalloutOpenFromParent}
               setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
               style={{ zIndex: -index }}
-              key={item.folderId}
-              folderId={item.folderId}
-              url={item.pictureUrl}
-              title={item.folderName}
-              isWideLayout={item.isWideLayout}
-              displayOrder={item.displayOrder}
+              key={item?.folderId}
+              folderId={item?.folderId}
+              url={item?.pictureUrl}
+              title={item?.folderName}
+              isWideLayout={item?.isWideLayout}
+              displayOrder={item?.displayOrder}
               isOwner={isOwner}
               setIsNavDisabled={setIsNavDisabled}
               isMenuOpen={isMenuOpen}
               isTeamMenuOpen={isTeamMenuOpen}
               selectedTeamName={selectedTeamName}
               selectedTeamAccessCode={selectedTeamAccessCode}
-              assetList={item.links}
+              assetList={item?.links}
               onPress={() => {
                 navigateToResource(item);
               }}

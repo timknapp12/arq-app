@@ -2,16 +2,18 @@ import React, { useEffect, useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
+  Animated,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {
   ScreenContainer,
   Flexbox,
   TertiaryButton,
   TopButtonBar,
+  H5,
 } from '../common';
-import {
-  Animated,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-} from 'react-native';
 import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
 import { MainScrollView } from '../common';
@@ -22,12 +24,11 @@ import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import MarketModal from '../marketModal/MarketModal';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { findMarketId } from '../../utils/markets/findMarketId';
 import NewsCardMap from './NewsCardMap';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
-// TODO remove this once we get real data
-import { mockNews } from './mockNews';
+import { Localized } from '../../translations/Localized';
 
 const FlagIcon = styled.Image`
   height: 20px;
@@ -37,9 +38,8 @@ const FlagIcon = styled.Image`
 `;
 
 const NewsScreen = ({ navigation }) => {
-  initLanguage();
-  const { userMarket } = useContext(AppContext);
-  const { markets } = useContext(LoginContext);
+  const { userMarket, theme } = useContext(AppContext);
+  const { markets, setMarketId, loadingNews, news } = useContext(LoginContext);
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
@@ -47,14 +47,15 @@ const NewsScreen = ({ navigation }) => {
 
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
   const [selectedMarket, setSelectedMarket] = useState(userMarket.countryCode);
-  const initialMarketUrl = markets[0]?.pictureUrl ?? '';
+  const initialMarketUrl = markets?.[0]?.pictureUrl ?? '';
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
 
   useEffect(() => {
-    if (selectedMarket) {
+    if (selectedMarket && markets) {
       setMarketUrl(findMarketUrl(selectedMarket, markets));
+      setMarketId(findMarketId(selectedMarket, markets));
     }
-  }, [selectedMarket]);
+  }, [selectedMarket, markets]);
 
   useEffect(() => {
     if (isFocused) {
@@ -65,24 +66,24 @@ const NewsScreen = ({ navigation }) => {
     }
   }, [isFocused]);
 
-  const initialView = {
-    name: Localized('Q NEWS'),
-    testID: 'Q_NEWS_button',
-  };
-  const [view, setView] = useState(initialView);
-
-  const tertiaryButtonText = [
-    { name: Localized('Q NEWS'), testID: 'Q_NEWS_button' },
-    { name: Localized('BLOG'), testID: 'blog_button' },
-    { name: Localized('IN THE QUEUE'), testID: 'queue_button' },
-  ];
+  const [view, setView] = useState({});
+  useEffect(() => {
+    if (news) {
+      setView(news?.[0]);
+    }
+  }, [marketUrl]);
 
   const navigate = (item) => {
     fadeOut();
     setView(item);
-    Analytics.logEvent(`${item.testID}_tapped`, {
+    // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
+    const formattedTitle = item?.folderName.split(' ').join('_');
+    const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
+    // this regex takes out special characters like "&"
+    const strippedTitle = shortenedTitle.replace(/\W/g, '');
+    Analytics.logEvent(strippedTitle, {
       screen: 'NewsScreen',
-      purpose: `See details for ${item.name}`,
+      purpose: `See details for ${item?.name}`,
     });
   };
 
@@ -115,13 +116,13 @@ const NewsScreen = ({ navigation }) => {
           badgeValue={2}
         />
         <TopButtonBar>
-          {tertiaryButtonText.map((item) => (
+          {news?.map((item) => (
             <TertiaryButton
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
-              selected={view.name === item.name}
-              key={item.name}>
-              {item.name}
+              selected={view?.folderName === item?.folderName}
+              key={item?.folderId}>
+              {item?.folderName.toUpperCase()}
             </TertiaryButton>
           ))}
         </TopButtonBar>
@@ -146,55 +147,43 @@ const NewsScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </Flexbox>
-        {view.name === Localized('Q NEWS') && (
-          // each view needs its own scrollview so the scrolling on one view does not persist when the user changes the view
+
+        {loadingNews ? (
+          <ActivityIndicator
+            size="large"
+            color={theme.disabledBackgroundColor}
+          />
+        ) : (
           <MainScrollView>
-            <FeaturedNewsCard
-              url={mockNews.qnews.featured.url}
-              title={mockNews.qnews.featured.title}
-              body={mockNews.qnews.featured.body}
-              isMenuOpen={isMenuOpen}
-              fadeOut={fadeOut}
-            />
+            {view?.links?.length > 0 ? (
+              <FeaturedNewsCard
+                key={view?.links?.[0]?.linkId}
+                linkId={view?.links?.[0]?.linkId}
+                url={view?.links?.[0]?.linkUrl}
+                imageUrl={view?.links?.[0]?.imageUrl}
+                title={view?.links?.[0]?.linkTitle}
+                body={view?.links?.[0]?.linkDescription}
+                isRead={view?.links?.[0]?.isViewedByAssociate}
+                isMenuOpen={isMenuOpen}
+                fadeOut={fadeOut}
+              />
+            ) : (
+              <Flexbox padding={20}>
+                <H5 style={{ textAlign: 'center' }}>
+                  {Localized(
+                    'There are no news items at this time - Please check back later',
+                  )}
+                </H5>
+              </Flexbox>
+            )}
             <NewsCardMap
-              items={mockNews.qnews.storyList}
+              items={view?.links ?? []}
               isMenuOpen={isMenuOpen}
               fadeOut={fadeOut}
             />
           </MainScrollView>
         )}
-        {view.name === Localized('BLOG') && (
-          <MainScrollView>
-            <FeaturedNewsCard
-              url={mockNews.blog.featured.url}
-              title={mockNews.blog.featured.title}
-              body={mockNews.blog.featured.body}
-              isMenuOpen={isMenuOpen}
-              fadeOut={fadeOut}
-            />
-            <NewsCardMap
-              items={mockNews.blog.storyList}
-              isMenuOpen={isMenuOpen}
-              fadeOut={fadeOut}
-            />
-          </MainScrollView>
-        )}
-        {view.name === Localized('IN THE QUEUE') && (
-          <MainScrollView>
-            <FeaturedNewsCard
-              url={mockNews.events.featured.url}
-              title={mockNews.events.featured.title}
-              body={mockNews.events.featured.body}
-              isMenuOpen={isMenuOpen}
-              fadeOut={fadeOut}
-            />
-            <NewsCardMap
-              items={mockNews.events.storyList}
-              isMenuOpen={isMenuOpen}
-              fadeOut={fadeOut}
-            />
-          </MainScrollView>
-        )}
+
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}

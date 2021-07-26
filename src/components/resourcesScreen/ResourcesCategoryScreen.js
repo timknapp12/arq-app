@@ -58,20 +58,20 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   style={{ zIndex: -index }}
-                  key={item.linkId}
-                  linkId={item.linkId}
-                  url={item.linkUrl}
-                  title={item.linkTitle}
-                  description={item.linkDescription}
-                  contentType={item.contentType}
-                  ext={item.extension}
+                  key={item?.linkId}
+                  linkId={item?.linkId}
+                  url={item?.linkUrl}
+                  title={item?.linkTitle}
+                  description={item?.linkDescription}
+                  contentType={item?.contentType}
+                  ext={item?.extension}
                   navigation={navigation}
                   setToastInfo={setToastInfo}
                   setIsNavDisabled={setIsNavDisabled}
                   isNavDisabled={isNavDisabled}
                   isOwner={isOwner}
                   folderId={folderId}
-                  displayOrder={item.displayOrder}
+                  displayOrder={item?.displayOrder}
                   selectedTeamName={selectedTeamName}
                 />
               ))}

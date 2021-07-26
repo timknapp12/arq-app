@@ -8,9 +8,9 @@ export const OuterContainer = styled.View`
   width: 100%;
   background-color: ${(props) => props.theme.cardBackgroundColor};
   border-left-color: ${(props) => props.theme.highlight};
-  border-left-width: ${(props) => (props.isReadYet ? '6px' : '0px')};
+  border-left-width: ${(props) => (props.isStillNew ? '6px' : '0px')};
   padding: 8px 20px 8px 16px;
-  padding-left: ${(props) => (props.isReadYet ? '10px' : '16px')};
+  padding-left: ${(props) => (props.isStillNew ? '10px' : '16px')};
   border-radius: 5px;
   margin-bottom: 10px;
   min-height: 95px;

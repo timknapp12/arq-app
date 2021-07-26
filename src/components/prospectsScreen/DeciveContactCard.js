@@ -51,9 +51,11 @@ const DeciveContactCard = ({ contact, setContactInfo, onClose, ...props }) => {
             contact?.lastName ?? ''
           }`}</H4Book>
           {contact?.phoneNumbers ? (
-            <H6>{contact?.phoneNumbers[0]?.number ?? ''}</H6>
+            <H6>{contact?.phoneNumbers?.[0]?.number ?? ''}</H6>
           ) : null}
-          {contact?.emails ? <H6>{contact?.emails[0]?.email ?? ''}</H6> : null}
+          {contact?.emails ? (
+            <H6>{contact?.emails?.[0]?.email ?? ''}</H6>
+          ) : null}
         </Stack>
       </Row>
     </TouchableCardContainer>

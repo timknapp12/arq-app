@@ -276,7 +276,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   // states for usa are in a dropdown but just a text input for other countries so this pevents breaking the ui for state value when switching countries
   useEffect(() => {
     if (address?.countryCode === 'us') {
-      usStates.find((item) => item.value === address?.state)
+      usStates.find((item) => item?.value === address?.state)
         ? handleChange('address', { ...address, state: address?.state })
         : handleChange('address', { ...address, state: null });
     }
@@ -514,7 +514,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                           label={Localized('State')}
                           value={address?.state}
                           placeholder={{
-                            label: Localized('State'),
+                            label: '',
                             value: null,
                           }}
                           onValueChange={(value) => {
@@ -583,7 +583,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       items={countryList}
                       label={Localized('Country')}
                       value={address?.countryCode}
-                      placeholder={{ label: Localized('Country'), value: null }}
+                      placeholder={{}}
                       onValueChange={(value) => {
                         handleChange('address', {
                           ...address,

@@ -115,13 +115,13 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                   {data?.searchResources?.productFolders?.map(
                     (item, index) =>
                       // ensure the product has links so an empty folder is not displayed, or a category folder like "Hemp" or "Energy"
-                      item.links.length > 0 && (
+                      item?.links.length > 0 && (
                         <ProductCard
-                          key={item.folderId}
+                          key={item?.folderId}
                           style={{ zIndex: -index }}
-                          title={item.folderName}
-                          description={item.folderDescription}
-                          url={item.pictureUrl}
+                          title={item?.folderName}
+                          description={item?.folderDescription}
+                          url={item?.pictureUrl}
                           isCalloutOpenFromParent={isCalloutOpenFromParent}
                           setIsCalloutOpenFromParent={
                             setIsCalloutOpenFromParent
@@ -130,11 +130,11 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                           navigation={navigation}
                           setToastInfo={setToastInfo}
                           isFavorite={false}
-                          assetList={item.links}
+                          assetList={item?.links}
                           onPress={() => {
                             setIsCalloutOpenFromParent(false);
                             navigation.navigate('Resources Asset Screen', {
-                              title: item.title.toUpperCase(),
+                              title: item?.title.toUpperCase(),
                             });
                           }}
                         />
@@ -147,13 +147,13 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                       isCalloutOpenFromParent={isCalloutOpenFromParent}
                       setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                       style={{ zIndex: -index }}
-                      key={item.linkId}
-                      linkId={item.linkId}
-                      url={item.linkUrl}
-                      title={item.linkTitle}
-                      description={item.linkDescription}
-                      contentType={item.contentType}
-                      ext={item.extension}
+                      key={item?.linkId}
+                      linkId={item?.linkId}
+                      url={item?.linkUrl}
+                      title={item?.linkTitle}
+                      description={item?.linkDescription}
+                      contentType={item?.contentType}
+                      ext={item?.extension}
                       navigation={navigation}
                       setToastInfo={setToastInfo}
                       setIsNavDisabled={setIsNavDisabled}

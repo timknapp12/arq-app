@@ -6,6 +6,7 @@ import DashboardStack from './DashboardStack';
 import ResourcesStack from './ResourcesStack';
 import NewsScreen from '../components/newsScreen/NewsScreen';
 import AppContext from '../contexts/AppContext';
+import LoginContext from '../contexts/LoginContext';
 import * as Analytics from 'expo-firebase-analytics';
 import storybook from '../../assets/icons/storybook.png';
 import { Localized, initLanguage } from '../translations/Localized';
@@ -28,6 +29,7 @@ const Tabs = () => {
   const [showStorybook] = useState(true);
   initLanguage();
   const { theme } = useContext(AppContext);
+  const { newsNotificationCount } = useContext(LoginContext);
   return (
     <Tab.Navigator
       onNavigationStateChange={(prevState, currentState) => {
@@ -88,7 +90,7 @@ const Tabs = () => {
         component={NewsScreen}
         options={{
           title: Localized('NEWS'),
-          tabBarBadge: 2,
+          tabBarBadge: newsNotificationCount > 0 ? newsNotificationCount : null,
           tabBarBadgeStyle: { backgroundColor: theme.highlight },
         }}
       />

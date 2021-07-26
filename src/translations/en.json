@@ -83,7 +83,6 @@
   "Account": "Account",
   "Notifications": "Notifications",
   "Face ID or Fingerprint Sign In": "Face ID or Fingerprint Sign In",
-  "Market": "Market",
   "Current Password": "Current Password",
   "New Password": "New Password",
   "Confirm New Password": "Confirm New Password",
@@ -128,7 +127,6 @@
   "Description": "Description",
   "File": "File",
   "File Type": "File Type",
-  "Select a file type": "Select a file type",
   "Image": "Image",
   "Pdf": "Pdf",
   "Video": "Video",
@@ -232,5 +230,6 @@
   "Are you sure you want to remove this person?": "Are you sure you want to remove this person?",
   "import": "import",
   "Add Prospect": "Add Prospect",
-  "Edit Prospect": "Edit Prospect"
+  "Edit Prospect": "Edit Prospect",
+  "There are no news items at this time - Please check back later": "There are no news items at this time - Please check back later"
 }
