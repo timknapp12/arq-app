@@ -20,7 +20,6 @@ const EnterIdScreen = ({ navigation }) => {
   const [getDirectScaleInfo] = useMutation(DIRECT_SCALE_INFO, {
     variables: { ambassadorOnly: true, userName: username },
     onCompleted: (data) => {
-      console.log(`if data:`, data);
       const status = data?.directScaleInfo?.status;
       console.log(`status`, status);
       handleGetDirectScaleInfo(status, navigation, setErrorMessage, username);
