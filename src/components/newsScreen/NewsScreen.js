@@ -12,6 +12,7 @@ import {
   Flexbox,
   TertiaryButton,
   TopButtonBar,
+  H5,
 } from '../common';
 import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
@@ -27,6 +28,7 @@ import { findMarketId } from '../../utils/markets/findMarketId';
 import NewsCardMap from './NewsCardMap';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import { Localized } from '../../translations/Localized';
 
 const FlagIcon = styled.Image`
   height: 20px;
@@ -64,13 +66,12 @@ const NewsScreen = ({ navigation }) => {
     }
   }, [isFocused]);
 
-  // const initialView = news?.[0];
   const [view, setView] = useState({});
   useEffect(() => {
     if (news) {
       setView(news?.[0]);
     }
-  }, [news]);
+  }, [marketUrl]);
 
   const navigate = (item) => {
     fadeOut();
@@ -154,15 +155,27 @@ const NewsScreen = ({ navigation }) => {
           />
         ) : (
           <MainScrollView>
-            <FeaturedNewsCard
-              key={view?.links?.[0]?.linkId}
-              url={view?.links?.[0]?.linkUrl}
-              imageUrl={view?.links?.[0]?.imageUrl}
-              title={view?.links?.[0]?.linkTitle}
-              body={view?.links?.[0]?.linkDescription}
-              isMenuOpen={isMenuOpen}
-              fadeOut={fadeOut}
-            />
+            {view?.links?.length > 0 ? (
+              <FeaturedNewsCard
+                key={view?.links?.[0]?.linkId}
+                linkId={view?.links?.[0]?.linkId}
+                url={view?.links?.[0]?.linkUrl}
+                imageUrl={view?.links?.[0]?.imageUrl}
+                title={view?.links?.[0]?.linkTitle}
+                body={view?.links?.[0]?.linkDescription}
+                isRead={view?.links?.[0]?.isViewedByAssociate}
+                isMenuOpen={isMenuOpen}
+                fadeOut={fadeOut}
+              />
+            ) : (
+              <Flexbox padding={20}>
+                <H5 style={{ textAlign: 'center' }}>
+                  {Localized(
+                    'There are no news items at this time - Please check back later',
+                  )}
+                </H5>
+              </Flexbox>
+            )}
             <NewsCardMap
               items={view?.links ?? []}
               isMenuOpen={isMenuOpen}
