@@ -226,7 +226,8 @@ export const ADD_UPDATE_ASSET = gql`
     $fileName: String!
     $imageUrl: String
     $dateStart: DateTime
-    $dateEnd: DateTime # TODO changedBy
+    $dateEnd: DateTime
+    $changedBy: String!
   ) {
     addUpdateLink(
       input: {
@@ -243,6 +244,7 @@ export const ADD_UPDATE_ASSET = gql`
         imageUrl: $imageUrl
         dateStart: $dateStart
         dateEnd: $dateEnd
+        changedBy: $changedBy
       }
     ) {
       linkTitle

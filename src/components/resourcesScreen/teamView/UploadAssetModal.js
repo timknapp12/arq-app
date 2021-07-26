@@ -140,6 +140,7 @@ const UploadAssetModal = ({
     imageUrl: '',
     dateStart: new Date().toISOString(),
     dateEnd: new Date().toISOString(),
+    changedBy: '',
   };
 
   const [addUpdateAsset] = useMutation(ADD_UPDATE_ASSET, {
