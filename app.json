@@ -22,7 +22,7 @@
           "reservedClientId": "com.googleusercontent.apps.348281014348-ht5p0eekc0buo4lkop00v9gfptltuugg"
         }
       },
-      "buildNumber": "0.0.12",
+      "buildNumber": "0.0.11",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
