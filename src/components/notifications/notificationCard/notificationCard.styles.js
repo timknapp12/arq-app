@@ -12,7 +12,7 @@ export const OuterContainer = styled.View`
   padding: 8px 20px 8px 16px;
   padding-left: ${(props) => (props.isStillNew ? '10px' : '16px')};
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
   min-height: 95px;
   height: ${(props) => (props.isExpanded ? 'auto' : '95px')};
   overflow: hidden;

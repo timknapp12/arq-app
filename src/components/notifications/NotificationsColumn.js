@@ -1,7 +1,12 @@
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Animated, Dimensions, ScrollView } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { Flexbox, H5Black } from '../common';
 import NotificationCard from './notificationCard/NotificationCard';
 import LoginContext from '../../contexts/LoginContext';
@@ -31,7 +36,12 @@ const ClearButton = styled.TouchableOpacity`
 `;
 
 const NotificationsColumn = () => {
-  const { displayNotifications } = useContext(LoginContext);
+  const { displayNotifications, setDisplayNotifications } =
+    useContext(LoginContext);
+
+  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
+  const [isTouchDisabled, setIsTouchDisabled] = useState(false);
+
   const fadeAnim = useRef(new Animated.Value(-(windowHeight + 200))).current;
 
   const fadeDown = () => {
@@ -63,25 +73,41 @@ const NotificationsColumn = () => {
   const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
   return (
-    <AnimatedContainer style={{ top: fadeAnim }}>
-      <ScrollView
-        style={{ width: '100%', maxHeight: windowHeight - 300 }}
-        // nestedScrollEnabled={true}
-      >
-        <Flexbox
-          onStartShouldSetResponder={() => true}
-          onTouchEnd={(e) => {
-            e.stopPropagation();
-          }}>
-          {items?.map((item) => (
-            <NotificationCard key={item.sentLinkId} />
-          ))}
-        </Flexbox>
-      </ScrollView>
-      <ClearButton>
-        <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
-      </ClearButton>
-    </AnimatedContainer>
+    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
+      <AnimatedContainer style={{ top: fadeAnim }}>
+        <ScrollView
+          style={{ width: '100%', maxHeight: windowHeight - 300 }}
+          nestedScrollEnabled={true}>
+          <Flexbox
+            onStartShouldSetResponder={() => true}
+            onTouchEnd={(e) => {
+              e.stopPropagation();
+            }}>
+            {items?.map((item) => (
+              <NotificationCard
+                key={item?.sentLinkId}
+                isCalloutOpenFromParent={isCalloutOpenFromParent}
+                setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
+                isTouchDisabled={isTouchDisabled}
+                setIsTouchDisabled={setIsTouchDisabled}
+                data={item}
+              />
+            ))}
+          </Flexbox>
+        </ScrollView>
+        {items?.length > 0 ? (
+          <ClearButton>
+            <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
+          </ClearButton>
+        ) : (
+          <ClearButton
+            activeOpacity={1}
+            onPress={() => setDisplayNotifications(false)}>
+            <H5Black>{Localized('You have no new notifications')}</H5Black>
+          </ClearButton>
+        )}
+      </AnimatedContainer>
+    </TouchableWithoutFeedback>
   );
 };
 
