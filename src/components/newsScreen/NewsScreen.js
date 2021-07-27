@@ -26,6 +26,7 @@ import MarketModal from '../marketModal/MarketModal';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
 import { findMarketId } from '../../utils/markets/findMarketId';
 import NewsCardMap from './NewsCardMap';
+import NotificationsColumn from '../notifications/NotificationsColumn';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
@@ -39,7 +40,8 @@ const FlagIcon = styled.Image`
 
 const NewsScreen = ({ navigation }) => {
   const { userMarket, theme } = useContext(AppContext);
-  const { markets, setMarketId, loadingNews, news } = useContext(LoginContext);
+  const { markets, setMarketId, loadingNews, news, setDisplayNotifications } =
+    useContext(LoginContext);
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
@@ -64,6 +66,9 @@ const NewsScreen = ({ navigation }) => {
         purpose: 'User navigated to News Screen',
       });
     }
+    return () => {
+      closeMenus();
+    };
   }, [isFocused]);
 
   const [view, setView] = useState({});
@@ -105,16 +110,24 @@ const NewsScreen = ({ navigation }) => {
     }).start(() => setIsMenuOpen(false));
   };
 
+  const closeMenus = () => {
+    fadeOut();
+    setDisplayNotifications(false);
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={fadeOut}>
+    <TouchableWithoutFeedback onPress={closeMenus}>
       <ScreenContainer style={{ justifyContent: 'flex-start' }}>
-        <MainHeader
-          isMenuOpen={isMenuOpen}
-          fadeIn={fadeIn}
-          fadeOut={fadeOut}
-          setIsMenuOpen={setIsMenuOpen}
-          badgeValue={2}
-        />
+        <Flexbox style={{ zIndex: 2 }}>
+          <MainHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+            badgeValue={2}
+          />
+          <NotificationsColumn />
+        </Flexbox>
         <TopButtonBar>
           {news?.map((item) => (
             <TertiaryButton
@@ -165,7 +178,7 @@ const NewsScreen = ({ navigation }) => {
                 body={view?.links?.[0]?.linkDescription}
                 isRead={view?.links?.[0]?.isViewedByAssociate}
                 isMenuOpen={isMenuOpen}
-                fadeOut={fadeOut}
+                closeMenus={closeMenus}
               />
             ) : (
               <Flexbox padding={20}>
@@ -179,7 +192,7 @@ const NewsScreen = ({ navigation }) => {
             <NewsCardMap
               items={view?.links ?? []}
               isMenuOpen={isMenuOpen}
-              fadeOut={fadeOut}
+              closeMenus={closeMenus}
             />
           </MainScrollView>
         )}

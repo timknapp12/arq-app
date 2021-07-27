@@ -62,8 +62,7 @@ const DashboardScreen = ({ navigation }) => {
       });
     }
     return () => {
-      fadeOut();
-      setDisplayNotifications(false);
+      closeMenus();
     };
   }, [isFocused]);
 

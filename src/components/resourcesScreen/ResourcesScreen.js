@@ -36,6 +36,9 @@ const ResourcesScreen = ({ navigation }) => {
         purpose: 'User iond to Resources Screen',
       });
     }
+    return () => {
+      closeMenus();
+    };
   }, [isFocused]);
 
   const initialView = {
