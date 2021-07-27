@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { View, TouchableOpacity, Linking } from 'react-native';
 import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
@@ -19,16 +20,17 @@ const Row = styled.View`
   flex-direction: row;
 `;
 
-const ServicesView = () => {
+const ServicesView = ({ closeMenus }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
   return (
     <MainScrollView>
       <View style={{ width: '100%' }}>
         <TouchableOpacity
-          onPress={() =>
-            Linking.openURL('https://office2.myqsciences.com/#/Login')
-          }>
+          onPress={() => {
+            Linking.openURL('https://office2.myqsciences.com/#/Login');
+            closeMenus();
+          }}>
           <Card>
             <Row>
               <BackOfficeIcon
@@ -57,9 +59,10 @@ const ServicesView = () => {
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() =>
-            Linking.openURL('https://office2.myqsciences.com/#/Login')
-          }>
+          onPress={() => {
+            Linking.openURL('https://office2.myqsciences.com/#/Login');
+            closeMenus();
+          }}>
           <Card>
             <Row>
               <EnrollmentIcon
@@ -88,6 +91,10 @@ const ServicesView = () => {
       </View>
     </MainScrollView>
   );
+};
+
+ServicesView.propTypes = {
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default ServicesView;

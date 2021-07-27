@@ -25,7 +25,7 @@ import {
 } from '../../../utils/teamResources/findTeamResourceData';
 
 const TeamView = ({
-  fadeOut,
+  closeMenus,
   navigation,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
@@ -70,7 +70,7 @@ const TeamView = ({
   );
 
   const navigateToResource = (item) => {
-    fadeOut();
+    closeMenus();
     // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
     if (Platform.OS === 'android' && isNavDisabled) {
       setIsNavDisabled(false);
@@ -78,7 +78,7 @@ const TeamView = ({
     }
     // this prevents a team resource folder opening when it is underneath a the main menu
     if (isMenuOpen && Platform.OS === 'android') {
-      return fadeOut();
+      return closeMenus();
     }
     navigation.navigate('Team Resources Category Screen', {
       title: item?.folderName.toUpperCase(),
@@ -202,7 +202,7 @@ const TeamView = ({
     <>
       <FilterSearchBar
         onPress={() => {
-          fadeOut();
+          closeMenus();
           navigation.navigate('Team Search Screen', {
             title: selectedTeamName.toUpperCase(),
             selectedTeamName,
@@ -306,7 +306,7 @@ const TeamView = ({
 };
 
 TeamView.propTypes = {
-  fadeOut: PropTypes.func.isRequired,
+  closeMenus: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
   isCalloutOpenFromParent: PropTypes.bool.isRequired,
   setIsCalloutOpenFromParent: PropTypes.func.isRequired,

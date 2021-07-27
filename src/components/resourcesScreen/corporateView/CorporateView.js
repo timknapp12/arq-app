@@ -26,7 +26,7 @@ const FlagIcon = styled.Image`
   border-radius: 10px;
 `;
 
-const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
+const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const {
     userMarket,
     // we might need device language for translations
@@ -57,9 +57,9 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
   const navigateToResource = (item) => {
     // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
     if (isMenuOpen && Platform.OS === 'android') {
-      return fadeOut();
+      return closeMenus();
     }
-    fadeOut();
+    closeMenus();
     if (item?.folderName === 'Products') {
       navigation.navigate('Product Category Screen', {
         title: item?.folderName.toUpperCase(),
@@ -90,7 +90,7 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
     <>
       <FilterSearchBar
         onPress={() => {
-          fadeOut();
+          closeMenus();
           navigation.navigate('Corporate Search Screen', {
             marketId: marketId,
           });
@@ -149,7 +149,7 @@ const CorporateView = ({ navigation, fadeOut, isMenuOpen }) => {
 
 CorporateView.propTypes = {
   navigation: PropTypes.object.isRequired,
-  fadeOut: PropTypes.func.isRequired,
+  closeMenus: PropTypes.func.isRequired,
   isMenuOpen: PropTypes.bool.isRequired,
 };
 

@@ -16,15 +16,18 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+import NotificationsColumn from '../notifications/NotificationsColumn';
 import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
   const { hasPermissions } = useContext(AppContext);
+  const { setDisplayNotifications } = useContext(LoginContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -36,7 +39,7 @@ const ResourcesScreen = ({ navigation }) => {
   }, [isFocused]);
 
   const initialView = {
-    name: Localized('CORPORATE'),
+    name: Localized('Corporate').toUpperCase(),
     testID: 'corporate_button',
   };
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
@@ -49,9 +52,9 @@ const ResourcesScreen = ({ navigation }) => {
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
-    { name: Localized('CORPORATE'), testID: 'corporate_button' },
-    { name: Localized('TEAM'), testID: 'team_button' },
-    { name: Localized('SERVICES'), testID: 'services_button' },
+    { name: Localized('Corporate').toUpperCase(), testID: 'corporate_button' },
+    { name: Localized('Team').toUpperCase(), testID: 'team_button' },
+    { name: Localized('Services').toUpperCase(), testID: 'services_button' },
     // { name: Localized('FAVORITES'), testID: 'favorites_button' },
   ];
 
@@ -104,8 +107,13 @@ const ResourcesScreen = ({ navigation }) => {
     }).start(() => setIsTeamMenuOpen(false));
   };
 
-  const navigate = (item) => {
+  const closeMenus = () => {
     fadeOut();
+    setDisplayNotifications(false);
+  };
+
+  const navigate = (item) => {
+    closeMenus();
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'ResourcesScreen',
@@ -116,20 +124,24 @@ const ResourcesScreen = ({ navigation }) => {
     <TouchableWithoutFeedback
       onPress={() => {
         setIsCalloutOpenFromParent(false);
-        fadeOut();
+        closeMenus();
       }}>
       <ScreenContainer
         style={{
           justifyContent: 'flex-start',
           height: '100%',
         }}>
-        <MainHeader
-          isMenuOpen={isMenuOpen}
-          fadeIn={fadeIn}
-          fadeOut={fadeOut}
-          setIsMenuOpen={setIsMenuOpen}
-          badgeValue={2}
-        />
+        <Flexbox style={{ zIndex: 2 }}>
+          <MainHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+            badgeValue={2}
+          />
+          <NotificationsColumn />
+        </Flexbox>
+
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
@@ -150,16 +162,16 @@ const ResourcesScreen = ({ navigation }) => {
             navigation={navigation}
           />
         </Flexbox>
-        {view.name === Localized('CORPORATE') && (
+        {view.name === Localized('Corporate').toUpperCase() && (
           <CorporateView
-            fadeOut={fadeOut}
+            closeMenus={closeMenus}
             navigation={navigation}
             isMenuOpen={isMenuOpen}
           />
         )}
-        {view.name === Localized('TEAM') && (
+        {view.name === Localized('Team').toUpperCase() && (
           <TeamView
-            fadeOut={fadeOut}
+            closeMenus={closeMenus}
             navigation={navigation}
             isCalloutOpenFromParent={isCalloutOpenFromParent}
             setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
@@ -174,18 +186,24 @@ const ResourcesScreen = ({ navigation }) => {
             setIsOwner={setIsOwner}
           />
         )}
-        {view.name === Localized('SERVICES') && <ServicesView />}
-        {view.name === Localized('FAVORITES') && <FavoritesView />}
-        {view.name === Localized('TEAM') && hasPermissions && isOwner && (
-          <AddButton
-            bottom="10px"
-            onPress={() => {
-              setIsAddFolderModalOpen(true);
-              setIsCalloutOpenFromParent(false);
-            }}>
-            <ButtonText>+</ButtonText>
-          </AddButton>
+        {view.name === Localized('Services').toUpperCase() && (
+          <ServicesView closeMenus={closeMenus} />
         )}
+        {view.name === Localized('Favorites').toUpperCase() && (
+          <FavoritesView />
+        )}
+        {view.name === Localized('Team').toUpperCase() &&
+          hasPermissions &&
+          isOwner && (
+            <AddButton
+              bottom="10px"
+              onPress={() => {
+                setIsAddFolderModalOpen(true);
+                setIsCalloutOpenFromParent(false);
+              }}>
+              <ButtonText>+</ButtonText>
+            </AddButton>
+          )}
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
