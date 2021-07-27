@@ -30,6 +30,7 @@ const InitialDataContainer = ({ children }) => {
   });
 
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
+  const [displayNotifications, setDisplayNotifications] = useState(false);
   const clearFields = () => {
     setEmail('');
     setPassword('');
@@ -126,6 +127,8 @@ const InitialDataContainer = ({ children }) => {
         news,
         newsNotificationCount,
         refetchNews,
+        displayNotifications,
+        setDisplayNotifications,
       }}>
       {children}
     </LoginContext.Provider>

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
 import { Flexbox, SmallQIcon, BellIcon, AccountIcon, Header } from '../common';
 import account from '../../../assets/icons/ic_account.png';
 import LoginContext from '../../contexts/LoginContext';
@@ -17,7 +17,8 @@ const MainHeader = ({
   fadeOut = () => {},
   isMenuOpen,
 }) => {
-  const { userProfile = { profileUrl: '' } } = useContext(LoginContext);
+  const { userProfile = { profileUrl: '' }, setDisplayNotifications } =
+    useContext(LoginContext);
   const [isImageValid, setIsImageValid] = useState(true);
   const [url, setUrl] = useState(userProfile?.profileUrl ?? '');
   // this flag triggers react to re-render the UI
@@ -47,6 +48,7 @@ const MainHeader = ({
           onPress={(e) => {
             e.stopPropagation();
             toggleMenu();
+            setDisplayNotifications(false);
           }}>
           {url && isImageValid && urlHasChanged ? (
             <ProfileImage
@@ -63,7 +65,10 @@ const MainHeader = ({
       <SmallQIcon />
       <Flexbox width="60px" align="flex-end">
         <TouchableOpacity
-          onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
+          onPress={() => {
+            setDisplayNotifications((state) => !state);
+            fadeOut();
+          }}>
           <BellIcon badgeValue={badgeValue} />
         </TouchableOpacity>
       </Flexbox>

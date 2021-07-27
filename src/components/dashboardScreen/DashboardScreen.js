@@ -18,6 +18,7 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
 
 const DashboardScreen = ({ navigation }) => {
@@ -49,6 +50,7 @@ const DashboardScreen = ({ navigation }) => {
       },
     },
     ranks = [],
+    setDisplayNotifications,
   } = useContext(LoginContext);
 
   const isFocused = useIsFocused();
@@ -61,6 +63,7 @@ const DashboardScreen = ({ navigation }) => {
     }
     return () => {
       fadeOut();
+      setDisplayNotifications(false);
     };
   }, [isFocused]);
 
@@ -72,9 +75,9 @@ const DashboardScreen = ({ navigation }) => {
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
-    { name: Localized('OVERVIEW'), testID: 'overview_button' },
-    { name: Localized('RANK'), testID: 'rank_button' },
-    { name: Localized('OV DETAIL'), testID: 'ov_detail_button' },
+    { name: Localized('Overview').toUpperCase(), testID: 'overview_button' },
+    { name: Localized('Rank').toUpperCase(), testID: 'rank_button' },
+    { name: Localized('OV Detail').toUpperCase(), testID: 'ov_detail_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -110,15 +113,22 @@ const DashboardScreen = ({ navigation }) => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   return (
-    <TouchableWithoutFeedback onPress={fadeOut}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        fadeOut();
+        setDisplayNotifications(false);
+      }}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
-        <MainHeader
-          isMenuOpen={isMenuOpen}
-          fadeIn={fadeIn}
-          fadeOut={fadeOut}
-          setIsMenuOpen={setIsMenuOpen}
-          badgeValue={2}
-        />
+        <Flexbox style={{ zIndex: 2 }}>
+          <MainHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+            badgeValue={2}
+          />
+          <NotificationsColumn />
+        </Flexbox>
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
@@ -149,13 +159,13 @@ const DashboardScreen = ({ navigation }) => {
             height: '100%',
             zIndex: -1,
           }}>
-          {view.name === Localized('OVERVIEW') && (
+          {view.name === Localized('Overview').toUpperCase() && (
             <Overview user={user} fadeOut={fadeOut} />
           )}
-          {view.name === Localized('RANK') && (
+          {view.name === Localized('Rank').toUpperCase() && (
             <Rank ranklist={ranks} user={user} fadeOut={fadeOut} />
           )}
-          {view.name === Localized('OV DETAIL') && (
+          {view.name === Localized('OV Detail').toUpperCase() && (
             <OVDetail ranklist={ranks} user={user} fadeOut={fadeOut} />
           )}
         </ScrollView>
