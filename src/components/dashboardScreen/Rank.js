@@ -32,10 +32,8 @@ const Square = styled.View`
   background-color: ${({ squareFill }) => squareFill};
 `;
 
-const Rank = ({ ranklist, user, fadeOut }) => {
+const Rank = ({ ranklist, user, closeMenus }) => {
   initLanguage();
-  // TODO get ranks from database once they have the correct data
-  // const {ranks: ranklist} = useContext(LoginContext)
   const { pv, qoV, pa, previousAmbassadorMonthlyRecord } = user;
 
   const lastMonthPV = previousAmbassadorMonthlyRecord?.personalVolume ?? 0;
@@ -86,11 +84,8 @@ const Rank = ({ ranklist, user, fadeOut }) => {
   const paPerc = reshapePerc(pa, rank.requiredPa);
 
   return (
-    <TouchableWithoutFeedback onPress={fadeOut}>
-      <Flexbox
-        justify="flex-start"
-        height="100%"
-        onStartShouldSetResponder={() => true}>
+    <TouchableWithoutFeedback onPress={closeMenus}>
+      <Flexbox justify="flex-start" onStartShouldSetResponder={() => true}>
         <Slider
           rankName={rankName}
           setRankName={setRankName}
@@ -229,7 +224,7 @@ Rank.propTypes = {
     }),
   ),
   user: PropTypes.object,
-  fadeOut: PropTypes.func,
+  closeMenus: PropTypes.func,
 };
 
 export default Rank;

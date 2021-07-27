@@ -100,8 +100,13 @@ const DashboardScreen = ({ navigation }) => {
     }).start(() => setIsMenuOpen(false));
   };
 
-  const navigate = (item) => {
+  const closeMenus = () => {
     fadeOut();
+    setDisplayNotifications(false);
+  };
+
+  const navigate = (item) => {
+    closeMenus();
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'Dashboard Screen',
@@ -113,11 +118,7 @@ const DashboardScreen = ({ navigation }) => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        fadeOut();
-        setDisplayNotifications(false);
-      }}>
+    <TouchableWithoutFeedback onPress={closeMenus}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
         <Flexbox style={{ zIndex: 2 }}>
           <MainHeader
@@ -160,13 +161,13 @@ const DashboardScreen = ({ navigation }) => {
             zIndex: -1,
           }}>
           {view.name === Localized('Overview').toUpperCase() && (
-            <Overview user={user} fadeOut={fadeOut} />
+            <Overview user={user} closeMenus={closeMenus} />
           )}
           {view.name === Localized('Rank').toUpperCase() && (
-            <Rank ranklist={ranks} user={user} fadeOut={fadeOut} />
+            <Rank ranklist={ranks} user={user} closeMenus={closeMenus} />
           )}
           {view.name === Localized('OV Detail').toUpperCase() && (
-            <OVDetail ranklist={ranks} user={user} fadeOut={fadeOut} />
+            <OVDetail ranklist={ranks} user={user} closeMenus={closeMenus} />
           )}
         </ScrollView>
         {isMyInfoModalOpen && (
