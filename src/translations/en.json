@@ -187,5 +187,15 @@
   "import": "import",
   "Add Prospect": "Add Prospect",
   "Edit Prospect": "Edit Prospect",
-  "There are no news items at this time - Please check back later": "There are no news items at this time - Please check back later"
+  "There are no news items at this time - Please check back later": "There are no news items at this time - Please check back later",
+  "Clear All": "Clear All",
+  "Clear": "Clear",
+  "Pin": "Pin",
+  "Add to Prospects": "Add to Prospects",
+  "Today": "Today",
+  "You have no new notifications": "You have no new notifications",
+  "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.",
+  "Viewed the document {0}": "Viewed the document {0}",
+  "Entered phone number": "Entered phone number",
+  "Entered email address": "Entered email address"
 }
