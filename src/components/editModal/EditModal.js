@@ -48,14 +48,14 @@ const EditModal = ({
           {children}
           <Flexbox padding={10} direction="row" justify="flex-end">
             <SaveButton testID="cancel-button-in-edit-modal" onPress={onClose}>
-              <H5Heavy>{Localized('CANCEL')}</H5Heavy>
+              <H5Heavy>{Localized('Cancel').toUpperCase()}</H5Heavy>
             </SaveButton>
             <SaveButton
               testID="save-button-in-edit-modal"
               style={{ marginStart: 16 }}
               disabled={saveButtonDisabled}
               onPress={onSave}>
-              <H5Heavy>{Localized('save').toUpperCase()}</H5Heavy>
+              <H5Heavy>{Localized('Save').toUpperCase()}</H5Heavy>
             </SaveButton>
           </Flexbox>
         </Inner>

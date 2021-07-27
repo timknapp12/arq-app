@@ -78,18 +78,18 @@ const Tabs = () => {
       <Tab.Screen
         name="DashboardScreen"
         component={DashboardStack}
-        options={{ title: Localized('DASHBOARD') }}
+        options={{ title: Localized('Dashboard').toUpperCase() }}
       />
       <Tab.Screen
         name="ResourcesStack"
         component={ResourcesStack}
-        options={{ title: Localized('RESOURCES') }}
+        options={{ title: Localized('Resources').toUpperCase() }}
       />
       <Tab.Screen
         name="NewsScreen"
         component={NewsScreen}
         options={{
-          title: Localized('NEWS'),
+          title: Localized('News').toUpperCase(),
           tabBarBadge: newsNotificationCount > 0 ? newsNotificationCount : null,
           tabBarBadgeStyle: { backgroundColor: theme.highlight },
         }}

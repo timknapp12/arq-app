@@ -267,7 +267,7 @@ const AddContactModal = ({
                             color={theme.disabledBackgroundColor}
                           />
                         ) : (
-                          <H4Heavy>{Localized('save').toUpperCase()}</H4Heavy>
+                          <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
                         )}
                       </TouchableOpacity>
                     ) : newContact ? (

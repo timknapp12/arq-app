@@ -74,13 +74,13 @@ const MarketModal = ({
               <TouchableOpacity
                 testID="cancel-button-in-market-modal"
                 onPress={onCancel}>
-                <H5Heavy>{Localized('CANCEL')}</H5Heavy>
+                <H5Heavy>{Localized('Cancel').toUpperCase()}</H5Heavy>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ marginStart: 16 }}
                 testID="save-button-in-market-modal"
                 onPress={closeModal}>
-                <H5Heavy>{Localized('save').toUpperCase()}</H5Heavy>
+                <H5Heavy>{Localized('Save').toUpperCase()}</H5Heavy>
               </TouchableOpacity>
             </Flexbox>
           </View>
