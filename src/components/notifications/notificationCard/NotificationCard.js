@@ -64,6 +64,8 @@ const NotificationCard = ({
   const options = {
     month: 'short',
     day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   };
 
   let [y, m, d, hh, mm, ss, ms] = data?.dateSent.match(/\d+/g);
@@ -90,6 +92,7 @@ const NotificationCard = ({
     return (
       <ExpandedNotificationCard
         {...props}
+        isExpanded={isExpanded}
         toggleExpanded={toggleExpanded}
         data={data}
         dateSent={formattedDate}

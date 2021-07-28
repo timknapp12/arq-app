@@ -193,9 +193,10 @@
   "Pin": "Pin",
   "Add to Prospects": "Add to Prospects",
   "Today": "Today",
+  "View Contact Information": "View Contact Information",
+  "View Prospect": "View Prospect",
+  "Copy Link": "Copy Link",
   "You have no new notifications": "You have no new notifications",
   "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.",
-  "Viewed the document {0}": "Viewed the document {0}",
-  "Entered phone number": "Entered phone number",
-  "Entered email address": "Entered email address"
+  "Viewed the document {0}": "Viewed the document {0}"
 }
