@@ -76,17 +76,17 @@ const NotificationCard = ({
 
   const onPin = () => {};
 
-  const onUnPin = () => {};
+  const onUnpin = () => {};
 
   const handlePin = () => {
     if (data.isSaved) {
-      onUnPin();
+      onUnpin();
     } else {
       onPin();
     }
   };
 
-  const onMoveToProspects = () => {};
+  const onViewProspect = () => {};
 
   if (isExpanded) {
     return (
@@ -98,7 +98,7 @@ const NotificationCard = ({
         dateSent={formattedDate}
         onRemove={onRemove}
         handlePin={handlePin}
-        onMoveToProspects={onMoveToProspects}
+        onViewProspect={onViewProspect}
       />
     );
   }
@@ -111,7 +111,7 @@ const NotificationCard = ({
       dateSent={formattedDate}
       onRemove={onRemove}
       handlePin={handlePin}
-      onMoveToProspects={onMoveToProspects}
+      onViewProspect={onViewProspect}
       isCalloutOpen={isCalloutOpen}
       onCallout={onCallout}
     />
