@@ -302,3 +302,24 @@ export const GET_NEWS = gql`
     }
   }
 `;
+
+export const GET_PROSPECT_NOTIFICATIONS = gql`
+  query ProspectViewsByAssociate($associateId: Int!) {
+    prospectViewsByAssociate(
+      associateId: $associateId
+      order: { dateViewUtc: DESC }
+    ) {
+      viewId
+      isSaved
+      isReadByAssociate
+      prospect {
+        firstName
+        lastName
+      }
+      sentLinks {
+        redirectUrl
+        dateSent
+      }
+    }
+  }
+`;

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
 import { TouchableOpacity } from 'react-native';
 import { H2Book, H4Book, H6, Flexbox } from '../../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,6 +12,7 @@ import account from '../../../../assets/icons/ic_account.png';
 import AppContext from '../../../contexts/AppContext';
 import AddContactModal from '../AddContactModal';
 import ProspectsContext from '../../../contexts/ProspectsContext';
+import { GET_PROSPECT_URL } from '../../../graphql/mutations';
 import {
   CardContainer,
   Row,
@@ -28,11 +30,17 @@ const ExpandedContactCard = ({
   onRemove,
   ...props
 }) => {
-  const { theme } = useContext(AppContext);
-  const { onEmail, onMessage, isCalloutOpenFromParent } =
-    useContext(ProspectsContext);
+  const { theme, associateId } = useContext(AppContext);
+  const {
+    onEmail,
+    onMessage,
+    isCalloutOpenFromParent,
+    redirectUrl,
+    prospectLinkIsNeeded,
+  } = useContext(ProspectsContext);
 
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
+  const [messageType, setMessageType] = useState('');
 
   const {
     thumbnailUrl = '',
@@ -41,6 +49,7 @@ const ExpandedContactCard = ({
     primaryPhone = '',
     emailAddress = '',
     address,
+    prospectId,
   } = data;
 
   const largeIconStyle = {
@@ -54,6 +63,58 @@ const ExpandedContactCard = ({
     width: 24,
     marginStart: 8,
   };
+
+  const variables = {
+    associateId,
+    prospectId,
+    description: 'prospect link',
+    displayName: `${firstName} ${lastName}`,
+    redirectUrl: redirectUrl,
+    sentLinkId: '',
+  };
+
+  const [getProspectUrl, { data: prospectUrlData }] = useMutation(
+    GET_PROSPECT_URL,
+    {
+      variables: variables,
+      onCompleted: (data) => {
+        const message = data?.addUpdateProspectLink?.prospectUrl;
+        if (messageType === 'email') {
+          onEmail(emailAddress, message);
+        } else if (messageType === 'text') {
+          onMessage(primaryPhone, message);
+        }
+      },
+      onError: (error) => console.log(`error`, error),
+    },
+  );
+
+  const sendEmail = async () => {
+    setMessageType('email');
+    if (prospectLinkIsNeeded) {
+      await getProspectUrl();
+      onEmail(
+        emailAddress,
+        prospectUrlData?.addUpdateProspectLink?.prospectUrl,
+      );
+    } else {
+      onEmail(emailAddress);
+    }
+  };
+
+  const sendText = async () => {
+    setMessageType('text');
+    if (prospectLinkIsNeeded) {
+      await getProspectUrl();
+      onMessage(
+        primaryPhone,
+        prospectUrlData?.addUpdateProspectLink?.prospectUrl,
+      );
+    } else {
+      onMessage(primaryPhone);
+    }
+  };
+
   return (
     <>
       <CardContainer {...props}>
@@ -80,12 +141,12 @@ const ExpandedContactCard = ({
           <Stack expanded>
             <Row>
               {emailAddress ? (
-                <TouchableOpacity onPress={() => onEmail(emailAddress)}>
+                <TouchableOpacity onPress={sendEmail}>
                   <EmailIcon style={largeIconStyle} />
                 </TouchableOpacity>
               ) : null}
               {primaryPhone ? (
-                <TouchableOpacity onPress={() => onMessage(primaryPhone)}>
+                <TouchableOpacity onPress={sendText}>
                   <MessageIcon style={largeIconStyle} />
                 </TouchableOpacity>
               ) : null}

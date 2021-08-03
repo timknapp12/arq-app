@@ -22,10 +22,20 @@ import {
   GET_PROSPECTS_BY_LASTNAME,
 } from '../../graphql/queries';
 
-const ProspectsScreen = ({ navigation }) => {
+const ProspectsScreen = ({ navigation, route }) => {
   const { theme, associateId } = useContext(AppContext);
-  const { sortBy, setSortBy } = useContext(ProspectsContext);
+  const {
+    sortBy,
+    setSortBy,
+    setSubject,
+    setRedirectUrl,
+    setProspectLinkIsNeeded,
+  } = useContext(ProspectsContext);
   const isFocused = useIsFocused();
+
+  const linkTitle = route?.params?.title ?? '';
+  const linkUrl = route?.params?.url ?? '';
+  const prospectLinkIsNeeded = route?.params?.prospectLinkIsNeeded ?? false;
 
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
@@ -40,6 +50,17 @@ const ProspectsScreen = ({ navigation }) => {
       });
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    setSubject(linkTitle);
+    setRedirectUrl(linkUrl);
+    setProspectLinkIsNeeded(prospectLinkIsNeeded);
+    return () => {
+      setSubject('');
+      setRedirectUrl('');
+      setProspectLinkIsNeeded(false);
+    };
+  }, [linkTitle, linkUrl]);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const fadeAnim = useRef(new Animated.Value(-500)).current;
@@ -164,6 +185,7 @@ const ProspectsScreen = ({ navigation }) => {
 
 ProspectsScreen.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default ProspectsScreen;
