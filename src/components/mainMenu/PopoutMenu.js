@@ -67,7 +67,7 @@ const PopoutMenu = ({
         </Touchable>
       </TouchableContainer>
 
-      <TouchableContainer>
+      {/* <TouchableContainer>
         <Touchable
           onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
           <H4Book>{Localized('Chat With Support')}</H4Book>
@@ -79,7 +79,7 @@ const PopoutMenu = ({
           onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
           <H4Book>{Localized('Share My Shop')}</H4Book>
         </Touchable>
-      </TouchableContainer>
+      </TouchableContainer> */}
 
       <TouchableContainer>
         <Touchable
