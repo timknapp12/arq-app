@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { H5Black, H6Book, Link } from '../../common';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { H5Black, H6Book } from '../../common';
+// import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
 import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
@@ -20,7 +20,7 @@ import {
 
 const ExpandedNotificationCard = ({
   isExpanded,
-  toggleExpanded,
+  //   toggleExpanded,
   data,
   dateSent,
   onRemove,
@@ -30,13 +30,16 @@ const ExpandedNotificationCard = ({
 }) => {
   const { theme } = useContext(AppContext);
   const iconStyle = {
-    marginEnd: 8,
+    marginEnd: 4,
     height: 24,
     width: 24,
     color: theme.primaryTextColor,
   };
   return (
-    <CardContainer {...props} onPress={toggleExpanded} activeOpacity={1}>
+    <CardContainer
+      {...props}
+      // onPress={toggleExpanded}
+      activeOpacity={1}>
       <OuterContainer isExpanded={isExpanded}>
         <Row>
           <InnerContainer>
@@ -47,7 +50,7 @@ const ExpandedNotificationCard = ({
               ) : null}
             </TitleAndDateContainer>
             {data?.description ? <H6Book>{data?.description}</H6Book> : null}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={onViewProspect}
               style={{
                 paddingRight: 12,
@@ -55,10 +58,39 @@ const ExpandedNotificationCard = ({
                 paddingBottom: 4,
                 alignSelf: 'flex-start',
               }}>
-              <Link>{Localized('View Contact Information')}</Link>
-            </TouchableOpacity>
+              <H6Book>{Localized('View Contact Information')}</H6Book>
+            </TouchableOpacity> */}
+            <IconRow>
+              <TouchableOpacity onPress={onRemove}>
+                <Row>
+                  <RemoveIcon style={iconStyle} />
+                  <H6Book>{Localized('Remove')}</H6Book>
+                </Row>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handlePin}>
+                {data?.isSaved ? (
+                  <Row>
+                    <UnpinIcon style={iconStyle} />
+                    <H6Book>{Localized('Unpin')}</H6Book>
+                  </Row>
+                ) : (
+                  <Row>
+                    <PinIcon style={iconStyle} />
+                    <H6Book>{Localized('Pin')}</H6Book>
+                  </Row>
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={onViewProspect}>
+                <Row>
+                  <ViewProspectIcon style={iconStyle} />
+                  <H6Book>{Localized('View Prospect')}</H6Book>
+                </Row>
+              </TouchableOpacity>
+            </IconRow>
           </InnerContainer>
-          <MaterialCommunityIcon
+          {/* <MaterialCommunityIcon
             name="chevron-up"
             color={theme.primaryTextColor}
             size={24}
@@ -66,25 +98,8 @@ const ExpandedNotificationCard = ({
               paddingRight: 4,
               paddingLeft: 4,
             }}
-          />
+          /> */}
         </Row>
-        <IconRow>
-          <TouchableOpacity onPress={onRemove}>
-            <RemoveIcon style={iconStyle} />
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={handlePin}>
-            {data?.isSaved ? (
-              <UnpinIcon style={iconStyle} />
-            ) : (
-              <PinIcon style={iconStyle} />
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={onViewProspect}>
-            <ViewProspectIcon style={iconStyle} />
-          </TouchableOpacity>
-        </IconRow>
       </OuterContainer>
     </CardContainer>
   );

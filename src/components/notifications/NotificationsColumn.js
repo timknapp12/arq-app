@@ -17,7 +17,7 @@ import { CLEAR_ALL_PROPSECT_NOTIFICATIONS } from '../../graphql/mutations';
 import {
   ColumnContainer,
   ClearButton,
-  NotificationBottomPadding,
+  // NotificationBottomPadding,
 } from './notificationCard/notificationCard.styles';
 
 const windowHeight = Dimensions.get('window').height;
@@ -31,6 +31,7 @@ const NotificationsColumn = () => {
 
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
+  // console.log(`isCalloutOpenFromParent`, isCalloutOpenFromParent);
 
   const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
     variables: { associateId, deletePinned: false },
@@ -88,13 +89,12 @@ const NotificationsColumn = () => {
               />
             ))}
           </Flexbox>
-          <TouchableWithoutFeedback
+          {/* <TouchableWithoutFeedback
             onPress={() => {
-              console.log('this is getting clicked');
               setIsCalloutOpenFromParent(false);
             }}>
             <NotificationBottomPadding onStartShouldSetResponder={() => true} />
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
         </ScrollView>
         {items?.length > 0 ? (
           <ClearButton onPress={clearAll}>

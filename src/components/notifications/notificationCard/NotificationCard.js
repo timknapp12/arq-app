@@ -16,7 +16,7 @@ const NotificationCard = ({
 }) => {
   const { deviceLanguage } = useContext(AppContext);
 
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
 
   useEffect(() => {

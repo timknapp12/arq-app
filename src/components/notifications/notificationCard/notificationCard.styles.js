@@ -48,17 +48,20 @@ export const OuterContainer = styled.View`
 export const Row = styled.View`
   flex-direction: row;
   flex: 1;
+  padding: 8px 12px;
+  align-items: center;
 `;
 
 export const InnerContainer = styled.View`
-  flex: 1;
+  justify-content: flex-start;
+  width: 100%;
   padding: 4px 0;
 `;
 
 export const TitleAndDateContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  flex: 1;
+  width: 100%;
 `;
 
 export const IconColumn = styled.View`
@@ -68,6 +71,7 @@ export const IconColumn = styled.View`
 
 export const IconRow = styled.View`
   flex-direction: row;
-  justify-content: flex-end;
+  flex: 1;
+  justify-content: center;
   align-items: center;
 `;
