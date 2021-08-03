@@ -36,7 +36,7 @@ const ExpandedNotificationCard = ({
     color: theme.primaryTextColor,
   };
   return (
-    <CardContainer {...props}>
+    <CardContainer {...props} onPress={toggleExpanded} activeOpacity={1}>
       <OuterContainer isExpanded={isExpanded}>
         <Row>
           <InnerContainer>
@@ -47,12 +47,18 @@ const ExpandedNotificationCard = ({
               ) : null}
             </TitleAndDateContainer>
             {data?.description ? <H6Book>{data?.description}</H6Book> : null}
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={onViewProspect}
+              style={{
+                paddingRight: 12,
+                paddingTop: 2,
+                paddingBottom: 4,
+                alignSelf: 'flex-start',
+              }}>
               <Link>{Localized('View Contact Information')}</Link>
             </TouchableOpacity>
           </InnerContainer>
           <MaterialCommunityIcon
-            onPress={toggleExpanded}
             name="chevron-up"
             color={theme.primaryTextColor}
             size={24}

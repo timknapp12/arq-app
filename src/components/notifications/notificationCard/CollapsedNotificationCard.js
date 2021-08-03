@@ -28,57 +28,57 @@ const CollapsedNotificationCard = ({
 }) => {
   const { theme } = useContext(AppContext);
   return (
-    <CardContainer {...props}>
-      <OuterContainer>
-        <Row>
-          <InnerContainer>
-            <TitleAndDateContainer>
-              <H5Black>{data?.title}</H5Black>
-              {dateSent ? (
-                <H6Book style={{ marginEnd: 16 }}>{dateSent}</H6Book>
+    <CardContainer {...props} onPress={toggleExpanded} activeOpacity={1}>
+      <>
+        <OuterContainer isStillNew>
+          <Row>
+            <InnerContainer>
+              <TitleAndDateContainer>
+                <H5Black>{data?.title}</H5Black>
+                {dateSent ? (
+                  <H6Book style={{ marginEnd: 16 }}>{dateSent}</H6Book>
+                ) : null}
+              </TitleAndDateContainer>
+              {data?.description ? (
+                <H6Book
+                  ellipsizeMode="tail"
+                  numberOfLines={1}
+                  style={{ marginBottom: 4, flex: 1 }}>
+                  {data?.description}
+                </H6Book>
               ) : null}
-            </TitleAndDateContainer>
-            {data?.description ? (
-              <H6Book
-                ellipsizeMode="tail"
-                numberOfLines={1}
-                style={{ marginBottom: 4, flex: 1 }}>
-                {data?.description}
-              </H6Book>
-            ) : null}
-          </InnerContainer>
-          <IconColumn>
-            <MaterialCommunityIcon
-              onPress={toggleExpanded}
-              name="chevron-down"
-              color={theme.primaryTextColor}
-              size={24}
-              style={{
-                paddingRight: 4,
-                paddingLeft: 4,
-              }}
-            />
-            <TouchableOpacity onPress={onCallout}>
-              <KebobIcon
+            </InnerContainer>
+            <IconColumn>
+              <MaterialCommunityIcon
+                name="chevron-down"
+                color={theme.primaryTextColor}
+                size={24}
                 style={{
-                  height: 20,
-                  width: 20,
-                  color: theme.primaryTextColor,
-                  padding: 4,
+                  paddingRight: 4,
+                  paddingLeft: 4,
                 }}
               />
-            </TouchableOpacity>
-          </IconColumn>
-        </Row>
-      </OuterContainer>
-      {isCalloutOpen && (
-        <NotificationCalloutMenu
-          onRemove={onRemove}
-          handlePin={handlePin}
-          onViewProspect={onViewProspect}
-          isSaved={data?.isSaved}
-        />
-      )}
+              <TouchableOpacity style={{ padding: 4 }} onPress={onCallout}>
+                <KebobIcon
+                  style={{
+                    height: 20,
+                    width: 20,
+                    color: theme.primaryTextColor,
+                  }}
+                />
+              </TouchableOpacity>
+            </IconColumn>
+          </Row>
+        </OuterContainer>
+        {isCalloutOpen && (
+          <NotificationCalloutMenu
+            onRemove={onRemove}
+            handlePin={handlePin}
+            onViewProspect={onViewProspect}
+            isSaved={data?.isSaved}
+          />
+        )}
+      </>
     </CardContainer>
   );
 };

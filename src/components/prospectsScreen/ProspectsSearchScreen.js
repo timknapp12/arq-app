@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
 import {
   TouchableWithoutFeedback,
@@ -10,8 +11,9 @@ import AppContext from '../../contexts/AppContext';
 import ContactCard from './contactCard/ContactCard';
 import { GET_PROSPECTS_BY_LASTNAME } from '../../graphql/queries';
 
-const ProspectsSearchScreen = () => {
+const ProspectsSearchScreen = ({ route }) => {
   const { theme, associateId } = useContext(AppContext);
+  const newSearchTerm = route?.params?.searchTermFromNotifications ?? '';
   const [searchTerm, setSearchTerm] = useState('');
 
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
@@ -26,6 +28,12 @@ const ProspectsSearchScreen = () => {
       `${item?.firstName} ${item?.lastName}`.toLocaleLowerCase();
     return bothNames?.includes(searchTerm.toLocaleLowerCase());
   });
+
+  useEffect(() => {
+    if (newSearchTerm) {
+      setSearchTerm(newSearchTerm);
+    }
+  }, []);
 
   return (
     <TouchableWithoutFeedback
@@ -87,6 +95,10 @@ const ProspectsSearchScreen = () => {
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );
+};
+
+ProspectsSearchScreen.propTypes = {
+  route: PropTypes.object,
 };
 
 export default ProspectsSearchScreen;

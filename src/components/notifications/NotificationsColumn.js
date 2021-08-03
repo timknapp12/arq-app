@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
+import { useMutation } from '@apollo/client';
 import {
   Animated,
   Dimensions,
@@ -9,40 +9,33 @@ import {
 } from 'react-native';
 import { Flexbox, H5Black } from '../common';
 import NotificationCard from './notificationCard/NotificationCard';
+import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import items from './mockNotifications';
 import { Localized } from '../../translations/Localized';
+import { CLEAR_ALL_PROPSECT_NOTIFICATIONS } from '../../graphql/mutations';
+import {
+  ColumnContainer,
+  ClearButton,
+  NotificationBottomPadding,
+} from './notificationCard/notificationCard.styles';
 
 const windowHeight = Dimensions.get('window').height;
 
-const Container = styled.View`
-  padding: 0px;
-  width: 100%;
-  background-color: ${(props) => props.theme.backgroundColor};
-  position: absolute;
-`;
-
-const ClearButton = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  padding: 12px;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-  /* border top and margin top simulates the margin at the bottom of each NotificationCard */
-  border-top-width: 2px;
-  margin-top: -2px;
-  border-top-color: ${(props) => props.theme.backgroundColor};
-`;
-
 const NotificationsColumn = () => {
+  const { associateId } = useContext(AppContext);
   const { displayNotifications, setDisplayNotifications } =
     useContext(LoginContext);
+
+  const fadeAnim = useRef(new Animated.Value(-(windowHeight + 200))).current;
 
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
 
-  const fadeAnim = useRef(new Animated.Value(-(windowHeight + 200))).current;
+  const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
+    variables: { associateId, deletePinned: false },
+    // refetchQueries: [{}],
+  });
 
   const fadeDown = () => {
     Animated.timing(fadeAnim, {
@@ -70,33 +63,41 @@ const NotificationsColumn = () => {
     };
   }, [displayNotifications]);
 
-  const AnimatedContainer = Animated.createAnimatedComponent(Container);
+  const AnimatedContainer = Animated.createAnimatedComponent(ColumnContainer);
 
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
       <AnimatedContainer style={{ top: fadeAnim }}>
-        <ScrollView
-          style={{ width: '100%', maxHeight: windowHeight - 300 }}
-          nestedScrollEnabled={true}>
+        <ScrollView style={{ width: '100%', maxHeight: windowHeight - 300 }}>
           <Flexbox
-            onStartShouldSetResponder={() => true}
-            onTouchEnd={(e) => {
-              e.stopPropagation();
-            }}>
-            {items?.map((item) => (
+            style={{ zIndex: 2 }}
+            onTouchEnd={() => {
+              // e.stopPropagation();
+              setIsCalloutOpenFromParent(false);
+            }}
+            onStartShouldSetResponder={() => true}>
+            {items?.map((item, index) => (
               <NotificationCard
+                style={{ zIndex: -index }}
                 key={item?.sentLinkId}
+                data={item}
                 isCalloutOpenFromParent={isCalloutOpenFromParent}
                 setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                 isTouchDisabled={isTouchDisabled}
                 setIsTouchDisabled={setIsTouchDisabled}
-                data={item}
               />
             ))}
           </Flexbox>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              console.log('this is getting clicked');
+              setIsCalloutOpenFromParent(false);
+            }}>
+            <NotificationBottomPadding onStartShouldSetResponder={() => true} />
+          </TouchableWithoutFeedback>
         </ScrollView>
         {items?.length > 0 ? (
-          <ClearButton>
+          <ClearButton onPress={clearAll}>
             <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
           </ClearButton>
         ) : (
