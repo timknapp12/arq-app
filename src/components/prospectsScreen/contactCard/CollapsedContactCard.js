@@ -26,6 +26,8 @@ const CollapsedContactCard = ({
   onCallout,
   isFilterMenuOpen,
   onRemove,
+  sendEmail,
+  sendText,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -80,6 +82,8 @@ const CollapsedContactCard = ({
               onRemove={onRemove}
               emailAddress={emailAddress}
               primaryPhone={primaryPhone}
+              sendEmail={sendEmail}
+              sendText={sendText}
             />
           )}
         </TouchableOpacity>
@@ -106,6 +110,8 @@ CollapsedContactCard.propTypes = {
   onCallout: PropTypes.func.isRequired,
   isFilterMenuOpen: PropTypes.bool.isRequired,
   onRemove: PropTypes.func.isRequired,
+  sendEmail: PropTypes.func.isRequired,
+  sendText: PropTypes.func.isRequired,
 };
 
 export default CollapsedContactCard;

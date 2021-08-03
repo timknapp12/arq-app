@@ -9,7 +9,6 @@ import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
 import AppContext from '../../../contexts/AppContext';
-import ProspectsContext from '../../../contexts/ProspectsContext';
 import { Localized, initLanguage } from '../../../translations/Localized';
 
 const Container = styled.View`
@@ -36,11 +35,12 @@ const ContactCalloutMenu = ({
   onRemove,
   emailAddress,
   primaryPhone,
+  sendEmail,
+  sendText,
   ...props
 }) => {
   initLanguage();
   const { theme } = useContext(AppContext);
-  const { onEmail, onMessage } = useContext(ProspectsContext);
 
   const iconStyle = {
     marginEnd: 8,
@@ -64,7 +64,7 @@ const ContactCalloutMenu = ({
         </Row>
       </CalloutButton>
       {emailAddress.length > 0 ? (
-        <CalloutButton onPress={() => onEmail(emailAddress)}>
+        <CalloutButton onPress={sendEmail}>
           <Row>
             <EmailIcon style={iconStyle} />
             <H4Book>{Localized('Email')}</H4Book>
@@ -72,7 +72,7 @@ const ContactCalloutMenu = ({
         </CalloutButton>
       ) : null}
       {primaryPhone.length > 0 ? (
-        <CalloutButton onPress={() => onMessage(primaryPhone)}>
+        <CalloutButton onPress={sendText}>
           <Row>
             <MessageIcon style={iconStyle} />
             <H4Book>{Localized('Text Message')}</H4Book>
@@ -88,6 +88,8 @@ ContactCalloutMenu.propTypes = {
   onRemove: PropTypes.func.isRequired,
   emailAddress: PropTypes.string,
   primaryPhone: PropTypes.string,
+  sendEmail: PropTypes.func.isRequired,
+  sendText: PropTypes.func.isRequired,
 };
 
 export default ContactCalloutMenu;

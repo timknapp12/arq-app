@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
 import { Platform, Alert } from 'react-native';
 import ExpandedContactCard from './ExpandedContactCard';
 import CollapsedContactCard from './CollapsedContactCard';
+import AppContext from '../../../contexts/AppContext';
 import ProspectsContext from '../../../contexts/ProspectsContext';
 import { Localized } from '../../../translations/Localized';
+import { GET_PROSPECT_URL } from '../../../graphql/mutations';
 
 const ContactCard = ({
   data,
@@ -16,8 +19,21 @@ const ContactCard = ({
   closeFilterMenu = () => {},
   ...props
 }) => {
-  const { deleteProspect } = useContext(ProspectsContext);
-  const { prospectId = '', firstName = '', lastName = '' } = data;
+  const { associateId } = useContext(AppContext);
+  const {
+    deleteProspect,
+    onEmail,
+    onMessage,
+    redirectUrl,
+    prospectLinkIsNeeded,
+  } = useContext(ProspectsContext);
+  const {
+    prospectId = '',
+    firstName = '',
+    lastName = '',
+    emailAddress,
+    primaryPhone,
+  } = data;
   const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
@@ -95,6 +111,60 @@ const ContactCard = ({
     );
   };
 
+  // send regular message or prospect link to prospect depending on whether user got to this screen from assets to "share to prospect"
+  const [messageType, setMessageType] = useState('');
+
+  const variables = {
+    associateId,
+    prospectId,
+    description: 'prospect link',
+    displayName: `${firstName} ${lastName}`,
+    redirectUrl: redirectUrl,
+    sentLinkId: '',
+  };
+
+  const [getProspectUrl, { data: prospectUrlData }] = useMutation(
+    GET_PROSPECT_URL,
+    {
+      variables: variables,
+      onCompleted: (data) => {
+        const message = data?.addUpdateProspectLink?.prospectUrl;
+        if (messageType === 'email') {
+          onEmail(emailAddress, message);
+        } else if (messageType === 'text') {
+          onMessage(primaryPhone, message);
+        }
+      },
+      onError: (error) => console.log(`error`, error),
+    },
+  );
+
+  const sendEmail = async () => {
+    setMessageType('email');
+    if (prospectLinkIsNeeded) {
+      await getProspectUrl();
+      onEmail(
+        emailAddress,
+        prospectUrlData?.addUpdateProspectLink?.prospectUrl,
+      );
+    } else {
+      onEmail(emailAddress);
+    }
+  };
+
+  const sendText = async () => {
+    setMessageType('text');
+    if (prospectLinkIsNeeded) {
+      await getProspectUrl();
+      onMessage(
+        primaryPhone,
+        prospectUrlData?.addUpdateProspectLink?.prospectUrl,
+      );
+    } else {
+      onMessage(primaryPhone);
+    }
+  };
+
   if (isExpanded) {
     return (
       <ExpandedContactCard
@@ -103,6 +173,9 @@ const ContactCard = ({
         data={data}
         initials={initials}
         onRemove={onRemove}
+        isCalloutOpenFromParent={isCalloutOpenFromParent}
+        sendEmail={sendEmail}
+        sendText={sendText}
       />
     );
   }
@@ -116,6 +189,8 @@ const ContactCard = ({
       onCallout={onCallout}
       isFilterMenuOpen={isFilterMenuOpen}
       onRemove={onRemove}
+      sendEmail={sendEmail}
+      sendText={sendText}
     />
   );
 };
