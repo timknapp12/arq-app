@@ -35,27 +35,26 @@ export const CardContainer = styled.TouchableOpacity`
 export const OuterContainer = styled.View`
   width: 100%;
   background-color: ${(props) => props.theme.cardBackgroundColor};
-  border-left-color: ${(props) => props.theme.highlight};
-  border-left-width: ${(props) => (props.isStillNew ? '6px' : '0px')};
-  padding: 8px 8px 4px 16px;
-  padding-left: ${(props) => (props.isStillNew ? '10px' : '16px')};
   border-radius: 5px;
   margin-bottom: 2px;
-  height: ${(props) => (props.isExpanded ? '110px' : '60px')};
-  overflow: hidden;
+  /* border-left-color: ${(props) => props.theme.highlight};
+  border-left-width: ${(props) => (props.isStillNew ? '6px' : '0px')};
+  padding: 4px 8px 4px 8px;
+  padding-left: ${(props) => (props.isStillNew ? '10px' : '16px')}; */
+  /* height: ${(props) => (props.isExpanded ? '130px' : '60px')};
+  overflow: hidden; */
 `;
 
 export const Row = styled.View`
   flex-direction: row;
   flex: 1;
-  padding: 8px 12px;
+  padding: 16px 12px 4px 12px;
   align-items: center;
 `;
 
 export const InnerContainer = styled.View`
   justify-content: flex-start;
   width: 100%;
-  padding: 4px 0;
 `;
 
 export const TitleAndDateContainer = styled.View`
