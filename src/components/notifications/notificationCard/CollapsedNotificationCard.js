@@ -26,6 +26,9 @@ const CollapsedNotificationCard = ({
   onCallout,
   ...props
 }) => {
+  // TODO - if we use this component again in the future the data structure
+  // will need to be adjusted to match data in expanded contact card
+
   const { theme } = useContext(AppContext);
   return (
     <CardContainer {...props} onPress={toggleExpanded} activeOpacity={1}>
