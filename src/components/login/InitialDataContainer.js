@@ -9,6 +9,7 @@ import {
   GET_USER,
   GET_PROFILE,
   GET_NEWS,
+  GET_PROSPECT_NOTIFICATIONS,
 } from '../../graphql/queries';
 import { UPDATE_USER } from '../../graphql/mutations';
 import { findMarketId } from '../../utils/markets/findMarketId';
@@ -91,12 +92,25 @@ const InitialDataContainer = ({ children }) => {
     };
   }, [news]);
 
+  // get notifications
+  const [
+    getProspectNotifications,
+    {
+      loading: loadingProspectNotifications,
+      data: prospectNotificationData,
+      refetch: refetchProspectsNotifications,
+    },
+  ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
+    variables: { associateId },
+  });
+
   useEffect(() => {
     getUser();
   }, [legacyId]);
 
   useEffect(() => {
     getProfile();
+    getProspectNotifications();
   }, [associateId]);
 
   return (
@@ -129,6 +143,10 @@ const InitialDataContainer = ({ children }) => {
         refetchNews,
         displayNotifications,
         setDisplayNotifications,
+        loadingProspectNotifications,
+        prospectNotifications:
+          prospectNotificationData?.prospectViewsByAssociate,
+        refetchProspectsNotifications,
       }}>
       {children}
     </LoginContext.Provider>

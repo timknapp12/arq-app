@@ -24,6 +24,7 @@ const ContactCard = ({
     deleteProspect,
     onEmail,
     onMessage,
+    subject,
     redirectUrl,
     prospectLinkIsNeeded,
   } = useContext(ProspectsContext);
@@ -113,12 +114,16 @@ const ContactCard = ({
 
   // send regular message or prospect link to prospect depending on whether user got to this screen from assets to "share to prospect"
   const [messageType, setMessageType] = useState('');
+  const defaultMessageIntro = `${Localized(
+    'Here is the information from Q Sciences for',
+  )} ${subject}: `;
 
   const variables = {
     associateId,
     prospectId,
     description: 'prospect link',
-    displayName: `${firstName} ${lastName}`,
+    // display name is the title of the link that will later show up in prospect notifications
+    displayName: subject,
     redirectUrl: redirectUrl,
     sentLinkId: '',
   };
@@ -127,17 +132,30 @@ const ContactCard = ({
     GET_PROSPECT_URL,
     {
       variables: variables,
-      onCompleted: (data) => {
+      onCompleted: async (data) => {
         const message = data?.addUpdateProspectLink?.prospectUrl;
+
+        // let shortenedUrl = await bitly.shorten(message);
+
+        // console.log(`shortenedUrl`, shortenedUrl);
+        // const hyperLink = (
+        //   <Text onPress={() => Linking.openURL(message)}>Click here</Text>
+        // );
         if (messageType === 'email') {
-          onEmail(emailAddress, message);
+          onEmail(emailAddress, `${defaultMessageIntro}${message}`);
         } else if (messageType === 'text') {
-          onMessage(primaryPhone, message);
+          onMessage(primaryPhone, `${defaultMessageIntro}${message}`);
         }
       },
       onError: (error) => console.log(`error`, error),
     },
   );
+
+  // <Text
+  //   style={{ color: 'blue' }}
+  //   onPress={() => Linking.openURL('http://google.com')}>
+  //   Google
+  // </Text>;
 
   const sendEmail = async () => {
     setMessageType('email');

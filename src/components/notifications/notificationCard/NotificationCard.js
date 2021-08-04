@@ -44,7 +44,7 @@ const NotificationCard = ({
     minute: '2-digit',
   };
 
-  let [y, m, d, hh, mm, ss, ms] = data?.dateSent.match(/\d+/g);
+  let [y, m, d, hh, mm, ss, ms] = data?.dateViewUtc.match(/\d+/g);
   let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
   let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
 
@@ -67,7 +67,9 @@ const NotificationCard = ({
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Search Screen',
       params: {
-        searchTermFromNotifications: 'Tim Knapp',
+        searchTermFromNotifications: `${data?.prospect?.firstName ?? ''} ${
+          data?.prospect?.lastName ?? ''
+        }`,
       },
     });
   if (isExpanded) {
