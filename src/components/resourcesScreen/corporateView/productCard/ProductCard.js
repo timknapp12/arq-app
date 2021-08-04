@@ -120,6 +120,29 @@ const ProductCard = ({
     }
   };
 
+  const sendSingleItem = (item) => {
+    navigation.navigate('Prospects Stack', {
+      screen: 'Prospects Screen',
+      params: {
+        title: item?.linkTitle,
+        url: item?.linkUrl,
+        prospectLinkIsNeeded: true,
+      },
+    });
+  };
+
+  // This function will automatically sned to prospects if there is only one item, and open the popup to select an asset if there are multiple items
+  const onSend = async () => {
+    if (assetList.length === 1) {
+      return sendSingleItem(assetList?.[0]);
+    } else {
+      await setIsCalloutOpenFromParent(true);
+      await setDisableTouchEvent(true);
+      setIsMultiAssetMenuOpen(true);
+      setMultiAssetMenuTitle(Localized('Send to Prospect'));
+    }
+  };
+
   const onAction = async (item) => {
     if (multiAssetMenuTitle === Localized('Share')) {
       return shareSingleUrl(item?.linkUrl);
@@ -127,9 +150,10 @@ const ProductCard = ({
     if (multiAssetMenuTitle === Localized('Download')) {
       return downloadSingleItem(item);
     }
+    if (multiAssetMenuTitle === Localized('Send to Prospect')) {
+      return sendSingleItem(item);
+    }
   };
-
-  const onSend = () => Alert.alert('This feature is not quite ready yet :)');
 
   return (
     <ProductCardContainer {...props}>

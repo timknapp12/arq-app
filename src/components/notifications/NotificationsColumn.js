@@ -31,7 +31,6 @@ const NotificationsColumn = () => {
 
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
-  // console.log(`isCalloutOpenFromParent`, isCalloutOpenFromParent);
 
   const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
     variables: { associateId, deletePinned: false },

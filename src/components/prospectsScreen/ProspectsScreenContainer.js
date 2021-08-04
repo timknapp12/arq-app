@@ -61,6 +61,7 @@ const ProspectsScreenContainer = ({ children }) => {
         onMessage,
         addUpdateProspect,
         deleteProspect,
+        subject,
         setSubject,
         redirectUrl,
         setRedirectUrl,
