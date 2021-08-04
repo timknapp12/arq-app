@@ -387,3 +387,19 @@ export const GET_PROSPECT_URL = gql`
     }
   }
 `;
+
+export const PIN_PROSPECT_NOTIFICATION = gql`
+  mutation SaveLinkViewed($viewId: Int!, $pin: Boolean!) {
+    saveLinkViewed(viewId: $viewId, pin: $pin) {
+      viewId
+    }
+  }
+`;
+
+export const PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED = gql`
+  mutation RecordLinkViewedBySender($viewId: Int!) {
+    recordLinkViewedBySender(viewId: $viewId) {
+      prospectId
+    }
+  }
+`;

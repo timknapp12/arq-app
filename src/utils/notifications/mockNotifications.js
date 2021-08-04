@@ -76,7 +76,7 @@ export const totalArray = [
   },
   {
     viewId: 29,
-    isSaved: false,
+    isSaved: true,
     isReadByAssociate: false,
     dateViewUtc: '2021-08-04T19:46:31.601Z',
     prospect: {

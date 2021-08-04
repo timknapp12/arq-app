@@ -11,14 +11,13 @@ const ProfileImage = styled.Image`
   width: 24px;
   border-radius: 12px;
 `;
-const MainHeader = ({
-  badgeValue,
-  fadeIn = () => {},
-  fadeOut = () => {},
-  isMenuOpen,
-}) => {
-  const { userProfile = { profileUrl: '' }, setDisplayNotifications } =
-    useContext(LoginContext);
+const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
+  const {
+    userProfile = { profileUrl: '' },
+    setDisplayNotifications,
+    prospectNotificationCount,
+    setProspectNotificationCount,
+  } = useContext(LoginContext);
   const [isImageValid, setIsImageValid] = useState(true);
   const [url, setUrl] = useState(userProfile?.profileUrl ?? '');
   // this flag triggers react to re-render the UI
@@ -68,8 +67,9 @@ const MainHeader = ({
           onPress={() => {
             setDisplayNotifications((state) => !state);
             fadeOut();
+            setProspectNotificationCount(0);
           }}>
-          <BellIcon badgeValue={badgeValue} />
+          <BellIcon badgeValue={prospectNotificationCount} />
         </TouchableOpacity>
       </Flexbox>
     </Header>
@@ -77,7 +77,6 @@ const MainHeader = ({
 };
 
 MainHeader.propTypes = {
-  badgeValue: PropTypes.number,
   toggleMenu: PropTypes.func,
   fadeIn: PropTypes.func,
   fadeOut: PropTypes.func,

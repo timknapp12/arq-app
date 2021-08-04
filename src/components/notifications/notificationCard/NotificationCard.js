@@ -1,10 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useMutation } from '@apollo/client';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ExpandedNotificationCard from './ExpandedNotificationCard';
 import CollapsedNotificationCard from './CollapsedNotificationCard';
 import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
+import {
+  CLEAR_PROSPECT_NOTIFICATION,
+  PIN_PROSPECT_NOTIFICATION,
+  PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED,
+} from '../../../graphql/mutations';
 
 const NotificationCard = ({
   data,
@@ -15,9 +22,24 @@ const NotificationCard = ({
   ...props
 }) => {
   const { deviceLanguage } = useContext(AppContext);
+  const { refetchProspectsNotifications } = useContext(LoginContext);
+
+  const { viewId, isSaved } = data;
 
   const [isExpanded, setIsExpanded] = useState(true);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+
+  const [notificationHasBeenViewed] = useMutation(
+    PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED,
+    {
+      variables: { viewId },
+      onError: (error) => console.log(`error`, error),
+    },
+  );
+
+  useEffect(() => {
+    notificationHasBeenViewed();
+  }, []);
 
   useEffect(() => {
     if (!isCalloutOpen) {
@@ -48,21 +70,19 @@ const NotificationCard = ({
   let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
   let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
 
-  const onRemove = () => {};
+  const [onRemove] = useMutation(CLEAR_PROSPECT_NOTIFICATION, {
+    variables: { viewId },
+    onCompleted: () => refetchProspectsNotifications(),
+    onError: (error) => console.log(`error`, error),
+  });
 
-  const onPin = () => {};
+  const [handlePin] = useMutation(PIN_PROSPECT_NOTIFICATION, {
+    variables: { viewId, pin: isSaved ? false : true },
+    onCompleted: () => refetchProspectsNotifications(),
+    onError: (error) => console.log(`error`, error),
+  });
 
-  const onUnpin = () => {};
-
-  const handlePin = () => {
-    if (data.isSaved) {
-      onUnpin();
-    } else {
-      onPin();
-    }
-  };
   const navigation = useNavigation();
-
   const onViewProspect = () =>
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Search Screen',
@@ -72,6 +92,7 @@ const NotificationCard = ({
         }`,
       },
     });
+
   if (isExpanded) {
     return (
       <ExpandedNotificationCard

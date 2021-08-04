@@ -14,6 +14,7 @@ import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 import { CLEAR_ALL_PROPSECT_NOTIFICATIONS } from '../../graphql/mutations';
+import { checkForPinnedNotifications } from '../../utils/notifications/checkForPinnedNotifications';
 import {
   ColumnContainer,
   ClearButton,
@@ -29,6 +30,7 @@ const NotificationsColumn = () => {
     setDisplayNotifications,
     loadingProspectNotifications,
     prospectNotifications,
+    refetchProspectsNotifications,
   } = useContext(LoginContext);
 
   const fadeAnim = useRef(new Animated.Value(-(windowHeight + 200))).current;
@@ -36,9 +38,18 @@ const NotificationsColumn = () => {
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
 
+  const areTherePinnedNotifications = checkForPinnedNotifications(
+    prospectNotifications,
+  );
+
   const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
     variables: { associateId, deletePinned: false },
-    // refetchQueries: [{}],
+    onCompleted: () => {
+      refetchProspectsNotifications();
+      //  if there are no more pinned notifications then close the notification column
+      areTherePinnedNotifications && setDisplayNotifications(false);
+    },
+    onError: (error) => console.log(`error`, error),
   });
 
   const fadeDown = () => {

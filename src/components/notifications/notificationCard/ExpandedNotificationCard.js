@@ -29,6 +29,10 @@ const ExpandedNotificationCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+  const { prospect, sentLinks } = data;
+  const { firstName, lastName } = prospect;
+  const { displayName } = sentLinks;
+
   const iconStyle = {
     marginEnd: 4,
     height: 24,
@@ -44,12 +48,14 @@ const ExpandedNotificationCard = ({
         <Row>
           <InnerContainer>
             <TitleAndDateContainer>
-              <H5Black>{data?.title}</H5Black>
+              <H5Black>{`${firstName} ${lastName}`}</H5Black>
               {dateSent ? (
                 <H6Book style={{ marginEnd: 16 }}>{dateSent}</H6Book>
               ) : null}
             </TitleAndDateContainer>
-            {data?.description ? <H6Book>{data?.description}</H6Book> : null}
+            {displayName ? (
+              <H6Book>{`${Localized('Viewed')} ${displayName}`}</H6Book>
+            ) : null}
             {/* <TouchableOpacity
               onPress={onViewProspect}
               style={{
