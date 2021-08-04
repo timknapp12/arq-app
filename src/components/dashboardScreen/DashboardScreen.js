@@ -125,7 +125,6 @@ const DashboardScreen = ({ navigation }) => {
             fadeIn={fadeIn}
             fadeOut={fadeOut}
             setIsMenuOpen={setIsMenuOpen}
-            badgeValue={2}
           />
           <NotificationsColumn />
         </Flexbox>

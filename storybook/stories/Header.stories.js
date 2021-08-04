@@ -39,7 +39,7 @@ storiesOf('Header', module)
       <AccountIcon />
     </Header>
   ))
-  .add('Dashboard Header', () => <MainHeader badgeValue={3} />)
+  .add('Dashboard Header', () => <MainHeader />)
   .add('subheader', () => (
     <Subheader>
       <TertiaryButton selected>Overview</TertiaryButton>

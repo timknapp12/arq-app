@@ -14,6 +14,7 @@ import {
 import { UPDATE_USER } from '../../graphql/mutations';
 import { findMarketId } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
+import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
 
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, setHasPermissions, userMarket } =
@@ -66,6 +67,7 @@ const InitialDataContainer = ({ children }) => {
   // get news by market
   const [marketId, setMarketId] = useState(userMarket.countryId);
   const [newsNotificationCount, setNewsNotificationCount] = useState(0);
+  const [prospectNotificationCount, setProspectNotificationCount] = useState(0);
 
   useEffect(() => {
     if (userMarket?.countryCode && marketsData?.activeCountries)
@@ -103,6 +105,16 @@ const InitialDataContainer = ({ children }) => {
   ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
     variables: { associateId },
   });
+
+  useEffect(() => {
+    const count = calculateNewProspectNotifications(
+      prospectNotificationData?.prospectViewsByAssociate,
+    );
+    setProspectNotificationCount(count);
+    return () => {
+      setProspectNotificationCount(0);
+    };
+  }, [prospectNotificationData]);
 
   useEffect(() => {
     getUser();
@@ -147,6 +159,8 @@ const InitialDataContainer = ({ children }) => {
         prospectNotifications:
           prospectNotificationData?.prospectViewsByAssociate,
         refetchProspectsNotifications,
+        prospectNotificationCount,
+        setProspectNotificationCount,
       }}>
       {children}
     </LoginContext.Provider>
