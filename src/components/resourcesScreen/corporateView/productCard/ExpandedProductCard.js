@@ -53,7 +53,8 @@ const ExpandedProductCard = ({
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            padding: 4,
+            paddingStart: 12,
+            paddingEnd: 10,
           }}>
           <H5 ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
             {title}

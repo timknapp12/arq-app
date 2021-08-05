@@ -137,7 +137,10 @@ const ResourceCard = ({
         {isOwner && (
           <View>
             <TouchableOpacity
-              style={{ alignItems: 'center' }}
+              style={{
+                alignItems: 'center',
+                padding: 6,
+              }}
               onPress={onCallout}>
               <KebobIcon
                 style={{ height: 20, width: 20, color: theme.activeTint }}
@@ -146,7 +149,6 @@ const ResourceCard = ({
           </View>
         )}
       </CardFooter>
-      {/* TODO conditionally render the options in the callout  */}
       {isCalloutOpen && (
         <ResourceCallout>
           <CalloutButton

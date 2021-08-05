@@ -16,7 +16,7 @@ export const OuterContainer = styled.View`
 
 export const InnerContainer = styled.View`
   width: 100%;
-  padding: 0 6px;
+  padding: 0 0 0 6px;
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -29,4 +29,6 @@ export const TitleAndDescription = styled.View`
 export const IconColumn = styled.View`
   height: 50px;
   justify-content: space-between;
+  padding: 0 6px 0 12px;
+  align-items: flex-end;
 `;

@@ -221,7 +221,12 @@ const AssetCard = ({
             </TitleAndDescription>
           </TouchableOpacity>
           {isExpanded ? (
-            <TouchableOpacity onPress={() => setIsExpanded((state) => !state)}>
+            <TouchableOpacity
+              style={{
+                paddingStart: 12,
+                paddingEnd: 10,
+              }}
+              onPress={() => setIsExpanded((state) => !state)}>
               <MaterialCommunityIcon
                 name="chevron-up"
                 color={theme.primaryTextColor}
@@ -231,6 +236,10 @@ const AssetCard = ({
           ) : (
             <IconColumn>
               <GestureTouchable
+                style={{
+                  paddingStart: 12,
+                  paddingEnd: 4,
+                }}
                 onPress={() => {
                   setIsExpanded((state) => !state);
                 }}>
@@ -242,7 +251,12 @@ const AssetCard = ({
               </GestureTouchable>
               {isCalloutOpenFromParent ? (
                 <GestureTouchable
-                  style={{ alignItems: 'center' }}
+                  style={{
+                    alignItems: 'center',
+                    paddingBottom: 6,
+                    paddingStart: 12,
+                    paddingEnd: 5,
+                  }}
                   onPress={() => setIsCalloutOpen(false)}>
                   <KebobIcon
                     style={{
@@ -254,7 +268,12 @@ const AssetCard = ({
                 </GestureTouchable>
               ) : (
                 <TouchableOpacity
-                  style={{ alignItems: 'center' }}
+                  style={{
+                    alignItems: 'center',
+                    paddingBottom: 6,
+                    paddingStart: 12,
+                    paddingEnd: 5,
+                  }}
                   onPress={(e) => onCallout(e)}>
                   <KebobIcon
                     style={{

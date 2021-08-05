@@ -65,7 +65,7 @@ const CollapsedContactCard = ({
                 color={theme.primaryTextColor}
                 size={24}
               />
-              <TouchableOpacity onPress={onCallout}>
+              <TouchableOpacity style={{ padding: 6 }} onPress={onCallout}>
                 <KebobIcon
                   style={{
                     height: 20,
