@@ -52,6 +52,8 @@ const InitialDataContainer = ({ children }) => {
         10
       ) {
         setHasPermissions(true);
+      } else {
+        setHasPermissions(false);
       }
     },
   });
