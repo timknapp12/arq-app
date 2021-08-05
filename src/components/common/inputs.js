@@ -12,6 +12,7 @@ const ThemedTextInputContainer = styled.View`
   align-items: flex-end;
   height: 28px;
   flex-direction: row;
+  padding-bottom: 3px;
   border-bottom-width: ${(props) =>
     props.focused || props.validationError ? '3px' : '1px'};
   border-bottom-color: ${(props) =>
@@ -20,7 +21,6 @@ const ThemedTextInputContainer = styled.View`
       : props.focused
       ? props.theme.highlight
       : props.theme.disabledTextColor};
-  padding-bottom: 3px;
 `;
 
 const ThemedInput = styled.TextInput`
@@ -112,6 +112,11 @@ const Label = styled.Text`
 `;
 
 const ThemedAnimatedInput = styled.TextInput`
+  color: ${(props) => props.theme.primaryTextColor};
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Roboto-Regular';
+  padding: 3px 0;
   border-bottom-width: ${(props) =>
     props.focused || props.validationError ? '3px' : '1px'};
   border-bottom-color: ${(props) =>
@@ -120,11 +125,6 @@ const ThemedAnimatedInput = styled.TextInput`
       : props.focused
       ? props.theme.highlight
       : props.theme.disabledTextColor};
-  color: ${(props) => props.theme.primaryTextColor};
-  width: 100%;
-  font-size: 16px;
-  font-family: 'Roboto-Regular';
-  padding: 3px 0;
 `;
 
 const CustomInput = Animated.createAnimatedComponent(ThemedAnimatedInput);

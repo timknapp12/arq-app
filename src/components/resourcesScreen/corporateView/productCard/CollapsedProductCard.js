@@ -66,6 +66,10 @@ const CollapsedProductCard = ({
           </TitleAndDescription>
           <IconColumn>
             <GestureTouchable
+              style={{
+                paddingStart: 12,
+                paddingEnd: 4,
+              }}
               onPress={() => {
                 setIsExpanded((state) => !state);
               }}>
@@ -77,7 +81,12 @@ const CollapsedProductCard = ({
             </GestureTouchable>
             {isCalloutOpenFromParent ? (
               <GestureTouchable
-                style={{ alignItems: 'center' }}
+                style={{
+                  alignItems: 'center',
+                  paddingBottom: 6,
+                  paddingStart: 12,
+                  paddingEnd: 5,
+                }}
                 onPress={() => setIsCalloutOpen(false)}>
                 <KebobIcon
                   style={{
@@ -89,7 +98,12 @@ const CollapsedProductCard = ({
               </GestureTouchable>
             ) : (
               <TouchableOpacity
-                style={{ alignItems: 'center' }}
+                style={{
+                  alignItems: 'center',
+                  paddingBottom: 6,
+                  paddingStart: 12,
+                  paddingEnd: 5,
+                }}
                 onPress={(e) => onCallout(e)}>
                 <KebobIcon
                   style={{

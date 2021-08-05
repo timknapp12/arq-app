@@ -61,7 +61,7 @@ const CollapsedNotificationCard = ({
                   paddingLeft: 4,
                 }}
               />
-              <TouchableOpacity style={{ padding: 4 }} onPress={onCallout}>
+              <TouchableOpacity style={{ padding: 6 }} onPress={onCallout}>
                 <KebobIcon
                   style={{
                     height: 20,
