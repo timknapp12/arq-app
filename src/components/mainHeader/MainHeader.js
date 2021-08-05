@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
 import { Flexbox, SmallQIcon, BellIcon, AccountIcon, Header } from '../common';
 import account from '../../../assets/icons/ic_account.png';
 import LoginContext from '../../contexts/LoginContext';
@@ -11,13 +11,13 @@ const ProfileImage = styled.Image`
   width: 24px;
   border-radius: 12px;
 `;
-const MainHeader = ({
-  badgeValue,
-  fadeIn = () => {},
-  fadeOut = () => {},
-  isMenuOpen,
-}) => {
-  const { userProfile = { profileUrl: '' } } = useContext(LoginContext);
+const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
+  const {
+    userProfile = { profileUrl: '' },
+    setDisplayNotifications,
+    prospectNotificationCount,
+    setProspectNotificationCount,
+  } = useContext(LoginContext);
   const [isImageValid, setIsImageValid] = useState(true);
   const [url, setUrl] = useState(userProfile?.profileUrl ?? '');
   // this flag triggers react to re-render the UI
@@ -47,6 +47,7 @@ const MainHeader = ({
           onPress={(e) => {
             e.stopPropagation();
             toggleMenu();
+            setDisplayNotifications(false);
           }}>
           {url && isImageValid && urlHasChanged ? (
             <ProfileImage
@@ -63,8 +64,12 @@ const MainHeader = ({
       <SmallQIcon />
       <Flexbox width="60px" align="flex-end">
         <TouchableOpacity
-          onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
-          <BellIcon badgeValue={badgeValue} />
+          onPress={() => {
+            setDisplayNotifications((state) => !state);
+            fadeOut();
+            setProspectNotificationCount(0);
+          }}>
+          <BellIcon badgeValue={prospectNotificationCount} />
         </TouchableOpacity>
       </Flexbox>
     </Header>
@@ -72,7 +77,6 @@ const MainHeader = ({
 };
 
 MainHeader.propTypes = {
-  badgeValue: PropTypes.number,
   toggleMenu: PropTypes.func,
   fadeIn: PropTypes.func,
   fadeOut: PropTypes.func,

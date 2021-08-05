@@ -4,12 +4,12 @@ import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { H4Book } from '../../common';
-import EditIcon from '../../../../assets/icons/edit-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
-import EmailIcon from '../../../../assets/icons/email-icon.svg';
-import MessageIcon from '../../../../assets/icons/message-icon.svg';
+import PinIcon from '../../../../assets/icons/pin-icon.svg';
+import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
+import ViewProspectIcon from '../../../../assets/icons/ShowAllIcon.svg';
 import AppContext from '../../../contexts/AppContext';
-import { Localized, initLanguage } from '../../../translations/Localized';
+import { Localized } from '../../../translations/Localized';
 
 const Container = styled.View`
   background-color: ${(props) => props.theme.cardBackgroundColor};
@@ -30,16 +30,13 @@ const Row = styled.View`
   flex-direction: row;
 `;
 
-const ContactCalloutMenu = ({
-  onEdit,
+const NotificationCalloutMenu = ({
   onRemove,
-  emailAddress,
-  primaryPhone,
-  sendEmail,
-  sendText,
+  handlePin,
+  onViewProspect,
+  isSaved,
   ...props
 }) => {
-  initLanguage();
   const { theme } = useContext(AppContext);
 
   const iconStyle = {
@@ -48,48 +45,42 @@ const ContactCalloutMenu = ({
     width: 24,
     color: theme.primaryTextColor,
   };
-
   return (
     <Container {...props}>
-      <CalloutButton onPress={onEdit}>
-        <Row>
-          <EditIcon style={iconStyle} />
-          <H4Book>{Localized('Edit')}</H4Book>
-        </Row>
-      </CalloutButton>
       <CalloutButton onPress={onRemove}>
         <Row>
           <RemoveIcon style={iconStyle} />
-          <H4Book>{Localized('Remove')}</H4Book>
+          <H4Book>{Localized('Clear')}</H4Book>
         </Row>
       </CalloutButton>
-      {emailAddress.length > 0 ? (
-        <CalloutButton onPress={sendEmail}>
+      <CalloutButton onPress={handlePin}>
+        {isSaved ? (
           <Row>
-            <EmailIcon style={iconStyle} />
-            <H4Book>{Localized('Email')}</H4Book>
+            <UnpinIcon style={iconStyle} />
+            <H4Book>{Localized('Unpin')}</H4Book>
           </Row>
-        </CalloutButton>
-      ) : null}
-      {primaryPhone.length > 0 ? (
-        <CalloutButton onPress={sendText}>
+        ) : (
           <Row>
-            <MessageIcon style={iconStyle} />
-            <H4Book>{Localized('Text Message')}</H4Book>
+            <PinIcon style={iconStyle} />
+            <H4Book>{Localized('Pin')}</H4Book>
           </Row>
-        </CalloutButton>
-      ) : null}
+        )}
+      </CalloutButton>
+      <CalloutButton onPress={onViewProspect}>
+        <Row>
+          <ViewProspectIcon style={iconStyle} />
+          <H4Book>{Localized('View Prospect')}</H4Book>
+        </Row>
+      </CalloutButton>
     </Container>
   );
 };
 
-ContactCalloutMenu.propTypes = {
-  onEdit: PropTypes.func.isRequired,
+NotificationCalloutMenu.propTypes = {
   onRemove: PropTypes.func.isRequired,
-  emailAddress: PropTypes.string,
-  primaryPhone: PropTypes.string,
-  sendEmail: PropTypes.func.isRequired,
-  sendText: PropTypes.func.isRequired,
+  handlePin: PropTypes.func.isRequired,
+  onViewProspect: PropTypes.func.isRequired,
+  isSaved: PropTypes.bool.isRequired,
 };
 
-export default ContactCalloutMenu;
+export default NotificationCalloutMenu;

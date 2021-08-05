@@ -74,7 +74,6 @@ const LoginScreen = ({ navigation }) => {
         const legacyId = data.loginUser.associate.legacyAssociateId;
         setLegacyId(legacyId);
       }
-      console.log(`if data:`, data?.loginUser);
       const status = data?.loginUser?.loginStatus;
       handleLoginUser(
         status,

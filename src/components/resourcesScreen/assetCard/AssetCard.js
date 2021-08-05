@@ -178,7 +178,16 @@ const AssetCard = ({
     }
   };
 
-  const onSend = () => Alert.alert('This feature is not quite ready yet :)');
+  const onSend = () => {
+    navigation.navigate('Prospects Stack', {
+      screen: 'Prospects Screen',
+      params: {
+        title,
+        url,
+        prospectLinkIsNeeded: true,
+      },
+    });
+  };
 
   return (
     <AssetCardContainer {...props}>

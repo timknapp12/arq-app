@@ -289,7 +289,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
           </Flexbox>
           <Flexbox width="85%" height="60px">
             <PrimaryButton disabled={isButtonDisabled} onPress={onSubmit}>
-              {Localized('CONTINUE')}
+              {Localized('Continue').toUpperCase()}
             </PrimaryButton>
           </Flexbox>
         </Flexbox>

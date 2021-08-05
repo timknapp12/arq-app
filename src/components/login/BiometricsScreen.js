@@ -94,7 +94,7 @@ const BiometricsScreen = ({ navigation }) => {
         </Flexbox>
         <Flexbox width="85%" height="60px">
           <PrimaryButton onPress={onSubmit}>
-            {Localized('CONTINUE')}
+            {Localized('Continue').toUpperCase()}
           </PrimaryButton>
         </Flexbox>
       </Flexbox>

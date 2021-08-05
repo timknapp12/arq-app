@@ -54,7 +54,9 @@ const ResourcesStack = () => {
       <Resources.Screen
         name="Corporate Search Screen"
         component={CorporateSearchScreen}
-        options={{ title: Localized('SEARCH CORPORATE RESOURCES') }}
+        options={{
+          title: Localized('Search Corporate Resources').toUpperCase(),
+        }}
       />
       <Resources.Screen
         name="Team Search Screen"

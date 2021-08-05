@@ -344,3 +344,62 @@ export const NEWS_STORY_HAS_BEEN_VIEWED = gql`
     }
   }
 `;
+
+export const CLEAR_ALL_PROPSECT_NOTIFICATIONS = gql`
+  mutation DeleteLinkViewAssociate(
+    $associateId: Int!
+    $deletePinned: Boolean!
+  ) {
+    deleteLinkViewAssociate(
+      associateId: $associateId
+      deletePinned: $deletePinned
+    )
+  }
+`;
+
+export const CLEAR_PROSPECT_NOTIFICATION = gql`
+  mutation deleteProspectLinkView($viewId: Int!) {
+    deleteProspectLinkView(viewId: $viewId)
+  }
+`;
+
+export const GET_PROSPECT_URL = gql`
+  mutation AddUpdateProspectLink(
+    $associateId: Int!
+    $description: String!
+    $displayName: String!
+    $redirectUrl: String!
+    $sentLinkId: String!
+    $prospectId: String
+  ) {
+    addUpdateProspectLink(
+      input: {
+        associateId: $associateId
+        description: $description
+        displayName: $displayName
+        redirectUrl: $redirectUrl
+        sentLinkId: $sentLinkId
+        prospectId: $prospectId
+      }
+    ) {
+      sentLinkId
+      prospectUrl
+    }
+  }
+`;
+
+export const PIN_PROSPECT_NOTIFICATION = gql`
+  mutation SaveLinkViewed($viewId: Int!, $pin: Boolean!) {
+    saveLinkViewed(viewId: $viewId, pin: $pin) {
+      viewId
+    }
+  }
+`;
+
+export const PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED = gql`
+  mutation RecordLinkViewedBySender($viewId: Int!) {
+    recordLinkViewedBySender(viewId: $viewId) {
+      prospectId
+    }
+  }
+`;

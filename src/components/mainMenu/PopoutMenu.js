@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Alert, Animated } from 'react-native';
+import { Animated } from 'react-native';
 // using the standard "TouchableOpacity" from react native didn't work on android with buttons inside a position: absolute view
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4Book } from '../common';
@@ -67,7 +67,7 @@ const PopoutMenu = ({
         </Touchable>
       </TouchableContainer>
 
-      <TouchableContainer>
+      {/* <TouchableContainer>
         <Touchable
           onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
           <H4Book>{Localized('Chat With Support')}</H4Book>
@@ -79,7 +79,7 @@ const PopoutMenu = ({
           onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
           <H4Book>{Localized('Share My Shop')}</H4Book>
         </Touchable>
-      </TouchableContainer>
+      </TouchableContainer> */}
 
       <TouchableContainer>
         <Touchable

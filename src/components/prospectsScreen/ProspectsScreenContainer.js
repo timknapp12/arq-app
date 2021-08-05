@@ -41,14 +41,17 @@ const ProspectsScreenContainer = ({ children }) => {
     onError: (error) => console.log(`error`, error),
   });
 
-  const subject = 'This is a test subject';
-  const message = 'this is test body and should be updated';
+  // SEND PROSPECT LINKS
+  const [prospectLinkIsNeeded, setProspectLinkIsNeeded] = useState(false);
+  const [subject, setSubject] = useState('');
+  const [redirectUrl, setRedirectUrl] = useState('');
   const separator = Platform.OS === 'ios' ? '&' : '?';
 
-  const onEmail = (email) =>
+  const onEmail = (email, message = '') =>
     Linking.openURL(`mailto:${email}?subject=${subject}&body=${message}`);
-  const onMessage = (phone) =>
+  const onMessage = (phone, message = '') =>
     Linking.openURL(`sms:${phone}${separator}body=${message}`);
+
   return (
     <ProspectsContext.Provider
       value={{
@@ -58,6 +61,12 @@ const ProspectsScreenContainer = ({ children }) => {
         onMessage,
         addUpdateProspect,
         deleteProspect,
+        subject,
+        setSubject,
+        redirectUrl,
+        setRedirectUrl,
+        prospectLinkIsNeeded,
+        setProspectLinkIsNeeded,
       }}>
       {children}
     </ProspectsContext.Provider>

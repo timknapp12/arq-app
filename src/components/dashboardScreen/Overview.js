@@ -11,12 +11,12 @@ import {
 } from '../../styles/colors';
 import LoginContext from '../../contexts/LoginContext';
 
-const Overview = ({ user, fadeOut }) => {
+const Overview = ({ user, closeMenus }) => {
   initLanguage();
   const { pv, totalOv, cv } = user;
   const { userProfile } = useContext(LoginContext);
   return (
-    <TouchableWithoutFeedback onPress={fadeOut}>
+    <TouchableWithoutFeedback onPress={closeMenus}>
       <Flexbox width="100%" onStartShouldSetResponder={() => true}>
         <Flexbox
           accessibilityLabel="Distributor name and rank"
@@ -68,7 +68,7 @@ const Overview = ({ user, fadeOut }) => {
 
 Overview.propTypes = {
   user: PropTypes.object,
-  fadeOut: PropTypes.func,
+  closeMenus: PropTypes.func,
 };
 
 export default Overview;

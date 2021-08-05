@@ -44,7 +44,6 @@ const CreateAccountScreen = ({ navigation }) => {
       setErrorMessage('');
       clearFields();
 
-      console.log(`if data:`, data?.loginUser);
       const status = data?.loginUser?.loginStatus;
       handleLoginUser(
         status,

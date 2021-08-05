@@ -40,10 +40,10 @@ const FeaturedNewsCard = ({
   body,
   isRead,
   isMenuOpen,
-  fadeOut,
+  closeMenus,
 }) => {
   const { associateId } = useContext(AppContext);
-  const { refetchNews } = useContext(LoginContext);
+  const { refetchNews, displayNotifications } = useContext(LoginContext);
 
   const [isReadYet, setIsReadYet] = useState(isRead);
 
@@ -54,8 +54,8 @@ const FeaturedNewsCard = ({
   });
 
   const openLink = () => {
-    if (isMenuOpen) {
-      return fadeOut();
+    if (isMenuOpen || displayNotifications) {
+      return closeMenus();
     }
     setIsReadYet(true);
     storyHasBeenViewed();
@@ -63,7 +63,9 @@ const FeaturedNewsCard = ({
   };
 
   return (
-    <TouchableOpacity activeOpacity={isMenuOpen ? 1 : 0.2} onPress={openLink}>
+    <TouchableOpacity
+      activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
+      onPress={openLink}>
       <Container>
         <BannerImage source={{ uri: imageUrl }} defaultSource={defaultImage} />
         <TitleAndDescriptionContainer isReadYet={!isReadYet}>
@@ -90,7 +92,7 @@ FeaturedNewsCard.propTypes = {
   body: PropTypes.string,
   isRead: PropTypes.bool,
   isMenuOpen: PropTypes.bool.isRequired,
-  fadeOut: PropTypes.func.isRequired,
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default FeaturedNewsCard;

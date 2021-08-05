@@ -18,6 +18,7 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
+import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
 
 const DashboardScreen = ({ navigation }) => {
@@ -49,6 +50,8 @@ const DashboardScreen = ({ navigation }) => {
       },
     },
     ranks = [],
+    setDisplayNotifications,
+    refetchProspectsNotifications = () => {},
   } = useContext(LoginContext);
 
   const isFocused = useIsFocused();
@@ -58,9 +61,10 @@ const DashboardScreen = ({ navigation }) => {
         screen: 'Dashboard Screen',
         purpose: 'User navigated to Dashboard Screen',
       });
+      refetchProspectsNotifications();
     }
     return () => {
-      fadeOut();
+      closeMenus();
     };
   }, [isFocused]);
 
@@ -72,9 +76,9 @@ const DashboardScreen = ({ navigation }) => {
   const [view, setView] = useState(initialView);
 
   const tertiaryButtonText = [
-    { name: Localized('OVERVIEW'), testID: 'overview_button' },
-    { name: Localized('RANK'), testID: 'rank_button' },
-    { name: Localized('OV DETAIL'), testID: 'ov_detail_button' },
+    { name: Localized('Overview').toUpperCase(), testID: 'overview_button' },
+    { name: Localized('Rank').toUpperCase(), testID: 'rank_button' },
+    { name: Localized('OV Detail').toUpperCase(), testID: 'ov_detail_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -97,28 +101,36 @@ const DashboardScreen = ({ navigation }) => {
     }).start(() => setIsMenuOpen(false));
   };
 
-  const navigate = (item) => {
+  const closeMenus = () => {
     fadeOut();
+    setDisplayNotifications(false);
+  };
+
+  const navigate = (item) => {
+    closeMenus();
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'Dashboard Screen',
       purpose: `See details for ${item?.name}`,
     });
+    refetchProspectsNotifications();
   };
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   return (
-    <TouchableWithoutFeedback onPress={fadeOut}>
+    <TouchableWithoutFeedback onPress={closeMenus}>
       <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
-        <MainHeader
-          isMenuOpen={isMenuOpen}
-          fadeIn={fadeIn}
-          fadeOut={fadeOut}
-          setIsMenuOpen={setIsMenuOpen}
-          badgeValue={2}
-        />
+        <Flexbox style={{ zIndex: 2 }}>
+          <MainHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+          />
+          <NotificationsColumn />
+        </Flexbox>
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
             <TertiaryButton
@@ -149,14 +161,14 @@ const DashboardScreen = ({ navigation }) => {
             height: '100%',
             zIndex: -1,
           }}>
-          {view.name === Localized('OVERVIEW') && (
-            <Overview user={user} fadeOut={fadeOut} />
+          {view.name === Localized('Overview').toUpperCase() && (
+            <Overview user={user} closeMenus={closeMenus} />
           )}
-          {view.name === Localized('RANK') && (
-            <Rank ranklist={ranks} user={user} fadeOut={fadeOut} />
+          {view.name === Localized('Rank').toUpperCase() && (
+            <Rank ranklist={ranks} user={user} closeMenus={closeMenus} />
           )}
-          {view.name === Localized('OV DETAIL') && (
-            <OVDetail ranklist={ranks} user={user} fadeOut={fadeOut} />
+          {view.name === Localized('OV Detail').toUpperCase() && (
+            <OVDetail ranklist={ranks} user={user} closeMenus={closeMenus} />
           )}
         </ScrollView>
         {isMyInfoModalOpen && (

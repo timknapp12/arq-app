@@ -9,10 +9,12 @@ import {
   GET_USER,
   GET_PROFILE,
   GET_NEWS,
+  GET_PROSPECT_NOTIFICATIONS,
 } from '../../graphql/queries';
 import { UPDATE_USER } from '../../graphql/mutations';
 import { findMarketId } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
+import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
 
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, setHasPermissions, userMarket } =
@@ -30,6 +32,7 @@ const InitialDataContainer = ({ children }) => {
   });
 
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
+  const [displayNotifications, setDisplayNotifications] = useState(false);
   const clearFields = () => {
     setEmail('');
     setPassword('');
@@ -64,6 +67,7 @@ const InitialDataContainer = ({ children }) => {
   // get news by market
   const [marketId, setMarketId] = useState(userMarket.countryId);
   const [newsNotificationCount, setNewsNotificationCount] = useState(0);
+  const [prospectNotificationCount, setProspectNotificationCount] = useState(0);
 
   useEffect(() => {
     if (userMarket?.countryCode && marketsData?.activeCountries)
@@ -90,12 +94,35 @@ const InitialDataContainer = ({ children }) => {
     };
   }, [news]);
 
+  // get notifications
+  // TODO consider removing the refetch and just using `getProspectNotifications`
+  const [
+    getProspectNotifications,
+    {
+      loading: loadingProspectNotifications,
+      data: prospectNotificationData,
+      refetch: refetchProspectsNotifications,
+    },
+  ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
+    variables: { associateId },
+    onError: (error) =>
+      console.log(`error in getProspectNotifications:`, error),
+  });
+
+  useEffect(() => {
+    const count = calculateNewProspectNotifications(
+      prospectNotificationData?.prospectViewsByAssociate,
+    );
+    setProspectNotificationCount(count);
+  }, [prospectNotificationData]);
+
   useEffect(() => {
     getUser();
   }, [legacyId]);
 
   useEffect(() => {
     getProfile();
+    getProspectNotifications();
   }, [associateId]);
 
   return (
@@ -126,6 +153,14 @@ const InitialDataContainer = ({ children }) => {
         news,
         newsNotificationCount,
         refetchNews,
+        displayNotifications,
+        setDisplayNotifications,
+        loadingProspectNotifications,
+        prospectNotifications:
+          prospectNotificationData?.prospectViewsByAssociate,
+        refetchProspectsNotifications,
+        prospectNotificationCount,
+        setProspectNotificationCount,
       }}>
       {children}
     </LoginContext.Provider>

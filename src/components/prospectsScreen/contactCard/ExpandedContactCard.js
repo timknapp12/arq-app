@@ -10,7 +10,6 @@ import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import account from '../../../../assets/icons/ic_account.png';
 import AppContext from '../../../contexts/AppContext';
 import AddContactModal from '../AddContactModal';
-import ProspectsContext from '../../../contexts/ProspectsContext';
 import {
   CardContainer,
   Row,
@@ -22,15 +21,16 @@ import {
 } from './card.styles';
 
 const ExpandedContactCard = ({
+  isCalloutOpenFromParent,
   toggleExpanded,
   data,
   initials,
   onRemove,
+  sendEmail,
+  sendText,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
-  const { onEmail, onMessage, isCalloutOpenFromParent } =
-    useContext(ProspectsContext);
 
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
@@ -54,6 +54,7 @@ const ExpandedContactCard = ({
     width: 24,
     marginStart: 8,
   };
+
   return (
     <>
       <CardContainer {...props}>
@@ -80,12 +81,12 @@ const ExpandedContactCard = ({
           <Stack expanded>
             <Row>
               {emailAddress ? (
-                <TouchableOpacity onPress={() => onEmail(emailAddress)}>
+                <TouchableOpacity onPress={sendEmail}>
                   <EmailIcon style={largeIconStyle} />
                 </TouchableOpacity>
               ) : null}
               {primaryPhone ? (
-                <TouchableOpacity onPress={() => onMessage(primaryPhone)}>
+                <TouchableOpacity onPress={sendText}>
                   <MessageIcon style={largeIconStyle} />
                 </TouchableOpacity>
               ) : null}
@@ -126,10 +127,13 @@ const ExpandedContactCard = ({
 };
 
 ExpandedContactCard.propTypes = {
+  isCalloutOpenFromParent: PropTypes.bool.isRequired,
   toggleExpanded: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   initials: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
+  sendEmail: PropTypes.func.isRequired,
+  sendText: PropTypes.func.isRequired,
 };
 
 export default ExpandedContactCard;

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { H2Book, H4Book, H6 } from '../../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
@@ -26,6 +26,8 @@ const CollapsedContactCard = ({
   onCallout,
   isFilterMenuOpen,
   onRemove,
+  sendEmail,
+  sendText,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -77,10 +79,11 @@ const CollapsedContactCard = ({
           {isCalloutOpen && (
             <ContactCalloutMenu
               onEdit={() => setIsAddContactModalOpen(true)}
-              onMove={() => Alert.alert('This feature is coming soon!')}
               onRemove={onRemove}
               emailAddress={emailAddress}
               primaryPhone={primaryPhone}
+              sendEmail={sendEmail}
+              sendText={sendText}
             />
           )}
         </TouchableOpacity>
@@ -107,6 +110,8 @@ CollapsedContactCard.propTypes = {
   onCallout: PropTypes.func.isRequired,
   isFilterMenuOpen: PropTypes.bool.isRequired,
   onRemove: PropTypes.func.isRequired,
+  sendEmail: PropTypes.func.isRequired,
+  sendText: PropTypes.func.isRequired,
 };
 
 export default CollapsedContactCard;

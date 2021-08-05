@@ -20,7 +20,6 @@ const EnterIdScreen = ({ navigation }) => {
   const [getDirectScaleInfo] = useMutation(DIRECT_SCALE_INFO, {
     variables: { ambassadorOnly: true, userName: username },
     onCompleted: (data) => {
-      console.log(`if data:`, data);
       const status = data?.directScaleInfo?.status;
       console.log(`status`, status);
       handleGetDirectScaleInfo(status, navigation, setErrorMessage, username);
@@ -81,7 +80,7 @@ const EnterIdScreen = ({ navigation }) => {
         </Flexbox>
         <Flexbox width="85%" height="60px">
           <PrimaryButton disabled={!username} onPress={onSubmit}>
-            {Localized('CONTINUE')}
+            {Localized('Continue').toUpperCase()}
           </PrimaryButton>
         </Flexbox>
       </Flexbox>

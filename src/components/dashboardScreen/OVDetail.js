@@ -19,7 +19,7 @@ const TitleContainer = styled.View`
   align-items: center;
 `;
 
-const OVDetail = ({ ranklist, fadeOut, user }) => {
+const OVDetail = ({ ranklist, closeMenus, user }) => {
   initLanguage();
   const initialRankName = user?.rank.name;
   const [rankName, setRankName] = useState(initialRankName);
@@ -59,7 +59,7 @@ const OVDetail = ({ ranklist, fadeOut, user }) => {
   }, [rank, user]);
 
   return (
-    <TouchableWithoutFeedback onPress={fadeOut}>
+    <TouchableWithoutFeedback onPress={closeMenus}>
       <Flexbox onStartShouldSetResponder={() => true} width="100%">
         <Slider
           rankName={rankName}
@@ -149,7 +149,7 @@ OVDetail.propTypes = {
       maximumPerLeg: PropTypes.number,
     }),
   ),
-  fadeOut: PropTypes.func,
+  closeMenus: PropTypes.func,
   user: PropTypes.object,
 };
 

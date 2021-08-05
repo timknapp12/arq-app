@@ -22,11 +22,11 @@ const NewsCard = ({
   url,
   isRead,
   isMenuOpen,
-  fadeOut,
+  closeMenus,
   ...props
 }) => {
   const { theme, deviceLanguage, associateId } = useContext(AppContext);
-  const { refetchNews } = useContext(LoginContext);
+  const { refetchNews, displayNotifications } = useContext(LoginContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReadYet, setIsReadYet] = useState(isRead);
 
@@ -37,8 +37,8 @@ const NewsCard = ({
   });
 
   const openLink = () => {
-    if (isMenuOpen) {
-      return fadeOut();
+    if (isMenuOpen || displayNotifications) {
+      return closeMenus();
     }
     setIsReadYet(true);
     storyHasBeenViewed();
@@ -59,7 +59,7 @@ const NewsCard = ({
       <OuterContainer isExpanded={isExpanded} isReadYet={!isReadYet}>
         <TouchableOpacity
           /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
-          activeOpacity={isMenuOpen ? 1 : 0.2}
+          activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
           style={{ flex: 1 }}
           onPress={openLink}>
           <InnerContainer>
@@ -97,6 +97,7 @@ const NewsCard = ({
             storyHasBeenViewed();
             setIsReadYet(true);
             setIsExpanded((state) => !state);
+            closeMenus();
           }}>
           <MaterialCommunityIcon
             name={isExpanded ? 'chevron-up' : 'chevron-down'}
@@ -117,7 +118,7 @@ NewsCard.propTypes = {
   date: PropTypes.string,
   isRead: PropTypes.bool,
   isMenuOpen: PropTypes.bool.isRequired,
-  fadeOut: PropTypes.func.isRequired,
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default NewsCard;
