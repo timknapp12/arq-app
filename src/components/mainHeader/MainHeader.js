@@ -2,9 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
-import { Flexbox, SmallQIcon, BellIcon, AccountIcon, Header } from '../common';
-import account from '../../../assets/icons/ic_account.png';
+import { Flexbox, SmallQIcon, BellIcon, Header } from '../common';
+import AccountIcon from '../../../assets/icons/accountProfile.svg';
+import account from '../../../assets/icons/accountProfile.svg';
 import LoginContext from '../../contexts/LoginContext';
+import AppContext from '../../contexts/AppContext';
 
 const ProfileImage = styled.Image`
   height: 24px;
@@ -12,12 +14,15 @@ const ProfileImage = styled.Image`
   border-radius: 12px;
 `;
 const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
+  const { theme } = useContext(AppContext);
+
   const {
     userProfile = { profileUrl: '' },
     setDisplayNotifications,
     prospectNotificationCount,
     setProspectNotificationCount,
   } = useContext(LoginContext);
+
   const [isImageValid, setIsImageValid] = useState(true);
   const [url, setUrl] = useState(userProfile?.profileUrl ?? '');
   // this flag triggers react to re-render the UI
@@ -58,7 +63,10 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
               onError={() => setIsImageValid(false)}
             />
           ) : (
-            <AccountIcon />
+            <AccountIcon
+              size={24}
+              style={{ color: theme.primaryTextColor, height: 2, width: 2 }}
+            />
           )}
         </TouchableOpacity>
       </Flexbox>
