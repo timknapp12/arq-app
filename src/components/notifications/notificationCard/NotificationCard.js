@@ -22,7 +22,8 @@ const NotificationCard = ({
   ...props
 }) => {
   const { deviceLanguage } = useContext(AppContext);
-  const { refetchProspectsNotifications } = useContext(LoginContext);
+  const { refetchProspectsNotifications, displayNotifications } =
+    useContext(LoginContext);
 
   const { viewId, isSaved } = data;
 
@@ -38,8 +39,10 @@ const NotificationCard = ({
   );
 
   useEffect(() => {
-    notificationHasBeenViewed();
-  }, []);
+    if (displayNotifications) {
+      notificationHasBeenViewed();
+    }
+  }, [displayNotifications]);
 
   useEffect(() => {
     if (!isCalloutOpen) {

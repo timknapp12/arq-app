@@ -40,8 +40,14 @@ const FlagIcon = styled.Image`
 
 const NewsScreen = ({ navigation }) => {
   const { userMarket, theme } = useContext(AppContext);
-  const { markets, setMarketId, loadingNews, news, setDisplayNotifications } =
-    useContext(LoginContext);
+  const {
+    markets,
+    setMarketId,
+    loadingNews,
+    news,
+    setDisplayNotifications,
+    refetchProspectsNotifications,
+  } = useContext(LoginContext);
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
@@ -65,6 +71,7 @@ const NewsScreen = ({ navigation }) => {
         screen: 'News Screen',
         purpose: 'User navigated to News Screen',
       });
+      refetchProspectsNotifications();
     }
     return () => {
       closeMenus();
@@ -90,6 +97,7 @@ const NewsScreen = ({ navigation }) => {
       screen: 'NewsScreen',
       purpose: `See details for ${item?.name}`,
     });
+    refetchProspectsNotifications();
   };
 
   const fadeAnim = useRef(new Animated.Value(-500)).current;
