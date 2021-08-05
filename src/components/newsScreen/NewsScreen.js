@@ -46,7 +46,7 @@ const NewsScreen = ({ navigation }) => {
     loadingNews,
     news,
     setDisplayNotifications,
-    refetchProspectsNotifications,
+    refetchProspectsNotifications = () => {},
   } = useContext(LoginContext);
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);

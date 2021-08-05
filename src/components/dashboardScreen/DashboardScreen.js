@@ -51,7 +51,7 @@ const DashboardScreen = ({ navigation }) => {
     },
     ranks = [],
     setDisplayNotifications,
-    refetchProspectsNotifications,
+    refetchProspectsNotifications = () => {},
   } = useContext(LoginContext);
 
   const isFocused = useIsFocused();

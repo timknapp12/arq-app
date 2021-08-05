@@ -95,6 +95,7 @@ const InitialDataContainer = ({ children }) => {
   }, [news]);
 
   // get notifications
+  // TODO consider removing the refetch and just using `getProspectNotifications`
   const [
     getProspectNotifications,
     {

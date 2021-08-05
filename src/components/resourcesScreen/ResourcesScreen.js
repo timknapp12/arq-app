@@ -27,7 +27,7 @@ import LoginContext from '../../contexts/LoginContext';
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
   const { hasPermissions } = useContext(AppContext);
-  const { setDisplayNotifications, refetchProspectsNotifications } =
+  const { setDisplayNotifications, refetchProspectsNotifications = () => {} } =
     useContext(LoginContext);
   const isFocused = useIsFocused();
   useEffect(() => {
