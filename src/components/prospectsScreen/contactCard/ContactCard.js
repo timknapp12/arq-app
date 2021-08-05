@@ -128,43 +128,23 @@ const ContactCard = ({
     sentLinkId: '',
   };
 
-  const [getProspectUrl, { data: prospectUrlData }] = useMutation(
-    GET_PROSPECT_URL,
-    {
-      variables: variables,
-      onCompleted: async (data) => {
-        const message = data?.addUpdateProspectLink?.prospectUrl;
-
-        // let shortenedUrl = await bitly.shorten(message);
-
-        // console.log(`shortenedUrl`, shortenedUrl);
-        // const hyperLink = (
-        //   <Text onPress={() => Linking.openURL(message)}>Click here</Text>
-        // );
-        if (messageType === 'email') {
-          onEmail(emailAddress, `${defaultMessageIntro}${message}`);
-        } else if (messageType === 'text') {
-          onMessage(primaryPhone, `${defaultMessageIntro}${message}`);
-        }
-      },
-      onError: (error) => console.log(`error`, error),
+  const [getProspectUrl] = useMutation(GET_PROSPECT_URL, {
+    variables: variables,
+    onCompleted: async (data) => {
+      const message = data?.addUpdateProspectLink?.prospectUrl;
+      if (messageType === 'email') {
+        onEmail(emailAddress, `${defaultMessageIntro}${message}`);
+      } else if (messageType === 'text') {
+        onMessage(primaryPhone, `${defaultMessageIntro}${message}`);
+      }
     },
-  );
-
-  // <Text
-  //   style={{ color: 'blue' }}
-  //   onPress={() => Linking.openURL('http://google.com')}>
-  //   Google
-  // </Text>;
+    onError: (error) => console.log(`error in getProspectUrl:`, error),
+  });
 
   const sendEmail = async () => {
     setMessageType('email');
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
-      onEmail(
-        emailAddress,
-        prospectUrlData?.addUpdateProspectLink?.prospectUrl,
-      );
     } else {
       onEmail(emailAddress);
     }
@@ -174,10 +154,6 @@ const ContactCard = ({
     setMessageType('text');
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
-      onMessage(
-        primaryPhone,
-        prospectUrlData?.addUpdateProspectLink?.prospectUrl,
-      );
     } else {
       onMessage(primaryPhone);
     }

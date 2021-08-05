@@ -6,6 +6,7 @@ import {
   Animated,
   Dimensions,
   ScrollView,
+  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Flexbox, H5Black } from '../common';
@@ -17,7 +18,7 @@ import { CLEAR_ALL_PROPSECT_NOTIFICATIONS } from '../../graphql/mutations';
 import { checkForPinnedNotifications } from '../../utils/notifications/checkForPinnedNotifications';
 import {
   ColumnContainer,
-  ClearButton,
+  ClearButtonContainer,
   // NotificationBottomPadding,
 } from './notificationCard/notificationCard.styles';
 
@@ -47,7 +48,7 @@ const NotificationsColumn = () => {
     onCompleted: () => {
       refetchProspectsNotifications();
       //  if there are no more pinned notifications then close the notification column
-      areTherePinnedNotifications && setDisplayNotifications(false);
+      !areTherePinnedNotifications && setDisplayNotifications(false);
     },
     onError: (error) => console.log(`error`, error),
   });
@@ -70,13 +71,19 @@ const NotificationsColumn = () => {
   useEffect(() => {
     if (displayNotifications) {
       fadeDown();
-    } else {
+    }
+    if (!displayNotifications) {
       fadeUp();
+    }
+    if (displayNotifications && prospectNotifications?.length < 1) {
+      setTimeout(() => {
+        setDisplayNotifications(false);
+      }, 3000);
     }
     return () => {
       fadeUp();
     };
-  }, [displayNotifications]);
+  }, [displayNotifications, prospectNotifications]);
 
   const AnimatedContainer = Animated.createAnimatedComponent(ColumnContainer);
 
@@ -119,15 +126,21 @@ const NotificationsColumn = () => {
           </TouchableWithoutFeedback> */}
             </ScrollView>
             {prospectNotifications?.length > 0 ? (
-              <ClearButton onPress={clearAll}>
-                <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
-              </ClearButton>
+              <ClearButtonContainer>
+                <TouchableOpacity onPress={clearAll}>
+                  <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
+                </TouchableOpacity>
+              </ClearButtonContainer>
             ) : (
-              <ClearButton
-                activeOpacity={1}
-                onPress={() => setDisplayNotifications(false)}>
-                <H5Black>{Localized('You have no new notifications')}</H5Black>
-              </ClearButton>
+              <ClearButtonContainer>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => setDisplayNotifications(false)}>
+                  <H5Black>
+                    {Localized('You have no new notifications')}
+                  </H5Black>
+                </TouchableOpacity>
+              </ClearButtonContainer>
             )}
           </>
         )}

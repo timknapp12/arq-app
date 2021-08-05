@@ -104,6 +104,8 @@ const InitialDataContainer = ({ children }) => {
     },
   ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
     variables: { associateId },
+    onError: (error) =>
+      console.log(`error in getProspectNotifications:`, error),
   });
 
   useEffect(() => {
@@ -111,9 +113,6 @@ const InitialDataContainer = ({ children }) => {
       prospectNotificationData?.prospectViewsByAssociate,
     );
     setProspectNotificationCount(count);
-    return () => {
-      setProspectNotificationCount(0);
-    };
   }, [prospectNotificationData]);
 
   useEffect(() => {

@@ -7,7 +7,7 @@ export const ColumnContainer = styled.View`
   position: absolute;
 `;
 
-export const ClearButton = styled.TouchableOpacity`
+export const ClearButtonContainer = styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.cardBackgroundColor};
