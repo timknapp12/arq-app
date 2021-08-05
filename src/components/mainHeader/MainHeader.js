@@ -49,7 +49,7 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
       <Flexbox width="60px" align="flex-start">
         <TouchableOpacity
           testID="profile-button"
-          style={{ padding: 8 }}
+          style={{ padding: 8, paddingEnd: 16 }}
           onPress={(e) => {
             e.stopPropagation();
             toggleMenu();
@@ -73,7 +73,7 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
       <SmallQIcon />
       <Flexbox width="60px" align="flex-end">
         <TouchableOpacity
-          style={{ padding: 6 }}
+          style={{ padding: 6, paddingStart: 16 }}
           onPress={() => {
             setDisplayNotifications((state) => !state);
             fadeOut();
