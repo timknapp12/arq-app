@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
-import { TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Flexbox, PrimaryButton, Input, H4, AlertText } from '../common';
 import { Localized } from '../../translations/Localized';
@@ -49,6 +49,16 @@ const CreateTeamScreen = ({ navigation }) => {
   };
   const onSkip = () => navigation.navigate('App Stack');
   const onSubmit = () => {
+    if (teamName.length < 4 || teamName.length > 20) {
+      return Alert.alert(
+        Localized('Team name must be between 4-20 characters'),
+      );
+    }
+    if (accessCode.length < 4 || accessCode.length > 20) {
+      return Alert.alert(
+        Localized('Access code must be between 4-20 characters'),
+      );
+    }
     createTeam();
   };
 
@@ -70,6 +80,7 @@ const CreateTeamScreen = ({ navigation }) => {
             }}
             returnKeyType="next"
             onSubmitEditing={onNext}
+            maxLength={20}
           />
           <Gap />
           <Input
@@ -83,6 +94,7 @@ const CreateTeamScreen = ({ navigation }) => {
             ref={accessCodeRef}
             returnKeyType="go"
             onSubmitEditing={onSubmit}
+            maxLength={20}
           />
           {errorMessage ? (
             <Flexbox>

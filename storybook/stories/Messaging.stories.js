@@ -5,7 +5,6 @@ import {
   ScreenContainer,
   PrimaryButton,
   Input,
-  Label,
 } from '../../src/components/common';
 
 const separator = Platform.OS === 'ios' ? '&' : '?';
@@ -15,8 +14,8 @@ const EmailExample = () => {
   const [email, setEmail] = useState('');
   return (
     <>
-      <Label>Enter an email address</Label>
       <Input
+        label="Enter an email address"
         value={email}
         onChangeText={(text) => setEmail(text)}
         keyboardType="email-address"
@@ -36,8 +35,8 @@ const TextExample = () => {
   const [phone, setPhone] = useState('');
   return (
     <>
-      <Label>Enter a phone number (no spaces)</Label>
       <Input
+        label="Enter a phone number (no spaces)"
         value={phone}
         onChangeText={(text) => setPhone(text)}
         keyboardType="phone-pad"

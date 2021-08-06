@@ -17,7 +17,6 @@ import {
   H4,
   PrimaryButton,
   AlertText,
-  Label,
 } from '../../common';
 import logo from '../../../../assets/icons/q-sciences-stacked-logo-white.png';
 import { Localized, initLanguage } from '../../../translations/Localized';
@@ -96,8 +95,8 @@ const PasswordRecoveryScreen = ({ navigation }) => {
             )}
           </RecoverPasswordInstructions>
           <Flexbox align="flex-start" style={{ marginBottom: 22 }}>
-            <Label>{Localized('Email Address')}</Label>
             <Input
+              label={Localized('Email Address')}
               auotFocus
               testID="email-input"
               value={email}

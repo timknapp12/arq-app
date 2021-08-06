@@ -126,6 +126,7 @@ const ResourcesScreen = ({ navigation }) => {
     });
     refetchProspectsNotifications();
   };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {

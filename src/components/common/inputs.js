@@ -82,7 +82,7 @@ export const Input = React.forwardRef(
     };
 
     return (
-      <TouchableOpacity activeOpacity={1} onPress={onLabelTouch}>
+      <TouchableOpacity {...props} activeOpacity={1} onPress={onLabelTouch}>
         <>
           {label ? <Label>{label}</Label> : null}
           <ThemedTextInputContainer

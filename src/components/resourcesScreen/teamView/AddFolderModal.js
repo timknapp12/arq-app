@@ -118,8 +118,8 @@ const AddFolderModal = ({
     refetchQueries: [
       { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
     ],
-    onCompleted: (data) => {
-      console.log('done with mutation', data) || setIsLoading(false);
+    onCompleted: () => {
+      setIsLoading(false);
       onClose();
     },
     onError: (error) => {
@@ -174,8 +174,8 @@ const AddFolderModal = ({
             <ActivityIndicator color={theme.disabledBackgroundColor} />
           )}
         </View>
-        <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
+          label={Localized('Title')}
           autoFocus
           onFocus={() => setIsFileInputFocused(false)}
           testID="resource-folder-title-input"
@@ -183,6 +183,7 @@ const AddFolderModal = ({
           onChangeText={(text) => setTitle(text)}
           returnKeyType="done"
           onSubmitEditing={Keyboard.dismiss}
+          style={{ marginTop: marginSize }}
         />
         <Label style={{ marginTop: marginSize }}>{Localized('Layout')}</Label>
         <Flexbox
@@ -247,13 +248,15 @@ const AddFolderModal = ({
             </Flexbox>
           </TouchableOpacity>
         </Flexbox>
-        <Label style={{ marginTop: marginSize }}>{Localized('Picture')}</Label>
         <TouchableOpacity
           onPress={() => {
             pickImage();
             setIsFileInputFocused(true);
           }}
           style={{ width: '100%' }}>
+          <Label style={{ marginTop: marginSize }}>
+            {Localized('Picture')}
+          </Label>
           <Flexbox align="flex-end">
             <FileInput>
               <Filename

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, View } from 'react-native';
+import { Keyboard, View, Alert } from 'react-native';
 import { useMutation } from '@apollo/client';
 import EditModal from '../../editModal/EditModal';
-import { Label, Input, H5Black, H5Secondary, AlertText } from '../../common';
+import { Input, H5Black, H5Secondary, AlertText } from '../../common';
 import { Localized } from '../../../translations/Localized';
 import AppContext from '../../../contexts/AppContext';
 import { CREATE_TEAM } from '../../../graphql/mutations';
@@ -31,7 +31,9 @@ const AccessCodeModal = ({
       accessCode,
       folderName: 'My Team Folder',
     },
-    refetchQueries: [GET_USERS_ACCESS_CODES],
+    refetchQueries: [
+      { query: GET_USERS_ACCESS_CODES, variables: { associateId } },
+    ],
     onCompleted: async (data) => {
       if (data.newTeamAccess === false) {
         return setIsError(true);
@@ -44,6 +46,20 @@ const AccessCodeModal = ({
     },
     onError: () => setIsError(true),
   });
+
+  const onCreate = () => {
+    if (teamName.length < 4 || teamName.length > 20) {
+      return Alert.alert(
+        Localized('Team name must be between 4-20 characters'),
+      );
+    }
+    if (accessCode.length < 4 || accessCode.length > 20) {
+      return Alert.alert(
+        Localized('Access code must be between 4-20 characters'),
+      );
+    }
+    createTeam();
+  };
 
   const onCancel = () => {
     setTeamName('');
@@ -74,13 +90,13 @@ const AccessCodeModal = ({
     <EditModal
       visible={visible}
       onClose={onCancel}
-      onSave={isNew ? createTeam : onSave}>
+      onSave={isNew ? onCreate : onSave}>
       <H5Black style={{ textAlign: 'center' }}>{header}</H5Black>
       <H5Secondary style={{ marginTop: 8, marginBottom: 8 }}>
         {instructions}
       </H5Secondary>
-      <Label>{Localized(`Team Name`)}</Label>
       <Input
+        label={Localized(`Team Name`)}
         autoFocus
         testID="access-code-team-name-input"
         value={teamName}
@@ -92,8 +108,9 @@ const AccessCodeModal = ({
         onSubmitEditing={Keyboard.dismiss}
         maxLength={20}
       />
-      <Label style={{ marginTop: 8 }}>{Localized(`Team Access Code`)}</Label>
       <Input
+        style={{ marginTop: 8 }}
+        label={Localized(`Team Access Code`)}
         testID="access-code-input"
         value={accessCode}
         onChangeText={(text) => {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
+import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
 import {
   TouchableOpacity,
   Platform,
@@ -13,8 +15,6 @@ import { Flexbox, Label, Input, TextArea, Picker, H5Black } from '../../common';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
 import AppContext from '../../../contexts/AppContext';
-import * as ImagePicker from 'expo-image-picker';
-import * as DocumentPicker from 'expo-document-picker';
 import { Filename, FileInput, FileUnderline, marginSize } from './modal.styles';
 import { Localized, initLanguage } from '../../../translations/Localized';
 import { ADD_UPDATE_ASSET } from '../../../graphql/mutations';
@@ -242,8 +242,8 @@ const UploadAssetModal = ({
             )}
           </View>
         </Flexbox>
-        <Label style={{ marginTop: marginSize }}>{Localized('Title')}</Label>
         <Input
+          label={Localized('Title')}
           autoFocus
           onFocus={() => setIsFileInputFocused(false)}
           testID="upload-asset-title-input"
@@ -251,6 +251,7 @@ const UploadAssetModal = ({
           onChangeText={(text) => setTitle(text)}
           returnKeyType="done"
           onSubmitEditing={Keyboard.dismiss}
+          style={{ marginTop: marginSize }}
         />
         <TextArea
           label={Localized('Description')}
@@ -281,8 +282,8 @@ const UploadAssetModal = ({
         />
         {contentType === 'video' || contentType === 'podcast' ? (
           <>
-            <Label style={{ marginTop: marginSize }}>{Localized('Link')}</Label>
             <Input
+              label={Localized('Link')}
               onFocus={() => setIsFileInputFocused(false)}
               testID="upload-asset-link-input"
               value={link}
@@ -291,6 +292,7 @@ const UploadAssetModal = ({
               placeholderTextColor={theme.placeholderTextColor}
               returnKeyType="done"
               onSubmitEditing={Keyboard.dismiss}
+              style={{ marginTop: marginSize }}
             />
           </>
         ) : (

@@ -185,11 +185,15 @@ const TeamView = ({
   }, [selectedTeamName]);
 
   const saveAccessCode = () => {
-    if (!teamName) {
-      return Alert.alert(Localized('Please enter a team name'));
+    if (teamName.length < 4 || teamName.length > 20) {
+      return Alert.alert(
+        Localized('Team name must be between 4-20 characters'),
+      );
     }
-    if (!accessCode) {
-      return Alert.alert(Localized('Please enter a team access code'));
+    if (accessCode.length < 4 || accessCode.length > 20) {
+      return Alert.alert(
+        Localized('Access code must be between 4-20 characters'),
+      );
     }
     addTeamAccessCode();
   };
