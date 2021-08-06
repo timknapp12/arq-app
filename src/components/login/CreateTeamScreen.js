@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
 import { TouchableOpacity } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
-import { Flexbox, PrimaryButton, Input, Label, H4, AlertText } from '../common';
+import { Flexbox, PrimaryButton, Input, H4, AlertText } from '../common';
 import { Localized } from '../../translations/Localized';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 import AppContext from '../../contexts/AppContext';
@@ -59,8 +59,8 @@ const CreateTeamScreen = ({ navigation }) => {
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox align="flex-start">
-          <Label>{Localized('Team Name')}</Label>
           <Input
+            label={Localized('Team Name')}
             autoFocus
             testID="create-team-name-onboarding-input"
             value={teamName}
@@ -72,8 +72,8 @@ const CreateTeamScreen = ({ navigation }) => {
             onSubmitEditing={onNext}
           />
           <Gap />
-          <Label>{Localized('Team Access Code')}</Label>
           <Input
+            label={Localized('Team Access Code')}
             testID="create-team-code-onboarding-input"
             value={accessCode}
             onChangeText={(text) => {

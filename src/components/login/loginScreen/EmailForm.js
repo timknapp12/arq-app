@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Flexbox, Input, Label } from '../../common';
+import { Flexbox, Input } from '../../common';
 import { Localized } from '../../../translations/Localized';
 import LoginContext from '../../../contexts/LoginContext';
 
@@ -30,8 +30,8 @@ const EmailForm = ({ onSubmit, createAccount }) => {
     return (
       <Flexbox>
         <Flexbox align="flex-start" height="50px" style={{ marginBottom: 8 }}>
-          <Label>{Localized('Email Address')}</Label>
           <Input
+            label={Localized('Email Address')}
             auotFocus
             testID="new-account-email-input"
             value={email}
@@ -47,8 +47,8 @@ const EmailForm = ({ onSubmit, createAccount }) => {
         </Flexbox>
 
         <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
-          <Label>{Localized('Type a password')}</Label>
           <Input
+            label={Localized('Type a password')}
             testID="new-account-password-input"
             value={password}
             onChangeText={(text) => {
@@ -63,8 +63,8 @@ const EmailForm = ({ onSubmit, createAccount }) => {
         </Flexbox>
 
         <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
-          <Label>{Localized('Re-type a password')}</Label>
           <Input
+            label={Localized('Re-type a password')}
             testID="confirm-password-input"
             value={confirmPassword}
             onChangeText={(text) => {
@@ -83,8 +83,8 @@ const EmailForm = ({ onSubmit, createAccount }) => {
   return (
     <Flexbox>
       <Flexbox align="flex-start" height="50px" style={{ marginBottom: 8 }}>
-        <Label>{Localized('Email Address')}</Label>
         <Input
+          label={Localized('Email Address')}
           testID="email-input"
           value={email}
           onChangeText={(text) => {
@@ -99,8 +99,8 @@ const EmailForm = ({ onSubmit, createAccount }) => {
       </Flexbox>
 
       <Flexbox align="flex-start" style={{ marginBottom: 4 }}>
-        <Label>{Localized('Password')}</Label>
         <Input
+          label={Localized('Password')}
           testID="password-input"
           value={password}
           onChangeText={(text) => {

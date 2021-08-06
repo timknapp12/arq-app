@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { Alert } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
-import { Flexbox, PrimaryButton, Label, Input, AlertText } from '../common';
+import { Flexbox, PrimaryButton, Input, AlertText } from '../common';
 import { DIRECT_SCALE_INFO } from '../../graphql/mutations';
 import { handleGetDirectScaleInfo } from '../../utils/handleLoginFlow';
 import { getToken } from '../../utils/firebase/login';
@@ -53,11 +53,10 @@ const EnterIdScreen = ({ navigation }) => {
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox width="100%" align="flex-start">
-          <Label>{Localized('Back Office Username')}</Label>
           <Input
+            label={Localized('Back Office Username')}
             autoFocus
             testID="enter-username-input"
-            label={Localized('Display Name')}
             value={username}
             onChangeText={(text) => {
               setErrorMessage('');
