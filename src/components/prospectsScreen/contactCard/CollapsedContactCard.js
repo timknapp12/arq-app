@@ -21,6 +21,7 @@ import ContactCalloutMenu from './ContactCalloutMenu';
 const CollapsedContactCard = ({
   toggleExpanded,
   data,
+  thumbnailUrl = '',
   initials,
   isCalloutOpen,
   onCallout,
@@ -34,8 +35,7 @@ const CollapsedContactCard = ({
   const { isCalloutOpenFromParent } = useContext(ProspectsContext);
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
-  const { thumbnailUrl, firstName, lastName, primaryPhone, emailAddress } =
-    data;
+  const { firstName, lastName, primaryPhone, emailAddress } = data;
   return (
     <>
       <CardContainer {...props}>
@@ -46,6 +46,7 @@ const CollapsedContactCard = ({
           <Row>
             {thumbnailUrl ? (
               <CollapsedImage
+                key={thumbnailUrl}
                 source={{ uri: thumbnailUrl }}
                 defualtSource={account}
               />
@@ -105,6 +106,7 @@ const CollapsedContactCard = ({
 CollapsedContactCard.propTypes = {
   toggleExpanded: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
+  thumbnailUrl: PropTypes.string,
   initials: PropTypes.string.isRequired,
   isCalloutOpen: PropTypes.bool.isRequired,
   onCallout: PropTypes.func.isRequired,

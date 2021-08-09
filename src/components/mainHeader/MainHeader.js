@@ -4,7 +4,6 @@ import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 import { Flexbox, SmallQIcon, BellIcon, Header } from '../common';
 import AccountIcon from '../../../assets/icons/accountProfile.svg';
-import account from '../../../assets/icons/accountProfile.svg';
 import LoginContext from '../../contexts/LoginContext';
 import AppContext from '../../contexts/AppContext';
 
@@ -36,11 +35,15 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
     }
   };
 
+  // react native Image has a bug - using the setTimeout is a work around to force the image to rerender when the url has changed
   useEffect(() => {
-    setUrlHasChanged(true);
-    setUrl(userProfile?.profileUrl);
+    const timer = setTimeout(() => {
+      setUrlHasChanged(true);
+      setUrl(userProfile?.profileUrl);
+    }, 1000);
     return () => {
       setUrlHasChanged(false);
+      clearTimeout(timer);
     };
   }, [userProfile?.profileUrl]);
 
@@ -58,8 +61,7 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
           {url && isImageValid && urlHasChanged ? (
             <ProfileImage
               key={url}
-              source={{ uri: url }}
-              defaultSource={account}
+              source={{ uri: url, cache: 'reload' }}
               onError={() => setIsImageValid(false)}
             />
           ) : (
