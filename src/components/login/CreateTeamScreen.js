@@ -28,7 +28,6 @@ const CreateTeamScreen = ({ navigation }) => {
       folderName: 'My Team Folder',
     },
     onCompleted: (data) => {
-      console.log(`data`, data);
       if (data.newTeamAccess === false) {
         return setErrorMessage(
           Localized(

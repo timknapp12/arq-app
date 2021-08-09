@@ -48,6 +48,7 @@ export const Input = React.forwardRef(
       label = '',
       validationError = false,
       onFocus = () => {},
+      style,
       ...props
     },
     ref,
@@ -82,7 +83,7 @@ export const Input = React.forwardRef(
     };
 
     return (
-      <TouchableOpacity {...props} activeOpacity={1} onPress={onLabelTouch}>
+      <TouchableOpacity style={style} activeOpacity={1} onPress={onLabelTouch}>
         <>
           {label ? <Label>{label}</Label> : null}
           <ThemedTextInputContainer
@@ -124,6 +125,7 @@ Input.propTypes = {
   label: PropTypes.string,
   // onFocus prop is used in AddFolderModal.js and UploadAssetModal.js
   onFocus: PropTypes.func,
+  style: PropTypes.object,
 };
 
 // Animated Input where label animates

@@ -37,6 +37,7 @@ const ResourceCard = ({
   selectedTeamName,
   selectedTeamAccessCode,
   assetList,
+  numberOfTeamFolders,
   // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
   ...props
@@ -180,19 +181,21 @@ const ResourceCard = ({
               <H4Book>{Localized('Upload')}</H4Book>
             </Flexbox>
           </CalloutButton>
-          <CalloutButton onPress={onRemove}>
-            <Flexbox direction="row" justify="flex-start">
-              <RemoveIcon
-                style={{
-                  marginEnd: 8,
-                  height: 24,
-                  width: 24,
-                  color: theme.activeTint,
-                }}
-              />
-              <H4Book>{Localized('Remove')}</H4Book>
-            </Flexbox>
-          </CalloutButton>
+          {numberOfTeamFolders !== 1 ? (
+            <CalloutButton onPress={onRemove}>
+              <Flexbox direction="row" justify="flex-start">
+                <RemoveIcon
+                  style={{
+                    marginEnd: 8,
+                    height: 24,
+                    width: 24,
+                    color: theme.activeTint,
+                  }}
+                />
+                <H4Book>{Localized('Remove')}</H4Book>
+              </Flexbox>
+            </CalloutButton>
+          ) : null}
         </ResourceCallout>
       )}
       {isAddFolderModalOpen && (
@@ -244,6 +247,7 @@ ResourceCard.propTypes = {
   selectedTeamName: PropTypes.string,
   selectedTeamAccessCode: PropTypes.string,
   assetList: PropTypes.array,
+  numberOfTeamFolders: PropTypes.number,
   setIsNavDisabled: PropTypes.func,
 };
 
