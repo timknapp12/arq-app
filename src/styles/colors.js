@@ -29,19 +29,19 @@ export const red = '#FF0000';
 export const darkRed = '#993300';
 
 // donut chart
-export const donut1primaryColor = '#63B1BC';
+export const donut1primaryColor = '#94D2BA';
 
 // donut chart
-export const donut1secondaryColor = '#D0E7EB';
+export const donut1secondaryColor = '#E2F2EA';
 
 // donut chart
-export const donut2primaryColor = '#E8927C';
+export const donut2primaryColor = '#B6A0BB';
 
 // donut chart
-export const donut2secondaryColor = '#F1BDB0';
+export const donut2secondaryColor = '#E8E2E9';
 
 // donut chart
-export const donut3primaryColor = '#CDEA80';
+export const donut3primaryColor = '#EAB286';
 
 // donut chart
-export const donut3secondaryColor = '#EBF3D4';
+export const donut3secondaryColor = '#F8E8DA';

@@ -32,6 +32,7 @@ const TeamMenu = ({
   onSelect,
   setIsNewAccessCode,
   hasPermissions,
+  isOwner,
   userHasAlreadyCreatedATeam,
   ...props
 }) => {
@@ -44,7 +45,11 @@ const TeamMenu = ({
               onSelect(item?.teamName);
               onClose();
             }}>
-            <H4Book>{item?.teamName}</H4Book>
+            {isOwner ? (
+              <H4Book>{`${item?.teamName} - ${item?.accessCode}`}</H4Book>
+            ) : (
+              <H4Book>{item?.teamName}</H4Book>
+            )}
           </Touchable>
         </TouchableContainer>
       ))}
@@ -81,6 +86,7 @@ TeamMenu.propTypes = {
   onSelect: PropTypes.func,
   setIsNewAccessCode: PropTypes.func,
   hasPermissions: PropTypes.bool,
+  isOwner: PropTypes.bool,
   userHasAlreadyCreatedATeam: PropTypes.bool,
 };
 

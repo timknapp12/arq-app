@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Pressable, Animated, TouchableWithoutFeedback } from 'react-native';
+import {
+  Pressable,
+  Animated,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -40,12 +45,16 @@ export const Input = React.forwardRef(
     {
       focused,
       textContentType,
+      label = '',
       validationError = false,
       onFocus = () => {},
+      style,
       ...props
     },
     ref,
   ) => {
+    const inputRef = useRef();
+
     const [secureTextEntry, setSecureTextEntry] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -64,43 +73,59 @@ export const Input = React.forwardRef(
       }
     }, [textContentType]);
 
+    const onLabelTouch = () => {
+      if (inputRef.current) {
+        return inputRef.current.focus();
+      }
+      if (ref.current) {
+        ref.current.focus();
+      }
+    };
+
     return (
-      <ThemedTextInputContainer
-        focused={isFocused}
-        validationError={validationError}>
-        <ThemedInput
-          ref={ref}
-          secureTextEntry={secureTextEntry}
-          onBlur={() => setIsFocused(false)}
-          onFocus={() => {
-            setIsFocused(true);
-            onFocus();
-          }}
-          {...props}
-        />
-        {textContentType === 'password' ? (
-          <Pressable
-            testID="show-passord-button"
-            hitSlop={8}
-            onPress={() => setSecureTextEntry((state) => !state)}>
-            {secureTextEntry ? (
-              <ThemedIcon size={24} name="eye" />
-            ) : (
-              <ThemedIcon size={24} name="eye-off" />
-            )}
-          </Pressable>
-        ) : null}
-      </ThemedTextInputContainer>
+      <TouchableOpacity style={style} activeOpacity={1} onPress={onLabelTouch}>
+        <>
+          {label ? <Label>{label}</Label> : null}
+          <ThemedTextInputContainer
+            focused={isFocused}
+            validationError={validationError}>
+            <ThemedInput
+              ref={ref || inputRef}
+              secureTextEntry={secureTextEntry}
+              onBlur={() => setIsFocused(false)}
+              onFocus={() => {
+                setIsFocused(true);
+                onFocus();
+              }}
+              {...props}
+            />
+            {textContentType === 'password' ? (
+              <Pressable
+                testID="show-passord-button"
+                hitSlop={8}
+                onPress={() => setSecureTextEntry((state) => !state)}>
+                {secureTextEntry ? (
+                  <ThemedIcon size={24} name="eye" />
+                ) : (
+                  <ThemedIcon size={24} name="eye-off" />
+                )}
+              </Pressable>
+            ) : null}
+          </ThemedTextInputContainer>
+        </>
+      </TouchableOpacity>
     );
   },
 );
 
 Input.propTypes = {
-  textContentType: PropTypes.string,
   focused: PropTypes.bool,
+  textContentType: PropTypes.string,
   validationError: PropTypes.bool,
+  label: PropTypes.string,
   // onFocus prop is used in AddFolderModal.js and UploadAssetModal.js
   onFocus: PropTypes.func,
+  style: PropTypes.object,
 };
 
 // Animated Input where label animates

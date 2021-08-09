@@ -24,6 +24,7 @@ const ExpandedContactCard = ({
   isCalloutOpenFromParent,
   toggleExpanded,
   data,
+  thumbnailUrl,
   initials,
   onRemove,
   sendEmail,
@@ -35,7 +36,6 @@ const ExpandedContactCard = ({
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   const {
-    thumbnailUrl = '',
     firstName = '',
     lastName = '',
     primaryPhone = '',
@@ -70,6 +70,7 @@ const ExpandedContactCard = ({
           </Flexbox>
           {thumbnailUrl ? (
             <ExpandedImage
+              key={thumbnailUrl}
               source={{ uri: thumbnailUrl }}
               defualtSource={account}
             />
@@ -130,6 +131,7 @@ ExpandedContactCard.propTypes = {
   isCalloutOpenFromParent: PropTypes.bool.isRequired,
   toggleExpanded: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
+  thumbnailUrl: PropTypes.string,
   initials: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
   sendEmail: PropTypes.func.isRequired,

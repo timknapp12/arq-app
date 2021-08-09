@@ -49,7 +49,6 @@ const TeamView = ({
       onError: (err) => console.log(`err`, err),
     },
   );
-  // console.log(`userAccessCodesData`, userAccessCodesData);
 
   const [isNavDisabled, setIsNavDisabled] = useState(false);
   const [isAccessCodeModalOpen, setIsAccessCodeModalOpen] = useState(false);
@@ -163,8 +162,6 @@ const TeamView = ({
     variables: { teams: [selectedTeamName] },
   });
 
-  // console.log(`teamResourceData`, teamResourceData);
-
   // each time a new team is selected, get resources for that team
   useEffect(() => {
     getTeamResources();
@@ -182,14 +179,18 @@ const TeamView = ({
     } else {
       setIsOwner(false);
     }
-  }, [selectedTeamName]);
+  }, [selectedTeamName, userAccessCodesData]);
 
   const saveAccessCode = () => {
-    if (!teamName) {
-      return Alert.alert(Localized('Please enter a team name'));
+    if (teamName.length < 4 || teamName.length > 20) {
+      return Alert.alert(
+        Localized('Team name must be between 4-20 characters'),
+      );
     }
-    if (!accessCode) {
-      return Alert.alert(Localized('Please enter a team access code'));
+    if (accessCode.length < 4 || accessCode.length > 20) {
+      return Alert.alert(
+        Localized('Access code must be between 4-20 characters'),
+      );
     }
     addTeamAccessCode();
   };
@@ -233,6 +234,7 @@ const TeamView = ({
           setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
           setIsNewAccessCode={setIsNewAccessCode}
           hasPermissions={hasPermissions}
+          isOwner={isOwner}
           userHasAlreadyCreatedATeam={userHasAlreadyCreatedATeam}
         />
       </Flexbox>
@@ -269,6 +271,7 @@ const TeamView = ({
               selectedTeamName={selectedTeamName}
               selectedTeamAccessCode={selectedTeamAccessCode}
               assetList={item?.links}
+              numberOfTeamFolders={teamResourceData?.teamResources.length}
               onPress={() => {
                 navigateToResource(item);
               }}

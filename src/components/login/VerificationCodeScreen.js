@@ -2,14 +2,7 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, TouchableOpacity } from 'react-native';
 import { useMutation } from '@apollo/client';
-import {
-  Flexbox,
-  PrimaryButton,
-  Input,
-  Label,
-  AlertText,
-  Link,
-} from '../common';
+import { Flexbox, PrimaryButton, Input, AlertText, Link } from '../common';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 import AppContext from '../../contexts/AppContext';
 import QLogoScreenContainer from './QLogoScreenContainer';
@@ -96,8 +89,8 @@ const VerificationCodeScreen = ({ navigation, route }) => {
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox align="flex-start">
-          <Label>{Localized('Verification Code')}</Label>
           <Input
+            label={Localized('Verification Code')}
             autoFocus
             testID="verification-code-input"
             value={code}

@@ -2,9 +2,9 @@ import React, { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
-import { TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
-import { Flexbox, PrimaryButton, Input, Label, H4, AlertText } from '../common';
+import { Flexbox, PrimaryButton, Input, H4, AlertText } from '../common';
 import { Localized } from '../../translations/Localized';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 import AppContext from '../../contexts/AppContext';
@@ -28,7 +28,6 @@ const CreateTeamScreen = ({ navigation }) => {
       folderName: 'My Team Folder',
     },
     onCompleted: (data) => {
-      console.log(`data`, data);
       if (data.newTeamAccess === false) {
         return setErrorMessage(
           Localized(
@@ -49,6 +48,16 @@ const CreateTeamScreen = ({ navigation }) => {
   };
   const onSkip = () => navigation.navigate('App Stack');
   const onSubmit = () => {
+    if (teamName.length < 4 || teamName.length > 20) {
+      return Alert.alert(
+        Localized('Team name must be between 4-20 characters'),
+      );
+    }
+    if (accessCode.length < 4 || accessCode.length > 20) {
+      return Alert.alert(
+        Localized('Access code must be between 4-20 characters'),
+      );
+    }
     createTeam();
   };
 
@@ -59,8 +68,8 @@ const CreateTeamScreen = ({ navigation }) => {
     <QLogoScreenContainer>
       <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
         <Flexbox align="flex-start">
-          <Label>{Localized('Team Name')}</Label>
           <Input
+            label={Localized('Team Name')}
             autoFocus
             testID="create-team-name-onboarding-input"
             value={teamName}
@@ -70,10 +79,11 @@ const CreateTeamScreen = ({ navigation }) => {
             }}
             returnKeyType="next"
             onSubmitEditing={onNext}
+            maxLength={20}
           />
           <Gap />
-          <Label>{Localized('Team Access Code')}</Label>
           <Input
+            label={Localized('Team Access Code')}
             testID="create-team-code-onboarding-input"
             value={accessCode}
             onChangeText={(text) => {
@@ -83,6 +93,7 @@ const CreateTeamScreen = ({ navigation }) => {
             ref={accessCodeRef}
             returnKeyType="go"
             onSubmitEditing={onSubmit}
+            maxLength={20}
           />
           {errorMessage ? (
             <Flexbox>

@@ -39,6 +39,18 @@ const ContactCard = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
 
+  const [thumbnailUrl, setThumbnailUrl] = useState(data?.thumbnailUrl || '');
+
+  // react native Image has a bug - using the setTimeout is a work around to force the image to rerender when the url has changed
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setThumbnailUrl(data?.thumbnailUrl);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [data?.thumbnailUrl]);
+
   useEffect(() => {
     if (!isCalloutOpenFromParent) {
       setIsCalloutOpen(false);
@@ -165,6 +177,7 @@ const ContactCard = ({
         {...props}
         toggleExpanded={toggleExpanded}
         data={data}
+        thumbnailUrl={thumbnailUrl}
         initials={initials}
         onRemove={onRemove}
         isCalloutOpenFromParent={isCalloutOpenFromParent}
@@ -178,6 +191,7 @@ const ContactCard = ({
       {...props}
       toggleExpanded={toggleExpanded}
       data={data}
+      thumbnailUrl={thumbnailUrl}
       initials={initials}
       isCalloutOpen={isCalloutOpen}
       onCallout={onCallout}
