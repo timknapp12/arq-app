@@ -123,8 +123,10 @@ const InitialDataContainer = ({ children }) => {
   }, [legacyId]);
 
   useEffect(() => {
-    getProfile();
-    getProspectNotifications();
+    if (associateId) {
+      getProfile();
+      getProspectNotifications();
+    }
   }, [associateId]);
 
   return (
