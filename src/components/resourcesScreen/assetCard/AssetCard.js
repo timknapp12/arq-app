@@ -12,7 +12,7 @@ import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handl
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../contexts/AppContext';
-import { H5, H6Secodnary } from '../../common';
+import { H5, H6Secondary } from '../../common';
 import AssetIcon from './AssetIcon';
 import CalloutMenu from '../CalloutMenu';
 import IconRow from './IconRow';
@@ -209,14 +209,14 @@ const AssetCard = ({
                 {title}
               </H5>
               {isExpanded ? (
-                <H6Secodnary style={{ flex: 1 }}>{description}</H6Secodnary>
+                <H6Secondary style={{ flex: 1 }}>{description}</H6Secondary>
               ) : (
-                <H6Secodnary
+                <H6Secondary
                   ellipsizeMode="tail"
                   numberOfLines={1}
                   style={{ flex: 1 }}>
                   {description}
-                </H6Secodnary>
+                </H6Secondary>
               )}
             </TitleAndDescription>
           </TouchableOpacity>

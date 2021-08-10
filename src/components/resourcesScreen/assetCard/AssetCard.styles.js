@@ -2,10 +2,11 @@ import styled from 'styled-components/native';
 
 export const AssetCardContainer = styled.View`
   width: 100%;
+  flex: 1;
 `;
 
 export const OuterContainer = styled.View`
-  width: 100%;
+  flex: 1;
   background-color: ${(props) => props.theme.cardBackgroundColor};
   padding: 4px 0;
   border-radius: 5px;
@@ -15,7 +16,7 @@ export const OuterContainer = styled.View`
 `;
 
 export const InnerContainer = styled.View`
-  width: 100%;
+  flex: 1;
   padding: 0 0 0 6px;
   flex-direction: row;
   justify-content: space-between;
@@ -27,7 +28,7 @@ export const TitleAndDescription = styled.View`
 `;
 
 export const IconColumn = styled.View`
-  height: 50px;
+  height: 56px;
   justify-content: space-between;
   padding: 0 6px 0 12px;
   align-items: flex-end;

@@ -94,7 +94,7 @@ export const H6 = styled.Text`
   color: ${(props) => props.theme.primaryTextColor};
 `;
 
-export const H6Secodnary = styled.Text`
+export const H6Secondary = styled.Text`
   font-family: 'Avenir-Light';
   font-size: 14px;
   color: ${(props) => props.theme.secondaryTextColor};
