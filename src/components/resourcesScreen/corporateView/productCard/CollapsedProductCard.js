@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { H5, H6Secodnary } from '../../../common';
+import { H5, H6Secondary } from '../../../common';
 import KebobIcon from '../../../../../assets/icons/kebob-icon.svg';
 import AppContext from '../../../../contexts/AppContext';
 import CalloutMenu from '../../CalloutMenu';
@@ -55,12 +55,12 @@ const CollapsedProductCard = ({
                   style={{ marginBottom: 4, flex: 1 }}>
                   {title}
                 </H5>
-                <H6Secodnary
+                <H6Secondary
                   ellipsizeMode="tail"
                   numberOfLines={1}
                   style={{ flex: 1 }}>
                   {description}
-                </H6Secodnary>
+                </H6Secondary>
               </View>
             </GestureTouchable>
           </TitleAndDescription>

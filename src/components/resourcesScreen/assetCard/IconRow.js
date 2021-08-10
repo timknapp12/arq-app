@@ -28,86 +28,49 @@ const IconRow = ({
   onSend,
 }) => {
   const { theme } = useContext(AppContext);
+
+  const iconStyle = {
+    marginEnd: 8,
+    height: 36,
+    width: 36,
+    color: theme.primaryTextColor,
+  };
+
   return (
     <Container>
       {isOwner && (
         <>
           <TouchableOpacity onPress={onEdit}>
-            <EditIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
+            <EditIcon style={iconStyle} />
           </TouchableOpacity>
           <TouchableOpacity onPress={onRemove}>
-            <RemoveIcon
-              style={{
-                marginEnd: 8,
-                height: 24,
-                width: 24,
-                color: theme.activeTint,
-              }}
-            />
+            <RemoveIcon style={iconStyle} />
           </TouchableOpacity>
         </>
       )}
       {/* {isFavorite ? (
         <TouchableOpacity onPress={() => {}}>
           <HeartFillIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.favoriteFillColor,
-            }}
+            style={iconStyle}
           />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={() => {}}>
           <HeartOutlineIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
+            style={iconStyle}
           />
         </TouchableOpacity>
       )} */}
       {contentType !== 'video' && (
         <TouchableOpacity onPress={onDownload}>
-          <DownloadIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
-          />
+          <DownloadIcon style={iconStyle} />
         </TouchableOpacity>
       )}
       <TouchableOpacity onPress={onShare}>
-        <ShareIcon
-          style={{
-            marginEnd: 8,
-            height: 24,
-            width: 24,
-            color: theme.primaryTextColor,
-          }}
-        />
+        <ShareIcon style={iconStyle} />
       </TouchableOpacity>
       <TouchableOpacity onPress={onSend}>
-        <SendIcon
-          style={{
-            marginEnd: 8,
-            height: 24,
-            width: 24,
-            color: theme.primaryTextColor,
-          }}
-        />
+        <SendIcon style={iconStyle} />
       </TouchableOpacity>
     </Container>
   );
