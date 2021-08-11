@@ -50,8 +50,8 @@ const ExpandedContactCard = ({
   };
   const smallIconStyle = {
     color: theme.primaryTextColor,
-    height: 24,
-    width: 24,
+    height: 36,
+    width: 36,
     marginStart: 8,
   };
 

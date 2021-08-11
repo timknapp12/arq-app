@@ -27,14 +27,13 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <ScreenContainer
-        style={{ paddingTop: 0, paddingBottom: 0, height: 'auto' }}>
+      <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
         <ScrollView
           onStartShouldSetResponder={() => true}
           style={{
             zIndex: -1,
             width: '100%',
-            height: '100%',
+            flex: 1,
           }}
           contentContainerStyle={{
             paddingBottom: 120,
@@ -43,7 +42,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
             onPress={() => setIsCalloutOpenFromParent(false)}>
             <Flexbox
               justify="flex-start"
-              height="100%"
+              style={{ flex: 1 }}
               padding={10}
               onStartShouldSetResponder={() => true}>
               <DownloadToast

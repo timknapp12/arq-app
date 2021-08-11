@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, Linking, Image, TouchableOpacity } from 'react-native';
-import { H5, H6Secodnary } from '../../../common';
+import { H5, H6Secondary } from '../../../common';
 import PdfIcon from '../../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../../assets/icons/video-icon.svg';
 import PodcastIcon from '../../../../../assets/icons/podcast-icon.svg';
@@ -41,6 +41,13 @@ const ExpandedProductCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+
+  const smallIconStyle = {
+    color: theme.primaryTextColor,
+    height: 36,
+    width: 36,
+    marginStart: 8,
+  };
 
   return (
     <OuterContainer isExpanded={isExpanded} {...props}>
@@ -155,68 +162,28 @@ const ExpandedProductCard = ({
       </ImageAndIconContainer>
       <InnerContainer>
         <TitleAndDescription>
-          <H6Secodnary>{description}</H6Secodnary>
+          <H6Secondary>{description}</H6Secondary>
         </TitleAndDescription>
       </InnerContainer>
       <IconRow>
         {/* {isFavorite ? (
           <HeartFillIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.favoriteFillColor,
-            }}
+            style={smallIconStyle}
           />
         ) : (
           <HeartOutlineIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
+            style={smallIconStyle}
           />
         )} */}
-        {hasPermissions && (
-          <RemoveIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
-          />
-        )}
+        {hasPermissions && <RemoveIcon style={smallIconStyle} />}
         <TouchableOpacity onPress={onDownload}>
-          <DownloadIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
-          />
+          <DownloadIcon style={smallIconStyle} />
         </TouchableOpacity>
         <TouchableOpacity onPress={onShare}>
-          <ShareIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
-          />
+          <ShareIcon style={smallIconStyle} />
         </TouchableOpacity>
         <TouchableOpacity onPress={onSend}>
-          <SendIcon
-            style={{
-              marginEnd: 8,
-              height: 24,
-              width: 24,
-              color: theme.primaryTextColor,
-            }}
-          />
+          <SendIcon style={smallIconStyle} />
         </TouchableOpacity>
       </IconRow>
     </OuterContainer>

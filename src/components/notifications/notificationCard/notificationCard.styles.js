@@ -14,8 +14,8 @@ export const ClearButtonContainer = styled.View`
   padding: 12px;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
-  border-top-width: 2px;
-  border-top-color: ${(props) => props.theme.backgroundColor};
+  border-width: 2px;
+  border-color: ${(props) => props.theme.backgroundColor};
   position: relative;
   z-index: -1;
 `;
