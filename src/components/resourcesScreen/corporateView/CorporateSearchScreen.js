@@ -20,7 +20,6 @@ const CorporateSearchScreen = ({ route, navigation }) => {
   const { deviceLanguage, theme } = useContext(AppContext);
   const { marketId } = route.params;
   console.log(`deviceLanguage`, deviceLanguage);
-  console.log(`marketId`, marketId);
   const [value, setValue] = useState('');
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
@@ -121,7 +120,6 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                           style={{ zIndex: -index }}
                           title={item?.folderName}
                           description={item?.folderDescription}
-                          url={item?.pictureUrl}
                           isCalloutOpenFromParent={isCalloutOpenFromParent}
                           setIsCalloutOpenFromParent={
                             setIsCalloutOpenFromParent

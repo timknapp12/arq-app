@@ -90,8 +90,7 @@ const App = () => {
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   const httpLink = new HttpLink({
-    // uri: 'https://qservicesstagingapp.azurewebsites.net/graphql',
-    // this is the new one from Paul
+    // uri: 'https://qservicesapi.azurewebsites.net/graphql',
     uri: 'https://qservicesapi-staging.azurewebsites.net/graphql',
     // uri: 'https://qservicesapi-dev.azurewebsites.net/graphql',
     fetch,

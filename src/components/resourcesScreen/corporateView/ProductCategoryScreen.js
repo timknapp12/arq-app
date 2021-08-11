@@ -110,7 +110,6 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                   style={{ zIndex: -index }}
                   title={item?.folderName}
                   description={item?.folderDescription}
-                  url={item?.pictureUrl}
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
                   setDisableTouchEvent={setDisableTouchEvent}

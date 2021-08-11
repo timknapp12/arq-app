@@ -7,6 +7,7 @@ import CollapsedProductCard from './CollapsedProductCard';
 import MultiAssetMenu from '../MultiAssetMenu';
 import 'firebase/firestore';
 import { downloadFile } from '../../../../utils/downloadFile';
+import { findProductImageUrl } from '../../../../utils/corporateResouces/findProductImageUrl';
 import { Localized, initLanguage } from '../../../../translations/Localized';
 
 const ProductCardContainer = styled.View`
@@ -16,7 +17,6 @@ const ProductCardContainer = styled.View`
 const ProductCard = ({
   title,
   description,
-  url,
   assetList,
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
@@ -31,6 +31,8 @@ const ProductCard = ({
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isMultiAssetMenuOpen, setIsMultiAssetMenuOpen] = useState(false);
   const [multiAssetMenuTitle, setMultiAssetMenuTitle] = useState('');
+
+  const pictureUrl = findProductImageUrl(assetList);
 
   useEffect(() => {
     if (!isCalloutOpenFromParent) {
@@ -160,7 +162,7 @@ const ProductCard = ({
       {isExpanded ? (
         <ExpandedProductCard
           title={title}
-          url={url}
+          url={pictureUrl}
           isExpanded={isExpanded}
           setIsExpanded={setIsExpanded}
           description={description}
@@ -174,7 +176,6 @@ const ProductCard = ({
       ) : (
         <CollapsedProductCard
           title={title}
-          url={url}
           description={description}
           isExpanded={isExpanded}
           setIsExpanded={setIsExpanded}
@@ -205,7 +206,6 @@ const ProductCard = ({
 ProductCard.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  url: PropTypes.string,
   assetList: PropTypes.array,
   navigation: PropTypes.object,
   setToastInfo: PropTypes.func,

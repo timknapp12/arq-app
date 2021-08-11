@@ -22,7 +22,6 @@ import {
 const CollapsedProductCard = ({
   title,
   description,
-  url,
   isExpanded,
   setIsExpanded,
   isCalloutOpenFromParent,
@@ -119,7 +118,6 @@ const CollapsedProductCard = ({
       </OuterContainer>
       {isCalloutOpen && (
         <CalloutMenu
-          url={url}
           title={title}
           isFavorite={isFavorite}
           setIsFavorite={() => {}}
@@ -135,7 +133,6 @@ const CollapsedProductCard = ({
 CollapsedProductCard.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  url: PropTypes.string,
   navigation: PropTypes.object,
   isExpanded: PropTypes.bool,
   setIsExpanded: PropTypes.func,
