@@ -16,7 +16,7 @@ const NewsCardMap = ({ items, isMenuOpen, closeMenus }) => {
               title={item?.linkTitle}
               body={item?.linkDescription}
               isRead={item?.isViewedByAssociate}
-              date={item?.dateStart}
+              date={item?.dateCreated}
               isMenuOpen={isMenuOpen}
               closeMenus={closeMenus}
             />
