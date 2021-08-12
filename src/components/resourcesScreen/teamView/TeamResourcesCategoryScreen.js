@@ -48,7 +48,7 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
             height: '100%',
           }}
           contentContainerStyle={{
-            paddingBottom: 140,
+            paddingBottom: 240,
           }}>
           <TouchableWithoutFeedback
             onPress={() => setIsCalloutOpenFromParent(false)}>

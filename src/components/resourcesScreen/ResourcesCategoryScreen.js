@@ -36,7 +36,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
             flex: 1,
           }}
           contentContainerStyle={{
-            paddingBottom: 120,
+            paddingBottom: 240,
           }}>
           <TouchableWithoutFeedback
             onPress={() => setIsCalloutOpenFromParent(false)}>
