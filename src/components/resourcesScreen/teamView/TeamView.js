@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import { View, Platform, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Flexbox, H5, MainScrollView } from '../../common';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import SwitchTeamIcon from '../../../../assets/icons/switch-team-icon.svg';
@@ -62,6 +63,30 @@ const TeamView = ({
   const [accessCode, setAccessCode] = useState('');
   const [isNewAccessCode, setIsNewAccessCode] = useState(false);
   const [isError, setIsError] = useState(false);
+
+  // store data for last viewed team name
+  const storeTeamName = async (value) => {
+    try {
+      await AsyncStorage.setItem('@lastViewedTeamName', value);
+      setSelectedTeamName(value);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getStoredTeamName = async (accesses) => {
+    try {
+      const value = await AsyncStorage.getItem('@lastViewedTeamName');
+      if (value !== null) {
+        return setSelectedTeamName(value);
+      } else {
+        return setSelectedTeamName(accesses?.[0]?.teamName ?? '');
+      }
+    } catch (e) {
+      console.log(`e`, e);
+      return setSelectedTeamName('');
+    }
+  };
 
   const userHasAlreadyCreatedATeam = findAssociateIdInListOfTeams(
     associateId,
@@ -137,7 +162,7 @@ const TeamView = ({
       { query: GET_USERS_ACCESS_CODES, variables: { associateId } },
     ],
     onCompleted: async () => {
-      await setSelectedTeamName(teamName);
+      await storeTeamName(teamName);
       setTeamName('');
       setAccessCode('');
       return setIsAccessCodeModalOpen(false);
@@ -146,11 +171,8 @@ const TeamView = ({
   });
 
   useEffect(() => {
-    if (userAccessCodesData?.accesses?.[0]?.teamName && initialLoad) {
-      const name = userAccessCodesData?.accesses?.[0]?.teamName
-        ? userAccessCodesData?.accesses?.[0]?.teamName
-        : '';
-      setSelectedTeamName(name);
+    if (userAccessCodesData?.accesses && initialLoad) {
+      getStoredTeamName(userAccessCodesData?.accesses);
       setInitialLoad(false);
     }
   }, [userAccessCodesData, initialLoad]);
@@ -231,7 +253,7 @@ const TeamView = ({
           items={userAccessCodesData?.accesses}
           style={{ left: teamFadeAnim }}
           onClose={closeTeamMenu}
-          onSelect={(name) => setSelectedTeamName(name)}
+          onSelect={(name) => storeTeamName(name)}
           setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
           setIsNewAccessCode={setIsNewAccessCode}
           hasPermissions={hasPermissions}
@@ -302,7 +324,7 @@ const TeamView = ({
           isNew={isNewAccessCode}
           isError={isError}
           setIsError={setIsError}
-          setSelectedTeamName={setSelectedTeamName}
+          setSelectedTeamName={storeTeamName}
         />
       )}
     </>
