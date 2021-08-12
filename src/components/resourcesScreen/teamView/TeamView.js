@@ -179,6 +179,7 @@ const TeamView = ({
     } else {
       setIsOwner(false);
     }
+    closeTeamMenu();
   }, [selectedTeamName, userAccessCodesData]);
 
   const saveAccessCode = () => {
@@ -234,7 +235,7 @@ const TeamView = ({
           setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
           setIsNewAccessCode={setIsNewAccessCode}
           hasPermissions={hasPermissions}
-          isOwner={isOwner}
+          associateId={associateId}
           userHasAlreadyCreatedATeam={userHasAlreadyCreatedATeam}
         />
       </Flexbox>

@@ -32,7 +32,7 @@ const TeamMenu = ({
   onSelect,
   setIsNewAccessCode,
   hasPermissions,
-  isOwner,
+  associateId,
   userHasAlreadyCreatedATeam,
   ...props
 }) => {
@@ -45,7 +45,7 @@ const TeamMenu = ({
               onSelect(item?.teamName);
               onClose();
             }}>
-            {isOwner ? (
+            {associateId === item?.teamOwnerAssociateId ? (
               <H4Book>{`${item?.teamName} - ${item?.accessCode}`}</H4Book>
             ) : (
               <H4Book>{item?.teamName}</H4Book>
@@ -86,7 +86,7 @@ TeamMenu.propTypes = {
   onSelect: PropTypes.func,
   setIsNewAccessCode: PropTypes.func,
   hasPermissions: PropTypes.bool,
-  isOwner: PropTypes.bool,
+  associateId: PropTypes.number,
   userHasAlreadyCreatedATeam: PropTypes.bool,
 };
 
