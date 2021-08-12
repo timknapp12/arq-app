@@ -296,6 +296,7 @@ export const GET_NEWS = gql`
         linkTitle
         linkDescription
         dateStart
+        dateCreated
         imageUrl
         isViewedByAssociate
       }
