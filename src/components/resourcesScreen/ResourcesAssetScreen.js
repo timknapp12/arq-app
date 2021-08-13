@@ -59,7 +59,7 @@ const ResourcesAssetScreen = ({ route }) => {
           <Image
             resizeMode={'cover'}
             style={{ width: width, height: calculatedHeight }}
-            source={{ uri: url }}
+            source={url ? { uri: url } : baseImage}
           />
         </ScrollView>
       </ScreenContainer>

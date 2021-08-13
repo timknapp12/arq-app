@@ -167,6 +167,9 @@ const AssetCard = ({
       return;
     }
     closeCallout();
+    if (url?.length < 1) {
+      return Alert.alert(Localized('Item not found'));
+    }
     if (contentType === 'pdf' || contentType === 'image') {
       navigation.navigate('Resources Asset Screen', {
         title: title.toUpperCase(),
