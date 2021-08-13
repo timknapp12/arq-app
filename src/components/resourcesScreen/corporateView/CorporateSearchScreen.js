@@ -129,17 +129,11 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                           setToastInfo={setToastInfo}
                           isFavorite={false}
                           assetList={item?.links}
-                          onPress={() => {
-                            setIsCalloutOpenFromParent(false);
-                            navigation.navigate('Resources Asset Screen', {
-                              title: item?.title.toUpperCase(),
-                            });
-                          }}
                         />
                       ),
                   )}
                 </View>
-                <View style={{ zIndex: -1 }}>
+                <View style={{ zIndex: -1, width: '100%' }}>
                   {data?.searchResources?.links?.map((item, index) => (
                     <AssetCard
                       isCalloutOpenFromParent={isCalloutOpenFromParent}
@@ -157,8 +151,6 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                       setIsNavDisabled={setIsNavDisabled}
                       isNavDisabled={isNavDisabled}
                       hasPermissions
-                      // TODO: get real data from asset and compare agaisnt associate id to determoine permissions
-                      // hasPermissions={hasPermissions}
                     />
                   ))}
                 </View>

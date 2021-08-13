@@ -117,12 +117,6 @@ const ProductCategoryScreen = ({ route, navigation }) => {
                   setToastInfo={setToastInfo}
                   isFavorite={false}
                   assetList={item?.links}
-                  onPress={() => {
-                    setIsCalloutOpenFromParent(false);
-                    navigation.navigate('Resources Asset Screen', {
-                      title: item?.folderName.toUpperCase(),
-                    });
-                  }}
                 />
               ))}
             </Flexbox>

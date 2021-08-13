@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View, Linking, Image, TouchableOpacity } from 'react-native';
+import { View, Linking, Image, TouchableOpacity, Alert } from 'react-native';
 import { H5, H6Secondary } from '../../../common';
 import PdfIcon from '../../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../../assets/icons/video-icon.svg';
@@ -15,6 +15,7 @@ import RemoveIcon from '../../../../../assets/icons/remove-icon.svg';
 import SendIcon from '../../../../../assets/icons/send-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../../contexts/AppContext';
+import { Localized } from '../../../../translations/Localized';
 import {
   OuterContainer,
   InnerContainer,
@@ -47,6 +48,21 @@ const ExpandedProductCard = ({
     height: 36,
     width: 36,
     marginStart: 8,
+  };
+
+  const openAsset = (asset) => {
+    if (asset?.linkUrl?.length < 1) {
+      return Alert.alert(Localized('Item not found'));
+    }
+    if (asset.contentType === 'pdf' || asset.contentType === 'image') {
+      navigation.navigate('Resources Asset Screen', {
+        title: asset.linkTitle.toUpperCase(),
+        url: asset.linkUrl,
+        contentType: asset.contentType,
+      });
+    } else {
+      Linking.openURL(asset.linkUrl);
+    }
   };
 
   return (
@@ -88,13 +104,7 @@ const ExpandedProductCard = ({
             if (asset.contentType === 'pdf') {
               return (
                 <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('Resources Asset Screen', {
-                      title: asset.linkTitle.toUpperCase(),
-                      url: asset.linkUrl,
-                      contentType: asset.contentType,
-                    })
-                  }
+                  onPress={() => openAsset(asset)}
                   key={asset.linkId}>
                   <PdfIcon
                     style={{
@@ -109,7 +119,7 @@ const ExpandedProductCard = ({
             if (asset.contentType === 'video') {
               return (
                 <TouchableOpacity
-                  onPress={() => Linking.openURL(asset.linkUrl)}
+                  onPress={() => openAsset(asset)}
                   key={asset.linkId}>
                   <VideoIcon
                     style={{
@@ -124,7 +134,7 @@ const ExpandedProductCard = ({
             if (asset.contentType === 'podcast') {
               return (
                 <TouchableOpacity
-                  onPress={() => Linking.openURL(asset.linkUrl)}
+                  onPress={() => openAsset(asset)}
                   key={asset.linkId}>
                   <PodcastIcon
                     style={{
@@ -140,13 +150,7 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   key={asset.linkId}
-                  onPress={() =>
-                    navigation.navigate('Resources Asset Screen', {
-                      title: asset.linkTitle.toUpperCase(),
-                      url: asset.linkUrl,
-                      contentType: asset.contentType,
-                    })
-                  }>
+                  onPress={() => openAsset(asset)}>
                   <ImageIcon
                     style={{
                       color: theme.primaryTextColor,
