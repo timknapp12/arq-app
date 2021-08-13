@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { Directions, State } from 'react-native-gesture-handler';
 import { Flexbox, H5Black } from '../common';
 import NotificationCard from './notificationCard/NotificationCard';
 import AppContext from '../../contexts/AppContext';
@@ -125,14 +126,18 @@ const NotificationsColumn = () => {
             <NotificationBottomPadding onStartShouldSetResponder={() => true} />
           </TouchableWithoutFeedback> */}
             </ScrollView>
-            {prospectNotifications?.length > 0 ? (
-              <ClearButtonContainer>
+            <ClearButtonContainer
+              direction={Directions.UP}
+              onHandlerStateChange={({ nativeEvent }) => {
+                if (nativeEvent.oldState === State.ACTIVE) {
+                  setDisplayNotifications(false);
+                }
+              }}>
+              {prospectNotifications?.length > 0 ? (
                 <TouchableOpacity onPress={clearAll}>
                   <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
                 </TouchableOpacity>
-              </ClearButtonContainer>
-            ) : (
-              <ClearButtonContainer>
+              ) : (
                 <TouchableOpacity
                   activeOpacity={1}
                   onPress={() => setDisplayNotifications(false)}>
@@ -140,8 +145,8 @@ const NotificationsColumn = () => {
                     {Localized('You have no new notifications')}
                   </H5Black>
                 </TouchableOpacity>
-              </ClearButtonContainer>
-            )}
+              )}
+            </ClearButtonContainer>
           </>
         )}
       </AnimatedContainer>

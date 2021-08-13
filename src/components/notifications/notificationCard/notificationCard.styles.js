@@ -1,4 +1,7 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { FlingGestureHandler } from 'react-native-gesture-handler';
 
 export const ColumnContainer = styled.View`
   padding: 0px;
@@ -7,7 +10,7 @@ export const ColumnContainer = styled.View`
   position: absolute;
 `;
 
-export const ClearButtonContainer = styled.View`
+const ButtonContainer = styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.cardBackgroundColor};
@@ -19,6 +22,18 @@ export const ClearButtonContainer = styled.View`
   position: relative;
   z-index: -1;
 `;
+
+export const ClearButtonContainer = ({ children, ...props }) => {
+  return (
+    <FlingGestureHandler {...props}>
+      <ButtonContainer>{children}</ButtonContainer>
+    </FlingGestureHandler>
+  );
+};
+
+ClearButtonContainer.propTypes = {
+  children: PropTypes.any.isRequired,
+};
 
 export const NotificationBottomPadding = styled.View`
   background-color: ${(props) => props.theme.backgroundColor};
@@ -32,6 +47,7 @@ export const CardContainer = styled.TouchableOpacity`
   width: 100%;
 `;
 
+// the commented out lines still exist in case we decide to have collapsable and expandable cards like we do with other cards in the app
 export const OuterContainer = styled.View`
   width: 100%;
   background-color: ${(props) => props.theme.cardBackgroundColor};
