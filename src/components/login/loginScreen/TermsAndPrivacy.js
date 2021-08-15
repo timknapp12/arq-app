@@ -4,8 +4,11 @@ import { TouchableOpacity } from 'react-native';
 import { H4, Flexbox } from '../../common';
 import { Localized } from '../../../translations/Localized';
 
-const url =
-  'https://firebasestorage.googleapis.com/v0/b/q-connect-pro-staging.appspot.com/o/resources%2FFeb%202020%20Comp%20Plan.pdf?alt=media&token=5c94e075-d6a5-444a-861e-7442d4325b70';
+const termsOfServiceUrl =
+  'https://firebasestorage.googleapis.com/v0/b/q-innovation-prod.appspot.com/o/legal%2F%5BQ%20Sciences%5D%20Terms%20of%20Service.pdf?alt=media&token=87c7d801-7b50-4e7b-a712-797a81536089';
+
+const privacyPolicyUrl =
+  'https://firebasestorage.googleapis.com/v0/b/q-innovation-prod.appspot.com/o/legal%2F%5BQ%20Sciences%5D%20Privacy%20Policy.pdf?alt=media&token=748056f7-c833-428e-bd0c-44e60954e71b';
 
 const TermsAndPrivacy = ({ navigation }) => {
   const openTerms = () =>
@@ -13,7 +16,7 @@ const TermsAndPrivacy = ({ navigation }) => {
       screen: 'Resources Asset Screen',
       params: {
         title: Localized('Terms').toUpperCase(),
-        url: url,
+        url: termsOfServiceUrl,
         contentType: 'pdf',
       },
     });
@@ -22,19 +25,11 @@ const TermsAndPrivacy = ({ navigation }) => {
       screen: 'Resources Asset Screen',
       params: {
         title: Localized('Privacy').toUpperCase(),
-        url: url,
+        url: privacyPolicyUrl,
         contentType: 'pdf',
       },
     });
-  const openData = () =>
-    navigation.navigate('App Stack', {
-      screen: 'Resources Asset Screen',
-      params: {
-        title: Localized('Data').toUpperCase(),
-        url: url,
-        contentType: 'pdf',
-      },
-    });
+
   return (
     <Flexbox
       accessibilityLabel="Terms Privacy Data"
@@ -50,13 +45,6 @@ const TermsAndPrivacy = ({ navigation }) => {
         testID="privacy-button"
         style={{ marginStart: 8 }}>
         <H4>{Localized('Privacy')}</H4>
-      </TouchableOpacity>
-      <H4 style={{ marginStart: 8 }}>|</H4>
-      <TouchableOpacity
-        onPress={openData}
-        testID="data-button"
-        style={{ marginStart: 8 }}>
-        <H4>{Localized('Data')}</H4>
       </TouchableOpacity>
     </Flexbox>
   );
