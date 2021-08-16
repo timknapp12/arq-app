@@ -241,6 +241,7 @@ AnimatedInput.propTypes = {
 const Container = styled.View`
   height: 100px;
   width: 100%;
+  margin-top: 8px;
 `;
 const ThemedTextArea = styled.View`
   flex: 1;
