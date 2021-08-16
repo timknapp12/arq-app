@@ -305,6 +305,10 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                 <Header>
                   <HeaderButtonContainer>
                     <TouchableOpacity
+                      style={{
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                      }}
                       testID="my-info-close-modal-button"
                       onPress={() => setIsMyInfoModalOpen(false)}>
                       <CloseIcon />

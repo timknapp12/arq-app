@@ -28,7 +28,9 @@ const contentTypeMap = {
 // The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
 const CalloutButton = styled(
   Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
-)``;
+)`
+  padding: 4px 10px;
+`;
 
 const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
   const filteredOptions =
