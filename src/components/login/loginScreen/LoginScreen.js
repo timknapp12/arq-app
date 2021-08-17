@@ -7,7 +7,13 @@ import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Facebook from 'expo-facebook';
 import { useMutation } from '@apollo/client';
 import { Platform, Linking, Alert, View } from 'react-native';
-import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
+import {
+  Flexbox,
+  H4Secondary,
+  PrimaryButton,
+  AlertText,
+  H5Secondary,
+} from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import { Localized, initLanguage } from '../../../translations/Localized';
@@ -26,6 +32,7 @@ import {
 } from '../../../../firebase.config';
 import { LOGIN_USER } from '../../../graphql/mutations';
 import { handleLoginUser, onFaceID } from '../../../utils/handleLoginFlow';
+import config from '../../../../app.json';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -298,6 +305,7 @@ const LoginScreen = ({ navigation }) => {
 
           <TermsAndPrivacy navigation={navigation} />
         </Flexbox>
+        <H5Secondary>{`ARQ Version: ${config.expo.version}`}</H5Secondary>
         <ErrorModal
           visible={isErrorModalOpen}
           onClose={() => setIsErrorModalOpen(false)}

@@ -35,7 +35,7 @@ const TermsAndPrivacy = ({ navigation }) => {
       accessibilityLabel="Terms Privacy Data"
       justify="center"
       direction="row"
-      padding={14}>
+      padding={4}>
       <TouchableOpacity onPress={openTerms} testID="terms-button">
         <H4>{Localized('Terms')}</H4>
       </TouchableOpacity>
