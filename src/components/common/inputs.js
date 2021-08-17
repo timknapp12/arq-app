@@ -239,7 +239,7 @@ AnimatedInput.propTypes = {
 
 // Text Area
 const Container = styled.View`
-  height: 100px;
+  height: 100%;
   width: 100%;
   margin-top: 8px;
 `;
@@ -299,6 +299,6 @@ TextArea.propTypes = {
   onChangeText: PropTypes.func,
   numberOfLines: PropTypes.number,
   style: PropTypes.object,
-  // onFocus prop is used in UploadAssetModal.js
+  // onFocus prop is used in UploadAssetModal.js or MyInfoModal
   onFocus: PropTypes.func,
 };
