@@ -33,7 +33,7 @@ const ErrorModal = ({ visible, onClose, errorMessage }) => {
         <Inner>
           <TouchableOpacity
             testID="close-edit-modal-button"
-            style={{ width: 24 }}
+            style={{ width: 24, paddingTop: 8, paddingBottom: 8 }}
             onPress={onClose}>
             <CloseIcon />
           </TouchableOpacity>

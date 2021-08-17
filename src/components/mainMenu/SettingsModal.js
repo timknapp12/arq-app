@@ -30,6 +30,7 @@ import {
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
+import config from '../../../app.json';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -127,6 +128,10 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                   <Header>
                     <HeaderButtonContainer>
                       <TouchableOpacity
+                        style={{
+                          paddingTop: 8,
+                          paddingBottom: 8,
+                        }}
                         testID="my-info-close-modal-button"
                         onPress={() => setIsSettingsModalOpen(false)}>
                         <CloseIcon />
@@ -179,6 +184,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
               </Flexbox>
             </ScrollView>
           </KeyboardAvoidingView>
+          <H5Secondary>{`ARQ Version: ${config.expo.version}`}</H5Secondary>
         </ScreenContainer>
       </TouchableWithoutFeedback>
     </Modal>

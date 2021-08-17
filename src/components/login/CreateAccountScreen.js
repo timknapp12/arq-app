@@ -7,7 +7,13 @@ import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Facebook from 'expo-facebook';
 import { useMutation } from '@apollo/client';
 import { Alert, Platform, View, Linking } from 'react-native';
-import { Flexbox, PrimaryButton, AlertText, H4Secondary } from '../common';
+import {
+  Flexbox,
+  PrimaryButton,
+  AlertText,
+  H4Secondary,
+  H5Secondary,
+} from '../common';
 import QLogoScreen from './QLogoScreenContainer';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 import SocialSignIn from './loginScreen/SocialSignIn';
@@ -22,6 +28,7 @@ import { Localized } from '../../translations/Localized';
 import { facebookAppId, facebookDisplayName } from '../../../firebase.config';
 import { LOGIN_USER } from '../../graphql/mutations';
 import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
+import config from '../../../app.json';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -246,6 +253,7 @@ const CreateAccountScreen = ({ navigation }) => {
             errorMessage={errorMessage}
           />
         </Flexbox>
+        <H5Secondary>{`ARQ Version: ${config.expo.version}`}</H5Secondary>
       </QLogoScreen>
     </Flexbox>
   );

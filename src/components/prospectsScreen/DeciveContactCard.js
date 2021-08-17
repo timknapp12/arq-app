@@ -9,7 +9,13 @@ import {
   Stack,
 } from './contactCard/card.styles';
 
-const DeciveContactCard = ({ contact, setContactInfo, onClose, ...props }) => {
+const DeciveContactCard = ({
+  contact,
+  setContactInfo,
+  onClose,
+  setIsSaveButtonVisisble,
+  ...props
+}) => {
   const initials = `${contact?.firstName?.charAt(0) ?? ''}${
     contact?.lastName?.charAt(0) ?? ''
   }`;
@@ -34,6 +40,7 @@ const DeciveContactCard = ({ contact, setContactInfo, onClose, ...props }) => {
       },
     });
     onClose();
+    setIsSaveButtonVisisble(true);
   };
 
   return (
@@ -66,6 +73,7 @@ DeciveContactCard.propTypes = {
   contact: PropTypes.object.isRequired,
   setContactInfo: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  setIsSaveButtonVisisble: PropTypes.func.isRequired,
 };
 
 export default DeciveContactCard;

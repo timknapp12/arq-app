@@ -34,6 +34,7 @@ const DeviceContactsModal = ({
   visible,
   onClose,
   setContactInfo,
+  setIsSaveButtonVisisble,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -50,6 +51,7 @@ const DeviceContactsModal = ({
       contact={item}
       setContactInfo={setContactInfo}
       onClose={onClose}
+      setIsSaveButtonVisisble={setIsSaveButtonVisisble}
     />
   );
   return (
@@ -100,6 +102,7 @@ DeviceContactsModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   setContactInfo: PropTypes.func.isRequired,
+  setIsSaveButtonVisisble: PropTypes.func.isRequired,
 };
 
 export default DeviceContactsModal;

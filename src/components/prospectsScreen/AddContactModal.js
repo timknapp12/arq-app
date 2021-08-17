@@ -247,7 +247,11 @@ const AddContactModal = ({
                 <Header>
                   <HeaderButtonContainer>
                     <TouchableOpacity
-                      testID="my-info-close-modal-button"
+                      style={{
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                      }}
+                      testID="add-contact-info-close-modal-button"
                       onPress={onClose}>
                       <CloseIcon />
                     </TouchableOpacity>
@@ -260,7 +264,7 @@ const AddContactModal = ({
                   <HeaderButtonContainer style={{ alignItems: 'flex-end' }}>
                     {isSaveButtonVisisble ? (
                       <TouchableOpacity
-                        testID="my-info-save-button"
+                        testID="add-contact-info-save-button"
                         onPress={onSubmit}>
                         {loading ? (
                           <ActivityIndicator
@@ -301,7 +305,7 @@ const AddContactModal = ({
                       align="flex-end"
                       height="100%">
                       <AnimatedInput
-                        testID="first-name-input"
+                        testID="add-contact-first-name-input"
                         label={Localized('First Name')}
                         value={firstName}
                         onChangeText={(text) => {
@@ -319,7 +323,7 @@ const AddContactModal = ({
                         onBlur={validateFirstName}
                       />
                       <AnimatedInput
-                        testID="first-name-input"
+                        testID="add-contact-last-name-input"
                         label={Localized('Last Name')}
                         value={lastName}
                         onChangeText={(text) => {
@@ -332,7 +336,7 @@ const AddContactModal = ({
                     </Flexbox>
                   </NameContainer>
                   <AnimatedInput
-                    testID="email-input"
+                    testID="add-contact-email-input"
                     label={Localized('Email')}
                     value={emailAddress}
                     onChangeText={(text) => {
@@ -345,7 +349,7 @@ const AddContactModal = ({
                     textContentType="emailAddress"
                   />
                   <AnimatedInput
-                    testID="phone-number-input"
+                    testID="add-contact-phone-number-input"
                     label={Localized('Phone Number')}
                     value={primaryPhone}
                     onChangeText={(text) => {
@@ -362,7 +366,7 @@ const AddContactModal = ({
                 </Subheader>
                 <Flexbox accessibilityLabel="address information" width="85%">
                   <AnimatedInput
-                    testID="address-1-input"
+                    testID="add-contact-address-1-input"
                     label={Localized('Address 1')}
                     value={address?.address1}
                     onChangeText={(text) => {
@@ -373,7 +377,7 @@ const AddContactModal = ({
                     textContentType="streetAddressLine1"
                   />
                   <AnimatedInput
-                    testID="address-2-input"
+                    testID="add-contact-address-2-input"
                     label={Localized('Address 2')}
                     value={address?.address2}
                     onChangeText={(text) => {
@@ -384,7 +388,7 @@ const AddContactModal = ({
                     textContentType="streetAddressLine2"
                   />
                   <AnimatedInput
-                    testID="city-input"
+                    testID="add-contact-city-input"
                     label={Localized('City')}
                     value={address?.city}
                     onChangeText={(text) => {
@@ -419,13 +423,13 @@ const AddContactModal = ({
                             });
                             setIsSaveButtonVisisble(true);
                           }}
-                          testID="state-picker-input"
+                          testID="add-contact-state-picker-input"
                         />
                       </Flexbox>
                     ) : (
                       <Flexbox width="48%">
                         <AnimatedInput
-                          testID="state-input"
+                          testID="add-contact-state-input"
                           label={Localized('State')}
                           value={address?.state}
                           onChangeText={(text) => {
@@ -442,7 +446,7 @@ const AddContactModal = ({
                     )}
                     <Flexbox width="48%">
                       <AnimatedInput
-                        testID="zip-code-input"
+                        testID="add-contact-zip-code-input"
                         label={Localized('ZIP Code')}
                         value={address?.zip}
                         onChangeText={(text) => {
@@ -469,7 +473,7 @@ const AddContactModal = ({
                         });
                         setIsSaveButtonVisisble(true);
                       }}
-                      testID="country-input"
+                      testID="add-contact-country-input"
                     />
                   </Flexbox>
                 </Flexbox>
@@ -484,6 +488,7 @@ const AddContactModal = ({
           visible={isDeviceContactsModalOpen}
           onClose={() => setIsDeviceContactsModalOpen(false)}
           setContactInfo={setContactInfo}
+          setIsSaveButtonVisisble={setIsSaveButtonVisisble}
         />
       )}
     </Modal>

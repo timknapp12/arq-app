@@ -121,8 +121,10 @@ const AccessCodeModal = ({
         onSubmitEditing={Keyboard.dismiss}
         maxLength={20}
       />
-      <View style={{ height: 20 }}>
-        {isError && <AlertText>{errorMessage}</AlertText>}
+      <View>
+        {isError && (
+          <AlertText style={{ textAlign: 'center' }}>{errorMessage}</AlertText>
+        )}
       </View>
     </EditModal>
   );

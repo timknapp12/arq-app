@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import {
@@ -25,6 +25,7 @@ import {
   Header,
   AlertText,
   H3,
+  // TextArea,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
@@ -84,6 +85,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const [isCountryError, setIsCountryError] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  // const scrollViewRef = useRef();
 
   const {
     legacyAssociateId,
@@ -298,13 +301,18 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
             style={{ flex: 1, width: '100%' }}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
+              // ref={scrollViewRef}
               style={{ width: '100%' }}
-              contentContainerStyle={{ paddingBottom: 4 }}
+              contentContainerStyle={{ paddingBottom: 24 }}
               keyboardShouldPersistTaps="always">
               <Flexbox justify="flex-start" height="100%">
                 <Header>
                   <HeaderButtonContainer>
                     <TouchableOpacity
+                      style={{
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                      }}
                       testID="my-info-close-modal-button"
                       onPress={() => setIsMyInfoModalOpen(false)}>
                       <CloseIcon />
@@ -601,6 +609,15 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       </AlertText>
                     )}
                   </Flexbox>
+                  {/* <Flexbox height="200px">
+                    <TextArea
+                      label="Bio"
+                      numberOfLines={8}
+                      onFocus={() =>
+                        scrollViewRef.current.scrollToEnd({ animated: true })
+                      }
+                    />
+                  </Flexbox> */}
                 </Flexbox>
               </Flexbox>
             </ScrollView>

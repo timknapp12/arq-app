@@ -253,18 +253,20 @@ const UploadAssetModal = ({
           onSubmitEditing={Keyboard.dismiss}
           style={{ marginTop: marginSize }}
         />
-        <TextArea
-          label={Localized('Description')}
-          testID="upload-asset-description-input"
-          value={description}
-          multiline
-          numberOfLines={3}
-          onChangeText={(text) => setDescription(text)}
-          style={{ marginTop: marginSize }}
-          onFocus={() => setIsFileInputFocused(false)}
-          returnKeyType="done"
-          onSubmitEditing={Keyboard.dismiss}
-        />
+        <Flexbox height="100px">
+          <TextArea
+            label={Localized('Description')}
+            testID="upload-asset-description-input"
+            value={description}
+            multiline
+            numberOfLines={3}
+            onChangeText={(text) => setDescription(text)}
+            style={{ marginTop: marginSize }}
+            onFocus={() => setIsFileInputFocused(false)}
+            returnKeyType="done"
+            onSubmitEditing={Keyboard.dismiss}
+          />
+        </Flexbox>
         <Picker
           style={{ marginTop: 8, width: '100%' }}
           items={contentTypeList}

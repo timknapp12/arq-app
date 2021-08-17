@@ -28,7 +28,7 @@ const Legend = styled.View`
 const Square = styled.View`
   height: 16px;
   width: 16px;
-  margin-right: 2px;
+  margin-right: 4px;
   background-color: ${({ squareFill }) => squareFill};
 `;
 
@@ -96,7 +96,6 @@ const Rank = ({ ranklist, user, closeMenus }) => {
         />
         <Flexbox
           accessibilityLabel="Distributor rank"
-          padding={10}
           width="100%"
           justify="space-between"
           direction="row">
@@ -176,6 +175,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
         </Flexbox>
 
         <Flexbox
+          style={{ paddingTop: 12 }}
           accessibilityLabel="monthly comparrison personally enrolled"
           width="auto">
           <H4 testID="personally-enrolled-donut-label">
