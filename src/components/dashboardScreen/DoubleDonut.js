@@ -15,7 +15,7 @@ const Legend = styled.View`
 const Square = styled.View`
   height: 16px;
   width: 16px;
-  margin-right: 2px;
+  margin-right: 4px;
   background-color: ${({ squareFill }) => squareFill};
 `;
 
