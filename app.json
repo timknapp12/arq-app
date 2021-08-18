@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ambassador-resources-q",
-    "slug": "ambassador-resources-q",
-    "version": "0.0.17",
+    "name": "q-connect-pro-staging",
+    "slug": "q-connect-pro-staging",
+    "version": "0.0.18",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "ambassador-resources-q",
+    "scheme": "q-connect-pro-staging",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,7 +23,7 @@
         }
       },
       "usesAppleSignIn": true,
-      "buildNumber": "0.0.17",
+      "buildNumber": "0.0.18",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
