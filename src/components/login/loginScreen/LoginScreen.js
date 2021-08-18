@@ -5,6 +5,8 @@ import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase';
 import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Facebook from 'expo-facebook';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
 import { useMutation } from '@apollo/client';
 import { Platform, Linking, Alert, View } from 'react-native';
 import {
@@ -219,7 +221,6 @@ const LoginScreen = ({ navigation }) => {
     if (type === 'success') {
       // Build Firebase credential with the Facebook access token.
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      console.log(`credential`, credential);
       // Sign in with credential from the Facebook user.
       firebase
         .auth()
@@ -237,6 +238,51 @@ const LoginScreen = ({ navigation }) => {
           setErrorMessage(error.message);
         });
     }
+  };
+
+  // login with apple
+  // https://medium.com/nerd-for-tech/apple-google-authentication-in-expo-apps-using-firebase-997125440032
+  // https://docs.expo.dev/versions/latest/sdk/apple-authentication/
+  const signInWithApple = () => {
+    const nonce = Math.random().toString(36).substring(2, 10);
+
+    return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, nonce)
+      .then((hashedNonce) =>
+        AppleAuthentication.signInAsync({
+          requestedScopes: [
+            AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+            AppleAuthentication.AppleAuthenticationScope.EMAIL,
+          ],
+          nonce: hashedNonce,
+        }),
+      )
+      .then((appleCredential) => {
+        const { identityToken } = appleCredential;
+        const provider = new firebase.auth.OAuthProvider('apple.com');
+        const credential = provider.credential({
+          idToken: identityToken,
+          rawNonce: nonce,
+        });
+        // Successful sign in is handled by firebase.auth().onAuthStateChanged
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((userCredential) => {
+            var user = userCredential.user;
+            user
+              .getIdToken(/* forceRefresh */ true)
+              .then(
+                (idToken) =>
+                  console.log(`idToken`, idToken) || setToken(idToken),
+              )
+              .then(() => loginUser())
+              .then(() => loginAnalytics('apple'))
+              .catch((error) => console.log(`error`, error));
+          });
+      })
+      .catch((error) => {
+        console.log(`error in apple login:`, error);
+      });
   };
 
   if (isLoading || loadingLoginUser) {
@@ -259,6 +305,7 @@ const LoginScreen = ({ navigation }) => {
             title={Localized('Sign in with')}
             googleSignIn={signInWithGoogleAsync}
             facebookSignIn={loginWithFacebook}
+            signInWithApple={signInWithApple}
           />
 
           <Flexbox direction="row">

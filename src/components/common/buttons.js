@@ -10,6 +10,7 @@ import {
 import { H4Book, H3, Checkmark } from './texts';
 import googleLogo from '../../../assets/icons/logo_google.png';
 import facebookLogo from '../../../assets/icons/f_logo_RGB-White_1024.png';
+import AppleIcon from '../../../assets/icons/apple-logo.svg';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -250,5 +251,11 @@ const FacebookImage = styled.Image`
 export const FacebookLoginButton = ({ ...props }) => (
   <TouchableOpacity {...props}>
     <FacebookImage source={facebookLogo} />
+  </TouchableOpacity>
+);
+
+export const AppleLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <AppleIcon />
   </TouchableOpacity>
 );
