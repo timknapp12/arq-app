@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import {
@@ -17,8 +18,13 @@ import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
 
 const InitialDataContainer = ({ children }) => {
-  const { associateId, legacyId, setHasPermissions, userMarket } =
-    useContext(AppContext);
+  const {
+    associateId,
+    legacyId,
+    setHasPermissions,
+    userMarket,
+    deviceLanguage,
+  } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +44,28 @@ const InitialDataContainer = ({ children }) => {
     setPassword('');
     setConfirmPassword('');
     setErrorMessage('');
+  };
+  const [useBiometrics, setUseBiometrics] = useState(false);
+
+  const storeBiometrics = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@biometrics', jsonValue);
+      return setUseBiometrics(value);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const getBiometrics = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@biometrics');
+      const parsedValue = jsonValue != null ? JSON.parse(jsonValue) : null;
+      // if there is nothing saved in storage then set to false
+      return setUseBiometrics(parsedValue ? parsedValue : false);
+    } catch (error) {
+      console.log(`error`, error);
+    }
   };
 
   const { data: ranksData } = useQuery(GET_RANKS);
@@ -83,7 +111,11 @@ const InitialDataContainer = ({ children }) => {
     data: newsData,
     refetch: refetchNews,
   } = useQuery(GET_NEWS, {
-    variables: { associateId, countries: marketId },
+    variables: {
+      associateId,
+      countries: marketId,
+      languageCode: deviceLanguage,
+    },
   });
 
   const news = newsData?.newsResources ?? [];
@@ -143,6 +175,9 @@ const InitialDataContainer = ({ children }) => {
         directScaleUser,
         setDirectScaleUser,
         isFirstAppLoad,
+        useBiometrics,
+        storeBiometrics,
+        getBiometrics,
         setIsFirstAppLoad,
         clearFields,
         ranks: ranksData?.ranks,

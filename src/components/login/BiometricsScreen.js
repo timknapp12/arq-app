@@ -8,9 +8,11 @@ import TouchIDIcon from '../../../assets/icons/touch-id.svg';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, storeBiometrics, hasPermissions } = useContext(AppContext);
+  const { theme, hasPermissions } = useContext(AppContext);
+  const { storeBiometrics } = useContext(LoginContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
@@ -44,7 +46,7 @@ const BiometricsScreen = ({ navigation }) => {
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
     } catch (error) {
-      Alert.alert(Localized('An error as occured'), error?.message);
+      Alert.alert(Localized('An error has occured'), error?.message);
     }
   };
 

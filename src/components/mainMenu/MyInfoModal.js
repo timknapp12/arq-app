@@ -611,7 +611,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   </Flexbox>
                   {/* <Flexbox height="200px">
                     <TextArea
-                      label="Bio"
+                      label={Localized('Bio')}
                       numberOfLines={8}
                       onFocus={() =>
                         scrollViewRef.current.scrollToEnd({ animated: true })

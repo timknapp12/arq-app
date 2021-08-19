@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as Contacts from 'expo-contacts';
@@ -25,6 +25,7 @@ import {
   Subheader,
   Header,
   H3,
+  // TextArea,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
@@ -83,6 +84,8 @@ const AddContactModal = ({
   initLanguage();
   const { theme, associateId } = useContext(AppContext);
   const { addUpdateProspect } = useContext(ProspectsContext);
+
+  // const scrollViewRef = useRef();
 
   const initialState = data;
   const [contactInfo, setContactInfo] = useState(initialState);
@@ -240,6 +243,7 @@ const AddContactModal = ({
             style={{ flex: 1, width: '100%' }}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
+              // ref={scrollViewRef}
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 4 }}
               keyboardShouldPersistTaps="always">
@@ -476,6 +480,15 @@ const AddContactModal = ({
                       testID="add-contact-country-input"
                     />
                   </Flexbox>
+                  {/* <Flexbox height="200px">
+                    <TextArea
+                      label={Localized('Notes')}
+                      numberOfLines={8}
+                      onFocus={() =>
+                        scrollViewRef.current.scrollToEnd({ animated: true })
+                      }
+                    />
+                  </Flexbox> */}
                 </Flexbox>
               </Flexbox>
             </ScrollView>

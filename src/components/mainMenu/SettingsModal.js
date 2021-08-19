@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -27,9 +27,11 @@ import {
   H3,
   H5,
   H5Secondary,
+  Picker,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 import config from '../../../app.json';
 
 const HeaderButtonContainer = styled.View`
@@ -54,10 +56,19 @@ const Divider = styled.View`
 
 const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   initLanguage();
-  const { storeBiometrics, useBiometrics, signOutOfFirebase } =
-    useContext(AppContext);
+  const { signOutOfFirebase } = useContext(AppContext);
   const user = firebase.auth().currentUser;
   const email = user?.email;
+
+  const { storeBiometrics, useBiometrics, markets } = useContext(LoginContext);
+  const [selectedMarket, setSelectedMarket] = useState('us');
+  // we need to restructure the markets from the database into a structure that fits the dropdown picker
+  const reshapedItems = markets?.map((item) => ({
+    key: item?.countryId,
+    id: item?.countryId,
+    label: item?.countryName,
+    value: item?.countryCode,
+  }));
 
   const navigation = useNavigation();
   const signOut = () => {
@@ -89,7 +100,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
       // the authenticate method below is used in LoginScreen.js
       // await LocalAuthentication.authenticateAsync();
     } catch (error) {
-      Alert.alert(Localized('An error as occured'), error?.message);
+      Alert.alert(Localized('An error has occured'), error?.message);
     }
   };
 
@@ -166,6 +177,19 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                         onValueChange={() => storeBiometrics(!useBiometrics)}
                       />
                     </RowContainer>
+                    <View
+                      style={{
+                        paddingRight: 8,
+                        paddingLeft: 8,
+                        width: '100%',
+                      }}>
+                      <Picker
+                        items={reshapedItems}
+                        value={selectedMarket}
+                        onValueChange={(value) => setSelectedMarket(value)}
+                        placeholder={{}}
+                      />
+                    </View>
                   </Flexbox>
                 </Flexbox>
 

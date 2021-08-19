@@ -45,20 +45,15 @@ const DividerLine = styled.View`
 
 const LoginScreen = ({ navigation }) => {
   initLanguage();
-  const {
-    theme,
-    setToken,
-    useBiometrics,
-    getBiometrics,
-    setAssociateId,
-    setLegacyId,
-    signOutOfFirebase,
-  } = useContext(AppContext);
+  const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
+    useContext(AppContext);
   const {
     email,
     password,
     setErrorMessage,
     errorMessage,
+    useBiometrics,
+    getBiometrics,
     isFirstAppLoad,
     setIsFirstAppLoad,
     clearFields,
