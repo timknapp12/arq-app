@@ -101,8 +101,12 @@ export const GET_MARKETS = gql`
 `;
 
 export const GET_CORPORATE_RESOURCES = gql`
-  query CorporateResoures($countries: [Int!]) {
-    corporateResources(countries: $countries, order: { displayOrder: ASC }) {
+  query CorporateResoures($countries: [Int!], $languageCode: String) {
+    corporateResources(
+      countries: $countries
+      languageCode: $languageCode
+      order: { displayOrder: ASC }
+    ) {
       folderName
       folderId
       isWideLayout
@@ -282,10 +286,15 @@ export const GET_PROSPECTS_BY_LASTNAME = gql`
 `;
 
 export const GET_NEWS = gql`
-  query NewsResources($associateId: Int!, $countries: [Int!]) {
+  query NewsResources(
+    $associateId: Int!
+    $countries: [Int!]
+    $languageCode: String
+  ) {
     newsResources(
       associateId: $associateId
       countries: $countries
+      languageCode: $languageCode
       order: { displayOrder: ASC }
     ) {
       folderId
