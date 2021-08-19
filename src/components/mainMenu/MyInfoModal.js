@@ -25,7 +25,7 @@ import {
   Header,
   AlertText,
   H3,
-  // TextArea,
+  TextArea,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
@@ -86,7 +86,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // const scrollViewRef = useRef();
+  const scrollViewRef = useRef();
 
   const {
     legacyAssociateId,
@@ -301,7 +301,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
             style={{ flex: 1, width: '100%' }}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
-              // ref={scrollViewRef}
+              ref={scrollViewRef}
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 24 }}
               keyboardShouldPersistTaps="always">
@@ -609,7 +609,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       </AlertText>
                     )}
                   </Flexbox>
-                  {/* <Flexbox height="200px">
+                  <Flexbox height="200px">
                     <TextArea
                       label={Localized('Bio')}
                       numberOfLines={8}
@@ -617,7 +617,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         scrollViewRef.current.scrollToEnd({ animated: true })
                       }
                     />
-                  </Flexbox> */}
+                  </Flexbox>
                 </Flexbox>
               </Flexbox>
             </ScrollView>
