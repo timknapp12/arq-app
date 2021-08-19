@@ -68,7 +68,7 @@
   "New Password": "New Password",
   "Confirm New Password": "Confirm New Password",
   "Face ID/Fingerprint is enabled!": "Face ID/Fingerprint is enabled!",
-  "An error as occured": "An error as occured",
+  "An error has occured": "An error has occured",
   "Please add a username": "Please add a username",
   "Please enter current password": "Please enter current password",
   "Passwords don't match. Please confirm new password": "Passwords don't match. Please confirm new password",
@@ -203,5 +203,8 @@
   "Here is the information from Q Sciences for": "Here is the information from Q Sciences for",
   "Loading Notifications": "Loading Notifications",
   "Viewed": "Viewed",
-  "Item not found": "Item not found"
+  "Item not found": "Item not found",
+  "Bio": "Bio",
+  "Notes": "Notes",
+  "Default Market": "Default Market"
 }
