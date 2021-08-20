@@ -29,6 +29,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID for authentication",
+        "NSCameraUsageDescription": "Allowing access lets you take a picture for display in your profile.",
+        "NSPhotoLibraryUsageDescription": "Allowing access lets you select a picture for display in your profile.",
         "CFBundleAllowMixedLocalizations": true
       },
       "requireFullScreen": true,
