@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { H4Book, H3, Checkmark } from './texts';
-import googleLogo from '../../../assets/icons/logo_google.png';
-import facebookLogo from '../../../assets/icons/f_logo_RGB-White_1024.png';
-import AppleIcon from '../../../assets/icons/apple-logo.svg';
+import FacebookLogo from '../../../assets/icons/facebook-logo.svg';
+import AppleIcon from '../../../assets/icons/apple-button.svg';
+import GoogleLogo from '../../../assets/icons/google-button.svg';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -216,44 +216,22 @@ export const AddButton = styled.TouchableOpacity`
 export const ButtonText = styled(H3)`
   font-family: 'Avenir-Black';
 `;
+
 // GOOGLE LOGIN
-const imageBackground = {
-  height: 48,
-  width: 48,
-};
-
-const ImageBackground = styled.View`
-  ${sharedCss};
-  ${imageBackground};
-  background-color: white;
-`;
-
-const GoogleImage = styled.Image`
-  height: 24px;
-  width: 24px;
-`;
-
 export const GoogleLoginButton = ({ ...props }) => (
   <TouchableOpacity {...props}>
-    <ImageBackground>
-      <GoogleImage source={googleLogo} />
-    </ImageBackground>
+    <GoogleLogo />
   </TouchableOpacity>
 );
 
 // FACEBOOK LOGIN
-
-const FacebookImage = styled.Image`
-  height: 48px;
-  width: 48px;
-`;
-
 export const FacebookLoginButton = ({ ...props }) => (
   <TouchableOpacity {...props}>
-    <FacebookImage source={facebookLogo} />
+    <FacebookLogo />
   </TouchableOpacity>
 );
 
+// APPLE LOGIN
 export const AppleLoginButton = ({ ...props }) => (
   <TouchableOpacity {...props}>
     <AppleIcon />
