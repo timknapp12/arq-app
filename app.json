@@ -2,7 +2,7 @@
   "expo": {
     "name": "q-connect-pro-staging",
     "slug": "q-connect-pro-staging",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "q-connect-pro-staging",
@@ -24,7 +24,7 @@
         }
       },
       "usesAppleSignIn": true,
-      "buildNumber": "0.0.18",
+      "buildNumber": "0.0.19",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
