@@ -101,10 +101,11 @@ export const GET_MARKETS = gql`
 `;
 
 export const GET_CORPORATE_RESOURCES = gql`
-  query CorporateResoures($countries: [Int!], $languageCode: String) {
+  query CorporateResoures($countries: [Int!]) # $languageCode: String
+  {
     corporateResources(
       countries: $countries
-      languageCode: $languageCode
+      # languageCode: $languageCode
       order: { displayOrder: ASC }
     ) {
       folderName
@@ -152,12 +153,12 @@ export const SEARCH_RESOURCES = gql`
   query SearchResources(
     $countries: [Int!]
     $teams: [String!]
-    $searchList: [String!]
+    $searchList: [String!] # $language: String
   ) {
     searchResources(
       countries: $countries
       teams: $teams
-      searchList: $searchList
+      searchList: $searchList # language: $language
     ) {
       productFolders {
         folderId

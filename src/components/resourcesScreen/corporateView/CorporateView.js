@@ -28,6 +28,7 @@ const FlagIcon = styled.Image`
 
 const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const { userMarket, deviceLanguage } = useContext(AppContext);
+  console.log(`deviceLanguage`, deviceLanguage);
   const { markets } = useContext(LoginContext);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
@@ -40,7 +41,10 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const [marketId, setMarketId] = useState(userMarket.countryId);
 
   const { data } = useQuery(GET_CORPORATE_RESOURCES, {
-    variables: { countries: marketId, languageCode: deviceLanguage },
+    variables: {
+      countries: marketId,
+      // languageCode: deviceLanguage
+    },
   });
 
   useEffect(() => {

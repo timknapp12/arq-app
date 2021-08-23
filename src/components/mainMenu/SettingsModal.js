@@ -96,11 +96,16 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
         throw new Error(Localized('No Faces / Fingers found'));
       }
       storeBiometrics(true);
-      // Authenticate user
-      // the authenticate method below is used in LoginScreen.js
-      // await LocalAuthentication.authenticateAsync();
     } catch (error) {
       Alert.alert(Localized('An error has occured'), error?.message);
+    }
+  };
+
+  const onFaceIDChange = () => {
+    storeBiometrics(!useBiometrics);
+    if (!useBiometrics && Platform.OS === 'ios') {
+      // the authenticate method below is used in LoginScreen.js, but here it is just used to trigger the permissions dialogue for FaceID for iOS
+      LocalAuthentication.authenticateAsync();
     }
   };
 
@@ -174,7 +179,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                       <Switch
                         testID="biometrics-switch"
                         value={useBiometrics}
-                        onValueChange={() => storeBiometrics(!useBiometrics)}
+                        onValueChange={onFaceIDChange}
                       />
                     </RowContainer>
                     <View

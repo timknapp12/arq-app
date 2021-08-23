@@ -14,7 +14,8 @@ import AppContext from '../../../contexts/AppContext';
 import { SEARCH_RESOURCES } from '../../../graphql/queries';
 
 const TeamSearchScreen = ({ route, navigation }) => {
-  const { theme } = useContext(AppContext);
+  const { theme, deviceLanguage } = useContext(AppContext);
+  console.log(`deviceLanguage`, deviceLanguage);
   const { selectedTeamName, isOwner } = route.params;
   const [value, setValue] = useState('');
 
@@ -42,7 +43,11 @@ const TeamSearchScreen = ({ route, navigation }) => {
       (value) =>
         value.length > 0 &&
         searchResources({
-          variables: { teams: selectedTeamName, searchList: value },
+          variables: {
+            teams: selectedTeamName,
+            searchList: value,
+            // language: deviceLanguage,
+          },
         }),
       1000,
     ),
@@ -99,8 +104,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
               <Flexbox
                 justify="flex-start"
                 padding={10}
-                onStartShouldSetResponder={() => true}
-                height="100%">
+                onStartShouldSetResponder={() => true}>
                 {data?.searchResources?.links?.map((item, index) => (
                   <AssetCard
                     isCalloutOpenFromParent={isCalloutOpenFromParent}

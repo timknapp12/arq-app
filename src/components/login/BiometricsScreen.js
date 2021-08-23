@@ -42,9 +42,6 @@ const BiometricsScreen = ({ navigation }) => {
         setEnableBiometrics(false);
         throw new Error(Localized('No Faces / Fingers found'));
       }
-      // Authenticate user
-      // the authenticate method below is used in LoginScreen.js
-      // await LocalAuthentication.authenticateAsync();
     } catch (error) {
       Alert.alert(Localized('An error has occured'), error?.message);
     }
@@ -64,7 +61,11 @@ const BiometricsScreen = ({ navigation }) => {
     }
   }, [enableBiometrics]);
   // TODO - find out from backend the highest rank and navigate to next screen accordingly
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    if (enableBiometrics && Platform.OS === 'ios') {
+      // the authenticate method below is used in LoginScreen.js, but here it is just used to trigger the permissions dialogue for FaceID for iOS
+      await LocalAuthentication.authenticateAsync();
+    }
     // this sets the biometrics in App.js at the root of the project
     storeBiometrics(enableBiometrics);
     // if the user has ever been ruby or above then they can create a team name, otherwise we don't let them go to that screen
