@@ -6,10 +6,7 @@ import { Localized } from '../../../translations/Localized';
 
 const FindOutMore = ({ onPress }) => {
   return (
-    <Flexbox
-      accessibilityLabel="Become an Ambassador"
-      padding={10}
-      height="90px">
+    <Flexbox accessibilityLabel="Become an Ambassador">
       <H6
         testID="become-ambassador-text"
         style={{

@@ -9,13 +9,7 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import { useMutation } from '@apollo/client';
 import { Platform, Linking, Alert, View } from 'react-native';
-import {
-  Flexbox,
-  H4Secondary,
-  PrimaryButton,
-  AlertText,
-  H5Secondary,
-} from '../../common';
+import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import { Localized, initLanguage } from '../../../translations/Localized';
@@ -34,7 +28,6 @@ import {
 } from '../../../../firebase.config';
 import { LOGIN_USER } from '../../../graphql/mutations';
 import { handleLoginUser, onFaceID } from '../../../utils/handleLoginFlow';
-import config from '../../../../app.json';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -291,49 +284,52 @@ const LoginScreen = ({ navigation }) => {
         paddingTop: Platform.OS === 'android' ? 20 : 60,
         backgroundColor: theme.backgroundColor,
       }}>
-      <QLogoScreen style={{ paddingTop: 50 }}>
-        <Flexbox
-          style={{ flex: 1, paddingTop: 20 }}
-          width="85%"
-          accessibilityLabel="Login Form">
-          <SocialSignIn
-            title={Localized('Sign in with')}
-            googleSignIn={signInWithGoogleAsync}
-            facebookSignIn={loginWithFacebook}
-            signInWithApple={signInWithApple}
-          />
+      <QLogoScreen
+        accessibilityLabel="Login Form"
+        style={{
+          justifyContent: 'space-between',
+          height: '100%',
+          width: '85%',
+        }}>
+        <SocialSignIn
+          title={Localized('Sign in with')}
+          googleSignIn={signInWithGoogleAsync}
+          facebookSignIn={loginWithFacebook}
+          signInWithApple={signInWithApple}
+        />
 
-          <Flexbox direction="row">
-            <DividerLine />
-            <H4Secondary>{Localized('or use your email')}</H4Secondary>
-            <DividerLine />
-          </Flexbox>
+        <Flexbox direction="row">
+          <DividerLine />
+          <H4Secondary>{Localized('or use your email')}</H4Secondary>
+          <DividerLine />
+        </Flexbox>
 
-          <Flexbox>
-            <EmailForm onSubmit={onSubmit} />
-            {errorMessage ? (
-              <View style={{ height: 36 }}>
-                <AlertText
-                  style={{
-                    textAlign: 'center',
-                  }}>
-                  {errorMessage}
-                </AlertText>
-              </View>
-            ) : (
-              <View style={{ height: 36 }} />
-            )}
-          </Flexbox>
+        <Flexbox>
+          <EmailForm onSubmit={onSubmit} />
+          {errorMessage ? (
+            <View style={{ height: 36 }}>
+              <AlertText
+                style={{
+                  textAlign: 'center',
+                }}>
+                {errorMessage}
+              </AlertText>
+            </View>
+          ) : (
+            <View style={{ height: 36 }} />
+          )}
+        </Flexbox>
 
-          <Flexbox width="85%">
-            <PrimaryButton
-              testID="login-button"
-              disabled={isButtonDisabled}
-              onPress={onSubmit}>
-              {Localized('Sign in').toUpperCase()}
-            </PrimaryButton>
-          </Flexbox>
+        <Flexbox width="85%">
+          <PrimaryButton
+            testID="login-button"
+            disabled={isButtonDisabled}
+            onPress={onSubmit}>
+            {Localized('Sign in').toUpperCase()}
+          </PrimaryButton>
+        </Flexbox>
 
+        <Flexbox width="85%">
           <CreateAccountAndForgotPassword
             navigateToScreen={() =>
               navigation.navigate('Create Account Screen')
@@ -342,12 +338,11 @@ const LoginScreen = ({ navigation }) => {
               navigation.navigate('Password Recovery Screen')
             }
           />
-
-          <FindOutMore onPress={onFindOutMore} />
-
-          <TermsAndPrivacy navigation={navigation} />
         </Flexbox>
-        <H5Secondary>{`ARQ Version: ${config.expo.version}`}</H5Secondary>
+
+        <FindOutMore onPress={onFindOutMore} />
+
+        <TermsAndPrivacy navigation={navigation} />
         <ErrorModal
           visible={isErrorModalOpen}
           onClose={() => setIsErrorModalOpen(false)}
