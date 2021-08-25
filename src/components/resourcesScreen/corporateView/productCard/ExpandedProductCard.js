@@ -13,6 +13,7 @@ import DownloadIcon from '../../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../../assets/icons/remove-icon.svg';
 import SendIcon from '../../../../../assets/icons/send-icon.svg';
+import LeadCaptureIcon from '../../../../../assets/icons/enrollment-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../../contexts/AppContext';
 import { Localized } from '../../../../translations/Localized';
@@ -38,6 +39,7 @@ const ExpandedProductCard = ({
   onDownload,
   onShare,
   onSend,
+  onLeadCapture,
   hasPermissions,
   ...props
 }) => {
@@ -189,6 +191,9 @@ const ExpandedProductCard = ({
         <TouchableOpacity onPress={onSend}>
           <SendIcon style={smallIconStyle} />
         </TouchableOpacity>
+        <TouchableOpacity onPress={onLeadCapture}>
+          <LeadCaptureIcon style={smallIconStyle} />
+        </TouchableOpacity>
       </IconRow>
     </OuterContainer>
   );
@@ -206,6 +211,7 @@ ExpandedProductCard.propTypes = {
   onDownload: PropTypes.func,
   onShare: PropTypes.func,
   onSend: PropTypes.func,
+  onLeadCapture: PropTypes.func,
   hasPermissions: PropTypes.bool,
 };
 export default ExpandedProductCard;

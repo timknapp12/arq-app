@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { useMutation } from '@apollo/client';
 import { Share, Alert } from 'react-native';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
@@ -8,6 +9,8 @@ import MultiAssetMenu from '../MultiAssetMenu';
 import 'firebase/firestore';
 import { downloadFile } from '../../../../utils/downloadFile';
 import { findProductImageUrl } from '../../../../utils/corporateResouces/findProductImageUrl';
+import { GET_PROSPECT_URL } from '../../../../graphql/mutations';
+import AppContext from '../../../../contexts/AppContext';
 import { Localized, initLanguage } from '../../../../translations/Localized';
 
 const ProductCardContainer = styled.View`
@@ -27,6 +30,8 @@ const ProductCard = ({
   ...props
 }) => {
   initLanguage();
+  const { associateId } = useContext(AppContext);
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isMultiAssetMenuOpen, setIsMultiAssetMenuOpen] = useState(false);
@@ -145,6 +150,54 @@ const ProductCard = ({
     }
   };
 
+  const [leadCapture] = useMutation(GET_PROSPECT_URL, {
+    onCompleted: async (data) => {
+      try {
+        const result = await Share.share({
+          message: data?.addUpdateProspectLink?.prospectUrl,
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+      setIsCalloutOpen(false);
+      setIsCalloutOpenFromParent(false);
+      setIsMultiAssetMenuOpen(false);
+    },
+  });
+
+  const onLeadCaptureSingleUrl = (url) => {
+    leadCapture({
+      variables: {
+        associateId,
+        description: 'prospect link',
+        // display name is the title of the link that will later show up in prospect notifications
+        displayName: title,
+        redirectUrl: url,
+        sentLinkId: '',
+      },
+    });
+  };
+
+  const onLeadCapture = async () => {
+    if (assetList.length === 1) {
+      return onLeadCaptureSingleUrl(assetList?.[0].linkUrl);
+    } else {
+      await setIsCalloutOpenFromParent(true);
+      await setDisableTouchEvent(true);
+      setIsMultiAssetMenuOpen(true);
+      setMultiAssetMenuTitle(Localized('Lead Capture'));
+    }
+  };
+
   const onAction = async (item) => {
     if (multiAssetMenuTitle === Localized('Share')) {
       return shareSingleUrl(item?.linkUrl);
@@ -154,6 +207,9 @@ const ProductCard = ({
     }
     if (multiAssetMenuTitle === Localized('Send to Prospect')) {
       return sendSingleItem(item);
+    }
+    if (multiAssetMenuTitle === Localized('Lead Capture')) {
+      return onLeadCaptureSingleUrl(item?.linkUrl);
     }
   };
 
@@ -172,6 +228,7 @@ const ProductCard = ({
           onShare={onShare}
           onDownload={onDownload}
           onSend={onSend}
+          onLeadCapture={onLeadCapture}
         />
       ) : (
         <CollapsedProductCard
@@ -186,6 +243,7 @@ const ProductCard = ({
           onShare={onShare}
           onDownload={onDownload}
           onSend={onSend}
+          onLeadCapture={onLeadCapture}
         />
       )}
       {isMultiAssetMenuOpen && (

@@ -26,7 +26,7 @@ import {
   TitleAndDescription,
   IconColumn,
 } from './AssetCard.styles';
-import { DELETE_ASSET } from '../../../graphql/mutations';
+import { DELETE_ASSET, GET_PROSPECT_URL } from '../../../graphql/mutations';
 import { GET_ASSETS } from '../../../graphql/queries';
 
 // TouchableOpacity from react native listens to native events but doesn't handle nested touch events so it is only best in certain situations
@@ -57,7 +57,7 @@ const AssetCard = ({
   ...props
 }) => {
   initLanguage();
-  const { theme } = useContext(AppContext);
+  const { theme, associateId } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
@@ -192,6 +192,38 @@ const AssetCard = ({
     });
   };
 
+  const variables = {
+    associateId,
+    description: 'prospect link',
+    // display name is the title of the link that will later show up in prospect notifications
+    displayName: title,
+    redirectUrl: url,
+    sentLinkId: '',
+  };
+
+  const [onLeadCapture] = useMutation(GET_PROSPECT_URL, {
+    variables: variables,
+    onCompleted: async (data) => {
+      try {
+        const result = await Share.share({
+          message: data?.addUpdateProspectLink?.prospectUrl,
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        Alert.alert(error.message);
+      }
+      closeCallout();
+    },
+  });
+
   return (
     <AssetCardContainer {...props}>
       <OuterContainer isExpanded={isExpanded}>
@@ -300,6 +332,7 @@ const AssetCard = ({
             onEdit={() => setIsUploadAssetModalOpen(true)}
             onRemove={onRemove}
             onSend={onSend}
+            onLeadCapture={onLeadCapture}
           />
         )}
       </OuterContainer>
@@ -318,6 +351,7 @@ const AssetCard = ({
           onEdit={() => setIsUploadAssetModalOpen(true)}
           onRemove={onRemove}
           onSend={onSend}
+          onLeadCapture={onLeadCapture}
         />
       )}
       {isUploadAssetModalOpen && (

@@ -82,7 +82,7 @@ const AccessCodeModal = ({
 
   const errorMessage = isNew
     ? Localized(
-        `Sorry that team name has already been used - Please try another name`,
+        `Sorry that team name or access code has already been used - Please try again`,
       )
     : Localized(`The team name or code does not exist - Please try again`);
 

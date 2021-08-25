@@ -12,6 +12,7 @@ import ShareIcon from '../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
 import SendIcon from '../../../assets/icons/send-icon.svg';
+import LeadCaptureIcon from '../../../assets/icons/enrollment-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { Localized, initLanguage } from '../../translations/Localized';
 
@@ -45,6 +46,7 @@ const CalloutMenu = ({
   onEdit = () => {},
   onRemove = () => {},
   onSend = () => {},
+  onLeadCapture = () => {},
   ...props
 }) => {
   initLanguage();
@@ -121,6 +123,12 @@ const CalloutMenu = ({
           <H4Book>{Localized('Send to Prospect')}</H4Book>
         </Row>
       </CalloutButton>
+      <CalloutButton onPress={onLeadCapture}>
+        <Row>
+          <LeadCaptureIcon style={iconStyle} />
+          <H4Book>{Localized('Lead Capture')}</H4Book>
+        </Row>
+      </CalloutButton>
     </Container>
   );
 };
@@ -136,6 +144,7 @@ CalloutMenu.propTypes = {
   onEdit: PropTypes.func,
   onRemove: PropTypes.func,
   onSend: PropTypes.func,
+  onLeadCapture: PropTypes.func,
 };
 
 export default CalloutMenu;
