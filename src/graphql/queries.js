@@ -101,8 +101,9 @@ export const GET_MARKETS = gql`
 `;
 
 export const GET_CORPORATE_RESOURCES = gql`
-  query CorporateResoures($countries: [Int!]) # $languageCode: String
-  {
+  query CorporateResoures(
+    $countries: [Int!] # $languageCode: String
+  ) {
     corporateResources(
       countries: $countries
       # languageCode: $languageCode
@@ -249,6 +250,7 @@ export const GET_PROSPECTS_BY_FIRSTNAME = gql`
       displayName
       emailAddress
       primaryPhone
+      notes
       address {
         address1
         address2
@@ -274,6 +276,7 @@ export const GET_PROSPECTS_BY_LASTNAME = gql`
       displayName
       emailAddress
       primaryPhone
+      notes
       address {
         address1
         address2

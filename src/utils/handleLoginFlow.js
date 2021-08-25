@@ -40,6 +40,16 @@ export const handleLoginUser = (
         linkText: Localized('Find out more'),
       });
       break;
+    case 'NOT_ELIGIBLE_AMBASSADOR':
+      // send to a screen for user to contact support regarding issue with account
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'Sorry! It looks like there is an issue with your account - Please contact support',
+        ),
+        url: 'https://qsciences.com/contact-us',
+        linkText: Localized('Contact Support'),
+      });
+      break;
     default:
       // sign out of firebase and send to login screen
       signOutOfFirebase();
@@ -55,7 +65,6 @@ export const handleGetDirectScaleInfo = (
 ) => {
   switch (status) {
     case 'SUCCESS':
-      // TODO - handle Success
       // return username, email, phone, and navigate to confirm account screen
       setErrorMessage('');
       navigation.navigate('Confirm Account Screen', { username });
@@ -80,6 +89,15 @@ export const handleGetDirectScaleInfo = (
       break;
     case 'CALL_SUPPORT':
       // send to a screen for user to contact support regarding issue with account
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'Sorry! It looks like there is an issue with your account - Please contact support',
+        ),
+        url: 'https://qsciences.com/contact-us',
+        linkText: Localized('Contact Support'),
+      });
+      break;
+    case 'NOT_ELIGIBLE_AMBASSADOR':
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: Localized(
           'Sorry! It looks like there is an issue with your account - Please contact support',
