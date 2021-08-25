@@ -484,9 +484,15 @@ const AddContactModal = ({
                     <TextArea
                       label={Localized('Notes')}
                       numberOfLines={8}
+                      value={notes}
+                      onChangeText={(text) => {
+                        handleChange('notes', text);
+                        setIsSaveButtonVisisble(true);
+                      }}
                       onFocus={() =>
                         scrollViewRef.current.scrollToEnd({ animated: true })
                       }
+                      testID="prospect-notes-text-area"
                     />
                   </Flexbox>
                 </Flexbox>
