@@ -36,7 +36,10 @@ const DividerLine = styled.View`
   background-color: ${(props) => props.theme.disabledTextColor};
 `;
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({
+  navigation,
+  route = { params: { resetLogin: false } },
+}) => {
   initLanguage();
   const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
     useContext(AppContext);
@@ -97,6 +100,7 @@ const LoginScreen = ({ navigation }) => {
           isFirstAppLoad,
           setIsFirstAppLoad,
           setIsLoading,
+          route?.params?.resetLogin ?? false, // if this is true then that means the user timed out and was sent back to login screen and will be logged in again automatically if FaceId is turned on
         );
       } else {
         setIsLoading(false);
@@ -107,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
       setIsErrorModalOpen(false);
       setErrorMessage('');
     };
-  }, [isFirstAppLoad, useBiometrics]);
+  }, [isFirstAppLoad, useBiometrics, route?.params?.resetLogin]);
 
   const onFindOutMore = () => {
     Linking.openURL('https://qsciences.com');
@@ -355,6 +359,7 @@ const LoginScreen = ({ navigation }) => {
 
 LoginScreen.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default LoginScreen;
