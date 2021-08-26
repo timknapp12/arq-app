@@ -23,6 +23,7 @@ import {
   PrimaryButton,
   Switch,
   Subheader,
+  H4Heavy,
   H5Heavy,
   H3,
   H5,
@@ -33,6 +34,7 @@ import { Localized, initLanguage } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import config from '../../../app.json';
+import { findMarketId } from '../../utils/markets/findMarketId';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -60,8 +62,22 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   const user = firebase.auth().currentUser;
   const email = user?.email;
 
-  const { storeBiometrics, useBiometrics, markets } = useContext(LoginContext);
-  const [selectedMarket, setSelectedMarket] = useState('us');
+  const {
+    storeBiometrics,
+    useBiometrics,
+    markets,
+    userProfile,
+    updateProfile,
+    refetchProfile,
+    userMarket,
+  } = useContext(LoginContext);
+
+  const [selectedMarket, setSelectedMarket] = useState(
+    userMarket?.countryCode ?? 'us',
+  );
+
+  const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
+
   // we need to restructure the markets from the database into a structure that fits the dropdown picker
   const reshapedItems = markets?.map((item) => ({
     key: item?.countryId,
@@ -115,6 +131,42 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
     }
   }, [useBiometrics]);
 
+  const defaultCountryId = findMarketId(selectedMarket, markets);
+
+  const variables = {
+    associateId: userProfile?.associateId,
+    profileUrl: userProfile?.profileUrl,
+    profileImageFileName: userProfile?.profileImageFileName,
+    firstName: userProfile?.firstName,
+    lastName: userProfile?.lastName,
+    displayName: userProfile?.displayName,
+    emailAddress: userProfile?.emailAddress,
+    primaryPhoneNumber: userProfile?.primaryPhoneNumber,
+    address1: userProfile?.address?.address1,
+    address2: userProfile?.address?.address2,
+    city: userProfile?.address?.city,
+    state: userProfile?.address?.state,
+    zip: userProfile?.address?.zip,
+    countryCode: userProfile?.address?.countryCode,
+    defaultCountry: defaultCountryId,
+  };
+
+  const onSaveDefaultMarket = () => {
+    updateProfile({
+      variables: variables,
+      onCompleted: (data) => {
+        console.log(`data`, data);
+        refetchProfile();
+      },
+      onError: (error) => console.log(`error`, error),
+    });
+  };
+
+  const onSubmit = () => {
+    onSaveDefaultMarket();
+    setIsSettingsModalOpen(false);
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -155,7 +207,15 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     </HeaderButtonContainer>
                     <H3>{Localized('Settings').toUpperCase()}</H3>
                     <HeaderButtonContainer>
-                      <View />
+                      {isSaveButtonVisisble ? (
+                        <TouchableOpacity
+                          testID="settings-save-button"
+                          onPress={onSubmit}>
+                          <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
+                        </TouchableOpacity>
+                      ) : (
+                        <View />
+                      )}
                     </HeaderButtonContainer>
                   </Header>
 
@@ -191,7 +251,10 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                       <Picker
                         items={reshapedItems}
                         value={selectedMarket}
-                        onValueChange={(value) => setSelectedMarket(value)}
+                        onValueChange={(value) => {
+                          setSelectedMarket(value);
+                          setIsSaveButtonVisisble(true);
+                        }}
                         placeholder={{}}
                       />
                     </View>

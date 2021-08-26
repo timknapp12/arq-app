@@ -58,6 +58,7 @@ export const GET_PROFILE = gql`
       associateType
       languageCode
       associateStatus
+      defaultCountry
       country {
         countryId
         countryCode

@@ -39,8 +39,9 @@ const FlagIcon = styled.Image`
 `;
 
 const NewsScreen = ({ navigation }) => {
-  const { userMarket, theme } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
   const {
+    userMarket,
     markets,
     setMarketId,
     loadingNews,
@@ -48,15 +49,22 @@ const NewsScreen = ({ navigation }) => {
     setDisplayNotifications,
     refetchProspectsNotifications = () => {},
   } = useContext(LoginContext);
+
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
-  const [selectedMarket, setSelectedMarket] = useState(userMarket.countryCode);
+  const [selectedMarket, setSelectedMarket] = useState('');
   const initialMarketUrl = markets?.[0]?.pictureUrl ?? '';
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
+
+  useEffect(() => {
+    if (userMarket) {
+      setSelectedMarket(userMarket.countryCode);
+    }
+  }, [userMarket]);
 
   useEffect(() => {
     if (selectedMarket && markets) {
