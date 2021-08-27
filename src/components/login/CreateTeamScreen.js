@@ -31,7 +31,7 @@ const CreateTeamScreen = ({ navigation }) => {
       if (data.newTeamAccess === false) {
         return setErrorMessage(
           Localized(
-            'Sorry that team name has already been used - Please try another name',
+            'Sorry that team name or access code has already been used - Please try again',
           ),
         );
       } else {

@@ -51,7 +51,7 @@ const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
           onPress={() => setSelectedAsset(item)}
           key={item?.linkId}
           label={contentTypeMap[item?.contentType]}
-          isSelected={item?.linkTitle === selectedAsset.linkTitle}
+          isSelected={item?.linkId === selectedAsset.linkId}
         />
       ))}
       <CalloutButton onPress={() => onPress(selectedAsset)}>

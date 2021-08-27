@@ -43,7 +43,8 @@ const UploadAssetModal = ({
   searchTerm,
 }) => {
   initLanguage();
-  const { theme } = useContext(AppContext);
+  const { theme, deviceLanguage } = useContext(AppContext);
+  console.log(`deviceLanguage`, deviceLanguage);
   const [title, setTitle] = useState(assetTitle);
   const [description, setDescription] = useState(assetDescription);
   const [contentType, setContentType] = useState(assetContentType);
@@ -150,7 +151,11 @@ const UploadAssetModal = ({
       { query: GET_ASSETS, variables: { folderId } },
       searchTerm !== null && {
         query: SEARCH_RESOURCES,
-        variables: { teams: selectedTeamName, searchList: searchTerm },
+        variables: {
+          teams: selectedTeamName,
+          searchList: searchTerm,
+          // language: deviceLanguage,
+        },
       },
     ],
     options: {

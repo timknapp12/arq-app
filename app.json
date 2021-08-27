@@ -2,7 +2,8 @@
   "expo": {
     "name": "q-connect-pro-staging",
     "slug": "q-connect-pro-staging",
-    "version": "0.0.19",
+    "version": "0.0.20",
+    "owner": "qsiholdingcompanyinc",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "q-connect-pro-staging",
@@ -24,13 +25,13 @@
         }
       },
       "usesAppleSignIn": true,
-      "buildNumber": "0.0.19",
+      "buildNumber": "0.0.20",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
         "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID for authentication",
-        "NSCameraUsageDescription": "Allowing access lets you take a picture for display in your profile.",
-        "NSPhotoLibraryUsageDescription": "Allowing access lets you select a picture for display in your profile.",
+        "NSCameraUsageDescription": "Allowing access lets you take a picture for display in your profile",
+        "NSPhotoLibraryUsageDescription": "Allowing access lets you select a picture for display in your profile",
         "CFBundleAllowMixedLocalizations": true
       },
       "requireFullScreen": true,

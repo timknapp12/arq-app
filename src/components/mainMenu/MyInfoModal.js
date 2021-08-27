@@ -86,7 +86,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // const scrollViewRef = useRef();
+  const scrollViewRef = useRef();
 
   const {
     legacyAssociateId,
@@ -301,7 +301,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
             style={{ flex: 1, width: '100%' }}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
             <ScrollView
-              // ref={scrollViewRef}
+              ref={scrollViewRef}
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 24 }}
               keyboardShouldPersistTaps="always">
@@ -611,7 +611,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   </Flexbox>
                   {/* <Flexbox height="200px">
                     <TextArea
-                      label="Bio"
+                      label={Localized('Bio')}
                       numberOfLines={8}
                       onFocus={() =>
                         scrollViewRef.current.scrollToEnd({ animated: true })

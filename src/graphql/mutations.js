@@ -85,6 +85,7 @@ export const UPDATE_USER = gql`
     $state: String
     $zip: String
     $countryCode: String
+    $defaultCountry: Int
   ) {
     updateAssociate(
       input: {
@@ -102,6 +103,7 @@ export const UPDATE_USER = gql`
         state: $state
         zip: $zip
         countryCode: $countryCode
+        defaultCountry: $defaultCountry
       }
     ) {
       associateId

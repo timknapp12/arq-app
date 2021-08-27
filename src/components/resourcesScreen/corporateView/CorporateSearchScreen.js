@@ -54,7 +54,11 @@ const CorporateSearchScreen = ({ route, navigation }) => {
       (value) =>
         value.length > 0 &&
         searchResources({
-          variables: { countries: marketId, searchList: value },
+          variables: {
+            countries: marketId,
+            searchList: value,
+            // language: deviceLanguage,
+          },
         }),
       1000,
     ),

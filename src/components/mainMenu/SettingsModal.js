@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -23,14 +23,18 @@ import {
   PrimaryButton,
   Switch,
   Subheader,
+  H4Heavy,
   H5Heavy,
   H3,
   H5,
   H5Secondary,
+  Picker,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 import config from '../../../app.json';
+import { findMarketId } from '../../utils/markets/findMarketId';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -54,10 +58,33 @@ const Divider = styled.View`
 
 const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   initLanguage();
-  const { storeBiometrics, useBiometrics, signOutOfFirebase } =
-    useContext(AppContext);
+  const { signOutOfFirebase } = useContext(AppContext);
   const user = firebase.auth().currentUser;
   const email = user?.email;
+
+  const {
+    storeBiometrics,
+    useBiometrics,
+    markets,
+    userProfile,
+    updateProfile,
+    refetchProfile,
+    userMarket,
+  } = useContext(LoginContext);
+
+  const [selectedMarket, setSelectedMarket] = useState(
+    userMarket?.countryCode ?? 'us',
+  );
+
+  const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
+
+  // we need to restructure the markets from the database into a structure that fits the dropdown picker
+  const reshapedItems = markets?.map((item) => ({
+    key: item?.countryId,
+    id: item?.countryId,
+    label: item?.countryName,
+    value: item?.countryCode,
+  }));
 
   const navigation = useNavigation();
   const signOut = () => {
@@ -85,11 +112,16 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
         throw new Error(Localized('No Faces / Fingers found'));
       }
       storeBiometrics(true);
-      // Authenticate user
-      // the authenticate method below is used in LoginScreen.js
-      // await LocalAuthentication.authenticateAsync();
     } catch (error) {
-      Alert.alert(Localized('An error as occured'), error?.message);
+      Alert.alert(Localized('An error has occured'), error?.message);
+    }
+  };
+
+  const onFaceIDChange = () => {
+    storeBiometrics(!useBiometrics);
+    if (!useBiometrics && Platform.OS === 'ios') {
+      // the authenticate method below is used in LoginScreen.js, but here it is just used to trigger the permissions dialogue for FaceID for iOS
+      LocalAuthentication.authenticateAsync();
     }
   };
 
@@ -98,6 +130,42 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
       onFaceID();
     }
   }, [useBiometrics]);
+
+  const defaultCountryId = findMarketId(selectedMarket, markets);
+
+  const variables = {
+    associateId: userProfile?.associateId,
+    profileUrl: userProfile?.profileUrl,
+    profileImageFileName: userProfile?.profileImageFileName,
+    firstName: userProfile?.firstName,
+    lastName: userProfile?.lastName,
+    displayName: userProfile?.displayName,
+    emailAddress: userProfile?.emailAddress,
+    primaryPhoneNumber: userProfile?.primaryPhoneNumber,
+    address1: userProfile?.address?.address1,
+    address2: userProfile?.address?.address2,
+    city: userProfile?.address?.city,
+    state: userProfile?.address?.state,
+    zip: userProfile?.address?.zip,
+    countryCode: userProfile?.address?.countryCode,
+    defaultCountry: defaultCountryId,
+  };
+
+  const onSaveDefaultMarket = () => {
+    updateProfile({
+      variables: variables,
+      onCompleted: (data) => {
+        console.log(`data`, data);
+        refetchProfile();
+      },
+      onError: (error) => console.log(`error`, error),
+    });
+  };
+
+  const onSubmit = () => {
+    onSaveDefaultMarket();
+    setIsSettingsModalOpen(false);
+  };
 
   return (
     <Modal
@@ -139,7 +207,15 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     </HeaderButtonContainer>
                     <H3>{Localized('Settings').toUpperCase()}</H3>
                     <HeaderButtonContainer>
-                      <View />
+                      {isSaveButtonVisisble ? (
+                        <TouchableOpacity
+                          testID="settings-save-button"
+                          onPress={onSubmit}>
+                          <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
+                        </TouchableOpacity>
+                      ) : (
+                        <View />
+                      )}
                     </HeaderButtonContainer>
                   </Header>
 
@@ -163,9 +239,25 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                       <Switch
                         testID="biometrics-switch"
                         value={useBiometrics}
-                        onValueChange={() => storeBiometrics(!useBiometrics)}
+                        onValueChange={onFaceIDChange}
                       />
                     </RowContainer>
+                    <View
+                      style={{
+                        paddingRight: 8,
+                        paddingLeft: 8,
+                        width: '100%',
+                      }}>
+                      <Picker
+                        items={reshapedItems}
+                        value={selectedMarket}
+                        onValueChange={(value) => {
+                          setSelectedMarket(value);
+                          setIsSaveButtonVisisble(true);
+                        }}
+                        placeholder={{}}
+                      />
+                    </View>
                   </Flexbox>
                 </Flexbox>
 

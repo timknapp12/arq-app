@@ -5,15 +5,11 @@ import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase';
 import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Facebook from 'expo-facebook';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
 import { useMutation } from '@apollo/client';
 import { Alert, Platform, View, Linking } from 'react-native';
-import {
-  Flexbox,
-  PrimaryButton,
-  AlertText,
-  H4Secondary,
-  H5Secondary,
-} from '../common';
+import { Flexbox, PrimaryButton, AlertText, H4Secondary } from '../common';
 import QLogoScreen from './QLogoScreenContainer';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 import SocialSignIn from './loginScreen/SocialSignIn';
@@ -28,7 +24,6 @@ import { Localized } from '../../translations/Localized';
 import { facebookAppId, facebookDisplayName } from '../../../firebase.config';
 import { LOGIN_USER } from '../../graphql/mutations';
 import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
-import config from '../../../app.json';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -182,6 +177,51 @@ const CreateAccountScreen = ({ navigation }) => {
     }
   };
 
+  // login with apple
+  // https://medium.com/nerd-for-tech/apple-google-authentication-in-expo-apps-using-firebase-997125440032
+  // https://docs.expo.dev/versions/latest/sdk/apple-authentication/
+  const signInWithApple = () => {
+    const nonce = Math.random().toString(36).substring(2, 10);
+
+    return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, nonce)
+      .then((hashedNonce) =>
+        AppleAuthentication.signInAsync({
+          requestedScopes: [
+            AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+            AppleAuthentication.AppleAuthenticationScope.EMAIL,
+          ],
+          nonce: hashedNonce,
+        }),
+      )
+      .then((appleCredential) => {
+        const { identityToken } = appleCredential;
+        const provider = new firebase.auth.OAuthProvider('apple.com');
+        const credential = provider.credential({
+          idToken: identityToken,
+          rawNonce: nonce,
+        });
+        // Successful sign in is handled by firebase.auth().onAuthStateChanged
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then((userCredential) => {
+            var user = userCredential.user;
+            user
+              .getIdToken(/* forceRefresh */ true)
+              .then(
+                (idToken) =>
+                  console.log(`idToken`, idToken) || setToken(idToken),
+              )
+              .then(() => loginUser())
+              .then(() => loginAnalytics('apple'))
+              .catch((error) => console.log(`error`, error));
+          });
+      })
+      .catch((error) => {
+        console.log(`error in apple login:`, error);
+      });
+  };
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -193,48 +233,52 @@ const CreateAccountScreen = ({ navigation }) => {
         paddingTop: Platform.OS === 'android' ? 20 : 60,
         backgroundColor: theme.backgroundColor,
       }}>
-      <QLogoScreen style={{ paddingTop: 50 }}>
-        <Flexbox
-          style={{ flex: 1, paddingTop: 20 }}
-          width="85%"
-          accessibilityLabel="Sign up Form">
-          <SocialSignIn
-            title={Localized('Sign up with')}
-            googleSignIn={signInWithGoogleAsync}
-            facebookSignIn={loginWithFacebook}
-          />
+      <QLogoScreen
+        accessibilityLabel="Sign up Form"
+        style={{
+          justifyContent: 'space-between',
+          height: '100%',
+          width: '85%',
+        }}>
+        <SocialSignIn
+          title={Localized('Sign up with')}
+          googleSignIn={signInWithGoogleAsync}
+          facebookSignIn={loginWithFacebook}
+          signInWithApple={signInWithApple}
+        />
 
-          <Flexbox direction="row">
-            <DividerLine />
-            <H4Secondary>{Localized('or use your email')}</H4Secondary>
-            <DividerLine />
-          </Flexbox>
+        <Flexbox direction="row">
+          <DividerLine />
+          <H4Secondary>{Localized('or use your email')}</H4Secondary>
+          <DividerLine />
+        </Flexbox>
 
-          <Flexbox>
-            <EmailForm createAccount onSubmit={onSubmit} />
-            {errorMessage ? (
-              <View style={{ height: 36 }}>
-                <AlertText
-                  style={{
-                    textAlign: 'center',
-                  }}>
-                  {errorMessage}
-                </AlertText>
-              </View>
-            ) : (
-              <View style={{ height: 36 }} />
-            )}
-          </Flexbox>
+        <Flexbox>
+          <EmailForm createAccount onSubmit={onSubmit} />
+          {errorMessage ? (
+            <View style={{ height: 36 }}>
+              <AlertText
+                style={{
+                  textAlign: 'center',
+                }}>
+                {errorMessage}
+              </AlertText>
+            </View>
+          ) : (
+            <View style={{ height: 36 }} />
+          )}
+        </Flexbox>
 
-          <Flexbox width="85%">
-            <PrimaryButton
-              testID="sign-up-button"
-              disabled={isButtonDisabled}
-              onPress={onSubmit}>
-              {Localized('Sign Up').toUpperCase()}
-            </PrimaryButton>
-          </Flexbox>
+        <Flexbox width="85%">
+          <PrimaryButton
+            testID="sign-up-button"
+            disabled={isButtonDisabled}
+            onPress={onSubmit}>
+            {Localized('Sign Up').toUpperCase()}
+          </PrimaryButton>
+        </Flexbox>
 
+        <Flexbox width="85%">
           <CreateAccountAndForgotPassword
             screen="create account"
             navigateToScreen={() => navigation.navigate('Login Screen')}
@@ -242,18 +286,17 @@ const CreateAccountScreen = ({ navigation }) => {
               navigation.navigate('Password Recovery Screen')
             }
           />
-
-          <FindOutMore onPress={onFindOutMore} />
-
-          <TermsAndPrivacy navigation={navigation} />
-
-          <ErrorModal
-            visible={isErrorModalOpen}
-            onClose={() => setIsErrorModalOpen(false)}
-            errorMessage={errorMessage}
-          />
         </Flexbox>
-        <H5Secondary>{`ARQ Version: ${config.expo.version}`}</H5Secondary>
+
+        <FindOutMore onPress={onFindOutMore} />
+
+        <TermsAndPrivacy navigation={navigation} />
+
+        <ErrorModal
+          visible={isErrorModalOpen}
+          onClose={() => setIsErrorModalOpen(false)}
+          errorMessage={errorMessage}
+        />
       </QLogoScreen>
     </Flexbox>
   );

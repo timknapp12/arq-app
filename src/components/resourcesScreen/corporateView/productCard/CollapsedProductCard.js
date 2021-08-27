@@ -32,6 +32,7 @@ const CollapsedProductCard = ({
   onShare,
   onDownload,
   onSend,
+  onLeadCapture,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -124,6 +125,7 @@ const CollapsedProductCard = ({
           onShare={onShare}
           onDownload={onDownload}
           onSend={onSend}
+          onLeadCapture={onLeadCapture}
         />
       )}
     </Container>
@@ -144,6 +146,7 @@ CollapsedProductCard.propTypes = {
   onShare: PropTypes.func,
   onDownload: PropTypes.func,
   onSend: PropTypes.func,
+  onLeadCapture: PropTypes.func,
 };
 
 export default CollapsedProductCard;

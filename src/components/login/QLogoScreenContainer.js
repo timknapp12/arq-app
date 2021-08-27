@@ -10,15 +10,10 @@ const QLogoScreenContainer = ({ children, ...props }) => {
       <ScreenContainer
         style={{
           justifyContent: 'flex-start',
-          padding: 20,
-          paddingTop: 0,
           height: '100%',
         }}
         {...props}>
-        <Image
-          style={{ marginBottom: 24, height: 108, width: 160 }}
-          source={logo}
-        />
+        <Image style={{ height: 108, width: 160 }} source={logo} />
         {children}
       </ScreenContainer>
     </TouchableWithoutFeedback>

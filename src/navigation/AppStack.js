@@ -22,7 +22,7 @@ const AppStack = () => {
   const signOut = async () => {
     await getToken(setToken);
     await setIsFirstAppLoad(true);
-    navigation.navigate('Login Screen');
+    navigation.navigate('Login Screen', { resetLogin: true });
   };
 
   const onUserActivity = (isActive) => {

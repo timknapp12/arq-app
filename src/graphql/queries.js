@@ -58,6 +58,7 @@ export const GET_PROFILE = gql`
       associateType
       languageCode
       associateStatus
+      defaultCountry
       country {
         countryId
         countryCode
@@ -101,8 +102,14 @@ export const GET_MARKETS = gql`
 `;
 
 export const GET_CORPORATE_RESOURCES = gql`
-  query CorporateResoures($countries: [Int!]) {
-    corporateResources(countries: $countries, order: { displayOrder: ASC }) {
+  query CorporateResoures(
+    $countries: [Int!] # $languageCode: String
+  ) {
+    corporateResources(
+      countries: $countries
+      # languageCode: $languageCode
+      order: { displayOrder: ASC }
+    ) {
       folderName
       folderId
       isWideLayout
@@ -148,12 +155,12 @@ export const SEARCH_RESOURCES = gql`
   query SearchResources(
     $countries: [Int!]
     $teams: [String!]
-    $searchList: [String!]
+    $searchList: [String!] # $language: String
   ) {
     searchResources(
       countries: $countries
       teams: $teams
-      searchList: $searchList
+      searchList: $searchList # language: $language
     ) {
       productFolders {
         folderId
@@ -244,6 +251,7 @@ export const GET_PROSPECTS_BY_FIRSTNAME = gql`
       displayName
       emailAddress
       primaryPhone
+      notes
       address {
         address1
         address2
@@ -269,6 +277,7 @@ export const GET_PROSPECTS_BY_LASTNAME = gql`
       displayName
       emailAddress
       primaryPhone
+      notes
       address {
         address1
         address2
@@ -282,10 +291,15 @@ export const GET_PROSPECTS_BY_LASTNAME = gql`
 `;
 
 export const GET_NEWS = gql`
-  query NewsResources($associateId: Int!, $countries: [Int!]) {
+  query NewsResources(
+    $associateId: Int!
+    $countries: [Int!]
+    $languageCode: String
+  ) {
     newsResources(
       associateId: $associateId
       countries: $countries
+      languageCode: $languageCode
       order: { displayOrder: ASC }
     ) {
       folderId

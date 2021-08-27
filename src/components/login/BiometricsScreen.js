@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from '@apollo/client';
 import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { Flexbox, PrimaryButton, H4, Checkbox } from '../common';
@@ -8,9 +9,13 @@ import TouchIDIcon from '../../../assets/icons/touch-id.svg';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
+import LoadingScreen from '../loadingScreen/LoadingScreen';
+import { GET_USERS_ACCESS_CODES } from '../../graphql/queries';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, storeBiometrics, hasPermissions } = useContext(AppContext);
+  const { theme, hasPermissions, associateId } = useContext(AppContext);
+  const { storeBiometrics } = useContext(LoginContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
@@ -20,6 +25,14 @@ const BiometricsScreen = ({ navigation }) => {
   useEffect(() => {
     Keyboard.dismiss();
   }, []);
+
+  const { loading, data } = useQuery(GET_USERS_ACCESS_CODES, {
+    variables: { associateId },
+  });
+
+  const alreadyHasTeam = data?.accesses.some(
+    (team) => team?.teamOwnerAssociateId === associateId,
+  );
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
   // https://docs.expo.io/versions/latest/sdk/local-authentication/
@@ -40,11 +53,8 @@ const BiometricsScreen = ({ navigation }) => {
         setEnableBiometrics(false);
         throw new Error(Localized('No Faces / Fingers found'));
       }
-      // Authenticate user
-      // the authenticate method below is used in LoginScreen.js
-      // await LocalAuthentication.authenticateAsync();
     } catch (error) {
-      Alert.alert(Localized('An error as occured'), error?.message);
+      Alert.alert(Localized('An error has occured'), error?.message);
     }
   };
 
@@ -62,14 +72,22 @@ const BiometricsScreen = ({ navigation }) => {
     }
   }, [enableBiometrics]);
   // TODO - find out from backend the highest rank and navigate to next screen accordingly
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    if (enableBiometrics && Platform.OS === 'ios') {
+      // the authenticate method below is used in LoginScreen.js, but here it is just used to trigger the permissions dialogue for FaceID for iOS
+      await LocalAuthentication.authenticateAsync();
+    }
     // this sets the biometrics in App.js at the root of the project
     storeBiometrics(enableBiometrics);
-    // if the user has ever been ruby or above then they can create a team name, otherwise we don't let them go to that screen
-    hasPermissions
+    // if the user has ever been ruby or above AND if they have not already created a team then they can create a team, otherwise we don't let them go to that screen
+    hasPermissions && !alreadyHasTeam
       ? navigation.navigate('Create Team Screen')
       : navigation.navigate('App Stack');
   };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <QLogoScreenContainer>

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import {
@@ -12,12 +13,12 @@ import {
   GET_PROSPECT_NOTIFICATIONS,
 } from '../../graphql/queries';
 import { UPDATE_USER } from '../../graphql/mutations';
-import { findMarketId } from '../../utils/markets/findMarketId';
+import { findMarketId, findMarketCode } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
 
 const InitialDataContainer = ({ children }) => {
-  const { associateId, legacyId, setHasPermissions, userMarket } =
+  const { associateId, legacyId, setHasPermissions, deviceLanguage } =
     useContext(AppContext);
 
   const [email, setEmail] = useState('');
@@ -39,6 +40,32 @@ const InitialDataContainer = ({ children }) => {
     setConfirmPassword('');
     setErrorMessage('');
   };
+  const [useBiometrics, setUseBiometrics] = useState(false);
+
+  const storeBiometrics = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@biometrics', jsonValue);
+      return setUseBiometrics(value);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+
+  const getBiometrics = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@biometrics');
+      const parsedValue = jsonValue != null ? JSON.parse(jsonValue) : null;
+      // if there is nothing saved in storage then set to false
+      return setUseBiometrics(parsedValue ? parsedValue : false);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  };
+  const [userMarket, setUserMarket] = useState({
+    countryId: 88,
+    countryCode: 'us',
+  });
 
   const { data: ranksData } = useQuery(GET_RANKS);
 
@@ -83,7 +110,11 @@ const InitialDataContainer = ({ children }) => {
     data: newsData,
     refetch: refetchNews,
   } = useQuery(GET_NEWS, {
-    variables: { associateId, countries: marketId },
+    variables: {
+      associateId,
+      countries: marketId,
+      languageCode: deviceLanguage,
+    },
   });
 
   const news = newsData?.newsResources ?? [];
@@ -129,6 +160,20 @@ const InitialDataContainer = ({ children }) => {
     }
   }, [associateId]);
 
+  // set user market
+  useEffect(() => {
+    if (marketsData?.activeCountries && profileData?.associates?.[0]) {
+      const defaultCountryId =
+        profileData?.associates?.[0]?.defaultCountry ?? 88;
+      const defaultCountryCode =
+        findMarketCode(defaultCountryId, marketsData?.activeCountries) || 'us';
+      setUserMarket({
+        countryId: defaultCountryId,
+        countryCode: defaultCountryCode,
+      });
+    }
+  }, [marketsData?.activeCountries, profileData?.associates?.[0]]);
+
   return (
     <LoginContext.Provider
       value={{
@@ -143,8 +188,12 @@ const InitialDataContainer = ({ children }) => {
         directScaleUser,
         setDirectScaleUser,
         isFirstAppLoad,
+        useBiometrics,
+        storeBiometrics,
+        getBiometrics,
         setIsFirstAppLoad,
         clearFields,
+        userMarket,
         ranks: ranksData?.ranks,
         markets: marketsData?.activeCountries,
         user: userData?.treeNodeFor,

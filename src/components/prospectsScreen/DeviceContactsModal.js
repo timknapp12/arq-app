@@ -71,6 +71,7 @@ const DeviceContactsModal = ({
             </TouchableOpacity>
             <Flexbox height="50px" direction="row">
               <Input
+                style={{ width: '100%' }}
                 value={searchTerm}
                 onChangeText={(text) => setSearchTerm(text)}
               />

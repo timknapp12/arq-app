@@ -10,8 +10,8 @@ const CreateAccountAndForgotPassword = ({
   screen,
 }) => {
   return (
-    <Flexbox width="85%" justify="flex-start">
-      <Flexbox height="30px" direction="row">
+    <>
+      <Flexbox style={{ marginBottom: 5 }} direction="row">
         <H6>{Localized('Forgot your password?')}</H6>
         <TouchableOpacity
           onPress={navigateToPasswordRecovery}
@@ -20,7 +20,7 @@ const CreateAccountAndForgotPassword = ({
         </TouchableOpacity>
       </Flexbox>
 
-      <Flexbox height="30px" direction="row">
+      <Flexbox direction="row">
         <H6>
           {Localized(
             screen === 'create account'
@@ -36,7 +36,7 @@ const CreateAccountAndForgotPassword = ({
           </Link>
         </TouchableOpacity>
       </Flexbox>
-    </Flexbox>
+    </>
   );
 };
 

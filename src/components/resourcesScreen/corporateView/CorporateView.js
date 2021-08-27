@@ -27,25 +27,32 @@ const FlagIcon = styled.Image`
 `;
 
 const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
-  const {
-    userMarket,
-    // we might need device language for translations
-    // deviceLanguage,
-  } = useContext(AppContext);
-  const { markets } = useContext(LoginContext);
+  const { deviceLanguage } = useContext(AppContext);
+  console.log(`deviceLanguage`, deviceLanguage);
+  const { userMarket, markets } = useContext(LoginContext);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
 
-  const [selectedMarket, setSelectedMarket] = useState(userMarket.countryCode);
+  const [selectedMarket, setSelectedMarket] = useState('');
   const initialMarketUrl = markets?.[0]?.pictureUrl ?? '';
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
-  const [marketId, setMarketId] = useState(userMarket.countryId);
+  const [marketId, setMarketId] = useState(null);
 
   const { data } = useQuery(GET_CORPORATE_RESOURCES, {
-    variables: { countries: marketId },
+    variables: {
+      countries: marketId,
+      // languageCode: deviceLanguage
+    },
   });
+
+  useEffect(() => {
+    if (userMarket) {
+      setSelectedMarket(userMarket.countryCode);
+      setMarketId(userMarket.countryId);
+    }
+  }, [userMarket]);
 
   useEffect(() => {
     if (selectedMarket && markets) {
