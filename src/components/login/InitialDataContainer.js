@@ -13,18 +13,13 @@ import {
   GET_PROSPECT_NOTIFICATIONS,
 } from '../../graphql/queries';
 import { UPDATE_USER } from '../../graphql/mutations';
-import { findMarketId } from '../../utils/markets/findMarketId';
+import { findMarketId, findMarketCode } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
 
 const InitialDataContainer = ({ children }) => {
-  const {
-    associateId,
-    legacyId,
-    setHasPermissions,
-    userMarket,
-    deviceLanguage,
-  } = useContext(AppContext);
+  const { associateId, legacyId, setHasPermissions, deviceLanguage } =
+    useContext(AppContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -67,6 +62,10 @@ const InitialDataContainer = ({ children }) => {
       console.log(`error`, error);
     }
   };
+  const [userMarket, setUserMarket] = useState({
+    countryId: 88,
+    countryCode: 'us',
+  });
 
   const { data: ranksData } = useQuery(GET_RANKS);
 
@@ -161,6 +160,20 @@ const InitialDataContainer = ({ children }) => {
     }
   }, [associateId]);
 
+  // set user market
+  useEffect(() => {
+    if (marketsData?.activeCountries && profileData?.associates?.[0]) {
+      const defaultCountryId =
+        profileData?.associates?.[0]?.defaultCountry ?? 88;
+      const defaultCountryCode =
+        findMarketCode(defaultCountryId, marketsData?.activeCountries) || 'us';
+      setUserMarket({
+        countryId: defaultCountryId,
+        countryCode: defaultCountryCode,
+      });
+    }
+  }, [marketsData?.activeCountries, profileData?.associates?.[0]]);
+
   return (
     <LoginContext.Provider
       value={{
@@ -180,6 +193,7 @@ const InitialDataContainer = ({ children }) => {
         getBiometrics,
         setIsFirstAppLoad,
         clearFields,
+        userMarket,
         ranks: ranksData?.ranks,
         markets: marketsData?.activeCountries,
         user: userData?.treeNodeFor,

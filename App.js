@@ -47,10 +47,6 @@ const App = () => {
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
   const [deviceLanguage, setDeviceLanguage] = useState('en');
-  const [userMarket, setUserMarket] = useState({
-    countryId: 88,
-    countryCode: 'us',
-  });
   const [token, setToken] = useState('');
 
   const signOutOfFirebase = () => {
@@ -111,8 +107,6 @@ const App = () => {
             legacyId,
             setLegacyId,
             deviceLanguage,
-            userMarket,
-            setUserMarket,
             token,
             setToken,
             signOutOfFirebase,
