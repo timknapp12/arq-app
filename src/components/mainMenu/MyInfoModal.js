@@ -20,7 +20,7 @@ import {
   CloseIcon,
   H5Heavy,
   AnimatedInput,
-  Picker,
+  // Picker,
   Subheader,
   Header,
   AlertText,
@@ -28,19 +28,19 @@ import {
   // TextArea,
 } from '../common';
 import { Localized, initLanguage } from '../../translations/Localized';
-import * as Localization from 'expo-localization';
+// import * as Localization from 'expo-localization';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from './ProfileImage';
 // source for files for different languages https://stefangabos.github.io/world_countries/
-import enCountries from '../../translations/countries/en-countries.json';
-import deCountries from '../../translations/countries/de-countries.json';
-import frCountries from '../../translations/countries/fr-countries.json';
-import esCountries from '../../translations/countries/es-countries.json';
-import jaCountries from '../../translations/countries/ja-countries.json';
-import noCountries from '../../translations/countries/no-countries.json';
-import itCountries from '../../translations/countries/it-countries.json';
+// import enCountries from '../../translations/countries/en-countries.json';
+// import deCountries from '../../translations/countries/de-countries.json';
+// import frCountries from '../../translations/countries/fr-countries.json';
+// import esCountries from '../../translations/countries/es-countries.json';
+// import jaCountries from '../../translations/countries/ja-countries.json';
+// import noCountries from '../../translations/countries/no-countries.json';
+// import itCountries from '../../translations/countries/it-countries.json';
 import usStates from '../../translations/countries/us-states.json';
 
 const HeaderButtonContainer = styled.View`
@@ -82,7 +82,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const [isCityError, setIsCityError] = useState(false);
   const [isStateError, setIsStateError] = useState(false);
   const [isZipcodeError, setIsZipcodeError] = useState(false);
-  const [isCountryError, setIsCountryError] = useState(false);
+  // const [isCountryError, setIsCountryError] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -186,15 +186,15 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       return true;
     }
   };
-  const validateCountry = () => {
-    if (!address?.countryCode) {
-      setIsCountryError(true);
-      return false;
-    } else {
-      setIsCountryError(false);
-      return true;
-    }
-  };
+  // const validateCountry = () => {
+  //   if (!address?.countryCode) {
+  //     setIsCountryError(true);
+  //     return false;
+  //   } else {
+  //     setIsCountryError(false);
+  //     return true;
+  //   }
+  // };
 
   const validateAllFields = () => {
     if (
@@ -206,8 +206,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       !validateAddress1() ||
       !validateCity() ||
       !validateState() ||
-      !validateZipcode() ||
-      !validateCountry()
+      !validateZipcode()
+      // || !validateCountry()
     ) {
       return false;
     } else {
@@ -258,19 +258,19 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
 
-  let localeLanguageTag = Localization.locale.substring(0, 2);
-  let countryList = enCountries;
-  const countryMap = {
-    de: deCountries,
-    en: enCountries,
-    fr: frCountries,
-    ja: jaCountries,
-    es: esCountries,
-    no: noCountries,
-    nb: noCountries,
-    it: itCountries,
-  };
-  countryList = countryMap[localeLanguageTag] || enCountries;
+  // let localeLanguageTag = Localization.locale.substring(0, 2);
+  // let countryList = enCountries;
+  // const countryMap = {
+  //   de: deCountries,
+  //   en: enCountries,
+  //   fr: frCountries,
+  //   ja: jaCountries,
+  //   es: esCountries,
+  //   no: noCountries,
+  //   nb: noCountries,
+  //   it: itCountries,
+  // };
+  // countryList = countryMap[localeLanguageTag] || enCountries;
 
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
@@ -375,6 +375,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                             : null
                         }
                         onBlur={validateFirstName}
+                        editable={false}
                       />
                       <AnimatedInput
                         testID="last-name-input"
@@ -393,6 +394,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                             : null
                         }
                         onBlur={validateLastName}
+                        editable={false}
                       />
                     </Flexbox>
                   </NameContainer>
@@ -413,6 +415,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         : null
                     }
                     onBlur={validateDisplayName}
+                    editable={false}
                   />
                   <AnimatedInput
                     testID="email-input"
@@ -433,6 +436,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         : null
                     }
                     onBlur={validateEmail}
+                    editable={false}
                   />
                   <AnimatedInput
                     testID="phone-number-input"
@@ -450,6 +454,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       isPhoneError ? Localized('This field is required') : null
                     }
                     onBlur={validatePhone}
+                    editable={false}
                   />
                   <AnimatedInput
                     testID="ambassador-id-input"
@@ -479,6 +484,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         : null
                     }
                     onBlur={validateAddress1}
+                    editable={false}
                   />
                   <AnimatedInput
                     testID="address-2-input"
@@ -490,6 +496,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     }}
                     returnKeyType="done"
                     textContentType="streetAddressLine2"
+                    editable={false}
                   />
                   <AnimatedInput
                     testID="city-input"
@@ -506,6 +513,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       isCityError ? Localized('This field is required') : null
                     }
                     onBlur={validateCity}
+                    editable={false}
                   />
                   <Flexbox
                     direction="row"
@@ -515,7 +523,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       paddingTop: 4,
                       marginBottom: 4,
                     }}>
-                    {address?.countryCode === 'us' ? (
+                    {/* {address?.countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker
                           items={usStates}
@@ -537,26 +545,27 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                           validationError={isStateError}
                         />
                       </Flexbox>
-                    ) : (
-                      <Flexbox width="48%">
-                        <AnimatedInput
-                          testID="state-input"
-                          label={Localized('State')}
-                          value={address?.state}
-                          onChangeText={(text) => {
-                            handleChange('address', {
-                              ...address,
-                              state: text,
-                            });
-                            setIsSaveButtonVisisble(true);
-                          }}
-                          returnKeyType="done"
-                          textContentType="addressState"
-                          validationError={isStateError}
-                          onBlur={validateState}
-                        />
-                      </Flexbox>
-                    )}
+                    ) : ( */}
+                    <Flexbox width="48%">
+                      <AnimatedInput
+                        testID="state-input"
+                        label={Localized('State')}
+                        value={address?.state}
+                        onChangeText={(text) => {
+                          handleChange('address', {
+                            ...address,
+                            state: text,
+                          });
+                          setIsSaveButtonVisisble(true);
+                        }}
+                        returnKeyType="done"
+                        textContentType="addressState"
+                        validationError={isStateError}
+                        onBlur={validateState}
+                        editable={false}
+                      />
+                    </Flexbox>
+                    {/* // )} */}
                     <Flexbox width="48%">
                       <AnimatedInput
                         testID="zip-code-input"
@@ -571,6 +580,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         textContentType="postalCode"
                         validationError={isZipcodeError}
                         onBlur={validateZipcode}
+                        editable={false}
                       />
                     </Flexbox>
                   </Flexbox>
@@ -586,7 +596,13 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       </AlertText>
                     )}
                   </Flexbox>
-                  <Flexbox align="flex-start">
+                  <AnimatedInput
+                    testID="country-input"
+                    label={Localized('Country')}
+                    value={address?.countryCode}
+                    editable={false}
+                  />
+                  {/* <Flexbox align="flex-start">
                     <Picker
                       items={countryList}
                       label={Localized('Country')}
@@ -608,7 +624,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                         {Localized('This field is required')}
                       </AlertText>
                     )}
-                  </Flexbox>
+                  </Flexbox> */}
                   {/* <Flexbox height="200px">
                     <TextArea
                       label={Localized('Bio')}
