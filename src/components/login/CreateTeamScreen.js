@@ -70,7 +70,6 @@ const CreateTeamScreen = ({ navigation }) => {
         <Flexbox align="flex-start">
           <Input
             label={Localized('Team Name')}
-            autoFocus
             testID="create-team-name-onboarding-input"
             value={teamName}
             onChangeText={(text) => {
