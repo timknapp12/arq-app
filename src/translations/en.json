@@ -207,5 +207,8 @@
   "Bio": "Bio",
   "Notes": "Notes",
   "Default Market": "Default Market",
-  "Sorry that team name or access code has already been used - Please try again": "Sorry that team name or access code has already been used - Please try again"
+  "Sorry that team name or access code has already been used - Please try again": "Sorry that team name or access code has already been used - Please try again",
+  "verify account by entering password": "verify account by entering password",
+  "verify account by entering phone number": "verify account by entering phone number",
+  "verify account by entering email address": "verify account by entering email address"
 }
