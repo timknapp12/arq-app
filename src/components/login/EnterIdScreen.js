@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { Alert } from 'react-native';
+import { Alert, ActivityIndicator } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Flexbox, PrimaryButton, Input, AlertText } from '../common';
 import { DIRECT_SCALE_INFO } from '../../graphql/mutations';
@@ -12,12 +12,13 @@ import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
-  const { setToken, setAssociateId, setLegacyId } = useContext(AppContext);
+  const { setToken, setAssociateId, setLegacyId, theme } =
+    useContext(AppContext);
   const { setDirectScaleUser } = useContext(LoginContext);
   const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [getDirectScaleInfo] = useMutation(DIRECT_SCALE_INFO, {
+  const [getDirectScaleInfo, { loading }] = useMutation(DIRECT_SCALE_INFO, {
     variables: { ambassadorOnly: true, userName: username },
     onCompleted: (data) => {
       const status = data?.directScaleInfo?.status;
@@ -51,38 +52,46 @@ const EnterIdScreen = ({ navigation }) => {
 
   return (
     <QLogoScreenContainer>
-      <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
-        <Flexbox width="100%" align="flex-start">
-          <Input
-            label={Localized('Back Office Username')}
-            autoFocus
-            testID="enter-username-input"
-            value={username}
-            onChangeText={(text) => {
-              setErrorMessage('');
-              setUsername(text);
-            }}
-            textContentType="nickname"
-            returnKeyType="go"
-            onSubmitEditing={onSubmit}
-          />
-          {errorMessage ? (
-            <Flexbox>
-              <AlertText
-                style={{
-                  textAlign: 'center',
-                }}>
-                {errorMessage}
-              </AlertText>
-            </Flexbox>
-          ) : null}
+      {loading ? (
+        <ActivityIndicator
+          style={{ marginTop: 80 }}
+          size="large"
+          color={theme.disabledBackgroundColor}
+        />
+      ) : (
+        <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
+          <Flexbox width="100%" align="flex-start">
+            <Input
+              label={Localized('Back Office Username')}
+              autoFocus
+              testID="enter-username-input"
+              value={username}
+              onChangeText={(text) => {
+                setErrorMessage('');
+                setUsername(text);
+              }}
+              textContentType="nickname"
+              returnKeyType="go"
+              onSubmitEditing={onSubmit}
+            />
+            {errorMessage ? (
+              <Flexbox>
+                <AlertText
+                  style={{
+                    textAlign: 'center',
+                  }}>
+                  {errorMessage}
+                </AlertText>
+              </Flexbox>
+            ) : null}
+          </Flexbox>
+          <Flexbox width="85%" height="60px">
+            <PrimaryButton disabled={!username} onPress={onSubmit}>
+              {Localized('Continue').toUpperCase()}
+            </PrimaryButton>
+          </Flexbox>
         </Flexbox>
-        <Flexbox width="85%" height="60px">
-          <PrimaryButton disabled={!username} onPress={onSubmit}>
-            {Localized('Continue').toUpperCase()}
-          </PrimaryButton>
-        </Flexbox>
-      </Flexbox>
+      )}
     </QLogoScreenContainer>
   );
 };
