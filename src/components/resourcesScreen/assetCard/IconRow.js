@@ -63,7 +63,7 @@ const IconRow = ({
           />
         </TouchableOpacity>
       )} */}
-      {contentType !== 'video' && (
+      {contentType !== 'video' && contentType !== 'podcast' && (
         <TouchableOpacity onPress={onDownload}>
           <DownloadIcon style={iconStyle} />
         </TouchableOpacity>

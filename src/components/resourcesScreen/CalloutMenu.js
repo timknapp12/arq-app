@@ -99,7 +99,7 @@ const CalloutMenu = ({
           </Row>
         </CalloutButton>
       )} */}
-      {contentType !== 'video' && (
+      {contentType !== 'video' && contentType !== 'podcast' && (
         <CalloutButton
           onPress={() => {
             onDownload();
