@@ -179,7 +179,7 @@
   "Send verification code to phone number": "Send verification code to phone number",
   "Message failed to send - Please check your info and try again": "Message failed to send - Please check your info and try again",
   "Resend code": "Resend code",
-  "The access code may have expired - Please get a new code try again": "The access code may have expired - Please get a new code try again",
+  "The access code may have expired - Please get a new code and try again": "The access code may have expired - Please get a new code and try again",
   "Sorry that team name has already been used - Please try another name": "Sorry that team name has already been used - Please try another name",
   "Add a file from your device": "Add a file from your device",
   "Enter a url": "Enter a url",
@@ -210,5 +210,7 @@
   "Sorry that team name or access code has already been used - Please try again": "Sorry that team name or access code has already been used - Please try again",
   "verify account by entering password": "verify account by entering password",
   "verify account by entering phone number": "verify account by entering phone number",
-  "verify account by entering email address": "verify account by entering email address"
+  "verify account by entering email address": "verify account by entering email address",
+  "Show More": "Show More",
+  "Show Less": "Show Less"
 }

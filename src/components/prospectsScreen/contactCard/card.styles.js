@@ -77,5 +77,5 @@ export const ExpandedImageDefault = styled(CollapsedImageDefault)`
 `;
 
 export const Gap = styled.View`
-  height: 4px;
+  height: 6px;
 `;

@@ -22,13 +22,12 @@ export const handleLoginUser = (
           signOutOfFirebase();
         }
       } else {
-        // The first screen in App Stack is the dashboard screen
+        // send the user to the first screen in App Stack, which is the dashboard screen
         navigation.navigate('App Stack');
       }
       break;
     case 'VERIFICATION_NEEDED':
       navigation.navigate('Enter Id Screen');
-      // navigation.navigate('App Stack');
       break;
     case 'NOT_AN_AMBASSADOR':
       // send to a screen that gives more info an becoming an ambassador
@@ -121,9 +120,9 @@ export const handleLoginValidationProcess = (
 ) => {
   switch (status) {
     case 'VERIFICATION_COMPLETE':
-      //  send to dashboard screen
+      //  send to biometrics screen
       setErrorMessage('');
-      navigation.navigate('App Stack');
+      navigation.navigate('Biometrics Screen');
       break;
     case 'MESSAGE_SENT':
       // send to verification code screen
@@ -160,7 +159,7 @@ export const handleConfirmAccessCode = (
       // give error that token can not be found
       setErrorMessage(
         Localized(
-          'The access code may have expired - Please get a new code try again',
+          'The access code may have expired - Please get a new code and try again',
         ),
       );
       break;

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { H2Book, H4Book, H6, Flexbox } from '../../common';
+import { H2Book, H4Book, H6, Flexbox, Link } from '../../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
@@ -19,6 +19,8 @@ import {
   Gap,
   IconRow,
 } from './card.styles';
+import ReadMore from 'react-native-read-more-text';
+import { Localized } from '../../../translations/Localized';
 
 const ExpandedContactCard = ({
   isCalloutOpenFromParent,
@@ -41,6 +43,7 @@ const ExpandedContactCard = ({
     primaryPhone = '',
     emailAddress = '',
     address,
+    notes,
   } = data;
 
   const largeIconStyle = {
@@ -53,6 +56,18 @@ const ExpandedContactCard = ({
     height: 36,
     width: 36,
     marginStart: 8,
+  };
+
+  const renderTruncatedFooter = (handlePress) => {
+    return (
+      <Link onPress={handlePress}>{Localized('Show More').toUpperCase()}</Link>
+    );
+  };
+
+  const renderRevealedFooter = (handlePress) => {
+    return (
+      <Link onPress={handlePress}>{Localized('Show Less').toUpperCase()}</Link>
+    );
   };
 
   return (
@@ -93,16 +108,40 @@ const ExpandedContactCard = ({
               ) : null}
             </Row>
             <H4Book>{`${firstName} ${lastName}`}</H4Book>
-            <Gap />
-            {primaryPhone ? <H6>{primaryPhone}</H6> : null}
-            <Gap />
-            {emailAddress ? <H6>{emailAddress}</H6> : null}
-            <Gap />
-            {address?.address1 ? <H6>{address?.address1}</H6> : null}
+            {primaryPhone ? (
+              <>
+                <Gap />
+                <H6>{primaryPhone}</H6>
+              </>
+            ) : null}
+            {emailAddress ? (
+              <>
+                <Gap />
+                <H6>{emailAddress}</H6>
+              </>
+            ) : null}
+            {address?.address1 ? (
+              <>
+                <Gap />
+                <H6>{address?.address1}</H6>
+              </>
+            ) : null}
             {address?.address2 ? <H6>{address?.address2}</H6> : null}
             <H6>{`${address?.city ?? ''} ${address?.state ?? ''} ${
               address?.zip ?? ''
             }`}</H6>
+            {notes ? (
+              <>
+                <Gap />
+                <Gap />
+                <ReadMore
+                  numberOfLines={3}
+                  renderTruncatedFooter={renderTruncatedFooter}
+                  renderRevealedFooter={renderRevealedFooter}>
+                  <H6>{notes}</H6>
+                </ReadMore>
+              </>
+            ) : null}
           </Stack>
         </TouchableOpacity>
 

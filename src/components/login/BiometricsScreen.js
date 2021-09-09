@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
-import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
 import { Flexbox, PrimaryButton, H4, Checkbox } from '../common';
 import FaceIDIcon from '../../../assets/icons/face-id.svg';
 import TouchIDIcon from '../../../assets/icons/touch-id.svg';
@@ -71,7 +71,7 @@ const BiometricsScreen = ({ navigation }) => {
       onFaceID();
     }
   }, [enableBiometrics]);
-  // TODO - find out from backend the highest rank and navigate to next screen accordingly
+
   const onSubmit = async () => {
     if (enableBiometrics && Platform.OS === 'ios') {
       // the authenticate method below is used in LoginScreen.js, but here it is just used to trigger the permissions dialogue for FaceID for iOS

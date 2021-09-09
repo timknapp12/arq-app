@@ -47,7 +47,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [selectedOption, setSelectedOption] = useState('password');
+  const [selectedOption, setSelectedOption] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   const passwordRef = useRef(null);
@@ -114,7 +114,9 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    refMap[selectedOption].current.focus();
+    if (selectedOption) {
+      refMap[selectedOption].current.focus();
+    }
   }, [selectedOption]);
 
   const onSubmit = async () => {
