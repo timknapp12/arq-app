@@ -51,7 +51,6 @@ const DashboardScreen = ({ navigation }) => {
     },
     ranks = [],
     setDisplayNotifications,
-    refetchProspectsNotifications = () => {},
   } = useContext(LoginContext);
 
   const isFocused = useIsFocused();
@@ -61,7 +60,6 @@ const DashboardScreen = ({ navigation }) => {
         screen: 'Dashboard Screen',
         purpose: 'User navigated to Dashboard Screen',
       });
-      refetchProspectsNotifications();
     }
     return () => {
       closeMenus();
@@ -113,7 +111,6 @@ const DashboardScreen = ({ navigation }) => {
       screen: 'Dashboard Screen',
       purpose: `See details for ${item?.name}`,
     });
-    refetchProspectsNotifications();
   };
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);

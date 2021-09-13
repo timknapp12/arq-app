@@ -27,8 +27,7 @@ import LoginContext from '../../contexts/LoginContext';
 const ResourcesScreen = ({ navigation }) => {
   initLanguage();
   const { hasPermissions } = useContext(AppContext);
-  const { setDisplayNotifications, refetchProspectsNotifications = () => {} } =
-    useContext(LoginContext);
+  const { setDisplayNotifications } = useContext(LoginContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -36,7 +35,6 @@ const ResourcesScreen = ({ navigation }) => {
         screen: 'Resources Screen',
         purpose: 'User iond to Resources Screen',
       });
-      refetchProspectsNotifications();
     }
     return () => {
       closeMenus();
@@ -124,7 +122,6 @@ const ResourcesScreen = ({ navigation }) => {
       screen: 'ResourcesScreen',
       purpose: `See details for ${item?.name}`,
     });
-    refetchProspectsNotifications();
   };
 
   return (
