@@ -85,7 +85,7 @@ const CorporateSearchScreen = ({ route, navigation }) => {
           visible={isToastVisible}
           progress={toastProgress}
         />
-        <Flexbox padding={4} width="85%">
+        <Flexbox style={{ marginTop: 18 }} padding={4} width="85%">
           <Input
             autoFocus
             testID="corporate-search-input"
