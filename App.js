@@ -8,7 +8,10 @@ import {
   HttpLink,
   ApolloLink,
   concat,
+  split,
 } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import fetch from 'cross-fetch';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
@@ -63,12 +66,33 @@ const App = () => {
   }, [initLanguage]);
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
+  // const uri = 'https://qservicesapi.azurewebsites.net/graphql'
+  // const uri = 'https://qservicesapi-staging.azurewebsites.net/graphql';
+  const uri = 'https://qservicesapi-dev.azurewebsites.net/graphql';
+
   const httpLink = new HttpLink({
-    // uri: 'https://qservicesapi.azurewebsites.net/graphql',
-    uri: 'https://qservicesapi-staging.azurewebsites.net/graphql',
-    // uri: 'https://qservicesapi-dev.azurewebsites.net/graphql',
+    uri: uri,
     fetch,
   });
+
+  const wsLink = new WebSocketLink({
+    uri: uri,
+    options: {
+      reconnect: true,
+    },
+  });
+
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      );
+    },
+    wsLink,
+    httpLink,
+  );
 
   const authMiddleware = new ApolloLink((operation, forward) => {
     operation.setContext(({ headers = {} }) => ({
@@ -89,7 +113,7 @@ const App = () => {
         Prospect: { keyFields: ['prospectId'] },
       },
     }),
-    link: concat(authMiddleware, httpLink),
+    link: concat(authMiddleware, splitLink),
   });
 
   if (!loaded) {
