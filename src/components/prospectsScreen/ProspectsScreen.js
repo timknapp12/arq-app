@@ -85,6 +85,7 @@ const ProspectsScreen = ({ navigation, route }) => {
     GET_PROSPECTS_BY_LASTNAME,
     {
       variables: { associateId },
+      fetchPolicy: 'cache-and-network',
     },
   );
 
@@ -93,6 +94,7 @@ const ProspectsScreen = ({ navigation, route }) => {
     { loading: loadingByFirstName, data: dataByFistName },
   ] = useLazyQuery(GET_PROSPECTS_BY_FIRSTNAME, {
     variables: { associateId },
+    fetchPolicy: 'cache-and-network',
   });
 
   useEffect(() => {
