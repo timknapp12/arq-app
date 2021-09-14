@@ -300,44 +300,43 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
           <KeyboardAvoidingView
             style={{ flex: 1, width: '100%' }}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            <Header>
+              <HeaderButtonContainer>
+                <TouchableOpacity
+                  style={{
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                  }}
+                  testID="my-info-close-modal-button"
+                  onPress={() => setIsMyInfoModalOpen(false)}>
+                  <CloseIcon />
+                </TouchableOpacity>
+              </HeaderButtonContainer>
+              <H3>{Localized('My Info').toUpperCase()}</H3>
+              <HeaderButtonContainer>
+                {isSaveButtonVisisble ? (
+                  <TouchableOpacity
+                    testID="my-info-save-button"
+                    onPress={onSubmit}>
+                    {loading ? (
+                      <ActivityIndicator
+                        color={theme.disabledBackgroundColor}
+                      />
+                    ) : (
+                      <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
+                    )}
+                  </TouchableOpacity>
+                ) : (
+                  <View />
+                )}
+              </HeaderButtonContainer>
+            </Header>
             <ScrollView
               ref={scrollViewRef}
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 24 }}
               keyboardShouldPersistTaps="always">
               <Flexbox justify="flex-start" height="100%">
-                <Header>
-                  <HeaderButtonContainer>
-                    <TouchableOpacity
-                      style={{
-                        paddingTop: 8,
-                        paddingBottom: 8,
-                      }}
-                      testID="my-info-close-modal-button"
-                      onPress={() => setIsMyInfoModalOpen(false)}>
-                      <CloseIcon />
-                    </TouchableOpacity>
-                  </HeaderButtonContainer>
-                  <H3>{Localized('My Info').toUpperCase()}</H3>
-                  <HeaderButtonContainer>
-                    {isSaveButtonVisisble ? (
-                      <TouchableOpacity
-                        testID="my-info-save-button"
-                        onPress={onSubmit}>
-                        {loading ? (
-                          <ActivityIndicator
-                            color={theme.disabledBackgroundColor}
-                          />
-                        ) : (
-                          <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
-                        )}
-                      </TouchableOpacity>
-                    ) : (
-                      <View />
-                    )}
-                  </HeaderButtonContainer>
-                </Header>
-
                 <Subheader justify="center">
                   <H5Heavy>{Localized('Contact Information')}</H5Heavy>
                 </Subheader>
