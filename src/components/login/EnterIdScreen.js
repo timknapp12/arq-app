@@ -41,7 +41,9 @@ const EnterIdScreen = ({ navigation }) => {
   const onSubmit = async () => {
     await getToken(setToken);
     if (!username) {
-      return Alert.alert(Localized('Please enter your back office username'));
+      return Alert.alert(
+        Localized('Please enter your back office username or id'),
+      );
     }
     // TODO - set real logic for handling errors
     if (username === 'Error') {
