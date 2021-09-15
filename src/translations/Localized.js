@@ -5,7 +5,6 @@ import { I18nManager } from 'react-native';
 // source https://dev.to/vikrantnegi/creating-a-multi-language-app-in-react-native-1joj
 // or https://www.instamobile.io/mobile-development/react-native-localization/
 
-// TODO - android might use "no" as the code for Norwegian, need to confirm
 const languageCodes = {
   english: 'en',
   spanish: 'es',
@@ -15,6 +14,8 @@ const languageCodes = {
   norwegian: 'nb',
   german: 'de',
   italian: 'it',
+  czech: 'cs',
+  dutch: 'nl',
 };
 //TODO - may have to add Localization.getLocalizationAsync() for Android to reset locale https://docs.expo.io/versions/latest/sdk/localization/
 export const translationGetters = {

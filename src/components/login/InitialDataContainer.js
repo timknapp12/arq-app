@@ -71,6 +71,7 @@ const InitialDataContainer = ({ children }) => {
       console.log(`error`, error);
     }
   };
+
   const [userMarket, setUserMarket] = useState({
     countryId: 88,
     countryCode: 'us',
