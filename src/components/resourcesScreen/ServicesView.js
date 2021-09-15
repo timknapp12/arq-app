@@ -6,7 +6,7 @@ import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
 import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
 import AppContext from '../../contexts/AppContext';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 
 const Card = styled.View`
   width: 100%;
@@ -21,7 +21,6 @@ const Row = styled.View`
 `;
 
 const ServicesView = ({ closeMenus }) => {
-  initLanguage();
   const { theme } = useContext(AppContext);
   return (
     <MainScrollView>

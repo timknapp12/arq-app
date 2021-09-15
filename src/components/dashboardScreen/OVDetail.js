@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { H4, Flexbox, QualifiedIcon, NotQualifiedIcon } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
 import {
@@ -20,7 +20,6 @@ const TitleContainer = styled.View`
 `;
 
 const OVDetail = ({ ranklist, closeMenus, user }) => {
-  initLanguage();
   const initialRankName = user?.rank.name;
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.rank;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Modal, View, TouchableOpacity, Alert } from 'react-native';
 import { H4, Picker, ScreenContainer, H5Heavy, Flexbox } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 
 const Container = styled.View`
   height: 40%;
@@ -21,7 +21,6 @@ const MarketModal = ({
   value,
   onValueChange,
 }) => {
-  initLanguage();
   const ref = useRef(value);
   const closeModal = () => {
     if (!value) {

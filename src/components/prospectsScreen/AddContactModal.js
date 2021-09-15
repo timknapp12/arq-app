@@ -27,7 +27,7 @@ import {
   H3,
   TextArea,
 } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
 import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
@@ -81,7 +81,6 @@ const AddContactModal = ({
     },
   },
 }) => {
-  initLanguage();
   const { theme, associateId } = useContext(AppContext);
   const { addUpdateProspect } = useContext(ProspectsContext);
 

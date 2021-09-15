@@ -13,7 +13,7 @@ import { Platform, Linking, Alert, View } from 'react-native';
 import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
-import { Localized, initLanguage } from '../../../translations/Localized';
+import { Localized } from '../../../translations/Localized';
 import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import QLogoScreen from '../QLogoScreenContainer';
 import EmailForm from './EmailForm';
@@ -44,7 +44,6 @@ const LoginScreen = ({
   navigation,
   route = { params: { resetLogin: false } },
 }) => {
-  initLanguage();
   const {
     theme,
     token,

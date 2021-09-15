@@ -9,7 +9,7 @@ import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
 import AppContext from '../../../contexts/AppContext';
-import { Localized, initLanguage } from '../../../translations/Localized';
+import { Localized } from '../../../translations/Localized';
 
 const Container = styled.View`
   background-color: ${(props) => props.theme.cardBackgroundColor};
@@ -39,7 +39,6 @@ const ContactCalloutMenu = ({
   sendText,
   ...props
 }) => {
-  initLanguage();
   const { theme } = useContext(AppContext);
 
   const iconStyle = {

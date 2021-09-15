@@ -17,7 +17,7 @@ import EditModal from '../../editModal/EditModal';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import * as ImagePicker from 'expo-image-picker';
-import { Localized, initLanguage } from '../../../translations/Localized';
+import { Localized } from '../../../translations/Localized';
 import { ADD_UPDATE_FOLDER } from '../../../graphql/mutations';
 import { GET_TEAM_RESOURCES } from '../../../graphql/queries';
 import { saveFileToFirebase } from '../../../utils/firebase/saveFileToFirebase';
@@ -50,7 +50,6 @@ const AddFolderModal = ({
   folderUrl = '',
   folderIsWideLayout = false,
 }) => {
-  initLanguage();
   const { theme, associateId } = useContext(AppContext);
   const { userProfile } = useContext(LoginContext);
   const [title, setTitle] = useState(folderTitle);

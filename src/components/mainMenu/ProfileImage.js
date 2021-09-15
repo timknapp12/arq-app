@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { CameraIcon, GalleryIcon } from '../common';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 
 const ImageContainer = styled.View`
   height: 72px;
@@ -57,7 +57,6 @@ const ProfileImage = ({
   initials = '',
   setIsNewImageSelected,
 }) => {
-  initLanguage();
   const [hasPermission, setHasPermission] = useState(null);
   // permissions for camera
   useEffect(() => {

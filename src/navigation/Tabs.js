@@ -9,7 +9,7 @@ import AppContext from '../contexts/AppContext';
 import LoginContext from '../contexts/LoginContext';
 import * as Analytics from 'expo-firebase-analytics';
 import storybook from '../../assets/icons/storybook.png';
-import { Localized, initLanguage } from '../translations/Localized';
+import { Localized } from '../translations/Localized';
 import StorybookUI from '../../storybook';
 import { ResourcesIcon, DashboardIcon, NewsIcon } from '../components/common';
 
@@ -27,7 +27,6 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   const [showStorybook] = useState(true);
-  initLanguage();
   const { theme } = useContext(AppContext);
   const { newsNotificationCount } = useContext(LoginContext);
   return (

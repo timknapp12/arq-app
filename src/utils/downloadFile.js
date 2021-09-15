@@ -2,7 +2,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
-import { Localized, initLanguage } from '../translations/Localized';
+import { Localized } from '../translations/Localized';
 
 // if the file is an image then the app needs permission to access the photos on the device
 const getMediaLibraryPermissions = async () => {
@@ -15,7 +15,6 @@ export const downloadFile = async (
   contentType,
   setToastInfo,
 ) => {
-  initLanguage();
   // The callback function runs as the download is in progress
   let progress;
   const callback = (downloadProgress) => {

@@ -9,7 +9,7 @@ import UploadIcon from '../../../assets/icons/upload-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { H6, H4Book, Flexbox } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import AddFolderModal from './teamView/AddFolderModal';
 import UploadAssetModal from './teamView/UploadAssetModal';
 import {
@@ -42,7 +42,6 @@ const ResourceCard = ({
   setIsNavDisabled = () => {},
   ...props
 }) => {
-  initLanguage();
   const { theme } = useContext(AppContext);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
