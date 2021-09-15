@@ -60,13 +60,13 @@ const ExpandedContactCard = ({
 
   const renderTruncatedFooter = (handlePress) => {
     return (
-      <Link onPress={handlePress}>{Localized('Show More').toUpperCase()}</Link>
+      <Link onPress={handlePress}>{Localized('show more').toUpperCase()}</Link>
     );
   };
 
   const renderRevealedFooter = (handlePress) => {
     return (
-      <Link onPress={handlePress}>{Localized('Show Less').toUpperCase()}</Link>
+      <Link onPress={handlePress}>{Localized('show less').toUpperCase()}</Link>
     );
   };
 

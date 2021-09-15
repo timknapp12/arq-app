@@ -36,7 +36,9 @@ const TeamSearchScreen = ({ route, navigation }) => {
     setToastProgress(progress);
   };
 
-  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES);
+  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES, {
+    fetchPolicy: 'cache-and-network',
+  });
 
   const debounceSearch = useCallback(
     debounce(
@@ -76,7 +78,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
           visible={isToastVisible}
           progress={toastProgress}
         />
-        <Flexbox width="85%">
+        <Flexbox style={{ marginTop: 18 }} padding={4} width="85%">
           <Input
             autoFocus
             testID="team-search-input"

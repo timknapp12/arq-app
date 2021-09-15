@@ -1,6 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import {
+  useQuery,
+  useLazyQuery,
+  useMutation,
+  useSubscription,
+} from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
@@ -13,16 +18,18 @@ import {
   GET_PROSPECT_NOTIFICATIONS,
 } from '../../graphql/queries';
 import { UPDATE_USER } from '../../graphql/mutations';
+import { PROSPECT_VIEWED_LINK_NOTIFICATION } from '../../graphql/subscriptions';
 import { findMarketId, findMarketCode } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
+import { mergeNotificationSubcription } from '../../utils/notifications/mergeNotificationSubcription';
 
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, setHasPermissions, deviceLanguage } =
     useContext(AppContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('tim@test.com');
+  const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [directScaleUser, setDirectScaleUser] = useState({
@@ -34,6 +41,8 @@ const InitialDataContainer = ({ children }) => {
 
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
   const [displayNotifications, setDisplayNotifications] = useState(false);
+  const [prospectNotifications, setProspectNotifications] = useState([]);
+
   const clearFields = () => {
     setEmail('');
     setPassword('');
@@ -62,6 +71,7 @@ const InitialDataContainer = ({ children }) => {
       console.log(`error`, error);
     }
   };
+
   const [userMarket, setUserMarket] = useState({
     countryId: 88,
     countryCode: 'us',
@@ -135,19 +145,45 @@ const InitialDataContainer = ({ children }) => {
       loading: loadingProspectNotifications,
       data: prospectNotificationData,
       refetch: refetchProspectsNotifications,
+      // subscribeToMore,
     },
   ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
     variables: { associateId },
     onError: (error) =>
       console.log(`error in getProspectNotifications:`, error),
+    // pollInterval: 1000 * 3,
   });
+
+  const { data: subscriptionData } = useSubscription(
+    PROSPECT_VIEWED_LINK_NOTIFICATION,
+    {
+      variables: { associateId },
+    },
+  );
 
   useEffect(() => {
     const count = calculateNewProspectNotifications(
       prospectNotificationData?.prospectViewsByAssociate,
     );
     setProspectNotificationCount(count);
+    setProspectNotifications(
+      prospectNotificationData?.prospectViewsByAssociate,
+    );
   }, [prospectNotificationData]);
+
+  useEffect(() => {
+    if (subscriptionData) {
+      const updatedNotificationsList = mergeNotificationSubcription(
+        prospectNotifications,
+        subscriptionData?.subscribeToProspectViews,
+      );
+      setProspectNotificationCount(updatedNotificationsList);
+      setProspectNotifications(updatedNotificationsList);
+
+      const count = calculateNewProspectNotifications(updatedNotificationsList);
+      setProspectNotificationCount(count);
+    }
+  }, [subscriptionData]);
 
   useEffect(() => {
     getUser();
@@ -209,8 +245,8 @@ const InitialDataContainer = ({ children }) => {
         displayNotifications,
         setDisplayNotifications,
         loadingProspectNotifications,
-        prospectNotifications:
-          prospectNotificationData?.prospectViewsByAssociate,
+        prospectNotifications: prospectNotifications,
+        // prospectNotificationData?.prospectViewsByAssociate,
         refetchProspectsNotifications,
         prospectNotificationCount,
         setProspectNotificationCount,

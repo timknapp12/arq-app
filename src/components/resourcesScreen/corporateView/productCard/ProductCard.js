@@ -138,7 +138,7 @@ const ProductCard = ({
     });
   };
 
-  // This function will automatically sned to prospects if there is only one item, and open the popup to select an asset if there are multiple items
+  // This function will automatically send to prospects if there is only one item, and open the popup to select an asset if there are multiple items
   const onSend = async () => {
     if (assetList.length === 1) {
       return sendSingleItem(assetList?.[0]);
@@ -199,6 +199,8 @@ const ProductCard = ({
   };
 
   const onAction = async (item) => {
+    setIsMultiAssetMenuOpen(false);
+    setIsCalloutOpenFromParent(false);
     if (multiAssetMenuTitle === Localized('Share')) {
       return shareSingleUrl(item?.linkUrl);
     }

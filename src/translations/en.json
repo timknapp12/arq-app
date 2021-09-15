@@ -211,6 +211,7 @@
   "verify account by entering password": "verify account by entering password",
   "verify account by entering phone number": "verify account by entering phone number",
   "verify account by entering email address": "verify account by entering email address",
-  "Show More": "Show More",
-  "Show Less": "Show Less"
+  "show more": "show more",
+  "show less": "show less",
+  "Please enter your back office username or id": "Please enter your back office username or id"
 }

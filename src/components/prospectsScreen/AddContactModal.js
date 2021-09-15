@@ -242,52 +242,51 @@ const AddContactModal = ({
           <KeyboardAvoidingView
             style={{ flex: 1, width: '100%' }}
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            <Header>
+              <HeaderButtonContainer>
+                <TouchableOpacity
+                  style={{
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                  }}
+                  testID="add-contact-info-close-modal-button"
+                  onPress={onClose}>
+                  <CloseIcon />
+                </TouchableOpacity>
+              </HeaderButtonContainer>
+              <H3>
+                {newContact
+                  ? Localized('Add Prospect').toUpperCase()
+                  : Localized('Edit Prospect').toUpperCase()}
+              </H3>
+              <HeaderButtonContainer style={{ alignItems: 'flex-end' }}>
+                {isSaveButtonVisisble ? (
+                  <TouchableOpacity
+                    testID="add-contact-info-save-button"
+                    onPress={onSubmit}>
+                    {loading ? (
+                      <ActivityIndicator
+                        color={theme.disabledBackgroundColor}
+                      />
+                    ) : (
+                      <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
+                    )}
+                  </TouchableOpacity>
+                ) : newContact ? (
+                  <TouchableOpacity onPress={getDeviceContacts}>
+                    <H4Heavy>{Localized('import').toUpperCase()}</H4Heavy>
+                  </TouchableOpacity>
+                ) : (
+                  <View />
+                )}
+              </HeaderButtonContainer>
+            </Header>
             <ScrollView
               ref={scrollViewRef}
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 4 }}
               keyboardShouldPersistTaps="always">
               <Flexbox justify="flex-start" height="100%">
-                <Header>
-                  <HeaderButtonContainer>
-                    <TouchableOpacity
-                      style={{
-                        paddingTop: 8,
-                        paddingBottom: 8,
-                      }}
-                      testID="add-contact-info-close-modal-button"
-                      onPress={onClose}>
-                      <CloseIcon />
-                    </TouchableOpacity>
-                  </HeaderButtonContainer>
-                  <H3>
-                    {newContact
-                      ? Localized('Add Prospect').toUpperCase()
-                      : Localized('Edit Prospect').toUpperCase()}
-                  </H3>
-                  <HeaderButtonContainer style={{ alignItems: 'flex-end' }}>
-                    {isSaveButtonVisisble ? (
-                      <TouchableOpacity
-                        testID="add-contact-info-save-button"
-                        onPress={onSubmit}>
-                        {loading ? (
-                          <ActivityIndicator
-                            color={theme.disabledBackgroundColor}
-                          />
-                        ) : (
-                          <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
-                        )}
-                      </TouchableOpacity>
-                    ) : newContact ? (
-                      <TouchableOpacity onPress={getDeviceContacts}>
-                        <H4Heavy>{Localized('import').toUpperCase()}</H4Heavy>
-                      </TouchableOpacity>
-                    ) : (
-                      <View />
-                    )}
-                  </HeaderButtonContainer>
-                </Header>
-
                 <Subheader justify="center">
                   <H5Heavy>{Localized('Contact Information')}</H5Heavy>
                 </Subheader>

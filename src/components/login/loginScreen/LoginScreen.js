@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase';
 import * as GoogleSignIn from 'expo-google-sign-in';
@@ -21,7 +22,10 @@ import SocialSignIn from './SocialSignIn';
 import FindOutMore from './FindOutMore';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import ErrorModal from '../../errorModal/ErrorModal';
-import { checkIfUserIsLoggedIn } from '../../../utils/firebase/login';
+import {
+  checkIfUserIsLoggedIn,
+  checkForToken,
+} from '../../../utils/firebase/login';
 import {
   facebookAppId,
   facebookDisplayName,
@@ -41,8 +45,14 @@ const LoginScreen = ({
   route = { params: { resetLogin: false } },
 }) => {
   initLanguage();
-  const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
-    useContext(AppContext);
+  const {
+    theme,
+    token,
+    setToken,
+    setAssociateId,
+    setLegacyId,
+    signOutOfFirebase,
+  } = useContext(AppContext);
   const {
     email,
     password,
@@ -58,6 +68,41 @@ const LoginScreen = ({
   // app starts in loading state
   const [isLoading, setIsLoading] = useState(true);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
+  // if it is the first time to ever use the app, send user to SIGN UP screen
+  const [isFirstTimeUseEver, setIsFirstTimeUseEver] = useState(false);
+  const storeFirstTimeUseEver = async () => {
+    try {
+      const jsonValue = JSON.stringify(false);
+      await AsyncStorage.setItem('@first_time', jsonValue);
+    } catch (e) {
+      console.log(`error in storing first time use`, e);
+    }
+  };
+
+  const getFirstTimeUseEver = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@first_time');
+      const result = jsonValue != null ? JSON.parse(jsonValue) : true;
+      return setIsFirstTimeUseEver(result);
+    } catch (e) {
+      console.log(`error in getting first time use`, e);
+    }
+  };
+
+  useEffect(() => {
+    checkForToken(setToken);
+    getFirstTimeUseEver();
+  }, []);
+  // if isFirstTimeUseEver is true and the user has no token, then it should mean that the user has not created an account with firebase on the current device, so we send the user to create account screen
+  useEffect(() => {
+    if (isFirstTimeUseEver && !token) {
+      navigation.navigate('Create Account Screen');
+    }
+    return () => {
+      storeFirstTimeUseEver();
+    };
+  }, [isFirstTimeUseEver, token]);
 
   const [loginUser, { loading: loadingLoginUser }] = useMutation(LOGIN_USER, {
     variables: { ambassadorOnly: true },

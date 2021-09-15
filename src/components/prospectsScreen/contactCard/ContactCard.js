@@ -154,21 +154,23 @@ const ContactCard = ({
   });
 
   const sendEmail = async () => {
-    setMessageType('email');
+    await setMessageType('email');
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
     } else {
       onEmail(emailAddress);
     }
+    setIsCalloutOpenFromParent(false);
   };
 
   const sendText = async () => {
-    setMessageType('text');
+    await setMessageType('text');
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
     } else {
       onMessage(primaryPhone);
     }
+    setIsCalloutOpenFromParent(false);
   };
 
   if (isExpanded) {
