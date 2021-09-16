@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { H4, H5, Flexbox } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
 import {
@@ -33,7 +33,6 @@ const Square = styled.View`
 `;
 
 const Rank = ({ ranklist, user, closeMenus }) => {
-  initLanguage();
   const { pv, qoV, pa, previousAmbassadorMonthlyRecord } = user;
 
   const lastMonthPV = previousAmbassadorMonthlyRecord?.personalVolume ?? 0;

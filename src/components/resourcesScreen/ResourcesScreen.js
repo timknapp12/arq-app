@@ -12,7 +12,7 @@ import {
   ButtonText,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
@@ -25,7 +25,6 @@ import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const ResourcesScreen = ({ navigation }) => {
-  initLanguage();
   const { hasPermissions } = useContext(AppContext);
   const { setDisplayNotifications } = useContext(LoginContext);
   const isFocused = useIsFocused();

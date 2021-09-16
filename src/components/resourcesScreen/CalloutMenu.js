@@ -14,7 +14,7 @@ import EditIcon from '../../../assets/icons/edit-icon.svg';
 import SendIcon from '../../../assets/icons/send-icon.svg';
 import LeadCaptureIcon from '../../../assets/icons/enrollment-icon.svg';
 import AppContext from '../../contexts/AppContext';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 
 const Container = styled.View`
   background-color: ${(props) => props.theme.cardBackgroundColor};
@@ -49,7 +49,6 @@ const CalloutMenu = ({
   onLeadCapture = () => {},
   ...props
 }) => {
-  initLanguage();
   const { theme } = useContext(AppContext);
   const iconStyle = {
     marginEnd: 8,

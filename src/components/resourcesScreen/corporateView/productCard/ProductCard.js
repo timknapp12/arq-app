@@ -11,7 +11,7 @@ import { downloadFile } from '../../../../utils/downloadFile';
 import { findProductImageUrl } from '../../../../utils/corporateResouces/findProductImageUrl';
 import { GET_PROSPECT_URL } from '../../../../graphql/mutations';
 import AppContext from '../../../../contexts/AppContext';
-import { Localized, initLanguage } from '../../../../translations/Localized';
+import { Localized } from '../../../../translations/Localized';
 
 const ProductCardContainer = styled.View`
   width: 100%;
@@ -29,7 +29,6 @@ const ProductCard = ({
   isFavorite,
   ...props
 }) => {
-  initLanguage();
   const { associateId } = useContext(AppContext);
 
   const [isExpanded, setIsExpanded] = useState(false);

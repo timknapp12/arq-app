@@ -27,7 +27,7 @@ import {
   H3,
   // TextArea,
 } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 // import * as Localization from 'expo-localization';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
@@ -58,7 +58,6 @@ const NameContainer = styled.View`
 `;
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
-  initLanguage();
   const { theme } = useContext(AppContext);
   const {
     updateProfile,

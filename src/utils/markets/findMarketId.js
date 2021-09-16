@@ -1,9 +1,17 @@
-export const findMarketId = (marketCode, array) => {
+export const findMarketId = (marketCode, array = []) => {
   const result = array.find((item) => item?.countryCode === marketCode);
-  return result.countryId;
+  if (result) {
+    return result.countryId;
+  } else {
+    return 88;
+  }
 };
 
 export const findMarketCode = (marketId, array = []) => {
   const result = array.find((item) => item?.countryId === marketId);
-  return result.countryCode;
+  if (result) {
+    return result.countryCode;
+  } else {
+    return 'us';
+  }
 };

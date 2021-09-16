@@ -16,7 +16,7 @@ import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
 import AppContext from '../../../contexts/AppContext';
 import { Filename, FileInput, FileUnderline, marginSize } from './modal.styles';
-import { Localized, initLanguage } from '../../../translations/Localized';
+import { Localized } from '../../../translations/Localized';
 import { ADD_UPDATE_ASSET } from '../../../graphql/mutations';
 import {
   GET_ASSETS,
@@ -42,7 +42,6 @@ const UploadAssetModal = ({
   // this is when user edits an asset from TeamSearchScreen.js
   searchTerm,
 }) => {
-  initLanguage();
   const { theme, deviceLanguage } = useContext(AppContext);
   console.log(`deviceLanguage`, deviceLanguage);
   const [title, setTitle] = useState(assetTitle);

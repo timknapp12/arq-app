@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Flexbox, H5Heavy } from '../common';
 import { Modal, Platform } from 'react-native';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 
 const Container = styled.View`
   width: 100%;
@@ -32,7 +32,6 @@ const EditModal = ({
   saveButtonDisabled,
   verticalOffset = 60,
 }) => {
-  initLanguage();
   return (
     <Modal
       animationType="fade"

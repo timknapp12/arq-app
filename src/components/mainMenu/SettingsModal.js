@@ -30,7 +30,7 @@ import {
   H5Secondary,
   Picker,
 } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import config from '../../../app.json';
@@ -57,7 +57,6 @@ const Divider = styled.View`
 `;
 
 const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
-  initLanguage();
   const { signOutOfFirebase } = useContext(AppContext);
   const user = firebase.auth().currentUser;
   const email = user?.email;

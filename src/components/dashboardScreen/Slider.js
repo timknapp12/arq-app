@@ -8,7 +8,7 @@ import {
   findRankObject,
   findRankIndex,
 } from '../../utils/findRankInSlider';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 
 const { width } = Dimensions.get('window');
 const sliderWidth = width - 40;
@@ -21,8 +21,6 @@ const Slider = ({
   ranklist,
   isQualified,
 }) => {
-  initLanguage();
-
   const maximumValue = ranklist.length - 1;
   const initialValue = findRankIndex(ranklist, rank.rankName);
   const [value, setValue] = useState(initialValue);

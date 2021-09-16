@@ -11,7 +11,7 @@ import {
   TopButtonBar,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import Overview from './Overview';
 import Rank from './Rank';
 import OVDetail from './OVDetail';
@@ -22,7 +22,6 @@ import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
 
 const DashboardScreen = ({ navigation }) => {
-  initLanguage();
   // set defaults for user so UI doesn't crash before real data loads
   const {
     user = {

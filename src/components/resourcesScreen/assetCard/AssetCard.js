@@ -18,7 +18,7 @@ import CalloutMenu from '../CalloutMenu';
 import IconRow from './IconRow';
 import UploadAssetModal from '../teamView/UploadAssetModal';
 import { downloadFile } from '../../../utils/downloadFile';
-import { Localized, initLanguage } from '../../../translations/Localized';
+import { Localized } from '../../../translations/Localized';
 import {
   AssetCardContainer,
   OuterContainer,
@@ -56,7 +56,6 @@ const AssetCard = ({
   isNavDisabled,
   ...props
 }) => {
-  initLanguage();
   const { theme, associateId } = useContext(AppContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);

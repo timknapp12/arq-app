@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import { H4, Flexbox, H4Secondary, H3 } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import Donut from './Donut';
 import {
   donut1primaryColor,
@@ -12,7 +12,6 @@ import {
 import LoginContext from '../../contexts/LoginContext';
 
 const Overview = ({ user, closeMenus }) => {
-  initLanguage();
   const { pv, totalOv, cv } = user;
   const { userProfile } = useContext(LoginContext);
   return (

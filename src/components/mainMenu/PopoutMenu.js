@@ -5,7 +5,7 @@ import { Animated } from 'react-native';
 // using the standard "TouchableOpacity" from react native didn't work on android with buttons inside a position: absolute view
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4Book } from '../common';
-import { Localized, initLanguage } from '../../translations/Localized';
+import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 
 const SideMenu = styled.View`
@@ -33,7 +33,6 @@ const PopoutMenu = ({
   setIsSettingsModalOpen,
   navigation,
 }) => {
-  initLanguage();
   const { signOutOfFirebase } = useContext(AppContext);
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
