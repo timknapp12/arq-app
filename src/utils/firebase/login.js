@@ -54,20 +54,6 @@ export const checkIfUserIsLoggedIn = async (
   });
 };
 
-export const checkForToken = (setToken) => {
-  firebase.auth().onAuthStateChanged((user) => {
-    console.log('AUTH STATE CHANGED CALLED ');
-    if (user) {
-      console.log('user exists ************       ********');
-      user.getIdToken().then(async (idToken) => {
-        setToken(idToken);
-      });
-    } else {
-      console.log('**********        user does NOT exist *********');
-    }
-  });
-};
-
 // expo with firebase https://docs.expo.io/guides/using-firebase/
 
 // https://console.cloud.google.com/apis/credentials?authuser=1&project=q-connect-pro-staging

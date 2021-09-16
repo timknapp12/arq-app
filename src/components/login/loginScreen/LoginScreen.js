@@ -22,10 +22,7 @@ import SocialSignIn from './SocialSignIn';
 import FindOutMore from './FindOutMore';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import ErrorModal from '../../errorModal/ErrorModal';
-import {
-  checkIfUserIsLoggedIn,
-  checkForToken,
-} from '../../../utils/firebase/login';
+import { checkIfUserIsLoggedIn } from '../../../utils/firebase/login';
 import {
   facebookAppId,
   facebookDisplayName,
@@ -44,14 +41,8 @@ const LoginScreen = ({
   navigation,
   route = { params: { resetLogin: false } },
 }) => {
-  const {
-    theme,
-    token,
-    setToken,
-    setAssociateId,
-    setLegacyId,
-    signOutOfFirebase,
-  } = useContext(AppContext);
+  const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
+    useContext(AppContext);
   const {
     email,
     password,
@@ -90,18 +81,26 @@ const LoginScreen = ({
   };
 
   useEffect(() => {
-    checkForToken(setToken);
     getFirstTimeUseEver();
   }, []);
-  // if isFirstTimeUseEver is true and the user has no token, then it should mean that the user has not created an account with firebase on the current device, so we send the user to create account screen
+  // if isFirstTimeUseEver is true and there is no current user, then it should mean that the user has not created an account with firebase on the current device, so we send the user to create account screen
   useEffect(() => {
-    if (isFirstTimeUseEver && !token) {
-      navigation.navigate('Create Account Screen');
+    if (isFirstTimeUseEver) {
+      let authFlag = true;
+      firebase.auth().onAuthStateChanged((user) => {
+        console.log('AUTH STATE CHANGED CALLED ');
+        if (authFlag) {
+          authFlag = false;
+          if (!user) {
+            navigation.navigate('Create Account Screen');
+          }
+        }
+      });
     }
     return () => {
       storeFirstTimeUseEver();
     };
-  }, [isFirstTimeUseEver, token]);
+  }, [isFirstTimeUseEver]);
 
   const [loginUser, { loading: loadingLoginUser }] = useMutation(LOGIN_USER, {
     variables: { ambassadorOnly: true },
@@ -134,6 +133,7 @@ const LoginScreen = ({
     },
   });
 
+  // if the user has biometrics enabled (stored in async storage), then sign in the user automatically
   useEffect(() => {
     const onAppLoad = async () => {
       await getBiometrics();

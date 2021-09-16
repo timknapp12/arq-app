@@ -17,7 +17,7 @@ const languageCodes = {
   czech: 'cs',
   dutch: 'nl',
 };
-//TODO - may have to add Localization.getLocalizationAsync() for Android to reset locale https://docs.expo.io/versions/latest/sdk/localization/
+
 export const translationGetters = {
   es: () => require('./es.json'),
   en: () => require('./en.json'),
@@ -27,7 +27,10 @@ export const translationGetters = {
   nb: () => require('./nb.json'),
   de: () => require('./de.json'),
   it: () => require('./it.json'),
+  cs: () => require('./cs.json'),
+  nl: () => require('./nl.json'),
 };
+
 export const Localized = memoize(
   (key, config) =>
     i18n.t(key, config).includes('missing') ? key : i18n.t(key, config),
@@ -41,7 +44,7 @@ const mapToCode = (languageTag) => {
     }
   }
 };
-export const initLanguage = () => {
+export const initLanguage = async () => {
   let localeLanguageTag = Localization.locale.substring(0, 2);
   const filteredTag = mapToCode(localeLanguageTag) || 'en';
   let isRTL = Localization.isRTL;
