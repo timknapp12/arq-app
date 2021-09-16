@@ -62,7 +62,11 @@ const App = () => {
   };
 
   useEffect(() => {
-    setDeviceLanguage(initLanguage());
+    const getLanguageCode = async () => {
+      const lang = await initLanguage();
+      setDeviceLanguage(lang);
+    };
+    getLanguageCode();
   }, [initLanguage]);
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
