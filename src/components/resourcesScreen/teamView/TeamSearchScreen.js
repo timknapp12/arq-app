@@ -36,9 +36,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
     setToastProgress(progress);
   };
 
-  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES, {
-    fetchPolicy: 'cache-and-network',
-  });
+  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES);
 
   const debounceSearch = useCallback(
     debounce(

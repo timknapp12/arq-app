@@ -21,6 +21,7 @@ const ProspectsSearchScreen = ({ route }) => {
 
   const { loading, data } = useQuery(GET_PROSPECTS_BY_LASTNAME, {
     variables: { associateId },
+    fetchPolicy: 'cache-and-network',
   });
 
   const filterData = data?.prospects?.filter((item) => {
