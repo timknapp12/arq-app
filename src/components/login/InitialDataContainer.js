@@ -40,8 +40,7 @@ const InitialDataContainer = ({ children }) => {
 
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
   const [displayNotifications, setDisplayNotifications] = useState(false);
-  // const [prospectNotifications, setProspectNotifications] = useState([]);
-  // console.log(`prospectNotifications`, prospectNotifications);
+
   const clearFields = () => {
     setEmail('');
     setPassword('');
@@ -143,13 +142,11 @@ const InitialDataContainer = ({ children }) => {
       loading: loadingProspectNotifications,
       data: prospectNotificationData,
       refetch: refetchProspectsNotifications,
-      // subscribeToMore,
     },
   ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
     variables: { associateId },
     onError: (error) =>
       console.log(`error in getProspectNotifications:`, error),
-    // pollInterval: 1000 * 3,
   });
 
   const { data: subscriptionData } = useSubscription(
@@ -233,7 +230,6 @@ const InitialDataContainer = ({ children }) => {
         displayNotifications,
         setDisplayNotifications,
         loadingProspectNotifications,
-        // prospectNotifications: prospectNotifications,
         prospectNotifications:
           prospectNotificationData?.prospectViewsByAssociate,
         refetchProspectsNotifications,
