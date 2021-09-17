@@ -51,7 +51,7 @@ const NotificationsColumn = () => {
       //  if there are no more pinned notifications then close the notification column
       !areTherePinnedNotifications && setDisplayNotifications(false);
     },
-    onError: (error) => console.log(`error`, error),
+    onError: (error) => console.log(`error in clear all:`, error),
   });
 
   const fadeDown = () => {
