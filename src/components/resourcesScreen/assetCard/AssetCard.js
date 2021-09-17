@@ -189,6 +189,7 @@ const AssetCard = ({
         prospectLinkIsNeeded: true,
       },
     });
+    closeCallout();
   };
 
   const variables = {

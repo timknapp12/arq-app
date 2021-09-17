@@ -22,7 +22,6 @@ import { PROSPECT_VIEWED_LINK_NOTIFICATION } from '../../graphql/subscriptions';
 import { findMarketId, findMarketCode } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
-import { mergeNotificationSubcription } from '../../utils/notifications/mergeNotificationSubcription';
 
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, setHasPermissions, deviceLanguage } =
@@ -41,7 +40,6 @@ const InitialDataContainer = ({ children }) => {
 
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
   const [displayNotifications, setDisplayNotifications] = useState(false);
-  const [prospectNotifications, setProspectNotifications] = useState([]);
 
   const clearFields = () => {
     setEmail('');
@@ -138,26 +136,24 @@ const InitialDataContainer = ({ children }) => {
   }, [news]);
 
   // get notifications
-  // TODO consider removing the refetch and just using `getProspectNotifications`
   const [
     getProspectNotifications,
     {
       loading: loadingProspectNotifications,
       data: prospectNotificationData,
       refetch: refetchProspectsNotifications,
-      // subscribeToMore,
     },
   ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
     variables: { associateId },
     onError: (error) =>
       console.log(`error in getProspectNotifications:`, error),
-    // pollInterval: 1000 * 3,
   });
 
   const { data: subscriptionData } = useSubscription(
     PROSPECT_VIEWED_LINK_NOTIFICATION,
     {
       variables: { associateId },
+      fetchPolicy: 'cache-and-network',
     },
   );
 
@@ -166,22 +162,11 @@ const InitialDataContainer = ({ children }) => {
       prospectNotificationData?.prospectViewsByAssociate,
     );
     setProspectNotificationCount(count);
-    setProspectNotifications(
-      prospectNotificationData?.prospectViewsByAssociate,
-    );
   }, [prospectNotificationData]);
 
   useEffect(() => {
     if (subscriptionData) {
-      const updatedNotificationsList = mergeNotificationSubcription(
-        prospectNotifications,
-        subscriptionData?.subscribeToProspectViews,
-      );
-      setProspectNotificationCount(updatedNotificationsList);
-      setProspectNotifications(updatedNotificationsList);
-
-      const count = calculateNewProspectNotifications(updatedNotificationsList);
-      setProspectNotificationCount(count);
+      refetchProspectsNotifications();
     }
   }, [subscriptionData]);
 
@@ -245,8 +230,8 @@ const InitialDataContainer = ({ children }) => {
         displayNotifications,
         setDisplayNotifications,
         loadingProspectNotifications,
-        prospectNotifications: prospectNotifications,
-        // prospectNotificationData?.prospectViewsByAssociate,
+        prospectNotifications:
+          prospectNotificationData?.prospectViewsByAssociate,
         refetchProspectsNotifications,
         prospectNotificationCount,
         setProspectNotificationCount,

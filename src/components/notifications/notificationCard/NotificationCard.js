@@ -72,11 +72,11 @@ const NotificationCard = ({
   let [y, m, d, hh, mm, ss, ms] = data?.dateViewUtc.match(/\d+/g);
   let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
   let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
-
   const [onRemove] = useMutation(CLEAR_PROSPECT_NOTIFICATION, {
     variables: { viewId },
     onCompleted: () => refetchProspectsNotifications(),
-    onError: (error) => console.log(`error`, error),
+    onError: (error) =>
+      console.log(`error in delete prospect notification:`, error),
   });
 
   const [handlePin] = useMutation(PIN_PROSPECT_NOTIFICATION, {
