@@ -43,7 +43,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const { data } = useQuery(GET_CORPORATE_RESOURCES, {
     variables: {
       countries: marketId,
-      // languageCode: deviceLanguage
+      languageCode: deviceLanguage || 'en',
     },
   });
 

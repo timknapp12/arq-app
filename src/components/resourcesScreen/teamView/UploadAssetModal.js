@@ -42,8 +42,7 @@ const UploadAssetModal = ({
   // this is when user edits an asset from TeamSearchScreen.js
   searchTerm,
 }) => {
-  const { theme, deviceLanguage } = useContext(AppContext);
-  console.log(`deviceLanguage`, deviceLanguage);
+  const { theme } = useContext(AppContext);
   const [title, setTitle] = useState(assetTitle);
   const [description, setDescription] = useState(assetDescription);
   const [contentType, setContentType] = useState(assetContentType);
@@ -153,7 +152,6 @@ const UploadAssetModal = ({
         variables: {
           teams: selectedTeamName,
           searchList: searchTerm,
-          // language: deviceLanguage,
         },
       },
     ],

@@ -14,8 +14,7 @@ import AppContext from '../../../contexts/AppContext';
 import { SEARCH_RESOURCES } from '../../../graphql/queries';
 
 const TeamSearchScreen = ({ route, navigation }) => {
-  const { theme, deviceLanguage } = useContext(AppContext);
-  console.log(`deviceLanguage`, deviceLanguage);
+  const { theme } = useContext(AppContext);
   const { selectedTeamName, isOwner } = route.params;
   const [value, setValue] = useState('');
 
@@ -46,7 +45,6 @@ const TeamSearchScreen = ({ route, navigation }) => {
           variables: {
             teams: selectedTeamName,
             searchList: value,
-            // language: deviceLanguage,
           },
         }),
       1000,

@@ -121,7 +121,7 @@ const InitialDataContainer = ({ children }) => {
     variables: {
       associateId,
       countries: marketId,
-      languageCode: deviceLanguage,
+      languageCode: deviceLanguage || 'en',
     },
   });
 

@@ -116,7 +116,6 @@ export const UPDATE_USER = gql`
       emailAddress
       primaryPhoneNumber
       associateType
-      languageCode
       associateStatus
       country {
         countryId
