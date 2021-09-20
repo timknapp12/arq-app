@@ -65,18 +65,13 @@ const DashboardScreen = ({ navigation }) => {
     };
   }, [isFocused]);
 
-  const initialView = {
-    name: Localized('OVERVIEW'),
-    testID: 'overview-button',
-  };
-
-  const [view, setView] = useState(initialView);
-
   const tertiaryButtonText = [
     { name: Localized('Overview').toUpperCase(), testID: 'overview_button' },
     { name: Localized('Rank').toUpperCase(), testID: 'rank_button' },
     { name: Localized('OV Detail').toUpperCase(), testID: 'ov_detail_button' },
   ];
+
+  const [view, setView] = useState(tertiaryButtonText[0]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

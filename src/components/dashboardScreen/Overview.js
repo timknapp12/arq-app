@@ -31,7 +31,7 @@ const Overview = ({ user, closeMenus }) => {
 
         <Flexbox padding={20} width="100%" direction="row">
           <Flexbox accessibilityLabel="Distributor monthly pv" width="auto">
-            <H4 testID="pv-donut-label">{Localized('PV')}</H4>
+            <H4 testID="pv-donut-label">PV</H4>
             <Donut
               testID="pv-donut-svg"
               percentage={pv}
@@ -41,7 +41,7 @@ const Overview = ({ user, closeMenus }) => {
           </Flexbox>
 
           <Flexbox accessibilityLabel="Distributor monthly cv" width="auto">
-            <H4 testID="cv-donut-label">{Localized('CV')}</H4>
+            <H4 testID="cv-donut-label">CV</H4>
             <Donut
               testID="cv-donut-svg"
               percentage={cv}
@@ -52,7 +52,7 @@ const Overview = ({ user, closeMenus }) => {
         </Flexbox>
 
         <Flexbox accessibilityLabel="Distributor monthly ov" width="auto">
-          <H4 testID="ov-donut-label">{Localized('OV')}</H4>
+          <H4 testID="ov-donut-label">OV</H4>
           <Donut
             testID="ov-donut-svg"
             percentage={totalOv}
