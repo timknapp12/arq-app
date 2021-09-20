@@ -118,6 +118,7 @@ const LoginScreen = ({
         setLegacyId(legacyId);
       }
       const status = data?.loginUser?.loginStatus;
+      console.log(`status`, status);
       handleLoginUser(
         status,
         navigation,

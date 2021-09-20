@@ -22,7 +22,6 @@ const EnterIdScreen = ({ navigation }) => {
     variables: { ambassadorOnly: true, userName: username },
     onCompleted: (data) => {
       const status = data?.directScaleInfo?.status;
-      console.log(`status`, status);
       handleGetDirectScaleInfo(status, navigation, setErrorMessage, username);
       if (data.directScaleInfo.associate) {
         setDirectScaleUser(data.directScaleInfo.associate);

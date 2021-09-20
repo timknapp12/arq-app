@@ -28,7 +28,6 @@ const FlagIcon = styled.Image`
 
 const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const { deviceLanguage } = useContext(AppContext);
-  console.log(`deviceLanguage`, deviceLanguage);
   const { userMarket, markets } = useContext(LoginContext);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
