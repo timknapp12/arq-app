@@ -1,5 +1,5 @@
 {
-  "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID for authentication",
-  "NSCameraUsageDescription": "Allowing access lets you take a picture for display in your profile",
-  "NSPhotoLibraryUsageDescription": "Allowing access lets you select a picture for display in your profile"
+  "NSFaceIDUsageDescription": "Cette application pourrait utiliser Face ID ou Touch ID pour l'authentification",
+  "NSCameraUsageDescription": "En autorisant l'accès, vous pourrez prendre des photos à afficher sur votre profil",
+  "NSPhotoLibraryUsageDescription": "En autorisant l'accès, vous pourrez sélectionner des photos à afficher sur votre profil"
 }
