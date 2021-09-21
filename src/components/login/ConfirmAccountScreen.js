@@ -37,7 +37,7 @@ const Gap = styled.View`
 const { height } = Dimensions.get('window');
 
 const ConfirmAccountScreen = ({ navigation, route }) => {
-  const { setAssociateId, setLegacyId, setToken, theme } =
+  const { setAssociateId, setLegacyId, setToken, theme, deviceLanguage } =
     useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const { emailAddress, primaryPhoneNumber } = directScaleUser;
@@ -77,6 +77,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
       method: method,
       loginName: username,
       verificationInfo: verificationInfo,
+      language: deviceLanguage,
     },
     onError: (error) => setErrorMessage(error.message),
     onCompleted: (data) => {
