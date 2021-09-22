@@ -11,6 +11,7 @@ import * as Analytics from 'expo-firebase-analytics';
 import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import AddFolderModal from './AddFolderModal';
 import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
 import TeamMenu from './TeamMenu';
 import AccessCodeModal from './AccessCodeModal';
 import { Localized } from '../../../translations/Localized';
@@ -41,6 +42,8 @@ const TeamView = ({
   setIsOwner,
 }) => {
   const { theme, associateId, hasPermissions } = useContext(AppContext);
+  const { displayNotifications, setDisplayNotifications } =
+    useContext(LoginContext);
 
   // get all of the access codes that the user has subscribed to
   const { loading: loadingAccessCodes, data: userAccessCodesData } = useQuery(
@@ -103,6 +106,10 @@ const TeamView = ({
     // this prevents a team resource folder opening when it is underneath a the main menu
     if (isMenuOpen && Platform.OS === 'android') {
       return closeMenus();
+    }
+    // close notifications window if it is open instead of navigating to resource
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
     }
     navigation.navigate('Team Resources Category Screen', {
       title: item?.folderName.toUpperCase(),
@@ -218,21 +225,27 @@ const TeamView = ({
     addTeamAccessCode();
   };
 
+  const goToSearch = () => {
+    // close notifications window if it is open instead of navigating
+    // this is because android touches bleed through the notifications window and could activate this function
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
+    }
+    closeMenus();
+    navigation.navigate('Team Search Screen', {
+      title: selectedTeamName.toUpperCase(),
+      selectedTeamName,
+      isOwner,
+    });
+  };
+
   if (loadingAccessCodes || loadingResources) {
     return <LoadingScreen />;
   }
 
   return (
     <>
-      <FilterSearchBar
-        onPress={() => {
-          closeMenus();
-          navigation.navigate('Team Search Screen', {
-            title: selectedTeamName.toUpperCase(),
-            selectedTeamName,
-            isOwner,
-          });
-        }}>
+      <FilterSearchBar onPress={goToSearch}>
         <TouchableOpacity onPress={toggleTeamMenu}>
           <Flexbox direction="row" width="auto">
             <SwitchTeamIcon

@@ -26,7 +26,8 @@ const NewsCard = ({
   ...props
 }) => {
   const { theme, deviceLanguage, associateId } = useContext(AppContext);
-  const { refetchNews, displayNotifications } = useContext(LoginContext);
+  const { refetchNews, displayNotifications, setDisplayNotifications } =
+    useContext(LoginContext);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReadYet, setIsReadYet] = useState(isRead);
 
@@ -37,8 +38,11 @@ const NewsCard = ({
   });
 
   const openLink = () => {
-    if (isMenuOpen || displayNotifications) {
+    if (isMenuOpen) {
       return closeMenus();
+    }
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
     }
     setIsReadYet(true);
     storyHasBeenViewed();

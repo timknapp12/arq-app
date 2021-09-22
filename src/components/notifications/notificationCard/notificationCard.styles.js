@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
+import { TouchableOpacity, Platform } from 'react-native';
+import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
+
 import { FlingGestureHandler } from 'react-native-gesture-handler';
 
 export const ColumnContainer = styled.View`
@@ -13,6 +16,7 @@ export const ColumnContainer = styled.View`
 const ButtonContainer = styled.View`
   justify-content: center;
   align-items: center;
+  flex-direction: row;
   background-color: ${(props) => props.theme.cardBackgroundColor};
   padding: 12px;
   border-bottom-left-radius: 16px;
@@ -90,3 +94,8 @@ export const IconRow = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+// The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
+export const CalloutButton = styled(
+  Platform.OS === 'ios' ? TouchableOpacity : GestureTouchable,
+)``;

@@ -8,6 +8,7 @@ import RemoveIcon from '../../../assets/icons/remove-icon.svg';
 import UploadIcon from '../../../assets/icons/upload-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 import { H6, H4Book, Flexbox } from '../common';
 import { Localized } from '../../translations/Localized';
 import AddFolderModal from './teamView/AddFolderModal';
@@ -43,6 +44,7 @@ const ResourceCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+  const { displayNotifications } = useContext(LoginContext);
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
   const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
@@ -118,7 +120,9 @@ const ResourceCard = ({
     <CardContainer isWideLayout={isWideLayout} {...props}>
       <TouchableOpacity
         /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
-        activeOpacity={isMenuOpen || isTeamMenuOpen ? 1 : 0.2}
+        activeOpacity={
+          isMenuOpen || isTeamMenuOpen || displayNotifications ? 1 : 0.2
+        }
         onPress={onPress}>
         <CardImage source={{ uri: url }} defaultSource={baseImage} />
       </TouchableOpacity>

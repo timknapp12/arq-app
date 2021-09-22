@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+  Animated,
+  Platform,
+} from 'react-native';
 import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
@@ -50,6 +55,7 @@ const DashboardScreen = ({ navigation }) => {
     },
     ranks = [],
     setDisplayNotifications,
+    displayNotifications,
   } = useContext(LoginContext);
 
   const isFocused = useIsFocused();
@@ -62,6 +68,7 @@ const DashboardScreen = ({ navigation }) => {
     }
     return () => {
       closeMenus();
+      setDisplayNotifications(false);
     };
   }, [isFocused]);
 
@@ -95,11 +102,16 @@ const DashboardScreen = ({ navigation }) => {
 
   const closeMenus = () => {
     fadeOut();
-    setDisplayNotifications(false);
+    Platform.OS === 'ios' && setDisplayNotifications(false);
   };
 
   const navigate = (item) => {
+    // this is so android touches that bleed through the notifications window onto the tertiary buttons won't navigate
+    if (displayNotifications) {
+      return;
+    }
     closeMenus();
+    setDisplayNotifications(false);
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'Dashboard Screen',
