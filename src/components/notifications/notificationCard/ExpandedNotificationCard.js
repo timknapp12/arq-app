@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
 import { H5Black, H6Book } from '../../common';
 // import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
@@ -16,6 +15,7 @@ import {
   TitleAndDateContainer,
   Row,
   IconRow,
+  CalloutButton,
 } from './notificationCard.styles';
 
 const ExpandedNotificationCard = ({
@@ -67,14 +67,14 @@ const ExpandedNotificationCard = ({
               <H6Book>{Localized('View Contact Information')}</H6Book>
             </TouchableOpacity> */}
             <IconRow>
-              <TouchableOpacity onPress={onRemove}>
+              <CalloutButton onPress={onRemove}>
                 <Row>
                   <RemoveIcon style={iconStyle} />
                   <H6Book>{Localized('Remove')}</H6Book>
                 </Row>
-              </TouchableOpacity>
+              </CalloutButton>
 
-              <TouchableOpacity onPress={handlePin}>
+              <CalloutButton onPress={handlePin}>
                 {data?.isSaved ? (
                   <Row>
                     <UnpinIcon style={iconStyle} />
@@ -86,14 +86,14 @@ const ExpandedNotificationCard = ({
                     <H6Book>{Localized('Pin')}</H6Book>
                   </Row>
                 )}
-              </TouchableOpacity>
+              </CalloutButton>
 
-              <TouchableOpacity onPress={onViewProspect}>
+              <CalloutButton onPress={onViewProspect}>
                 <Row>
                   <ViewProspectIcon style={iconStyle} />
                   <H6Book>{Localized('View Prospect')}</H6Book>
                 </Row>
-              </TouchableOpacity>
+              </CalloutButton>
             </IconRow>
           </InnerContainer>
           {/* <MaterialCommunityIcon

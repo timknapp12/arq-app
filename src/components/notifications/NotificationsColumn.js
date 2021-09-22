@@ -6,7 +6,6 @@ import {
   Animated,
   Dimensions,
   ScrollView,
-  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
 import { Directions, State } from 'react-native-gesture-handler';
@@ -20,7 +19,7 @@ import { checkForPinnedNotifications } from '../../utils/notifications/checkForP
 import {
   ColumnContainer,
   ClearButtonContainer,
-  // NotificationBottomPadding,
+  CalloutButton,
 } from './notificationCard/notificationCard.styles';
 
 const windowHeight = Dimensions.get('window').height;
@@ -134,17 +133,29 @@ const NotificationsColumn = () => {
                 }
               }}>
               {prospectNotifications?.length > 0 ? (
-                <TouchableOpacity onPress={clearAll}>
-                  <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
-                </TouchableOpacity>
+                <>
+                  <CalloutButton
+                    style={{
+                      marginEnd: 10,
+                    }}
+                    onPress={() => setDisplayNotifications(false)}>
+                    <H5Black>{Localized('Close').toUpperCase()}</H5Black>
+                  </CalloutButton>
+                  <CalloutButton onPress={clearAll}>
+                    <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
+                  </CalloutButton>
+                </>
               ) : (
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => setDisplayNotifications(false)}>
-                  <H5Black>
-                    {Localized('You have no new notifications')}
-                  </H5Black>
-                </TouchableOpacity>
+                <>
+                  <CalloutButton
+                    style={{ marginStart: 10 }}
+                    activeOpacity={1}
+                    onPress={() => setDisplayNotifications(false)}>
+                    <H5Black>
+                      {Localized('You have no new notifications')}
+                    </H5Black>
+                  </CalloutButton>
+                </>
               )}
             </ClearButtonContainer>
           </>

@@ -37,6 +37,7 @@ const Overview = ({ user, closeMenus }) => {
               percentage={pv}
               max={pv}
               color={donut1primaryColor}
+              onPress={closeMenus}
             />
           </Flexbox>
 
@@ -47,6 +48,7 @@ const Overview = ({ user, closeMenus }) => {
               percentage={cv}
               max={cv}
               color={donut2primaryColor}
+              onPress={closeMenus}
             />
           </Flexbox>
         </Flexbox>
@@ -58,6 +60,7 @@ const Overview = ({ user, closeMenus }) => {
             percentage={totalOv}
             max={totalOv}
             color={donut3primaryColor}
+            onPress={closeMenus}
           />
         </Flexbox>
       </Flexbox>

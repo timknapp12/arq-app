@@ -110,6 +110,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               innermax={100}
               innercolor={donut1secondaryColor}
               view="rank"
+              onPress={closeMenus}
             />
             <LegendContainer>
               <Legend>
@@ -147,6 +148,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               innermax={100}
               innercolor={donut2secondaryColor}
               view="rank"
+              onPress={closeMenus}
             />
             <LegendContainer>
               <Legend>
@@ -189,6 +191,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             innermax={100}
             innercolor={donut3secondaryColor}
             view="rank"
+            onPress={closeMenus}
           />
           <LegendContainer>
             <Legend>

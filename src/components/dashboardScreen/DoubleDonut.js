@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { View, Animated } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
 import { Flexbox, H5 } from '../common';
@@ -38,6 +39,7 @@ const DoubleDonut = ({
   innerdelay = 0,
   innermax = 100,
   view,
+  onPress = () => {},
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
@@ -77,71 +79,73 @@ const DoubleDonut = ({
   }, [outermax, outerpercentage]);
 
   return (
-    <View
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-      }}>
-      <Svg
-        width={outerradius * 2}
-        height={outerradius * 2}
-        viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>
-        <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
-          <Circle
-            cx="50%"
-            cy="50%"
-            stroke={outercolor}
-            strokeWidth={outerstrokeWidth}
-            r={outerradius}
-            fill="transparent"
-            strokeOpacity={0.2}
+    <TouchableOpacity activeOpacity={1} onPress={onPress}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+        }}>
+        <Svg
+          width={outerradius * 2}
+          height={outerradius * 2}
+          viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>
+          <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
+            <Circle
+              cx="50%"
+              cy="50%"
+              stroke={outercolor}
+              strokeWidth={outerstrokeWidth}
+              r={outerradius}
+              fill="transparent"
+              strokeOpacity={0.2}
+            />
+            <AnimatedCircle
+              ref={circleRef}
+              cx="50%"
+              cy="50%"
+              stroke={outercolor}
+              strokeWidth={outerstrokeWidth}
+              r={outerradius}
+              fill="transparent"
+              strokeDasharray={circleCircumference}
+              strokeDashoffset={circleCircumference / 2}
+            />
+          </G>
+        </Svg>
+        <View style={{ position: 'absolute', top: outerradius - innerradius }}>
+          <Donut
+            radius={innerradius}
+            color={innercolor}
+            percentage={innerpercentage}
+            max={innermax}
+            view={view}
+            strokeWidth={innerstrokeWidth}
+            duration={innerduration}
+            delay={innerdelay}
           />
-          <AnimatedCircle
-            ref={circleRef}
-            cx="50%"
-            cy="50%"
-            stroke={outercolor}
-            strokeWidth={outerstrokeWidth}
-            r={outerradius}
-            fill="transparent"
-            strokeDasharray={circleCircumference}
-            strokeDashoffset={circleCircumference / 2}
-          />
-        </G>
-      </Svg>
-      <View style={{ position: 'absolute', top: outerradius - innerradius }}>
-        <Donut
-          radius={innerradius}
-          color={innercolor}
-          percentage={innerpercentage}
-          max={innermax}
-          view={view}
-          strokeWidth={innerstrokeWidth}
-          duration={innerduration}
-          delay={innerdelay}
-        />
-        <Flexbox
-          justify="center"
-          align="flex-start"
-          padding={18}
-          style={{
-            position: 'absolute',
-          }}
-          height="100%">
-          <Legend>
-            <Square squareFill={outercolor} />
-            <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
-              {Localized('This month')}
-            </H5>
-          </Legend>
-          <Legend>
-            <Square squareFill={innercolor} />
-            <H5 style={{ textAlign: 'center' }}>{Localized('Last month')}</H5>
-          </Legend>
-        </Flexbox>
+          <Flexbox
+            justify="center"
+            align="flex-start"
+            padding={18}
+            style={{
+              position: 'absolute',
+            }}
+            height="100%">
+            <Legend>
+              <Square squareFill={outercolor} />
+              <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
+                {Localized('This month')}
+              </H5>
+            </Legend>
+            <Legend>
+              <Square squareFill={innercolor} />
+              <H5 style={{ textAlign: 'center' }}>{Localized('Last month')}</H5>
+            </Legend>
+          </Flexbox>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -161,6 +165,7 @@ DoubleDonut.propTypes = {
   innerdelay: PropTypes.number,
   innermax: PropTypes.number,
   view: PropTypes.oneOf(['overview', 'rank', 'ov detail']),
+  onPress: PropTypes.func,
 };
 
 export default DoubleDonut;
