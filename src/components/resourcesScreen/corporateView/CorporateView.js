@@ -62,7 +62,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   }, [selectedMarket]);
 
   const navigateToResource = (item) => {
-    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event to bleed through to a resource card if the side menu is open and a menu item is touched
     if (isMenuOpen && Platform.OS === 'android') {
       return closeMenus();
     }

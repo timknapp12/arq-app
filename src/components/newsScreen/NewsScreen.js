@@ -132,6 +132,7 @@ const NewsScreen = ({ navigation }) => {
 
   const closeMenus = () => {
     fadeOut();
+    // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
     Platform.OS === 'ios' && setDisplayNotifications(false);
   };
 
