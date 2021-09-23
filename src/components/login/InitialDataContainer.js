@@ -77,7 +77,9 @@ const InitialDataContainer = ({ children }) => {
 
   const { data: ranksData } = useQuery(GET_RANKS);
 
-  const { data: marketsData } = useQuery(GET_MARKETS);
+  const { data: marketsData } = useQuery(GET_MARKETS, {
+    variables: { language: deviceLanguage },
+  });
 
   const [getUser, { data: userData }] = useLazyQuery(GET_USER, {
     variables: { legacyAssociateId: legacyId },

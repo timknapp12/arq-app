@@ -90,8 +90,8 @@ export const GET_RANKS = gql`
 `;
 
 export const GET_MARKETS = gql`
-  query {
-    activeCountries {
+  query ActiveCountries($language: String) {
+    activeCountries(language: $language) {
       countryId
       countryCode
       countryName
