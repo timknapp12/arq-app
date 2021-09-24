@@ -91,6 +91,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
               // the circle should always be full if the user is qualified for any certain level
               max={isQualified ? user.leg1 : maxQOV.leg1Max}
               color={donut1primaryColor}
+              onPress={closeMenus}
             />
           </Flexbox>
 
@@ -110,6 +111,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
               percentage={user.leg2}
               max={isQualified ? user.leg2 : maxQOV.leg2Max}
               color={donut2primaryColor}
+              onPress={closeMenus}
             />
           </Flexbox>
         </Flexbox>
@@ -130,6 +132,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
             percentage={user.leg3}
             max={isQualified ? user.leg3 : maxQOV.leg3Max}
             color={donut3primaryColor}
+            onPress={closeMenus}
           />
         </Flexbox>
       </Flexbox>

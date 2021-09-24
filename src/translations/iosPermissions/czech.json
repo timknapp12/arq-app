@@ -1,0 +1,5 @@
+{
+  "NSFaceIDUsageDescription": "Tato aplikace bude k ověření identity používat Face ID nebo Touch ID",
+  "NSCameraUsageDescription": "Povolení přístupu vám umožní pořídit profilový obrázek",
+  "NSPhotoLibraryUsageDescription": "Povolení přístupu vám umožní vybrat profilový obrázek"
+}

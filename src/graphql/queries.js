@@ -56,7 +56,6 @@ export const GET_PROFILE = gql`
       emailAddress
       primaryPhoneNumber
       associateType
-      languageCode
       associateStatus
       defaultCountry
       country {
@@ -91,8 +90,8 @@ export const GET_RANKS = gql`
 `;
 
 export const GET_MARKETS = gql`
-  query {
-    activeCountries {
+  query ActiveCountries($language: String) {
+    activeCountries(language: $language) {
       countryId
       countryCode
       countryName
@@ -153,12 +152,14 @@ export const SEARCH_RESOURCES = gql`
   query SearchResources(
     $countries: [Int!]
     $teams: [String!]
-    $searchList: [String!] # $language: String
+    $searchList: [String!]
+    $language: String
   ) {
     searchResources(
       countries: $countries
       teams: $teams
-      searchList: $searchList # language: $language
+      searchList: $searchList
+      language: $language
     ) {
       productFolders {
         folderId

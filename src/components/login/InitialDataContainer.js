@@ -77,7 +77,9 @@ const InitialDataContainer = ({ children }) => {
 
   const { data: ranksData } = useQuery(GET_RANKS);
 
-  const { data: marketsData } = useQuery(GET_MARKETS);
+  const { data: marketsData } = useQuery(GET_MARKETS, {
+    variables: { language: deviceLanguage },
+  });
 
   const [getUser, { data: userData }] = useLazyQuery(GET_USER, {
     variables: { legacyAssociateId: legacyId },
@@ -121,7 +123,7 @@ const InitialDataContainer = ({ children }) => {
     variables: {
       associateId,
       countries: marketId,
-      languageCode: deviceLanguage,
+      languageCode: deviceLanguage || 'en',
     },
   });
 
@@ -235,7 +237,8 @@ const InitialDataContainer = ({ children }) => {
         refetchProspectsNotifications,
         prospectNotificationCount,
         setProspectNotificationCount,
-      }}>
+      }}
+    >
       {children}
     </LoginContext.Provider>
   );

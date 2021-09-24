@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, TouchableWithoutFeedback } from 'react-native';
+import { Animated, Platform, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -26,7 +26,8 @@ import LoginContext from '../../contexts/LoginContext';
 
 const ResourcesScreen = ({ navigation }) => {
   const { hasPermissions } = useContext(AppContext);
-  const { setDisplayNotifications } = useContext(LoginContext);
+  const { setDisplayNotifications, displayNotifications } =
+    useContext(LoginContext);
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -37,6 +38,7 @@ const ResourcesScreen = ({ navigation }) => {
     }
     return () => {
       closeMenus();
+      setDisplayNotifications(false);
     };
   }, [isFocused]);
 
@@ -89,6 +91,11 @@ const ResourcesScreen = ({ navigation }) => {
     if (isMenuOpen) {
       return;
     }
+    // close notifications window if it is open instead of opening modal
+    // this is because android touches bleed through the notifications window and could activate this function
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
+    }
     setIsTeamMenuOpen(true);
     Animated.timing(teamFadeAnim, {
       toValue: 0,
@@ -111,11 +118,17 @@ const ResourcesScreen = ({ navigation }) => {
 
   const closeMenus = () => {
     fadeOut();
-    setDisplayNotifications(false);
+    // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
+    Platform.OS === 'ios' && setDisplayNotifications(false);
   };
 
   const navigate = (item) => {
+    // this is so android touches that bleed through the notifications window onto the tertiary buttons won't navigate
+    if (displayNotifications) {
+      return;
+    }
     closeMenus();
+    setDisplayNotifications(false);
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'ResourcesScreen',
@@ -189,7 +202,7 @@ const ResourcesScreen = ({ navigation }) => {
           />
         )}
         {view.name === Localized('Services').toUpperCase() && (
-          <ServicesView closeMenus={closeMenus} />
+          <ServicesView closeMenus={closeMenus} isMenuOpen={isMenuOpen} />
         )}
         {view.name === Localized('Favorites').toUpperCase() && (
           <FavoritesView />

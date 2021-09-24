@@ -18,7 +18,8 @@ import {
 import { getToken } from '../../utils/firebase/login';
 
 const VerificationCodeScreen = ({ navigation, route }) => {
-  const { setAssociateId, setLegacyId, setToken } = useContext(AppContext);
+  const { setAssociateId, setLegacyId, setToken, deviceLanguage } =
+    useContext(AppContext);
 
   const { method, username, verificationInfo } = route.params;
 
@@ -49,6 +50,7 @@ const VerificationCodeScreen = ({ navigation, route }) => {
         method: method,
         loginName: username,
         verificationInfo: verificationInfo,
+        language: deviceLanguage,
       },
       onError: (error) => setErrorMessage(error.message),
       onCompleted: (data) => {

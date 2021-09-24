@@ -140,7 +140,8 @@ const App = () => {
             signOutOfFirebase,
             hasPermissions,
             setHasPermissions,
-          }}>
+          }}
+        >
           <StatusBar
             backgroundColor={theme.backgroundColor}
             style={theme.statusBar}

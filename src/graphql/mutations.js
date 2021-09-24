@@ -37,12 +37,14 @@ export const LOGIN_VALIDATION_PROCESS = gql`
     $method: ValidationMethod!
     $loginName: String!
     $verificationInfo: String!
+    $language: String
   ) {
     loginValidationProcess(
       input: {
         method: $method
         loginName: $loginName
         verificationInfo: $verificationInfo
+        language: $language
       }
     ) {
       status
@@ -116,7 +118,6 @@ export const UPDATE_USER = gql`
       emailAddress
       primaryPhoneNumber
       associateType
-      languageCode
       associateStatus
       country {
         countryId

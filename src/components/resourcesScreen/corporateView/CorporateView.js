@@ -28,8 +28,8 @@ const FlagIcon = styled.Image`
 
 const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const { deviceLanguage } = useContext(AppContext);
-  console.log(`deviceLanguage`, deviceLanguage);
-  const { userMarket, markets } = useContext(LoginContext);
+  const { userMarket, markets, setDisplayNotifications, displayNotifications } =
+    useContext(LoginContext);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
@@ -43,7 +43,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const { data } = useQuery(GET_CORPORATE_RESOURCES, {
     variables: {
       countries: marketId,
-      // languageCode: deviceLanguage
+      languageCode: deviceLanguage || 'en',
     },
   });
 
@@ -62,9 +62,13 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   }, [selectedMarket]);
 
   const navigateToResource = (item) => {
-    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event to bleed through to a resource card if the side menu is open and a menu item is touched
     if (isMenuOpen && Platform.OS === 'android') {
       return closeMenus();
+    }
+    // close notifications window if it is open instead of navigating to resource
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
     }
     closeMenus();
     if (item?.folderName === 'Products') {
@@ -90,18 +94,29 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   };
 
   const openMarketModal = () => {
+    // close notifications window if it is open instead of opening modal
+    // this is because android touches bleed through the notifications window and could activate this function
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
+    }
     setIsMarketModalOpen(true);
+  };
+
+  const goToSearch = () => {
+    // close notifications window if it is open instead of navigating search
+    // this is because android touches bleed through the notifications window and could activate this function
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
+    }
+    closeMenus();
+    navigation.navigate('Corporate Search Screen', {
+      marketId: marketId,
+    });
   };
 
   return (
     <>
-      <FilterSearchBar
-        onPress={() => {
-          closeMenus();
-          navigation.navigate('Corporate Search Screen', {
-            marketId: marketId,
-          });
-        }}>
+      <FilterSearchBar onPress={goToSearch}>
         <TouchableOpacity disabled={isMenuOpen} onPress={openMarketModal}>
           <FlagIcon
             source={{

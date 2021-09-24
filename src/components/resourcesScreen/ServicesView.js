@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, TouchableOpacity, Linking } from 'react-native';
+import { View, TouchableOpacity, Linking, Platform } from 'react-native';
 import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
 import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 
 const Card = styled.View`
@@ -20,16 +21,28 @@ const Row = styled.View`
   flex-direction: row;
 `;
 
-const ServicesView = ({ closeMenus }) => {
+const ServicesView = ({ closeMenus, isMenuOpen }) => {
   const { theme } = useContext(AppContext);
+  const { displayNotifications, setDisplayNotifications } =
+    useContext(LoginContext);
+
+  // on android, the touch events of the menu buttons will bleed through and activate the touches on the cards underneath. This func will prevent that
+  const onPress = () => {
+    if (isMenuOpen && Platform.OS === 'android') {
+      return;
+    }
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
+    }
+    Linking.openURL('https://office2.myqsciences.com/#/Login');
+    closeMenus();
+  };
   return (
     <MainScrollView>
       <View style={{ width: '100%' }}>
         <TouchableOpacity
-          onPress={() => {
-            Linking.openURL('https://office2.myqsciences.com/#/Login');
-            closeMenus();
-          }}>
+          activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
+          onPress={onPress}>
           <Card>
             <Row>
               <BackOfficeIcon
@@ -58,10 +71,8 @@ const ServicesView = ({ closeMenus }) => {
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            Linking.openURL('https://office2.myqsciences.com/#/Login');
-            closeMenus();
-          }}>
+          activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
+          onPress={onPress}>
           <Card>
             <Row>
               <EnrollmentIcon
@@ -94,6 +105,7 @@ const ServicesView = ({ closeMenus }) => {
 
 ServicesView.propTypes = {
   closeMenus: PropTypes.func.isRequired,
+  isMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default ServicesView;

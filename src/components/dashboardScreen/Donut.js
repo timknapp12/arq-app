@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Animated, TextInput } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Svg, { G, Circle } from 'react-native-svg';
 
 // source for donut svg: https://www.youtube.com/watch?v=x2LtzCxbWI0
@@ -19,6 +20,7 @@ const Donut = ({
   fontSize = 24,
   showPercentageSymbol = false,
   view,
+  onPress = () => {},
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
@@ -68,50 +70,52 @@ const Donut = ({
   }, [max, percentage]);
 
   return (
-    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <Svg
-        width={radius * 2}
-        height={radius * 2}
-        viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>
-        <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
-          <Circle
-            cx="50%"
-            cy="50%"
-            stroke={color}
-            strokeWidth={strokeWidth}
-            r={radius}
-            fill="transparent"
-            strokeOpacity={0.2}
+    <TouchableOpacity activeOpacity={1} onPress={onPress}>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Svg
+          width={radius * 2}
+          height={radius * 2}
+          viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>
+          <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
+            <Circle
+              cx="50%"
+              cy="50%"
+              stroke={color}
+              strokeWidth={strokeWidth}
+              r={radius}
+              fill="transparent"
+              strokeOpacity={0.2}
+            />
+            <AnimatedCircle
+              ref={circleRef}
+              cx="50%"
+              cy="50%"
+              stroke={color}
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+              r={radius}
+              fill="transparent"
+              strokeDasharray={circleCircumference}
+              strokeDashoffset={circleCircumference / 2}
+            />
+          </G>
+        </Svg>
+        {/* the animated text inside the donut on the overview and ov-detail view */}
+        {view !== 'rank' && (
+          <AnimatedInput
+            ref={inputRef}
+            underlineColorAndroid="transparent"
+            editable={false}
+            defaultValue="0"
+            style={[
+              StyleSheet.absoluteFillObject,
+              { fontSize: fontSize, color: color },
+              { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
+            ]}
           />
-          <AnimatedCircle
-            ref={circleRef}
-            cx="50%"
-            cy="50%"
-            stroke={color}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            r={radius}
-            fill="transparent"
-            strokeDasharray={circleCircumference}
-            strokeDashoffset={circleCircumference / 2}
-          />
-        </G>
-      </Svg>
-      {/* the animated text inside the donut on the overview and ov-detail view */}
-      {view !== 'rank' && (
-        <AnimatedInput
-          ref={inputRef}
-          underlineColorAndroid="transparent"
-          editable={false}
-          defaultValue="0"
-          style={[
-            StyleSheet.absoluteFillObject,
-            { fontSize: fontSize, color: color },
-            { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
-          ]}
-        />
-      )}
-    </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -124,6 +128,7 @@ Donut.propTypes = {
   delay: PropTypes.number,
   max: PropTypes.number,
   fontSize: PropTypes.number,
+  onPress: PropTypes.func,
   // this prop 'showPercentageSymbol' is used in DownloadToast.js
   showPercentageSymbol: PropTypes.bool,
   view: PropTypes.oneOf(['overview', 'rank', 'ov detail']),

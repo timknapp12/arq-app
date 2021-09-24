@@ -45,7 +45,8 @@ const mapToCode = (languageTag) => {
   }
 };
 export const initLanguage = async () => {
-  let localeLanguageTag = Localization.locale.substring(0, 2);
+  const { locale } = await Localization.getLocalizationAsync();
+  let localeLanguageTag = locale.substring(0, 2);
   const filteredTag = mapToCode(localeLanguageTag) || 'en';
   let isRTL = Localization.isRTL;
   Localized.cache.clear();
