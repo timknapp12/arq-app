@@ -2,7 +2,7 @@
   "expo": {
     "name": "q-connect-pro-staging",
     "slug": "q-connect-pro-staging",
-    "version": "0.0.24",
+    "version": "0.0.25",
     "owner": "qsiholdingcompanyinc",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,7 +25,7 @@
         }
       },
       "usesAppleSignIn": true,
-      "buildNumber": "0.0.24",
+      "buildNumber": "0.0.25",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
@@ -47,7 +47,7 @@
     },
     "android": {
       "package": "com.qsciences.q_connect_pro_staging",
-      "versionCode": 2,
+      "versionCode": 3,
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
@@ -61,6 +61,9 @@
         "USE_FINGERPRINT",
         "USE_BIOMETRIC"
       ]
+    },
+    "androidNavigationBar": {
+      "visible": "immersive"
     },
     "web": {
       "favicon": "./assets/favicon.png",

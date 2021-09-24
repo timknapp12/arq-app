@@ -71,8 +71,8 @@ const App = () => {
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   // const uri = 'https://qservicesapi.azurewebsites.net/graphql'
-  const uri = 'https://qservicesapi-staging.azurewebsites.net/graphql';
-  // const uri = 'https://qservicesapi-dev.azurewebsites.net/graphql';
+  // const uri = 'https://qservicesapi-staging.azurewebsites.net/graphql';
+  const uri = 'https://qservicesapi-dev.azurewebsites.net/graphql';
 
   const httpLink = new HttpLink({
     uri: uri,
@@ -140,7 +140,8 @@ const App = () => {
             signOutOfFirebase,
             hasPermissions,
             setHasPermissions,
-          }}>
+          }}
+        >
           <StatusBar
             backgroundColor={theme.backgroundColor}
             style={theme.statusBar}
