@@ -208,8 +208,8 @@ export const AddButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: ${(props) => props.bottom};
-  right: ${(props) => props.right};
+  bottom: ${(props) => (props.bottom ? props.bottom : '0px')};
+  right: ${(props) => (props.right ? props.right : '12px')};
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
