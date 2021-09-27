@@ -141,12 +141,14 @@ const ResourcesScreen = ({ navigation }) => {
       onPress={() => {
         setIsCalloutOpenFromParent(false);
         closeMenus();
-      }}>
+      }}
+    >
       <ScreenContainer
         style={{
           justifyContent: 'flex-start',
           height: '100%',
-        }}>
+        }}
+      >
         <Flexbox style={{ zIndex: 2 }}>
           <MainHeader
             isMenuOpen={isMenuOpen}
@@ -163,7 +165,8 @@ const ResourcesScreen = ({ navigation }) => {
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view.name === item?.name}
-              key={item?.name}>
+              key={item?.name}
+            >
               {item?.name}
             </TertiaryButton>
           ))}
@@ -212,10 +215,12 @@ const ResourcesScreen = ({ navigation }) => {
           isOwner && (
             <AddButton
               bottom="10px"
+              right="12px"
               onPress={() => {
                 setIsAddFolderModalOpen(true);
                 setIsCalloutOpenFromParent(false);
-              }}>
+              }}
+            >
               <ButtonText>+</ButtonText>
             </AddButton>
           )}

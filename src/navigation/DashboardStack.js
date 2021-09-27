@@ -18,7 +18,8 @@ const DashboardStack = () => {
           opacity: 0.83,
           fontFamily: 'Avenir-Light',
         },
-      }}>
+      }}
+    >
       <Dashboard.Screen
         name="Dashboard Screen"
         component={DashboardScreen}
@@ -30,4 +31,5 @@ const DashboardStack = () => {
     </Dashboard.Navigator>
   );
 };
+
 export default DashboardStack;

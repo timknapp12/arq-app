@@ -209,7 +209,7 @@ export const AddButton = styled.TouchableOpacity`
   align-items: center;
   position: absolute;
   bottom: ${(props) => props.bottom};
-  right: 12px;
+  right: ${(props) => (props.right ? props.right : null)};
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 

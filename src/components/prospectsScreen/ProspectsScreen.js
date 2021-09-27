@@ -116,18 +116,22 @@ const ProspectsScreen = ({ navigation, route }) => {
         onPress={() => {
           closeFilterMenu();
           setIsCalloutOpenFromParent(false);
-        }}>
+        }}
+      >
         <ScreenContainer
           style={{
             justifyContent: 'flex-start',
             height: '100%',
             paddingTop: 0,
             paddingBottom: 0,
-          }}>
+          }}
+        >
           <FilterSearchBar
-            onPress={() => navigation.navigate('Prospects Search Screen')}>
+            onPress={() => navigation.navigate('Prospects Search Screen')}
+          >
             <TouchableOpacity
-              onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}>
+              onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}
+            >
               <Flexbox direction="row" width="auto">
                 <FilterIcon
                   style={{
@@ -166,7 +170,9 @@ const ProspectsScreen = ({ navigation, route }) => {
           )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
-            bottom="40px">
+            bottom="40px"
+            right="12px"
+          >
             <ButtonText>+</ButtonText>
           </AddButton>
         </ScreenContainer>

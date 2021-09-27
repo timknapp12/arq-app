@@ -39,7 +39,8 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
       <ScreenContainer
-        style={{ paddingTop: 0, paddingBottom: 0, height: 'auto' }}>
+        style={{ paddingTop: 0, paddingBottom: 0, height: 'auto' }}
+      >
         <ScrollView
           onStartShouldSetResponder={() => true}
           style={{
@@ -49,14 +50,17 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
           }}
           contentContainerStyle={{
             paddingBottom: 240,
-          }}>
+          }}
+        >
           <TouchableWithoutFeedback
-            onPress={() => setIsCalloutOpenFromParent(false)}>
+            onPress={() => setIsCalloutOpenFromParent(false)}
+          >
             <Flexbox
               justify="flex-start"
               height="100%"
               padding={10}
-              onStartShouldSetResponder={() => true}>
+              onStartShouldSetResponder={() => true}
+            >
               <DownloadToast
                 title={toastTitle}
                 body={toastBody}
@@ -92,10 +96,12 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
         {isOwner && (
           <AddButton
             bottom="10px"
+            right="12px"
             onPress={() => {
               setIsUploadAssetModalOpen(true);
               setIsCalloutOpenFromParent(false);
-            }}>
+            }}
+          >
             <ButtonText>+</ButtonText>
           </AddButton>
         )}
