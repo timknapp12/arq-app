@@ -47,7 +47,7 @@
     },
     "android": {
       "package": "com.qsciences.q_connect_pro_staging",
-      "versionCode": 3,
+      "versionCode": 4,
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
