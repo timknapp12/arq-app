@@ -192,7 +192,7 @@ export const AnimatedInput = ({
     Animated.timing(fadeAnim, {
       toValue: 24,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -200,7 +200,7 @@ export const AnimatedInput = ({
     Animated.timing(fadeAnim, {
       toValue: 3,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   };
 
