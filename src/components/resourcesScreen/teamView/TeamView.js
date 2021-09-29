@@ -41,7 +41,7 @@ const TeamView = ({
   isOwner,
   setIsOwner,
 }) => {
-  const { theme, associateId, hasPermissions } = useContext(AppContext);
+  const { theme, associateId, hasPermissionsToWrite } = useContext(AppContext);
   const { displayNotifications, setDisplayNotifications } =
     useContext(LoginContext);
 
@@ -273,7 +273,7 @@ const TeamView = ({
           onSelect={(name) => storeTeamName(name)}
           setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
           setIsNewAccessCode={setIsNewAccessCode}
-          hasPermissions={hasPermissions}
+          hasPermissionsToWrite={hasPermissionsToWrite}
           associateId={associateId}
           userHasAlreadyCreatedATeam={userHasAlreadyCreatedATeam}
         />

@@ -40,7 +40,7 @@ const ExpandedProductCard = ({
   onShare,
   onSend,
   onLeadCapture,
-  hasPermissions,
+  hasPermissionsToWrite,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -73,14 +73,16 @@ const ExpandedProductCard = ({
         style={{ flex: 1 }}
         onPress={() => {
           setIsExpanded(false);
-        }}>
+        }}
+      >
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingStart: 12,
             paddingEnd: 10,
-          }}>
+          }}
+        >
           <H5 ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
             {title}
           </H5>
@@ -107,7 +109,8 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   onPress={() => openAsset(asset)}
-                  key={asset.linkId}>
+                  key={asset.linkId}
+                >
                   <PdfIcon
                     style={{
                       color: theme.primaryTextColor,
@@ -122,7 +125,8 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   onPress={() => openAsset(asset)}
-                  key={asset.linkId}>
+                  key={asset.linkId}
+                >
                   <VideoIcon
                     style={{
                       color: theme.primaryTextColor,
@@ -137,7 +141,8 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   onPress={() => openAsset(asset)}
-                  key={asset.linkId}>
+                  key={asset.linkId}
+                >
                   <PodcastIcon
                     style={{
                       color: theme.primaryTextColor,
@@ -152,7 +157,8 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   key={asset.linkId}
-                  onPress={() => openAsset(asset)}>
+                  onPress={() => openAsset(asset)}
+                >
                   <ImageIcon
                     style={{
                       color: theme.primaryTextColor,
@@ -181,7 +187,7 @@ const ExpandedProductCard = ({
             style={smallIconStyle}
           />
         )} */}
-        {hasPermissions && <RemoveIcon style={smallIconStyle} />}
+        {hasPermissionsToWrite && <RemoveIcon style={smallIconStyle} />}
         <TouchableOpacity onPress={onDownload}>
           <DownloadIcon style={smallIconStyle} />
         </TouchableOpacity>
@@ -212,6 +218,6 @@ ExpandedProductCard.propTypes = {
   onShare: PropTypes.func,
   onSend: PropTypes.func,
   onLeadCapture: PropTypes.func,
-  hasPermissions: PropTypes.bool,
+  hasPermissionsToWrite: PropTypes.bool,
 };
 export default ExpandedProductCard;
