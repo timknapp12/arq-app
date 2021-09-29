@@ -25,7 +25,7 @@ import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const ResourcesScreen = ({ navigation }) => {
-  const { hasPermissions } = useContext(AppContext);
+  const { hasPermissionsToWrite } = useContext(AppContext);
   const { setDisplayNotifications, displayNotifications } =
     useContext(LoginContext);
   const isFocused = useIsFocused();
@@ -206,7 +206,7 @@ const ResourcesScreen = ({ navigation }) => {
           <FavoritesView />
         )}
         {view.name === Localized('Team').toUpperCase() &&
-          hasPermissions &&
+          hasPermissionsToWrite &&
           isOwner && (
             <AddButton
               bottom="10px"

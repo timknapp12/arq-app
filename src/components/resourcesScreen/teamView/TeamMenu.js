@@ -31,7 +31,7 @@ const TeamMenu = ({
   setIsAccessCodeModalOpen,
   onSelect,
   setIsNewAccessCode,
-  hasPermissions,
+  hasPermissionsToWrite,
   associateId,
   userHasAlreadyCreatedATeam,
   ...props
@@ -44,7 +44,8 @@ const TeamMenu = ({
             onPress={() => {
               onSelect(item?.teamName);
               onClose();
-            }}>
+            }}
+          >
             {associateId === item?.teamOwnerAssociateId ? (
               <H4Book>{`${item?.teamName} - ${item?.accessCode}`}</H4Book>
             ) : (
@@ -59,18 +60,20 @@ const TeamMenu = ({
           setIsNewAccessCode(false);
           setIsAccessCodeModalOpen(true);
           onClose();
-        }}>
+        }}
+      >
         <H4Book>{Localized('Add Team Access Code')}</H4Book>
         <H4Black> +</H4Black>
       </Touchable>
-      {hasPermissions && !userHasAlreadyCreatedATeam && (
+      {hasPermissionsToWrite && !userHasAlreadyCreatedATeam && (
         <Touchable
           style={{ flexDirection: 'row' }}
           onPress={() => {
             setIsNewAccessCode(true);
             setIsAccessCodeModalOpen(true);
             onClose();
-          }}>
+          }}
+        >
           <H4Book>{Localized('Create Team Access Code')}</H4Book>
           <H4Black> +</H4Black>
         </Touchable>
@@ -85,7 +88,7 @@ TeamMenu.propTypes = {
   setIsAccessCodeModalOpen: PropTypes.func,
   onSelect: PropTypes.func,
   setIsNewAccessCode: PropTypes.func,
-  hasPermissions: PropTypes.bool,
+  hasPermissionsToWrite: PropTypes.bool,
   associateId: PropTypes.number,
   userHasAlreadyCreatedATeam: PropTypes.bool,
 };

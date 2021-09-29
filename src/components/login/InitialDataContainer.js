@@ -24,7 +24,7 @@ import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
 
 const InitialDataContainer = ({ children }) => {
-  const { associateId, legacyId, setHasPermissions, deviceLanguage } =
+  const { associateId, legacyId, setHasPermissionsToWrite, deviceLanguage } =
     useContext(AppContext);
 
   const [email, setEmail] = useState('');
@@ -92,9 +92,9 @@ const InitialDataContainer = ({ children }) => {
         data?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank?.rankId >
         10
       ) {
-        setHasPermissions(true);
+        setHasPermissionsToWrite(true);
       } else {
-        setHasPermissions(false);
+        setHasPermissionsToWrite(false);
       }
     },
   });

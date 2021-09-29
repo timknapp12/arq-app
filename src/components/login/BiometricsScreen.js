@@ -14,7 +14,7 @@ import LoadingScreen from '../loadingScreen/LoadingScreen';
 import { GET_USERS_ACCESS_CODES } from '../../graphql/queries';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, hasPermissions, associateId } = useContext(AppContext);
+  const { theme, hasPermissionsToWrite, associateId } = useContext(AppContext);
   const { storeBiometrics } = useContext(LoginContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
@@ -81,7 +81,7 @@ const BiometricsScreen = ({ navigation }) => {
     // this sets the biometrics in App.js at the root of the project
     storeBiometrics(enableBiometrics);
     // if the user has ever been ruby or above AND if they have not already created a team then they can create a team, otherwise we don't let them go to that screen
-    hasPermissions && !alreadyHasTeam
+    hasPermissionsToWrite && !alreadyHasTeam
       ? navigation.navigate('Create Team Screen')
       : navigation.navigate('App Stack');
   };
