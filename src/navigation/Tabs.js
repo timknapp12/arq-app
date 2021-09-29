@@ -1,8 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Platform, View } from 'react-native';
-import { Flexbox, AddButton, ButtonText } from '../components/common';
+import {
+  Image,
+  Platform,
+  View,
+  Animated,
+  Dimensions,
+  Easing,
+} from 'react-native';
+import { Flexbox, AddButton } from '../components/common';
 import DashboardStack from './DashboardStack';
 import ResourcesStack from './ResourcesStack';
 import TeamStack from './TeamStack';
@@ -13,11 +20,13 @@ import * as Analytics from 'expo-firebase-analytics';
 import storybook from '../../assets/icons/storybook.png';
 import { Localized } from '../translations/Localized';
 import StorybookUI from '../../storybook';
+import camera from '../../assets/icons/button_camera.png';
 import {
   ResourcesIcon,
   DashboardIcon,
   TeamIcon,
   NewsIcon,
+  AnimatedAddButtonRow,
 } from '../components/common';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
@@ -29,13 +38,82 @@ const getActiveRouteName = (navigationState) => {
   return route.routeName;
 };
 
+const { width: screenWidth } = Dimensions.get('screen');
+const duration = 250;
+
 // source for tab navigation: https://reactnavigation.org/docs/tab-based-navigation
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const [showStorybook] = useState(false);
   const { theme } = useContext(AppContext);
   const { newsNotificationCount } = useContext(LoginContext);
+
+  const [showStorybook] = useState(false);
+  const [showAddOptions, setShowAddOptions] = useState(false);
+
+  const buttonScaleAnim = useRef(new Animated.Value(0)).current;
+  const rowWidthAnim = useRef(new Animated.Value(120)).current;
+  const rowTopAnim = useRef(new Animated.Value(0)).current;
+  // source for roateAnim https://javascript.plainenglish.io/creating-a-rotation-animation-in-react-native-45c3f2973d62
+  const [rotateAnim] = useState(new Animated.Value(0));
+
+  const openAddOptions = () => {
+    setShowAddOptions(true);
+    Animated.parallel([
+      Animated.timing(buttonScaleAnim, {
+        toValue: 1,
+        duration: duration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(rowWidthAnim, {
+        toValue: screenWidth / 2,
+        duration: duration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(rowTopAnim, {
+        toValue: -46,
+        duration: duration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: duration,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+  const closeAddOptions = () => {
+    Animated.parallel([
+      Animated.timing(buttonScaleAnim, {
+        toValue: 0,
+        duration: duration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(rowWidthAnim, {
+        toValue: 120,
+        duration: duration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(rowTopAnim, {
+        toValue: 0,
+        duration: duration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue: 0,
+        duration: duration,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setShowAddOptions(false));
+  };
+
+  const spin = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '45deg'],
+  });
+
   return (
     <>
       <Tab.Navigator
@@ -131,6 +209,13 @@ const Tabs = () => {
           bottom: 90,
         }}
       >
+        {showAddOptions && (
+          <AnimatedAddButtonRow
+            buttonScaleAnim={buttonScaleAnim}
+            rowWidthAnim={rowWidthAnim}
+            rowTopAnim={rowTopAnim}
+          />
+        )}
         <View
           style={{
             height: 70,
@@ -142,11 +227,18 @@ const Tabs = () => {
           }}
         >
           <AddButton
-            onPress={() => console.log('clicked me')}
+            onPress={() =>
+              showAddOptions ? closeAddOptions() : openAddOptions()
+            }
             right="7px"
             bottom="7px"
           >
-            <ButtonText>+</ButtonText>
+            <Animated.Image
+              source={camera}
+              style={{
+                transform: [{ rotate: spin }],
+              }}
+            />
           </AddButton>
         </View>
       </Flexbox>
