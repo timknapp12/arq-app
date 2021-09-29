@@ -70,14 +70,14 @@ const ProspectsScreen = ({ navigation, route }) => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   };
   const closeFilterMenu = () => {
     Animated.timing(fadeAnim, {
       toValue: -500,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => setIsFilterMenuOpen(false));
   };
 

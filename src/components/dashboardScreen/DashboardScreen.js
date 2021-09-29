@@ -89,14 +89,14 @@ const DashboardScreen = ({ navigation }) => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   };
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: -500,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => setIsMenuOpen(false));
   };
 

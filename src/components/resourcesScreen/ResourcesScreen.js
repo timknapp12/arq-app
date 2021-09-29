@@ -74,7 +74,7 @@ const ResourcesScreen = ({ navigation }) => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   };
   const fadeOut = () => {
@@ -82,7 +82,7 @@ const ResourcesScreen = ({ navigation }) => {
     Animated.timing(fadeAnim, {
       toValue: -500,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => setIsMenuOpen(false));
   };
 
@@ -95,7 +95,7 @@ const ResourcesScreen = ({ navigation }) => {
     Animated.timing(teamFadeAnim, {
       toValue: 0,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -107,7 +107,7 @@ const ResourcesScreen = ({ navigation }) => {
     Animated.timing(teamFadeAnim, {
       toValue: -500,
       duration: 700,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(() => setIsTeamMenuOpen(false));
   };
 
