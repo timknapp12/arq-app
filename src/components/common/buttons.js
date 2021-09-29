@@ -6,11 +6,13 @@ import {
   Switch as NativeSwitch,
   Platform,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
 import { H4Book, H3, Checkmark } from './texts';
 import FacebookLogo from '../../../assets/icons/facebook-logo.svg';
 import AppleIcon from '../../../assets/icons/apple-button.svg';
 import GoogleLogo from '../../../assets/icons/google-button.svg';
+import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -99,6 +101,27 @@ TertiaryButton.propTypes = {
   selected: PropTypes.bool,
   children: PropTypes.string.isRequired,
 };
+
+// GOOGLE LOGIN
+export const GoogleLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <GoogleLogo />
+  </TouchableOpacity>
+);
+
+// FACEBOOK LOGIN
+export const FacebookLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <FacebookLogo />
+  </TouchableOpacity>
+);
+
+// APPLE LOGIN
+export const AppleLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <AppleIcon />
+  </TouchableOpacity>
+);
 
 // SWITCH
 export const Switch = ({ value, onValueChange, ...props }) => {
@@ -213,27 +236,74 @@ export const AddButton = styled.TouchableOpacity`
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
+//TODO remove button text when it is replaced with an image
 export const ButtonText = styled(H3)`
   font-family: 'Avenir-Black';
+  font-size: 32px;
 `;
 
-// GOOGLE LOGIN
-export const GoogleLoginButton = ({ ...props }) => (
-  <TouchableOpacity {...props}>
-    <GoogleLogo />
-  </TouchableOpacity>
-);
+// ANIMATED ADD BUTTON OPTIONS
+const ButtonRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+`;
 
-// FACEBOOK LOGIN
-export const FacebookLoginButton = ({ ...props }) => (
-  <TouchableOpacity {...props}>
-    <FacebookLogo />
-  </TouchableOpacity>
-);
+const SmallAddButton = styled.TouchableOpacity`
+  height: 40px;
+  width: 40px;
+  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+`;
 
-// APPLE LOGIN
-export const AppleLoginButton = ({ ...props }) => (
-  <TouchableOpacity {...props}>
-    <AppleIcon />
-  </TouchableOpacity>
-);
+const AnimatedRow = Animated.createAnimatedComponent(ButtonRow);
+const AnimatedSmallButton = Animated.createAnimatedComponent(SmallAddButton);
+
+export const AnimatedAddButtonRow = ({
+  buttonScaleAnim,
+  rowWidthAnim,
+  rowTopAnim,
+}) => {
+  const { theme } = useContext(AppContext);
+  const iconStyle = {
+    height: 36,
+    width: 36,
+    color: theme.primaryTextColor,
+    alignSelf: 'center',
+  };
+  return (
+    <AnimatedRow style={{ top: rowTopAnim, width: rowWidthAnim }}>
+      <AnimatedSmallButton
+        style={{
+          transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
+        }}
+      >
+        <EnrollmentIcon style={iconStyle} />
+      </AnimatedSmallButton>
+      <AnimatedSmallButton
+        style={{
+          transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
+        }}
+      >
+        <EnrollmentIcon style={iconStyle} />
+      </AnimatedSmallButton>
+      <AnimatedSmallButton
+        style={{
+          transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
+        }}
+      >
+        <EnrollmentIcon style={iconStyle} />
+      </AnimatedSmallButton>
+    </AnimatedRow>
+  );
+};
+
+AnimatedAddButtonRow.propTypes = {
+  buttonScaleAnim: PropTypes.object.isRequired,
+  rowWidthAnim: PropTypes.object.isRequired,
+  rowTopAnim: PropTypes.object.isRequired,
+};
