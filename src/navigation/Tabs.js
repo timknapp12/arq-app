@@ -1,15 +1,8 @@
 import React, { useContext, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  Image,
-  Platform,
-  View,
-  Animated,
-  Dimensions,
-  Easing,
-} from 'react-native';
-import { Flexbox, AddButton } from '../components/common';
+import { Image, Platform, Animated, Dimensions, Easing } from 'react-native';
+import { TabBarButton } from '../components/common';
 import DashboardStack from './DashboardStack';
 import ResourcesStack from './ResourcesStack';
 import TeamStack from './TeamStack';
@@ -20,13 +13,12 @@ import * as Analytics from 'expo-firebase-analytics';
 import storybook from '../../assets/icons/storybook.png';
 import { Localized } from '../translations/Localized';
 import StorybookUI from '../../storybook';
-import camera from '../../assets/icons/button_camera.png';
+import AddContactModal from '../components/prospectsScreen/AddContactModal';
 import {
   ResourcesIcon,
   DashboardIcon,
   TeamIcon,
   NewsIcon,
-  AnimatedAddButtonRow,
 } from '../components/common';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
@@ -45,10 +37,13 @@ const duration = 250;
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const { theme } = useContext(AppContext);
+  const { theme, hasPermissionsToWrite } = useContext(AppContext);
   const { newsNotificationCount } = useContext(LoginContext);
 
   const [showStorybook] = useState(false);
+  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
+
+  // options and animations for the add button in center of navbar
   const [showAddOptions, setShowAddOptions] = useState(false);
 
   const buttonScaleAnim = useRef(new Animated.Value(0)).current;
@@ -153,6 +148,7 @@ const Tabs = () => {
             height: 70,
             borderTopWidth: 0,
             backgroundColor: theme.activeBackground,
+            zIndex: 1,
           },
           tabBarLabelStyle: {
             fontFamily: 'Avenir-Light',
@@ -168,22 +164,47 @@ const Tabs = () => {
           options={{ title: Localized('Dashboard').toUpperCase() }}
         />
         <Tab.Screen
-          name="ResourcesStack"
-          component={ResourcesStack}
-          options={{
-            title: Localized('Resources').toUpperCase(),
-            tabBarItemStyle: {
-              paddingEnd: 24,
-            },
-          }}
-        />
-        <Tab.Screen
           name="TeamStack"
           component={TeamStack}
           options={{
             title: Localized('Team').toUpperCase(),
             tabBarItemStyle: {
-              paddingStart: 24,
+              marginEnd: 24,
+              zIndex: -1,
+            },
+          }}
+        />
+        <Tab.Screen
+          name="add button"
+          component={''}
+          options={{
+            tabBarButton: (props) => (
+              <TabBarButton
+                {...props}
+                showAddOptions={showAddOptions}
+                buttonScaleAnim={buttonScaleAnim}
+                rowWidthAnim={rowWidthAnim}
+                rowTopAnim={rowTopAnim}
+                spin={spin}
+                onPress={() =>
+                  !hasPermissionsToWrite
+                    ? setIsAddContactModalOpen(true)
+                    : showAddOptions
+                    ? closeAddOptions()
+                    : openAddOptions()
+                }
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="ResourcesStack"
+          component={ResourcesStack}
+          options={{
+            title: Localized('Resources').toUpperCase(),
+            tabBarItemStyle: {
+              marginStart: 24,
+              zIndex: -1,
             },
           }}
         />
@@ -202,46 +223,13 @@ const Tabs = () => {
           <Tab.Screen name="Storybook" component={StorybookUI} />
         )}
       </Tab.Navigator>
-      <Flexbox
-        height="0px"
-        style={{
-          position: 'absolute',
-          bottom: 90,
-        }}
-      >
-        {showAddOptions && (
-          <AnimatedAddButtonRow
-            buttonScaleAnim={buttonScaleAnim}
-            rowWidthAnim={rowWidthAnim}
-            rowTopAnim={rowTopAnim}
-          />
-        )}
-        <View
-          style={{
-            height: 70,
-            width: 70,
-            borderRadius: 35,
-            backgroundColor: theme.activeBackground,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <AddButton
-            onPress={() =>
-              showAddOptions ? closeAddOptions() : openAddOptions()
-            }
-            right="7px"
-            bottom="7px"
-          >
-            <Animated.Image
-              source={camera}
-              style={{
-                transform: [{ rotate: spin }],
-              }}
-            />
-          </AddButton>
-        </View>
-      </Flexbox>
+      {isAddContactModalOpen && (
+        <AddContactModal
+          isAddContactModalOpen={isAddContactModalOpen}
+          onClose={() => setIsAddContactModalOpen(false)}
+          newContact={true}
+        />
+      )}
     </>
   );
 };
