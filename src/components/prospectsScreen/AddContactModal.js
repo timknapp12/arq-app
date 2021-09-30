@@ -30,7 +30,7 @@ import {
 import { Localized } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
 import AppContext from '../../contexts/AppContext';
-import ProspectsContext from '../../contexts/ProspectsContext';
+import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from '../mainMenu/ProfileImage';
 import DeviceContactsModal from './DeviceContactsModal';
@@ -82,7 +82,7 @@ const AddContactModal = ({
   },
 }) => {
   const { theme, associateId } = useContext(AppContext);
-  const { addUpdateProspect } = useContext(ProspectsContext);
+  const { addUpdateProspect } = useContext(LoginContext);
 
   const scrollViewRef = useRef();
 
@@ -235,12 +235,14 @@ const AddContactModal = ({
       transparent={false}
       visible={isAddContactModalOpen}
       statusBarTranslucent={true}
-      onRequestClose={onClose}>
+      onRequestClose={onClose}
+    >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
             style={{ flex: 1, width: '100%' }}
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          >
             <Header>
               <HeaderButtonContainer>
                 <TouchableOpacity
@@ -249,7 +251,8 @@ const AddContactModal = ({
                     paddingBottom: 8,
                   }}
                   testID="add-contact-info-close-modal-button"
-                  onPress={onClose}>
+                  onPress={onClose}
+                >
                   <CloseIcon />
                 </TouchableOpacity>
               </HeaderButtonContainer>
@@ -262,7 +265,8 @@ const AddContactModal = ({
                 {isSaveButtonVisisble ? (
                   <TouchableOpacity
                     testID="add-contact-info-save-button"
-                    onPress={onSubmit}>
+                    onPress={onSubmit}
+                  >
                     {loading ? (
                       <ActivityIndicator
                         color={theme.disabledBackgroundColor}
@@ -283,8 +287,9 @@ const AddContactModal = ({
             <ScrollView
               ref={scrollViewRef}
               style={{ width: '100%' }}
-              contentContainerStyle={{ paddingBottom: 4 }}
-              keyboardShouldPersistTaps="always">
+              contentContainerStyle={{ paddingBottom: 16 }}
+              keyboardShouldPersistTaps="always"
+            >
               <Flexbox justify="flex-start" height="100%">
                 <Subheader justify="center">
                   <H5Heavy>{Localized('Contact Information')}</H5Heavy>
@@ -305,7 +310,8 @@ const AddContactModal = ({
                       width={nameInputWidth}
                       justify="space-between"
                       align="flex-end"
-                      height="100%">
+                      height="100%"
+                    >
                       <AnimatedInput
                         testID="add-contact-first-name-input"
                         label={Localized('First Name')}
@@ -407,7 +413,8 @@ const AddContactModal = ({
                       zIndex: 4,
                       paddingTop: 4,
                       marginBottom: 4,
-                    }}>
+                    }}
+                  >
                     {address?.countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker

@@ -16,8 +16,10 @@ import {
   GET_PROFILE,
   GET_NEWS,
   GET_PROSPECT_NOTIFICATIONS,
+  GET_PROSPECTS_BY_FIRSTNAME,
+  GET_PROSPECTS_BY_LASTNAME,
 } from '../../graphql/queries';
-import { UPDATE_USER } from '../../graphql/mutations';
+import { UPDATE_USER, ADD_UPDATE_PROSPECT } from '../../graphql/mutations';
 import { PROSPECT_VIEWED_LINK_NOTIFICATION } from '../../graphql/subscriptions';
 import { findMarketId, findMarketCode } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
@@ -206,6 +208,22 @@ const InitialDataContainer = ({ children }) => {
     }
   }, [marketsData?.activeCountries, profileData?.associates?.[0]]);
 
+  // add or update prospect
+  const [sortBy, setSortBy] = useState('lastName');
+
+  const [addUpdateProspect] = useMutation(ADD_UPDATE_PROSPECT, {
+    refetchQueries: [
+      {
+        query:
+          sortBy === 'firstName'
+            ? GET_PROSPECTS_BY_FIRSTNAME
+            : GET_PROSPECTS_BY_LASTNAME,
+        variables: { associateId },
+      },
+    ],
+    onError: (error) => console.log(`error in update contact:`, error),
+  });
+
   return (
     <LoginContext.Provider
       value={{
@@ -246,6 +264,9 @@ const InitialDataContainer = ({ children }) => {
         refetchProspectsNotifications,
         prospectNotificationCount,
         setProspectNotificationCount,
+        sortBy,
+        setSortBy,
+        addUpdateProspect,
       }}
     >
       {children}
