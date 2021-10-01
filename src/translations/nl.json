@@ -154,7 +154,7 @@
   "Reset password": "Wachtwoord resetten",
   "Check your email to reset your password and then sign in": "Check je e-mail om je wachtwoord te resetten en meld je dan aan",
   "First time using ARQ?": "Gebruik je ARQ voor het eerst?",
-  "Back Office Username": "Back-office gebruikersnaam",
+  "Back Office Username or Id": "Back Office gebruikersnaam of ID",
   "Please enter your back office username": "Vul je back-office gebruikersnaam in",
   "Verification Code": "Verificatiecode",
   "Sign in with Face ID": "Aanmelden met gezichtsherkenning",
@@ -196,7 +196,7 @@
   "View Contact Information": "Contactinformatie bekijken",
   "View Prospect": "Potentiële klant weergeven",
   "Copy Link": "Link kopiëren",
-  "You have no new notifications": "Je hebt geen nieuwe meldingen",
+  "No notifications": "Geen meldingen",
   "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "Hier is je ARQ verificatiecode: {0}.  Gebruik deze eenmalige verificatiecode om het aanmelden te voltooien. Deel deze code met niemand. Medewerkers van Q Sciences zullen nooit om deze code vragen.",
   "Viewed the document {0}": "Het document {0} bekeken",
   "Here is the information from Q Sciences for": "Hier is de informatie van Q Sciences voor",
@@ -248,5 +248,6 @@
   "or": "of",
   "{0} thought you may be interested in this information from Q Sciences.": "{0} dachten dat je misschien geïnteresseerd zou zijn in deze informatie van Q Sciences.",
   "To see the information please fill out the form below.": "Vul het onderstaande formulier in om de informatie te kunnen zien.",
-  "Submit": "Verzenden"
+  "Submit": "Verzenden",
+  "Close": "Sluiten"
 }

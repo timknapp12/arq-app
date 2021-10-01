@@ -63,7 +63,7 @@ const EnterIdScreen = ({ navigation }) => {
         <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
           <Flexbox width="100%" align="flex-start">
             <Input
-              label={Localized('Back Office Username')}
+              label={Localized('Back Office Username or Id')}
               autoFocus
               testID="enter-username-input"
               value={username}
@@ -80,7 +80,8 @@ const EnterIdScreen = ({ navigation }) => {
                 <AlertText
                   style={{
                     textAlign: 'center',
-                  }}>
+                  }}
+                >
                   {errorMessage}
                 </AlertText>
               </Flexbox>

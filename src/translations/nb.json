@@ -154,7 +154,7 @@
   "Reset password": "Tilbakestill passord",
   "Check your email to reset your password and then sign in": "Sjekk e-posten din for å tilbakestille passordet ditt og logg deretter på",
   "First time using ARQ?": "Er det første gangen du bruker ARQ?",
-  "Back Office Username": "Brukernavn for Back Office",
+  "Back Office Username or Id": "Back Office-brukernavn eller -ID",
   "Please enter your back office username": "Angi brukernavnet ditt for back office",
   "Verification Code": "Verifiseringskode",
   "Sign in with Face ID": "Logg på med Face ID",
@@ -196,7 +196,7 @@
   "View Contact Information": "Vis kontaktinformasjon",
   "View Prospect": "Vis potensiell kunde",
   "Copy Link": "Kopier kobling",
-  "You have no new notifications": "Du har ingen nye varslinger",
+  "No notifications": "Ingen meldinger",
   "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "Her er din ARQ-verifiseringskode: {0}.  Bruk denne engangs-verifiseringskoden til å fullføre pålogging. Ikke del denne koden med noen. Q Sciences-ansatte vil aldri be om denne koden.",
   "Viewed the document {0}": "Viste dokumentet {0}",
   "Here is the information from Q Sciences for": "Her er informasjon fra Q Sciences for",
@@ -248,5 +248,6 @@
   "or": "eller",
   "{0} thought you may be interested in this information from Q Sciences.": "{0} trodde du kan være interessert i informasjonen fra Q Sciences.",
   "To see the information please fill out the form below.": "Fyll ut skjemaet nedenfor for å se informasjonen.",
-  "Submit": "Sende inn"
+  "Submit": "Sende inn",
+  "Close": "Lukk"
 }

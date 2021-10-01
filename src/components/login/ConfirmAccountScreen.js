@@ -158,7 +158,8 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     <KeyboardAvoidingView
       style={{ flex: 1, width: '100%' }}
       contentContainerStyle={{ height: '100%', width: '100%' }}
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+    >
       <QLogoScreenContainer>
         <ScrollView
           contentContainerStyle={{
@@ -171,13 +172,15 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
           style={{
             width: '100%',
             marginTop: 12,
-          }}>
+          }}
+        >
           <Flexbox
             onStartShouldSetResponder={() => true}
             height="100%"
-            width="85%">
+            width="85%"
+          >
             <Flexbox onStartShouldSetResponder={() => true} align="flex-start">
-              <H4Book>{Localized('Back Office Username')}</H4Book>
+              <H4Book>{Localized('Back Office Username or Id')}</H4Book>
               <H4Book>{username}</H4Book>
               <Gap />
               <RadioButton
@@ -269,7 +272,8 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                   <AlertText
                     style={{
                       textAlign: 'center',
-                    }}>
+                    }}
+                  >
                     {errorMessage}
                   </AlertText>
                 </Flexbox>

@@ -154,7 +154,7 @@
   "Reset password": "Reset password",
   "Check your email to reset your password and then sign in": "Check your email to reset your password and then sign in",
   "First time using ARQ?": "First time using ARQ?",
-  "Back Office Username": "Back Office Username",
+  "Back Office Username or Id": "Back Office Username or Id",
   "Please enter your back office username": "Please enter your back office username",
   "Verification Code": "Verification Code",
   "Sign in with Face ID": "Sign in with Face ID",
@@ -196,7 +196,7 @@
   "View Contact Information": "View Contact Information",
   "View Prospect": "View Prospect",
   "Copy Link": "Copy Link",
-  "You have no new notifications": "You have no new notifications",
+  "No notifications": "No notifications",
   "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.",
   "Viewed the document {0}": "Viewed the document {0}",
   "Here is the information from Q Sciences for": "Here is the information from Q Sciences for",
@@ -248,5 +248,6 @@
   "or": "or",
   "{0} thought you may be interested in this information from Q Sciences.": "{0} thought you may be interested in this information from Q Sciences.",
   "To see the information please fill out the form below.": "To see the information please fill out the form below.",
-  "Submit": "Submit"
+  "Submit": "Submit",
+  "Close": "Close"
 }
