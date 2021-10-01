@@ -154,7 +154,7 @@
   "Reset password": "Resetovat heslo",
   "Check your email to reset your password and then sign in": "Zkontrolujte e-mail, abyste mohli resetovat heslo, a poté se přihlaste",
   "First time using ARQ?": "Poprvé používáte ARQ?",
-  "Back Office Username": "Uživatelské jméno Back Office",
+  "Back Office Username or Id": "Back Office uživatelské jméno nebo ID",
   "Please enter your back office username": "Zadejte své uživatelské jméno pro Back Office",
   "Verification Code": "Ověřovací kód",
   "Sign in with Face ID": "Přihlaste se pomocí Face ID",
@@ -196,7 +196,7 @@
   "View Contact Information": "Zobrazit kontaktní informace",
   "View Prospect": "Zobrazit zákazníka",
   "Copy Link": "Zkopírovat odkaz",
-  "You have no new notifications": "Nemáte žádná nová oznámení",
+  "No notifications": "Žádná oznámení",
   "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "Zde je váš ARQ ověřovací kód: {0}.  K dokončení přihlášení použijte tento jednorázový ověřovací kód. Kód nikomu nesdělujte. Zaměstnanci společnosti Q Sciences tento kód nikdy nepožadují.",
   "Viewed the document {0}": "Zobrazený dokument {0}",
   "Here is the information from Q Sciences for": "Zde jsou informace od společnosti Q Sciences pro",
@@ -248,5 +248,6 @@
   "or": "nebo",
   "{0} thought you may be interested in this information from Q Sciences.": "{0} si myslí, že by vás mohla zajímat tato informace od Q Sciences.",
   "To see the information please fill out the form below.": "Chcete-li tuto informaci zobrazit, vyplňte prosím níže uvedený formulář.",
-  "Submit": "Odeslat"
+  "Submit": "Odeslat",
+  "Close": "Zavřít"
 }

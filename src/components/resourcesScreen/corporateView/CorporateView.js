@@ -66,8 +66,12 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
     if (isMenuOpen && Platform.OS === 'android') {
       return closeMenus();
     }
+    // don't allow navigation if notifications is open
+    if (displayNotifications && Platform.OS === 'android') {
+      return;
+    }
     // close notifications window if it is open instead of navigating to resource
-    if (displayNotifications) {
+    if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
     }
     closeMenus();
@@ -82,6 +86,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
         assetList: item?.links,
       });
     }
+    // }
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
     const formattedTitle = item?.folderName.split(' ').join('_');
     const shortenedTitle = formattedTitle.slice(0, 23) + '_category_tapped';
@@ -127,7 +132,8 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
       </FilterSearchBar>
       <MainScrollView>
         <TouchableWithoutFeedback
-          onPress={() => setIsCalloutOpenFromParent(false)}>
+          onPress={() => setIsCalloutOpenFromParent(false)}
+        >
           <View
             style={{
               flexDirection: 'row',
@@ -136,7 +142,8 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
               padding: 10,
             }}
             accessibilityLabel="Corporate Resources"
-            onStartShouldSetResponder={() => true}>
+            onStartShouldSetResponder={() => true}
+          >
             {data?.corporateResources.map((item, index) => (
               <ResourceCard
                 isCalloutOpenFromParent={isCalloutOpenFromParent}

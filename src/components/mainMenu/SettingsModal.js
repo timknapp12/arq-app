@@ -85,6 +85,16 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
     value: item?.countryCode,
   }));
 
+  // this is a fallback so the Picker won't crash if the markets array is empty as some point
+  const fallbackMarketItems = [
+    {
+      key: 88,
+      id: 88,
+      label: 'United States',
+      value: 'us',
+    },
+  ];
+
   const navigation = useNavigation();
   const signOut = () => {
     signOutOfFirebase();
@@ -172,7 +182,8 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
       transparent={false}
       visible={isSettingsModalOpen}
       statusBarTranslucent={true}
-      onRequestClose={() => setIsSettingsModalOpen(false)}>
+      onRequestClose={() => setIsSettingsModalOpen(false)}
+    >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
@@ -181,16 +192,19 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
             style={{
               flex: 1,
               width: '100%',
-            }}>
+            }}
+          >
             <ScrollView
               style={{ width: '100%' }}
               nestedScrollEnabled={true}
               contentContainerStyle={{ height: '100%', paddingBottom: 20 }}
-              keyboardShouldPersistTaps="always">
+              keyboardShouldPersistTaps="always"
+            >
               <Flexbox
                 onStartShouldSetResponder={() => true}
                 justify="flex-start"
-                height="100%">
+                height="100%"
+              >
                 <Flexbox>
                   <Header>
                     <HeaderButtonContainer>
@@ -200,7 +214,8 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                           paddingBottom: 8,
                         }}
                         testID="my-info-close-modal-button"
-                        onPress={() => setIsSettingsModalOpen(false)}>
+                        onPress={() => setIsSettingsModalOpen(false)}
+                      >
                         <CloseIcon />
                       </TouchableOpacity>
                     </HeaderButtonContainer>
@@ -209,7 +224,8 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                       {isSaveButtonVisisble ? (
                         <TouchableOpacity
                           testID="settings-save-button"
-                          onPress={onSubmit}>
+                          onPress={onSubmit}
+                        >
                           <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
                         </TouchableOpacity>
                       ) : (
@@ -225,7 +241,8 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                   <Flexbox
                     accessibilityLabel="settings info"
                     style={{ position: 'relative', paddingBottom: 0 }}
-                    padding={12}>
+                    padding={12}
+                  >
                     <RowContainer>
                       <H5Secondary>{Localized('Username')}</H5Secondary>
                       <H5 style={{ marginStart: 8 }}>{email}</H5>
@@ -246,9 +263,14 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                         paddingRight: 8,
                         paddingLeft: 8,
                         width: '100%',
-                      }}>
+                      }}
+                    >
                       <Picker
-                        items={reshapedItems}
+                        items={
+                          reshapedItems?.length > 0
+                            ? reshapedItems
+                            : fallbackMarketItems
+                        }
                         value={selectedMarket}
                         onValueChange={(value) => {
                           setSelectedMarket(value);
@@ -265,10 +287,12 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                 <View
                   style={{
                     width: '85%',
-                  }}>
+                  }}
+                >
                   <PrimaryButton
                     testID="log-out-button-in-settings"
-                    onPress={() => signOut()}>
+                    onPress={() => signOut()}
+                  >
                     {Localized('Sign Out').toUpperCase()}
                   </PrimaryButton>
                 </View>

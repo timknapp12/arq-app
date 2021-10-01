@@ -31,10 +31,17 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
     if (isMenuOpen && Platform.OS === 'android') {
       return;
     }
-    if (displayNotifications) {
+    // don't allow navigation if notifications is open
+    if (displayNotifications && Platform.OS === 'android') {
+      return;
+    }
+    // close notifications window if it is open instead of navigating
+    if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
     }
-    Linking.openURL('https://office2.myqsciences.com/#/Login');
+    if (!displayNotifications) {
+      Linking.openURL('https://office2.myqsciences.com/#/Login');
+    }
     closeMenus();
   };
   return (
@@ -42,7 +49,8 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
       <View style={{ width: '100%' }}>
         <TouchableOpacity
           activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
-          onPress={onPress}>
+          onPress={onPress}
+        >
           <Card>
             <Row>
               <BackOfficeIcon
@@ -59,7 +67,8 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
                   justifyContent: 'flex-start',
                   alignItems: 'flex-start',
                   marginStart: 8,
-                }}>
+                }}
+              >
                 <H4Book>{Localized('Back Office')}</H4Book>
                 <H6Book>
                   {Localized(
@@ -72,7 +81,8 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
-          onPress={onPress}>
+          onPress={onPress}
+        >
           <Card>
             <Row>
               <EnrollmentIcon
@@ -89,7 +99,8 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
                   justifyContent: 'flex-start',
                   alignItems: 'flex-start',
                   marginStart: 8,
-                }}>
+                }}
+              >
                 <H4Book>{Localized('Enroll')}</H4Book>
                 <H6Book>
                   {Localized('Help people enroll with Q Sciences today.')}

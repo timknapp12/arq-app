@@ -154,7 +154,7 @@
   "Reset password": "Réinitialiser le mot de passe",
   "Check your email to reset your password and then sign in": "Vérifiez vos emails pour réinitialiser votre mot de passe et connectez-vous",
   "First time using ARQ?": "Est-ce la première fois que vous utilisez ARQ ?",
-  "Back Office Username": "Nom d’utilisateur back office",
+  "Back Office Username or Id": "Nom d’utilisateur ou ID du Back Office",
   "Please enter your back office username": "Veuillez entrer votre nom d’utilisateur back office",
   "Verification Code": "Code de vérification",
   "Sign in with Face ID": "Se connecter avec l’identification faciale",
@@ -196,7 +196,7 @@
   "View Contact Information": "Voir les coordonnées",
   "View Prospect": "Voir le prospect",
   "Copy Link": "Copier le lien",
-  "You have no new notifications": "Vous n’avez pas de nouvelles notifications",
+  "No notifications": "Aucune notification",
   "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "Voici votre code de vérification ARQ : {0}.  Utilisez ce code de vérification unique pour finaliser la connexion. Ne le communiquez à personne. Aucun employé de Q Sciences ne vous demandera ce code.",
   "Viewed the document {0}": "A consulté le document {0}",
   "Here is the information from Q Sciences for": "Voici les informations de Q Sciences pour",
@@ -248,5 +248,6 @@
   "or": "ou",
   "{0} thought you may be interested in this information from Q Sciences.": "{0} s’est dit que vous pourriez être intéressé(e) par ces informations provenant de Q Sciences.",
   "To see the information please fill out the form below.": "Pour voir les informations, veuillez remplir le formulaire ci-dessous.",
-  "Submit": "Envoyer"
+  "Submit": "Envoyer",
+  "Close": "Fermer"
 }

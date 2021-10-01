@@ -154,7 +154,7 @@
   "Reset password": "パスワードを再設定",
   "Check your email to reset your password and then sign in": "メールを確認してパスワードを再設定し、ログインしてください",
   "First time using ARQ?": "ARQ のご利用は初めてですか？",
-  "Back Office Username": "バックオフィス ユーザー名",
+  "Back Office Username or Id": "ユーザーネームもしくはID",
   "Please enter your back office username": "バックオフィス ユーザー名を入力してください",
   "Verification Code": "認証コード",
   "Sign in with Face ID": "Face ID でログインする",
@@ -196,7 +196,7 @@
   "View Contact Information": "連絡先情報を表示",
   "View Prospect": "見込み客を表示",
   "Copy Link": "リンクをコピー",
-  "You have no new notifications": "新しい通知はありません",
+  "No notifications ": "お知らせはありません",
   "Here is your ARQ verification code: {0}.  Use this one-time verification code to complete sign in. Do not share this code with anyone. Q Sciences employees will never ask for this code.": "こちらが ARQ 認証コードです： {0}.  このワンタイム認証コードを使用して、ログインを完了してください。このコードは誰にも教えないでください。Qサイエンスの社員がこのコードを尋ねることはありません。",
   "Viewed the document {0}": "ドキュメント {0} を閲覧しました",
   "Here is the information from Q Sciences for": "こちらは以下に関するQサイエンスからの情報です：",
@@ -248,5 +248,6 @@
   "or": "または",
   "{0} thought you may be interested in this information from Q Sciences.": "{0} Q Sciences社からの情報に興味をお持ちの場合。",
   "To see the information please fill out the form below.": "お問い合わせは、以下のフォームにご記入ください。",
-  "Submit": "送信"
+  "Submit": "送信",
+  "Close": "閉じる"
 }

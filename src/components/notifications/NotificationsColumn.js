@@ -98,14 +98,16 @@ const NotificationsColumn = () => {
         ) : (
           <>
             <ScrollView
-              style={{ width: '100%', maxHeight: windowHeight - 300 }}>
+              style={{ width: '100%', maxHeight: windowHeight - 300 }}
+            >
               <Flexbox
                 style={{ zIndex: 2 }}
                 onTouchEnd={() => {
                   // e.stopPropagation();
                   setIsCalloutOpenFromParent(false);
                 }}
-                onStartShouldSetResponder={() => true}>
+                onStartShouldSetResponder={() => true}
+              >
                 {prospectNotifications?.map((item, index) => (
                   <NotificationCard
                     style={{ zIndex: -index }}
@@ -131,14 +133,20 @@ const NotificationsColumn = () => {
                 if (nativeEvent.oldState === State.ACTIVE) {
                   setDisplayNotifications(false);
                 }
-              }}>
+              }}
+            >
               {prospectNotifications?.length > 0 ? (
                 <>
                   <CalloutButton
                     style={{
                       marginEnd: 10,
                     }}
-                    onPress={() => setDisplayNotifications(false)}>
+                    onPress={() => {
+                      setTimeout(() => {
+                        setDisplayNotifications(false);
+                      }, 300);
+                    }}
+                  >
                     <H5Black>{Localized('Close').toUpperCase()}</H5Black>
                   </CalloutButton>
                   <CalloutButton onPress={clearAll}>
@@ -150,10 +158,9 @@ const NotificationsColumn = () => {
                   <CalloutButton
                     style={{ marginStart: 10 }}
                     activeOpacity={1}
-                    onPress={() => setDisplayNotifications(false)}>
-                    <H5Black>
-                      {Localized('You have no new notifications')}
-                    </H5Black>
+                    onPress={() => setDisplayNotifications(false)}
+                  >
+                    <H5Black>{Localized('No notifications')}</H5Black>
                   </CalloutButton>
                 </>
               )}

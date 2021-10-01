@@ -87,14 +87,9 @@ const ResourcesScreen = ({ navigation }) => {
   };
 
   const openTeamMenu = () => {
-    // touch events on android bleed through to underlying elements, so this prevents the default touch event if a menu item is touched
-    if (isMenuOpen) {
+    // touch events on android bleed through to underlying elements, so this prevents the default touch event if an item is touched on the side menu or notifications
+    if (isMenuOpen || displayNotifications) {
       return;
-    }
-    // close notifications window if it is open instead of opening modal
-    // this is because android touches bleed through the notifications window and could activate this function
-    if (displayNotifications) {
-      return setDisplayNotifications(false);
     }
     setIsTeamMenuOpen(true);
     Animated.timing(teamFadeAnim, {
@@ -141,12 +136,14 @@ const ResourcesScreen = ({ navigation }) => {
       onPress={() => {
         setIsCalloutOpenFromParent(false);
         closeMenus();
-      }}>
+      }}
+    >
       <ScreenContainer
         style={{
           justifyContent: 'flex-start',
           height: '100%',
-        }}>
+        }}
+      >
         <Flexbox style={{ zIndex: 2 }}>
           <MainHeader
             isMenuOpen={isMenuOpen}
@@ -163,7 +160,8 @@ const ResourcesScreen = ({ navigation }) => {
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view.name === item?.name}
-              key={item?.name}>
+              key={item?.name}
+            >
               {item?.name}
             </TertiaryButton>
           ))}
@@ -215,7 +213,8 @@ const ResourcesScreen = ({ navigation }) => {
               onPress={() => {
                 setIsAddFolderModalOpen(true);
                 setIsCalloutOpenFromParent(false);
-              }}>
+              }}
+            >
               <ButtonText>+</ButtonText>
             </AddButton>
           )}
