@@ -141,7 +141,11 @@ const NotificationsColumn = () => {
                     style={{
                       marginEnd: 10,
                     }}
-                    onPress={() => setDisplayNotifications(false)}
+                    onPress={() => {
+                      setTimeout(() => {
+                        setDisplayNotifications(false);
+                      }, 300);
+                    }}
                   >
                     <H5Black>{Localized('Close').toUpperCase()}</H5Black>
                   </CalloutButton>

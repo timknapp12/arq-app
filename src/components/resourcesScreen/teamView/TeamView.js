@@ -108,7 +108,10 @@ const TeamView = ({
       return closeMenus();
     }
     // close notifications window if it is open instead of navigating to resource
-    if (displayNotifications) {
+    if (displayNotifications && Platform.OS === 'android') {
+      return;
+    }
+    if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
     }
     navigation.navigate('Team Resources Category Screen', {
@@ -283,7 +286,8 @@ const TeamView = ({
             padding: 10,
           }}
           accessibilityLabel="Team Resources"
-          onStartShouldSetResponder={() => true}>
+          onStartShouldSetResponder={() => true}
+        >
           {teamResourceData?.teamResources.length < 1 ? (
             <Flexbox>
               <H5>{Localized('There are no resources found')}</H5>

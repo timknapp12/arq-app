@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
-import { TouchableOpacity, Dimensions, Linking } from 'react-native';
+import { TouchableOpacity, Dimensions, Linking, Platform } from 'react-native';
 import { H4Black, H6Book } from '../common';
 import defaultImage from '../../../assets/icons/image.png';
 import AppContext from '../../contexts/AppContext';
@@ -58,7 +58,12 @@ const FeaturedNewsCard = ({
     if (isMenuOpen) {
       return closeMenus();
     }
-    if (displayNotifications) {
+    // don't allow opening if notifications is open
+    if (displayNotifications && Platform.OS === 'android') {
+      return;
+    }
+    // close notifications window if it is open instead of opening link
+    if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
     }
     setIsReadYet(true);
@@ -69,14 +74,16 @@ const FeaturedNewsCard = ({
   return (
     <TouchableOpacity
       activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
-      onPress={openLink}>
+      onPress={openLink}
+    >
       <Container>
         <BannerImage source={{ uri: imageUrl }} defaultSource={defaultImage} />
         <TitleAndDescriptionContainer isReadYet={!isReadYet}>
           <H4Black
             ellipsizeMode="tail"
             numberOfLines={1}
-            style={{ marginBottom: 4 }}>
+            style={{ marginBottom: 4 }}
+          >
             {title}
           </H4Black>
           <H6Book ellipsizeMode="tail" numberOfLines={5} style={{ flex: 1 }}>

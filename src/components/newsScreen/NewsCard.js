@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { Linking, TouchableOpacity } from 'react-native';
+import { Linking, TouchableOpacity, Platform } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { H4Black, H6Book } from '../common';
 import AppContext from '../../contexts/AppContext';
@@ -41,7 +41,12 @@ const NewsCard = ({
     if (isMenuOpen) {
       return closeMenus();
     }
-    if (displayNotifications) {
+    // don't allow opening if notifications is open
+    if (displayNotifications && Platform.OS === 'android') {
+      return;
+    }
+    // close notifications window if it is open instead of opening link
+    if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
     }
     setIsReadYet(true);
@@ -65,13 +70,15 @@ const NewsCard = ({
           /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
           activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
           style={{ flex: 1 }}
-          onPress={openLink}>
+          onPress={openLink}
+        >
           <InnerContainer>
             <TitleAndDateContainer>
               <H4Black
                 ellipsizeMode="tail"
                 numberOfLines={1}
-                style={{ marginBottom: 4, flex: 1 }}>
+                style={{ marginBottom: 4, flex: 1 }}
+              >
                 {title}
               </H4Black>
               {formattedDate ? (
@@ -82,14 +89,16 @@ const NewsCard = ({
               <H6Book
                 ellipsizeMode="tail"
                 numberOfLines={20}
-                style={{ flex: 1 }}>
+                style={{ flex: 1 }}
+              >
                 {body}
               </H6Book>
             ) : (
               <H6Book
                 ellipsizeMode="tail"
                 numberOfLines={3}
-                style={{ flex: 1 }}>
+                style={{ flex: 1 }}
+              >
                 {body}
               </H6Book>
             )}
@@ -102,7 +111,8 @@ const NewsCard = ({
             setIsReadYet(true);
             setIsExpanded((state) => !state);
             closeMenus();
-          }}>
+          }}
+        >
           <MaterialCommunityIcon
             name={isExpanded ? 'chevron-up' : 'chevron-down'}
             color={theme.primaryTextColor}
