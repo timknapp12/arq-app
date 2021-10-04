@@ -28,6 +28,7 @@ const BiometricsScreen = ({ navigation }) => {
 
   const { loading, data } = useQuery(GET_USERS_ACCESS_CODES, {
     variables: { associateId },
+    onError: (error) => console.log(`error in get access codes`, error),
   });
 
   const alreadyHasTeam = data?.accesses.some(
@@ -100,7 +101,8 @@ const BiometricsScreen = ({ navigation }) => {
               marginBottom: 24,
             }}
             testID="use-biometrics-checkbox"
-            onPress={onToggleBiometrics}>
+            onPress={onToggleBiometrics}
+          >
             <Checkbox selected={enableBiometrics} />
             <H4 style={{ marginStart: 8 }}>{label}</H4>
           </TouchableOpacity>

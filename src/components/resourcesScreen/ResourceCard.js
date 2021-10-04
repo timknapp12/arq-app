@@ -91,7 +91,7 @@ const ResourceCard = ({
       { query: GET_TEAM_RESOURCES, variables: { teams: [selectedTeamName] } },
     ],
     onCompleted: () => closeCallout(),
-    onError: (error) => console.log(`error`, error),
+    onError: (error) => console.log(`error in delete folder`, error),
   });
 
   const onRemove = () =>
@@ -123,7 +123,8 @@ const ResourceCard = ({
         activeOpacity={
           isMenuOpen || isTeamMenuOpen || displayNotifications ? 1 : 0.2
         }
-        onPress={onPress}>
+        onPress={onPress}
+      >
         <CardImage source={{ uri: url }} defaultSource={baseImage} />
       </TouchableOpacity>
 
@@ -134,7 +135,8 @@ const ResourceCard = ({
             height: '100%',
             justifyContent: 'center',
           }}
-          onPress={onPress}>
+          onPress={onPress}
+        >
           <H6>{title}</H6>
         </TouchableOpacity>
 
@@ -145,7 +147,8 @@ const ResourceCard = ({
                 alignItems: 'center',
                 padding: 6,
               }}
-              onPress={onCallout}>
+              onPress={onCallout}
+            >
               <KebobIcon
                 style={{ height: 20, width: 20, color: theme.activeTint }}
               />
@@ -158,7 +161,8 @@ const ResourceCard = ({
           <CalloutButton
             onPress={() => {
               setIsAddFolderModalOpen(true);
-            }}>
+            }}
+          >
             <Flexbox direction="row" justify="flex-start">
               <EditIcon
                 style={{

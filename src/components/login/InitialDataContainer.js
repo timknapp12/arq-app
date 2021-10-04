@@ -75,14 +75,18 @@ const InitialDataContainer = ({ children }) => {
     countryCode: 'us',
   });
 
-  const { data: ranksData } = useQuery(GET_RANKS);
+  const { data: ranksData } = useQuery(GET_RANKS, {
+    onError: (e) => console.log(`error in get ranks`, e),
+  });
 
   const { data: marketsData } = useQuery(GET_MARKETS, {
     variables: { language: deviceLanguage },
+    onError: (e) => console.log(`error in get markets`, e),
   });
 
   const [getUser, { data: userData }] = useLazyQuery(GET_USER, {
     variables: { legacyAssociateId: legacyId },
+    onError: (e) => console.log(`error in get user`, e),
     onCompleted: (data) => {
       if (
         data?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank?.rankId >
@@ -99,9 +103,12 @@ const InitialDataContainer = ({ children }) => {
     useLazyQuery(GET_PROFILE, {
       variables: { associateId },
       fetchPolicy: 'cache-and-network',
+      onError: (e) => console.log(`error in get profile`, e),
     });
 
-  const [updateProfile] = useMutation(UPDATE_USER);
+  const [updateProfile] = useMutation(UPDATE_USER, {
+    onError: (e) => console.log(`error in update profile`, e),
+  });
 
   // get news by market
   const [marketId, setMarketId] = useState(userMarket.countryId);
@@ -125,6 +132,7 @@ const InitialDataContainer = ({ children }) => {
       countries: marketId,
       languageCode: deviceLanguage || 'en',
     },
+    onError: (e) => console.log(`error in get news`, e),
   });
 
   const news = newsData?.newsResources ?? [];
@@ -156,6 +164,7 @@ const InitialDataContainer = ({ children }) => {
     {
       variables: { associateId },
       fetchPolicy: 'cache-and-network',
+      onError: (e) => console.log(`error in prospect subscription`, e),
     },
   );
 

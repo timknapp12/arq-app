@@ -50,7 +50,7 @@ const TeamView = ({
     GET_USERS_ACCESS_CODES,
     {
       variables: { associateId },
-      onError: (err) => console.log(`err`, err),
+      onError: (err) => console.log(`err in get user's access codes`, err),
     },
   );
 
@@ -192,6 +192,7 @@ const TeamView = ({
     { loading: loadingResources, data: teamResourceData },
   ] = useLazyQuery(GET_TEAM_RESOURCES, {
     variables: { teams: [selectedTeamName] },
+    onError: (error) => console.log(`error in get team resources`, error),
   });
 
   // each time a new team is selected, get resources for that team

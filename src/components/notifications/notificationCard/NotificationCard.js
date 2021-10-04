@@ -34,7 +34,8 @@ const NotificationCard = ({
     PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED,
     {
       variables: { viewId },
-      onError: (error) => console.log(`error`, error),
+      onError: (error) =>
+        console.log(`error in prospect notification hs been viewed`, error),
     },
   );
 
@@ -82,7 +83,8 @@ const NotificationCard = ({
   const [handlePin] = useMutation(PIN_PROSPECT_NOTIFICATION, {
     variables: { viewId, pin: isSaved ? false : true },
     onCompleted: () => refetchProspectsNotifications(),
-    onError: (error) => console.log(`error`, error),
+    onError: (error) =>
+      console.log(`error in pin prospect notification`, error),
   });
 
   const navigation = useNavigation();

@@ -35,7 +35,9 @@ const TeamSearchScreen = ({ route, navigation }) => {
     setToastProgress(progress);
   };
 
-  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES);
+  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES, {
+    onError: (error) => console.log(`error in search team resources`, error),
+  });
 
   const debounceSearch = useCallback(
     debounce(
@@ -60,14 +62,16 @@ const TeamSearchScreen = ({ route, navigation }) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => setIsCalloutOpenFromParent(false)}
-      style={{ flex: 1 }}>
+      style={{ flex: 1 }}
+    >
       <ScreenContainer
         style={{
           justifyContent: 'flex-start',
           paddingTop: 0,
           paddingBottom: 0,
           height: '100%',
-        }}>
+        }}
+      >
         <DownloadToast
           title={toastTitle}
           body={toastBody}
@@ -89,7 +93,8 @@ const TeamSearchScreen = ({ route, navigation }) => {
             flexGrow: 1,
             paddingBottom: 120,
             marginTop: 8,
-          }}>
+          }}
+        >
           {loading ? (
             <ActivityIndicator
               style={{ marginTop: 30 }}
@@ -98,11 +103,13 @@ const TeamSearchScreen = ({ route, navigation }) => {
             />
           ) : (
             <TouchableWithoutFeedback
-              onPress={() => setIsCalloutOpenFromParent(false)}>
+              onPress={() => setIsCalloutOpenFromParent(false)}
+            >
               <Flexbox
                 justify="flex-start"
                 padding={10}
-                onStartShouldSetResponder={() => true}>
+                onStartShouldSetResponder={() => true}
+              >
                 {data?.searchResources?.links?.map((item, index) => (
                   <AssetCard
                     isCalloutOpenFromParent={isCalloutOpenFromParent}

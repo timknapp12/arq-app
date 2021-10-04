@@ -45,6 +45,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
       countries: marketId,
       languageCode: deviceLanguage || 'en',
     },
+    onError: (error) => console.log(`error in get corporate resources`, error),
   });
 
   useEffect(() => {

@@ -30,7 +30,10 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
   // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
   const [isNavDisabled, setIsNavDisabled] = useState(false);
 
-  const { loading, data } = useQuery(GET_ASSETS, { variables: { folderId } });
+  const { loading, data } = useQuery(GET_ASSETS, {
+    variables: { folderId },
+    onError: (error) => console.log(`error in get assets`, error),
+  });
 
   if (loading) {
     return <LoadingScreen />;
@@ -39,7 +42,8 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
       <ScreenContainer
-        style={{ paddingTop: 0, paddingBottom: 0, height: 'auto' }}>
+        style={{ paddingTop: 0, paddingBottom: 0, height: 'auto' }}
+      >
         <ScrollView
           onStartShouldSetResponder={() => true}
           style={{
@@ -49,14 +53,17 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
           }}
           contentContainerStyle={{
             paddingBottom: 240,
-          }}>
+          }}
+        >
           <TouchableWithoutFeedback
-            onPress={() => setIsCalloutOpenFromParent(false)}>
+            onPress={() => setIsCalloutOpenFromParent(false)}
+          >
             <Flexbox
               justify="flex-start"
               height="100%"
               padding={10}
-              onStartShouldSetResponder={() => true}>
+              onStartShouldSetResponder={() => true}
+            >
               <DownloadToast
                 title={toastTitle}
                 body={toastBody}
@@ -95,7 +102,8 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
             onPress={() => {
               setIsUploadAssetModalOpen(true);
               setIsCalloutOpenFromParent(false);
-            }}>
+            }}
+          >
             <ButtonText>+</ButtonText>
           </AddButton>
         )}

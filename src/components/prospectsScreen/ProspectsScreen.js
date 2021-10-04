@@ -86,6 +86,8 @@ const ProspectsScreen = ({ navigation, route }) => {
     {
       variables: { associateId },
       fetchPolicy: 'cache-and-network',
+      onError: (error) =>
+        console.log(`error in get prospects by last name`, error),
     },
   );
 
@@ -95,6 +97,8 @@ const ProspectsScreen = ({ navigation, route }) => {
   ] = useLazyQuery(GET_PROSPECTS_BY_FIRSTNAME, {
     variables: { associateId },
     fetchPolicy: 'cache-and-network',
+    onError: (error) =>
+      console.log(`error in get prospects by last name`, error),
   });
 
   useEffect(() => {
@@ -116,18 +120,22 @@ const ProspectsScreen = ({ navigation, route }) => {
         onPress={() => {
           closeFilterMenu();
           setIsCalloutOpenFromParent(false);
-        }}>
+        }}
+      >
         <ScreenContainer
           style={{
             justifyContent: 'flex-start',
             height: '100%',
             paddingTop: 0,
             paddingBottom: 0,
-          }}>
+          }}
+        >
           <FilterSearchBar
-            onPress={() => navigation.navigate('Prospects Search Screen')}>
+            onPress={() => navigation.navigate('Prospects Search Screen')}
+          >
             <TouchableOpacity
-              onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}>
+              onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}
+            >
               <Flexbox direction="row" width="auto">
                 <FilterIcon
                   style={{
@@ -166,7 +174,8 @@ const ProspectsScreen = ({ navigation, route }) => {
           )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
-            bottom="40px">
+            bottom="40px"
+          >
             <ButtonText>+</ButtonText>
           </AddButton>
         </ScreenContainer>

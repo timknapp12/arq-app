@@ -131,7 +131,7 @@ const AssetCard = ({
     variables: { linkId },
     refetchQueries: [{ query: GET_ASSETS, variables: { folderId } }],
     onCompleted: () => closeCallout(),
-    onError: (error) => console.log(`error`, error),
+    onError: (error) => console.log(`error in delete asset`, error),
   });
 
   const onRemove = () =>
@@ -203,6 +203,7 @@ const AssetCard = ({
 
   const [onLeadCapture] = useMutation(GET_PROSPECT_URL, {
     variables: variables,
+    onError: (error) => console.log(`error in get prospect url`, error),
     onCompleted: async (data) => {
       try {
         const result = await Share.share({
@@ -240,7 +241,8 @@ const AssetCard = ({
               <H5
                 ellipsizeMode="tail"
                 numberOfLines={1}
-                style={{ marginBottom: 4 }}>
+                style={{ marginBottom: 4 }}
+              >
                 {title}
               </H5>
               {isExpanded ? (
@@ -249,7 +251,8 @@ const AssetCard = ({
                 <H6Secondary
                   ellipsizeMode="tail"
                   numberOfLines={1}
-                  style={{ flex: 1 }}>
+                  style={{ flex: 1 }}
+                >
                   {description}
                 </H6Secondary>
               )}
@@ -261,7 +264,8 @@ const AssetCard = ({
                 paddingStart: 12,
                 paddingEnd: 10,
               }}
-              onPress={() => setIsExpanded((state) => !state)}>
+              onPress={() => setIsExpanded((state) => !state)}
+            >
               <MaterialCommunityIcon
                 name="chevron-up"
                 color={theme.primaryTextColor}
@@ -277,7 +281,8 @@ const AssetCard = ({
                 }}
                 onPress={() => {
                   setIsExpanded((state) => !state);
-                }}>
+                }}
+              >
                 <MaterialCommunityIcon
                   name="chevron-down"
                   color={theme.primaryTextColor}
@@ -292,7 +297,8 @@ const AssetCard = ({
                     paddingStart: 12,
                     paddingEnd: 5,
                   }}
-                  onPress={() => setIsCalloutOpen(false)}>
+                  onPress={() => setIsCalloutOpen(false)}
+                >
                   <KebobIcon
                     style={{
                       height: 20,
@@ -309,7 +315,8 @@ const AssetCard = ({
                     paddingStart: 12,
                     paddingEnd: 5,
                   }}
-                  onPress={(e) => onCallout(e)}>
+                  onPress={(e) => onCallout(e)}
+                >
                   <KebobIcon
                     style={{
                       height: 20,

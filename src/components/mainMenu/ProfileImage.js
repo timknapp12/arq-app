@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Platform, View } from 'react-native';
+import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { CameraIcon, GalleryIcon } from '../common';
@@ -57,30 +57,47 @@ const ProfileImage = ({
   initials = '',
   setIsNewImageSelected,
 }) => {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [hasPhotosPermissions, setHasPhotosPermissions] = useState(null);
   // permissions for camera
+  const getCameraPermissions = async () => {
+    const { status } = await Camera.requestPermissionsAsync();
+    if (status === 'granted') {
+      return setHasCameraPermission(true);
+    }
+    if (status !== 'granted') {
+      Alert.alert(
+        Localized('Sorry, we need camera roll permissions to make this work!'),
+        Localized(
+          'Please go to settings on your device and enable permissions to access your camera',
+        ),
+      );
+      setHasCameraPermission(false);
+    }
+  };
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
+    getCameraPermissions();
   }, []);
 
   // permissions for photo library
+  const getPhotoPermissions = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status === 'granted') {
+      return setHasPhotosPermissions(true);
+    }
+    if (status !== 'granted') {
+      Alert.alert(
+        Localized('Sorry, we need camera roll permissions to make this work!'),
+        Localized(
+          'Please go to settings on your device and enable permissions to access your photos',
+        ),
+      );
+      setHasPhotosPermissions(false);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert(
-            Localized(
-              'Sorry, we need camera roll permissions to make this work!',
-            ),
-          );
-        }
-      }
-    })();
+    getPhotoPermissions();
   }, []);
 
   const pickImage = async () => {
@@ -110,12 +127,7 @@ const ProfileImage = ({
       setIsNewImageSelected(true);
     }
   };
-  if (hasPermission === null) {
-    return <View />;
-  }
-  if (hasPermission === false) {
-    return Alert.alert('No access to camera');
-  }
+
   return (
     <ImageContainer>
       {profileUrl ? (
@@ -126,12 +138,16 @@ const ProfileImage = ({
         </DefaultFiller>
       )}
       <CameraButtonsView>
-        <CameraButton onPress={openCamera}>
-          <CameraIcon />
-        </CameraButton>
-        <CameraButton onPress={pickImage}>
-          <GalleryIcon />
-        </CameraButton>
+        {hasCameraPermission && (
+          <CameraButton onPress={openCamera}>
+            <CameraIcon />
+          </CameraButton>
+        )}
+        {hasPhotosPermissions && (
+          <CameraButton onPress={pickImage}>
+            <GalleryIcon />
+          </CameraButton>
+        )}
       </CameraButtonsView>
     </ImageContainer>
   );
