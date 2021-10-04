@@ -69,6 +69,9 @@ const AddFolderModal = ({
           Alert.alert(
             Localized(
               'Sorry, we need camera roll permissions to make this work!',
+              Localized(
+                'Please go to settings on your device and enable permissions to access your photos',
+              ),
             ),
           );
         }
@@ -155,7 +158,8 @@ const AddFolderModal = ({
         onClose();
       }}
       onSave={onSave}
-      saveButtonDisabled={isLoading}>
+      saveButtonDisabled={isLoading}
+    >
       <Flexbox align="flex-start">
         <Flexbox>
           <H5Black style={{ textAlign: 'center' }}>
@@ -168,7 +172,8 @@ const AddFolderModal = ({
             width: '100%',
             padding: 4,
             alignItems: 'center',
-          }}>
+          }}
+        >
           {isLoading && (
             <ActivityIndicator color={theme.disabledBackgroundColor} />
           )}
@@ -188,15 +193,18 @@ const AddFolderModal = ({
         <Flexbox
           style={{ marginTop: marginSize }}
           justify="flex-start"
-          direction="row">
+          direction="row"
+        >
           <TouchableOpacity
             onPress={() => {
               setIsWideLayout(false);
               setIsFileInputFocused(false);
-            }}>
+            }}
+          >
             <Flexbox
               height="106px"
-              style={{ width: squareImageWidth, marginEnd: 20 }}>
+              style={{ width: squareImageWidth, marginEnd: 20 }}
+            >
               <MiniCard>
                 {imageFile.url && !isWideLayout ? (
                   <Image
@@ -221,7 +229,8 @@ const AddFolderModal = ({
             onPress={() => {
               setIsWideLayout(true);
               setIsFileInputFocused(false);
-            }}>
+            }}
+          >
             <Flexbox height="106px">
               <MiniCard>
                 {imageFile.url && isWideLayout ? (
@@ -252,7 +261,8 @@ const AddFolderModal = ({
             pickImage();
             setIsFileInputFocused(true);
           }}
-          style={{ width: '100%' }}>
+          style={{ width: '100%' }}
+        >
           <Label style={{ marginTop: marginSize }}>
             {Localized('Picture')}
           </Label>
@@ -261,7 +271,8 @@ const AddFolderModal = ({
               <Filename
                 ellipsizeMode="tail"
                 numberOfLines={1}
-                style={{ flex: 1 }}>
+                style={{ flex: 1 }}
+              >
                 {imageFile.url}
               </Filename>
               <PaperclipIcon

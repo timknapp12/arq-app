@@ -5,7 +5,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import {
   TouchableOpacity,
-  Platform,
   Alert,
   Keyboard,
   ActivityIndicator,
@@ -56,16 +55,17 @@ const UploadAssetModal = ({
   // permissions for photo library
   useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert(
-            Localized(
-              'Sorry, we need camera roll permissions to make this work!',
-            ),
-          );
-        }
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          Localized(
+            'Sorry, we need camera roll permissions to make this work!',
+          ),
+          Localized(
+            'Please go to settings on your device and enable permissions to access your photos',
+          ),
+        );
       }
     })();
   }, []);
@@ -226,7 +226,8 @@ const UploadAssetModal = ({
         onClose();
       }}
       onSave={onSave}
-      saveButtonDisabled={isLoading}>
+      saveButtonDisabled={isLoading}
+    >
       <Flexbox align="flex-start">
         <Flexbox>
           <H5Black style={{ textAlign: 'center' }}>
@@ -238,7 +239,8 @@ const UploadAssetModal = ({
               width: '100%',
               padding: 4,
               alignItems: 'center',
-            }}>
+            }}
+          >
             {isLoading && (
               <ActivityIndicator color={theme.disabledBackgroundColor} />
             )}
@@ -305,13 +307,15 @@ const UploadAssetModal = ({
               pickFile();
               setIsFileInputFocused(true);
             }}
-            style={{ width: '100%' }}>
+            style={{ width: '100%' }}
+          >
             <Label style={{ marginTop: marginSize }}>{Localized('File')}</Label>
             <FileInput>
               <Filename
                 ellipsizeMode="tail"
                 numberOfLines={1}
-                style={{ flex: 1 }}>
+                style={{ flex: 1 }}
+              >
                 {file.url ? file.url : Localized('Add a file from your device')}
               </Filename>
               <PaperclipIcon

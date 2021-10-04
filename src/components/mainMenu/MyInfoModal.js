@@ -61,8 +61,25 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const { theme } = useContext(AppContext);
   const {
     updateProfile,
-    userProfile: data,
     refetchProfile,
+    userProfile: data = {
+      profileUrl: '',
+      profileImageFileName: '',
+      firstName: '',
+      lastName: '',
+      displayName: '',
+      emailAddress: '',
+      primaryPhoneNumber: '',
+      // bio: '',
+      address: {
+        address1: '',
+        address2: '',
+        city: '',
+        state: '',
+        zip: '',
+        // countryCode: 'us'
+      },
+    },
   } = useContext(LoginContext);
   const initialState = data;
   const [myInfo, setMyInfo] = useState(initialState);
@@ -293,12 +310,14 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       transparent={false}
       visible={isMyInfoModalOpen}
       statusBarTranslucent={true}
-      onRequestClose={() => setIsMyInfoModalOpen(false)}>
+      onRequestClose={() => setIsMyInfoModalOpen(false)}
+    >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
             style={{ flex: 1, width: '100%' }}
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          >
             <Header>
               <HeaderButtonContainer>
                 <TouchableOpacity
@@ -307,7 +326,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     paddingBottom: 8,
                   }}
                   testID="my-info-close-modal-button"
-                  onPress={() => setIsMyInfoModalOpen(false)}>
+                  onPress={() => setIsMyInfoModalOpen(false)}
+                >
                   <CloseIcon />
                 </TouchableOpacity>
               </HeaderButtonContainer>
@@ -316,7 +336,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                 {isSaveButtonVisisble ? (
                   <TouchableOpacity
                     testID="my-info-save-button"
-                    onPress={onSubmit}>
+                    onPress={onSubmit}
+                  >
                     {loading ? (
                       <ActivityIndicator
                         color={theme.disabledBackgroundColor}
@@ -334,7 +355,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
               ref={scrollViewRef}
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 24 }}
-              keyboardShouldPersistTaps="always">
+              keyboardShouldPersistTaps="always"
+            >
               <Flexbox justify="flex-start" height="100%">
                 <Subheader justify="center">
                   <H5Heavy>{Localized('Contact Information')}</H5Heavy>
@@ -355,7 +377,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       width={nameInputWidth}
                       justify="space-between"
                       align="flex-end"
-                      height="100%">
+                      height="100%"
+                    >
                       <AnimatedInput
                         testID="first-name-input"
                         label={Localized('First Name')}
@@ -520,7 +543,8 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                       zIndex: 4,
                       paddingTop: 4,
                       marginBottom: 4,
-                    }}>
+                    }}
+                  >
                     {/* {address?.countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker
