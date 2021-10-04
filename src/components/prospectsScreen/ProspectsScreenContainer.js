@@ -38,7 +38,7 @@ const ProspectsScreenContainer = ({ children }) => {
         variables: { associateId },
       },
     ],
-    onError: (error) => console.log(`error`, error),
+    onError: (error) => console.log(`error in delete prospect`, error),
   });
 
   // SEND PROSPECT LINKS
@@ -67,7 +67,8 @@ const ProspectsScreenContainer = ({ children }) => {
         setRedirectUrl,
         prospectLinkIsNeeded,
         setProspectLinkIsNeeded,
-      }}>
+      }}
+    >
       {children}
     </ProspectsContext.Provider>
   );

@@ -150,6 +150,7 @@ const ProductCard = ({
   };
 
   const [leadCapture] = useMutation(GET_PROSPECT_URL, {
+    onError: (error) => console.log(`error in get prospect url`, error),
     onCompleted: async (data) => {
       try {
         const result = await Share.share({

@@ -47,7 +47,9 @@ const CorporateSearchScreen = ({ route, navigation }) => {
     setToastProgress(progress);
   };
 
-  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES);
+  const [searchResources, { loading, data }] = useLazyQuery(SEARCH_RESOURCES, {
+    onError: (error) => console.log(`error in search corp resources`, error),
+  });
 
   const debounceSearch = useCallback(
     debounce(
@@ -78,7 +80,8 @@ const CorporateSearchScreen = ({ route, navigation }) => {
           paddingTop: 0,
           paddingBottom: 0,
           height: '100%',
-        }}>
+        }}
+      >
         <DownloadToast
           title={toastTitle}
           body={toastBody}
@@ -100,7 +103,8 @@ const CorporateSearchScreen = ({ route, navigation }) => {
             flexGrow: 1,
             paddingBottom: 120,
             marginTop: 8,
-          }}>
+          }}
+        >
           {loading ? (
             <ActivityIndicator
               style={{ marginTop: 30 }}
@@ -113,7 +117,8 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                 justify="flex-start"
                 padding={10}
                 onStartShouldSetResponder={() => true}
-                height="100%">
+                height="100%"
+              >
                 <View style={{ zIndex: 1 }}>
                   {data?.searchResources?.productFolders?.map(
                     (item, index) =>

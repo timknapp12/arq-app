@@ -22,6 +22,8 @@ const ProspectsSearchScreen = ({ route }) => {
   const { loading, data } = useQuery(GET_PROSPECTS_BY_LASTNAME, {
     variables: { associateId },
     fetchPolicy: 'cache-and-network',
+    onError: (error) =>
+      console.log(`error in search prospects by lastname`, error),
   });
 
   const filterData = data?.prospects?.filter((item) => {
@@ -39,14 +41,16 @@ const ProspectsSearchScreen = ({ route }) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => setIsCalloutOpenFromParent(false)}
-      style={{ flex: 1 }}>
+      style={{ flex: 1 }}
+    >
       <ScreenContainer
         style={{
           justifyContent: 'flex-start',
           paddingTop: 0,
           paddingBottom: 0,
           height: '100%',
-        }}>
+        }}
+      >
         <Flexbox width="85%" style={{ marginTop: 18 }} padding={4}>
           <Input
             autoFocus
@@ -69,14 +73,17 @@ const ProspectsSearchScreen = ({ route }) => {
               flexGrow: 1,
               paddingBottom: 120,
               marginTop: 8,
-            }}>
+            }}
+          >
             <TouchableWithoutFeedback
-              onPress={() => setIsCalloutOpenFromParent(false)}>
+              onPress={() => setIsCalloutOpenFromParent(false)}
+            >
               <Flexbox
                 justify="flex-start"
                 padding={10}
                 onStartShouldSetResponder={() => true}
-                height="100%">
+                height="100%"
+              >
                 {searchTerm.length > 0 &&
                   filterData?.map((item, index) => (
                     <ContactCard
