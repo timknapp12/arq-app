@@ -6,7 +6,7 @@
     "owner": "qsiholdingcompanyinc",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "q-connect-pro-staging",
+    "scheme": "ambassador-resources-q",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,10 +18,10 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.qsciences.q-connect-pro-staging",
+      "bundleIdentifier": "com.qsciences.ambassadorResourcesQ",
       "config": {
         "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd"
+          "reservedClientId": "com.googleusercontent.apps.558665444400-qg6odikk6of0p60c53bi97ok7v20sceh"
         }
       },
       "usesAppleSignIn": true,
@@ -82,19 +82,19 @@
       "favicon": "./assets/favicon.png",
       "config": {
         "firebase": {
-          "apiKey": "AIzaSyDLvs6kf7lAlma9v714M_yF4EqP_UDIc5g",
-          "authDomain": "q-connect-pro-staging.firebaseapp.com",
-          "projectId": "q-connect-pro-staging",
-          "storageBucket": "q-connect-pro-staging.appspot.com",
-          "messagingSenderId": "348281014348",
-          "appId": "1:348281014348:web:33717b1f58b819a9594ce9",
-          "measurementId": "G-WV8PXGZQM1"
+          "apiKey": "AIzaSyCJ9fsDkv4R-P3Ok8ZYswXB5OfxZNiGXxg",
+          "authDomain": "q-innovation-prod.firebaseapp.com",
+          "projectId": "q-innovation-prod",
+          "storageBucket": "q-innovation-prod.appspot.com",
+          "messagingSenderId": "558665444400",
+          "appId": "1:558665444400:web:f5bc78feb12241c63551f5",
+          "measurementId": "G-EFX1G827C7"
         }
       }
     },
-    "facebookAppId": "319892812842607",
-    "facebookScheme": "fb319892812842607",
-    "facebookDisplayName": "Q ConnectPro",
+    "facebookAppId": "172749824824779",
+    "facebookScheme": "fb172749824824779",
+    "facebookDisplayName": "Ambassador Resources Q",
     "packagerOpts": {
       "config": "metro.config.js",
       "sourceExts": [
