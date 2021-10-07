@@ -41,8 +41,12 @@ const TeamView = ({
   setIsOwner,
 }) => {
   const { theme, associateId, hasPermissionsToWrite } = useContext(AppContext);
-  const { displayNotifications, setDisplayNotifications, alreadyHasTeam } =
-    useContext(LoginContext);
+  const {
+    displayNotifications,
+    setDisplayNotifications,
+    alreadyHasTeam,
+    showAddOptions,
+  } = useContext(LoginContext);
 
   // get all of the access codes that the user has subscribed to
   const { loading: loadingAccessCodes, data: userAccessCodesData } = useQuery(
@@ -98,7 +102,11 @@ const TeamView = ({
       return;
     }
     // this prevents a team resource folder opening when it is underneath a the main menu
-    if (isMenuOpen && Platform.OS === 'android') {
+    // or if the navbar button is expanded and one of those add option buttons is tapped
+    if (
+      (isMenuOpen && Platform.OS === 'android') ||
+      (showAddOptions && Platform.OS === 'android')
+    ) {
       return closeMenus();
     }
     // close notifications window if it is open instead of navigating to resource

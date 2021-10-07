@@ -41,7 +41,7 @@ const App = () => {
   const [legacyId, setLegacyId] = useState(null);
 
   // if user has been rank of Ruby or higher they have permissions to create team content
-  const [hasPermissions, setHasPermissions] = useState(false);
+  const [hasPermissionsToWrite, setHasPermissionsToWrite] = useState(false);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
     'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
@@ -71,8 +71,8 @@ const App = () => {
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   // const uri = 'https://qservicesapi.azurewebsites.net/graphql'
-  const uri = 'https://qservices-staging.qsciences.com/graphql';
-  // const uri = 'https://qservices-dev.qsciences.com/graphql';
+  // const uri = 'https://qservices-staging.qsciences.com/graphql';
+  const uri = 'https://qservices-dev.qsciences.com/graphql';
 
   const httpLink = new HttpLink({
     uri: uri,
@@ -138,8 +138,8 @@ const App = () => {
             token,
             setToken,
             signOutOfFirebase,
-            hasPermissions,
-            setHasPermissions,
+            hasPermissionsToWrite,
+            setHasPermissionsToWrite,
           }}
         >
           <StatusBar

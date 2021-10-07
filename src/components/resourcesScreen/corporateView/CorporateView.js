@@ -15,6 +15,7 @@ import ResourceCard from '../ResourceCard';
 import MarketModal from '../../marketModal/MarketModal';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
+import TabButtonContext from '../../../contexts/TabButtonContext';
 import { findMarketUrl } from '../../../utils/markets/findMarketUrl';
 import { findMarketId } from '../../../utils/markets/findMarketId';
 import { GET_CORPORATE_RESOURCES } from '../../../graphql/queries';
@@ -28,8 +29,14 @@ const FlagIcon = styled.Image`
 
 const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const { deviceLanguage } = useContext(AppContext);
-  const { userMarket, markets, setDisplayNotifications, displayNotifications } =
-    useContext(LoginContext);
+  const {
+    userMarket,
+    markets,
+    setDisplayNotifications,
+    displayNotifications,
+    showAddOptions,
+  } = useContext(LoginContext);
+  const { closeAddOptions } = useContext(TabButtonContext);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
@@ -64,7 +71,11 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
 
   const navigateToResource = (item) => {
     // touch events on android bleed through to underlying elements, so this prevents the default touch event to bleed through to a resource card if the side menu is open and a menu item is touched
-    if (isMenuOpen && Platform.OS === 'android') {
+    // or if the navbar button is expanded and one of those add option buttons is tapped
+    if (
+      (isMenuOpen && Platform.OS === 'android') ||
+      (showAddOptions && Platform.OS === 'android')
+    ) {
       return closeMenus();
     }
     // don't allow navigation if notifications is open
@@ -105,6 +116,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
     if (displayNotifications) {
       return setDisplayNotifications(false);
     }
+    closeAddOptions();
     setIsMarketModalOpen(true);
   };
 

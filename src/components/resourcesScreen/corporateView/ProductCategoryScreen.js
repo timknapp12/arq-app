@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
@@ -17,6 +17,7 @@ import {
 import ProductCard from './productCard/ProductCard';
 import DownloadToast from '../DownloadToast';
 import * as Analytics from 'expo-firebase-analytics';
+import TabButtonContext from '../../../contexts/TabButtonContext';
 
 // this will make the image a 2 x 1 ratio with taking padding into account
 const { width } = Dimensions.get('window');
@@ -54,8 +55,18 @@ const ProductCategoryScreen = ({ route, navigation }) => {
     navigate(categoryList?.[0]);
   }, []);
 
+  const { closeAddOptions } = useContext(TabButtonContext);
+  // close the animated buttons from the navbar when component mounts and unmounts
+  useEffect(() => {
+    closeAddOptions();
+    return () => {
+      closeAddOptions();
+    };
+  }, []);
+
   const navigate = (item) => {
     setView(item);
+    closeAddOptions();
     setSubcategoryList(item?.childFolders);
 
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
@@ -83,7 +94,8 @@ const ProductCategoryScreen = ({ route, navigation }) => {
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view?.folderName === item?.folderName}
-              key={item?.folderId}>
+              key={item?.folderId}
+            >
               {item?.folderName.toUpperCase()}
             </TertiaryButton>
           ))}
@@ -91,13 +103,15 @@ const ProductCategoryScreen = ({ route, navigation }) => {
         <ScrollView
           onStartShouldSetResponder={() => true}
           style={{ width: '100%' }}
-          contentContainerStyle={{ paddingBottom: 120 }}>
+          contentContainerStyle={{ paddingBottom: 120 }}
+        >
           <TouchableWithoutFeedback onPress={dismiss}>
             <Flexbox
               justify="flex-start"
               height="100%"
               padding={10}
-              onStartShouldSetResponder={() => true}>
+              onStartShouldSetResponder={() => true}
+            >
               <View style={{ width: '100%', marginBottom: 20 }}>
                 <Image
                   source={{ uri: view.pictureUrl }}

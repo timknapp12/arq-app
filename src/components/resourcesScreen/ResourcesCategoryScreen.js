@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import 'firebase/firestore';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ScreenContainer, Flexbox } from '../common';
 import AssetCard from './assetCard/AssetCard';
 import DownloadToast from './DownloadToast';
+import TabButtonContext from '../../contexts/TabButtonContext';
 
 const ResourcesCategoryScreen = ({ route, navigation }) => {
   const { assetList, folderId, isOwner, selectedTeamName } = route.params;
@@ -25,6 +26,15 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
   // this is to disable navigation to an asset on android devices when a touch event happens on a callout menu that is rendered over the top of an asset card
   const [isNavDisabled, setIsNavDisabled] = useState(false);
 
+  const { closeAddOptions } = useContext(TabButtonContext);
+  // close the animated buttons from the navbar when component mounts and unmounts
+  useEffect(() => {
+    closeAddOptions();
+    return () => {
+      closeAddOptions();
+    };
+  }, []);
+
   return (
     <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
       <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
@@ -37,14 +47,17 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
           }}
           contentContainerStyle={{
             paddingBottom: 240,
-          }}>
+          }}
+        >
           <TouchableWithoutFeedback
-            onPress={() => setIsCalloutOpenFromParent(false)}>
+            onPress={() => setIsCalloutOpenFromParent(false)}
+          >
             <Flexbox
               justify="flex-start"
               style={{ flex: 1 }}
               padding={10}
-              onStartShouldSetResponder={() => true}>
+              onStartShouldSetResponder={() => true}
+            >
               <DownloadToast
                 title={toastTitle}
                 body={toastBody}

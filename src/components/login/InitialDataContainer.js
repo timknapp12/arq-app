@@ -18,19 +18,24 @@ import {
   GET_PROSPECT_NOTIFICATIONS,
   GET_PROSPECTS_BY_FIRSTNAME,
   GET_PROSPECTS_BY_LASTNAME,
+  GET_USERS_ACCESS_CODES,
 } from '../../graphql/queries';
 import { UPDATE_USER, ADD_UPDATE_PROSPECT } from '../../graphql/mutations';
 import { PROSPECT_VIEWED_LINK_NOTIFICATION } from '../../graphql/subscriptions';
 import { findMarketId, findMarketCode } from '../../utils/markets/findMarketId';
 import { calculateUnreadNews } from '../../utils/news/calculateUnreadNews';
 import { calculateNewProspectNotifications } from '../../utils/notifications/calculateNewProspectNotifications';
+import {
+  findIfUserHasATeam,
+  findUsersOwnTeamInfo,
+} from '../../utils/teamResources/findTeamResourceData';
 
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, setHasPermissionsToWrite, deviceLanguage } =
     useContext(AppContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('tim@test.com');
+  const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [directScaleUser, setDirectScaleUser] = useState({
@@ -224,6 +229,27 @@ const InitialDataContainer = ({ children }) => {
     onError: (error) => console.log(`error in update contact:`, error),
   });
 
+  // options and animations for the add button in center of navbar
+  const [showAddOptions, setShowAddOptions] = useState(false);
+
+  // team resources
+  const {
+    loading: loadingAccessCodes,
+    data: userAccessCodesData,
+    refetch: refetchUserAccessCodes,
+  } = useQuery(GET_USERS_ACCESS_CODES, {
+    variables: { associateId },
+  });
+
+  const alreadyHasTeam = findIfUserHasATeam(
+    associateId,
+    userAccessCodesData?.accesses ?? '',
+  );
+
+  const usersTeamInfo =
+    alreadyHasTeam &&
+    findUsersOwnTeamInfo(associateId, userAccessCodesData?.accesses ?? '');
+
   return (
     <LoginContext.Provider
       value={{
@@ -267,6 +293,12 @@ const InitialDataContainer = ({ children }) => {
         sortBy,
         setSortBy,
         addUpdateProspect,
+        showAddOptions,
+        setShowAddOptions,
+        alreadyHasTeam,
+        loadingAccessCodes,
+        usersTeamInfo,
+        refetchUserAccessCodes,
       }}
     >
       {children}

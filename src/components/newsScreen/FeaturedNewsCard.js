@@ -7,6 +7,7 @@ import { H4Black, H6Book } from '../common';
 import defaultImage from '../../../assets/icons/image.png';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TabButtonContext from '../../contexts/TabButtonContext';
 import { NEWS_STORY_HAS_BEEN_VIEWED } from '../../graphql/mutations';
 
 const { width } = Dimensions.get('window');
@@ -43,8 +44,13 @@ const FeaturedNewsCard = ({
   closeMenus,
 }) => {
   const { associateId } = useContext(AppContext);
-  const { refetchNews, displayNotifications, setDisplayNotifications } =
-    useContext(LoginContext);
+  const {
+    refetchNews,
+    displayNotifications,
+    setDisplayNotifications,
+    showAddOptions,
+  } = useContext(LoginContext);
+  const { closeAddOptions } = useContext(TabButtonContext);
 
   const [isReadYet, setIsReadYet] = useState(isRead);
 
@@ -65,6 +71,12 @@ const FeaturedNewsCard = ({
     // close notifications window if it is open instead of opening link
     if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
+    }
+    if (Platform.OS === 'android' && showAddOptions) {
+      return closeAddOptions();
+    }
+    if (Platform.OS === 'ios') {
+      closeAddOptions();
     }
     setIsReadYet(true);
     storyHasBeenViewed();
