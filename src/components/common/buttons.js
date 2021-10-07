@@ -6,18 +6,11 @@ import {
   Switch as NativeSwitch,
   Platform,
   TouchableOpacity,
-  Animated,
-  View,
 } from 'react-native';
 import { H4Book, H3, Checkmark } from './texts';
-import { Flexbox } from './containers';
 import FacebookLogo from '../../../assets/icons/facebook-logo.svg';
 import AppleIcon from '../../../assets/icons/apple-button.svg';
 import GoogleLogo from '../../../assets/icons/google-button.svg';
-import AddProspectIcon from '../../../assets/icons/enrollment-icon.svg';
-import AddFolderIcon from '../../../assets/icons/FolderIcon.svg';
-import ResourcesIcon from '../../../assets/icons/resources.svg';
-import add from '../../../assets/icons/AddIcon_White.png';
 import AppContext from '../../contexts/AppContext';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -226,7 +219,7 @@ export const Checkbox = ({ selected = false }) => (
 Checkbox.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
-
+// TODO - remove this after the navbar button is implemented
 // ADD BUTTON
 export const AddButton = styled(GestureTouchable)`
   height: 56px;
@@ -246,134 +239,3 @@ export const ButtonText = styled(H3)`
   font-family: 'Avenir-Black';
   font-size: 32px;
 `;
-
-// ANIMATED ADD BUTTON OPTIONS
-const ButtonRow = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-`;
-
-const SmallAddButton = styled(GestureTouchable)`
-  height: 40px;
-  width: 40px;
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
-`;
-
-const AnimatedRow = Animated.createAnimatedComponent(ButtonRow);
-const AnimatedSmallButton = Animated.createAnimatedComponent(SmallAddButton);
-
-export const AnimatedAddButtonRow = ({
-  buttonScaleAnim,
-  rowWidthAnim,
-  rowTopAnim,
-}) => {
-  const { theme } = useContext(AppContext);
-  const iconStyle = {
-    height: 36,
-    width: 36,
-    color: theme.primaryTextColor,
-    alignSelf: 'center',
-  };
-  return (
-    <AnimatedRow style={{ top: rowTopAnim, width: rowWidthAnim }}>
-      <AnimatedSmallButton
-        onPress={() => console.log('add prospect')}
-        style={{
-          transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
-        }}
-      >
-        <AddProspectIcon style={iconStyle} />
-      </AnimatedSmallButton>
-      <AnimatedSmallButton
-        onPress={() => console.log('add folder')}
-        style={{
-          transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
-        }}
-      >
-        <AddFolderIcon style={iconStyle} />
-      </AnimatedSmallButton>
-      <AnimatedSmallButton
-        onPress={() => console.log('add resource')}
-        style={{
-          transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
-        }}
-      >
-        <ResourcesIcon style={iconStyle} />
-      </AnimatedSmallButton>
-    </AnimatedRow>
-  );
-};
-
-AnimatedAddButtonRow.propTypes = {
-  buttonScaleAnim: PropTypes.object.isRequired,
-  rowWidthAnim: PropTypes.object.isRequired,
-  rowTopAnim: PropTypes.object.isRequired,
-};
-
-export const TabBarButton = ({
-  showAddOptions,
-  buttonScaleAnim,
-  rowWidthAnim,
-  rowTopAnim,
-  spin,
-  onPress,
-  ...props
-}) => {
-  const { theme } = useContext(AppContext);
-
-  return (
-    <Flexbox
-      {...props}
-      height="0px"
-      style={{
-        position: 'absolute',
-        bottom: 70,
-      }}
-    >
-      {showAddOptions && (
-        <AnimatedAddButtonRow
-          buttonScaleAnim={buttonScaleAnim}
-          rowWidthAnim={rowWidthAnim}
-          rowTopAnim={rowTopAnim}
-        />
-      )}
-      <View
-        style={{
-          height: 70,
-          width: 70,
-          borderRadius: 35,
-          backgroundColor: theme.activeBackground,
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 10,
-        }}
-      >
-        <AddButton onPress={onPress} right="7px" bottom="7px">
-          <Animated.Image
-            source={add}
-            style={{
-              height: 46,
-              width: 46,
-              transform: [{ rotate: spin }],
-            }}
-          />
-        </AddButton>
-      </View>
-    </Flexbox>
-  );
-};
-
-TabBarButton.propTypes = {
-  showAddOptions: PropTypes.bool.isRequired,
-  buttonScaleAnim: PropTypes.object.isRequired,
-  rowWidthAnim: PropTypes.object.isRequired,
-  rowTopAnim: PropTypes.object.isRequired,
-  spin: PropTypes.object.isRequired,
-  onPress: PropTypes.func.isRequired,
-};
