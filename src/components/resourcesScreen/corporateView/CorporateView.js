@@ -76,7 +76,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
       return setDisplayNotifications(false);
     }
     closeMenus();
-    if (item?.folderName === 'Products') {
+    if (item?.originalFolderName === 'Products') {
       navigation.navigate('Product Category Screen', {
         title: item?.folderName.toUpperCase(),
         categoryList: item?.childFolders,

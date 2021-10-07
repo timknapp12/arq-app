@@ -332,14 +332,16 @@ const LoginScreen = ({
         flex: 1,
         paddingTop: Platform.OS === 'android' ? 20 : 60,
         backgroundColor: theme.backgroundColor,
-      }}>
+      }}
+    >
       <QLogoScreen
         accessibilityLabel="Login Form"
         style={{
           justifyContent: 'space-between',
           height: '100%',
           width: '85%',
-        }}>
+        }}
+      >
         <SocialSignIn
           title={Localized('Sign in with')}
           googleSignIn={signInWithGoogleAsync}
@@ -360,7 +362,8 @@ const LoginScreen = ({
               <AlertText
                 style={{
                   textAlign: 'center',
-                }}>
+                }}
+              >
                 {errorMessage}
               </AlertText>
             </View>
@@ -373,12 +376,13 @@ const LoginScreen = ({
           <PrimaryButton
             testID="login-button"
             disabled={isButtonDisabled}
-            onPress={onSubmit}>
-            {Localized('Sign in').toUpperCase()}
+            onPress={onSubmit}
+          >
+            {Localized('Sign In').toUpperCase()}
           </PrimaryButton>
         </Flexbox>
 
-        <Flexbox width="85%">
+        <Flexbox style={{ minWidth: '85%' }}>
           <CreateAccountAndForgotPassword
             navigateToScreen={() =>
               navigation.navigate('Create Account Screen')

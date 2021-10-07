@@ -12,16 +12,17 @@ const CreateAccountAndForgotPassword = ({
   return (
     <>
       <Flexbox style={{ marginBottom: 5 }} direction="row">
-        <H6>{Localized('Forgot your password?')}</H6>
+        <H6 style={{ marginEnd: 5 }}>{Localized('Forgot your password?')}</H6>
         <TouchableOpacity
           onPress={navigateToPasswordRecovery}
-          testID="reset-password-button">
+          testID="reset-password-button"
+        >
           <Link>{Localized('Reset Password')}</Link>
         </TouchableOpacity>
       </Flexbox>
 
       <Flexbox direction="row">
-        <H6>
+        <H6 style={{ marginEnd: 5 }}>
           {Localized(
             screen === 'create account'
               ? 'Already have an account?'
@@ -30,9 +31,12 @@ const CreateAccountAndForgotPassword = ({
         </H6>
         <TouchableOpacity
           onPress={navigateToScreen}
-          testID="go-to-signup-screen-button">
+          testID="go-to-signup-screen-button"
+        >
           <Link>
-            {Localized(screen === 'create account' ? 'Sign in' : 'Sign up')}
+            {screen === 'create account'
+              ? Localized('Sign In')
+              : Localized('Sign Up')}
           </Link>
         </TouchableOpacity>
       </Flexbox>
