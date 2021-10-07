@@ -228,9 +228,9 @@ export const AddButton = styled(GestureTouchable)`
   border-radius: 28px;
   justify-content: center;
   align-items: center;
-  /* position: absolute;
-  bottom: ${(props) => (props.bottom ? props.bottom : '0px')};
-  right: ${(props) => (props.right ? props.right : '12px')}; */
+  position: absolute;
+  bottom: ${(props) => props.bottom};
+  right: ${(props) => props.right};
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
 
