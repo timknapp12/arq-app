@@ -7,9 +7,9 @@ export const findTeamOwnerId = (teamName = '', array = []) => {
   }
 };
 
-export const findAssociateIdInListOfTeams = (associateId, array = []) => {
+export const findIfUserHasATeam = (associateId, array = []) => {
   if (array) {
-    return array.some((item) => item?.associateId === associateId);
+    return array.some((item) => item?.teamOwnerAssociateId === associateId);
   }
 };
 
@@ -20,6 +20,19 @@ export const findTeamAccessCode = (teamName = '', array = []) => {
       return result.accessCode;
     } else {
       return '';
+    }
+  }
+};
+
+export const findUsersOwnTeamInfo = (associateId, array = []) => {
+  if (array) {
+    const result = array.find(
+      (item) => item?.teamOwnerAssociateId === associateId,
+    );
+    if (result) {
+      return result;
+    } else {
+      return null;
     }
   }
 };

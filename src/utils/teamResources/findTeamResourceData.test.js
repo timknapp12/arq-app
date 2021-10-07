@@ -1,7 +1,8 @@
 import {
   findTeamOwnerId,
-  findAssociateIdInListOfTeams,
+  findIfUserHasATeam,
   findTeamAccessCode,
+  findUsersOwnTeamInfo,
 } from './findTeamResourceData';
 
 const testArray = [
@@ -49,16 +50,16 @@ describe('findTeamOwnerId', () => {
   });
 });
 
-describe('findAssociateIdInListOfTeams', () => {
-  test('id 330 is found in array', () => {
-    const input = 330;
+describe('findIfUserHasATeam', () => {
+  test('id 333 is owner of a team in the array', () => {
+    const input = 333;
     const output = true;
-    expect(findAssociateIdInListOfTeams(input, testArray)).toBe(output);
+    expect(findIfUserHasATeam(input, testArray)).toBe(output);
   });
   test('id 1234 is NOT found in array', () => {
     const input = 1234;
     const output = false;
-    expect(findAssociateIdInListOfTeams(input, testArray)).toBe(output);
+    expect(findIfUserHasATeam(input, testArray)).toBe(output);
   });
 });
 
@@ -74,5 +75,26 @@ describe('findTeamAccessCode', () => {
     const output = '123';
 
     expect(findTeamAccessCode(input, testArray)).toBe(output);
+  });
+});
+
+describe('findUsersOwnTeamInfo', () => {
+  test('is 111 returns team object', () => {
+    const input = 111;
+    const output = {
+      accessCode: '123',
+      associateId: 211,
+      teamAccessId: 3,
+      teamName: 'Team Awesome',
+      teamOwnerAssociateId: 111,
+    };
+
+    expect(findUsersOwnTeamInfo(input, testArray)).toStrictEqual(output);
+  });
+  test('id 312 returns null', () => {
+    const input = 312;
+    const output = null;
+
+    expect(findUsersOwnTeamInfo(input, testArray)).toBe(output);
   });
 });

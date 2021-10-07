@@ -1,8 +1,8 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Platform, Animated, Dimensions, Easing } from 'react-native';
-import { TabBarButton } from '../components/common';
+import { Image, Platform } from 'react-native';
+import TabButtonDataContainer from './TabButtonDataContainer';
 import DashboardStack from './DashboardStack';
 import ResourcesStack from './ResourcesStack';
 import TeamStack from './TeamStack';
@@ -13,12 +13,12 @@ import * as Analytics from 'expo-firebase-analytics';
 import storybook from '../../assets/icons/storybook.png';
 import { Localized } from '../translations/Localized';
 import StorybookUI from '../../storybook';
-import AddContactModal from '../components/prospectsScreen/AddContactModal';
 import {
   ResourcesIcon,
   DashboardIcon,
   TeamIcon,
   NewsIcon,
+  TabBarButton,
 } from '../components/common';
 
 // source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
@@ -30,87 +30,17 @@ const getActiveRouteName = (navigationState) => {
   return route.routeName;
 };
 
-const { width: screenWidth } = Dimensions.get('screen');
-const duration = 250;
-
 // source for tab navigation: https://reactnavigation.org/docs/tab-based-navigation
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const { theme, hasPermissionsToWrite } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
   const { newsNotificationCount } = useContext(LoginContext);
 
   const [showStorybook] = useState(false);
-  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
-
-  // options and animations for the add button in center of navbar
-  const [showAddOptions, setShowAddOptions] = useState(false);
-
-  const buttonScaleAnim = useRef(new Animated.Value(0)).current;
-  const rowWidthAnim = useRef(new Animated.Value(120)).current;
-  const rowTopAnim = useRef(new Animated.Value(0)).current;
-  // source for roateAnim https://javascript.plainenglish.io/creating-a-rotation-animation-in-react-native-45c3f2973d62
-  const [rotateAnim] = useState(new Animated.Value(0));
-
-  const openAddOptions = () => {
-    setShowAddOptions(true);
-    Animated.parallel([
-      Animated.timing(buttonScaleAnim, {
-        toValue: 1,
-        duration: duration,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rowWidthAnim, {
-        toValue: screenWidth / 2,
-        duration: duration,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rowTopAnim, {
-        toValue: -46,
-        duration: duration,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotateAnim, {
-        toValue: 1,
-        duration: duration,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
-  const closeAddOptions = () => {
-    Animated.parallel([
-      Animated.timing(buttonScaleAnim, {
-        toValue: 0,
-        duration: duration,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rowWidthAnim, {
-        toValue: 120,
-        duration: duration,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rowTopAnim, {
-        toValue: 0,
-        duration: duration,
-        useNativeDriver: false,
-      }),
-      Animated.timing(rotateAnim, {
-        toValue: 0,
-        duration: duration,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }),
-    ]).start(() => setShowAddOptions(false));
-  };
-
-  const spin = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '45deg'],
-  });
 
   return (
-    <>
+    <TabButtonDataContainer>
       <Tab.Navigator
         onNavigationStateChange={(prevState, currentState) => {
           const currentScreen = getActiveRouteName(currentState);
@@ -178,23 +108,7 @@ const Tabs = () => {
           name="add button"
           component={''}
           options={{
-            tabBarButton: (props) => (
-              <TabBarButton
-                {...props}
-                showAddOptions={showAddOptions}
-                buttonScaleAnim={buttonScaleAnim}
-                rowWidthAnim={rowWidthAnim}
-                rowTopAnim={rowTopAnim}
-                spin={spin}
-                onPress={() =>
-                  !hasPermissionsToWrite
-                    ? setIsAddContactModalOpen(true)
-                    : showAddOptions
-                    ? closeAddOptions()
-                    : openAddOptions()
-                }
-              />
-            ),
+            tabBarButton: (props) => <TabBarButton {...props} />,
           }}
         />
         <Tab.Screen
@@ -223,14 +137,7 @@ const Tabs = () => {
           <Tab.Screen name="Storybook" component={StorybookUI} />
         )}
       </Tab.Navigator>
-      {isAddContactModalOpen && (
-        <AddContactModal
-          isAddContactModalOpen={isAddContactModalOpen}
-          onClose={() => setIsAddContactModalOpen(false)}
-          newContact={true}
-        />
-      )}
-    </>
+    </TabButtonDataContainer>
   );
 };
 
