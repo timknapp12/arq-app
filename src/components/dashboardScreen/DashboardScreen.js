@@ -89,14 +89,14 @@ const DashboardScreen = ({ navigation }) => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: -500,
       duration: 700,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start(() => setIsMenuOpen(false));
   };
 
@@ -141,7 +141,8 @@ const DashboardScreen = ({ navigation }) => {
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view.name === item?.name}
-              key={item?.name}>
+              key={item?.name}
+            >
               {item?.name}
             </TertiaryButton>
           ))}
@@ -164,7 +165,8 @@ const DashboardScreen = ({ navigation }) => {
             width: '100%',
             height: '100%',
             zIndex: -1,
-          }}>
+          }}
+        >
           {view.name === Localized('Overview').toUpperCase() && (
             <Overview user={user} closeMenus={closeMenus} />
           )}

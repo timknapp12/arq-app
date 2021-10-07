@@ -15,7 +15,7 @@ const Toast = ({ visible, children, ...props }) => {
     Animated.timing(animatedValue, {
       toValue: 1,
       duration: 1000,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -24,7 +24,7 @@ const Toast = ({ visible, children, ...props }) => {
       toValue: 0,
       duration: 1000,
       delay: 2000,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start(() => setisToastVisible(false));
   };
 
@@ -55,7 +55,8 @@ const Toast = ({ visible, children, ...props }) => {
           justifyContent: 'center',
           padding: 12,
           zIndex: 2,
-        }}>
+        }}
+      >
         {children}
       </Animated.View>
     );
