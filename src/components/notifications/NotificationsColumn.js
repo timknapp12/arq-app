@@ -57,14 +57,14 @@ const NotificationsColumn = () => {
     Animated.timing(fadeAnim, {
       toValue: 36,
       duration: 1000,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
   const fadeUp = () => {
     Animated.timing(fadeAnim, {
       toValue: -windowHeight,
       duration: 1000,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 

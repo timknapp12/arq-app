@@ -119,14 +119,14 @@ const NewsScreen = ({ navigation }) => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: -500,
       duration: 700,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start(() => setIsMenuOpen(false));
   };
 
@@ -154,7 +154,8 @@ const NewsScreen = ({ navigation }) => {
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view?.folderName === item?.folderName}
-              key={item?.folderId}>
+              key={item?.folderId}
+            >
               {item?.folderName.toUpperCase()}
             </TertiaryButton>
           ))}
@@ -172,7 +173,8 @@ const NewsScreen = ({ navigation }) => {
         <Flexbox style={{ zIndex: -1 }} align="flex-start">
           <TouchableOpacity
             disabled={isMenuOpen}
-            onPress={() => setIsMarketModalOpen(true)}>
+            onPress={() => setIsMarketModalOpen(true)}
+          >
             <FlagIcon
               source={{
                 uri: marketUrl,
