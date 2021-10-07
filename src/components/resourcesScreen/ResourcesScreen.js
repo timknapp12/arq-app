@@ -23,11 +23,14 @@ import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TabButtonContext from '../../contexts/TabButtonContext';
 
 const ResourcesScreen = ({ navigation }) => {
   const { hasPermissionsToWrite } = useContext(AppContext);
   const { setDisplayNotifications, displayNotifications } =
     useContext(LoginContext);
+  const { closeAddOptions } = useContext(TabButtonContext);
+
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -71,6 +74,7 @@ const ResourcesScreen = ({ navigation }) => {
   const fadeIn = () => {
     setIsMenuOpen(true);
     closeTeamMenu();
+    closeAddOptions();
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
@@ -91,6 +95,12 @@ const ResourcesScreen = ({ navigation }) => {
     if (isMenuOpen || displayNotifications) {
       return;
     }
+    // close notifications window if it is open instead of opening modal
+    // this is because android touches bleed through the notifications window and could activate this function
+    if (displayNotifications) {
+      return setDisplayNotifications(false);
+    }
+    closeAddOptions();
     setIsTeamMenuOpen(true);
     Animated.timing(teamFadeAnim, {
       toValue: 0,
@@ -104,6 +114,7 @@ const ResourcesScreen = ({ navigation }) => {
     if (isMenuOpen) {
       return;
     }
+    closeAddOptions();
     Animated.timing(teamFadeAnim, {
       toValue: -500,
       duration: 700,
@@ -113,6 +124,7 @@ const ResourcesScreen = ({ navigation }) => {
 
   const closeMenus = () => {
     fadeOut();
+    closeAddOptions();
     // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
     Platform.OS === 'ios' && setDisplayNotifications(false);
   };

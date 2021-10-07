@@ -40,6 +40,10 @@ const UploadAssetModal = ({
   assetLink = '',
   // this is when user edits an asset from TeamSearchScreen.js
   searchTerm,
+  // these are from TabButtonContainer
+  listOfTeamFolders,
+  selectedTeam,
+  setSelectedTeam,
 }) => {
   const { theme } = useContext(AppContext);
   const [title, setTitle] = useState(assetTitle);
@@ -272,6 +276,21 @@ const UploadAssetModal = ({
           />
         </Flexbox>
         <Picker
+          style={{ marginTop: 18, width: '100%' }}
+          items={listOfTeamFolders}
+          label={Localized('Folder Title')}
+          value={selectedTeam?.value}
+          placeholder={{
+            label: '',
+            value: null,
+          }}
+          onValueChange={(value) => {
+            setSelectedTeam(value);
+            setIsFileInputFocused(false);
+          }}
+          testID="foler-title-input"
+        />
+        <Picker
           style={{ marginTop: 8, width: '100%' }}
           items={contentTypeList}
           label={Localized('File Type')}
@@ -349,6 +368,9 @@ UploadAssetModal.propTypes = {
   assetFile: PropTypes.object,
   assetLink: PropTypes.string,
   searchTerm: PropTypes.string,
+  listOfTeamFolders: PropTypes.array,
+  selectedTeam: PropTypes.object,
+  setSelectedTeam: PropTypes.func,
 };
 
 export default UploadAssetModal;

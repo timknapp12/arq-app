@@ -6,6 +6,7 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import { H4Black, H6Book } from '../common';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TabButtonContext from '../../contexts/TabButtonContext';
 import { NEWS_STORY_HAS_BEEN_VIEWED } from '../../graphql/mutations';
 import {
   CardContainer,
@@ -26,8 +27,14 @@ const NewsCard = ({
   ...props
 }) => {
   const { theme, deviceLanguage, associateId } = useContext(AppContext);
-  const { refetchNews, displayNotifications, setDisplayNotifications } =
-    useContext(LoginContext);
+  const {
+    refetchNews,
+    displayNotifications,
+    setDisplayNotifications,
+    showAddOptions,
+  } = useContext(LoginContext);
+  const { closeAddOptions } = useContext(TabButtonContext);
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReadYet, setIsReadYet] = useState(isRead);
 
@@ -48,6 +55,12 @@ const NewsCard = ({
     // close notifications window if it is open instead of opening link
     if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
+    }
+    if (Platform.OS === 'android' && showAddOptions) {
+      return closeAddOptions();
+    }
+    if (Platform.OS === 'ios') {
+      closeAddOptions();
     }
     setIsReadYet(true);
     storyHasBeenViewed();

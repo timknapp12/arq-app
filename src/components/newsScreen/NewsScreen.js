@@ -30,6 +30,7 @@ import NewsCardMap from './NewsCardMap';
 import NotificationsColumn from '../notifications/NotificationsColumn';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TabButtonContext from '../../contexts/TabButtonContext';
 import { Localized } from '../../translations/Localized';
 
 const FlagIcon = styled.Image`
@@ -50,6 +51,7 @@ const NewsScreen = ({ navigation }) => {
     setDisplayNotifications,
     displayNotifications,
   } = useContext(LoginContext);
+  const { closeAddOptions } = useContext(TabButtonContext);
 
   const isFocused = useIsFocused();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -116,6 +118,7 @@ const NewsScreen = ({ navigation }) => {
 
   const fadeIn = () => {
     setIsMenuOpen(true);
+    closeAddOptions();
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
@@ -132,6 +135,7 @@ const NewsScreen = ({ navigation }) => {
 
   const closeMenus = () => {
     fadeOut();
+    closeAddOptions();
     // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
     Platform.OS === 'ios' && setDisplayNotifications(false);
   };
@@ -173,7 +177,10 @@ const NewsScreen = ({ navigation }) => {
         <Flexbox style={{ zIndex: -1 }} align="flex-start">
           <TouchableOpacity
             disabled={isMenuOpen}
-            onPress={() => setIsMarketModalOpen(true)}
+            onPress={() => {
+              setIsMarketModalOpen(true);
+              closeAddOptions();
+            }}
           >
             <FlagIcon
               source={{

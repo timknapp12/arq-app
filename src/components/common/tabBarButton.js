@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
-import { useMutation } from '@apollo/client';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-import { Animated, View, Alert } from 'react-native';
+import { Animated, View } from 'react-native';
 import { Flexbox } from './containers';
 import AddProspectIcon from '../../../assets/icons/enrollment-icon.svg';
 import AddFolderIcon from '../../../assets/icons/FolderIcon.svg';
@@ -11,9 +10,6 @@ import add from '../../../assets/icons/AddIcon_White.png';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
-import { Localized } from '../../translations/Localized';
-import { ADD_TEAM_ACCESS_CODE } from '../../graphql/mutations';
-import { GET_USERS_ACCESS_CODES } from '../../graphql/queries';
 
 // ADD BUTTON
 const AddButton = styled(GestureTouchable)`
@@ -48,57 +44,18 @@ const AnimatedRow = Animated.createAnimatedComponent(ButtonRow);
 const AnimatedSmallButton = Animated.createAnimatedComponent(SmallAddButton);
 
 export const AnimatedAddButtonRow = () => {
-  const { theme, associateId } = useContext(AppContext);
-  const { alreadyHasTeam, usersTeamInfo } = useContext(LoginContext);
+  const { theme } = useContext(AppContext);
+  const { alreadyHasTeam } = useContext(LoginContext);
   const {
     buttonScaleAnim,
     rowWidthAnim,
     rowTopAnim,
-    // isAccessCodeModalOpen,
-    setIsAccessCodeModalOpen,
+    setIsAddContactModalOpen,
+    setIsAddFolderModalOpen,
+    setIsUploadAssetModalOpen,
+    closeAddOptions,
+    showAlertThatUserHasNoTeam,
   } = useContext(TabButtonContext);
-
-  console.log(`usersTeamInfo`, usersTeamInfo);
-
-  // info in case the user needs to create a team
-  const [teamName, setTeamName] = useState('');
-  const [accessCode, setAccessCode] = useState('');
-  const [isError, setIsError] = useState(false);
-  console.log(`isError`, isError);
-
-  const [addTeamAccessCode] = useMutation(ADD_TEAM_ACCESS_CODE, {
-    variables: {
-      associateId,
-      teamName,
-      accessCode,
-      teamAccessId: 0,
-    },
-    refetchQueries: [
-      { query: GET_USERS_ACCESS_CODES, variables: { associateId } },
-    ],
-    onCompleted: async () => {
-      setTeamName('');
-      setAccessCode('');
-      return setIsAccessCodeModalOpen(false);
-    },
-    onError: () => setIsError(true),
-  });
-
-  const saveAccessCode = () => {
-    if (teamName.length < 4 || teamName.length > 20) {
-      return Alert.alert(
-        Localized('Team name must be between 4-20 characters'),
-      );
-    }
-    if (accessCode.length < 4 || accessCode.length > 20) {
-      return Alert.alert(
-        Localized('Access code must be between 4-20 characters'),
-      );
-    }
-    addTeamAccessCode();
-  };
-
-  console.log(`saveAccessCode`, saveAccessCode);
 
   const iconStyle = {
     height: 36,
@@ -110,11 +67,10 @@ export const AnimatedAddButtonRow = () => {
     <>
       <AnimatedRow style={{ top: rowTopAnim, width: rowWidthAnim }}>
         <AnimatedSmallButton
-          onPress={
-            alreadyHasTeam
-              ? () => setIsAccessCodeModalOpen(true)
-              : () => console.log('no team')
-          }
+          onPress={() => {
+            setIsAddContactModalOpen(true);
+            closeAddOptions();
+          }}
           style={{
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
@@ -122,7 +78,19 @@ export const AnimatedAddButtonRow = () => {
           <AddProspectIcon style={iconStyle} />
         </AnimatedSmallButton>
         <AnimatedSmallButton
-          onPress={() => console.log('add folder')}
+          onPress={
+            // if the user aleady has a team, open the modal to add a folder
+            // otherwise, show alert to allow user to create a team
+            alreadyHasTeam
+              ? () => {
+                  setIsAddFolderModalOpen(true);
+                  closeAddOptions();
+                }
+              : () => {
+                  showAlertThatUserHasNoTeam();
+                  closeAddOptions();
+                }
+          }
           style={{
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
@@ -130,7 +98,19 @@ export const AnimatedAddButtonRow = () => {
           <AddFolderIcon style={iconStyle} />
         </AnimatedSmallButton>
         <AnimatedSmallButton
-          onPress={() => console.log('add resource')}
+          onPress={
+            // if the user aleady has a team, open the modal to add an asset
+            // otherwise, show alert to allow user to create a team
+            alreadyHasTeam
+              ? () => {
+                  setIsUploadAssetModalOpen(true);
+                  closeAddOptions();
+                }
+              : () => {
+                  showAlertThatUserHasNoTeam();
+                  closeAddOptions();
+                }
+          }
           style={{
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
@@ -186,6 +166,8 @@ export const TabBarButton = ({ ...props }) => {
         >
           <AddButton
             onPress={() =>
+              // if user is not ruby or higher, have the button allow them to add a prospect
+              // if user is ruby or higher, give them all of the add options and make the button toggle the options menu
               !hasPermissionsToWrite
                 ? setIsAddContactModalOpen(true)
                 : showAddOptions
