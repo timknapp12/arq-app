@@ -210,6 +210,7 @@ const ResourcesScreen = ({ navigation }) => {
           isOwner && (
             <AddButton
               bottom="10px"
+              right="12px"
               onPress={() => {
                 setIsAddFolderModalOpen(true);
                 setIsCalloutOpenFromParent(false);

@@ -17,6 +17,7 @@ import TouchID from '../../../assets/icons/touch-id.svg';
 import Dashboard from '../../../assets/icons/dashboard.svg';
 import Resources from '../../../assets/icons/resources.svg';
 import News from '../../../assets/icons/news.svg';
+import Team from '../../../assets/icons/team-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import { darkRed, primaryWhite, blue } from '../../styles/colors';
 
@@ -148,6 +149,14 @@ export const NewsIcon = ({ fill = primaryWhite, size = 34, ...props }) => (
   <News style={{ color: fill }} width={size} height={size} {...props} />
 );
 NewsIcon.propTypes = {
+  fill: PropTypes.string,
+  size: PropTypes.number,
+};
+
+export const TeamIcon = ({ fill = primaryWhite, size = 34, ...props }) => (
+  <Team style={{ color: fill }} width={size} height={size} {...props} />
+);
+TeamIcon.propTypes = {
   fill: PropTypes.string,
   size: PropTypes.number,
 };
