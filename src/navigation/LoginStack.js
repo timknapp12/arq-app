@@ -34,7 +34,8 @@ const LoginStack = () => {
       <Login.Navigator
         screenOptions={{
           headerBackTitleVisible: false,
-        }}>
+        }}
+      >
         <Login.Screen
           name="Login Screen"
           component={LoginScreen}
@@ -50,7 +51,7 @@ const LoginStack = () => {
           name="Password Recovery Screen"
           component={PasswordRecoveryScreen}
           options={{
-            title: Localized('Reset password').toUpperCase(),
+            title: Localized('Reset Password').toUpperCase(),
             headerBackTitleVisible: false,
             headerStyle: { backgroundColor: theme.backgroundColor },
             headerTintColor: theme.primaryTextColor,

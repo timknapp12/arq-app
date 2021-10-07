@@ -107,6 +107,7 @@ export const GET_CORPORATE_RESOURCES = gql`
       languageCode: $languageCode
       order: { displayOrder: ASC }
     ) {
+      originalFolderName
       folderName
       folderId
       isWideLayout
