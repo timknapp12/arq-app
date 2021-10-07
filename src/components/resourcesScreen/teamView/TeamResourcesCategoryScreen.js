@@ -99,6 +99,7 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
         {isOwner && (
           <AddButton
             bottom="10px"
+            right="12px"
             onPress={() => {
               setIsUploadAssetModalOpen(true);
               setIsCalloutOpenFromParent(false);
