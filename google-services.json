@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "348281014348-vd0r29schjo24pg8a774r41ghoqflj3p.apps.googleusercontent.com",
+          "client_id": "348281014348-0u6a4j1blq7a2905595jjt8a0pvrvbv5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.qsciences.q_connect_pro_staging",
-            "certificate_hash": "dc9e5ae6c2f3538c70e456ad68cb33492352e50a"
+            "certificate_hash": "b1545cea2e9154f9ebc54bb315071c398659f7a4"
           }
         },
         {
