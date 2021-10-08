@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import 'firebase/firestore';
 import { useQuery } from '@apollo/client';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../../common';
+import { ScreenContainer, Flexbox } from '../../common';
 import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import AssetCard from '../assetCard/AssetCard';
-import UploadAssetModal from '../teamView/UploadAssetModal';
 import DownloadToast from '../DownloadToast';
 import { GET_ASSETS } from '../../../graphql/queries';
 
@@ -16,7 +15,6 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
   const [toastTitle, setToastTitle] = useState('');
   const [toastBody, setToastBody] = useState('');
   const [toastProgress, setToastProgress] = useState(0);
-  const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
   const setToastInfo = (title, body, visible, progress) => {
     setToastTitle(title);
@@ -96,29 +94,6 @@ const TeamResourcesCategoryScreen = ({ route, navigation }) => {
             </Flexbox>
           </TouchableWithoutFeedback>
         </ScrollView>
-        {isOwner && (
-          <AddButton
-            bottom="10px"
-            right="12px"
-            onPress={() => {
-              setIsUploadAssetModalOpen(true);
-              setIsCalloutOpenFromParent(false);
-            }}
-          >
-            <ButtonText>+</ButtonText>
-          </AddButton>
-        )}
-        {isUploadAssetModalOpen && (
-          <UploadAssetModal
-            visible={isUploadAssetModalOpen}
-            onClose={() => {
-              setIsUploadAssetModalOpen(false);
-            }}
-            folderId={folderId}
-            displayOrder={data?.links?.length + 1}
-            selectedTeamName={selectedTeamName}
-          />
-        )}
       </ScreenContainer>
     </TouchableWithoutFeedback>
   );

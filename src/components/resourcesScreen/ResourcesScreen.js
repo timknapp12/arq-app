@@ -8,8 +8,6 @@ import {
   TertiaryButton,
   TopButtonBar,
   Flexbox,
-  AddButton,
-  ButtonText,
 } from '../common';
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized } from '../../translations/Localized';
@@ -21,12 +19,10 @@ import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
-import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 
 const ResourcesScreen = ({ navigation }) => {
-  const { hasPermissionsToWrite } = useContext(AppContext);
   const { setDisplayNotifications, displayNotifications } =
     useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
@@ -217,20 +213,6 @@ const ResourcesScreen = ({ navigation }) => {
         {view.name === Localized('Favorites').toUpperCase() && (
           <FavoritesView />
         )}
-        {view.name === Localized('Team').toUpperCase() &&
-          hasPermissionsToWrite &&
-          isOwner && (
-            <AddButton
-              bottom="10px"
-              right="12px"
-              onPress={() => {
-                setIsAddFolderModalOpen(true);
-                setIsCalloutOpenFromParent(false);
-              }}
-            >
-              <ButtonText>+</ButtonText>
-            </AddButton>
-          )}
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}

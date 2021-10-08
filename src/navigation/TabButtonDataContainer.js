@@ -20,12 +20,13 @@ const { width: screenWidth } = Dimensions.get('screen');
 const duration = 250;
 
 const TabButtonDataContainer = ({ children }) => {
-  const { associateId } = useContext(AppContext);
+  const { associateId, hasPermissionsToWrite } = useContext(AppContext);
   const {
     showAddOptions,
     setShowAddOptions,
     usersTeamInfo,
     refetchUserAccessCodes,
+    alreadyHasTeam,
   } = useContext(LoginContext);
 
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
@@ -104,11 +105,31 @@ const TabButtonDataContainer = ({ children }) => {
     }
   }, [showAddOptions]);
 
-  // info in case the user needs to create a team
+  // CREATE A TEAM
+  // alert in case the user needs to create a team
   const showAlertThatUserHasNoTeam = () => {
     Alert.alert(
       Localized('You have not created a team yet'),
       Localized('Would you like to create a team?'),
+      [
+        {
+          text: Localized('No').toUpperCase(),
+          style: 'cancel',
+          onPress: () => console.log('cancel'),
+        },
+        {
+          text: Localized('Yes').toUpperCase(),
+          onPress: () => setIsAccessCodeModalOpen(true),
+        },
+      ],
+    );
+  };
+
+  // alert if they have not created a folder yet
+  const showAlertThatUserHasNoFolders = () => {
+    Alert.alert(
+      Localized('You have not created any folders yet'),
+      Localized('Would you like to create a folder?'),
       [
         {
           text: Localized('No').toUpperCase(),
@@ -161,25 +182,59 @@ const TabButtonDataContainer = ({ children }) => {
     addTeamAccessCode();
   };
 
-  // get team resources
+  // GET TEAM RESOURCES
   const { data: teamResourceData } = useQuery(GET_TEAM_RESOURCES, {
     variables: { teams: [usersTeamInfo?.teamName] },
-    onError: (e) => console.log(`error in get team resources`, e),
+    onError: (e) =>
+      console.log(`error in get team resources in TabButtonContainer.js`, e),
   });
-  //   console.log(`teamResourceData`, teamResourceData);
+  console.log(`teamResourceData`, teamResourceData);
 
   const listOfTeamFolders = teamResourceData?.teamResources?.map((item) => ({
-    // key: item?.folderId,
-    // id: item?.folderId,
     label: item?.folderName,
-    value: item?.folderId.toString(),
+    value: item?.folderName,
   }));
 
-  // TODO - what if they try to add a resource but have not yet created a folder????
   //   console.log(`listOfTeamFolders`, listOfTeamFolders);
-  const initialTeam = listOfTeamFolders?.[0];
-  console.log(`initialTeam`, initialTeam);
-  const [selectedTeam, setSelectedTeam] = useState({});
+  const initialTeam = teamResourceData?.teamResources?.[0]?.folderName;
+  const [selectedTeam, setSelectedTeam] = useState(initialTeam);
+
+  // if user is not ruby or higher, have the button allow them to add a prospect
+  // if user is ruby or higher, give them all of the add options and make the button toggle the options menu
+  const handleMainAddButton = () => {
+    if (hasPermissionsToWrite) {
+      showAddOptions ? closeAddOptions() : openAddOptions();
+    } else {
+      setIsAddContactModalOpen(true);
+    }
+  };
+
+  const handleAddProspect = () => {
+    setIsAddContactModalOpen(true);
+    closeAddOptions();
+  };
+
+  const handleAddFolder = () => {
+    if (alreadyHasTeam) {
+      setIsAddFolderModalOpen(true);
+      closeAddOptions();
+    } else {
+      showAlertThatUserHasNoTeam();
+      closeAddOptions();
+    }
+  };
+
+  const handleAddAsset = () => {
+    if (alreadyHasTeam) {
+      listOfTeamFolders.length > 0
+        ? setIsUploadAssetModalOpen(true)
+        : showAlertThatUserHasNoFolders();
+      closeAddOptions();
+    } else {
+      showAlertThatUserHasNoTeam();
+      closeAddOptions();
+    }
+  };
 
   return (
     <>
@@ -195,6 +250,11 @@ const TabButtonDataContainer = ({ children }) => {
           setIsAddFolderModalOpen,
           setIsUploadAssetModalOpen,
           showAlertThatUserHasNoTeam,
+          showAlertThatUserHasNoFolders,
+          handleMainAddButton,
+          handleAddProspect,
+          handleAddFolder,
+          handleAddAsset,
         }}
       >
         {children}

@@ -41,8 +41,8 @@ const UploadAssetModal = ({
   // this is when user edits an asset from TeamSearchScreen.js
   searchTerm,
   // these are from TabButtonContainer
-  listOfTeamFolders,
-  selectedTeam,
+  listOfTeamFolders = [{ value: 'test', label: 'test' }],
+  selectedTeam = 'test',
   setSelectedTeam,
 }) => {
   const { theme } = useContext(AppContext);
@@ -56,6 +56,7 @@ const UploadAssetModal = ({
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log(`selectedTeam`, selectedTeam);
   // permissions for photo library
   useEffect(() => {
     (async () => {
@@ -279,7 +280,7 @@ const UploadAssetModal = ({
           style={{ marginTop: 18, width: '100%' }}
           items={listOfTeamFolders}
           label={Localized('Folder Title')}
-          value={selectedTeam?.value}
+          value={selectedTeam}
           placeholder={{
             label: '',
             value: null,
@@ -369,7 +370,7 @@ UploadAssetModal.propTypes = {
   assetLink: PropTypes.string,
   searchTerm: PropTypes.string,
   listOfTeamFolders: PropTypes.array,
-  selectedTeam: PropTypes.object,
+  selectedTeam: PropTypes.string,
   setSelectedTeam: PropTypes.func,
 };
 
