@@ -45,16 +45,13 @@ const AnimatedSmallButton = Animated.createAnimatedComponent(SmallAddButton);
 
 export const AnimatedAddButtonRow = () => {
   const { theme } = useContext(AppContext);
-  const { alreadyHasTeam } = useContext(LoginContext);
   const {
     buttonScaleAnim,
     rowWidthAnim,
     rowTopAnim,
-    setIsAddContactModalOpen,
-    setIsAddFolderModalOpen,
-    setIsUploadAssetModalOpen,
-    closeAddOptions,
-    showAlertThatUserHasNoTeam,
+    handleAddProspect,
+    handleAddFolder,
+    handleAddAsset,
   } = useContext(TabButtonContext);
 
   const iconStyle = {
@@ -67,10 +64,7 @@ export const AnimatedAddButtonRow = () => {
     <>
       <AnimatedRow style={{ top: rowTopAnim, width: rowWidthAnim }}>
         <AnimatedSmallButton
-          onPress={() => {
-            setIsAddContactModalOpen(true);
-            closeAddOptions();
-          }}
+          onPress={handleAddProspect}
           style={{
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
@@ -78,19 +72,7 @@ export const AnimatedAddButtonRow = () => {
           <AddProspectIcon style={iconStyle} />
         </AnimatedSmallButton>
         <AnimatedSmallButton
-          onPress={
-            // if the user aleady has a team, open the modal to add a folder
-            // otherwise, show alert to allow user to create a team
-            alreadyHasTeam
-              ? () => {
-                  setIsAddFolderModalOpen(true);
-                  closeAddOptions();
-                }
-              : () => {
-                  showAlertThatUserHasNoTeam();
-                  closeAddOptions();
-                }
-          }
+          onPress={handleAddFolder}
           style={{
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
@@ -98,19 +80,7 @@ export const AnimatedAddButtonRow = () => {
           <AddFolderIcon style={iconStyle} />
         </AnimatedSmallButton>
         <AnimatedSmallButton
-          onPress={
-            // if the user aleady has a team, open the modal to add an asset
-            // otherwise, show alert to allow user to create a team
-            alreadyHasTeam
-              ? () => {
-                  setIsUploadAssetModalOpen(true);
-                  closeAddOptions();
-                }
-              : () => {
-                  showAlertThatUserHasNoTeam();
-                  closeAddOptions();
-                }
-          }
+          onPress={handleAddAsset}
           style={{
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
@@ -124,16 +94,14 @@ export const AnimatedAddButtonRow = () => {
 
 // Tab Bar Button
 export const TabBarButton = ({ ...props }) => {
-  const { theme, hasPermissionsToWrite } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
   const { showAddOptions } = useContext(LoginContext);
   const {
     buttonScaleAnim,
     rowWidthAnim,
     rowTopAnim,
     spin,
-    setIsAddContactModalOpen,
-    openAddOptions,
-    closeAddOptions,
+    handleMainAddButton,
   } = useContext(TabButtonContext);
 
   return (
@@ -164,19 +132,7 @@ export const TabBarButton = ({ ...props }) => {
             zIndex: 10,
           }}
         >
-          <AddButton
-            onPress={() =>
-              // if user is not ruby or higher, have the button allow them to add a prospect
-              // if user is ruby or higher, give them all of the add options and make the button toggle the options menu
-              !hasPermissionsToWrite
-                ? setIsAddContactModalOpen(true)
-                : showAddOptions
-                ? closeAddOptions()
-                : openAddOptions()
-            }
-            right="7px"
-            bottom="7px"
-          >
+          <AddButton onPress={handleMainAddButton} right="7px" bottom="7px">
             <Animated.Image
               source={add}
               style={{
