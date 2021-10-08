@@ -36,3 +36,14 @@ export const findUsersOwnTeamInfo = (associateId, array = []) => {
     }
   }
 };
+
+export const findPropInArray = (array = [], folderName = '', prop1, prop2) => {
+  if (array) {
+    const result = array.find((item) => item[prop1] === folderName);
+    if (result) {
+      return result[prop2];
+    } else {
+      return null;
+    }
+  }
+};
