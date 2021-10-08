@@ -15,6 +15,7 @@ import {
   // GET_USERS_ACCESS_CODES,
   GET_TEAM_RESOURCES,
 } from '../graphql/queries';
+import { findPropInArray } from '../utils/teamResources/findTeamResourceData';
 
 const { width: screenWidth } = Dimensions.get('screen');
 const duration = 250;
@@ -188,16 +189,29 @@ const TabButtonDataContainer = ({ children }) => {
     onError: (e) =>
       console.log(`error in get team resources in TabButtonContainer.js`, e),
   });
-  console.log(`teamResourceData`, teamResourceData);
 
-  const listOfTeamFolders = teamResourceData?.teamResources?.map((item) => ({
+  const reshapedFolders = teamResourceData?.teamResources?.map((item) => ({
     label: item?.folderName,
     value: item?.folderName,
   }));
 
-  //   console.log(`listOfTeamFolders`, listOfTeamFolders);
-  const initialTeam = teamResourceData?.teamResources?.[0]?.folderName;
-  const [selectedTeam, setSelectedTeam] = useState(initialTeam);
+  const initialFolderName = teamResourceData?.teamResources?.[0]?.folderName;
+  const [selectedFolderName, setSelectedFolderName] =
+    useState(initialFolderName);
+
+  const selectedTeamFolderId = findPropInArray(
+    teamResourceData?.teamResources,
+    selectedFolderName,
+    'folderName',
+    'folderId',
+  );
+
+  const assetsInSelectedFolder = findPropInArray(
+    teamResourceData?.teamResources,
+    selectedFolderName,
+    'folderName',
+    'links',
+  );
 
   // if user is not ruby or higher, have the button allow them to add a prospect
   // if user is ruby or higher, give them all of the add options and make the button toggle the options menu
@@ -226,7 +240,7 @@ const TabButtonDataContainer = ({ children }) => {
 
   const handleAddAsset = () => {
     if (alreadyHasTeam) {
-      listOfTeamFolders.length > 0
+      reshapedFolders.length > 0
         ? setIsUploadAssetModalOpen(true)
         : showAlertThatUserHasNoFolders();
       closeAddOptions();
@@ -295,12 +309,12 @@ const TabButtonDataContainer = ({ children }) => {
           onClose={() => {
             setIsUploadAssetModalOpen(false);
           }}
-          folderId={teamResourceData?.teamResources?.[0]?.folderId}
-          displayOrder={teamResourceData?.teamResources?.[0].links?.length + 1}
+          folderId={selectedTeamFolderId}
+          displayOrder={assetsInSelectedFolder?.length + 1}
           selectedTeamName={usersTeamInfo?.teamName}
-          listOfTeamFolders={listOfTeamFolders}
-          selectedTeam={selectedTeam}
-          setSelectedTeam={setSelectedTeam}
+          reshapedFolders={reshapedFolders}
+          selectedFolderName={selectedFolderName}
+          setSelectedFolderName={setSelectedFolderName}
         />
       )}
     </>

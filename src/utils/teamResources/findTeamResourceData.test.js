@@ -3,6 +3,7 @@ import {
   findIfUserHasATeam,
   findTeamAccessCode,
   findUsersOwnTeamInfo,
+  findPropInArray,
 } from './findTeamResourceData';
 
 const testArray = [
@@ -96,5 +97,76 @@ describe('findUsersOwnTeamInfo', () => {
     const output = null;
 
     expect(findUsersOwnTeamInfo(input, testArray)).toBe(output);
+  });
+});
+
+const listOfTeamFolders = [
+  {
+    folderId: 4265,
+    folderName: 'My Team Folder',
+    isWideLayout: true,
+  },
+  {
+    folderId: 4755,
+    folderName: 'Folder 2',
+    isWideLayout: true,
+  },
+  {
+    folderId: 0,
+    folderName: 'Test Folder',
+    isWideLayout: true,
+  },
+];
+describe('findPropInArray with folderName and folderId', () => {
+  test('folder name Test Folder returns folderId 0', () => {
+    const input = 'Test Folder';
+    const output = 0;
+
+    expect(
+      findPropInArray(listOfTeamFolders, input, 'folderName', 'folderId'),
+    ).toStrictEqual(output);
+  });
+  test('folder name Folder 2 returns folderId 4755', () => {
+    const input = 'Folder 2';
+    const output = 4755;
+
+    expect(
+      findPropInArray(listOfTeamFolders, input, 'folderName', 'folderId'),
+    ).toBe(output);
+  });
+  test('folder name My Team Folder does not return folderId 4755', () => {
+    const input = 'My Team Folder';
+    const output = 4755;
+
+    expect(
+      findPropInArray(listOfTeamFolders, input, 'folderName', 'folderId'),
+    ).not.toBe(output);
+  });
+});
+
+describe('findPropInArray with team owner id', () => {
+  test('team name "Test Team" returns id: 222', () => {
+    const input = 'Test Team';
+    const output = 222;
+
+    expect(
+      findPropInArray(testArray, input, 'teamName', 'teamOwnerAssociateId'),
+    ).toBe(output);
+  });
+  test('team name "Team Awesome" returns id: 111', () => {
+    const input = 'Team Awesome';
+    const output = 111;
+
+    expect(
+      findPropInArray(testArray, input, 'teamName', 'teamOwnerAssociateId'),
+    ).toBe(output);
+  });
+  test('team name "Test Team 2" returns id: 333', () => {
+    const input = 'Test Team 2';
+    const output = 333;
+
+    expect(
+      findPropInArray(testArray, input, 'teamName', 'teamOwnerAssociateId'),
+    ).toBe(output);
   });
 });

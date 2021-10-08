@@ -41,9 +41,9 @@ const UploadAssetModal = ({
   // this is when user edits an asset from TeamSearchScreen.js
   searchTerm,
   // these are from TabButtonContainer
-  listOfTeamFolders = [{ value: 'test', label: 'test' }],
-  selectedTeam = 'test',
-  setSelectedTeam,
+  reshapedFolders = [{ value: 'test', label: 'test' }],
+  selectedFolderName = 'test',
+  setSelectedFolderName,
 }) => {
   const { theme } = useContext(AppContext);
   const [title, setTitle] = useState(assetTitle);
@@ -56,7 +56,7 @@ const UploadAssetModal = ({
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(`selectedTeam`, selectedTeam);
+  console.log(`selectedFolderName`, selectedFolderName);
   // permissions for photo library
   useEffect(() => {
     (async () => {
@@ -278,15 +278,15 @@ const UploadAssetModal = ({
         </Flexbox>
         <Picker
           style={{ marginTop: 18, width: '100%' }}
-          items={listOfTeamFolders}
+          items={reshapedFolders}
           label={Localized('Folder Title')}
-          value={selectedTeam}
+          value={selectedFolderName}
           placeholder={{
             label: '',
             value: null,
           }}
           onValueChange={(value) => {
-            setSelectedTeam(value);
+            setSelectedFolderName(value);
             setIsFileInputFocused(false);
           }}
           testID="foler-title-input"
@@ -369,9 +369,9 @@ UploadAssetModal.propTypes = {
   assetFile: PropTypes.object,
   assetLink: PropTypes.string,
   searchTerm: PropTypes.string,
-  listOfTeamFolders: PropTypes.array,
-  selectedTeam: PropTypes.string,
-  setSelectedTeam: PropTypes.func,
+  reshapedFolders: PropTypes.array,
+  selectedFolderName: PropTypes.string,
+  setSelectedFolderName: PropTypes.func,
 };
 
 export default UploadAssetModal;
