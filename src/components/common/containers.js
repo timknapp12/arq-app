@@ -66,7 +66,8 @@ export const MainScrollView = ({ children }) => (
       width: '100%',
       height: '100%',
       zIndex: -1,
-    }}>
+    }}
+  >
     {children}
   </ScrollView>
 );
@@ -74,3 +75,7 @@ export const MainScrollView = ({ children }) => (
 MainScrollView.propTypes = {
   children: PropTypes.any,
 };
+
+export const Gap = styled.View`
+  height: ${(props) => (props.height ? props.height : '20px')};
+`;

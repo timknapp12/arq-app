@@ -1,6 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -17,6 +16,7 @@ import {
   Input,
   H4Book,
   AlertText,
+  Gap,
 } from '../common';
 import { Localized } from '../../translations/Localized';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
@@ -29,10 +29,6 @@ import {
 import { getToken } from '../../utils/firebase/login';
 import { LOGIN_VALIDATION_PROCESS } from '../../graphql/mutations';
 import { handleLoginValidationProcess } from '../../utils/handleLoginFlow';
-
-const Gap = styled.View`
-  height: 20px;
-`;
 
 const { height } = Dimensions.get('window');
 
