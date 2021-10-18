@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { H2Book, H4Book, H6, Flexbox, Link } from '../../common';
+import { H2Book, H4Book, H6, Flexbox, Link, Gap } from '../../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
@@ -16,7 +16,6 @@ import {
   Stack,
   ExpandedImage,
   ExpandedImageDefault,
-  Gap,
   IconRow,
 } from './card.styles';
 import ReadMore from 'react-native-read-more-text';
@@ -75,7 +74,8 @@ const ExpandedContactCard = ({
       <CardContainer {...props}>
         <TouchableOpacity
           activeOpacity={isCalloutOpenFromParent ? 1 : 0.2}
-          onPress={toggleExpanded}>
+          onPress={toggleExpanded}
+        >
           <Flexbox align="flex-end">
             <MaterialCommunityIcon
               name="chevron-up"
@@ -110,19 +110,19 @@ const ExpandedContactCard = ({
             <H4Book>{`${firstName} ${lastName}`}</H4Book>
             {primaryPhone ? (
               <>
-                <Gap />
+                <Gap height="6px" />
                 <H6>{primaryPhone}</H6>
               </>
             ) : null}
             {emailAddress ? (
               <>
-                <Gap />
+                <Gap height="6px" />
                 <H6>{emailAddress}</H6>
               </>
             ) : null}
             {address?.address1 ? (
               <>
-                <Gap />
+                <Gap height="6px" />
                 <H6>{address?.address1}</H6>
               </>
             ) : null}
@@ -132,12 +132,12 @@ const ExpandedContactCard = ({
             }`}</H6>
             {notes ? (
               <>
-                <Gap />
-                <Gap />
+                <Gap height="12px" />
                 <ReadMore
                   numberOfLines={3}
                   renderTruncatedFooter={renderTruncatedFooter}
-                  renderRevealedFooter={renderRevealedFooter}>
+                  renderRevealedFooter={renderRevealedFooter}
+                >
                   <H6>{notes}</H6>
                 </ReadMore>
               </>

@@ -1,18 +1,13 @@
 import React, { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
 import { Alert, TouchableOpacity } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
-import { Flexbox, PrimaryButton, Input, H4, AlertText } from '../common';
+import { Flexbox, PrimaryButton, Input, H4, AlertText, Gap } from '../common';
 import { Localized } from '../../translations/Localized';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 import AppContext from '../../contexts/AppContext';
 import { CREATE_TEAM } from '../../graphql/mutations';
-
-const Gap = styled.View`
-  height: 20px;
-`;
 
 const CreateTeamScreen = ({ navigation }) => {
   const { associateId } = useContext(AppContext);
@@ -99,7 +94,8 @@ const CreateTeamScreen = ({ navigation }) => {
               <AlertText
                 style={{
                   textAlign: 'center',
-                }}>
+                }}
+              >
                 {errorMessage}
               </AlertText>
             </Flexbox>
