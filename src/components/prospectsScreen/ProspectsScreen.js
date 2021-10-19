@@ -172,6 +172,7 @@ const ProspectsScreen = ({ navigation, route }) => {
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
             bottom="40px"
+            right="-180px"
           >
             <ButtonText>+</ButtonText>
           </AddButton>

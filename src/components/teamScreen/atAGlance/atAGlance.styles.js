@@ -27,4 +27,13 @@ export const PieHoleText = styled.Text`
 
 export const ThemedCard = styled.View`
   background-color: ${(props) => props.theme.cardBackgroundColor};
+  border-radius: 5px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ChevronContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
 `;

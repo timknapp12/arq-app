@@ -14,6 +14,7 @@ import { Flexbox, Label, Input, TextArea, Picker, H5Black } from '../../common';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
 import AppContext from '../../../contexts/AppContext';
+import TabButtonContext from '../../../contexts/TabButtonContext';
 import { Filename, FileInput, FileUnderline, marginSize } from './modal.styles';
 import { Localized } from '../../../translations/Localized';
 import { ADD_UPDATE_ASSET } from '../../../graphql/mutations';
@@ -27,11 +28,11 @@ import { saveFileToFirebase } from '../../../utils/firebase/saveFileToFirebase';
 const UploadAssetModal = ({
   visible,
   onClose,
-  folderId,
+  // folderId,
   // these props are to populate the fields in the modal with already existing data while in edit modal
   editMode,
   linkId,
-  displayOrder,
+  // displayOrder,
   selectedTeamName,
   assetTitle = '',
   assetDescription = '',
@@ -41,11 +42,20 @@ const UploadAssetModal = ({
   // this is when user edits an asset from TeamSearchScreen.js
   searchTerm,
   // these are from TabButtonContainer
-  reshapedFolders = [{ value: 'test', label: 'test' }],
-  selectedFolderName = 'test',
-  setSelectedFolderName,
+  // reshapedFolders = [{ value: 'test', label: 'test' }],
+  // selectedFolderName = 'test',
+  // setSelectedFolderName,
 }) => {
   const { theme } = useContext(AppContext);
+  const {
+    folderId,
+    displayOrder,
+    reshapedFolders,
+    selectedFolderName,
+    setSelectedFolderName,
+  } = useContext(TabButtonContext);
+  console.log(`folderId`, folderId);
+
   const [title, setTitle] = useState(assetTitle);
   const [description, setDescription] = useState(assetDescription);
   const [contentType, setContentType] = useState(assetContentType);
@@ -358,9 +368,9 @@ const UploadAssetModal = ({
 UploadAssetModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  folderId: PropTypes.number.isRequired,
+  // folderId: PropTypes.number.isRequired,
   linkId: PropTypes.number,
-  displayOrder: PropTypes.number,
+  // displayOrder: PropTypes.number,
   editMode: PropTypes.bool,
   selectedTeamName: PropTypes.string,
   assetTitle: PropTypes.string,
@@ -369,9 +379,9 @@ UploadAssetModal.propTypes = {
   assetFile: PropTypes.object,
   assetLink: PropTypes.string,
   searchTerm: PropTypes.string,
-  reshapedFolders: PropTypes.array,
-  selectedFolderName: PropTypes.string,
-  setSelectedFolderName: PropTypes.func,
+  // reshapedFolders: PropTypes.array,
+  // selectedFolderName: PropTypes.string,
+  // setSelectedFolderName: PropTypes.func,
 };
 
 export default UploadAssetModal;

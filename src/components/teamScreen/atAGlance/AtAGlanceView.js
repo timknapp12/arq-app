@@ -1,44 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import PieChart from './PieChart';
 import CardForAtAGlance from './CardForAtAGlance';
-import { Gap } from '../../common';
-import { Localized } from '../../../translations/Localized';
-
-const data = [
-  {
-    name: 'Leg 1',
-    population: 362323,
-    color: '#94D2BA',
-    legendFontColor: 'rgba(255,255,255,.83)',
-    legendFontSize: 15,
-  },
-  {
-    name: 'Leg 2',
-    population: 203366,
-    color: '#EAB286',
-    legendFontColor: 'rgba(255,255,255,.83)',
-    legendFontSize: 15,
-  },
-  {
-    name: 'Leg 3',
-    population: 102555,
-    color: '#B6A0BB',
-    legendFontColor: 'rgba(255,255,255,.83)',
-    legendFontSize: 15,
-    legendFontFamily: 'Avenir-Light',
-  },
-];
-
-// const data = []
+import { Gap, H4Black } from '../../common';
+import { categoriesForAtAGlance } from './categoriesForAtAGlance';
 
 const AtAGlanceView = ({ ...props }) => {
+  const initialCategory = categoriesForAtAGlance?.[0];
+  const [category, setCategory] = useState(initialCategory);
+  console.log(`category`, category);
   return (
     <View {...props}>
-      <PieChart data={data || []} accessor="population" />
-      <CardForAtAGlance title={Localized('Autoships')} value="688244" />
-      <Gap height="12px" />
-      <CardForAtAGlance />
+      <H4Black style={{ textAlign: 'center' }}>{category?.title ?? ''}</H4Black>
+      <PieChart data={category?.data || []} accessor="population" />
+      {categoriesForAtAGlance.map((item) => (
+        <View key={item?.id}>
+          <Gap height="8px" />
+          <CardForAtAGlance
+            title={item?.title}
+            value={item?.value}
+            onPress={() => setCategory(item)}
+          />
+        </View>
+      ))}
     </View>
   );
 };

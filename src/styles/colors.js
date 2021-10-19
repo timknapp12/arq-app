@@ -4,6 +4,8 @@ export const secondaryWhite = 'rgba(255,255,255,.5)';
 
 export const disabledWhite = 'rgba(255,255,255,.35)';
 
+export const highlightWhite = '#ffffff';
+
 export const black = '#000000';
 
 export const nero = '#222222';
@@ -45,3 +47,8 @@ export const donut3primaryColor = '#EAB286';
 
 // donut chart
 export const donut3secondaryColor = '#F8E8DA';
+
+// pie charts
+export const greenAccentDark = '#69FFBB';
+export const greenAccent = '#94D2BA';
+export const greenAccentLight = '#D4EDE3';

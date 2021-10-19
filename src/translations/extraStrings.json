@@ -7,5 +7,14 @@
   "Would you like to create a folder?": "Would you like to create a folder?",
   "No": "No",
   "Yes": "Yes",
-  "Folder Title": "Folder Title"
+  "Folder Title": "Folder Title",
+  "At A Glance": "At A Glance",
+  "My Team": "My Team",
+  "Leaderboard": "Leaderboard",
+  "Autoships": "Autoships",
+  "Ambassador Enrollments": "Ambassador Enrollments",
+  "Preferred Customer Enrollments": "Preferred Customer Enrollments",
+  "Event Tickets": "Event Tickets",
+  "Payouts": "Payouts",
+  "We had a problem retrieving your data. Please try again later": "We had a problem retrieving your data. Please try again later"
 }

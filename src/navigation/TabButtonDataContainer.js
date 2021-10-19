@@ -183,6 +183,7 @@ const TabButtonDataContainer = ({ children }) => {
     addTeamAccessCode();
   };
 
+  console.log(`usersTeamInfo?.teamName`, usersTeamInfo?.teamName);
   // GET TEAM RESOURCES
   const { data: teamResourceData } = useQuery(GET_TEAM_RESOURCES, {
     variables: { teams: [usersTeamInfo?.teamName] },
@@ -195,23 +196,40 @@ const TabButtonDataContainer = ({ children }) => {
     value: item?.folderName,
   }));
 
-  const initialFolderName = teamResourceData?.teamResources?.[0]?.folderName;
-  const [selectedFolderName, setSelectedFolderName] =
-    useState(initialFolderName);
+  const [selectedFolderName, setSelectedFolderName] = useState('');
+  console.log(`selectedFolderName`, selectedFolderName);
 
-  const selectedTeamFolderId = findPropInArray(
-    teamResourceData?.teamResources,
-    selectedFolderName,
-    'folderName',
-    'folderId',
-  );
+  useEffect(() => {
+    if (teamResourceData?.teamResources) {
+      const initialFolderName =
+        teamResourceData?.teamResources?.[0]?.folderName;
+      setSelectedFolderName(initialFolderName);
+    }
+  }, [teamResourceData?.teamResources]);
 
-  const assetsInSelectedFolder = findPropInArray(
-    teamResourceData?.teamResources,
-    selectedFolderName,
-    'folderName',
-    'links',
-  );
+  const [selectedTeamFolderId, setSelectedTeamFolderId] = useState(null);
+  const [assetsInSelectedFolder, setAssetsInSelectedFolder] = useState([]);
+  console.log(`selectedTeamFolderId`, selectedTeamFolderId);
+  console.log(`assetsInSelectedFolder`, assetsInSelectedFolder);
+
+  useEffect(() => {
+    if (selectedFolderName) {
+      const teamFolderId = findPropInArray(
+        teamResourceData?.teamResources,
+        selectedFolderName,
+        'folderName',
+        'folderId',
+      );
+      setSelectedTeamFolderId(teamFolderId);
+      const assetsInFolder = findPropInArray(
+        teamResourceData?.teamResources,
+        selectedFolderName,
+        'folderName',
+        'links',
+      );
+      setAssetsInSelectedFolder(assetsInFolder);
+    }
+  }, [selectedFolderName]);
 
   // if user is not ruby or higher, have the button allow them to add a prospect
   // if user is ruby or higher, give them all of the add options and make the button toggle the options menu
@@ -240,7 +258,7 @@ const TabButtonDataContainer = ({ children }) => {
 
   const handleAddAsset = () => {
     if (alreadyHasTeam) {
-      reshapedFolders.length > 0
+      reshapedFolders?.length > 0
         ? setIsUploadAssetModalOpen(true)
         : showAlertThatUserHasNoFolders();
       closeAddOptions();
@@ -265,13 +283,34 @@ const TabButtonDataContainer = ({ children }) => {
           setIsUploadAssetModalOpen,
           showAlertThatUserHasNoTeam,
           showAlertThatUserHasNoFolders,
+          folderId: selectedTeamFolderId,
+          displayOrder: assetsInSelectedFolder?.length + 1,
+          reshapedFolders,
+          selectedFolderName,
+          setSelectedFolderName,
           handleMainAddButton,
           handleAddProspect,
           handleAddFolder,
           handleAddAsset,
         }}
       >
-        {children}
+        <>
+          {children}
+          {isUploadAssetModalOpen && (
+            <UploadAssetModal
+              visible={isUploadAssetModalOpen}
+              onClose={() => {
+                setIsUploadAssetModalOpen(false);
+              }}
+              selectedTeamName={usersTeamInfo?.teamName}
+              folderId={selectedTeamFolderId}
+              displayOrder={assetsInSelectedFolder?.length + 1}
+              reshapedFolders={reshapedFolders}
+              selectedFolderName={selectedFolderName}
+              setSelectedFolderName={setSelectedFolderName}
+            />
+          )}
+        </>
       </TabButtonContext.Provider>
       {isAddContactModalOpen && (
         <AddContactModal
@@ -301,20 +340,6 @@ const TabButtonDataContainer = ({ children }) => {
           selectedTeamName={usersTeamInfo?.teamName}
           selectedTeamAccessCode={usersTeamInfo?.accessCode}
           displayOrder={teamResourceData?.teamResources?.length + 1}
-        />
-      )}
-      {isUploadAssetModalOpen && (
-        <UploadAssetModal
-          visible={isUploadAssetModalOpen}
-          onClose={() => {
-            setIsUploadAssetModalOpen(false);
-          }}
-          folderId={selectedTeamFolderId}
-          displayOrder={assetsInSelectedFolder?.length + 1}
-          selectedTeamName={usersTeamInfo?.teamName}
-          reshapedFolders={reshapedFolders}
-          selectedFolderName={selectedFolderName}
-          setSelectedFolderName={setSelectedFolderName}
         />
       )}
     </>
