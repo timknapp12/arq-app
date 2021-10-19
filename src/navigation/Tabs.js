@@ -26,7 +26,7 @@ const getActiveRouteName = (navigationState) => {
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
-  const [showStorybook] = useState(true);
+  const [showStorybook] = useState(false);
   const { theme } = useContext(AppContext);
   const { newsNotificationCount } = useContext(LoginContext);
   return (
@@ -73,7 +73,8 @@ const Tabs = () => {
           fontSize: 12,
           opacity: 0.83,
         },
-      }}>
+      }}
+    >
       <Tab.Screen
         name="DashboardScreen"
         component={DashboardStack}
