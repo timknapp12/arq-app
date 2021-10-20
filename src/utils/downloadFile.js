@@ -1,13 +1,7 @@
 import * as FileSystem from 'expo-file-system';
-import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
 import { Localized } from '../translations/Localized';
-
-// if the file is an image then the app needs permission to access the photos on the device
-const getMediaLibraryPermissions = async () => {
-  await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-};
 
 export const downloadFile = async (
   url,
@@ -37,8 +31,6 @@ export const downloadFile = async (
     return progress;
   };
 
-  // if the file is an image then the app needs permission to access the photos on the device
-  contentType === 'image' && getMediaLibraryPermissions();
   const downloadPath = FileSystem.cacheDirectory + filename;
   const downloadResumable = FileSystem.createDownloadResumable(
     url,
