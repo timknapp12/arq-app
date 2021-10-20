@@ -105,8 +105,6 @@ export const handleGetDirectScaleInfo = (
         linkText: Localized('Contact Support'),
       });
       break;
-    default:
-    // sign out of firebase and send to login screen
   }
 };
 

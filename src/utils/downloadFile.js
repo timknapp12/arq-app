@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
@@ -31,6 +32,18 @@ export const downloadFile = async (
     return progress;
   };
 
+  // if the file is an image then the app needs permission to access the photos on the device
+  if (contentType === 'image') {
+    const permissions = await MediaLibrary.requestPermissionsAsync();
+    if (permissions.status !== 'granted') {
+      return Alert.alert(
+        Localized('Sorry, we need camera roll permissions to make this work!'),
+        Localized(
+          'Please go to settings on your device and enable permissions to access your photos',
+        ),
+      );
+    }
+  }
   const downloadPath = FileSystem.cacheDirectory + filename;
   const downloadResumable = FileSystem.createDownloadResumable(
     url,
