@@ -2,7 +2,7 @@
   "expo": {
     "name": "q-connect-pro-staging",
     "slug": "q-connect-pro-staging",
-    "version": "0.0.31",
+    "version": "0.0.32",
     "owner": "qsiholdingcompanyinc",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,7 +25,7 @@
         }
       },
       "usesAppleSignIn": true,
-      "buildNumber": "0.0.31",
+      "buildNumber": "0.0.32",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
@@ -47,7 +47,7 @@
     },
     "android": {
       "package": "com.qsciences.q_connect_pro_staging",
-      "versionCode": 31,
+      "versionCode": 32,
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
       "splash": {
@@ -61,15 +61,17 @@
         "xxxhdpi": "./assets/splash@4x.png"
       },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#000000"
+        "foregroundImage": "./assets/foreground.png",
+        "backgroundImage": "./assets/background.png"
       },
       "useNextNotificationsApi": true,
       "permissions": [
         "CAMERA",
         "READ_CONTACTS",
         "USE_FINGERPRINT",
-        "USE_BIOMETRIC"
+        "USE_BIOMETRIC",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
       ]
     },
     "androidNavigationBar": {
