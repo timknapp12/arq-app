@@ -49,6 +49,22 @@ export const donut3primaryColor = '#EAB286';
 export const donut3secondaryColor = '#F8E8DA';
 
 // pie charts
-export const greenAccentDark = '#69FFBB';
 export const greenAccent = '#94D2BA';
+export const greenAccentDark = '#69FFBB';
 export const greenAccentLight = '#D4EDE3';
+
+export const orangeAccent = '#EAB286';
+export const orangeAccentDark = '#FF9A55';
+export const orangeAccentLight = '#F7E0CF';
+
+export const yellowAccent = '#B3BE91';
+export const yellowAccentDark = '#E3EF6C';
+export const yellowAccentLight = '#E1E5D3';
+
+export const blueAccent = '#AFD2D3';
+export const blueAccentDark = '#7FF7F1';
+export const blueAccentLight = '#DFEDED';
+
+export const purpleAccent = '#EAADEF';
+export const purpleAccentDark = '#E280F9';
+export const purpleAccentLight = '#E2D9E4';

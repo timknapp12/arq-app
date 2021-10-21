@@ -20,6 +20,7 @@ const AtAGlanceView = ({ ...props }) => {
             title={item?.title}
             value={item?.value}
             onPress={() => setCategory(item)}
+            selected={category?.title === item?.title}
           />
         </View>
       ))}

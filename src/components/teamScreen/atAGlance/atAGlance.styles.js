@@ -31,6 +31,8 @@ export const ThemedCard = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border: ${(props) =>
+    props.selected ? `solid 1px ${props.theme.selectedCardHighlight}` : null};
 `;
 
 export const ChevronContainer = styled.View`
