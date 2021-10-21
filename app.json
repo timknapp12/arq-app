@@ -50,9 +50,19 @@
       "versionCode": 5,
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#000000",
+        "mdpi": "./assets/splash@1.png",
+        "hdpi": "./assets/splash@1.5x.png",
+        "xhdpi": "./assets/splash@2x.png",
+        "xxhdpi": "./assets/splash@3x.png",
+        "xxxhdpi": "./assets/splash@4x.png"
+      },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#000000"
+        "foregroundImage": "./assets/foreground.png",
+        "backgroundImage": "./assets/background.png"
       },
       "useNextNotificationsApi": true,
       "permissions": [
