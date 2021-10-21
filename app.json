@@ -69,7 +69,9 @@
         "CAMERA",
         "READ_CONTACTS",
         "USE_FINGERPRINT",
-        "USE_BIOMETRIC"
+        "USE_BIOMETRIC",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
       ]
     },
     "androidNavigationBar": {
