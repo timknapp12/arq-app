@@ -11,6 +11,7 @@ import {
   red,
   transparentGray,
   cobaltBlue,
+  highlightWhite,
 } from './colors';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -18,6 +19,7 @@ export const lightTheme = {
   primaryTextColor: black,
   secondaryTextColor: gray,
   disabledTextColor: gray,
+  selectedCardHighlight: black,
   placeholderTextColor: disabledWhite,
   backgroundColor: primaryWhite,
   activeBackground: darkgray,
@@ -57,6 +59,7 @@ export const darkTheme = {
   primaryTextColor: primaryWhite,
   secondaryTextColor: secondaryWhite,
   disabledTextColor: gray,
+  selectedCardHighlight: highlightWhite,
   placeholderTextColor: disabledWhite,
   backgroundColor: black,
   activeBackground: nero,

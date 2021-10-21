@@ -7,10 +7,16 @@ import { ThemedCard } from './atAGlance.styles';
 import AppContext from '../../../contexts/AppContext';
 import { ChevronContainer } from './atAGlance.styles';
 
-const CardForAtAGlance = ({ title = '', value = '', onPress = () => {} }) => {
+const CardForAtAGlance = ({
+  title = '',
+  value = '',
+  onPress = () => {},
+  selected,
+  ...props
+}) => {
   const { theme } = useContext(AppContext);
   return (
-    <ThemedCard>
+    <ThemedCard selected={selected} {...props}>
       <TouchableOpacity
         onPress={onPress}
         style={{
@@ -44,6 +50,7 @@ CardForAtAGlance.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.any.isRequired,
   onPress: PropTypes.func.isRequired,
+  selected: PropTypes.bool.isRequired,
 };
 
 export default CardForAtAGlance;
