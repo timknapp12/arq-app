@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 
-export const pieWidth = 320;
-export const pieHeight = 220;
+export const pieWidth = 200;
+export const pieHeight = 240;
 
-const innerCircleHeight = 150;
+const innerCircleHeight = 166;
 const innerCirlceBorderRadius = innerCircleHeight / 2;
 
 export const PieHole = styled.View`
@@ -14,8 +14,8 @@ export const PieHole = styled.View`
   width: ${innerCircleHeight}px;
   border-radius: ${innerCirlceBorderRadius}px;
   position: absolute;
-  top: 35px;
-  left: 20px;
+  top: 37px;
+  left: 17px;
 `;
 
 export const PieHoleText = styled.Text`

@@ -39,6 +39,43 @@ export const GET_USER = gql`
           rankName
         }
       }
+      autoShip {
+        leg1Total {
+          processedPv
+        }
+        leg2Total {
+          processedPv
+        }
+        leg3Total {
+          processedPv
+        }
+        entireLineTotal {
+          processedPv
+          projectedPv
+        }
+      }
+      glance {
+        entireLineTotal {
+          ambassadorMonthCount
+          eventMonthCount
+          preferedMonthCount
+        }
+        leg1Total {
+          ambassadorMonthCount
+          eventMonthCount
+          preferedMonthCount
+        }
+        leg2Total {
+          ambassadorMonthCount
+          eventMonthCount
+          preferedMonthCount
+        }
+        leg3Total {
+          ambassadorMonthCount
+          eventMonthCount
+          preferedMonthCount
+        }
+      }
     }
   }
 `;
