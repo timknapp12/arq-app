@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
+// TODO add useContext theme from AppContext when we use the chevrons
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { H6 } from '../../common';
 import { ThemedCard } from './atAGlance.styles';
-import AppContext from '../../../contexts/AppContext';
-import { ChevronContainer } from './atAGlance.styles';
+// import AppContext from '../../../contexts/AppContext';
+// import { ChevronContainer } from './atAGlance.styles';
 
 const CardForAtAGlance = ({
   title = '',
@@ -14,7 +15,7 @@ const CardForAtAGlance = ({
   selected,
   ...props
 }) => {
-  const { theme } = useContext(AppContext);
+  // const { theme } = useContext(AppContext);
   return (
     <ThemedCard selected={selected} {...props}>
       <TouchableOpacity
@@ -28,20 +29,20 @@ const CardForAtAGlance = ({
         }}
       >
         <H6>{title}</H6>
-        <H6>{value}</H6>
+        <H6>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</H6>
       </TouchableOpacity>
-      <ChevronContainer>
+      {/* TODO - add ability to drill down into depth with chevron */}
+      {/* <ChevronContainer>
         <TouchableOpacity
           onPress={() => console.log('pressed chevron')}
-          style={{ padding: 4 }}
-        >
+          style={{ padding: 4 }}>
           <MaterialCommunityIcon
             name="chevron-right"
             color={theme.primaryTextColor}
             size={24}
           />
         </TouchableOpacity>
-      </ChevronContainer>
+      </ChevronContainer> */}
     </ThemedCard>
   );
 };
