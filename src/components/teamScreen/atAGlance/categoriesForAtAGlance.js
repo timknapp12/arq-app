@@ -43,7 +43,7 @@ export const reshapeAtAGlanceCategories = (autoShip, glance, pieColorMap) => {
     },
     {
       id: 2,
-      title: Localized('Preferred Customer Enrollments'),
+      title: Localized('PC Enrollments'),
       data: [
         {
           value: glance?.leg1Total?.preferedMonthCount ?? 0,
