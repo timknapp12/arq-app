@@ -10,7 +10,15 @@ import {
   ActivityIndicator,
   View,
 } from 'react-native';
-import { Flexbox, Label, Input, TextArea, Picker, H5Black } from '../../common';
+import {
+  Flexbox,
+  Label,
+  Input,
+  TextArea,
+  Picker,
+  H5Black,
+  AlertText,
+} from '../../common';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
 import AppContext from '../../../contexts/AppContext';
@@ -65,6 +73,11 @@ const UploadAssetModal = ({
 
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+  const errorMessage = Localized(
+    'Sorry there was an error! Please try again later',
+  );
 
   console.log(`selectedFolderName`, selectedFolderName);
   // permissions for photo library
@@ -179,17 +192,20 @@ const UploadAssetModal = ({
     },
     onError: (error) => {
       setIsLoading(false);
-      console.log(`error`, error);
+      setIsError(true);
+      console.log(`error in addUpdateAsset in UploadAssetModal.js`, error);
     },
   });
 
-  // TODO: consider breaking this function out to a separate file
   const onSave = async () => {
     if (!title) {
       return Alert.alert(Localized('Please enter a title'));
     }
     if (!description) {
       return Alert.alert(Localized('Please enter a description'));
+    }
+    if (!selectedFolderName) {
+      return Alert.alert(Localized('Please select a folder'));
     }
     if (!contentType) {
       return Alert.alert(Localized('Please select a file type'));
@@ -267,7 +283,10 @@ const UploadAssetModal = ({
           onFocus={() => setIsFileInputFocused(false)}
           testID="upload-asset-title-input"
           value={title}
-          onChangeText={(text) => setTitle(text)}
+          onChangeText={(text) => {
+            setTitle(text);
+            setIsError(false);
+          }}
           returnKeyType="done"
           onSubmitEditing={Keyboard.dismiss}
           style={{ marginTop: marginSize }}
@@ -279,7 +298,10 @@ const UploadAssetModal = ({
             value={description}
             multiline
             numberOfLines={3}
-            onChangeText={(text) => setDescription(text)}
+            onChangeText={(text) => {
+              setDescription(text);
+              setIsError(false);
+            }}
             style={{ marginTop: marginSize }}
             onFocus={() => setIsFileInputFocused(false)}
             returnKeyType="done"
@@ -298,6 +320,7 @@ const UploadAssetModal = ({
           onValueChange={(value) => {
             setSelectedFolderName(value);
             setIsFileInputFocused(false);
+            setIsError(false);
           }}
           testID="foler-title-input"
         />
@@ -313,6 +336,7 @@ const UploadAssetModal = ({
           onValueChange={(value) => {
             setContentType(value);
             setIsFileInputFocused(false);
+            setIsError(false);
           }}
           testID="contentType-input"
         />
@@ -323,7 +347,10 @@ const UploadAssetModal = ({
               onFocus={() => setIsFileInputFocused(false)}
               testID="upload-asset-link-input"
               value={link}
-              onChangeText={(text) => setLink(text)}
+              onChangeText={(text) => {
+                setLink(text);
+                setIsError(false);
+              }}
               placeholder={Localized('Enter a url')}
               placeholderTextColor={theme.placeholderTextColor}
               returnKeyType="done"
@@ -336,6 +363,7 @@ const UploadAssetModal = ({
             onPress={() => {
               pickFile();
               setIsFileInputFocused(true);
+              setIsError(false);
             }}
             style={{ width: '100%' }}
           >
@@ -359,6 +387,11 @@ const UploadAssetModal = ({
             </FileInput>
             <FileUnderline focused={isFileInputFocused} />
           </TouchableOpacity>
+        )}
+        {isError ? (
+          <AlertText style={{ textAlign: 'center' }}>{errorMessage}</AlertText>
+        ) : (
+          <View style={{ height: 30 }} />
         )}
       </Flexbox>
     </EditModal>
