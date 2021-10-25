@@ -262,7 +262,10 @@ export const GET_TEAM_RESOURCES = gql`
 
 export const GET_ASSETS = gql`
   query Links($folderId: Int!) {
-    links(where: { folderId: { eq: $folderId } }) {
+    links(
+      where: { folderId: { eq: $folderId } }
+      order: { displayOrder: ASC }
+    ) {
       folderId
       linkId
       linkTitle
