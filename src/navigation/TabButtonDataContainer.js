@@ -164,8 +164,6 @@ const TabButtonDataContainer = ({ children }) => {
     addTeamAccessCode();
   };
 
-  console.log(`usersTeamInfo?.teamName`, usersTeamInfo?.teamName);
-
   // GET TEAM RESOURCES
   const { data: teamResourceData } = useQuery(GET_TEAM_RESOURCES, {
     variables: { teams: [usersTeamInfo?.teamName] },
@@ -179,7 +177,6 @@ const TabButtonDataContainer = ({ children }) => {
   }));
 
   const [selectedFolderName, setSelectedFolderName] = useState('');
-  console.log(`selectedFolderName`, selectedFolderName);
 
   useEffect(() => {
     if (teamResourceData?.teamResources) {
@@ -191,8 +188,6 @@ const TabButtonDataContainer = ({ children }) => {
 
   const [selectedTeamFolderId, setSelectedTeamFolderId] = useState(null);
   const [assetsInSelectedFolder, setAssetsInSelectedFolder] = useState([]);
-  console.log(`selectedTeamFolderId`, selectedTeamFolderId);
-  console.log(`assetsInSelectedFolder`, assetsInSelectedFolder);
 
   useEffect(() => {
     if (selectedFolderName) {
