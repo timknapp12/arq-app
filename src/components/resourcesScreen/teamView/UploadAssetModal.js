@@ -36,11 +36,9 @@ import { saveFileToFirebase } from '../../../utils/firebase/saveFileToFirebase';
 const UploadAssetModal = ({
   visible,
   onClose,
-  // folderId,
   // these props are to populate the fields in the modal with already existing data while in edit modal
   editMode,
   linkId,
-  // displayOrder,
   selectedTeamName,
   assetTitle = '',
   assetDescription = '',
@@ -49,10 +47,6 @@ const UploadAssetModal = ({
   assetLink = '',
   // this is when user edits an asset from TeamSearchScreen.js
   searchTerm,
-  // these are from TabButtonContainer
-  // reshapedFolders = [{ value: 'test', label: 'test' }],
-  // selectedFolderName = 'test',
-  // setSelectedFolderName,
 }) => {
   const { theme } = useContext(AppContext);
   const {
@@ -401,9 +395,7 @@ const UploadAssetModal = ({
 UploadAssetModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  // folderId: PropTypes.number.isRequired,
   linkId: PropTypes.number,
-  // displayOrder: PropTypes.number,
   editMode: PropTypes.bool,
   selectedTeamName: PropTypes.string,
   assetTitle: PropTypes.string,
@@ -412,9 +404,6 @@ UploadAssetModal.propTypes = {
   assetFile: PropTypes.object,
   assetLink: PropTypes.string,
   searchTerm: PropTypes.string,
-  // reshapedFolders: PropTypes.array,
-  // selectedFolderName: PropTypes.string,
-  // setSelectedFolderName: PropTypes.func,
 };
 
 export default UploadAssetModal;

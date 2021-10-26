@@ -15,7 +15,7 @@ const PieLegend = ({ data }) => {
         {data[1].value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
       </H5Black>
       <Gap height="16px" />
-      <H5Black>Leg 1</H5Black>
+      <H5Black>Leg 3</H5Black>
       <H5Black style={{ color: data[2].color }}>
         {data[2].value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
       </H5Black>
