@@ -23,6 +23,7 @@ import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
+import MyTeamView from './myTeam/MyTeamView';
 
 const TeamScreen = ({ navigation }) => {
   const { setDisplayNotifications, displayNotifications } =
@@ -166,6 +167,7 @@ const TeamScreen = ({ navigation }) => {
             <AtAGlanceView onStartShouldSetResponder={() => true} />
           )}
         </ScrollView>
+        {view.name === Localized('My Team').toUpperCase() && <MyTeamView />}
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
