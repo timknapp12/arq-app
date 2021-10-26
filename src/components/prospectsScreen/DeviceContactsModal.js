@@ -35,6 +35,7 @@ const DeviceContactsModal = ({
   onClose,
   setContactInfo,
   setIsSaveButtonVisisble,
+  setIsNewImageSelected,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -52,6 +53,7 @@ const DeviceContactsModal = ({
       setContactInfo={setContactInfo}
       onClose={onClose}
       setIsSaveButtonVisisble={setIsSaveButtonVisisble}
+      setIsNewImageSelected={setIsNewImageSelected}
     />
   );
   return (
@@ -60,13 +62,15 @@ const DeviceContactsModal = ({
       transparent={true}
       visible={visible}
       statusBarTranslucent={true}
-      onRequestClose={onClose}>
+      onRequestClose={onClose}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
           <Inner>
             <TouchableOpacity
               onPress={onClose}
-              style={{ padding: 4, width: 20 }}>
+              style={{ padding: 4, width: 20 }}
+            >
               <CloseIcon />
             </TouchableOpacity>
             <Flexbox height="50px" direction="row">
@@ -104,6 +108,7 @@ DeviceContactsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   setContactInfo: PropTypes.func.isRequired,
   setIsSaveButtonVisisble: PropTypes.func.isRequired,
+  setIsNewImageSelected: PropTypes.func.isRequired,
 };
 
 export default DeviceContactsModal;

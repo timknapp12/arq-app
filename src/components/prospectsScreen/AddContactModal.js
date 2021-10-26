@@ -513,6 +513,7 @@ const AddContactModal = ({
           onClose={() => setIsDeviceContactsModalOpen(false)}
           setContactInfo={setContactInfo}
           setIsSaveButtonVisisble={setIsSaveButtonVisisble}
+          setIsNewImageSelected={setIsNewImageSelected}
         />
       )}
     </Modal>

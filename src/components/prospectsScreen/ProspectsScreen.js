@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   Animated,
   ActivityIndicator,
+  Image,
 } from 'react-native';
-import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../common';
+import { ScreenContainer, Flexbox, AddButton } from '../common';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
 import FilterMenu from './FilterMenu';
@@ -18,6 +19,7 @@ import ProspectsContext from '../../contexts/ProspectsContext';
 import LoginContext from '../../contexts/LoginContext';
 import ProspectsView from './ProspectsView';
 import AddContactModal from './AddContactModal';
+import add from '../../../assets/icons/AddIcon_White.png';
 import {
   GET_PROSPECTS_BY_FIRSTNAME,
   GET_PROSPECTS_BY_LASTNAME,
@@ -171,10 +173,16 @@ const ProspectsScreen = ({ navigation, route }) => {
           )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
-            bottom="40px"
-            right="-180px"
+            bottom="24px"
+            right="16px"
           >
-            <ButtonText>+</ButtonText>
+            <Image
+              source={add}
+              style={{
+                height: 46,
+                width: 46,
+              }}
+            />
           </AddButton>
         </ScreenContainer>
       </TouchableWithoutFeedback>

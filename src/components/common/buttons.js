@@ -7,7 +7,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { H4Book, H3, Checkmark } from './texts';
+import { H4Book, Checkmark } from './texts';
 import FacebookLogo from '../../../assets/icons/facebook-logo.svg';
 import AppleIcon from '../../../assets/icons/apple-button.svg';
 import GoogleLogo from '../../../assets/icons/google-button.svg';
@@ -219,9 +219,10 @@ export const Checkbox = ({ selected = false }) => (
 Checkbox.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
-// TODO - remove this after the navbar button is implemented
+
+// this is used on the Prospect Screen
 // ADD BUTTON
-export const AddButton = styled(GestureTouchable)`
+export const AddButton = styled.TouchableOpacity`
   height: 56px;
   width: 56px;
   background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
@@ -232,10 +233,4 @@ export const AddButton = styled(GestureTouchable)`
   bottom: ${(props) => props.bottom};
   right: ${(props) => props.right};
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
-`;
-
-//TODO remove button text when it is replaced with an image
-export const ButtonText = styled(H3)`
-  font-family: 'Avenir-Black';
-  font-size: 32px;
 `;

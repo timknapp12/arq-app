@@ -14,6 +14,7 @@ const DeciveContactCard = ({
   setContactInfo,
   onClose,
   setIsSaveButtonVisisble,
+  setIsNewImageSelected,
   ...props
 }) => {
   const initials = `${contact?.firstName?.charAt(0) ?? ''}${
@@ -39,6 +40,9 @@ const DeciveContactCard = ({
         countryCode: contact?.addresses?.[0]?.isoCountryCode ?? '',
       },
     });
+    if (contact?.image?.uri) {
+      setIsNewImageSelected(true);
+    }
     onClose();
     setIsSaveButtonVisisble(true);
   };
@@ -74,6 +78,7 @@ DeciveContactCard.propTypes = {
   setContactInfo: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   setIsSaveButtonVisisble: PropTypes.func.isRequired,
+  setIsNewImageSelected: PropTypes.func.isRequired,
 };
 
 export default DeciveContactCard;
