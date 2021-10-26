@@ -126,25 +126,6 @@ const TabButtonDataContainer = ({ children }) => {
     );
   };
 
-  // alert if they have not created a folder yet
-  const showAlertThatUserHasNoFolders = () => {
-    Alert.alert(
-      Localized('You have not created any folders yet'),
-      Localized('Would you like to create a folder?'),
-      [
-        {
-          text: Localized('No').toUpperCase(),
-          style: 'cancel',
-          onPress: () => console.log('cancel'),
-        },
-        {
-          text: Localized('Yes').toUpperCase(),
-          onPress: () => setIsAccessCodeModalOpen(true),
-        },
-      ],
-    );
-  };
-
   const [teamName, setTeamName] = useState('');
   const [accessCode, setAccessCode] = useState('');
   const [isError, setIsError] = useState(false);
@@ -184,6 +165,7 @@ const TabButtonDataContainer = ({ children }) => {
   };
 
   console.log(`usersTeamInfo?.teamName`, usersTeamInfo?.teamName);
+
   // GET TEAM RESOURCES
   const { data: teamResourceData } = useQuery(GET_TEAM_RESOURCES, {
     variables: { teams: [usersTeamInfo?.teamName] },
@@ -258,9 +240,7 @@ const TabButtonDataContainer = ({ children }) => {
 
   const handleAddAsset = () => {
     if (alreadyHasTeam) {
-      reshapedFolders?.length > 0
-        ? setIsUploadAssetModalOpen(true)
-        : showAlertThatUserHasNoFolders();
+      setIsUploadAssetModalOpen(true);
       closeAddOptions();
     } else {
       showAlertThatUserHasNoTeam();
@@ -282,7 +262,6 @@ const TabButtonDataContainer = ({ children }) => {
           setIsAddFolderModalOpen,
           setIsUploadAssetModalOpen,
           showAlertThatUserHasNoTeam,
-          showAlertThatUserHasNoFolders,
           folderId: selectedTeamFolderId,
           displayOrder: assetsInSelectedFolder?.length + 1,
           reshapedFolders,
@@ -303,11 +282,6 @@ const TabButtonDataContainer = ({ children }) => {
                 setIsUploadAssetModalOpen(false);
               }}
               selectedTeamName={usersTeamInfo?.teamName}
-              folderId={selectedTeamFolderId}
-              displayOrder={assetsInSelectedFolder?.length + 1}
-              reshapedFolders={reshapedFolders}
-              selectedFolderName={selectedFolderName}
-              setSelectedFolderName={setSelectedFolderName}
             />
           )}
         </>
