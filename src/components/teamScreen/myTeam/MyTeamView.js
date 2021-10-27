@@ -12,8 +12,10 @@ import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 import { Localized } from '../../../translations/Localized';
 
-const MyTeamView = () => {
+const MyTeamView = ({ ...props }) => {
   const { theme } = useContext(AppContext);
+
+  const [sortBy, setSortBy] = useState('ambassadors');
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const fadeAnim = useRef(new Animated.Value(-500)).current;
@@ -37,8 +39,13 @@ const MyTeamView = () => {
   const navigation = useNavigation();
 
   return (
-    <TouchableWithoutFeedback onPress={() => closeFilterMenu()}>
-      <Flexbox align="flex-start" justify="flex-start" height="100%">
+    <TouchableWithoutFeedback {...props} onPress={() => closeFilterMenu()}>
+      <Flexbox
+        align="flex-start"
+        justify="flex-start"
+        height="100%"
+        style={{ zIndex: -1 }}
+      >
         <Flexbox justify="flex-start">
           <FilterSearchBar
             onPress={() =>
@@ -63,11 +70,17 @@ const MyTeamView = () => {
               </Flexbox>
             </TouchableOpacity>
             <H4 style={{ textAlign: 'center' }}>
-              {Localized('My Ambassadors')}
+              {Localized(
+                sortBy === 'ambassadors' ? 'My Ambassadors' : 'My Customers',
+              )}
             </H4>
           </FilterSearchBar>
           <Flexbox>
-            <FilterOrgMenu style={{ left: fadeAnim }} />
+            <FilterOrgMenu
+              onClose={closeFilterMenu}
+              setSortBy={setSortBy}
+              style={{ left: fadeAnim }}
+            />
           </Flexbox>
         </Flexbox>
       </Flexbox>
