@@ -5,6 +5,7 @@ import { PieChart as Pie } from 'react-native-chart-kit';
 import { Localized } from '../../../translations/Localized';
 import PieLegend from './PieLegend';
 import { pieWidth, pieHeight, PieHole, PieHoleText } from './atAGlance.styles';
+import { TouchableWithoutFeedback } from 'react-native';
 
 // source for pie chart https://www.npmjs.com/package/react-native-chart-kit
 const chartConfig = {
@@ -20,6 +21,7 @@ const PieChart = ({
   accessor = 'value',
   firstTotal,
   secondTotal,
+  closeMenus,
 }) => {
   const pieTextColor = data?.[0]?.color;
   if (data?.length < 1) {
@@ -34,32 +36,34 @@ const PieChart = ({
     );
   }
   return (
-    <Flexbox justify="flex-start" direction="row">
-      <Pie
-        data={data}
-        width={pieWidth}
-        height={pieHeight}
-        chartConfig={chartConfig}
-        accessor={accessor}
-        backgroundColor="transparent"
-        paddingLeft="50"
-        hasLegend={false}
-      />
-      <PieHole>
-        <PieHoleText color={pieTextColor}>
-          {firstTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-        </PieHoleText>
-        {secondTotal ? (
-          <PieHoleText color={pieTextColor}>{Localized('of')}</PieHoleText>
-        ) : null}
-        {secondTotal ? (
+    <TouchableWithoutFeedback onPress={closeMenus}>
+      <Flexbox justify="flex-start" direction="row">
+        <Pie
+          data={data}
+          width={pieWidth}
+          height={pieHeight}
+          chartConfig={chartConfig}
+          accessor={accessor}
+          backgroundColor="transparent"
+          paddingLeft="50"
+          hasLegend={false}
+        />
+        <PieHole>
           <PieHoleText color={pieTextColor}>
-            {secondTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            {firstTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </PieHoleText>
-        ) : null}
-      </PieHole>
-      <PieLegend data={data} />
-    </Flexbox>
+          {secondTotal ? (
+            <PieHoleText color={pieTextColor}>{Localized('of')}</PieHoleText>
+          ) : null}
+          {secondTotal ? (
+            <PieHoleText color={pieTextColor}>
+              {secondTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            </PieHoleText>
+          ) : null}
+        </PieHole>
+        <PieLegend data={data} />
+      </Flexbox>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -68,6 +72,7 @@ PieChart.propTypes = {
   accessor: PropTypes.string.isRequired,
   firstTotal: PropTypes.number.isRequired,
   secondTotal: PropTypes.number,
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default PieChart;

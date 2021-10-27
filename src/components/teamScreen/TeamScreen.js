@@ -164,7 +164,10 @@ const TeamScreen = ({ navigation }) => {
           }}
         >
           {view.name === Localized('At A Glance').toUpperCase() && (
-            <AtAGlanceView onStartShouldSetResponder={() => true} />
+            <AtAGlanceView
+              onStartShouldSetResponder={() => true}
+              closeMenus={closeMenus}
+            />
           )}
         </ScrollView>
         {view.name === Localized('My Team').toUpperCase() && <MyTeamView />}

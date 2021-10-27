@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import PieChart from './PieChart';
 import CardForAtAGlance from './CardForAtAGlance';
@@ -7,7 +8,7 @@ import { reshapeAtAGlanceCategories } from './categoriesForAtAGlance';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 
-const AtAGlanceView = ({ ...props }) => {
+const AtAGlanceView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
   const { user } = useContext(LoginContext);
 
@@ -53,6 +54,7 @@ const AtAGlanceView = ({ ...props }) => {
         accessor="value"
         firstTotal={selectedCategory?.firstTotal ?? 0}
         secondTotal={selectedCategory?.secondTotal ?? 0}
+        closeMenus={closeMenus}
       />
       {categories.map((item) => (
         <View key={item?.id}>
@@ -60,13 +62,20 @@ const AtAGlanceView = ({ ...props }) => {
           <CardForAtAGlance
             title={item?.title}
             value={item?.firstTotal ?? 0}
-            onPress={() => setSelectedCategory(item)}
+            onPress={() => {
+              setSelectedCategory(item);
+              closeMenus();
+            }}
             selected={selectedCategory?.title === item?.title}
           />
         </View>
       ))}
     </View>
   );
+};
+
+AtAGlanceView.propTypes = {
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default AtAGlanceView;
