@@ -169,7 +169,9 @@ const TeamScreen = ({ navigation }) => {
             />
           )}
         </ScrollView>
-        {view.name === Localized('My Team').toUpperCase() && <MyTeamView />}
+        {view.name === Localized('My Team').toUpperCase() && (
+          <MyTeamView closeMenus={closeMenus} />
+        )}
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
+import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
   Animated,
@@ -10,10 +11,11 @@ import FilterOrgMenu from './FilterOrgMenu';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import AppContext from '../../../contexts/AppContext';
+import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
 
-const MyTeamView = ({ ...props }) => {
+const MyTeamView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
 
   const [sortBy, setSortBy] = useState('AMBASSADOR');
@@ -39,55 +41,67 @@ const MyTeamView = ({ ...props }) => {
 
   const navigation = useNavigation();
 
+  // this will close the filter menu on this view, but also from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
+  const closeAllMenus = () => {
+    closeFilterMenu();
+    closeMenus();
+  };
+
   return (
-    <TouchableWithoutFeedback {...props} onPress={() => closeFilterMenu()}>
-      <Flexbox
-        align="center"
-        justify="flex-start"
-        height="100%"
-        style={{ zIndex: -1 }}
-      >
-        <FilterSearchBar
-          onPress={() =>
-            navigation.navigate('Search Downline Screen', {
-              title: 'Search',
-            })
-          }
+    <MyTeamViewContext.Provider value={{ closeAllMenus }}>
+      <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
+        <Flexbox
+          align="center"
+          justify="flex-start"
+          height="100%"
+          style={{ zIndex: -1 }}
         >
-          <TouchableOpacity
-            onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}
+          <FilterSearchBar
+            onPress={() =>
+              navigation.navigate('Search Downline Screen', {
+                title: 'Search',
+              })
+            }
           >
-            <Flexbox direction="row" width="auto">
-              <FilterIcon
-                style={{
-                  height: 30,
-                  width: 30,
-                  color: theme.primaryTextColor,
-                  marginTop: -2,
-                  marginEnd: 6,
-                }}
-              />
-            </Flexbox>
-          </TouchableOpacity>
-          <H4 style={{ textAlign: 'center' }}>
-            {Localized(
-              sortBy === 'AMBASSADOR' ? 'My Ambassadors' : 'My Customers',
-            )}
-          </H4>
-        </FilterSearchBar>
+            <TouchableOpacity
+              onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}
+            >
+              <Flexbox direction="row" width="auto">
+                <FilterIcon
+                  style={{
+                    height: 30,
+                    width: 30,
+                    color: theme.primaryTextColor,
+                    marginTop: -2,
+                    marginEnd: 6,
+                  }}
+                />
+              </Flexbox>
+            </TouchableOpacity>
+            <H4 style={{ textAlign: 'center' }}>
+              {Localized(
+                sortBy === 'AMBASSADOR' ? 'My Ambassadors' : 'My Customers',
+              )}
+            </H4>
+          </FilterSearchBar>
 
-        <Flexbox>
-          <FilterOrgMenu
-            onClose={closeFilterMenu}
-            setSortBy={setSortBy}
-            style={{ left: fadeAnim }}
-          />
+          <Flexbox>
+            <FilterOrgMenu
+              onClose={closeFilterMenu}
+              setSortBy={setSortBy}
+              style={{ left: fadeAnim }}
+            />
+          </Flexbox>
+
+          <MyTeamList sortBy={sortBy} />
         </Flexbox>
-
-        <MyTeamList sortBy={sortBy} />
-      </Flexbox>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </MyTeamViewContext.Provider>
   );
+};
+
+MyTeamView.propTypes = {
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default MyTeamView;
