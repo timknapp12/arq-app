@@ -30,7 +30,7 @@ const FilterOrgMenu = ({ onClose, setSortBy, ...props }) => {
       <TouchableContainer>
         <Touchable
           onPress={() => {
-            setSortBy('ambassadors');
+            setSortBy('AMBASSADOR');
             onClose();
           }}
         >
@@ -40,7 +40,7 @@ const FilterOrgMenu = ({ onClose, setSortBy, ...props }) => {
       <TouchableContainer>
         <Touchable
           onPress={() => {
-            setSortBy('customers');
+            setSortBy('PREFERRED');
             onClose();
           }}
         >

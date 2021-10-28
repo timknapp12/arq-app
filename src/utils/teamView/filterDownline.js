@@ -1,5 +1,9 @@
-export const findMembersInDownlineOneLevel = (array, type) => {
+export const findMembersInDownlineOneLevel = (array, firstType, secondType) => {
   if (array) {
-    return array.filter((member) => member?.associate?.associateType === type);
+    return array.filter(
+      (member) =>
+        member?.associate?.associateType === firstType ||
+        member?.associate?.associateType === secondType,
+    );
   }
 };
