@@ -24,7 +24,7 @@ const MyAmbassadorCard = ({ member, indent, level = 1 }) => {
           isExpanded={isExpanded}
           onPress={toggleExpanded}
         />
-        {isExpanded && <MyAmbassadorExpandedInfo />}
+        {isExpanded && <MyAmbassadorExpandedInfo member={member} />}
       </CardContainer>
       {childData.map((child) => (
         <MyAmbassadorCard
