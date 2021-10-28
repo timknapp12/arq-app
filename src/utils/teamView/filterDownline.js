@@ -1,7 +1,5 @@
-export const findActiveAmbassadors = (array) => {
+export const findMembersInDownlineOneLevel = (array, type) => {
   if (array) {
-    return array.filter(
-      (member) => member?.associate?.associateType === 'AMBASSADOR',
-    );
+    return array.filter((member) => member?.associate?.associateType === type);
   }
 };
