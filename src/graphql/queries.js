@@ -92,6 +92,24 @@ export const GET_USER = gql`
         pv
         qoV
         pa
+        childTreeNodes {
+          associate {
+            associateId
+            legacyAssociateId
+            firstName
+            lastName
+            profileUrl
+            associateType
+            associateStatus
+          }
+          rank {
+            rankId
+            rankName
+          }
+          pv
+          qoV
+          pa
+        }
       }
     }
   }

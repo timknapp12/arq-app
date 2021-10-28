@@ -63,7 +63,6 @@ const TeamScreen = ({ navigation }) => {
       name: Localized('Leaderboard').toUpperCase(),
       testID: 'Leaderboard_button',
     },
-    // { name: Localized('FAVORITES'), testID: 'favorites_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);

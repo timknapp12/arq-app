@@ -125,3 +125,9 @@ export const Link = styled.Text`
   text-decoration-color: ${blue};
   line-height: 19px;
 `;
+
+export const LevelLabel = styled.Text`
+  font-family: 'Avenir-Black';
+  font-size: 10px;
+  color: ${(props) => props.theme.primaryTextColor};
+`;
