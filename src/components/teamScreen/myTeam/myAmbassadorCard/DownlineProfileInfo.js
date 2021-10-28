@@ -12,15 +12,23 @@ import {
   LevelIndicator,
 } from './myAmbassadorCard.styles';
 import AppContext from '../../../../contexts/AppContext';
+import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 
 const DownlineProfileInfo = ({ member, isExpanded, onPress, level }) => {
   const { theme } = useContext(AppContext);
+  const { closeAllMenus } = useContext(MyTeamViewContext);
 
   const { firstName, lastName, pictureUrl } = member?.associate;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   return (
-    <ProfileInfoTouchable activeOpacity={1} onPress={onPress}>
+    <ProfileInfoTouchable
+      activeOpacity={1}
+      onPress={() => {
+        onPress();
+        closeAllMenus();
+      }}
+    >
       <>
         <View>
           {pictureUrl ? (
