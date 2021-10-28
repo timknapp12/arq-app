@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 
+// used in MyAmbassadorCard.js
 export const CardContainer = styled.View`
   width: ${(props) => (props.indent ? '95%' : '100%')};
   background-color: ${(props) => props.theme.cardBackgroundColor};
@@ -10,6 +11,7 @@ export const CardContainer = styled.View`
   align-self: flex-end;
 `;
 
+// used in DownlineProfileInfo.js
 const diameter = 48;
 
 const imageDimensions = {
@@ -55,4 +57,15 @@ export const NameAndRankContainer = styled.View`
   flex: 1;
   justify-content: space-between;
   margin: 0 4px;
+`;
+
+// used in MyAmbassadorExpandedInfo.js
+export const Underline = styled.View`
+  width: 100%;
+  border-bottom-color: ${(props) => props.theme.highlight};
+  border-bottom-width: 2px;
+`;
+
+export const InvisibleUnderline = styled.View`
+  height: 2px;
 `;
