@@ -1,16 +1,21 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { Flexbox, H6 } from '../../../common';
+import { Flexbox, H6, H6Secondary } from '../../../common';
 import MyAmbassadorDonutsContainer from './MyAmbassadorDonutsContainer';
+import MyAmbassadorOrdersContainer from './MyAmbassadorOrdersContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../../translations/Localized';
-import { Underline, InvisibleUnderline } from './myAmbassadorCard.styles';
+import {
+  Underline,
+  InvisibleUnderline,
+  DonutAndOrdersContainer,
+} from './myAmbassadorCard.styles';
 
 const MyAmbassadorExpandedInfo = ({ member }) => {
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
-  const [selectedDetail, setSelectedDetail] = useState('dashboard');
+  const [selectedTab, setSelectedTab] = useState('dashboard');
 
   return (
     <TouchableWithoutFeedback onPress={closeAllMenus}>
@@ -22,31 +27,51 @@ const MyAmbassadorExpandedInfo = ({ member }) => {
         >
           <TouchableOpacity
             style={{ marginEnd: 8 }}
-            onPress={() => setSelectedDetail('dashboard')}
+            onPress={() => {
+              setSelectedTab('dashboard');
+              closeAllMenus();
+            }}
           >
-            <H6>{Localized('Dashboard')}</H6>
-            {selectedDetail === 'dashboard' ? (
-              <Underline />
+            {selectedTab === 'dashboard' ? (
+              <>
+                <H6>{Localized('Dashboard')}</H6>
+                <Underline />
+              </>
             ) : (
-              <InvisibleUnderline />
+              <>
+                <H6Secondary>{Localized('Dashboard')}</H6Secondary>
+                <InvisibleUnderline />
+              </>
             )}
           </TouchableOpacity>
 
           <TouchableOpacity
             style={{ marginStart: 8 }}
-            onPress={() => setSelectedDetail('orders')}
+            onPress={() => {
+              setSelectedTab('orders');
+              closeAllMenus();
+            }}
           >
-            <H6>{Localized('Orders')}</H6>
-            {selectedDetail === 'orders' ? (
-              <Underline />
+            {selectedTab === 'orders' ? (
+              <>
+                <H6>{Localized('Orders')}</H6>
+                <Underline />
+              </>
             ) : (
-              <InvisibleUnderline />
+              <>
+                <H6Secondary>{Localized('Orders')}</H6Secondary>
+                <InvisibleUnderline />
+              </>
             )}
           </TouchableOpacity>
         </Flexbox>
-        {selectedDetail === 'dashboard' ? (
-          <MyAmbassadorDonutsContainer member={member} />
-        ) : null}
+        <DonutAndOrdersContainer>
+          {selectedTab === 'dashboard' ? (
+            <MyAmbassadorDonutsContainer member={member} />
+          ) : (
+            <MyAmbassadorOrdersContainer orders={[]} />
+          )}
+        </DonutAndOrdersContainer>
       </Flexbox>
     </TouchableWithoutFeedback>
   );
