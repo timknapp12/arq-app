@@ -59,6 +59,11 @@ export const NameAndRankContainer = styled.View`
   margin: 0 4px;
 `;
 
+export const DonutAndOrdersContainer = styled.View`
+  min-height: 400px;
+  width: 100%;
+`;
+
 // used in MyAmbassadorExpandedInfo.js
 export const Underline = styled.View`
   width: 100%;
@@ -68,4 +73,25 @@ export const Underline = styled.View`
 
 export const InvisibleUnderline = styled.View`
   height: 2px;
+`;
+
+// used in MyAmbassadorOrdersContainer.js
+const flex = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: 4,
+  width: '90%',
+};
+
+export const OrderTableHeaderRow = styled.View`
+  ${flex};
+  margin: 0 4px;
+`;
+
+export const OrderTableRow = styled.View`
+  ${flex};
+  border-bottom-color: ${(props) => props.theme.secondaryTextColor};
+  border-bottom-width: 1px;
+  margin: 0 4px;
 `;
