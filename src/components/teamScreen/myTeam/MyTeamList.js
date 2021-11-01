@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { Flexbox, H5 } from '../../common';
 import MyAmbassadorCard from './myAmbassadorCard/MyAmbassadorCard';
 import LoginContext from '../../../contexts/LoginContext';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
+import { Localized } from '../../../translations/Localized';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
 
 const MyTeamList = ({ sortBy }) => {
@@ -29,6 +31,18 @@ const MyTeamList = ({ sortBy }) => {
   }, [user.childTreeNodes, sortBy]);
 
   const renderItem = ({ item }) => <MyAmbassadorCard member={item} />;
+
+  if (data?.length < 1) {
+    return (
+      <Flexbox style={{ width: 320, height: 220 }}>
+        <H5 style={{ textAlign: 'center' }}>
+          {Localized(
+            'We had a problem retrieving your data. Please try again later',
+          )}
+        </H5>
+      </Flexbox>
+    );
+  }
 
   return (
     <TouchableWithoutFeedback onPress={closeAllMenus}>

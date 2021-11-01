@@ -20,6 +20,11 @@ const MyTeamView = ({ closeMenus, ...props }) => {
 
   const [sortBy, setSortBy] = useState('AMBASSADOR');
 
+  const screenHeader =
+    sortBy === 'AMBASSADOR'
+      ? Localized('My Ambassadors')
+      : Localized('My Customers');
+
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const fadeAnim = useRef(new Animated.Value(-500)).current;
 
@@ -78,11 +83,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
                 />
               </Flexbox>
             </TouchableOpacity>
-            <H4 style={{ textAlign: 'center' }}>
-              {Localized(
-                sortBy === 'AMBASSADOR' ? 'My Ambassadors' : 'My Customers',
-              )}
-            </H4>
+            <H4 style={{ textAlign: 'center' }}>{screenHeader}</H4>
           </FilterSearchBar>
 
           <Flexbox>
