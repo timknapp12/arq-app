@@ -173,7 +173,7 @@ const ProspectsScreen = ({ navigation, route }) => {
           )}
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
-            bottom="24px"
+            bottom="40px"
             right="16px"
           >
             <Image

@@ -13,7 +13,6 @@ export const GET_USER = gql`
       ov
       qoV
       pa
-      canSee
       leg1
       leg2
       leg3
@@ -74,6 +73,42 @@ export const GET_USER = gql`
           ambassadorMonthCount
           eventMonthCount
           preferedMonthCount
+        }
+      }
+      childTreeNodes {
+        associate {
+          associateId
+          legacyAssociateId
+          firstName
+          lastName
+          profileUrl
+          associateType
+          associateStatus
+        }
+        rank {
+          rankId
+          rankName
+        }
+        pv
+        qoV
+        pa
+        childTreeNodes {
+          associate {
+            associateId
+            legacyAssociateId
+            firstName
+            lastName
+            profileUrl
+            associateType
+            associateStatus
+          }
+          rank {
+            rankId
+            rankName
+          }
+          pv
+          qoV
+          pa
         }
       }
     }

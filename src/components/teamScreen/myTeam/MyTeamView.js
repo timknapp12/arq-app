@@ -1,4 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
+import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
   Animated,
@@ -10,10 +11,14 @@ import FilterOrgMenu from './FilterOrgMenu';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import AppContext from '../../../contexts/AppContext';
+import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../translations/Localized';
+import MyTeamList from './MyTeamList';
 
-const MyTeamView = () => {
+const MyTeamView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
+
+  const [sortBy, setSortBy] = useState('AMBASSADOR');
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const fadeAnim = useRef(new Animated.Value(-500)).current;
@@ -36,10 +41,21 @@ const MyTeamView = () => {
 
   const navigation = useNavigation();
 
+  // this will close the filter menu on this view, but also from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
+  const closeAllMenus = () => {
+    closeFilterMenu();
+    closeMenus();
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={() => closeFilterMenu()}>
-      <Flexbox align="flex-start" justify="flex-start" height="100%">
-        <Flexbox justify="flex-start">
+    <MyTeamViewContext.Provider value={{ closeAllMenus }}>
+      <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
+        <Flexbox
+          align="center"
+          justify="flex-start"
+          height="100%"
+          style={{ zIndex: -1 }}
+        >
           <FilterSearchBar
             onPress={() =>
               navigation.navigate('Search Downline Screen', {
@@ -63,16 +79,29 @@ const MyTeamView = () => {
               </Flexbox>
             </TouchableOpacity>
             <H4 style={{ textAlign: 'center' }}>
-              {Localized('My Ambassadors')}
+              {Localized(
+                sortBy === 'AMBASSADOR' ? 'My Ambassadors' : 'My Customers',
+              )}
             </H4>
           </FilterSearchBar>
+
           <Flexbox>
-            <FilterOrgMenu style={{ left: fadeAnim }} />
+            <FilterOrgMenu
+              onClose={closeFilterMenu}
+              setSortBy={setSortBy}
+              style={{ left: fadeAnim }}
+            />
           </Flexbox>
+
+          <MyTeamList sortBy={sortBy} />
         </Flexbox>
-      </Flexbox>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </MyTeamViewContext.Provider>
   );
+};
+
+MyTeamView.propTypes = {
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default MyTeamView;

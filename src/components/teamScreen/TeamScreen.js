@@ -63,7 +63,6 @@ const TeamScreen = ({ navigation }) => {
       name: Localized('Leaderboard').toUpperCase(),
       testID: 'Leaderboard_button',
     },
-    // { name: Localized('FAVORITES'), testID: 'favorites_button' },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -164,10 +163,15 @@ const TeamScreen = ({ navigation }) => {
           }}
         >
           {view.name === Localized('At A Glance').toUpperCase() && (
-            <AtAGlanceView onStartShouldSetResponder={() => true} />
+            <AtAGlanceView
+              onStartShouldSetResponder={() => true}
+              closeMenus={closeMenus}
+            />
           )}
         </ScrollView>
-        {view.name === Localized('My Team').toUpperCase() && <MyTeamView />}
+        {view.name === Localized('My Team').toUpperCase() && (
+          <MyTeamView closeMenus={closeMenus} />
+        )}
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}

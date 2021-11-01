@@ -6,6 +6,18 @@ export const pieHeight = 240;
 const innerCircleHeight = 166;
 const innerCirlceBorderRadius = innerCircleHeight / 2;
 
+// this in case all values of the pie are zero, so a chart still appears
+const defaultPieDim = 192;
+export const DefaultPie = styled.View`
+  width: ${defaultPieDim}px;
+  height: ${defaultPieDim}px;
+  border-radius: ${defaultPieDim / 2}px;
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  position: absolute;
+  top: 24px;
+  left: 4px;
+`;
+
 export const PieHole = styled.View`
   justify-content: center;
   align-items: center;
