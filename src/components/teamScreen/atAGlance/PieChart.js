@@ -34,15 +34,9 @@ const PieChart = ({
 
   // the pie from react-native-chart-kit shows no chart if all values are zero, so here we determine if they are all zero, and if so, we show a default pie chart
   const seeIfAllValuesAreZero = () => {
-    if (
-      data?.[0]?.value <= 0 &&
-      data?.[1]?.value <= 0 &&
-      data?.[2]?.value <= 0
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    return (
+      data?.[0]?.value <= 0 && data?.[1]?.value <= 0 && data?.[2]?.value <= 0
+    );
   };
 
   useEffect(() => {
