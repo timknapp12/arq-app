@@ -12,7 +12,7 @@ export const DefaultPie = styled.View`
   width: ${defaultPieDim}px;
   height: ${defaultPieDim}px;
   border-radius: ${defaultPieDim / 2}px;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.theme.cardBackgroundColor};
   position: absolute;
   top: 24px;
   left: 4px;
