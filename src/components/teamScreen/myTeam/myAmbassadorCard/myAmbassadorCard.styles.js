@@ -11,6 +11,29 @@ export const CardContainer = styled.View`
   align-self: flex-end;
 `;
 
+export const ZoomContainer = styled.View`
+  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  width: 60px;
+  height: 64px;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 5px;
+  margin-left: 8px;
+`;
+
+export const ZoomContainerDivider = styled.View`
+  background-color: ${(props) => props.theme.backgroundColor};
+  height: 3px;
+  width: 100%;
+`;
+
+export const ZoomIconButton = styled.TouchableOpacity`
+  flex: 1;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
 // used in DownlineProfileInfo.js
 const diameter = 48;
 
