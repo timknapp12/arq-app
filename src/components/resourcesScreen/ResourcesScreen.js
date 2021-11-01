@@ -232,7 +232,6 @@ const ResourcesScreen = ({ navigation }) => {
 
 ResourcesScreen.propTypes = {
   navigation: PropTypes.object,
-  fadeOut: PropTypes.func,
 };
 
 export default ResourcesScreen;

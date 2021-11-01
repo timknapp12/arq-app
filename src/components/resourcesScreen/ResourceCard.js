@@ -9,6 +9,7 @@ import UploadIcon from '../../../assets/icons/upload-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TabButtonContext from '../../contexts/TabButtonContext';
 import { H6, H4Book, Flexbox } from '../common';
 import { Localized } from '../../translations/Localized';
 import AddFolderModal from './teamView/AddFolderModal';
@@ -25,6 +26,7 @@ import { GET_TEAM_RESOURCES } from '../../graphql/queries';
 
 const ResourceCard = ({
   folderId,
+  folderName,
   url,
   isWideLayout = true,
   displayOrder,
@@ -37,7 +39,7 @@ const ResourceCard = ({
   isTeamMenuOpen,
   selectedTeamName,
   selectedTeamAccessCode,
-  assetList,
+  // assetList,
   numberOfTeamFolders,
   // this prop is passed from TeamView.js so that on android the touch event doesn't persists through the callout menu to the resource card underneath
   setIsNavDisabled = () => {},
@@ -45,6 +47,8 @@ const ResourceCard = ({
 }) => {
   const { theme } = useContext(AppContext);
   const { displayNotifications } = useContext(LoginContext);
+  const { setSelectedFolderName } = useContext(TabButtonContext);
+
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isAddFolderModalOpen, setIsAddFolderModalOpen] = useState(false);
   const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
@@ -175,7 +179,12 @@ const ResourceCard = ({
               <H4Book>{Localized('Edit')}</H4Book>
             </Flexbox>
           </CalloutButton>
-          <CalloutButton onPress={() => setIsUploadAssetModalOpen(true)}>
+          <CalloutButton
+            onPress={() => {
+              setIsUploadAssetModalOpen(true);
+              setSelectedFolderName(folderName);
+            }}
+          >
             <Flexbox direction="row" justify="flex-start">
               <UploadIcon
                 style={{
@@ -229,8 +238,8 @@ const ResourceCard = ({
             setIsUploadAssetModalOpen(false);
             closeCallout();
           }}
-          folderId={folderId}
-          displayOrder={assetList.length + 1}
+          // folderId={folderId}
+          // displayOrder={assetList.length + 1}
           selectedTeamName={selectedTeamName}
         />
       )}
@@ -240,6 +249,7 @@ const ResourceCard = ({
 
 ResourceCard.propTypes = {
   folderId: PropTypes.number,
+  folderName: PropTypes.string,
   title: PropTypes.string,
   isWideLayout: PropTypes.bool,
   displayOrder: PropTypes.number,

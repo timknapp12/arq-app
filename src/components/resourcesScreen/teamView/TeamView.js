@@ -12,6 +12,7 @@ import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import AddFolderModal from './AddFolderModal';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
+import TabButtonContext from '../../../contexts/TabButtonContext';
 import TeamMenu from './TeamMenu';
 import AccessCodeModal from './AccessCodeModal';
 import { Localized } from '../../../translations/Localized';
@@ -47,6 +48,7 @@ const TeamView = ({
     alreadyHasTeam,
     showAddOptions,
   } = useContext(LoginContext);
+  const { setSelectedFolderName } = useContext(TabButtonContext);
 
   // get all of the access codes that the user has subscribed to
   const { loading: loadingAccessCodes, data: userAccessCodesData } = useQuery(
@@ -116,10 +118,11 @@ const TeamView = ({
     if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
     }
+    setSelectedFolderName(item?.folderName);
     navigation.navigate('Team Resources Category Screen', {
       title: item?.folderName.toUpperCase(),
+      // TODO - check to see if we no longer need this param since we can find folder id in the tabButtonDataContainer
       folderId: item?.folderId,
-      // TODO: integrate permissions with backend
       isOwner: isOwner,
       selectedTeamName: selectedTeamName,
     });
@@ -303,6 +306,7 @@ const TeamView = ({
               style={{ zIndex: -index }}
               key={item?.folderId}
               folderId={item?.folderId}
+              folderName={item?.folderName}
               url={item?.pictureUrl}
               title={item?.folderName}
               isWideLayout={item?.isWideLayout}

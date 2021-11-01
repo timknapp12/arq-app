@@ -25,11 +25,12 @@ const Legend = styled.View`
   align-items: center;
 `;
 
-const Square = styled.View`
+const Dot = styled.View`
   height: 16px;
   width: 16px;
+  border-radius: 8px;
   margin-right: 4px;
-  background-color: ${({ squareFill }) => squareFill};
+  background-color: ${({ dotFill }) => dotFill};
 `;
 
 const Rank = ({ ranklist, user, closeMenus }) => {
@@ -97,7 +98,8 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           accessibilityLabel="Distributor rank"
           width="100%"
           justify="space-between"
-          direction="row">
+          direction="row"
+        >
           <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
             <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
             <DoubleDonut
@@ -114,7 +116,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={donut1primaryColor} />
+                <Dot dotFill={donut1primaryColor} />
                 {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
                 <H5 testID="this-month-total-pv">{`${pv
                   .toString()
@@ -125,7 +127,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
               <Legend>
-                <Square squareFill={donut1secondaryColor} />
+                <Dot dotFill={donut1secondaryColor} />
                 <H5 testID="last-month-total-pv">{`${lastMonthPV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
@@ -152,7 +154,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={donut2primaryColor} />
+                <Dot dotFill={donut2primaryColor} />
                 <H5 testID="this-month-total-qov">{`${qoV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
@@ -162,7 +164,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
               <Legend>
-                <Square squareFill={donut2secondaryColor} />
+                <Dot dotFill={donut2secondaryColor} />
                 <H5 testID="last-month-total-qov">{`${lastMonthQOV
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
@@ -178,7 +180,8 @@ const Rank = ({ ranklist, user, closeMenus }) => {
         <Flexbox
           style={{ paddingTop: 12 }}
           accessibilityLabel="monthly comparrison personally enrolled"
-          width="auto">
+          width="auto"
+        >
           <H4 testID="personally-enrolled-donut-label">
             {Localized('Personally Enrolled')}
           </H4>
@@ -195,13 +198,13 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           />
           <LegendContainer>
             <Legend>
-              <Square squareFill={donut3primaryColor} />
+              <Dot dotFill={donut3primaryColor} />
               <H5 testID="this-month-personally-enrolled">{`${pa} ${Localized(
                 'of',
               )} ${rank?.requiredPa}`}</H5>
             </Legend>
             <Legend>
-              <Square squareFill={donut3secondaryColor} />
+              <Dot dotFill={donut3secondaryColor} />
               <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
                 'of',
               )} ${rank?.requiredPa}`}</H5>
