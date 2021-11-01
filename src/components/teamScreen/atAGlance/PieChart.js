@@ -31,7 +31,6 @@ const PieChart = ({
 }) => {
   const [showDefaultPie, setShowDefaultPie] = useState(false);
   const pieTextColor = data?.[0]?.color;
-  //TODO - ask James what color to do the default pie
 
   // the pie from react-native-chart-kit shows no chart if all values are zero, so here we determine if they are all zero, and if so, we show a default pie chart
   const seeIfAllValuesAreZero = () => {
