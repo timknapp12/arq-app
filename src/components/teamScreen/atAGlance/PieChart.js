@@ -79,7 +79,7 @@ const PieChart = ({
           paddingLeft="50"
           hasLegend={false}
         />
-        {showDefaultPie && <DefaultPie color={data?.[1]?.color} />}
+        {showDefaultPie && <DefaultPie />}
         <PieHole>
           <PieHoleText color={pieTextColor}>
             {firstTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
