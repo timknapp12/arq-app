@@ -15,5 +15,16 @@
   "Event Tickets": "Event Tickets",
   "Payouts": "Payouts",
   "We had a problem retrieving your data. Please try again later": "We had a problem retrieving your data. Please try again later",
-  "Please select a folder": "Please select a folder"
+  "Please select a folder": "Please select a folder",
+  "My Ambassadors": "My Ambassadors",
+  "My Customers": "My Customers",
+  "Search Ambassadors": "Search Ambassadors",
+  "Search Customers": "Search Customers",
+  "Search Prospects": "Search Prospects",
+  "Search PC": "Search PC",
+  "Orders": "Orders",
+  "Order": "Order",
+  "More Orders": "More Orders",
+  "Date": "Date",
+  "Total": "Total"
 }
