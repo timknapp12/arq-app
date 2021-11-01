@@ -15,6 +15,7 @@ import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
 import FilterMenu from './FilterMenu';
 import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
+import LoginContext from '../../contexts/LoginContext';
 import ProspectsView from './ProspectsView';
 import AddContactModal from './AddContactModal';
 import {
@@ -24,13 +25,9 @@ import {
 
 const ProspectsScreen = ({ navigation, route }) => {
   const { theme, associateId } = useContext(AppContext);
-  const {
-    sortBy,
-    setSortBy,
-    setSubject,
-    setRedirectUrl,
-    setProspectLinkIsNeeded,
-  } = useContext(ProspectsContext);
+  const { setSubject, setRedirectUrl, setProspectLinkIsNeeded } =
+    useContext(ProspectsContext);
+  const { sortBy, setSortBy } = useContext(LoginContext);
   const isFocused = useIsFocused();
 
   const linkTitle = route?.params?.title ?? '';

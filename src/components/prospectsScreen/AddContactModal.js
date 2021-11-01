@@ -30,7 +30,7 @@ import {
 import { Localized } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
 import AppContext from '../../contexts/AppContext';
-import ProspectsContext from '../../contexts/ProspectsContext';
+import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from '../mainMenu/ProfileImage';
 import DeviceContactsModal from './DeviceContactsModal';
@@ -82,7 +82,7 @@ const AddContactModal = ({
   },
 }) => {
   const { theme, associateId } = useContext(AppContext);
-  const { addUpdateProspect } = useContext(ProspectsContext);
+  const { addUpdateProspect } = useContext(LoginContext);
 
   const scrollViewRef = useRef();
 
