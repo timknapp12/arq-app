@@ -73,7 +73,6 @@ const UploadAssetModal = ({
     'Sorry there was an error! Please try again later',
   );
 
-  console.log(`selectedFolderName`, selectedFolderName);
   // permissions for photo library
   useEffect(() => {
     (async () => {
