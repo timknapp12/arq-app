@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { H2Book, H5, H6, LevelLabel } from '../../../common';
+import { H2Book, H5, H6, LevelLabel, Flexbox } from '../../../common';
 import {
   ThumbnailImage,
   DefaultThumbnailBackground,
@@ -46,7 +46,10 @@ const DownlineProfileInfo = ({ member, isExpanded, onPress, level }) => {
         </LevelIndicatorContainer>
         <NameAndRankContainer>
           <H5>{`${firstName} ${lastName}`}</H5>
-          <H6>{member?.rank?.rankName}</H6>
+          <Flexbox direction="row">
+            <H6>{member?.rank?.rankName}</H6>
+            <H6>{member?.associate?.legacyAssociateId}</H6>
+          </Flexbox>
         </NameAndRankContainer>
         <View>
           <MaterialCommunityIcon
