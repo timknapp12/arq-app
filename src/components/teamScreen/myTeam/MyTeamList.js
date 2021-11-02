@@ -1,38 +1,82 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
-import { Flexbox, H5 } from '../../common';
+import { useQuery } from '@apollo/client';
+import { Flexbox, H5, LoadingSpinner } from '../../common';
 import MyAmbassadorCard from './myAmbassadorCard/MyAmbassadorCard';
-import LoginContext from '../../../contexts/LoginContext';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
+import { GET_USER } from '../../../graphql/queries';
 import { Localized } from '../../../translations/Localized';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
 
 const MyTeamList = ({ sortBy }) => {
-  const { user } = useContext(LoginContext);
-  const { closeAllMenus } = useContext(MyTeamViewContext);
+  const {
+    closeAllMenus,
+    levelInTree,
+    legacyAssociateId,
+    setMyTeamViewHeader,
+    setCurrentMembersUplineId,
+  } = useContext(MyTeamViewContext);
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
+  const [isError, setIsError] = useState(false);
+
+  const { loading, data: memberData } = useQuery(GET_USER, {
+    variables: { legacyAssociateId },
+    onError: () => setIsError(true),
+  });
+
+  //   console.log(`memberData`, memberData?.treeNodeFor?.associate);
 
   useEffect(() => {
     // for customers, filter for both 'preferred' and 'retail' type, but only one type for ambassadors
     const secondType = sortBy === 'PREFERRED' ? 'RETAIL' : null;
-    if (user.childTreeNodes) {
+    if (memberData?.treeNodeFor?.childTreeNodes) {
       const filteredData = findMembersInDownlineOneLevel(
-        user.childTreeNodes,
+        memberData?.treeNodeFor?.childTreeNodes,
         sortBy,
         secondType,
       );
-      setData(filteredData);
+      console.log(`filteredData`, filteredData);
+      setData(memberData?.treeNodeFor?.childTreeNodes);
+      setCurrentMembersUplineId(
+        memberData?.treeNodeFor?.uplineTreeNode?.associate?.legacyAssociateId,
+      );
     }
     return () => {
       setData([]);
     };
-  }, [user.childTreeNodes, sortBy]);
+  }, [memberData?.treeNodeFor?.childTreeNodes, sortBy]);
 
-  const renderItem = ({ item }) => <MyAmbassadorCard member={item} />;
+  // set the header at the top of the My Team view
+  useEffect(() => {
+    if (levelInTree === 0) {
+      const header =
+        sortBy === 'AMBASSADOR'
+          ? Localized('My Ambassadors')
+          : Localized('My Customers');
+      setMyTeamViewHeader(header);
+    } else {
+      const firstName = memberData?.treeNodeFor?.associate?.firstName ?? '';
+      const lastName = memberData?.treeNodeFor?.associate?.lastName ?? '';
 
-  if (data?.length < 1) {
+      setMyTeamViewHeader(`${firstName} ${lastName}`);
+    }
+  }, [sortBy, levelInTree, memberData]);
+
+  const renderItem = ({ item }) => (
+    <MyAmbassadorCard member={item} level={levelInTree} />
+  );
+
+  if (loading) {
+    return (
+      <Flexbox padding={10}>
+        <LoadingSpinner size="large" />
+      </Flexbox>
+    );
+  }
+
+  if (isError) {
     return (
       <Flexbox style={{ width: 320, height: 220 }}>
         <H5 style={{ textAlign: 'center' }}>

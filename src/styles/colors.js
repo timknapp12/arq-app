@@ -68,3 +68,6 @@ export const blueAccentLight = '#E7F1F2';
 export const purpleAccent = '#B6A0BB';
 export const purpleAccentDark = '#B600BB';
 export const purpleAccentLight = '#E9E2EB';
+
+export const caramel = '#D59957';
+export const violet = '#70346E';

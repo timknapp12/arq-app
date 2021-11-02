@@ -27,6 +27,8 @@ import {
   purpleAccent,
   purpleAccentDark,
   purpleAccentLight,
+  caramel,
+  violet,
 } from './colors';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
@@ -83,6 +85,8 @@ export const lightTheme = {
   payoutsPie1: purpleAccentDark,
   payoutsPie2: purpleAccentLight,
   payoutsPie3: purpleAccent,
+  customerAvatarAccent: caramel,
+  retailAvatarAccent: violet,
 };
 
 export const darkTheme = {
@@ -138,4 +142,6 @@ export const darkTheme = {
   payoutsPie1: purpleAccentDark,
   payoutsPie2: purpleAccentLight,
   payoutsPie3: purpleAccent,
+  customerAvatarAccent: caramel,
+  retailAvatarAccent: violet,
 };

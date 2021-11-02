@@ -160,3 +160,13 @@ TeamIcon.propTypes = {
   fill: PropTypes.string,
   size: PropTypes.number,
 };
+
+const ThemedActivityIndicator = styled.ActivityIndicator`
+  color: ${(props) => props.theme.disabledBackgroundColor};
+`;
+
+export const LoadingSpinner = ({ size = 'small' }) => (
+  <ThemedActivityIndicator size={size} />
+);
+
+LoadingSpinner.propTypes = { size: PropTypes.string };

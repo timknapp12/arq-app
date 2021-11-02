@@ -4,7 +4,17 @@ export const GET_USER = gql`
   query TreeNodeFor($legacyAssociateId: Int!) {
     treeNodeFor(legacyAssociateId: $legacyAssociateId) {
       associateId
-      uplineAssociateId
+      uplineTreeNode {
+        associate {
+          associateId
+          legacyAssociateId
+        }
+      }
+      associate {
+        associateId
+        firstName
+        lastName
+      }
       orders {
         orderId
       }
@@ -76,6 +86,12 @@ export const GET_USER = gql`
         }
       }
       childTreeNodes {
+        uplineTreeNode {
+          associate {
+            associateId
+            legacyAssociateId
+          }
+        }
         associate {
           associateId
           legacyAssociateId
@@ -93,6 +109,12 @@ export const GET_USER = gql`
         qoV
         pa
         childTreeNodes {
+          uplineTreeNode {
+            associate {
+              associateId
+              legacyAssociateId
+            }
+          }
           associate {
             associateId
             legacyAssociateId
@@ -109,6 +131,11 @@ export const GET_USER = gql`
           pv
           qoV
           pa
+          childTreeNodes {
+            associate {
+              associateId
+            }
+          }
         }
       }
     }

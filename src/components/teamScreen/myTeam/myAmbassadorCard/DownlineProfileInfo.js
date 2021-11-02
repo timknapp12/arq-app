@@ -8,6 +8,7 @@ import {
   DefaultThumbnailBackground,
   ProfileInfoTouchable,
   NameAndRankContainer,
+  ChevronContainer,
   LevelIndicatorContainer,
   LevelIndicator,
 } from './myAmbassadorCard.styles';
@@ -51,13 +52,13 @@ const DownlineProfileInfo = ({ member, isExpanded, onPress, level }) => {
             <H6>{member?.associate?.legacyAssociateId}</H6>
           </Flexbox>
         </NameAndRankContainer>
-        <View>
+        <ChevronContainer>
           <MaterialCommunityIcon
             name={isExpanded ? 'chevron-up' : 'chevron-down'}
             color={theme.primaryTextColor}
             size={24}
           />
-        </View>
+        </ChevronContainer>
       </>
     </ProfileInfoTouchable>
   );

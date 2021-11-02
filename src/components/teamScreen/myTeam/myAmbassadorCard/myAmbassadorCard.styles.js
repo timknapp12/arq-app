@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 // used in MyAmbassadorCard.js
 export const CardContainer = styled.View`
-  width: ${(props) => (props.indent ? '95%' : '100%')};
+  width: ${(props) => (props.nested ? '95%' : '100%')};
   background-color: ${(props) => props.theme.cardBackgroundColor};
   padding: 8px;
   border-radius: 5px;
@@ -12,7 +12,6 @@ export const CardContainer = styled.View`
 `;
 
 export const ZoomContainer = styled.View`
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
   width: 60px;
   height: 64px;
   justify-content: space-around;
@@ -21,17 +20,32 @@ export const ZoomContainer = styled.View`
   margin-left: 8px;
 `;
 
-export const ZoomContainerDivider = styled.View`
-  background-color: ${(props) => props.theme.backgroundColor};
-  height: 3px;
+export const ZoomInTouchableOpacity = styled.TouchableOpacity`
+  background-color: ${(props) =>
+    props.disabled
+      ? props.theme.disabledTextColor
+      : props.theme.primaryButtonBackgroundColor};
+  opacity: ${(props) => (props.disabled ? 0.75 : 1)};
   width: 100%;
-`;
-
-export const ZoomIconButton = styled.TouchableOpacity`
-  flex: 1;
-  width: 100%;
+  height: 29px;
   justify-content: center;
   align-items: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+`;
+
+export const ZoomOutTouchableOpacity = styled.TouchableOpacity`
+  background-color: ${(props) =>
+    props.disabled
+      ? props.theme.disabledTextColor
+      : props.theme.primaryButtonBackgroundColor};
+  opacity: ${(props) => (props.disabled ? 0.75 : 1)};
+  width: 100%;
+  height: 29px;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `;
 
 // used in DownlineProfileInfo.js
@@ -80,6 +94,13 @@ export const NameAndRankContainer = styled.View`
   flex: 1;
   justify-content: space-between;
   margin: 0 4px;
+`;
+
+export const ChevronContainer = styled.View`
+  height: 26px;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 export const DonutAndOrdersContainer = styled.View`

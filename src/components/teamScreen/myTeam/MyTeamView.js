@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
@@ -16,14 +16,23 @@ import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
 
 const MyTeamView = ({ closeMenus, ...props }) => {
-  const { theme } = useContext(AppContext);
+  const { theme, legacyId } = useContext(AppContext);
 
   const [sortBy, setSortBy] = useState('AMBASSADOR');
+  const [levelInTree, setLevelInTree] = useState(1);
+  const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
+  const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
+  const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
 
-  const screenHeader =
-    sortBy === 'AMBASSADOR'
-      ? Localized('My Ambassadors')
-      : Localized('My Customers');
+  useEffect(() => {
+    if (levelInTree === 1) {
+      const header =
+        sortBy === 'AMBASSADOR'
+          ? Localized('My Ambassadors')
+          : Localized('My Customers');
+      setMyTeamViewHeader(header);
+    }
+  }, [sortBy, levelInTree]);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const fadeAnim = useRef(new Animated.Value(-500)).current;
@@ -53,7 +62,18 @@ const MyTeamView = ({ closeMenus, ...props }) => {
   };
 
   return (
-    <MyTeamViewContext.Provider value={{ closeAllMenus }}>
+    <MyTeamViewContext.Provider
+      value={{
+        closeAllMenus,
+        levelInTree,
+        setMyTeamViewHeader,
+        setLevelInTree,
+        legacyAssociateId,
+        setLegacyAssociateId,
+        currentMembersUplineId,
+        setCurrentMembersUplineId,
+      }}
+    >
       <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
         <Flexbox
           align="center"
@@ -83,7 +103,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
                 />
               </Flexbox>
             </TouchableOpacity>
-            <H4 style={{ textAlign: 'center' }}>{screenHeader}</H4>
+            <H4 style={{ textAlign: 'center' }}>{myTeamViewHeader}</H4>
           </FilterSearchBar>
 
           <Flexbox>
