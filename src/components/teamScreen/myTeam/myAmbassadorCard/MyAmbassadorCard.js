@@ -8,10 +8,10 @@ import {
   ZoomContainer,
   ZoomInTouchableOpacity,
   ZoomOutTouchableOpacity,
-} from './myAmbassadorCard.styles';
+} from '../myTeamCard.styles';
 import ZoomInIcon from '../../../../../assets/icons/icZoomIn.svg';
 import ZoomOutIcon from '../../../../../assets/icons/icZoomOut.svg';
-import DownlineProfileInfo from './DownlineProfileInfo';
+import DownlineProfileInfo from '../DownlineProfileInfo';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { findMembersInDownlineOneLevel } from '../../../../utils/teamView/filterDownline';
 

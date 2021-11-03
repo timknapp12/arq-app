@@ -7,7 +7,7 @@ import AutoshipIcon from '../../../../../assets/icons/AutoshipIcon.svg';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import AppContext from '../../../../contexts/AppContext';
 import { Localized } from '../../../../translations/Localized';
-import { OrderTableHeaderRow, OrderTableRow } from './myAmbassadorCard.styles';
+import { OrderTableHeaderRow, OrderTableRow } from '../myTeamCard.styles';
 
 const options = {
   month: 'numeric',

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { H2Book, H5, H6, LevelLabel, Flexbox } from '../../../common';
+import { H2Book, H5, H6, LevelLabel, Flexbox } from '../../common';
 import {
   ThumbnailImage,
   DefaultThumbnailBackground,
@@ -11,9 +11,9 @@ import {
   ChevronContainer,
   LevelIndicatorContainer,
   LevelIndicator,
-} from './myAmbassadorCard.styles';
-import AppContext from '../../../../contexts/AppContext';
-import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
+} from './myTeamCard.styles';
+import AppContext from '../../../contexts/AppContext';
+import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 
 const DownlineProfileInfo = ({ member, isExpanded, onPress, level }) => {
   const { theme } = useContext(AppContext);

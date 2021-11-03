@@ -10,7 +10,7 @@ import {
   Underline,
   InvisibleUnderline,
   DonutAndOrdersContainer,
-} from './myAmbassadorCard.styles';
+} from '../myTeamCard.styles';
 
 const MyAmbassadorExpandedInfo = ({ member }) => {
   const { closeAllMenus } = useContext(MyTeamViewContext);
