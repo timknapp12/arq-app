@@ -19,17 +19,19 @@ const MyTeamView = ({ closeMenus, ...props }) => {
   const { theme, legacyId } = useContext(AppContext);
 
   const [sortBy, setSortBy] = useState('AMBASSADOR');
-  const [levelInTree, setLevelInTree] = useState(1);
+  const [levelInTree, setLevelInTree] = useState(0);
   const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
   const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
   const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
 
   useEffect(() => {
-    if (levelInTree === 1) {
+    if (levelInTree === 0) {
       const header =
         sortBy === 'AMBASSADOR'
           ? Localized('My Ambassadors')
-          : Localized('My Customers');
+          : sortBy === 'PREFERRED'
+          ? Localized('My Customers')
+          : Localized('My Organization');
       setMyTeamViewHeader(header);
     }
   }, [sortBy, levelInTree]);
@@ -53,6 +55,12 @@ const MyTeamView = ({ closeMenus, ...props }) => {
     }).start(() => setIsFilterMenuOpen(false));
   };
 
+  const onCloseFilterMenu = () => {
+    closeFilterMenu();
+    setLegacyAssociateId(legacyId);
+    setLevelInTree(0);
+  };
+
   const navigation = useNavigation();
 
   // this will close the filter menu on this view, but also from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
@@ -65,6 +73,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
     <MyTeamViewContext.Provider
       value={{
         closeAllMenus,
+        sortBy,
         levelInTree,
         setMyTeamViewHeader,
         setLevelInTree,
@@ -108,13 +117,13 @@ const MyTeamView = ({ closeMenus, ...props }) => {
 
           <Flexbox>
             <FilterOrgMenu
-              onClose={closeFilterMenu}
+              onClose={onCloseFilterMenu}
               setSortBy={setSortBy}
               style={{ left: fadeAnim }}
             />
           </Flexbox>
 
-          <MyTeamList sortBy={sortBy} />
+          <MyTeamList />
         </Flexbox>
       </TouchableWithoutFeedback>
     </MyTeamViewContext.Provider>

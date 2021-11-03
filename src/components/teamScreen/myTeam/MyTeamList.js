@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { useQuery } from '@apollo/client';
 import { Flexbox, H5, LoadingSpinner } from '../../common';
 import MyAmbassadorCard from './myAmbassadorCard/MyAmbassadorCard';
+import MyCustomerCard from './myCustomerCard/MyCustomerCard';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { GET_USER } from '../../../graphql/queries';
 import { Localized } from '../../../translations/Localized';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
 
-const MyTeamList = ({ sortBy }) => {
+const MyTeamList = () => {
   const {
     closeAllMenus,
+    sortBy,
     levelInTree,
     legacyAssociateId,
     setMyTeamViewHeader,
@@ -26,19 +27,20 @@ const MyTeamList = ({ sortBy }) => {
     onError: () => setIsError(true),
   });
 
-  //   console.log(`memberData`, memberData?.treeNodeFor?.associate);
-
   useEffect(() => {
-    // for customers, filter for both 'preferred' and 'retail' type, but only one type for ambassadors
-    const secondType = sortBy === 'PREFERRED' ? 'RETAIL' : null;
     if (memberData?.treeNodeFor?.childTreeNodes) {
-      const filteredData = findMembersInDownlineOneLevel(
-        memberData?.treeNodeFor?.childTreeNodes,
-        sortBy,
-        secondType,
-      );
-      console.log(`filteredData`, filteredData);
-      setData(memberData?.treeNodeFor?.childTreeNodes);
+      if (sortBy === 'ORGANIZATION') {
+        setData(memberData?.treeNodeFor?.childTreeNodes);
+      } else {
+        // for customers, filter for both 'preferred' and 'retail' type, but only one type for ambassadors
+        const secondType = sortBy === 'PREFERRED' ? 'RETAIL' : null;
+        const filteredData = findMembersInDownlineOneLevel(
+          memberData?.treeNodeFor?.childTreeNodes,
+          sortBy,
+          secondType,
+        );
+        setData(filteredData);
+      }
       setCurrentMembersUplineId(
         memberData?.treeNodeFor?.uplineTreeNode?.associate?.legacyAssociateId,
       );
@@ -64,9 +66,12 @@ const MyTeamList = ({ sortBy }) => {
     }
   }, [sortBy, levelInTree, memberData]);
 
-  const renderItem = ({ item }) => (
-    <MyAmbassadorCard member={item} level={levelInTree} />
-  );
+  const renderItem = ({ item }) =>
+    item?.associate?.associateType === 'AMBASSADOR' ? (
+      <MyAmbassadorCard member={item} level={levelInTree} />
+    ) : (
+      <MyCustomerCard member={item} level={levelInTree} />
+    );
 
   if (loading) {
     return (
@@ -107,10 +112,6 @@ const MyTeamList = ({ sortBy }) => {
       </View>
     </TouchableWithoutFeedback>
   );
-};
-
-MyTeamList.propTypes = {
-  sortBy: PropTypes.string.isRequired,
 };
 
 export default MyTeamList;

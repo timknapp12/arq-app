@@ -78,7 +78,12 @@ export const LevelIndicatorContainer = styled.View`
 `;
 
 export const LevelIndicator = styled.View`
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  background-color: ${(props) =>
+    props.associateType === 'RETAIL'
+      ? props.theme.retailAvatarAccent
+      : props.associateType === 'PREFERRED'
+      ? props.theme.customerAvatarAccent
+      : props.theme.primaryButtonBackgroundColor};
   justify-content: center;
   align-items: center;
   height: ${diameter / 3}px;

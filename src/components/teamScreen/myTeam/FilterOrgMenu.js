@@ -47,6 +47,16 @@ const FilterOrgMenu = ({ onClose, setSortBy, ...props }) => {
           <H4Book>{Localized('My Customers')}</H4Book>
         </Touchable>
       </TouchableContainer>
+      <TouchableContainer>
+        <Touchable
+          onPress={() => {
+            setSortBy('ORGANIZATION');
+            onClose();
+          }}
+        >
+          <H4Book>{Localized('My Organization')}</H4Book>
+        </Touchable>
+      </TouchableContainer>
     </Menu>
   );
 };

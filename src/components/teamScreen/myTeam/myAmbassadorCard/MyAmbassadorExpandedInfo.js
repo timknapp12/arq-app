@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Flexbox, H6, H6Secondary } from '../../../common';
 import MyAmbassadorDonutsContainer from './MyAmbassadorDonutsContainer';
-import MyAmbassadorOrdersContainer from './MyAmbassadorOrdersContainer';
+import OrdersContainer from '../OrdersContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../../translations/Localized';
 import {
@@ -69,7 +69,7 @@ const MyAmbassadorExpandedInfo = ({ member }) => {
           {selectedTab === 'dashboard' ? (
             <MyAmbassadorDonutsContainer member={member} />
           ) : (
-            <MyAmbassadorOrdersContainer orders={[]} />
+            <OrdersContainer orders={[]} />
           )}
         </DonutAndOrdersContainer>
       </Flexbox>

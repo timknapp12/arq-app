@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { Flexbox, H6, H6Secondary, Link } from '../../../common';
-import { mockOrdersShortList } from './mockOrders';
-import AutoshipIcon from '../../../../../assets/icons/AutoshipIcon.svg';
-import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
-import AppContext from '../../../../contexts/AppContext';
-import { Localized } from '../../../../translations/Localized';
-import { OrderTableHeaderRow, OrderTableRow } from '../myTeamCard.styles';
+import { Flexbox, H6, H6Secondary, Link } from '../../common';
+import { mockOrdersShortList } from './myAmbassadorCard/mockOrders';
+import AutoshipIcon from '../../../../assets/icons/AutoshipIcon.svg';
+import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
+import AppContext from '../../../contexts/AppContext';
+import { Localized } from '../../../translations/Localized';
+import { OrderTableHeaderRow, OrderTableRow } from './myTeamCard.styles';
 
 const options = {
   month: 'numeric',

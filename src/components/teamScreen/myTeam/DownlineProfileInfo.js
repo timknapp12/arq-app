@@ -14,14 +14,22 @@ import {
 } from './myTeamCard.styles';
 import AppContext from '../../../contexts/AppContext';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
+import { Localized } from '../../../translations/Localized';
 
 const DownlineProfileInfo = ({ member, isExpanded, onPress, level }) => {
   const { theme } = useContext(AppContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
-  const { firstName, lastName, pictureUrl } = member?.associate;
+  const { firstName, lastName, pictureUrl, associateType } = member?.associate;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
+  const associateTypeMap = {
+    AMBASSADOR: member?.rank?.rankName,
+    PREFERRED: Localized('Preferred Customer'),
+    RETAIL: Localized('Retail'),
+  };
+
+  const associateTypeLabel = associateTypeMap[associateType];
   return (
     <ProfileInfoTouchable
       activeOpacity={1}
@@ -41,14 +49,14 @@ const DownlineProfileInfo = ({ member, isExpanded, onPress, level }) => {
           )}
         </View>
         <LevelIndicatorContainer>
-          <LevelIndicator>
-            <LevelLabel>{level}</LevelLabel>
+          <LevelIndicator associateType={associateType}>
+            {level ? <LevelLabel>{level}</LevelLabel> : null}
           </LevelIndicator>
         </LevelIndicatorContainer>
         <NameAndRankContainer>
           <H5>{`${firstName} ${lastName}`}</H5>
           <Flexbox direction="row">
-            <H6>{member?.rank?.rankName}</H6>
+            <H6>{associateTypeLabel}</H6>
             <H6>{member?.associate?.legacyAssociateId}</H6>
           </Flexbox>
         </NameAndRankContainer>
