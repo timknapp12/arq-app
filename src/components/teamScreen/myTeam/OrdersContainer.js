@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Flexbox, H6, H6Secondary, Link } from '../../common';
 import { mockOrdersShortList } from './myAmbassadorCard/mockOrders';
 import AutoshipIcon from '../../../../assets/icons/AutoshipIcon.svg';
@@ -27,6 +28,12 @@ const MyAmbassadorOrdersContainer = ({ orders }) => {
     let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
     return formattedDate;
   };
+
+  const navigation = useNavigation();
+  const navigateToOrderHistory = () =>
+    navigation.navigate('My Team Details Screen', {
+      title: 'Test 123',
+    });
 
   return (
     <TouchableWithoutFeedback onPress={closeAllMenus}>
@@ -65,7 +72,7 @@ const MyAmbassadorOrdersContainer = ({ orders }) => {
         ))}
         <TouchableOpacity
           // TODO - replace console.log with real function to show more order history
-          onPress={() => console.log('more orders pressed')}
+          onPress={navigateToOrderHistory}
           style={{
             padding: 8,
             alignItems: 'flex-end',
