@@ -6,7 +6,8 @@ import { CardContainer } from '../myTeamCard.styles';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import MyCustomerExpandedInfo from './MyCustomerExpandedInfo';
 
-const MyCustomerCard = ({ member, nested, level }) => {
+// eslint-disable-next-line react/display-name
+const MyCustomerCard = React.memo(({ member, nested, level }) => {
   const { setLegacyAssociateId, setLevelInTree, currentMembersUplineId } =
     useContext(MyTeamViewContext);
 
@@ -42,7 +43,7 @@ const MyCustomerCard = ({ member, nested, level }) => {
       </CardContainer>
     </SwipeableZoom>
   );
-};
+});
 
 MyCustomerCard.propTypes = {
   member: PropTypes.object.isRequired,

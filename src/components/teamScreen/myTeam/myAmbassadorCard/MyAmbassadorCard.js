@@ -8,7 +8,8 @@ import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { findMembersInDownlineOneLevel } from '../../../../utils/teamView/filterDownline';
 import MyCustomerCard from '../myCustomerCard/MyCustomerCard';
 
-const MyAmbassadorCard = ({ member, nested, level }) => {
+// eslint-disable-next-line react/display-name
+const MyAmbassadorCard = React.memo(({ member, nested, level }) => {
   const {
     sortBy,
     setLegacyAssociateId,
@@ -85,7 +86,7 @@ const MyAmbassadorCard = ({ member, nested, level }) => {
         )}
     </>
   );
-};
+});
 
 MyAmbassadorCard.propTypes = {
   member: PropTypes.object.isRequired,
