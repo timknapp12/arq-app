@@ -134,6 +134,7 @@ export const GET_USER = gql`
           childTreeNodes {
             associate {
               associateId
+              associateType
             }
           }
         }
