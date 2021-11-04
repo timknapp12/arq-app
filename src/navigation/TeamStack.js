@@ -36,7 +36,7 @@ const TeamStack = () => {
         name="Search Downline Screen"
         component={SearchDownlineScreen}
         options={({ route }) => ({
-          title: route.params.title,
+          title: route.params.title.toUpperCase(),
         })}
       />
       <Team.Screen

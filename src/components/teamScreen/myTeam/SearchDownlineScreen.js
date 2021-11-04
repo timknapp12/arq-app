@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScreenContainer, H6 } from '../../common';
 
 const SearchDownlineScreen = () => {
   return (
-    <View>
-      <Text>Seach</Text>
-    </View>
+    <ScreenContainer>
+      <H6>Seach</H6>
+    </ScreenContainer>
   );
 };
 

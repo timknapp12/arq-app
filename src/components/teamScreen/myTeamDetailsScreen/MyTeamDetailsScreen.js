@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScreenContainer, H6 } from '../../common';
 
 const MyTeamDetailsScreen = () => {
   return (
-    <View>
-      <Text>Deeets</Text>
-    </View>
+    <ScreenContainer style={{ paddingTop: 0, paddingBottom: 0 }}>
+      <H6>Deeets</H6>
+    </ScreenContainer>
   );
 };
 
