@@ -12,7 +12,7 @@ import {
   DonutAndOrdersContainer,
 } from '../myTeamCard.styles';
 
-const MyAmbassadorExpandedInfo = ({ member }) => {
+const MyAmbassadorExpandedInfo = ({ member, level }) => {
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
   const [selectedTab, setSelectedTab] = useState('dashboard');
@@ -69,7 +69,7 @@ const MyAmbassadorExpandedInfo = ({ member }) => {
           {selectedTab === 'dashboard' ? (
             <MyAmbassadorDonutsContainer member={member} />
           ) : (
-            <OrdersContainer orders={[]} />
+            <OrdersContainer level={level} member={member} orders={[]} />
           )}
         </DonutAndOrdersContainer>
       </Flexbox>
@@ -77,6 +77,9 @@ const MyAmbassadorExpandedInfo = ({ member }) => {
   );
 };
 
-MyAmbassadorExpandedInfo.propTypes = { member: PropTypes.object.isRequired };
+MyAmbassadorExpandedInfo.propTypes = {
+  member: PropTypes.object.isRequired,
+  level: PropTypes.number,
+};
 
 export default MyAmbassadorExpandedInfo;

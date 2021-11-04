@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableZoom from '../SwipeableZoom';
-import DownlineProfileInfo from '../DownlineProfileInfo';
+import DownlineProfileInfoContainer from '../DownlineProfileInfoContainer';
 import { CardContainer } from '../myTeamCard.styles';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import MyCustomerExpandedInfo from './MyCustomerExpandedInfo';
@@ -34,7 +34,7 @@ const MyCustomerCard = React.memo(({ member, nested, level }) => {
       zoomOut={zoomOut}
     >
       <CardContainer nested={nested}>
-        <DownlineProfileInfo
+        <DownlineProfileInfoContainer
           member={member}
           isExpanded={isExpanded}
           onPress={toggleExpanded}

@@ -16,7 +16,7 @@ const options = {
   year: 'numeric',
 };
 
-const MyAmbassadorOrdersContainer = ({ orders }) => {
+const OrdersContainer = ({ member, orders, level = 0 }) => {
   const { theme, deviceLanguage } = useContext(AppContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
   // TODO remove console log
@@ -32,7 +32,10 @@ const MyAmbassadorOrdersContainer = ({ orders }) => {
   const navigation = useNavigation();
   const navigateToOrderHistory = () =>
     navigation.navigate('My Team Details Screen', {
-      title: 'Test 123',
+      title: Localized('Order History'),
+      member,
+      level,
+      viewType: 'orderHistory',
     });
 
   return (
@@ -86,6 +89,10 @@ const MyAmbassadorOrdersContainer = ({ orders }) => {
   );
 };
 
-MyAmbassadorOrdersContainer.propTypes = { orders: PropTypes.array.isRequired };
+OrdersContainer.propTypes = {
+  member: PropTypes.object.isRequired,
+  orders: PropTypes.array.isRequired,
+  level: PropTypes.number,
+};
 
-export default MyAmbassadorOrdersContainer;
+export default OrdersContainer;

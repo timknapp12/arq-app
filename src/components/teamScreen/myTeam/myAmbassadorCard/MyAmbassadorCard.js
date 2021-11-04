@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MyAmbassadorExpandedInfo from './MyAmbassadorExpandedInfo';
 import { CardContainer } from '../myTeamCard.styles';
 import SwipeableZoom from '../SwipeableZoom';
-import DownlineProfileInfo from '../DownlineProfileInfo';
+import DownlineProfileInfoContainer from '../DownlineProfileInfoContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { findMembersInDownlineOneLevel } from '../../../../utils/teamView/filterDownline';
 import MyCustomerCard from '../myCustomerCard/MyCustomerCard';
@@ -57,13 +57,15 @@ const MyAmbassadorCard = React.memo(({ member, nested, level }) => {
         zoomOut={zoomOut}
       >
         <CardContainer nested={nested}>
-          <DownlineProfileInfo
+          <DownlineProfileInfoContainer
             level={level + 1}
             member={member}
             isExpanded={isExpanded}
             onPress={toggleExpanded}
           />
-          {isExpanded && <MyAmbassadorExpandedInfo member={member} />}
+          {isExpanded && (
+            <MyAmbassadorExpandedInfo member={member} level={level} />
+          )}
         </CardContainer>
       </SwipeableZoom>
       {!nested &&
