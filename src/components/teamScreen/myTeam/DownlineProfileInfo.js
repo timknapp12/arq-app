@@ -33,12 +33,12 @@ const DownlineProfileInfo = ({ member, level }) => {
             <H2Book>{initials.toUpperCase()}</H2Book>
           </DefaultThumbnailBackground>
         )}
+        <LevelIndicatorContainer>
+          <LevelIndicator associateType={associateType}>
+            {level ? <LevelLabel>{level}</LevelLabel> : null}
+          </LevelIndicator>
+        </LevelIndicatorContainer>
       </View>
-      <LevelIndicatorContainer>
-        <LevelIndicator associateType={associateType}>
-          {level ? <LevelLabel>{level}</LevelLabel> : null}
-        </LevelIndicator>
-      </LevelIndicatorContainer>
       <NameAndRankContainer>
         <H5>{`${firstName} ${lastName}`}</H5>
         <Flexbox direction="row">

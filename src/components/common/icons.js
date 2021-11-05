@@ -18,6 +18,7 @@ import Dashboard from '../../../assets/icons/dashboard.svg';
 import Resources from '../../../assets/icons/resources.svg';
 import News from '../../../assets/icons/news.svg';
 import Team from '../../../assets/icons/team-icon.svg';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../contexts/AppContext';
 import { darkRed, primaryWhite, blue } from '../../styles/colors';
 
@@ -170,3 +171,20 @@ export const LoadingSpinner = ({ size = 'small' }) => (
 );
 
 LoadingSpinner.propTypes = { size: PropTypes.string };
+
+export const ChevronIcon = ({ isExpanded, size = 24 }) => {
+  const { theme } = useContext(AppContext);
+
+  return (
+    <MaterialCommunityIcon
+      name={isExpanded ? 'chevron-up' : 'chevron-down'}
+      color={theme.primaryTextColor}
+      size={size}
+    />
+  );
+};
+
+ChevronIcon.propTypes = {
+  isExpanded: PropTypes.bool.isRequired,
+  size: PropTypes.number,
+};

@@ -90,7 +90,7 @@ export const LevelIndicator = styled.View`
   width: 100%;
 `;
 
-export const ProfileInfoTouchable = styled.TouchableOpacity`
+export const TouchableRow = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
 `;

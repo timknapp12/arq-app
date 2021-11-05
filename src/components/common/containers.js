@@ -79,3 +79,9 @@ MainScrollView.propTypes = {
 export const Gap = styled.View`
   height: ${(props) => (props.height ? props.height : '20px')};
 `;
+
+export const Card = styled.View`
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  padding: 6px;
+  border-radius: 5px;
+`;

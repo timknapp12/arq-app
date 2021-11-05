@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ProfileInfoTouchable, ChevronContainer } from './myTeamCard.styles';
-import AppContext from '../../../contexts/AppContext';
+import { ChevronIcon } from '../../common';
+import { TouchableRow, ChevronContainer } from './myTeamCard.styles';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import DownlineProfileInfo from './DownlineProfileInfo';
 
@@ -12,11 +11,10 @@ const DownlineProfileInfoContainer = ({
   onPress,
   level,
 }) => {
-  const { theme } = useContext(AppContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
   return (
-    <ProfileInfoTouchable
+    <TouchableRow
       activeOpacity={1}
       onPress={() => {
         onPress();
@@ -26,14 +24,10 @@ const DownlineProfileInfoContainer = ({
       <>
         <DownlineProfileInfo member={member} level={level} />
         <ChevronContainer>
-          <MaterialCommunityIcon
-            name={isExpanded ? 'chevron-up' : 'chevron-down'}
-            color={theme.primaryTextColor}
-            size={24}
-          />
+          <ChevronIcon isExpanded={isExpanded} />
         </ChevronContainer>
       </>
-    </ProfileInfoTouchable>
+    </TouchableRow>
   );
 };
 

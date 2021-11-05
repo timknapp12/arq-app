@@ -51,9 +51,9 @@ const OrdersContainer = ({ member, orders, level = 0 }) => {
           </OrderTableHeaderRow>
         </Flexbox>
 
-        {mockOrdersShortList.map((item) => (
-          <Flexbox key={item?.orderId} direction="row">
-            {item?.type?.toLowerCase() === 'autoship' ? (
+        {mockOrdersShortList.map((order) => (
+          <Flexbox key={order?.orderId} direction="row">
+            {order?.type?.toLowerCase() === 'autoship' ? (
               <AutoshipIcon
                 style={{
                   height: 24,
@@ -66,10 +66,10 @@ const OrdersContainer = ({ member, orders, level = 0 }) => {
               <View style={{ width: 24 }} />
             )}
             <OrderTableRow>
-              <H6>{item?.orderId}</H6>
-              <H6>{getLocalDate(item?.dateOrder)}</H6>
-              <H6>{item?.totalCost}</H6>
-              <H6>{item?.pv}</H6>
+              <H6>{order?.orderId}</H6>
+              <H6>{getLocalDate(order?.dateOrder)}</H6>
+              <H6>{order?.totalCost}</H6>
+              <H6>{order?.pv}</H6>
             </OrderTableRow>
           </Flexbox>
         ))}
