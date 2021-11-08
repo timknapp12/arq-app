@@ -27,9 +27,6 @@ export const blue = '#007985';
 // error message
 export const red = '#FF0000';
 
-// badge notification background
-export const darkRed = '#993300';
-
 // donut chart
 export const donut1primaryColor = '#94D2BA';
 
@@ -71,3 +68,5 @@ export const purpleAccentLight = '#E9E2EB';
 
 export const caramel = '#D59957';
 export const violet = '#70346E';
+export const darkRed = '#AC2A1C';
+export const warningYellow = '#FDD207';

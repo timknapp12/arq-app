@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { H2Book, H5, H6, LevelLabel, Flexbox } from '../../common';
-import { Localized } from '../../../translations/Localized';
+import AppContext from '../../../contexts/AppContext';
+import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
 import {
   ThumbnailImage,
   DefaultThumbnailBackground,
@@ -12,16 +13,22 @@ import {
 } from './myTeamCard.styles';
 
 const DownlineProfileInfo = ({ member, level }) => {
-  const { firstName, lastName, pictureUrl, associateType } = member?.associate;
+  const { theme } = useContext(AppContext);
+  const { firstName, lastName, pictureUrl } = member?.associate;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
-  const associateTypeMap = {
-    AMBASSADOR: member?.rank?.rankName,
-    PREFERRED: Localized('Preferred Customer'),
-    RETAIL: Localized('Retail'),
+  const memberTypeColorMap = {
+    activeAmbassador: theme.primaryButtonBackgroundColor,
+    activePreferred: theme.customerAvatarAccent,
+    activeRetail: theme.retailAvatarAccent,
+    warning: theme.warningAvatarAccent,
+    terminated: theme.alertAvatarAccent,
   };
 
-  const associateTypeLabel = associateTypeMap[associateType];
+  const [label, color] = filterMemberByStatusAndType(
+    member,
+    memberTypeColorMap,
+  );
 
   return (
     <>
@@ -34,16 +41,26 @@ const DownlineProfileInfo = ({ member, level }) => {
           </DefaultThumbnailBackground>
         )}
         <LevelIndicatorContainer>
-          <LevelIndicator associateType={associateType}>
-            {level ? <LevelLabel>{level}</LevelLabel> : null}
+          <LevelIndicator color={color}>
+            {level ? (
+              <LevelLabel
+                style={{
+                  color:
+                    color === theme.warningAvatarAccent
+                      ? theme.backgroundColor
+                      : theme.primaryTextColor,
+                }}
+              >
+                {level}
+              </LevelLabel>
+            ) : null}
           </LevelIndicator>
         </LevelIndicatorContainer>
       </View>
       <NameAndRankContainer>
         <H5>{`${firstName} ${lastName}`}</H5>
         <Flexbox direction="row">
-          <H6>{associateTypeLabel}</H6>
-          <H6>{member?.associate?.legacyAssociateId}</H6>
+          <H6>{label}</H6>
         </Flexbox>
       </NameAndRankContainer>
     </>
