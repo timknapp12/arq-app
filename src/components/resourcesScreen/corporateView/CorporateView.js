@@ -137,6 +137,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
       <FilterSearchBar onPress={goToSearch}>
         <TouchableOpacity disabled={isMenuOpen} onPress={openMarketModal}>
           <FlagIcon
+            key={marketUrl}
             source={{
               uri: marketUrl,
             }}

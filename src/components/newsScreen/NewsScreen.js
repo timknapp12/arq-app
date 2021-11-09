@@ -183,6 +183,7 @@ const NewsScreen = ({ navigation }) => {
             }}
           >
             <FlagIcon
+              key={marketUrl}
               source={{
                 uri: marketUrl,
               }}
