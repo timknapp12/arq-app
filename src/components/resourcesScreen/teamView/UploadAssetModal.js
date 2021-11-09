@@ -56,7 +56,6 @@ const UploadAssetModal = ({
     selectedFolderName,
     setSelectedFolderName,
   } = useContext(TabButtonContext);
-  console.log(`folderId`, folderId);
 
   const [title, setTitle] = useState(assetTitle);
   const [description, setDescription] = useState(assetDescription);
