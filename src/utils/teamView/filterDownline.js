@@ -22,43 +22,39 @@ export const filterMemberByStatusAndType = (member, memberTypeColorMap) => {
   const { associateType, associateStatus } = member?.associate;
   let label;
   let color;
-  // determine the label for the ambassador
-  // determine the color indicator for the ambassador
   if (associateType === 'AMBASSADOR') {
     if (associateStatus === 'ACTIVE') {
       label = member?.rank?.rankName;
       color = memberTypeColorMap.activeAmbassador;
-    } else {
-      label = associateStatusMap[associateStatus];
-      color = memberTypeColorMap.warning;
     }
-    // determine the label for the preferred
-    // determine the color indicator for the preferred
   }
   if (associateType === 'PREFERRED') {
     if (associateStatus === 'ACTIVE') {
       label = Localized('Preferred Customer');
       color = memberTypeColorMap.activePreferred;
-    } else {
-      label = associateStatusMap[associateStatus];
-      color = memberTypeColorMap.warning;
     }
-    // determine the label for the retail
-    // determine the color indicator for the retail
   }
   if (associateType === 'RETAIL') {
     if (associateStatus === 'ACTIVE') {
       label = Localized('Retail');
       color = memberTypeColorMap.activeRetail;
-    } else {
-      label = associateStatusMap[associateStatus];
-      color = memberTypeColorMap.warning;
     }
-    // if the type is terminated, then override the previous values
   }
-  if (associateStatus === 'TERMINATED') {
-    label = Localized('Terminated');
+  if (
+    associateStatus === 'TERMINATED' ||
+    associateStatus === 'FRAUDULENT_BEHAVIOR' ||
+    associateStatus === 'CHARGEBACK'
+  ) {
+    label = associateStatusMap[associateStatus];
     color = memberTypeColorMap.terminated;
+  }
+  if (
+    associateStatus === 'SUSPENDED' ||
+    associateStatus === 'HOLD_ID_VERIFICATION' ||
+    associateStatus === 'DOCU_SIGN_HOLD'
+  ) {
+    label = associateStatusMap[associateStatus];
+    color = memberTypeColorMap.warning;
   }
   return [label, color];
 };

@@ -4,6 +4,15 @@ export const mockOrdersShortList = [
     dateOrder: '2021-10-01T09:15:36.017Z',
     totalCost: '$345.89',
     pv: 120,
+    orderDetails: [
+      {
+        orderId: 160962,
+        amount: 123.56,
+        productName: 'Q Core',
+        quantity: 1,
+        pv: 60,
+      },
+    ],
   },
   {
     orderId: 159875,

@@ -202,11 +202,7 @@ export const GET_MARKETS = gql`
 
 export const GET_CORPORATE_RESOURCES = gql`
   query CorporateResoures($countries: [Int!], $languageCode: String) {
-    corporateResources(
-      countries: $countries
-      languageCode: $languageCode
-      order: { displayOrder: ASC }
-    ) {
+    corporateResources(countries: $countries, languageCode: $languageCode) {
       originalFolderName
       folderName
       folderId
@@ -403,7 +399,6 @@ export const GET_NEWS = gql`
       associateId: $associateId
       countries: $countries
       languageCode: $languageCode
-      order: { displayOrder: ASC }
     ) {
       folderId
       folderName

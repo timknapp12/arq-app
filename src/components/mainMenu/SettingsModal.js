@@ -258,6 +258,15 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                         onValueChange={onFaceIDChange}
                       />
                     </RowContainer>
+
+                    <H5Secondary
+                      style={{
+                        alignSelf: 'flex-start',
+                        paddingStart: 8,
+                      }}
+                    >
+                      {Localized('Default Market')}
+                    </H5Secondary>
                     <View
                       style={{
                         paddingRight: 8,
