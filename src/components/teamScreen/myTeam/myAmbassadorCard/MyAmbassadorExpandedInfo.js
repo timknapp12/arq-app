@@ -69,7 +69,7 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
           {selectedTab === 'dashboard' ? (
             <MyAmbassadorDonutsContainer member={member} />
           ) : (
-            <OrdersContainer level={level} member={member} orders={[]} />
+            <OrdersContainer level={level} member={member} />
           )}
         </DonutAndOrdersContainer>
       </Flexbox>

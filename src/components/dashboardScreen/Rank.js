@@ -97,10 +97,14 @@ const Rank = ({ ranklist, user, closeMenus }) => {
         <Flexbox
           accessibilityLabel="Distributor rank"
           width="100%"
-          justify="space-between"
+          justify="center"
           direction="row"
         >
-          <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
+          <Flexbox
+            style={{ marginEnd: 6 }}
+            accessibilityLabel="monthly comparrison pv"
+            width="auto"
+          >
             <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
             <DoubleDonut
               testID="total-pv-donut-svg"
@@ -139,7 +143,11 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             </LegendContainer>
           </Flexbox>
 
-          <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
+          <Flexbox
+            style={{ marginStart: 6 }}
+            accessibilityLabel="monthly comparrison qov"
+            width="auto"
+          >
             <H4 testID="total-qov-donut-label">{Localized('Total QOV')}</H4>
             <DoubleDonut
               testID="total-qov-donut-svg"

@@ -166,8 +166,8 @@ const ThemedActivityIndicator = styled.ActivityIndicator`
   color: ${(props) => props.theme.disabledBackgroundColor};
 `;
 
-export const LoadingSpinner = ({ size = 'small' }) => (
-  <ThemedActivityIndicator size={size} />
+export const LoadingSpinner = ({ size = 'small', ...props }) => (
+  <ThemedActivityIndicator size={size} {...props} />
 );
 
 LoadingSpinner.propTypes = { size: PropTypes.string };

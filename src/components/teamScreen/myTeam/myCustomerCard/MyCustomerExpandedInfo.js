@@ -8,7 +8,7 @@ const MyCustomerExpandedInfo = ({ member }) => {
   return (
     <Flexbox style={{ marginTop: 10 }}>
       <H6>{Localized('Orders')}</H6>
-      <OrdersContainer member={member} orders={[]} />
+      <OrdersContainer member={member} />
     </Flexbox>
   );
 };

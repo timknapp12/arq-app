@@ -19,7 +19,7 @@ const MyAmbassadorDonutsContainer = ({ member }) => {
   return (
     <TouchableWithoutFeedback onPress={closeAllMenus}>
       <Flexbox width="100%">
-        <Flexbox width="100%" direction="row">
+        <Flexbox width="100%" direction="row" justify="center">
           <Flexbox accessibilityLabel="Distributor monthly pv" width="auto">
             <H4 testID="my-ambassador-pv-donut-label">
               {Localized('Total PV')}

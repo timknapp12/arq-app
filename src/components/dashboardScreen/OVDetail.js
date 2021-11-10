@@ -72,7 +72,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
           // this adds commas, since toLocalString() does not work on android
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H4>
-        <Flexbox padding={20} width="100%" direction="row">
+        <Flexbox padding={20} width="100%" direction="row" justify="center">
           <Flexbox accessibilityLabel="Distributor leg one" width="auto">
             <TitleContainer>
               {isQualified || user.leg1 >= maxQOV.leg1Max ? (

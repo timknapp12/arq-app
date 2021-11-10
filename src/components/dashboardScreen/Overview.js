@@ -20,7 +20,8 @@ const Overview = ({ user, closeMenus }) => {
         <Flexbox
           accessibilityLabel="Distributor name and rank"
           padding={20}
-          width="100%">
+          width="100%"
+        >
           <H3>{`${Localized('Welcome back')} ${
             userProfile?.firstName ?? ''
           }`}</H3>
@@ -29,7 +30,7 @@ const Overview = ({ user, closeMenus }) => {
           }`}</H4Secondary>
         </Flexbox>
 
-        <Flexbox padding={20} width="100%" direction="row">
+        <Flexbox padding={20} width="100%" direction="row" justify="center">
           <Flexbox accessibilityLabel="Distributor monthly pv" width="auto">
             <H4 testID="pv-donut-label">PV</H4>
             <Donut
