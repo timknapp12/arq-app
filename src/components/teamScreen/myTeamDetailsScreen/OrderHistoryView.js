@@ -1,15 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, View } from 'react-native';
-import { Flexbox, H6Secondary, Gap } from '../../common';
+import { useQuery } from '@apollo/client';
+import { Flexbox, H6Secondary, Gap, LoadingSpinner } from '../../common';
 import DownlineProfileInfo from '../myTeam/DownlineProfileInfo';
 import { Localized } from '../../../translations/Localized';
 import OrderHistoryCard from './OrderHistoryCard';
-import { mockOrdersLongList } from '../myTeam/myAmbassadorCard/mockOrders';
+import { GET_ORDERS } from '../../../graphql/queries';
 import { OrderTableHeaderRow } from '../myTeam/myTeamCard.styles';
 
 const OrderHistoryView = ({ member, level }) => {
   const renderItem = ({ item }) => <OrderHistoryCard order={item} />;
+
+  const { data, loading } = useQuery(GET_ORDERS, {
+    variables: { associateId: member?.associate?.associateId },
+    onError: (err) => console.log(`error in OrdersHistoryView.js`, err),
+  });
+
+  if (loading) {
+    return <LoadingSpinner style={{ marginTop: 24 }} size="large" />;
+  }
+
   return (
     <Flexbox width="95%" height="100%">
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -26,7 +37,7 @@ const OrderHistoryView = ({ member, level }) => {
         </OrderTableHeaderRow>
       </Flexbox>
       <FlatList
-        data={mockOrdersLongList}
+        data={data?.orders}
         renderItem={renderItem}
         keyExtractor={(item) => item?.orderId.toString()}
       />

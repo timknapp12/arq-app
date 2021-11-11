@@ -1,15 +1,19 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
-import { H6, Flexbox, ChevronIcon } from '../../common';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Flexbox, ChevronIcon } from '../../common';
 import AutoshipIcon from '../../../../assets/icons/AutoshipIcon.svg';
-import { TouchableRow } from '../myTeam/myTeamCard.styles';
+import {
+  TouchableRow,
+  HorizontalScrollViewCell,
+  H6RightMargin,
+} from '../myTeam/myTeamCard.styles';
 import AppContext from '../../../contexts/AppContext';
 
 const options = {
   month: 'numeric',
   day: 'numeric',
-  year: 'numeric',
+  year: '2-digit',
 };
 
 const OrderHistoryCardHeader = ({ order, isExpanded, onPress }) => {
@@ -24,7 +28,11 @@ const OrderHistoryCardHeader = ({ order, isExpanded, onPress }) => {
 
   return (
     <Flexbox direction="row" justify="space-between" align="center">
-      <TouchableRow style={{ width: '100%' }} onPress={onPress}>
+      <TouchableRow
+        style={{ width: '100%' }}
+        onPress={onPress}
+        activeOpacity={1}
+      >
         {order?.type?.toLowerCase() === 'autoship' ? (
           <AutoshipIcon
             style={{
@@ -35,14 +43,42 @@ const OrderHistoryCardHeader = ({ order, isExpanded, onPress }) => {
             }}
           />
         ) : (
-          <View style={{ width: 24 }} />
+          <View style={{ width: 28 }} />
         )}
-        <Flexbox style={{ flex: 1 }} direction="row" justify="space-between">
-          <H6>{order?.orderId}</H6>
-          <H6>{getLocalDate(order?.dateOrder)}</H6>
-          <H6>{order?.totalCost}</H6>
-          <H6 style={{ marginEnd: 8 }}>{order?.pv}</H6>
-        </Flexbox>
+        <ScrollView
+          horizontal
+          contentContainerStyle={{
+            flex: 1,
+            paddingEnd: 12,
+          }}
+        >
+          <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={1}
+            style={{ width: '100%' }}
+          >
+            <Flexbox
+              direction="row"
+              justify="space-between"
+              style={{ flex: 1 }}
+            >
+              <HorizontalScrollViewCell minWidth="25%" justify="flex-start">
+                <H6RightMargin>{order?.orderId}</H6RightMargin>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell minWidth="30%">
+                <H6RightMargin>{getLocalDate(order?.dateOrder)}</H6RightMargin>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell minWidth="30%">
+                <H6RightMargin>{`$${order?.totalCost.toFixed(
+                  2,
+                )}`}</H6RightMargin>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell justify="flex-end" minWidth="20%">
+                <H6RightMargin>{order?.pv}</H6RightMargin>
+              </HorizontalScrollViewCell>
+            </Flexbox>
+          </TouchableOpacity>
+        </ScrollView>
         <ChevronIcon isExpanded={isExpanded} />
       </TouchableRow>
     </Flexbox>

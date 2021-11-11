@@ -1,26 +1,52 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Flexbox, H6, H6Secondary, Link } from '../../common';
-import { mockOrdersShortList } from './myAmbassadorCard/mockOrders';
+import { useQuery } from '@apollo/client';
+import { Flexbox, H6Secondary, Link, LoadingSpinner } from '../../common';
 import AutoshipIcon from '../../../../assets/icons/AutoshipIcon.svg';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import AppContext from '../../../contexts/AppContext';
 import { Localized } from '../../../translations/Localized';
-import { OrderTableHeaderRow, OrderTableRow } from './myTeamCard.styles';
+import { GET_ORDERS } from '../../../graphql/queries';
+import {
+  OrderTableHeaderRow,
+  OrderTableRow,
+  HorizontalScrollViewCell,
+  H6RightMargin,
+} from './myTeamCard.styles';
 
 const options = {
   month: 'numeric',
   day: 'numeric',
-  year: 'numeric',
+  year: '2-digit',
 };
 
-const OrdersContainer = ({ member, orders, level = 0 }) => {
+const OrdersContainer = ({ member, level = 0 }) => {
   const { theme, deviceLanguage } = useContext(AppContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
-  // TODO remove console log
-  console.log(`orders`, orders);
+
+  const [shortList, setShortList] = useState([]);
+
+  const { data, loading } = useQuery(GET_ORDERS, {
+    variables: { associateId: member?.associate?.associateId },
+    onError: (err) => console.log(`error in OrdersContainer.js`, err),
+  });
+
+  useEffect(() => {
+    if (data) {
+      const shortOrderList = data?.orders?.slice(0, 5);
+      setShortList(shortOrderList);
+    }
+    return () => {
+      setShortList([]);
+    };
+  }, [data]);
 
   const getLocalDate = (date) => {
     let [y, m, d, hh, mm, ss, ms] = date.match(/\d+/g);
@@ -38,21 +64,40 @@ const OrdersContainer = ({ member, orders, level = 0 }) => {
       viewType: 'orderHistory',
     });
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <TouchableWithoutFeedback onPress={closeAllMenus}>
       <>
         <Flexbox direction="row">
           <View style={{ width: 24 }} />
-          <OrderTableHeaderRow>
-            <H6Secondary>{`${Localized('Order')} #`}</H6Secondary>
-            <H6Secondary>{Localized('Date')}</H6Secondary>
-            <H6Secondary>{Localized('Total')}</H6Secondary>
-            <H6Secondary>PV</H6Secondary>
-          </OrderTableHeaderRow>
+          <ScrollView
+            horizontal
+            contentContainerStyle={{
+              flex: 1,
+            }}
+          >
+            <OrderTableHeaderRow>
+              <HorizontalScrollViewCell minWidth="25%" justify="flex-start">
+                <H6Secondary>{`${Localized('Order')} #`}</H6Secondary>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell minWidth="25%" justify="center">
+                <H6Secondary>{Localized('Date')}</H6Secondary>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell minWidth="20%">
+                <H6Secondary>{Localized('Total')}</H6Secondary>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell minWidth="25%">
+                <H6Secondary>PV</H6Secondary>
+              </HorizontalScrollViewCell>
+            </OrderTableHeaderRow>
+          </ScrollView>
         </Flexbox>
 
-        {mockOrdersShortList.map((order) => (
-          <Flexbox key={order?.orderId} direction="row">
+        {shortList.map((order) => (
+          <Flexbox key={order?.orderId} direction="row" justify="flex-end">
             {order?.type?.toLowerCase() === 'autoship' ? (
               <AutoshipIcon
                 style={{
@@ -63,27 +108,45 @@ const OrdersContainer = ({ member, orders, level = 0 }) => {
                 }}
               />
             ) : (
-              <View style={{ width: 24 }} />
+              <View style={{ width: 28 }} />
             )}
-            <OrderTableRow>
-              <H6>{order?.orderId}</H6>
-              <H6>{getLocalDate(order?.dateOrder)}</H6>
-              <H6>{order?.totalCost}</H6>
-              <H6>{order?.pv}</H6>
-            </OrderTableRow>
+            <ScrollView
+              horizontal
+              contentContainerStyle={{
+                flex: 1,
+              }}
+            >
+              <OrderTableRow onStartShouldSetResponder={() => true}>
+                <HorizontalScrollViewCell minWidth="25%" justify="flex-start">
+                  <H6RightMargin>{order?.orderId}</H6RightMargin>
+                </HorizontalScrollViewCell>
+                <HorizontalScrollViewCell minWidth="25%" justify="flex-start">
+                  <H6RightMargin>
+                    {getLocalDate(order?.dateOrder)}
+                  </H6RightMargin>
+                </HorizontalScrollViewCell>
+                <HorizontalScrollViewCell>
+                  <H6RightMargin>{`$${order?.totalCost}`}</H6RightMargin>
+                </HorizontalScrollViewCell>
+                <HorizontalScrollViewCell minWidth="20%">
+                  <H6RightMargin>{order?.pv}</H6RightMargin>
+                </HorizontalScrollViewCell>
+              </OrderTableRow>
+            </ScrollView>
           </Flexbox>
         ))}
-        <TouchableOpacity
-          // TODO - replace console.log with real function to show more order history
-          onPress={navigateToOrderHistory}
-          style={{
-            padding: 8,
-            alignItems: 'flex-end',
-            alignSelf: 'flex-end',
-          }}
-        >
-          <Link>{Localized('More Orders').toUpperCase()}</Link>
-        </TouchableOpacity>
+        {data?.orders.length > 0 ? (
+          <TouchableOpacity
+            onPress={navigateToOrderHistory}
+            style={{
+              padding: 8,
+              alignItems: 'flex-end',
+              alignSelf: 'flex-end',
+            }}
+          >
+            <Link>{Localized('More Orders').toUpperCase()}</Link>
+          </TouchableOpacity>
+        ) : null}
       </>
     </TouchableWithoutFeedback>
   );
@@ -91,7 +154,6 @@ const OrdersContainer = ({ member, orders, level = 0 }) => {
 
 OrdersContainer.propTypes = {
   member: PropTypes.object.isRequired,
-  orders: PropTypes.array.isRequired,
   level: PropTypes.number,
 };
 
