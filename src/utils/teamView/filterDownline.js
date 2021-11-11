@@ -22,23 +22,17 @@ export const filterMemberByStatusAndType = (member, memberTypeColorMap) => {
   const { associateType, associateStatus } = member?.associate;
   let label;
   let color;
-  if (associateType === 'AMBASSADOR') {
-    if (associateStatus === 'ACTIVE') {
-      label = member?.rank?.rankName;
-      color = memberTypeColorMap.activeAmbassador;
-    }
+  if (associateType === 'AMBASSADOR' && associateStatus === 'ACTIVE') {
+    label = member?.rank?.rankName;
+    color = memberTypeColorMap.activeAmbassador;
   }
-  if (associateType === 'PREFERRED') {
-    if (associateStatus === 'ACTIVE') {
-      label = Localized('Preferred Customer');
-      color = memberTypeColorMap.activePreferred;
-    }
+  if (associateType === 'PREFERRED' && associateStatus === 'ACTIVE') {
+    label = Localized('Preferred Customer');
+    color = memberTypeColorMap.activePreferred;
   }
-  if (associateType === 'RETAIL') {
-    if (associateStatus === 'ACTIVE') {
-      label = Localized('Retail');
-      color = memberTypeColorMap.activeRetail;
-    }
+  if (associateType === 'RETAIL' && associateStatus === 'ACTIVE') {
+    label = Localized('Retail');
+    color = memberTypeColorMap.activeRetail;
   }
   if (
     associateStatus === 'TERMINATED' ||

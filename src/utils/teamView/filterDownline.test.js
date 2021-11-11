@@ -327,7 +327,7 @@ describe('filterMemberByStatusAndType', () => {
       filterMemberByStatusAndType(input, memberTypeColorMap),
     ).toStrictEqual(output);
   });
-  test('Chargeback ambassador returns #FDD207 and Chargeback', () => {
+  test('Chargeback ambassador returns #AC2A1C and Chargeback', () => {
     const input = {
       associate: {
         associateId: 75197,
@@ -339,13 +339,13 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Gold',
       },
     };
-    const output = ['Chargeback', warningYellow];
+    const output = ['Chargeback', darkRed];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
     ).toStrictEqual(output);
   });
-  test('Fraudulent Behavior ambassador returns #FDD207 and Fraudulent Behavior', () => {
+  test('Fraudulent Behavior ambassador returns #AC2A1C and Fraudulent Behavior', () => {
     const input = {
       associate: {
         associateId: 75197,
@@ -357,7 +357,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Gold',
       },
     };
-    const output = ['Fraudulent Behavior', warningYellow];
+    const output = ['Fraudulent Behavior', darkRed];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
