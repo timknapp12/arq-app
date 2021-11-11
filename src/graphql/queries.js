@@ -435,3 +435,22 @@ export const GET_PROSPECT_NOTIFICATIONS = gql`
     }
   }
 `;
+
+export const GET_ORDERS = gql`
+  query Orders($associateId: Int!) {
+    orders(associateId: $associateId) {
+      orderId
+      dateOrder
+      totalCost
+      pv
+      type
+      orderDetails {
+        orderDetailId
+        amount
+        productName
+        quantity
+        pv
+      }
+    }
+  }
+`;

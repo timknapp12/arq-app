@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { H6 } from '../../common';
 
 // used in MyAmbassadorCard.js
 export const CardContainer = styled.View`
@@ -119,7 +120,7 @@ export const InvisibleUnderline = styled.View`
   height: 2px;
 `;
 
-// used in MyAmbassadorOrdersContainer.js
+// used in OrdersContainer.js
 const flex = {
   flexDirection: 'row',
   justifyContent: 'space-between',
@@ -135,7 +136,41 @@ export const OrderTableHeaderRow = styled.View`
 
 export const OrderTableRow = styled.View`
   ${flex};
+  width: 100%;
   border-bottom-color: ${(props) => props.theme.secondaryTextColor};
   border-bottom-width: 1px;
   margin: 0 4px;
+`;
+
+// in OrderHistoryCardHeader.js
+// the min-width on this component is to avoid its children text from wrapping
+export const HorizontalScrollViewCell = styled.View`
+  flex-direction: row;
+  min-width: ${({ minWidth }) => (minWidth ? minWidth : '20%')};
+  justify-content: ${({ justify }) => (justify ? justify : 'flex-end')};
+`;
+
+// In OrderHistoryCard.js
+export const OrderDetailsContainer = styled.View`
+  width: 100%;
+  flex-direction: row;
+  border-bottom-color: ${(props) => props.theme.secondaryTextColor};
+  border-bottom-width: 1px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 8px;
+`;
+
+export const OrderDetailTitleContainer = styled.View`
+  width: 40%;
+`;
+
+export const OrderDetailRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 4px;
+`;
+
+export const H6RightMargin = styled(H6)`
+  margin-right: 8px;
 `;

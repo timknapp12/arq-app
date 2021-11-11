@@ -41,8 +41,8 @@ const BadgeContainer = styled.View`
   align-items: center;
   top: 6px;
   right: -6px;
-  height: ${badgeCircumfrance}px;
-  width: ${badgeCircumfrance}px;
+  min-height: ${badgeCircumfrance}px;
+  min-width: ${badgeCircumfrance}px;
   border-radius: ${badgeCircumfrance / 2}px;
 `;
 
