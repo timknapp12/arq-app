@@ -37,7 +37,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
   }, [sortBy, levelInTree]);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(-500)).current;
+  const fadeAnim = useRef(new Animated.Value(-250)).current;
 
   const openFilterMenu = () => {
     setIsFilterMenuOpen(true);
@@ -49,7 +49,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
   };
   const closeFilterMenu = () => {
     Animated.timing(fadeAnim, {
-      toValue: -500,
+      toValue: -250,
       duration: 700,
       useNativeDriver: false,
     }).start(() => setIsFilterMenuOpen(false));
@@ -88,7 +88,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
           align="center"
           justify="flex-start"
           height="100%"
-          style={{ zIndex: -1 }}
+          style={{ zIndex: -1, maxWidth: 425 }}
         >
           <FilterSearchBar
             onPress={() =>
@@ -115,13 +115,15 @@ const MyTeamView = ({ closeMenus, ...props }) => {
             <H4 style={{ textAlign: 'center' }}>{myTeamViewHeader}</H4>
           </FilterSearchBar>
 
-          <Flexbox>
-            <FilterOrgMenu
-              onClose={onCloseFilterMenu}
-              setSortBy={setSortBy}
-              style={{ left: fadeAnim }}
-            />
-          </Flexbox>
+          {isFilterMenuOpen && (
+            <Flexbox>
+              <FilterOrgMenu
+                onClose={onCloseFilterMenu}
+                setSortBy={setSortBy}
+                style={{ left: fadeAnim }}
+              />
+            </Flexbox>
+          )}
 
           <MyTeamList />
         </Flexbox>
