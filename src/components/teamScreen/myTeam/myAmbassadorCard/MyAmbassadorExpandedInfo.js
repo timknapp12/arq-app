@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Flexbox, H6, H6Secondary } from '../../../common';
 import MyAmbassadorDonutsContainer from './MyAmbassadorDonutsContainer';
-import MyAmbassadorOrdersContainer from './MyAmbassadorOrdersContainer';
+import OrdersContainer from '../OrdersContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../../translations/Localized';
 import {
   Underline,
   InvisibleUnderline,
   DonutAndOrdersContainer,
-} from './myAmbassadorCard.styles';
+} from '../myTeamCard.styles';
 
-const MyAmbassadorExpandedInfo = ({ member }) => {
+const MyAmbassadorExpandedInfo = ({ member, level }) => {
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
   const [selectedTab, setSelectedTab] = useState('dashboard');
@@ -69,7 +69,7 @@ const MyAmbassadorExpandedInfo = ({ member }) => {
           {selectedTab === 'dashboard' ? (
             <MyAmbassadorDonutsContainer member={member} />
           ) : (
-            <MyAmbassadorOrdersContainer orders={[]} />
+            <OrdersContainer level={level} member={member} />
           )}
         </DonutAndOrdersContainer>
       </Flexbox>
@@ -77,6 +77,9 @@ const MyAmbassadorExpandedInfo = ({ member }) => {
   );
 };
 
-MyAmbassadorExpandedInfo.propTypes = { member: PropTypes.object.isRequired };
+MyAmbassadorExpandedInfo.propTypes = {
+  member: PropTypes.object.isRequired,
+  level: PropTypes.number,
+};
 
 export default MyAmbassadorExpandedInfo;

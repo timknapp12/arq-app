@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
@@ -16,12 +16,28 @@ import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
 
 const MyTeamView = ({ closeMenus, ...props }) => {
-  const { theme } = useContext(AppContext);
+  const { theme, legacyId } = useContext(AppContext);
 
   const [sortBy, setSortBy] = useState('AMBASSADOR');
+  const [levelInTree, setLevelInTree] = useState(0);
+  const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
+  const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
+  const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
+
+  useEffect(() => {
+    if (levelInTree === 0) {
+      const header =
+        sortBy === 'AMBASSADOR'
+          ? Localized('My Ambassadors')
+          : sortBy === 'PREFERRED'
+          ? Localized('My Customers')
+          : Localized('My Organization');
+      setMyTeamViewHeader(header);
+    }
+  }, [sortBy, levelInTree]);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(-500)).current;
+  const fadeAnim = useRef(new Animated.Value(-250)).current;
 
   const openFilterMenu = () => {
     setIsFilterMenuOpen(true);
@@ -33,10 +49,16 @@ const MyTeamView = ({ closeMenus, ...props }) => {
   };
   const closeFilterMenu = () => {
     Animated.timing(fadeAnim, {
-      toValue: -500,
+      toValue: -250,
       duration: 700,
       useNativeDriver: false,
     }).start(() => setIsFilterMenuOpen(false));
+  };
+
+  const onCloseFilterMenu = () => {
+    closeFilterMenu();
+    setLegacyAssociateId(legacyId);
+    setLevelInTree(0);
   };
 
   const navigation = useNavigation();
@@ -48,13 +70,25 @@ const MyTeamView = ({ closeMenus, ...props }) => {
   };
 
   return (
-    <MyTeamViewContext.Provider value={{ closeAllMenus }}>
+    <MyTeamViewContext.Provider
+      value={{
+        closeAllMenus,
+        sortBy,
+        levelInTree,
+        setMyTeamViewHeader,
+        setLevelInTree,
+        legacyAssociateId,
+        setLegacyAssociateId,
+        currentMembersUplineId,
+        setCurrentMembersUplineId,
+      }}
+    >
       <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
         <Flexbox
           align="center"
           justify="flex-start"
           height="100%"
-          style={{ zIndex: -1 }}
+          style={{ zIndex: -1, maxWidth: 425 }}
         >
           <FilterSearchBar
             onPress={() =>
@@ -78,22 +112,20 @@ const MyTeamView = ({ closeMenus, ...props }) => {
                 />
               </Flexbox>
             </TouchableOpacity>
-            <H4 style={{ textAlign: 'center' }}>
-              {Localized(
-                sortBy === 'AMBASSADOR' ? 'My Ambassadors' : 'My Customers',
-              )}
-            </H4>
+            <H4 style={{ textAlign: 'center' }}>{myTeamViewHeader}</H4>
           </FilterSearchBar>
 
-          <Flexbox>
-            <FilterOrgMenu
-              onClose={closeFilterMenu}
-              setSortBy={setSortBy}
-              style={{ left: fadeAnim }}
-            />
-          </Flexbox>
+          {isFilterMenuOpen && (
+            <Flexbox>
+              <FilterOrgMenu
+                onClose={onCloseFilterMenu}
+                setSortBy={setSortBy}
+                style={{ left: fadeAnim }}
+              />
+            </Flexbox>
+          )}
 
-          <MyTeamList sortBy={sortBy} />
+          <MyTeamList />
         </Flexbox>
       </TouchableWithoutFeedback>
     </MyTeamViewContext.Provider>

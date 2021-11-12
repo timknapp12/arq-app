@@ -670,3 +670,103 @@ export const mockTreeTwoLevelsDeep = [
     childTreeNodes: [],
   },
 ];
+
+export const mockOrderHistoryOne = [
+  {
+    amount: 39.95,
+    orderDetailId: 991229,
+    productName: 'Renewal Fee',
+    pv: 0,
+    quantity: 2,
+  },
+  {
+    amount: 0,
+    orderDetailId: 991244,
+    productName: 'Q ConnectPro App - 1st Month Free!',
+    pv: 0,
+    quantity: 1,
+  },
+];
+
+export const mockOrderHistoryTwo = [
+  {
+    amount: 150,
+    orderDetailId: 991254,
+    productName: 'Q COMFORT Terpene Elixir 3 FOR 2',
+    pv: 100,
+    quantity: 1,
+  },
+  {
+    amount: 79.95,
+    orderDetailId: 991255,
+    productName: 'Q FUSE Berry THC Free',
+    pv: 60,
+    quantity: 1,
+  },
+  {
+    amount: 79.95,
+    orderDetailId: 991262,
+    productName: 'Q FUSE Berry',
+    pv: 60,
+    quantity: 1,
+  },
+  {
+    amount: 90,
+    orderDetailId: 991263,
+    productName: 'Q reFORM Collagen Peptides',
+    pv: 60,
+    quantity: 3,
+  },
+  {
+    amount: 89.95,
+    orderDetailId: 991265,
+    productName: 'Q REST + ',
+    pv: 60,
+    quantity: 2,
+  },
+  {
+    amount: 62.5,
+    orderDetailId: 991266,
+    productName: 'Q ARMOR',
+    pv: 40,
+    quantity: 1,
+  },
+  {
+    amount: 50,
+    orderDetailId: 991271,
+    productName: 'Q ULTRA GREENS',
+    pv: 30,
+    quantity: 1,
+  },
+  {
+    amount: 75,
+    orderDetailId: 991273,
+    productName: 'Q TWIST CALM Peach Lemonade Non-Hemp',
+    pv: 45,
+    quantity: 1,
+  },
+  {
+    amount: 54.95,
+    orderDetailId: 991274,
+    productName: 'Q VITALIZE Men',
+    pv: 32,
+    quantity: 1,
+  },
+  {
+    amount: 17.5,
+    orderDetailId: 991279,
+    productName: 'Q SLEEP Spray',
+    pv: 12,
+    quantity: 2,
+  },
+];
+
+export const mockOrderHistoryThree = [
+  {
+    amount: 90,
+    orderDetailId: 1094764,
+    productName: 'Q REV Pre-Workout Promo Pack',
+    pv: 50,
+    quantity: 2,
+  },
+];

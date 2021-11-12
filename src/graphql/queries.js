@@ -4,7 +4,17 @@ export const GET_USER = gql`
   query TreeNodeFor($legacyAssociateId: Int!) {
     treeNodeFor(legacyAssociateId: $legacyAssociateId) {
       associateId
-      uplineAssociateId
+      uplineTreeNode {
+        associate {
+          associateId
+          legacyAssociateId
+        }
+      }
+      associate {
+        associateId
+        firstName
+        lastName
+      }
       orders {
         orderId
       }
@@ -76,6 +86,12 @@ export const GET_USER = gql`
         }
       }
       childTreeNodes {
+        uplineTreeNode {
+          associate {
+            associateId
+            legacyAssociateId
+          }
+        }
         associate {
           associateId
           legacyAssociateId
@@ -93,6 +109,12 @@ export const GET_USER = gql`
         qoV
         pa
         childTreeNodes {
+          uplineTreeNode {
+            associate {
+              associateId
+              legacyAssociateId
+            }
+          }
           associate {
             associateId
             legacyAssociateId
@@ -109,6 +131,12 @@ export const GET_USER = gql`
           pv
           qoV
           pa
+          childTreeNodes {
+            associate {
+              associateId
+              associateType
+            }
+          }
         }
       }
     }
@@ -174,11 +202,7 @@ export const GET_MARKETS = gql`
 
 export const GET_CORPORATE_RESOURCES = gql`
   query CorporateResoures($countries: [Int!], $languageCode: String) {
-    corporateResources(
-      countries: $countries
-      languageCode: $languageCode
-      order: { displayOrder: ASC }
-    ) {
+    corporateResources(countries: $countries, languageCode: $languageCode) {
       originalFolderName
       folderName
       folderId
@@ -375,7 +399,6 @@ export const GET_NEWS = gql`
       associateId: $associateId
       countries: $countries
       languageCode: $languageCode
-      order: { displayOrder: ASC }
     ) {
       folderId
       folderName
@@ -408,6 +431,25 @@ export const GET_PROSPECT_NOTIFICATIONS = gql`
       sentLinks {
         displayName
         sentLinkId
+      }
+    }
+  }
+`;
+
+export const GET_ORDERS = gql`
+  query Orders($associateId: Int!) {
+    orders(associateId: $associateId) {
+      orderId
+      dateOrder
+      totalCost
+      pv
+      type
+      orderDetails {
+        orderDetailId
+        amount
+        productName
+        quantity
+        pv
       }
     }
   }
