@@ -4,16 +4,15 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { H4, Flexbox, H4Secondary, H3 } from '../common';
 import { Localized } from '../../translations/Localized';
 import Donut from './Donut';
-import {
-  donut1primaryColor,
-  donut2primaryColor,
-  donut3primaryColor,
-} from '../../styles/colors';
+import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const Overview = ({ user, closeMenus }) => {
-  const { pv, totalOv, cv } = user;
+  const { theme } = useContext(AppContext);
   const { userProfile } = useContext(LoginContext);
+
+  const { pv, totalOv, cv } = user;
+
   return (
     <TouchableWithoutFeedback onPress={closeMenus}>
       <Flexbox width="100%" onStartShouldSetResponder={() => true}>
@@ -37,7 +36,7 @@ const Overview = ({ user, closeMenus }) => {
               testID="pv-donut-svg"
               percentage={pv}
               max={pv}
-              color={donut1primaryColor}
+              color={theme.donut1primaryColor}
               onPress={closeMenus}
             />
           </Flexbox>
@@ -48,7 +47,7 @@ const Overview = ({ user, closeMenus }) => {
               testID="cv-donut-svg"
               percentage={cv}
               max={cv}
-              color={donut2primaryColor}
+              color={theme.donut2primaryColor}
               onPress={closeMenus}
             />
           </Flexbox>
@@ -60,7 +59,7 @@ const Overview = ({ user, closeMenus }) => {
             testID="ov-donut-svg"
             percentage={totalOv}
             max={totalOv}
-            color={donut3primaryColor}
+            color={theme.donut3primaryColor}
             onPress={closeMenus}
           />
         </Flexbox>

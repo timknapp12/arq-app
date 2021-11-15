@@ -27,25 +27,7 @@ export const blue = '#007985';
 // error message
 export const red = '#FF0000';
 
-// donut chart
-export const donut1primaryColor = '#94D2BA';
-
-// donut chart
-export const donut1secondaryColor = '#E2F2EA';
-
-// donut chart
-export const donut2primaryColor = '#B6A0BB';
-
-// donut chart
-export const donut2secondaryColor = '#E8E2E9';
-
-// donut chart
-export const donut3primaryColor = '#EAB286';
-
-// donut chart
-export const donut3secondaryColor = '#F8E8DA';
-
-// pie charts
+// donut and pie charts
 export const tealAccent = '#94D2BA';
 export const tealAccentDark = '#00FFCC';
 export const tealAccentLight = '#DFF1EA';
