@@ -12,11 +12,11 @@ describe('Get Percentage', () => {
     const output = 50;
     expect(getPercentage(input1, input2)).toBe(output);
   });
-  test('0 of 2 returns 1', () => {
+  test('0 of 2 returns 0', () => {
     const input1 = 0;
     const input2 = 2;
 
-    const output = 1;
+    const output = 0;
     expect(getPercentage(input1, input2)).toBe(output);
   });
   test('3 of 2 returns 100', () => {
