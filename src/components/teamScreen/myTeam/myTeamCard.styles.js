@@ -174,3 +174,22 @@ export const OrderDetailRow = styled.View`
 export const H6RightMargin = styled(H6)`
   margin-right: 8px;
 `;
+
+export const BarContainer = styled.View`
+  height: 12px;
+  border-radius: 6px;
+  margin-bottom: 2px;
+  width: 100%;
+  border-color: ${(props) => props.theme.secondaryTextColor};
+  border-width: 1px;
+`;
+
+export const Bar = styled.View`
+  height: 12px;
+  border-radius: 6px;
+  background-color: ${({ color }) => color};
+  width: ${({ width }) => (width ? width : '100%')};
+  position: absolute;
+  top: -1px;
+  left: 0;
+`;

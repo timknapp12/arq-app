@@ -89,4 +89,14 @@ describe('get next rank requirements', () => {
       output,
     );
   });
+  test('rank id of 1 returns rankName of Builder', () => {
+    const lastMonthRankId = 1;
+    const fieldType = 'rankName';
+
+    const output = 'Builder';
+
+    expect(findRequiredValueOfNextRank(lastMonthRankId, ranks, fieldType)).toBe(
+      output,
+    );
+  });
 });
