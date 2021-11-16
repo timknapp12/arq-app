@@ -18,24 +18,30 @@ const MyAmbassadorBarChartContainer = ({ member }) => {
   const { ranks } = useContext(LoginContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
-  const { pv, qoV, pa, previousAmbassadorMonthlyRecord } = member;
+  const { pv, qoV, pa, rank, previousAmbassadorMonthlyRecord } = member;
 
   // default rankId for an inactive ambassador is 1
+  // show what rank is next depending on whether they surpassed previous month rank
+  const previousRankId = previousAmbassadorMonthlyRecord?.rankId ?? 1;
+  const currentRankId = rank?.rankId;
+  const rankId =
+    currentRankId > previousRankId ? currentRankId : previousRankId;
+
   // get maximums for each category for chart
   const requiredPvForNextRank = findRequiredValueOfNextRank(
-    previousAmbassadorMonthlyRecord?.rankId ?? 1,
+    rankId,
     ranks,
     'requiredPv',
   );
 
   const requiredQovForNextRank = findRequiredValueOfNextRank(
-    previousAmbassadorMonthlyRecord?.rankId ?? 1,
+    rankId,
     ranks,
     'minimumQoV',
   );
 
   const requiredPaForNextRank = findRequiredValueOfNextRank(
-    previousAmbassadorMonthlyRecord?.rankId ?? 1,
+    rankId,
     ranks,
     'requiredPa',
   );
