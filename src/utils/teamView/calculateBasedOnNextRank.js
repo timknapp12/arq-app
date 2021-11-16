@@ -6,15 +6,11 @@ export const getPercentage = (currentNumber, requiredTotal) => {
   } else return result;
 };
 
-export const findRequiredValueOfNextRank = (
-  previousMonthRankId,
-  ranks,
-  fieldType,
-) => {
+export const findRequiredValueOfNextRank = (rankId, ranks, fieldType) => {
   // the last rank is Crown Diamond with rankId of 18, so there is no higher rank to get
   const nextRank =
-    previousMonthRankId === 18
+    rankId === 18
       ? ranks[ranks.length - 1]
-      : ranks?.find((rank) => rank.rankId > previousMonthRankId);
+      : ranks?.find((rank) => rank.rankId > rankId);
   return nextRank[fieldType];
 };
