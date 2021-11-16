@@ -185,10 +185,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           width="auto"
         >
           <H4 testID="personally-enrolled-donut-label">
-            {Localized('Personally Enrolled')}
+            {Localized('Personally Active')}
           </H4>
           <DoubleDonut
-            testID="personally-enrolled-donut-svg"
+            testID="personally-active-donut-svg"
             outerpercentage={rank.rankId === 1 ? 0 : paPerc}
             outermax={100}
             outercolor={theme.donut3primaryColor}
