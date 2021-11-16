@@ -65,7 +65,7 @@ const MyAmbassadorBarChartContainer = ({ member }) => {
       <>
         <H5 style={{ textAlign: 'center' }}>
           {/* TODO Put in translations for this phrase for other languages*/}
-          {`${Localized(`Progress towards next rank`)}`}
+          {Localized(`Progress towards next rank`)}
         </H5>
         <Flexbox align="flex-start" width="100%">
           <H4>{Localized('Total PV')}</H4>
