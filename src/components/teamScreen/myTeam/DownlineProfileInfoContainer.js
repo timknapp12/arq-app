@@ -1,18 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { ChevronIcon } from '../../common';
 import { TouchableRow, ChevronContainer } from './myTeamCard.styles';
-import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import DownlineProfileInfo from './DownlineProfileInfo';
 
 const DownlineProfileInfoContainer = ({
   member,
-  isExpanded,
-  onPress,
+  isExpanded = false,
+  onPress = () => {},
   level,
+  closeAllMenus = () => {},
 }) => {
-  const { closeAllMenus } = useContext(MyTeamViewContext);
-
   return (
     <TouchableRow
       activeOpacity={1}
@@ -23,9 +21,11 @@ const DownlineProfileInfoContainer = ({
     >
       <>
         <DownlineProfileInfo member={member} level={level} />
-        <ChevronContainer>
-          <ChevronIcon isExpanded={isExpanded} />
-        </ChevronContainer>
+        {isExpanded && (
+          <ChevronContainer>
+            <ChevronIcon isExpanded={isExpanded} />
+          </ChevronContainer>
+        )}
       </>
     </TouchableRow>
   );
@@ -36,6 +36,7 @@ DownlineProfileInfoContainer.propTypes = {
   isExpanded: PropTypes.bool,
   onPress: PropTypes.func,
   level: PropTypes.number,
+  closeAllMenus: PropTypes.func,
 };
 
 export default DownlineProfileInfoContainer;

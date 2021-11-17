@@ -15,6 +15,7 @@ const MyAmbassadorCard = React.memo(({ member, nested, level }) => {
     setLegacyAssociateId,
     setLevelInTree,
     currentMembersUplineId,
+    closeAllMenus,
   } = useContext(MyTeamViewContext);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -62,6 +63,7 @@ const MyAmbassadorCard = React.memo(({ member, nested, level }) => {
             member={member}
             isExpanded={isExpanded}
             onPress={toggleExpanded}
+            closeAllMenus={closeAllMenus}
           />
           {isExpanded && (
             <MyAmbassadorExpandedInfo member={member} level={level} />

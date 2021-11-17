@@ -84,4 +84,5 @@ export const Card = styled.View`
   background-color: ${(props) => props.theme.cardBackgroundColor};
   padding: 6px;
   border-radius: 5px;
+  width: 100%;
 `;

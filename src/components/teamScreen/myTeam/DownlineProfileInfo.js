@@ -14,7 +14,7 @@ import {
 
 const DownlineProfileInfo = ({ member, level }) => {
   const { theme } = useContext(AppContext);
-  const { firstName, lastName, pictureUrl } = member?.associate;
+  const { firstName, lastName, profileUrl } = member?.associate;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   const memberTypeColorMap = {
@@ -33,8 +33,8 @@ const DownlineProfileInfo = ({ member, level }) => {
   return (
     <>
       <View>
-        {pictureUrl ? (
-          <ThumbnailImage source={{ uri: pictureUrl }} />
+        {profileUrl ? (
+          <ThumbnailImage source={{ uri: profileUrl }} />
         ) : (
           <DefaultThumbnailBackground>
             <H2Book>{initials.toUpperCase()}</H2Book>

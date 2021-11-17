@@ -8,8 +8,12 @@ import MyCustomerExpandedInfo from './MyCustomerExpandedInfo';
 
 // eslint-disable-next-line react/display-name
 const MyCustomerCard = React.memo(({ member, nested, level }) => {
-  const { setLegacyAssociateId, setLevelInTree, currentMembersUplineId } =
-    useContext(MyTeamViewContext);
+  const {
+    setLegacyAssociateId,
+    setLevelInTree,
+    currentMembersUplineId,
+    closeAllMenus,
+  } = useContext(MyTeamViewContext);
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -38,6 +42,7 @@ const MyCustomerCard = React.memo(({ member, nested, level }) => {
           member={member}
           isExpanded={isExpanded}
           onPress={toggleExpanded}
+          closeAllMenus={closeAllMenus}
         />
         {isExpanded && <MyCustomerExpandedInfo member={member} />}
       </CardContainer>

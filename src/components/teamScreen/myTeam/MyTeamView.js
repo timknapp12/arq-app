@@ -93,7 +93,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
           <FilterSearchBar
             onPress={() =>
               navigation.navigate('Search Downline Screen', {
-                title: 'Search',
+                title: Localized('Search My Team'),
               })
             }
           >
