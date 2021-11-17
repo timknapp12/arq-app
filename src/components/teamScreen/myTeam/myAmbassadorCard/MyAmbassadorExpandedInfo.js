@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Flexbox, H6, H6Secondary } from '../../../common';
-import MyAmbassadorDonutsContainer from './MyAmbassadorDonutsContainer';
+import MyAmbassadorBarChartContainer from './MyAmbassadorBarChartContainer';
 import OrdersContainer from '../OrdersContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../../translations/Localized';
@@ -67,7 +67,7 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
         </Flexbox>
         <DonutAndOrdersContainer>
           {selectedTab === 'dashboard' ? (
-            <MyAmbassadorDonutsContainer member={member} />
+            <MyAmbassadorBarChartContainer member={member} />
           ) : (
             <OrdersContainer level={level} member={member} />
           )}

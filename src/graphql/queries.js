@@ -108,6 +108,12 @@ export const GET_USER = gql`
         pv
         qoV
         pa
+        previousAmbassadorMonthlyRecord {
+          personalVolume
+          personallySponsoredActiveAmbassadorCount
+          qov
+          rankId
+        }
         childTreeNodes {
           uplineTreeNode {
             associate {
@@ -131,6 +137,12 @@ export const GET_USER = gql`
           pv
           qoV
           pa
+          previousAmbassadorMonthlyRecord {
+            personalVolume
+            personallySponsoredActiveAmbassadorCount
+            qov
+            rankId
+          }
           childTreeNodes {
             associate {
               associateId

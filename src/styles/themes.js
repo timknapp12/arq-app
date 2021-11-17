@@ -91,6 +91,12 @@ export const lightTheme = {
   retailAvatarAccent: violet,
   alertAvatarAccent: darkRed,
   warningAvatarAccent: warningYellow,
+  donut1primaryColor: tealAccent,
+  donut1secondaryColor: tealAccentLight,
+  donut2primaryColor: purpleAccent,
+  donut2secondaryColor: purpleAccentLight,
+  donut3primaryColor: orangeAccent,
+  donut3secondaryColor: orangeAccentLight,
 };
 
 export const darkTheme = {
@@ -150,4 +156,10 @@ export const darkTheme = {
   retailAvatarAccent: violet,
   alertAvatarAccent: darkRed,
   warningAvatarAccent: warningYellow,
+  donut1primaryColor: tealAccent,
+  donut1secondaryColor: tealAccentLight,
+  donut2primaryColor: purpleAccent,
+  donut2secondaryColor: purpleAccentLight,
+  donut3primaryColor: orangeAccent,
+  donut3secondaryColor: orangeAccentLight,
 };
