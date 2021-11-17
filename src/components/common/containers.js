@@ -86,3 +86,12 @@ export const Card = styled.View`
   border-radius: 5px;
   width: 100%;
 `;
+
+export const SideMenu = styled.View`
+  z-index: 2;
+  position: absolute;
+  align-items: flex-start;
+  top: 0;
+  background-color: ${(props) => props.theme.sideMenuBackground};
+  padding: 18px;
+`;
