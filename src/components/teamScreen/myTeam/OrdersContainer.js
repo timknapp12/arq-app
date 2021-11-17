@@ -126,7 +126,9 @@ const OrdersContainer = ({ member, level = 0 }) => {
                   </H6RightMargin>
                 </HorizontalScrollViewCell>
                 <HorizontalScrollViewCell>
-                  <H6RightMargin>{`$${order?.totalCost}`}</H6RightMargin>
+                  <H6RightMargin>{`$${order?.totalCost.toFixed(
+                    2,
+                  )}`}</H6RightMargin>
                 </HorizontalScrollViewCell>
                 <HorizontalScrollViewCell minWidth="20%">
                   <H6RightMargin>{order?.pv}</H6RightMargin>
