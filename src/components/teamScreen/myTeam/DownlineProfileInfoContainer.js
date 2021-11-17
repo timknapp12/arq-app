@@ -10,6 +10,7 @@ const DownlineProfileInfoContainer = ({
   onPress = () => {},
   level,
   closeAllMenus = () => {},
+  showChevron = true,
 }) => {
   return (
     <TouchableRow
@@ -21,7 +22,7 @@ const DownlineProfileInfoContainer = ({
     >
       <>
         <DownlineProfileInfo member={member} level={level} />
-        {isExpanded && (
+        {showChevron && (
           <ChevronContainer>
             <ChevronIcon isExpanded={isExpanded} />
           </ChevronContainer>
@@ -37,6 +38,7 @@ DownlineProfileInfoContainer.propTypes = {
   onPress: PropTypes.func,
   level: PropTypes.number,
   closeAllMenus: PropTypes.func,
+  showChevron: PropTypes.bool,
 };
 
 export default DownlineProfileInfoContainer;
