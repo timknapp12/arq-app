@@ -7,9 +7,10 @@ export const getPercentage = (currentNumber, requiredTotal) => {
 };
 
 export const findRequiredValueOfNextRank = (rankId, ranks, fieldType) => {
-  // the last rank is Crown Diamond with rankId of 18, so there is no higher rank to get
+  // the last rank is Crown Diamond, so there is no higher rank to get
+  const crownDiamondRankId = 18;
   const nextRank =
-    rankId === 18
+    rankId === crownDiamondRankId
       ? ranks[ranks.length - 1]
       : ranks?.find((rank) => rank.rankId > rankId);
   return nextRank[fieldType];
