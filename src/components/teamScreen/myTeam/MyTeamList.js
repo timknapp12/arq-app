@@ -17,13 +17,14 @@ const MyTeamList = () => {
     legacyAssociateId,
     setMyTeamViewHeader,
     setCurrentMembersUplineId,
+    searchId,
   } = useContext(MyTeamViewContext);
 
   const [data, setData] = useState(null);
   const [isError, setIsError] = useState(false);
 
   const { loading, data: memberData } = useQuery(GET_USER, {
-    variables: { legacyAssociateId },
+    variables: { legacyAssociateId: searchId ? searchId : legacyAssociateId },
     onError: () => setIsError(true),
   });
 
@@ -52,7 +53,7 @@ const MyTeamList = () => {
 
   // set the header at the top of the My Team view
   useEffect(() => {
-    if (levelInTree === 0) {
+    if (levelInTree === 0 && !searchId) {
       const header =
         sortBy === 'AMBASSADOR'
           ? Localized('My Ambassadors')

@@ -15,7 +15,7 @@ import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
 
-const MyTeamView = ({ closeMenus, ...props }) => {
+const MyTeamView = ({ closeMenus, searchId, ...props }) => {
   const { theme, legacyId } = useContext(AppContext);
 
   const [sortBy, setSortBy] = useState('AMBASSADOR');
@@ -81,6 +81,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
         setLegacyAssociateId,
         currentMembersUplineId,
         setCurrentMembersUplineId,
+        searchId,
       }}
     >
       <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
@@ -134,6 +135,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
 
 MyTeamView.propTypes = {
   closeMenus: PropTypes.func.isRequired,
+  searchId: PropTypes.number,
 };
 
 export default MyTeamView;

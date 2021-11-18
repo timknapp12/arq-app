@@ -20,6 +20,8 @@ const MyTeamSearchFilterMenu = ({
   setSelectedStatus,
   selectedDropdownStatus,
   setSelectedDropdownStatus,
+  selectedType,
+  setSelectedType,
   selectedRank,
   setSelectedRank,
   onClose,
@@ -32,7 +34,7 @@ const MyTeamSearchFilterMenu = ({
     value: item?.rankId,
   }));
 
-  reshapedRanks?.unshift({ label: Localized('All'), value: 'All' });
+  reshapedRanks?.unshift({ label: Localized('All'), value: 'ALL' });
 
   const pickerOpacity =
     selectedStatus !== 'ALL' && selectedStatus !== 'ACTIVE' ? 1 : 0.5;
@@ -92,23 +94,23 @@ const MyTeamSearchFilterMenu = ({
         <Flexbox align="flex-start" padding={8}>
           <RadioButton
             label={Localized('All')}
-            onPress={() => setSelectedRank('ALL')}
-            isSelected={selectedRank === 'ALL'}
+            onPress={() => setSelectedType('ALL')}
+            isSelected={selectedType === 'ALL'}
           />
           <RadioButton
             label={Localized('Ambassador')}
-            onPress={() => setSelectedRank('AMBASSADOR')}
-            isSelected={selectedRank === 'AMBASSADOR'}
+            onPress={() => setSelectedType('AMBASSADOR')}
+            isSelected={selectedType === 'AMBASSADOR'}
           />
           <RadioButton
             label="PC"
-            onPress={() => setSelectedRank('PREFERRED')}
-            isSelected={selectedRank === 'PREFERRED'}
+            onPress={() => setSelectedType('PREFERRED')}
+            isSelected={selectedType === 'PREFERRED'}
           />
           <RadioButton
             label={Localized('Retail')}
-            onPress={() => setSelectedRank('RETAIL')}
-            isSelected={selectedRank === 'RETAIL'}
+            onPress={() => setSelectedType('RETAIL')}
+            isSelected={selectedType === 'RETAIL'}
           />
         </Flexbox>
 
@@ -148,6 +150,8 @@ MyTeamSearchFilterMenu.propTypes = {
   setSelectedStatus: PropTypes.func.isRequired,
   selectedDropdownStatus: PropTypes.string.isRequired,
   setSelectedDropdownStatus: PropTypes.func.isRequired,
+  selectedType: PropTypes.string.isRequired,
+  setSelectedType: PropTypes.func.isRequired,
   selectedRank: PropTypes.string.isRequired,
   setSelectedRank: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,

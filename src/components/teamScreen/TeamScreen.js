@@ -25,7 +25,7 @@ import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
 
-const TeamScreen = ({ navigation }) => {
+const TeamScreen = ({ navigation, route }) => {
   const { setDisplayNotifications, displayNotifications } =
     useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
@@ -44,10 +44,13 @@ const TeamScreen = ({ navigation }) => {
     };
   }, [isFocused]);
 
-  const initialView = {
-    name: Localized('At A Glance').toUpperCase(),
-    testID: 'At_A_Glance_button',
-  };
+  const initialView = route?.params?.searchId
+    ? { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' }
+    : {
+        name: Localized('At A Glance').toUpperCase(),
+        testID: 'At_A_Glance_button',
+      };
+
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
@@ -170,7 +173,10 @@ const TeamScreen = ({ navigation }) => {
           )}
         </ScrollView>
         {view.name === Localized('My Team').toUpperCase() && (
-          <MyTeamView closeMenus={closeMenus} />
+          <MyTeamView
+            closeMenus={closeMenus}
+            searchId={route?.params?.searchId}
+          />
         )}
         {isMyInfoModalOpen && (
           <MyInfoModal
@@ -191,6 +197,7 @@ const TeamScreen = ({ navigation }) => {
 
 TeamScreen.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default TeamScreen;
