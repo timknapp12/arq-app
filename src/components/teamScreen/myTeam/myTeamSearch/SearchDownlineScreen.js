@@ -17,10 +17,15 @@ import MyTeamSearchFilterMenu from './MyTeamSearchFilterMenu';
 
 const SearchDownlineScreen = () => {
   const { theme } = useContext(AppContext);
+
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedDropdownStatus, setSelectedDropdownStatus] = useState('');
+  const [selectedRank, setSelectedRank] = useState('all');
+
   const [searchTerm, setSearchTerm] = useState('');
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(-250)).current;
+  const fadeAnim = useRef(new Animated.Value(-300)).current;
 
   const openFilterMenu = () => {
     setIsFilterMenuOpen(true);
@@ -32,7 +37,7 @@ const SearchDownlineScreen = () => {
   };
   const closeFilterMenu = () => {
     Animated.timing(fadeAnim, {
-      toValue: -250,
+      toValue: -300,
       duration: 700,
       useNativeDriver: false,
     }).start(() => setIsFilterMenuOpen(false));
@@ -79,7 +84,6 @@ const SearchDownlineScreen = () => {
           </TouchableOpacity>
           <Flexbox width="75%">
             <Input
-              autoFocus
               testID="propsect-search-input"
               value={searchTerm}
               onChangeText={(text) => {
@@ -101,7 +105,16 @@ const SearchDownlineScreen = () => {
 
         {isFilterMenuOpen && (
           <Flexbox align="flex-start">
-            <MyTeamSearchFilterMenu style={{ left: fadeAnim }} />
+            <MyTeamSearchFilterMenu
+              style={{ left: fadeAnim }}
+              selectedStatus={selectedStatus}
+              setSelectedStatus={setSelectedStatus}
+              selectedDropdownStatus={selectedDropdownStatus}
+              setSelectedDropdownStatus={setSelectedDropdownStatus}
+              selectedRank={selectedRank}
+              setSelectedRank={setSelectedRank}
+              onClose={closeFilterMenu}
+            />
           </Flexbox>
         )}
 
