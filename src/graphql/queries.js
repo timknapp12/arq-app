@@ -466,3 +466,51 @@ export const GET_ORDERS = gql`
     }
   }
 `;
+
+export const SEARCH_TREE = gql`
+  query SearchTree(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+    $firstName: String!
+    $lastName: String!
+    $status: AssociateStatus
+    $type: AssociateTypeEnum
+    $rankName: String!
+  ) {
+    searchTree(
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+      firstName: $firstName
+      lastName: $lastName
+      status: $status
+      type: $type
+      rankName: $rankName
+    ) {
+      nodes {
+        uplineTreeNode {
+          associate {
+            associateId
+            legacyAssociateId
+          }
+        }
+        associate {
+          associateId
+          legacyAssociateId
+          firstName
+          lastName
+          profileUrl
+          associateType
+          associateStatus
+        }
+        rank {
+          rankId
+          rankName
+        }
+      }
+    }
+  }
+`;
