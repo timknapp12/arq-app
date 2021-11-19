@@ -5,12 +5,15 @@ import {
   TouchableOpacity,
   Animated,
   View,
+  FlatList,
 } from 'react-native';
 import { Flexbox, H5, Gap } from '../../common';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 import LeaderboardFilterMenu from './LeaderboardFilterMenu';
 import LeaderboardTabs from './LeaderboardTabs';
+import { searchResults } from '../myTeam/mockSearchResults';
+import StandingsCard from './StandingsCard';
 
 const LeaderbaordView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
@@ -43,6 +46,10 @@ const LeaderbaordView = ({ closeMenus, ...props }) => {
     closeMenus();
   };
 
+  const renderItem = ({ item }) => (
+    <StandingsCard item={item} closeAllMenus={closeAllMenus} />
+  );
+
   return (
     <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
       <Flexbox
@@ -51,6 +58,7 @@ const LeaderbaordView = ({ closeMenus, ...props }) => {
         width="95%"
         height="100%"
         padding={4}
+        style={{ zIndex: -1, maxWidth: 425 }}
       >
         <LeaderboardTabs
           selectedTab={selectedTab}
@@ -84,6 +92,15 @@ const LeaderbaordView = ({ closeMenus, ...props }) => {
             />
           </Flexbox>
         )}
+        <Gap height="4px" />
+        <Flexbox width="100%" style={{ zIndex: -1, marginBottom: 50 }}>
+          <FlatList
+            style={{ width: '100%', marginBottom: 90 }}
+            data={searchResults}
+            renderItem={renderItem}
+            keyExtractor={(item) => item?.associate?.associateId?.toString()}
+          />
+        </Flexbox>
       </Flexbox>
     </TouchableWithoutFeedback>
   );
