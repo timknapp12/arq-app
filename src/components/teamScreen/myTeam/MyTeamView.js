@@ -119,9 +119,9 @@ const MyTeamView = ({ closeMenus, searchId, ...props }) => {
           {isFilterMenuOpen && (
             <Flexbox>
               <FilterOrgMenu
+                style={{ left: fadeAnim }}
                 onClose={onCloseFilterMenu}
                 setSortBy={setSortBy}
-                style={{ left: fadeAnim }}
               />
             </Flexbox>
           )}

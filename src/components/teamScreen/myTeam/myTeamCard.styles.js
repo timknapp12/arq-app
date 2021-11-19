@@ -104,7 +104,7 @@ export const ChevronContainer = styled.View`
   right: 0;
 `;
 
-export const DonutAndOrdersContainer = styled.View`
+export const BarChartAndOrdersContainer = styled.View`
   min-height: 400px;
   width: 100%;
 `;
