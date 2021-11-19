@@ -24,6 +24,7 @@ import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
+import LeaderbaordView from './leaderboard/LeaderbaordView';
 
 const TeamScreen = ({ navigation, route }) => {
   const { setDisplayNotifications, displayNotifications } =
@@ -177,6 +178,9 @@ const TeamScreen = ({ navigation, route }) => {
             closeMenus={closeMenus}
             searchId={route?.params?.searchId}
           />
+        )}
+        {view.name === Localized('Leaderboard').toUpperCase() && (
+          <LeaderbaordView closeMenus={closeMenus} />
         )}
         {isMyInfoModalOpen && (
           <MyInfoModal
