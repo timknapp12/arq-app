@@ -473,39 +473,34 @@ export const SEARCH_TREE = gql`
     $after: String
     $last: Int
     $before: String
-    $firstName: String!
-    $lastName: String!
+    $name: String!
     $status: AssociateStatus
     $type: AssociateTypeEnum
-    $rankName: String!
+    $rankName: String
   ) {
     searchTree(
       first: $first
       after: $after
       last: $last
       before: $before
-      firstName: $firstName
-      lastName: $lastName
+      name: $name
       status: $status
       type: $type
       rankName: $rankName
     ) {
       nodes {
         uplineTreeNode {
-          associate {
-            associateId
-            legacyAssociateId
-          }
-        }
-        associate {
           associateId
           legacyAssociateId
-          firstName
-          lastName
-          profileUrl
-          associateType
-          associateStatus
         }
+        associateId
+        legacyAssociateId
+        firstName
+        lastName
+        profileUrl
+        associateType
+        associateStatus
+        depth
         rank {
           rankId
           rankName
