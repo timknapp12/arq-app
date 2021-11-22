@@ -1,4 +1,10 @@
-import React, { useState, useContext, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useContext,
+  useRef,
+  useCallback,
+  useEffect,
+} from 'react';
 import {
   FlatList,
   View,
@@ -6,6 +12,7 @@ import {
   TouchableOpacity,
   Keyboard,
   Platform,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery } from '@apollo/client';
@@ -15,15 +22,17 @@ import {
   Flexbox,
   Input,
   LoadingSpinner,
+  H6,
 } from '../../../common';
 import FilterIcon from '../../../../../assets/icons/filter-icon.svg';
 import DownlineProfileInfoContainer from '../DownlineProfileInfoContainer';
 // TODO - delete mock results once real data is received
-import { searchResults } from '../mockSearchResults';
+// import { searchResults } from '../mockSearchResults';
 import AppContext from '../../../../contexts/AppContext';
 import { CardContainer } from '../myTeamCard.styles';
 import MyTeamSearchFilterMenu from './MyTeamSearchFilterMenu';
 import { SEARCH_TREE } from '../../../../graphql/queries';
+import { Localized } from '../../../../translations/Localized';
 
 const SearchDownlineScreen = () => {
   const { theme } = useContext(AppContext);
@@ -31,12 +40,14 @@ const SearchDownlineScreen = () => {
   const [selectedStatus, setSelectedStatus] = useState('ALL');
   const [selectedDropdownStatus, setSelectedDropdownStatus] = useState('');
   const [selectedType, setSelectedType] = useState('ALL');
-  const [selectedRank, setSelectedRank] = useState('Gold');
+  const [selectedRank, setSelectedRank] = useState('ALL');
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [reshapedData, setReshapedData] = useState([]);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const fadeAnim = useRef(new Animated.Value(-300)).current;
+  const [hasUserSearched, setHasUserSearched] = useState(false);
 
   const openFilterMenu = () => {
     setIsFilterMenuOpen(true);
@@ -64,8 +75,6 @@ const SearchDownlineScreen = () => {
   };
 
   const variables = {
-    firstName: 'Kristin',
-    lastName: 'Adams',
     status: selectedStatus === 'ALL' ? null : selectedStatus,
     type: selectedType === 'ALL' ? null : selectedType,
     rankName: selectedRank === 'ALL' ? null : selectedRank,
@@ -73,14 +82,37 @@ const SearchDownlineScreen = () => {
 
   const [searchTree, { loading, data }] = useLazyQuery(SEARCH_TREE, {
     onError: (err) => console.log(`err in searchTree:`, err),
+    onCompleted: () => setHasUserSearched(true),
   });
+  console.log(`data`, data);
+
+  console.log(`reshapedData`, reshapedData);
+
+  useEffect(() => {
+    const reformattedData = data?.searchTree?.nodes.map((item) => ({
+      ...item,
+      associate: {
+        associateId: item.associateId,
+        legacyAssociateId: item.legacyAssociateId,
+        firstName: item.firstName,
+        lastName: item.lastName,
+        profileUrl: item.profileUrl,
+        associateType: item.associateType,
+        associateStatus: item.associateStatus,
+      },
+    }));
+    setReshapedData(reformattedData);
+    return () => {
+      setReshapedData([]);
+    };
+  }, [data]);
 
   const debounceSearch = useCallback(
     debounce(
       (value) =>
         value.length > 0 &&
         searchTree({
-          variables: variables,
+          variables: { ...variables, name: value },
         }),
       1000,
     ),
@@ -92,6 +124,9 @@ const SearchDownlineScreen = () => {
     closeFilterMenu();
     debounceSearch(value);
   };
+
+  console.log(`hasUserSearched`, hasUserSearched);
+  console.log(`reshapedData.length`, reshapedData?.length);
 
   const navigation = useNavigation();
 
@@ -113,7 +148,8 @@ const SearchDownlineScreen = () => {
   const renderItem = ({ item }) => (
     <CardContainer order={item} style={{ width: '100%' }}>
       <DownlineProfileInfoContainer
-        showChevron={false}
+        level={item?.depth - 1}
+        cardIsExpandable={false}
         member={item}
         onPress={() => onPress(item)}
       />
@@ -129,8 +165,8 @@ const SearchDownlineScreen = () => {
         height: '100%',
       }}
     >
-      <Flexbox width="100%" height="100%" justify="flex-start">
-        <Flexbox direction="row" justify="space-between" padding={8}>
+      <Flexbox width="100%" height="100%" justify="flex-start" padding={8}>
+        <Flexbox direction="row" justify="space-between">
           <TouchableOpacity style={{ padding: 4 }} onPress={toggleMenu}>
             <FilterIcon
               style={{
@@ -175,18 +211,34 @@ const SearchDownlineScreen = () => {
             />
           </Flexbox>
         )}
-        {loading && <LoadingSpinner style={{ marginTop: 10 }} size="large" />}
+        <TouchableWithoutFeedback onPress={closeFilterMenu}>
+          <Flexbox
+            style={{
+              height: '100%',
+              zIndex: -2,
+              marginTop: 6,
+            }}
+          >
+            {loading && (
+              <LoadingSpinner style={{ marginTop: 10 }} size="large" />
+            )}
 
-        {data ? (
-          <Flexbox width="95%" style={{ zIndex: -1 }}>
-            <FlatList
-              style={{ width: '100%', marginBottom: 50 }}
-              data={searchResults}
-              renderItem={renderItem}
-              keyExtractor={(item) => item?.associate?.associateId?.toString()}
-            />
+            {reshapedData?.length > 0 || !hasUserSearched ? (
+              <Flexbox width="95%" style={{ zIndex: -1 }}>
+                <FlatList
+                  style={{ width: '100%', marginBottom: 30 }}
+                  data={reshapedData}
+                  renderItem={renderItem}
+                  keyExtractor={(item) =>
+                    item?.associate?.associateId?.toString()
+                  }
+                />
+              </Flexbox>
+            ) : (
+              <H6>{Localized('Item not found')}</H6>
+            )}
           </Flexbox>
-        ) : null}
+        </TouchableWithoutFeedback>
       </Flexbox>
     </ScreenContainer>
   );

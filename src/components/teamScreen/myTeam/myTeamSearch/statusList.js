@@ -7,4 +7,5 @@ export default [
   { value: 'FRAUDULENT_BEHAVIOR', label: Localized('Fraudulent Behavior') },
   { value: 'CHARGEBACK', label: Localized('Chargeback') },
   { value: 'TERMINATED', label: Localized('Terminated') },
+  { value: 'INACTIVE_AMBASSADOR', label: Localized('Inactive Ambassador') },
 ];

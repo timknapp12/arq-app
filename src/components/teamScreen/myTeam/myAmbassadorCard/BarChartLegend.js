@@ -44,13 +44,7 @@ const BarChartLegend = ({
       </Legend>
       <Legend>
         <Bullet color={secondaryColor} />
-        <H5 testID="last-month-total-pv">{`${Localized(
-          'Last month',
-        )}: ${secondaryTotal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
-          'of',
-        )} ${requiredTotal
+        <H5>{`${Localized('Last month')}: ${secondaryTotal
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
       </Legend>

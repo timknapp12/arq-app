@@ -11,7 +11,8 @@ export const searchResults = [
       legacyAssociateId: 272614,
       firstName: 'Danielle',
       lastName: 'Glymph',
-      profileUrl: null,
+      profileUrl:
+        'https://firebasestorage.googleapis.com/v0/b/q-innovation-prod.appspot.com/o/profile_images%2FAMY.HARRIS.daced394-ad25-4a81-af02-c876a12e8ac1_72x72?alt=media&token=3ee4b3ea-989d-4636-99e9-ed5daf389054',
       associateType: 'AMBASSADOR',
       associateStatus: 'ACTIVE',
     },
@@ -19,6 +20,7 @@ export const searchResults = [
       rankId: 3,
       rankName: 'Builder',
     },
+    standing: 1,
   },
   {
     uplineTreeNode: {
@@ -40,6 +42,7 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 2,
   },
   {
     uplineTreeNode: {
@@ -61,6 +64,7 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 3,
   },
   {
     uplineTreeNode: {
@@ -82,6 +86,7 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 4,
   },
   {
     uplineTreeNode: {
@@ -103,6 +108,7 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 5,
   },
   {
     uplineTreeNode: {
@@ -124,6 +130,7 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 6,
   },
   {
     uplineTreeNode: {
@@ -145,6 +152,7 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 7,
   },
   {
     uplineTreeNode: {
@@ -166,6 +174,7 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 8,
   },
   {
     uplineTreeNode: {
@@ -187,5 +196,6 @@ export const searchResults = [
       rankId: 1,
       rankName: 'Ambassador',
     },
+    standing: 9,
   },
 ];
