@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
+import { useLazyQuery } from '@apollo/client';
 import { H4, H5, Flexbox } from '../common';
 import { Localized } from '../../translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
 import AppContext from '../../contexts/AppContext';
 import { reshapePerc } from '../../utils/calculateLegPercentages';
+import { CALCULATE_QOV } from '../../graphql/queries';
 
 const LegendContainer = styled.View`
   margin-top: 8px;
@@ -28,18 +30,43 @@ const Dot = styled.View`
 
 const Rank = ({ ranklist, user, closeMenus }) => {
   const { theme } = useContext(AppContext);
-  const { pv, qoV, pa, previousAmbassadorMonthlyRecord } = user;
+  const { pv, pa, leg1, leg2, leg3, previousAmbassadorMonthlyRecord } = user;
 
   const lastMonthPV = previousAmbassadorMonthlyRecord?.personalVolume ?? 0;
   const lastMonthPA =
     previousAmbassadorMonthlyRecord?.personallySponsoredActiveAmbassadorCount ??
     0;
-  const lastMonthQOV = previousAmbassadorMonthlyRecord?.qov ?? 0;
 
   const initialRankName = user?.rank?.rankName;
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
+
+  const lastMonthLeg1 = previousAmbassadorMonthlyRecord?.leg1 ?? 0;
+  const lastMonthLeg2 = previousAmbassadorMonthlyRecord?.leg2 ?? 0;
+  const lastMonthLeg3 = previousAmbassadorMonthlyRecord?.leg3 ?? 0;
+
+  const [calculateQovThisMonth, { data }] = useLazyQuery(CALCULATE_QOV, {
+    variables: { hypotheticalRank: rank?.rankName, leg1, leg2, leg3 },
+    onError: (err) => console.log(`err in calculate qov this month`, err),
+  });
+
+  const qoV = data?.qoVFor?.qoV ?? 0;
+
+  const [calculateQovLastMonth, { data: lastMonthData }] = useLazyQuery(
+    CALCULATE_QOV,
+    {
+      variables: {
+        hypotheticalRank: rank?.rankName,
+        leg1: lastMonthLeg1,
+        leg2: lastMonthLeg2,
+        leg3: lastMonthLeg3,
+      },
+      onError: (err) => console.log(`err in calculate qov last month`, err),
+    },
+  );
+
+  const lastMonthQOV = lastMonthData?.qoVFor?.qoV ?? 0;
 
   const [isQualified, setIsQualified] = useState(false);
 
@@ -63,6 +90,11 @@ const Rank = ({ ranklist, user, closeMenus }) => {
     const { requiredPv, minimumQoV, requiredPa } = rank;
     validateQualification(pv, qoV, pa, requiredPv, minimumQoV, requiredPa);
   }, [user, rank]);
+
+  useEffect(() => {
+    calculateQovThisMonth();
+    calculateQovLastMonth();
+  }, [rank]);
 
   // These are used to restrain the percentages from being way higher than the max causing a ton of extra revolutions on the animations
   const lastMonthPVPerc = reshapePerc(lastMonthPV, rank.requiredPv);
@@ -91,14 +123,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
         <Flexbox
           accessibilityLabel="Distributor rank"
           width="100%"
-          justify="center"
+          justify="space-between"
           direction="row"
         >
-          <Flexbox
-            style={{ marginEnd: 6 }}
-            accessibilityLabel="monthly comparrison pv"
-            width="auto"
-          >
+          <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
             <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
             <DoubleDonut
               testID="total-pv-donut-svg"
@@ -137,11 +165,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             </LegendContainer>
           </Flexbox>
 
-          <Flexbox
-            style={{ marginStart: 6 }}
-            accessibilityLabel="monthly comparrison qov"
-            width="auto"
-          >
+          <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
             <H4 testID="total-qov-donut-label">{Localized('Total QOV')}</H4>
             <DoubleDonut
               testID="total-qov-donut-svg"

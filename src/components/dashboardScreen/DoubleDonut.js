@@ -109,6 +109,7 @@ const DoubleDonut = ({
               cy="50%"
               stroke={outercolor}
               strokeWidth={outerstrokeWidth}
+              strokeLinecap="round"
               r={outerradius}
               fill="transparent"
               strokeDasharray={circleCircumference}

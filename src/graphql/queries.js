@@ -41,6 +41,9 @@ export const GET_USER = gql`
         personalVolume
         personallySponsoredActiveAmbassadorCount
         qov
+        leg1
+        leg2
+        leg3
       }
       currentAmbassadorMonthlyRecord {
         highestRank {
@@ -48,43 +51,43 @@ export const GET_USER = gql`
           rankName
         }
       }
-      autoShip {
-        leg1Total {
-          processedPv
-        }
-        leg2Total {
-          processedPv
-        }
-        leg3Total {
-          processedPv
-        }
-        entireLineTotal {
-          processedPv
-          projectedPv
-        }
-      }
-      glance {
-        entireLineTotal {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-        leg1Total {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-        leg2Total {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-        leg3Total {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-      }
+      #autoShip {
+      #  leg1Total {
+      #    processedPv
+      #  }
+      #  leg2Total {
+      #    processedPv
+      #  }
+      #  leg3Total {
+      #    processedPv
+      #  }
+      #  entireLineTotal {
+      #    processedPv
+      #    projectedPv
+      #  }
+      #}
+      #glance {
+      #  entireLineTotal {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg1Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg2Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg3Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #}
       childTreeNodes {
         uplineTreeNode {
           associate {
@@ -506,6 +509,24 @@ export const SEARCH_TREE = gql`
           rankName
         }
       }
+    }
+  }
+`;
+
+export const CALCULATE_QOV = gql`
+  query QoVFor(
+    $hypotheticalRank: String!
+    $leg1: Decimal!
+    $leg2: Decimal!
+    $leg3: Decimal!
+  ) {
+    qoVFor(
+      hypotheticalRank: $hypotheticalRank
+      leg1: $leg1
+      leg2: $leg2
+      leg3: $leg3
+    ) {
+      qoV
     }
   }
 `;
