@@ -15,7 +15,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import debounce from 'lodash.debounce';
 import {
   ScreenContainer,
@@ -26,8 +26,6 @@ import {
 } from '../../../common';
 import FilterIcon from '../../../../../assets/icons/filter-icon.svg';
 import DownlineProfileInfoContainer from '../DownlineProfileInfoContainer';
-// TODO - delete mock results once real data is received
-// import { searchResults } from '../mockSearchResults';
 import AppContext from '../../../../contexts/AppContext';
 import { CardContainer } from '../myTeamCard.styles';
 import MyTeamSearchFilterMenu from './MyTeamSearchFilterMenu';
@@ -39,7 +37,7 @@ const SearchDownlineScreen = () => {
 
   const [selectedStatus, setSelectedStatus] = useState('ALL');
   const [selectedDropdownStatus, setSelectedDropdownStatus] = useState('');
-  const [selectedType, setSelectedType] = useState('ALL');
+  const [selectedType, setSelectedType] = useState('RETAIL');
   const [selectedRank, setSelectedRank] = useState('ALL');
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,7 +45,9 @@ const SearchDownlineScreen = () => {
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const fadeAnim = useRef(new Animated.Value(-300)).current;
-  const [hasUserSearched, setHasUserSearched] = useState(false);
+  const [hasSearchCompleted, setHasSearchCompleted] = useState(false);
+  const [hasUserSubmittedNewFilter, setHasUserSubmittedNewFilter] =
+    useState(false);
 
   const openFilterMenu = () => {
     setIsFilterMenuOpen(true);
@@ -75,21 +75,27 @@ const SearchDownlineScreen = () => {
   };
 
   const variables = {
+    first: 50,
+    name: searchTerm,
     status: selectedStatus === 'ALL' ? null : selectedStatus,
     type: selectedType === 'ALL' ? null : selectedType,
     rankName: selectedRank === 'ALL' ? null : selectedRank,
   };
 
-  const [searchTree, { loading, data }] = useLazyQuery(SEARCH_TREE, {
-    onError: (err) => console.log(`err in searchTree:`, err),
-    onCompleted: () => setHasUserSearched(true),
-  });
-  console.log(`data`, data);
-
-  console.log(`reshapedData`, reshapedData);
+  const [searchTree, { loading, data, fetchMore, refetch, networkStatus }] =
+    useLazyQuery(SEARCH_TREE, {
+      onError: (err) => console.log(`err in searchTree:`, err),
+      onCompleted: () => {
+        setHasSearchCompleted(true);
+        setHasUserSubmittedNewFilter(false);
+        Keyboard.dismiss();
+      },
+      notifyOnNetworkStatusChange: true,
+      fetchPolicy: 'network-only',
+    });
 
   useEffect(() => {
-    const reformattedData = data?.searchTree?.nodes.map((item) => ({
+    const reformattedData = data?.searchTree?.nodes?.map((item) => ({
       ...item,
       associate: {
         associateId: item.associateId,
@@ -109,24 +115,34 @@ const SearchDownlineScreen = () => {
 
   const debounceSearch = useCallback(
     debounce(
-      (value) =>
-        value.length > 0 &&
+      (variables) =>
         searchTree({
-          variables: { ...variables, name: value },
+          variables: variables,
         }),
       1000,
     ),
     [],
   );
 
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      debounceSearch(variables);
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (hasUserSubmittedNewFilter && searchTerm.length > 0) {
+      searchTree({
+        variables: variables,
+      });
+    }
+  }, [hasUserSubmittedNewFilter]);
+
   const handleChange = (value) => {
     setSearchTerm(value);
     closeFilterMenu();
-    debounceSearch(value);
+    setHasSearchCompleted(false);
   };
-
-  console.log(`hasUserSearched`, hasUserSearched);
-  console.log(`reshapedData.length`, reshapedData?.length);
 
   const navigation = useNavigation();
 
@@ -136,7 +152,7 @@ const SearchDownlineScreen = () => {
     });
   };
 
-  const onPress = (item) => {
+  const onPressCard = (item) => {
     if (Platform.OS === 'android' && isFilterMenuOpen) {
       return;
     } else {
@@ -145,13 +161,26 @@ const SearchDownlineScreen = () => {
     }
   };
 
+  const refreshing = networkStatus === NetworkStatus.refetch;
+
+  const handleOnEndReached = () => {
+    if (data.searchTree.pageInfo.hasNextPage)
+      return fetchMore({
+        variables: {
+          ...variables,
+          name: searchTerm,
+          after: data.searchTree.pageInfo.endCursor,
+        },
+      });
+  };
+
   const renderItem = ({ item }) => (
     <CardContainer order={item} style={{ width: '100%' }}>
       <DownlineProfileInfoContainer
         level={item?.depth - 1}
         cardIsExpandable={false}
         member={item}
-        onPress={() => onPress(item)}
+        onPress={() => onPressCard(item)}
       />
     </CardContainer>
   );
@@ -208,6 +237,8 @@ const SearchDownlineScreen = () => {
               selectedRank={selectedRank}
               setSelectedRank={setSelectedRank}
               onClose={closeFilterMenu}
+              setHasUserSubmittedNewFilter={setHasUserSubmittedNewFilter}
+              setHasSearchCompleted={setHasSearchCompleted}
             />
           </Flexbox>
         )}
@@ -219,19 +250,29 @@ const SearchDownlineScreen = () => {
               marginTop: 6,
             }}
           >
-            {loading && (
+            {loading && !hasSearchCompleted && (
               <LoadingSpinner style={{ marginTop: 10 }} size="large" />
             )}
 
-            {reshapedData?.length > 0 || !hasUserSearched ? (
+            {reshapedData?.length > 0 || !hasSearchCompleted ? (
               <Flexbox width="95%" style={{ zIndex: -1 }}>
                 <FlatList
-                  style={{ width: '100%', marginBottom: 30 }}
+                  style={{
+                    width: '100%',
+                    marginBottom: 30,
+                  }}
                   data={reshapedData}
                   renderItem={renderItem}
                   keyExtractor={(item) =>
                     item?.associate?.associateId?.toString()
                   }
+                  onEndReachedThreshold={1}
+                  onEndReached={handleOnEndReached}
+                  onRefresh={() => {
+                    refetch();
+                    setHasSearchCompleted(false);
+                  }}
+                  refreshing={refreshing}
                 />
               </Flexbox>
             ) : (

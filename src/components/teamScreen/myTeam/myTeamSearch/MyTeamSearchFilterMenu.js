@@ -26,6 +26,7 @@ const MyTeamSearchFilterMenu = ({
   setSelectedRank,
   onClose,
   setHasUserSubmittedNewFilter,
+  setHasSearchCompleted,
   ...props
 }) => {
   const { ranks } = useContext(LoginContext);
@@ -56,6 +57,7 @@ const MyTeamSearchFilterMenu = ({
     setSelectedType(type);
     onClose();
     setHasUserSubmittedNewFilter(true);
+    setHasSearchCompleted(false);
   };
 
   return (
@@ -176,6 +178,7 @@ MyTeamSearchFilterMenu.propTypes = {
   setSelectedRank: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   setHasUserSubmittedNewFilter: PropTypes.func.isRequired,
+  setHasSearchCompleted: PropTypes.func.isRequired,
 };
 
 export default MyTeamSearchFilterMenu;
