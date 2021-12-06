@@ -11,7 +11,10 @@ import {
   split,
 } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { getMainDefinition } from '@apollo/client/utilities';
+import {
+  getMainDefinition,
+  relayStylePagination,
+} from '@apollo/client/utilities';
 import fetch from 'cross-fetch';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
@@ -115,6 +118,33 @@ const App = () => {
         Links: { keyFields: ['linkId'] },
         Associate: { keyFields: ['associateId'] },
         Prospect: { keyFields: ['prospectId'] },
+        Query: {
+          fields: {
+            searchTree: {
+              ...relayStylePagination(),
+              // Handles incoming data
+              keyArgs: false,
+              merge(
+                existing = {
+                  /*some default object fields*/
+                },
+                incoming,
+                { args },
+              ) {
+                if (args && !args.after) {
+                  // Initial fetch or refetch
+                  return incoming;
+                }
+                // Pagination
+                return {
+                  ...existing,
+                  pageInfo: incoming.pageInfo,
+                  nodes: [...existing.nodes, ...incoming.nodes],
+                };
+              },
+            },
+          },
+        },
       },
     }),
     link: concat(authMiddleware, splitLink),
