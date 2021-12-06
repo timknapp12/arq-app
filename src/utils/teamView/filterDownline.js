@@ -62,3 +62,15 @@ export const filterMemberByStatusAndType = (member, memberTypeColorMap) => {
     return [label, color];
   }
 };
+
+export const putSelectedMemberAtTopOfList = (array, id) => {
+  const selectedMember = array.find(
+    (item) => item.associate.associateId === id,
+  );
+  const filteredList = array.filter(
+    (item) => item.associate.associateId !== id,
+  );
+  filteredList.unshift(selectedMember);
+
+  return filteredList;
+};

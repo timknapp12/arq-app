@@ -1,8 +1,9 @@
 import {
   findMembersInDownlineOneLevel,
   filterMemberByStatusAndType,
+  putSelectedMemberAtTopOfList,
 } from './filterDownline';
-import { mockChildTree } from './mockDownlineData';
+import { mockChildTree, searchResults } from './mockDownlineData';
 
 describe('findMembersInDownlineOneLevel', () => {
   test('returns type of AMBASSADOR', () => {
@@ -452,5 +453,68 @@ describe('filterMemberByStatusAndType', () => {
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
     ).toStrictEqual(output);
+  });
+});
+
+describe('putSelectedMemberAtTopOfList', () => {
+  test('takes 3rd object and puts it at the top', () => {
+    const input = 3;
+
+    const output = [
+      { associate: { associateId: 3, firstName: 'Test Three' } },
+      { associate: { associateId: 1, firstName: 'Test One' } },
+      { associate: { associateId: 2, firstName: 'Test Two' } },
+      { associate: { associateId: 4, firstName: 'Test Four' } },
+      { associate: { associateId: 5, firstName: 'Test Five' } },
+    ];
+
+    expect(putSelectedMemberAtTopOfList(searchResults, input)).toStrictEqual(
+      output,
+    );
+  });
+  test('takes 2nd object and puts it at the top', () => {
+    const input = 2;
+
+    const output = [
+      { associate: { associateId: 2, firstName: 'Test Two' } },
+      { associate: { associateId: 1, firstName: 'Test One' } },
+      { associate: { associateId: 3, firstName: 'Test Three' } },
+      { associate: { associateId: 4, firstName: 'Test Four' } },
+      { associate: { associateId: 5, firstName: 'Test Five' } },
+    ];
+
+    expect(putSelectedMemberAtTopOfList(searchResults, input)).toStrictEqual(
+      output,
+    );
+  });
+  test('takes 5th object and puts it at the top', () => {
+    const input = 5;
+
+    const output = [
+      { associate: { associateId: 5, firstName: 'Test Five' } },
+      { associate: { associateId: 1, firstName: 'Test One' } },
+      { associate: { associateId: 2, firstName: 'Test Two' } },
+      { associate: { associateId: 3, firstName: 'Test Three' } },
+      { associate: { associateId: 4, firstName: 'Test Four' } },
+    ];
+
+    expect(putSelectedMemberAtTopOfList(searchResults, input)).toStrictEqual(
+      output,
+    );
+  });
+  test('takes 1st object and leaves it at the top', () => {
+    const input = 1;
+
+    const output = [
+      { associate: { associateId: 1, firstName: 'Test One' } },
+      { associate: { associateId: 2, firstName: 'Test Two' } },
+      { associate: { associateId: 3, firstName: 'Test Three' } },
+      { associate: { associateId: 4, firstName: 'Test Four' } },
+      { associate: { associateId: 5, firstName: 'Test Five' } },
+    ];
+
+    expect(putSelectedMemberAtTopOfList(searchResults, input)).toStrictEqual(
+      output,
+    );
   });
 });

@@ -12,6 +12,7 @@ import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 import LeaderboardFilterMenu from './LeaderboardFilterMenu';
 import LeaderboardTabs from './LeaderboardTabs';
+// TODO - delete mock results once real data is received
 import { searchResults } from '../myTeam/mockSearchResults';
 import StandingsCard from './StandingsCard';
 

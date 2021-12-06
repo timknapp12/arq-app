@@ -509,6 +509,17 @@ export const SEARCH_TREE = gql`
           rankName
         }
       }
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          associateId
+        }
+      }
     }
   }
 `;
