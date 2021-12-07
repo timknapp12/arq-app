@@ -20,6 +20,7 @@ import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import NotificationsColumn from '../notifications/NotificationsColumn';
+import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
@@ -27,9 +28,25 @@ import MyTeamView from './myTeam/MyTeamView';
 import LeaderbaordView from './leaderboard/LeaderbaordView';
 
 const TeamScreen = ({ navigation, route }) => {
+  const { legacyId } = useContext(AppContext);
   const { setDisplayNotifications, displayNotifications } =
     useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
+
+  const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
+  const [sortBy, setSortBy] = useState('AMBASSADOR');
+  const [levelInTree, setLevelInTree] = useState(0);
+
+  useEffect(() => {
+    if (route?.params?.searchId) {
+      setLegacyAssociateId(route?.params?.searchId);
+      setSortBy('ORGANIZATION');
+      setLevelInTree(route?.params?.levelInTree);
+    }
+    // return () => {
+    //   setLegacyAssociateId(legacyId);
+    // };
+  }, [route?.params?.searchId]);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -109,6 +126,9 @@ const TeamScreen = ({ navigation, route }) => {
       screen: 'TeamScreen',
       purpose: `See details for ${item?.name}`,
     });
+    if (item.testID === 'my_team_button') {
+      setLegacyAssociateId(legacyId);
+    }
   };
 
   return (
@@ -177,6 +197,12 @@ const TeamScreen = ({ navigation, route }) => {
           <MyTeamView
             closeMenus={closeMenus}
             searchId={route?.params?.searchId}
+            legacyAssociateId={legacyAssociateId}
+            setLegacyAssociateId={setLegacyAssociateId}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            levelInTree={levelInTree}
+            setLevelInTree={setLevelInTree}
           />
         )}
         {view.name === Localized('Leaderboard').toUpperCase() && (

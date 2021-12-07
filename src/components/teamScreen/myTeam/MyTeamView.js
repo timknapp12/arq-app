@@ -15,13 +15,20 @@ import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
 
-const MyTeamView = ({ closeMenus, searchId, ...props }) => {
+const MyTeamView = ({
+  closeMenus,
+  searchId,
+  legacyAssociateId,
+  setLegacyAssociateId,
+  sortBy,
+  setSortBy,
+  levelInTree,
+  setLevelInTree,
+  ...props
+}) => {
   const { theme, legacyId } = useContext(AppContext);
 
-  const [sortBy, setSortBy] = useState('AMBASSADOR');
-  const [levelInTree, setLevelInTree] = useState(0);
   const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
-  const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
   const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
 
   useEffect(() => {
@@ -57,8 +64,8 @@ const MyTeamView = ({ closeMenus, searchId, ...props }) => {
 
   const onCloseFilterMenu = () => {
     closeFilterMenu();
-    setLegacyAssociateId(legacyId);
-    setLevelInTree(0);
+    setLegacyAssociateId(searchId ? searchId : legacyId);
+    // setLevelInTree(0);
   };
 
   const navigation = useNavigation();
@@ -136,6 +143,12 @@ const MyTeamView = ({ closeMenus, searchId, ...props }) => {
 MyTeamView.propTypes = {
   closeMenus: PropTypes.func.isRequired,
   searchId: PropTypes.number,
+  legacyAssociateId: PropTypes.number.isRequired,
+  setLegacyAssociateId: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  setSortBy: PropTypes.func.isRequired,
+  levelInTree: PropTypes.number.isRequired,
+  setLevelInTree: PropTypes.func.isRequired,
 };
 
 export default MyTeamView;

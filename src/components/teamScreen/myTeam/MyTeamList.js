@@ -24,7 +24,7 @@ const MyTeamList = () => {
   const [isError, setIsError] = useState(false);
 
   const { loading, data: memberData } = useQuery(GET_USER, {
-    variables: { legacyAssociateId: searchId ? searchId : legacyAssociateId },
+    variables: { legacyAssociateId },
     onError: () => setIsError(true),
   });
 
@@ -50,6 +50,9 @@ const MyTeamList = () => {
       setData([]);
     };
   }, [memberData?.treeNodeFor?.childTreeNodes, sortBy]);
+
+  // TODO - set level and expand the person that was searched
+  // TODO - reset to top of tree
 
   // set the header at the top of the My Team view
   useEffect(() => {

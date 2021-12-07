@@ -37,7 +37,7 @@ const SearchDownlineScreen = () => {
 
   const [selectedStatus, setSelectedStatus] = useState('ALL');
   const [selectedDropdownStatus, setSelectedDropdownStatus] = useState('');
-  const [selectedType, setSelectedType] = useState('RETAIL');
+  const [selectedType, setSelectedType] = useState('ALL');
   const [selectedRank, setSelectedRank] = useState('ALL');
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -148,7 +148,8 @@ const SearchDownlineScreen = () => {
 
   const viewInMyTeamView = (item) => {
     navigation.navigate('Team Screen', {
-      searchId: item?.associate?.legacyAssociateId,
+      searchId: item?.uplineTreeNode?.legacyAssociateId,
+      levelInTree: item?.depth - 2,
     });
   };
 
