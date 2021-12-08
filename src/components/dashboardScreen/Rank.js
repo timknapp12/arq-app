@@ -46,6 +46,8 @@ const Rank = ({ ranklist, user, closeMenus }) => {
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
+  const [showRemainingQov, setShowRemainingQov] = useState(false);
+  const [showTapIcon, setShowTapIcon] = useState(false);
 
   const lastMonthLeg1 = previousAmbassadorMonthlyRecord?.leg1 ?? 0;
   const lastMonthLeg2 = previousAmbassadorMonthlyRecord?.leg2 ?? 0;
@@ -94,6 +96,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
     const { pv, qoV, pa } = user;
     const { requiredPv, minimumQoV, requiredPa } = rank;
     validateQualification(pv, qoV, pa, requiredPv, minimumQoV, requiredPa);
+    setShowTapIcon(qoV < minimumQoV);
+    if (minimumQoV < qoV) {
+      setShowRemainingQov(false);
+    }
   }, [user, rank]);
 
   useEffect(() => {
@@ -129,8 +135,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           accessibilityLabel="Distributor rank"
           width="100%"
           justify="space-between"
-          direction="row"
-        >
+          direction="row">
           <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
             <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
             <DoubleDonut
@@ -171,7 +176,11 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           </Flexbox>
 
           <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
-            <H4 testID="total-qov-donut-label">{Localized('Total QOV')}</H4>
+            <H4 testID="total-qov-donut-label">
+              {showRemainingQov
+                ? Localized('Remaining QOV')
+                : Localized('Total QOV')}
+            </H4>
             <DoubleDonut
               testID="total-qov-donut-svg"
               outerpercentage={rank.rankId === 1 ? 0 : qoVPerc}
@@ -181,7 +190,13 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               innermax={100}
               innercolor={donut2secondaryColor}
               view="rank"
-              onPress={closeMenus}
+              onPress={() => {
+                closeMenus();
+                showTapIcon && setShowRemainingQov((state) => !state);
+              }}
+              showTapIcon={showTapIcon}
+              showRemainingQov={showRemainingQov}
+              remainingQov={rank?.minimumQoV - qoV}
             />
             <LegendContainer>
               <Legend>
@@ -211,8 +226,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
         <Flexbox
           style={{ paddingTop: 12 }}
           accessibilityLabel="monthly comparrison personally enrolled"
-          width="auto"
-        >
+          width="auto">
           <H4 testID="personally-enrolled-donut-label">
             {Localized('Personally Enrolled')}
           </H4>
