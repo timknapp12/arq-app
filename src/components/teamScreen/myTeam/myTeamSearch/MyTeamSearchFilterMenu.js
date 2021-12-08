@@ -38,7 +38,7 @@ const MyTeamSearchFilterMenu = ({
 
   const reshapedRanks = ranks?.map((item) => ({
     label: item?.rankName,
-    value: item?.rankId.toString(),
+    value: item?.rankName,
   }));
 
   reshapedRanks?.unshift({ label: Localized('All'), value: 'ALL' });

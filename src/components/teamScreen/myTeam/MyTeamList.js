@@ -7,7 +7,10 @@ import MyCustomerCard from './myCustomerCard/MyCustomerCard';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { GET_USER } from '../../../graphql/queries';
 import { Localized } from '../../../translations/Localized';
-import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
+import {
+  findMembersInDownlineOneLevel,
+  putSelectedMemberAtTopOfList,
+} from '../../../utils/teamView/filterDownline';
 
 const MyTeamList = () => {
   const {
@@ -17,7 +20,7 @@ const MyTeamList = () => {
     legacyAssociateId,
     setMyTeamViewHeader,
     setCurrentMembersUplineId,
-    searchId,
+    selectedMemberId,
   } = useContext(MyTeamViewContext);
 
   const [data, setData] = useState(null);
@@ -30,8 +33,9 @@ const MyTeamList = () => {
 
   useEffect(() => {
     if (memberData?.treeNodeFor?.childTreeNodes) {
+      let data = [];
       if (sortBy === 'ORGANIZATION') {
-        setData(memberData?.treeNodeFor?.childTreeNodes);
+        data = memberData?.treeNodeFor?.childTreeNodes;
       } else {
         // for customers, filter for both 'preferred' and 'retail' type, but only one type for ambassadors
         const secondType = sortBy === 'PREFERRED' ? 'RETAIL' : null;
@@ -40,8 +44,13 @@ const MyTeamList = () => {
           sortBy,
           secondType,
         );
-        setData(filteredData);
+        data = filteredData;
       }
+      // if a member is selected in search, put that member at the top of the list
+      const reshapedData = selectedMemberId
+        ? putSelectedMemberAtTopOfList(data, selectedMemberId)
+        : data;
+      setData(reshapedData);
       setCurrentMembersUplineId(
         memberData?.treeNodeFor?.uplineTreeNode?.associate?.legacyAssociateId,
       );
@@ -49,14 +58,11 @@ const MyTeamList = () => {
     return () => {
       setData([]);
     };
-  }, [memberData?.treeNodeFor?.childTreeNodes, sortBy]);
-
-  // TODO - set level and expand the person that was searched
-  // TODO - reset to top of tree
+  }, [memberData?.treeNodeFor?.childTreeNodes, sortBy, selectedMemberId]);
 
   // set the header at the top of the My Team view
   useEffect(() => {
-    if (levelInTree === 0 && !searchId) {
+    if (levelInTree === 0 && !selectedMemberId) {
       const header =
         sortBy === 'AMBASSADOR'
           ? Localized('My Ambassadors')
@@ -72,9 +78,17 @@ const MyTeamList = () => {
 
   const renderItem = ({ item }) =>
     item?.associate?.associateType === 'AMBASSADOR' ? (
-      <MyAmbassadorCard member={item} level={levelInTree} />
+      <MyAmbassadorCard
+        autoExpand={item?.associate?.associateId === selectedMemberId}
+        member={item}
+        level={levelInTree}
+      />
     ) : (
-      <MyCustomerCard member={item} level={levelInTree} />
+      <MyCustomerCard
+        autoExpand={item?.associate?.associateId === selectedMemberId}
+        member={item}
+        level={levelInTree}
+      />
     );
 
   if (loading) {

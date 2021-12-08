@@ -5,5 +5,11 @@
   "Status": "Status",
   "Type": "Type",
   "Ambassador": "Ambassador",
-  "Inactive Ambassador": "Inactive Ambassador"
+  "Inactive Ambassador": "Inactive Ambassador",
+  "Remaining QOV": "Remaining QOV",
+  "Customers": "Customers",
+  "Organization": "Organization",
+  "Leg 1 Remaining": "Leg 1 Remaining",
+  "Leg 2 Remaining": "Leg 2 Remaining",
+  "Leg 3 Remaining": "Leg 3 Remaining"
 }

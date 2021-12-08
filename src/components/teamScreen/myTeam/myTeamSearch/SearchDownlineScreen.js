@@ -110,6 +110,7 @@ const SearchDownlineScreen = () => {
     setReshapedData(reformattedData);
     return () => {
       setReshapedData([]);
+      setIsFilterMenuOpen(false);
     };
   }, [data]);
 
@@ -149,6 +150,7 @@ const SearchDownlineScreen = () => {
   const viewInMyTeamView = (item) => {
     navigation.navigate('Team Screen', {
       searchId: item?.uplineTreeNode?.legacyAssociateId,
+      selectedMemberId: item?.associate?.associateId,
       levelInTree: item?.depth - 2,
     });
   };
@@ -156,10 +158,8 @@ const SearchDownlineScreen = () => {
   const onPressCard = (item) => {
     if (Platform.OS === 'android' && isFilterMenuOpen) {
       return;
-    } else {
-      closeFilterMenu();
-      viewInMyTeamView(item);
     }
+    viewInMyTeamView(item);
   };
 
   const refreshing = networkStatus === NetworkStatus.refetch;

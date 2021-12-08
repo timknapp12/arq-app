@@ -67,6 +67,9 @@ export const putSelectedMemberAtTopOfList = (array, id) => {
   const selectedMember = array.find(
     (item) => item.associate.associateId === id,
   );
+  if (!selectedMember) {
+    return array;
+  }
   const filteredList = array.filter(
     (item) => item.associate.associateId !== id,
   );

@@ -17,7 +17,7 @@ import MyTeamList from './MyTeamList';
 
 const MyTeamView = ({
   closeMenus,
-  searchId,
+  selectedMemberId,
   legacyAssociateId,
   setLegacyAssociateId,
   sortBy,
@@ -26,7 +26,7 @@ const MyTeamView = ({
   setLevelInTree,
   ...props
 }) => {
-  const { theme, legacyId } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
 
   const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
   const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
@@ -64,8 +64,7 @@ const MyTeamView = ({
 
   const onCloseFilterMenu = () => {
     closeFilterMenu();
-    setLegacyAssociateId(searchId ? searchId : legacyId);
-    // setLevelInTree(0);
+    setLegacyAssociateId(legacyAssociateId);
   };
 
   const navigation = useNavigation();
@@ -88,7 +87,7 @@ const MyTeamView = ({
         setLegacyAssociateId,
         currentMembersUplineId,
         setCurrentMembersUplineId,
-        searchId,
+        selectedMemberId,
       }}
     >
       <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
@@ -142,7 +141,7 @@ const MyTeamView = ({
 
 MyTeamView.propTypes = {
   closeMenus: PropTypes.func.isRequired,
-  searchId: PropTypes.number,
+  selectedMemberId: PropTypes.number,
   legacyAssociateId: PropTypes.number.isRequired,
   setLegacyAssociateId: PropTypes.func.isRequired,
   sortBy: PropTypes.string.isRequired,

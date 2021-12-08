@@ -517,4 +517,11 @@ describe('putSelectedMemberAtTopOfList', () => {
       output,
     );
   });
+  test('id does not exist so the same list is returned', () => {
+    const input = 6;
+
+    expect(putSelectedMemberAtTopOfList(searchResults, input)).toStrictEqual(
+      searchResults,
+    );
+  });
 });

@@ -43,9 +43,9 @@ const TeamScreen = ({ navigation, route }) => {
       setSortBy('ORGANIZATION');
       setLevelInTree(route?.params?.levelInTree);
     }
-    // return () => {
-    //   setLegacyAssociateId(legacyId);
-    // };
+    return () => {
+      setLegacyAssociateId(legacyId);
+    };
   }, [route?.params?.searchId]);
 
   const isFocused = useIsFocused();
@@ -128,6 +128,7 @@ const TeamScreen = ({ navigation, route }) => {
     });
     if (item.testID === 'my_team_button') {
       setLegacyAssociateId(legacyId);
+      setLevelInTree(0);
     }
   };
 
@@ -196,7 +197,7 @@ const TeamScreen = ({ navigation, route }) => {
         {view.name === Localized('My Team').toUpperCase() && (
           <MyTeamView
             closeMenus={closeMenus}
-            searchId={route?.params?.searchId}
+            selectedMemberId={route?.params?.selectedMemberId}
             legacyAssociateId={legacyAssociateId}
             setLegacyAssociateId={setLegacyAssociateId}
             sortBy={sortBy}
