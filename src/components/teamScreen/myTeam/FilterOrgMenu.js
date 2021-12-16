@@ -7,6 +7,14 @@ const FilterOrgMenu = ({ onClose, setSortBy, ...props }) => {
   const items = [
     {
       id: 0,
+      title: Localized('Organization'),
+      onPress: () => {
+        setSortBy('ORGANIZATION');
+        onClose();
+      },
+    },
+    {
+      id: 1,
       title: Localized('Ambassadors'),
       onPress: () => {
         setSortBy('AMBASSADOR');
@@ -14,18 +22,10 @@ const FilterOrgMenu = ({ onClose, setSortBy, ...props }) => {
       },
     },
     {
-      id: 1,
+      id: 2,
       title: Localized('Customers'),
       onPress: () => {
         setSortBy('PREFERRED');
-        onClose();
-      },
-    },
-    {
-      id: 2,
-      title: Localized('Organization'),
-      onPress: () => {
-        setSortBy('ORGANIZATION');
         onClose();
       },
     },

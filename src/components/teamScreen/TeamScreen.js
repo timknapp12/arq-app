@@ -34,7 +34,7 @@ const TeamScreen = ({ navigation, route }) => {
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
-  const [sortBy, setSortBy] = useState('AMBASSADOR');
+  const [sortBy, setSortBy] = useState('ORGANIZATION');
   const [levelInTree, setLevelInTree] = useState(0);
 
   useEffect(() => {
