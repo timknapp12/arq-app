@@ -299,5 +299,18 @@
   "All": "すべて",
   "Active": "有効",
   "Inactive": "無効",
-  "Ambassadors": "アンバサダー"
+  "Ambassadors": "アンバサダー",
+  "Progress towards next rank": "次のランキングまでの進捗",
+  "Search My Team": "マイチームの検索",
+  "Search by first and last name": "姓名による検索",
+  "Status": "状態",
+  "Type": "タイプ",
+  "Ambassador": "アンバサダー",
+  "Inactive Ambassador": "活動休止中のアンバサダー",
+  "Remaining QOV": "残存QOV",
+  "Customers": "顧客",
+  "Organization": "団体",
+  "Leg 1 Remaining": "残存 Leg 1",
+  "Leg 2 Remaining": "残存 Leg 2",
+  "Leg 3 Remaining": "残存 Leg 3"
 }

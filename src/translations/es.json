@@ -298,5 +298,18 @@
   "All": "Todo",
   "Active": "Activo",
   "Inactive": "Inactivo",
-  "Ambassadors": "Embajadores"
+  "Ambassadors": "Embajadores",
+  "Progress towards next rank": "Progreso para lograr el próximo rango",
+  "Search My Team": "Buscar mi equipo",
+  "Search by first and last name": "Buscar por nombre y apellido",
+  "Status": "Estado",
+  "Type": "Tipo",
+  "Ambassador": "Embajador",
+  "Inactive Ambassador": "Embajador inactivo",
+  "Remaining QOV": "QOV restante",
+  "Customers": "Clientes",
+  "Organization": "Organización",
+  "Leg 1 Remaining": "Leg 1 restante",
+  "Leg 2 Remaining": "Leg 2 restante",
+  "Leg 3 Remaining": "Leg 3 restante"
 }
