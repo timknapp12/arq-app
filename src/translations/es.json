@@ -250,6 +250,7 @@
   "To see the information please fill out the form below.": "Para visualizar esta información, complete el formulario a continuación.",
   "Submit": "Enviar",
   "Close": "Cierre",
+  "Personally Active": "Personalmente Activo",
   "Please go to settings on your device and enable permissions to access your camera": " Por favor, vaya a la configuración de su dispositivo y habilite el acceso a su cámara ",
   "Please go to settings on your device and enable permissions to access your photos": " Por favor, vaya a la configuración de su dispositivo y habilite el acceso a sus fotos",
   "You have not created a team yet": "Aún no ha creado un equipo",
@@ -298,5 +299,18 @@
   "All": "Todo",
   "Active": "Activo",
   "Inactive": "Inactivo",
-  "Ambassadors": "Embajadores"
+  "Ambassadors": "Embajadores",
+  "Progress towards next rank": "Progreso hacia el siguiente rango",
+  "Search My Team": "Buscar Mi Equipo",
+  "Search by first and last name": "Buscar por nombre y apellido",
+  "Status": "Estatus",
+  "Type": "Tipo",
+  "Ambassador": "Embajador",
+  "Inactive Ambassador": "Embajador Inactivo",
+  "Remaining QOV": "QOV Restante",
+  "Customers": "Clientes",
+  "Organization": "Organización",
+  "Leg 1 Remaining": "Leg 1 Restante",
+  "Leg 2 Remaining": "Leg 2 Restante",
+  "Leg 3 Remaining": "Leg 3 Restante"
 }
