@@ -306,11 +306,11 @@
   "Status": "Stato",
   "Type": "Tipo",
   "Ambassador": "Ambasciatore",
-  "Inactive Ambassador": "Ambasciatore non attivo",
-  "Remaining QOV": "VOQ (Volume Organizzativo Qualificato) rimanente",
+  "Inactive Ambassador": "Ambasciatore Non Attivo",
+  "Remaining QOV": "QOV Rimanente",
   "Customers": "Clienti",
   "Organization": "Organizzazione",
-  "Leg 1 Remaining": "Leg 1 rimanente",
-  "Leg 2 Remaining": "Leg 2 rimanente",
-  "Leg 3 Remaining": "Leg 3 rimanente"
+  "Leg 1 Remaining": "Leg 1 Rimanente",
+  "Leg 2 Remaining": "Leg 2 Rimanente",
+  "Leg 3 Remaining": "Leg 3 Rimanente"
 }

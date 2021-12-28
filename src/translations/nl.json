@@ -306,11 +306,11 @@
   "Status": "Status",
   "Type": "Type",
   "Ambassador": "Ambassadeur",
-  "Inactive Ambassador": "Inactieve ambassadeur",
+  "Inactive Ambassador": "Inactieve Ambassadeur",
   "Remaining QOV": "Resterende QOV",
   "Customers": "Klanten",
   "Organization": "Organisatie",
-  "Leg 1 Remaining": "Leg 1 resterend",
-  "Leg 2 Remaining": "Leg 2 resterend",
-  "Leg 3 Remaining": "Leg 3 resterend"
+  "Leg 1 Remaining": "Leg 1 Resterend",
+  "Leg 2 Remaining": "Leg 2 Resterend",
+  "Leg 3 Remaining": "Leg 3 Resterend"
 }

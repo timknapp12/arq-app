@@ -306,11 +306,11 @@
   "Status": "Stav",
   "Type": "Typ",
   "Ambassador": "Ambasador",
-  "Inactive Ambassador": "Neaktivní ambasador",
+  "Inactive Ambassador": "Neaktivní Ambasador",
   "Remaining QOV": "Zbývající QOV",
   "Customers": "Zákazníci",
   "Organization": "Organizace",
-  "Leg 1 Remaining": "Zbývá do Leg1 1",
-  "Leg 2 Remaining": "Zbývá do Leg1 2",
-  "Leg 3 Remaining": "Zbývá do Leg1 3"
+  "Leg 1 Remaining": "Zbývá do Leg 1",
+  "Leg 2 Remaining": "Zbývá do Leg 2",
+  "Leg 3 Remaining": "Zbývá do Leg 3"
 }
