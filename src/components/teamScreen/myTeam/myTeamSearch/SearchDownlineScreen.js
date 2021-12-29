@@ -88,7 +88,6 @@ const SearchDownlineScreen = () => {
       onCompleted: () => {
         setHasSearchCompleted(true);
         setHasUserSubmittedNewFilter(false);
-        Keyboard.dismiss();
       },
       notifyOnNetworkStatusChange: true,
       fetchPolicy: 'network-only',
@@ -274,6 +273,7 @@ const SearchDownlineScreen = () => {
                     setHasSearchCompleted(false);
                   }}
                   refreshing={refreshing}
+                  onScroll={Keyboard.dismiss}
                 />
               </Flexbox>
             ) : (
