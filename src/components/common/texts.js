@@ -17,7 +17,13 @@ export const H2 = styled.Text`
 `;
 
 export const H2Book = styled.Text`
-  font-family: 'Avenir-Light';
+  font-family: 'Avenir-Book';
+  font-size: 24px;
+  color: ${(props) => props.theme.primaryTextColor};
+`;
+
+export const H2Black = styled.Text`
+  font-family: 'Avenir-Black';
   font-size: 24px;
   color: ${(props) => props.theme.primaryTextColor};
 `;

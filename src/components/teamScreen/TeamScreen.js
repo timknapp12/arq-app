@@ -20,15 +20,33 @@ import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import NotificationsColumn from '../notifications/NotificationsColumn';
+import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
+import LeaderbaordView from './leaderboard/LeaderbaordView';
 
-const TeamScreen = ({ navigation }) => {
+const TeamScreen = ({ navigation, route }) => {
+  const { legacyId } = useContext(AppContext);
   const { setDisplayNotifications, displayNotifications } =
     useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
+
+  const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
+  const [sortBy, setSortBy] = useState('ORGANIZATION');
+  const [levelInTree, setLevelInTree] = useState(0);
+
+  useEffect(() => {
+    if (route?.params?.searchId) {
+      setLegacyAssociateId(route?.params?.searchId);
+      setSortBy('ORGANIZATION');
+      setLevelInTree(route?.params?.levelInTree);
+    }
+    return () => {
+      setLegacyAssociateId(legacyId);
+    };
+  }, [route?.params?.searchId]);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -44,10 +62,13 @@ const TeamScreen = ({ navigation }) => {
     };
   }, [isFocused]);
 
-  const initialView = {
-    name: Localized('At A Glance').toUpperCase(),
-    testID: 'At_A_Glance_button',
-  };
+  const initialView = route?.params?.searchId
+    ? { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' }
+    : {
+        name: Localized('At A Glance').toUpperCase(),
+        testID: 'At_A_Glance_button',
+      };
+
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
@@ -105,6 +126,10 @@ const TeamScreen = ({ navigation }) => {
       screen: 'TeamScreen',
       purpose: `See details for ${item?.name}`,
     });
+    if (item.testID === 'my_team_button') {
+      setLegacyAssociateId(legacyId);
+      setLevelInTree(0);
+    }
   };
 
   return (
@@ -170,7 +195,19 @@ const TeamScreen = ({ navigation }) => {
           )}
         </ScrollView>
         {view.name === Localized('My Team').toUpperCase() && (
-          <MyTeamView closeMenus={closeMenus} />
+          <MyTeamView
+            closeMenus={closeMenus}
+            selectedMemberId={route?.params?.selectedMemberId}
+            legacyAssociateId={legacyAssociateId}
+            setLegacyAssociateId={setLegacyAssociateId}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            levelInTree={levelInTree}
+            setLevelInTree={setLevelInTree}
+          />
+        )}
+        {view.name === Localized('Leaderboard').toUpperCase() && (
+          <LeaderbaordView closeMenus={closeMenus} />
         )}
         {isMyInfoModalOpen && (
           <MyInfoModal
@@ -191,6 +228,7 @@ const TeamScreen = ({ navigation }) => {
 
 TeamScreen.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default TeamScreen;

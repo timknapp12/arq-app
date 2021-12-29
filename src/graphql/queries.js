@@ -41,6 +41,9 @@ export const GET_USER = gql`
         personalVolume
         personallySponsoredActiveAmbassadorCount
         qov
+        leg1
+        leg2
+        leg3
       }
       currentAmbassadorMonthlyRecord {
         highestRank {
@@ -48,43 +51,43 @@ export const GET_USER = gql`
           rankName
         }
       }
-      autoShip {
-        leg1Total {
-          processedPv
-        }
-        leg2Total {
-          processedPv
-        }
-        leg3Total {
-          processedPv
-        }
-        entireLineTotal {
-          processedPv
-          projectedPv
-        }
-      }
-      glance {
-        entireLineTotal {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-        leg1Total {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-        leg2Total {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-        leg3Total {
-          ambassadorMonthCount
-          eventMonthCount
-          preferedMonthCount
-        }
-      }
+      #autoShip {
+      #  leg1Total {
+      #    processedPv
+      #  }
+      #  leg2Total {
+      #    processedPv
+      #  }
+      #  leg3Total {
+      #    processedPv
+      #  }
+      #  entireLineTotal {
+      #    processedPv
+      #    projectedPv
+      #  }
+      #}
+      #glance {
+      #  entireLineTotal {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg1Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg2Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg3Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #}
       childTreeNodes {
         uplineTreeNode {
           associate {
@@ -463,6 +466,78 @@ export const GET_ORDERS = gql`
         quantity
         pv
       }
+    }
+  }
+`;
+
+export const SEARCH_TREE = gql`
+  query SearchTree(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+    $name: String!
+    $status: AssociateStatus
+    $type: AssociateTypeEnum
+    $rankName: String
+  ) {
+    searchTree(
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+      name: $name
+      status: $status
+      type: $type
+      rankName: $rankName
+    ) {
+      nodes {
+        uplineTreeNode {
+          associateId
+          legacyAssociateId
+        }
+        associateId
+        legacyAssociateId
+        firstName
+        lastName
+        profileUrl
+        associateType
+        associateStatus
+        depth
+        rank {
+          rankId
+          rankName
+        }
+      }
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          associateId
+        }
+      }
+    }
+  }
+`;
+
+export const CALCULATE_QOV = gql`
+  query QoVFor(
+    $hypotheticalRank: String!
+    $leg1: Decimal!
+    $leg2: Decimal!
+    $leg3: Decimal!
+  ) {
+    qoVFor(
+      hypotheticalRank: $hypotheticalRank
+      leg1: $leg1
+      leg2: $leg2
+      leg3: $leg3
+    ) {
+      qoV
     }
   }
 `;

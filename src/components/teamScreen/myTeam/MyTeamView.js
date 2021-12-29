@@ -15,13 +15,20 @@ import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
 
-const MyTeamView = ({ closeMenus, ...props }) => {
-  const { theme, legacyId } = useContext(AppContext);
+const MyTeamView = ({
+  closeMenus,
+  selectedMemberId,
+  legacyAssociateId,
+  setLegacyAssociateId,
+  sortBy,
+  setSortBy,
+  levelInTree,
+  setLevelInTree,
+  ...props
+}) => {
+  const { theme } = useContext(AppContext);
 
-  const [sortBy, setSortBy] = useState('AMBASSADOR');
-  const [levelInTree, setLevelInTree] = useState(0);
   const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
-  const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
   const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
 
   useEffect(() => {
@@ -57,8 +64,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
 
   const onCloseFilterMenu = () => {
     closeFilterMenu();
-    setLegacyAssociateId(legacyId);
-    setLevelInTree(0);
+    setLegacyAssociateId(legacyAssociateId);
   };
 
   const navigation = useNavigation();
@@ -81,6 +87,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
         setLegacyAssociateId,
         currentMembersUplineId,
         setCurrentMembersUplineId,
+        selectedMemberId,
       }}
     >
       <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
@@ -93,7 +100,7 @@ const MyTeamView = ({ closeMenus, ...props }) => {
           <FilterSearchBar
             onPress={() =>
               navigation.navigate('Search Downline Screen', {
-                title: 'Search',
+                title: Localized('Search My Team'),
               })
             }
           >
@@ -118,9 +125,9 @@ const MyTeamView = ({ closeMenus, ...props }) => {
           {isFilterMenuOpen && (
             <Flexbox>
               <FilterOrgMenu
+                style={{ left: fadeAnim }}
                 onClose={onCloseFilterMenu}
                 setSortBy={setSortBy}
-                style={{ left: fadeAnim }}
               />
             </Flexbox>
           )}
@@ -134,6 +141,13 @@ const MyTeamView = ({ closeMenus, ...props }) => {
 
 MyTeamView.propTypes = {
   closeMenus: PropTypes.func.isRequired,
+  selectedMemberId: PropTypes.number,
+  legacyAssociateId: PropTypes.number.isRequired,
+  setLegacyAssociateId: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  setSortBy: PropTypes.func.isRequired,
+  levelInTree: PropTypes.number.isRequired,
+  setLevelInTree: PropTypes.func.isRequired,
 };
 
 export default MyTeamView;

@@ -770,3 +770,11 @@ export const mockOrderHistoryThree = [
     quantity: 2,
   },
 ];
+
+export const searchResults = [
+  { associate: { associateId: 1, firstName: 'Test One' } },
+  { associate: { associateId: 2, firstName: 'Test Two' } },
+  { associate: { associateId: 3, firstName: 'Test Three' } },
+  { associate: { associateId: 4, firstName: 'Test Four' } },
+  { associate: { associateId: 5, firstName: 'Test Five' } },
+];

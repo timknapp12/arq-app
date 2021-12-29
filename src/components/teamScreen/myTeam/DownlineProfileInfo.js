@@ -12,9 +12,9 @@ import {
   LevelIndicator,
 } from './myTeamCard.styles';
 
-const DownlineProfileInfo = ({ member, level }) => {
+const DownlineProfileInfo = ({ member, level, showAccentColor = true }) => {
   const { theme } = useContext(AppContext);
-  const { firstName, lastName, pictureUrl } = member?.associate;
+  const { firstName, lastName, profileUrl } = member?.associate;
   const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   const memberTypeColorMap = {
@@ -33,29 +33,31 @@ const DownlineProfileInfo = ({ member, level }) => {
   return (
     <>
       <View>
-        {pictureUrl ? (
-          <ThumbnailImage source={{ uri: pictureUrl }} />
+        {profileUrl ? (
+          <ThumbnailImage source={{ uri: profileUrl }} />
         ) : (
           <DefaultThumbnailBackground>
             <H2Book>{initials.toUpperCase()}</H2Book>
           </DefaultThumbnailBackground>
         )}
-        <LevelIndicatorContainer>
-          <LevelIndicator color={color}>
-            {level ? (
-              <LevelLabel
-                style={{
-                  color:
-                    color === theme.warningAvatarAccent
-                      ? theme.backgroundColor
-                      : theme.primaryTextColor,
-                }}
-              >
-                {level}
-              </LevelLabel>
-            ) : null}
-          </LevelIndicator>
-        </LevelIndicatorContainer>
+        {showAccentColor && (
+          <LevelIndicatorContainer>
+            <LevelIndicator color={color}>
+              {level ? (
+                <LevelLabel
+                  style={{
+                    color:
+                      color === theme.warningAvatarAccent
+                        ? theme.backgroundColor
+                        : theme.primaryTextColor,
+                  }}
+                >
+                  {level}
+                </LevelLabel>
+              ) : null}
+            </LevelIndicator>
+          </LevelIndicatorContainer>
+        )}
       </View>
       <NameAndRankContainer>
         <H5>{`${firstName} ${lastName}`}</H5>
@@ -70,6 +72,7 @@ const DownlineProfileInfo = ({ member, level }) => {
 DownlineProfileInfo.propTypes = {
   member: PropTypes.object.isRequired,
   level: PropTypes.number,
+  showAccentColor: PropTypes.bool,
 };
 
 export default DownlineProfileInfo;

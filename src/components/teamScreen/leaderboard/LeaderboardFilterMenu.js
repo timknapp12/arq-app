@@ -3,39 +3,40 @@ import PropTypes from 'prop-types';
 import Menu from '../../menu/Menu';
 import { Localized } from '../../../translations/Localized';
 
-const FilterOrgMenu = ({ onClose, setSortBy, ...props }) => {
-  const items = [
+const LeaderboardFilterMenu = ({ onClose, setSortBy, ...props }) => {
+  const menuItems = [
     {
       id: 0,
-      title: Localized('Organization'),
+      title: Localized('Ambassador Enrollments'),
       onPress: () => {
-        setSortBy('ORGANIZATION');
+        setSortBy('Ambassador Enrollments');
         onClose();
       },
     },
     {
       id: 1,
-      title: Localized('Ambassadors'),
+      title: Localized('PC Enrollments'),
       onPress: () => {
-        setSortBy('AMBASSADOR');
+        setSortBy('PC Enrollments');
         onClose();
       },
     },
     {
       id: 2,
-      title: Localized('Customers'),
+      title: Localized('Event Tickets'),
       onPress: () => {
-        setSortBy('PREFERRED');
+        setSortBy('Event Tickets');
         onClose();
       },
     },
   ];
-  return <Menu {...props} items={items} />;
+
+  return <Menu {...props} items={menuItems} />;
 };
 
-FilterOrgMenu.propTypes = {
+LeaderboardFilterMenu.propTypes = {
   onClose: PropTypes.func.isRequired,
   setSortBy: PropTypes.func.isRequired,
 };
 
-export default FilterOrgMenu;
+export default LeaderboardFilterMenu;

@@ -9,7 +9,7 @@ import { Localized } from '../../../../translations/Localized';
 import {
   Underline,
   InvisibleUnderline,
-  DonutAndOrdersContainer,
+  BarChartAndOrdersContainer,
 } from '../myTeamCard.styles';
 
 const MyAmbassadorExpandedInfo = ({ member, level }) => {
@@ -65,13 +65,13 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
             )}
           </TouchableOpacity>
         </Flexbox>
-        <DonutAndOrdersContainer>
+        <BarChartAndOrdersContainer>
           {selectedTab === 'dashboard' ? (
             <MyAmbassadorBarChartContainer member={member} />
           ) : (
             <OrdersContainer level={level} member={member} />
           )}
-        </DonutAndOrdersContainer>
+        </BarChartAndOrdersContainer>
       </Flexbox>
     </TouchableWithoutFeedback>
   );
