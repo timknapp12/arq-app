@@ -82,9 +82,14 @@ const Donut = ({
     };
   }, [max, percentage]);
 
+  // sometimes the values have decimals so we round up the number before making a string with commas
   const inputValue = showRemainingQov
-    ? remainingQov?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    : percentage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    ? Math.round(remainingQov)
+        ?.toString()
+        ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    : Math.round(percentage)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   return (
     <TouchableOpacity
@@ -93,12 +98,14 @@ const Donut = ({
         onPress();
         showTapIcon && setShowRemainingQov((state) => !state);
         setHasShownRemainingAtLeastOnce(true);
-      }}>
+      }}
+    >
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Svg
           width={radius * 2}
           height={radius * 2}
-          viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>
+          viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}
+        >
           <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
             <Circle
               cx="50%"
