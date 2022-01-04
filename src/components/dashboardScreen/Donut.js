@@ -68,7 +68,7 @@ const Donut = ({
       }
       if (inputRef?.current) {
         inputRef.current.setNativeProps({
-          text: `${Math.round(v.value)
+          text: `${Math.floor(v.value)
             // this adds commas, since toLocalString() does not work on android
             .toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}${
@@ -84,10 +84,10 @@ const Donut = ({
 
   // sometimes the values have decimals so we round up the number before making a string with commas
   const inputValue = showRemainingQov
-    ? Math.round(remainingQov)
+    ? Math.floor(remainingQov)
         ?.toString()
         ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    : Math.round(percentage)
+    : Math.floor(percentage)
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 

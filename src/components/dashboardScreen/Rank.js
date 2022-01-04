@@ -155,7 +155,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               <Legend>
                 <Square squareFill={donut1primaryColor} />
                 {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
-                <H5 testID="this-month-total-pv">{`${Math.round(pv)
+                <H5 testID="this-month-total-pv">{`${Math.floor(pv)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -165,7 +165,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               </Legend>
               <Legend>
                 <Square squareFill={donut1secondaryColor} />
-                <H5 testID="last-month-total-pv">{`${Math.round(lastMonthPV)
+                <H5 testID="last-month-total-pv">{`${Math.floor(lastMonthPV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -197,12 +197,12 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               }}
               showTapIcon={showTapIcon}
               showRemainingQov={showRemainingQov}
-              remainingQov={rank?.minimumQoV - Math.round(qoV)}
+              remainingQov={rank?.minimumQoV - Math.floor(qoV)}
             />
             <LegendContainer>
               <Legend>
                 <Square squareFill={donut2primaryColor} />
-                <H5 testID="this-month-total-qov">{`${Math.round(qoV)
+                <H5 testID="this-month-total-qov">{`${Math.floor(qoV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -212,7 +212,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               </Legend>
               <Legend>
                 <Square squareFill={donut2secondaryColor} />
-                <H5 testID="last-month-total-qov">{`${Math.round(lastMonthQOV)
+                <H5 testID="last-month-total-qov">{`${Math.floor(lastMonthQOV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -246,13 +246,13 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           <LegendContainer>
             <Legend>
               <Square squareFill={donut3primaryColor} />
-              <H5 testID="this-month-personally-enrolled">{`${Math.round(
+              <H5 testID="this-month-personally-enrolled">{`${Math.floor(
                 pa,
               )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
             </Legend>
             <Legend>
               <Square squareFill={donut3secondaryColor} />
-              <H5 testID="last-month-personally-enrolled">{`${Math.round(
+              <H5 testID="last-month-personally-enrolled">{`${Math.floor(
                 lastMonthPA,
               )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
             </Legend>
