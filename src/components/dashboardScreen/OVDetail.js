@@ -61,9 +61,9 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
     const requirements = { legMaxPercentage, minimumQoV, maximumPerLeg };
     setMaxQOV(calculateLegPercentages(userLegs, requirements));
     // we have seen pv totals with decimals so we are rounding them up
-    setRemainingQovLeg1(maximumPerLeg - Math.round(leg1));
-    setRemainingQovLeg2(maximumPerLeg - Math.round(leg2));
-    setRemainingQovLeg3(maximumPerLeg - Math.round(leg3));
+    setRemainingQovLeg1(maximumPerLeg - Math.floor(leg1));
+    setRemainingQovLeg2(maximumPerLeg - Math.floor(leg2));
+    setRemainingQovLeg3(maximumPerLeg - Math.floor(leg3));
     if (leg1 > maximumPerLeg) {
       setShowRemainingQovLeg1(false);
     }
