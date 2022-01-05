@@ -5,7 +5,7 @@ import { Animated, View } from 'react-native';
 import { Flexbox } from './containers';
 import AddProspectIcon from '../../../assets/icons/enrollment-icon.svg';
 import AddFolderIcon from '../../../assets/icons/FolderIcon.svg';
-import ResourcesIcon from '../../../assets/icons/resources.svg';
+import AddAssetIcon from '../../../assets/icons/AddAssetIcon.svg';
 import add from '../../../assets/icons/AddIcon_White.png';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
@@ -85,7 +85,7 @@ export const AnimatedAddButtonRow = () => {
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
         >
-          <ResourcesIcon style={iconStyle} />
+          <AddAssetIcon style={iconStyle} />
         </AnimatedSmallButton>
       </AnimatedRow>
     </>
