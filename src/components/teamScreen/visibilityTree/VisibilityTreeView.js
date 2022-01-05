@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 import { Flexbox } from '../../common';
 import mockTreeData from './mockTreeData';
 
@@ -17,7 +17,7 @@ const Wrapper = styled.View`
   position: relative;
 `;
 
-const Cirlce = styled.View`
+const Circle = styled.View`
   height: ${dimensions}px;
   width: ${dimensions}px;
   border-radius: ${dimensions / 2}px;
@@ -47,7 +47,7 @@ const VisibilityTreeView = () => {
         {mockTreeData.map((item, index) => (
           <TouchableOpacity
             key={item.id}
-            onPress={() => console.log(`hello there ${item.firstName}`)}
+            onPress={() => Alert.alert(`hello there ${item.firstName}`)}
             onLongPress={() => console.log(`loooooong press ${item.firstName}`)}
             style={{
               top:
@@ -64,7 +64,10 @@ const VisibilityTreeView = () => {
                   ),
             }}
           >
-            <Cirlce color={item.color} />
+            <Circle
+              onPress={() => Alert.alert(`hello there gray dot`)}
+              color={item.color}
+            />
           </TouchableOpacity>
         ))}
         <TouchableOpacity
@@ -74,7 +77,7 @@ const VisibilityTreeView = () => {
             left: radius + 12,
           }}
         >
-          <Cirlce color="gray" />
+          <Circle color="gray" />
         </TouchableOpacity>
       </Wrapper>
     </Flexbox>
