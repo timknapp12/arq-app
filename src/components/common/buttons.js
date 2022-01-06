@@ -70,7 +70,7 @@ const ThemedTertiary = styled.TouchableOpacity`
   border-width: ${(props) => (props.selected ? '2px' : '1px')};
   border-color: ${(props) =>
     props.selected
-      ? props.theme.teriarySelectedBorderColor
+      ? props.theme.tertiarySelectedBorderColor
       : props.theme.tertiaryDisabledBorderColor};
   background-color: ${(props) =>
     props.selected

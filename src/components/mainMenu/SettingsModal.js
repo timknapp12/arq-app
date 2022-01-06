@@ -122,7 +122,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
       }
       storeBiometrics(true);
     } catch (error) {
-      Alert.alert(Localized('An error has occured'), error?.message);
+      Alert.alert(Localized('An error has occurred'), error?.message);
     }
   };
 

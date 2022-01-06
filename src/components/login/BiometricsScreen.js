@@ -45,7 +45,7 @@ const BiometricsScreen = ({ navigation }) => {
         throw new Error(Localized('No Faces / Fingers found'));
       }
     } catch (error) {
-      Alert.alert(Localized('An error has occured'), error?.message);
+      Alert.alert(Localized('An error has occurred'), error?.message);
     }
   };
 
