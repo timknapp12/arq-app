@@ -41,6 +41,8 @@ const Rank = ({ ranklist, user, closeMenus }) => {
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
+  const [showRemainingQov, setShowRemainingQov] = useState(false);
+  const [showTapIcon, setShowTapIcon] = useState(false);
 
   const lastMonthLeg1 = previousAmbassadorMonthlyRecord?.leg1 ?? 0;
   const lastMonthLeg2 = previousAmbassadorMonthlyRecord?.leg2 ?? 0;
@@ -89,6 +91,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
     const { pv, qoV, pa } = user;
     const { requiredPv, minimumQoV, requiredPa } = rank;
     validateQualification(pv, qoV, pa, requiredPv, minimumQoV, requiredPa);
+    setShowTapIcon(qoV < minimumQoV);
+    if (minimumQoV < qoV) {
+      setShowRemainingQov(false);
+    }
   }, [user, rank]);
 
   useEffect(() => {
@@ -144,7 +150,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               <Legend>
                 <Dot dotFill={theme.donut1primaryColor} />
                 {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
-                <H5 testID="this-month-total-pv">{`${pv
+                <H5 testID="this-month-total-pv">{`${Math.floor(pv)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -154,7 +160,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               </Legend>
               <Legend>
                 <Dot dotFill={theme.donut1secondaryColor} />
-                <H5 testID="last-month-total-pv">{`${lastMonthPV
+                <H5 testID="last-month-total-pv">{`${Math.floor(lastMonthPV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -166,7 +172,11 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           </Flexbox>
 
           <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
-            <H4 testID="total-qov-donut-label">{Localized('Total QOV')}</H4>
+            <H4 testID="total-qov-donut-label">
+              {showRemainingQov
+                ? Localized('Remaining QOV')
+                : Localized('Total QOV')}
+            </H4>
             <DoubleDonut
               testID="total-qov-donut-svg"
               outerpercentage={rank.rankId === 1 ? 0 : qoVPerc}
@@ -176,12 +186,18 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               innermax={100}
               innercolor={theme.donut2secondaryColor}
               view="rank"
-              onPress={closeMenus}
+              onPress={() => {
+                closeMenus();
+                showTapIcon && setShowRemainingQov((state) => !state);
+              }}
+              showTapIcon={showTapIcon}
+              showRemainingQov={showRemainingQov}
+              remainingQov={rank?.minimumQoV - Math.floor(qoV)}
             />
             <LegendContainer>
               <Legend>
                 <Dot dotFill={theme.donut2primaryColor} />
-                <H5 testID="this-month-total-qov">{`${qoV
+                <H5 testID="this-month-total-qov">{`${Math.floor(qoV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -191,7 +207,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               </Legend>
               <Legend>
                 <Dot dotFill={theme.donut2secondaryColor} />
-                <H5 testID="last-month-total-qov">{`${lastMonthQOV
+                <H5 testID="last-month-total-qov">{`${Math.floor(lastMonthQOV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
                   'of',
@@ -225,15 +241,15 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           <LegendContainer>
             <Legend>
               <Dot dotFill={theme.donut3primaryColor} />
-              <H5 testID="this-month-personally-enrolled">{`${pa} ${Localized(
-                'of',
-              )} ${rank?.requiredPa}`}</H5>
+              <H5 testID="this-month-personally-enrolled">{`${Math.floor(
+                pa,
+              )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
             </Legend>
             <Legend>
               <Dot dotFill={theme.donut3secondaryColor} />
-              <H5 testID="last-month-personally-enrolled">{`${lastMonthPA} ${Localized(
-                'of',
-              )} ${rank?.requiredPa}`}</H5>
+              <H5 testID="last-month-personally-enrolled">{`${Math.floor(
+                lastMonthPA,
+              )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>

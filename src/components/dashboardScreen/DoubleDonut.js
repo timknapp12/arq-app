@@ -5,7 +5,8 @@ import { View, Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
-import { Flexbox, H5 } from '../common';
+import TapIcon from '../../../assets/icons/icTap.svg';
+import { Flexbox, H5, H2Heavy } from '../common';
 import { Localized } from '../../translations/Localized';
 
 const Legend = styled.View`
@@ -41,6 +42,9 @@ const DoubleDonut = ({
   innermax = 100,
   view,
   onPress = () => {},
+  showTapIcon = false,
+  showRemainingQov = false,
+  remainingQov,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
@@ -130,25 +134,40 @@ const DoubleDonut = ({
           />
           <Flexbox
             justify="center"
-            align="flex-start"
+            align="center"
             padding={18}
             style={{
               position: 'absolute',
             }}
             height="100%"
           >
-            <Legend>
-              <Dot dotFill={outercolor} />
-              <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
-                {Localized('This month')}
-              </H5>
-            </Legend>
-            <Legend>
-              <Dot dotFill={innercolor} />
-              <H5 style={{ textAlign: 'center' }}>{Localized('Last month')}</H5>
-            </Legend>
+            {showRemainingQov ? (
+              <H2Heavy style={{ color: outercolor }}>
+                {remainingQov.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </H2Heavy>
+            ) : (
+              <>
+                <Legend>
+                  <Dot dotFill={outercolor} />
+                  <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
+                    {Localized('This month')}
+                  </H5>
+                </Legend>
+                <Legend>
+                  <Dot dotFill={innercolor} />
+                  <H5 style={{ textAlign: 'center' }}>
+                    {Localized('Last month')}
+                  </H5>
+                </Legend>
+              </>
+            )}
           </Flexbox>
         </View>
+        {showTapIcon && (
+          <Flexbox style={{ position: 'absolute', bottom: 26 }}>
+            <TapIcon />
+          </Flexbox>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -171,6 +190,9 @@ DoubleDonut.propTypes = {
   innermax: PropTypes.number,
   view: PropTypes.oneOf(['overview', 'rank', 'ov detail']),
   onPress: PropTypes.func,
+  showTapIcon: PropTypes.bool,
+  showRemainingQov: PropTypes.bool,
+  remainingQov: PropTypes.number,
 };
 
 export default DoubleDonut;

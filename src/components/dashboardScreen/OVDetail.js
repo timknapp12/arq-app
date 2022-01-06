@@ -26,10 +26,18 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
   const [currentUserRankID] = useState(user?.rank.rankId);
   const [isQualified, setIsQualified] = useState(true);
 
+  const [remainingQovLeg1, setRemainingQovLeg1] = useState(0);
+  const [remainingQovLeg2, setRemainingQovLeg2] = useState(0);
+  const [remainingQovLeg3, setRemainingQovLeg3] = useState(0);
+
+  const [showRemainingQovLeg1, setShowRemainingQovLeg1] = useState(false);
+  const [showRemainingQovLeg2, setShowRemainingQovLeg2] = useState(false);
+  const [showRemainingQovLeg3, setShowRemainingQovLeg3] = useState(false);
+
   const initialMaxQOV = {
     leg1Max: user?.rank?.maximumPerLeg,
     leg2Max: user?.rank?.maximumPerLeg,
-    leg3Max: user?.rank?.maximumPerLeg / 2,
+    leg3Max: user?.rank?.maximumPerLeg,
   };
   const [maxQOV, setMaxQOV] = useState(initialMaxQOV);
 
@@ -50,6 +58,19 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
     const userLegs = { leg1, leg2, leg3 };
     const requirements = { legMaxPercentage, minimumQoV, maximumPerLeg };
     setMaxQOV(calculateLegPercentages(userLegs, requirements));
+    // we have seen pv totals with decimals so we are rounding them up
+    setRemainingQovLeg1(maximumPerLeg - Math.floor(leg1));
+    setRemainingQovLeg2(maximumPerLeg - Math.floor(leg2));
+    setRemainingQovLeg3(maximumPerLeg - Math.floor(leg3));
+    if (leg1 > maximumPerLeg) {
+      setShowRemainingQovLeg1(false);
+    }
+    if (leg2 > maximumPerLeg) {
+      setShowRemainingQovLeg2(false);
+    }
+    if (leg3 > maximumPerLeg) {
+      setShowRemainingQovLeg3(false);
+    }
     return () => {
       setMaxQOV(initialMaxQOV);
     };
@@ -79,7 +100,9 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
                 <NotQualifiedIcon />
               )}
               <H4 testID="leg-one-label" style={{ marginStart: 4 }}>
-                {Localized('Leg 1')}
+                {showRemainingQovLeg1
+                  ? Localized('Leg 1 Remaining')
+                  : Localized('Leg 1')}
               </H4>
             </TitleContainer>
             <Donut
@@ -90,6 +113,10 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
               max={isQualified ? user.leg1 : maxQOV.leg1Max}
               color={theme.donut1primaryColor}
               onPress={closeMenus}
+              showTapIcon={user?.leg1 < rank?.maximumPerLeg}
+              remainingQov={remainingQovLeg1}
+              showRemainingQov={showRemainingQovLeg1}
+              setShowRemainingQov={setShowRemainingQovLeg1}
             />
           </Flexbox>
 
@@ -101,7 +128,9 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
                 <NotQualifiedIcon />
               )}
               <H4 testID="leg-two-label" style={{ marginStart: 4 }}>
-                {Localized('Leg 2')}
+                {showRemainingQovLeg2
+                  ? Localized('Leg 2 Remaining')
+                  : Localized('Leg 2')}
               </H4>
             </TitleContainer>
             <Donut
@@ -110,6 +139,10 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
               max={isQualified ? user.leg2 : maxQOV.leg2Max}
               color={theme.donut2primaryColor}
               onPress={closeMenus}
+              showTapIcon={user?.leg2 < rank?.maximumPerLeg}
+              remainingQov={remainingQovLeg2}
+              showRemainingQov={showRemainingQovLeg2}
+              setShowRemainingQov={setShowRemainingQovLeg2}
             />
           </Flexbox>
         </Flexbox>
@@ -122,7 +155,9 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
               <NotQualifiedIcon />
             )}
             <H4 testID="leg-three-label" style={{ marginStart: 4 }}>
-              {Localized('Leg 3')}
+              {showRemainingQovLeg3
+                ? Localized('Leg 3 Remaining')
+                : Localized('Leg 3')}
             </H4>
           </TitleContainer>
           <Donut
@@ -131,6 +166,10 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
             max={isQualified ? user.leg3 : maxQOV.leg3Max}
             color={theme.donut3primaryColor}
             onPress={closeMenus}
+            showTapIcon={user?.leg3 < rank?.maximumPerLeg}
+            remainingQov={remainingQovLeg3}
+            showRemainingQov={showRemainingQovLeg3}
+            setShowRemainingQov={setShowRemainingQovLeg3}
           />
         </Flexbox>
       </Flexbox>
