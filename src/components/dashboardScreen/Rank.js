@@ -132,7 +132,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           justify="space-between"
           direction="row"
         >
-          <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
+          <Flexbox accessibilityLabel="monthly comparison pv" width="50%">
             <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
             <DoubleDonut
               testID="total-pv-donut-svg"
@@ -171,7 +171,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             </LegendContainer>
           </Flexbox>
 
-          <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
+          <Flexbox accessibilityLabel="monthly comparison qov" width="50%">
             <H4 testID="total-qov-donut-label">
               {showRemainingQov
                 ? Localized('Remaining QOV')
@@ -221,7 +221,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
 
         <Flexbox
           style={{ paddingTop: 12 }}
-          accessibilityLabel="monthly comparrison personally enrolled"
+          accessibilityLabel="monthly comparison personally enrolled"
           width="auto"
         >
           <H4 testID="personally-enrolled-donut-label">
