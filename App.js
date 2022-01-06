@@ -11,7 +11,10 @@ import {
   split,
 } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { getMainDefinition } from '@apollo/client/utilities';
+import {
+  getMainDefinition,
+  relayStylePagination,
+} from '@apollo/client/utilities';
 import fetch from 'cross-fetch';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
@@ -41,7 +44,7 @@ const App = () => {
   const [legacyId, setLegacyId] = useState(null);
 
   // if user has been rank of Ruby or higher they have permissions to create team content
-  const [hasPermissions, setHasPermissions] = useState(false);
+  const [hasPermissionsToWrite, setHasPermissionsToWrite] = useState(false);
   const [loaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
     'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
@@ -115,6 +118,33 @@ const App = () => {
         Links: { keyFields: ['linkId'] },
         Associate: { keyFields: ['associateId'] },
         Prospect: { keyFields: ['prospectId'] },
+        Query: {
+          fields: {
+            searchTree: {
+              ...relayStylePagination(),
+              // Handles incoming data
+              keyArgs: false,
+              merge(
+                existing = {
+                  /*some default object fields*/
+                },
+                incoming,
+                { args },
+              ) {
+                if (args && !args.after) {
+                  // Initial fetch or refetch
+                  return incoming;
+                }
+                // Pagination
+                return {
+                  ...existing,
+                  pageInfo: incoming.pageInfo,
+                  nodes: [...existing.nodes, ...incoming.nodes],
+                };
+              },
+            },
+          },
+        },
       },
     }),
     link: concat(authMiddleware, splitLink),
@@ -138,8 +168,8 @@ const App = () => {
             token,
             setToken,
             signOutOfFirebase,
-            hasPermissions,
-            setHasPermissions,
+            hasPermissionsToWrite,
+            setHasPermissionsToWrite,
           }}
         >
           <StatusBar

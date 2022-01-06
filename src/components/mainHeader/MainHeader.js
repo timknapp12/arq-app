@@ -6,6 +6,7 @@ import { Flexbox, SmallQIcon, BellIcon, Header } from '../common';
 import AccountIcon from '../../../assets/icons/accountProfile.svg';
 import LoginContext from '../../contexts/LoginContext';
 import AppContext from '../../contexts/AppContext';
+import TabButtonContext from '../../contexts/TabButtonContext';
 
 const ProfileImage = styled.Image`
   height: 24px;
@@ -14,6 +15,7 @@ const ProfileImage = styled.Image`
 `;
 const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
   const { theme } = useContext(AppContext);
+  const { closeAddOptions } = useContext(TabButtonContext);
 
   const {
     userProfile = { profileUrl: '' },
@@ -57,7 +59,8 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
             e.stopPropagation();
             toggleMenu();
             setDisplayNotifications(false);
-          }}>
+          }}
+        >
           {url && isImageValid && urlHasChanged ? (
             <ProfileImage
               key={url}
@@ -80,7 +83,9 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
             setDisplayNotifications((state) => !state);
             fadeOut();
             setProspectNotificationCount(0);
-          }}>
+            closeAddOptions();
+          }}
+        >
           <BellIcon badgeValue={prospectNotificationCount} />
         </TouchableOpacity>
       </Flexbox>

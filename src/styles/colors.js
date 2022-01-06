@@ -4,6 +4,8 @@ export const secondaryWhite = 'rgba(255,255,255,.5)';
 
 export const disabledWhite = 'rgba(255,255,255,.35)';
 
+export const highlightWhite = '#ffffff';
+
 export const black = '#000000';
 
 export const nero = '#222222';
@@ -25,23 +27,28 @@ export const blue = '#007985';
 // error message
 export const red = '#FF0000';
 
-// badge notification background
-export const darkRed = '#993300';
+// donut and pie charts
+export const tealAccent = '#94D2BA';
+export const tealAccentDark = '#00FFCC';
+export const tealAccentLight = '#DFF1EA';
 
-// donut chart
-export const donut1primaryColor = '#94D2BA';
+export const orangeAccent = '#EAB286';
+export const orangeAccentDark = '#FFB200';
+export const orangeAccentLight = '#F9E8DB';
 
-// donut chart
-export const donut1secondaryColor = '#E2F2EA';
+export const yellowAccent = '#B3BE91';
+export const yellowAccentDark = '#B3DE00';
+export const yellowAccentLight = '#E8EBDE';
 
-// donut chart
-export const donut2primaryColor = '#B6A0BB';
+export const blueAccent = '#AFD2D3';
+export const blueAccentDark = '#00D2D3';
+export const blueAccentLight = '#E7F1F2';
 
-// donut chart
-export const donut2secondaryColor = '#E8E2E9';
+export const purpleAccent = '#B6A0BB';
+export const purpleAccentDark = '#B600BB';
+export const purpleAccentLight = '#E9E2EB';
 
-// donut chart
-export const donut3primaryColor = '#EAB286';
-
-// donut chart
-export const donut3secondaryColor = '#F8E8DA';
+export const caramel = '#D59957';
+export const violet = '#70346E';
+export const darkRed = '#AC2A1C';
+export const warningYellow = '#FDD207';

@@ -15,7 +15,10 @@ export const Picker = ({
   onValueChange,
   value,
   placeholder,
+  fontFamily = 'Roboto-Regular',
+  fontSize = 16,
   validationError = false,
+  ...props
 }) => {
   const { theme } = useContext(AppContext);
   return (
@@ -23,11 +26,12 @@ export const Picker = ({
       <Label>{label}</Label>
 
       <RNPickerSelect
+        {...props}
         style={{
           width: '100%',
           inputIOS: {
-            fontSize: 16,
-            fontFamily: 'Roboto-Regular',
+            fontSize: fontSize,
+            fontFamily: fontFamily,
             paddingBottom: 4,
             paddingEnd: 30, // to ensure the text is never behind the icon
             borderBottomWidth: validationError ? 3 : 1,
@@ -37,8 +41,8 @@ export const Picker = ({
             color: theme.primaryTextColor,
           },
           inputAndroid: {
-            fontSize: 16,
-            fontFamily: 'Roboto-Regular',
+            fontSize: fontSize,
+            fontFamily: fontFamily,
             paddingBottom: 4,
             paddingEnd: 30, // to ensure the text is never behind the icon
             borderBottomWidth: validationError ? 3 : 1,
@@ -79,6 +83,8 @@ Picker.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.object,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.number,
   style: PropTypes.object,
   validationError: PropTypes.bool,
 };

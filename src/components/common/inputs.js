@@ -88,7 +88,8 @@ export const Input = React.forwardRef(
           {label ? <Label>{label}</Label> : null}
           <ThemedTextInputContainer
             focused={isFocused}
-            validationError={validationError}>
+            validationError={validationError}
+          >
             <ThemedInput
               ref={ref || inputRef}
               secureTextEntry={secureTextEntry}
@@ -103,7 +104,8 @@ export const Input = React.forwardRef(
               <Pressable
                 testID="show-passord-button"
                 hitSlop={8}
-                onPress={() => setSecureTextEntry((state) => !state)}>
+                onPress={() => setSecureTextEntry((state) => !state)}
+              >
                 {secureTextEntry ? (
                   <ThemedIcon size={24} name="eye" />
                 ) : (

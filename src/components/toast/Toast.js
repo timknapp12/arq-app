@@ -55,7 +55,8 @@ const Toast = ({ visible, children, ...props }) => {
           justifyContent: 'center',
           padding: 12,
           zIndex: 2,
-        }}>
+        }}
+      >
         {children}
       </Animated.View>
     );

@@ -12,6 +12,7 @@ import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import AddFolderModal from './AddFolderModal';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
+import TabButtonContext from '../../../contexts/TabButtonContext';
 import TeamMenu from './TeamMenu';
 import AccessCodeModal from './AccessCodeModal';
 import { Localized } from '../../../translations/Localized';
@@ -22,7 +23,6 @@ import {
 import { ADD_TEAM_ACCESS_CODE } from '../../../graphql/mutations';
 import {
   findTeamOwnerId,
-  findAssociateIdInListOfTeams,
   findTeamAccessCode,
 } from '../../../utils/teamResources/findTeamResourceData';
 
@@ -41,9 +41,14 @@ const TeamView = ({
   isOwner,
   setIsOwner,
 }) => {
-  const { theme, associateId, hasPermissions } = useContext(AppContext);
-  const { displayNotifications, setDisplayNotifications } =
-    useContext(LoginContext);
+  const { theme, associateId, hasPermissionsToWrite } = useContext(AppContext);
+  const {
+    displayNotifications,
+    setDisplayNotifications,
+    alreadyHasTeam,
+    showAddOptions,
+  } = useContext(LoginContext);
+  const { setSelectedFolderName } = useContext(TabButtonContext);
 
   // get all of the access codes that the user has subscribed to
   const { loading: loadingAccessCodes, data: userAccessCodesData } = useQuery(
@@ -91,11 +96,6 @@ const TeamView = ({
     }
   };
 
-  const userHasAlreadyCreatedATeam = findAssociateIdInListOfTeams(
-    associateId,
-    userAccessCodesData?.accesses ?? '',
-  );
-
   const navigateToResource = (item) => {
     closeMenus();
     // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
@@ -104,7 +104,11 @@ const TeamView = ({
       return;
     }
     // this prevents a team resource folder opening when it is underneath a the main menu
-    if (isMenuOpen && Platform.OS === 'android') {
+    // or if the navbar button is expanded and one of those add option buttons is tapped
+    if (
+      (isMenuOpen && Platform.OS === 'android') ||
+      (showAddOptions && Platform.OS === 'android')
+    ) {
       return closeMenus();
     }
     // close notifications window if it is open instead of navigating to resource
@@ -114,10 +118,11 @@ const TeamView = ({
     if (displayNotifications && Platform.OS === 'ios') {
       return setDisplayNotifications(false);
     }
+    setSelectedFolderName(item?.folderName);
     navigation.navigate('Team Resources Category Screen', {
       title: item?.folderName.toUpperCase(),
+      // TODO - check to see if we no longer need this param since we can find folder id in the tabButtonDataContainer
       folderId: item?.folderId,
-      // TODO: integrate permissions with backend
       isOwner: isOwner,
       selectedTeamName: selectedTeamName,
     });
@@ -273,9 +278,9 @@ const TeamView = ({
           onSelect={(name) => storeTeamName(name)}
           setIsAccessCodeModalOpen={setIsAccessCodeModalOpen}
           setIsNewAccessCode={setIsNewAccessCode}
-          hasPermissions={hasPermissions}
+          hasPermissionsToWrite={hasPermissionsToWrite}
           associateId={associateId}
-          userHasAlreadyCreatedATeam={userHasAlreadyCreatedATeam}
+          userHasAlreadyCreatedATeam={alreadyHasTeam}
         />
       </Flexbox>
       <MainScrollView>
@@ -301,6 +306,7 @@ const TeamView = ({
               style={{ zIndex: -index }}
               key={item?.folderId}
               folderId={item?.folderId}
+              folderName={item?.folderName}
               url={item?.pictureUrl}
               title={item?.folderName}
               isWideLayout={item?.isWideLayout}

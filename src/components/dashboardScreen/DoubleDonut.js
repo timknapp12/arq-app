@@ -14,11 +14,12 @@ const Legend = styled.View`
   align-items: center;
 `;
 
-const Square = styled.View`
+const Dot = styled.View`
   height: 16px;
   width: 16px;
+  border-radius: 8px;
   margin-right: 4px;
-  background-color: ${({ squareFill }) => squareFill};
+  background-color: ${({ dotFill }) => dotFill};
 `;
 
 // source for animated svg: https://www.youtube.com/watch?v=x2LtzCxbWI0
@@ -89,11 +90,13 @@ const DoubleDonut = ({
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-        }}>
+        }}
+      >
         <Svg
           width={outerradius * 2}
           height={outerradius * 2}
-          viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>
+          viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}
+        >
           <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
             <Circle
               cx="50%"
@@ -110,6 +113,7 @@ const DoubleDonut = ({
               cy="50%"
               stroke={outercolor}
               strokeWidth={outerstrokeWidth}
+              strokeLinecap="round"
               r={outerradius}
               fill="transparent"
               strokeDasharray={circleCircumference}
@@ -135,7 +139,8 @@ const DoubleDonut = ({
             style={{
               position: 'absolute',
             }}
-            height="100%">
+            height="100%"
+          >
             {showRemainingQov ? (
               <H2Heavy style={{ color: outercolor }}>
                 {remainingQov.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -143,13 +148,13 @@ const DoubleDonut = ({
             ) : (
               <>
                 <Legend>
-                  <Square squareFill={outercolor} />
+                  <Dot dotFill={outercolor} />
                   <H5 style={{ textAlign: 'center', flexWrap: 'nowrap' }}>
                     {Localized('This month')}
                   </H5>
                 </Legend>
                 <Legend>
-                  <Square squareFill={innercolor} />
+                  <Dot dotFill={innercolor} />
                   <H5 style={{ textAlign: 'center' }}>
                     {Localized('Last month')}
                   </H5>

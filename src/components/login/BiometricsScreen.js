@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/client';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { TouchableOpacity, Platform, Alert, Keyboard } from 'react-native';
 import { Flexbox, PrimaryButton, H4, Checkbox } from '../common';
@@ -11,11 +10,11 @@ import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
-import { GET_USERS_ACCESS_CODES } from '../../graphql/queries';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, hasPermissions, associateId } = useContext(AppContext);
-  const { storeBiometrics } = useContext(LoginContext);
+  const { theme, hasPermissionsToWrite } = useContext(AppContext);
+  const { storeBiometrics, alreadyHasTeam, loadingAccessCodes } =
+    useContext(LoginContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
@@ -25,15 +24,6 @@ const BiometricsScreen = ({ navigation }) => {
   useEffect(() => {
     Keyboard.dismiss();
   }, []);
-
-  const { loading, data } = useQuery(GET_USERS_ACCESS_CODES, {
-    variables: { associateId },
-    onError: (error) => console.log(`error in get access codes`, error),
-  });
-
-  const alreadyHasTeam = data?.accesses.some(
-    (team) => team?.teamOwnerAssociateId === associateId,
-  );
 
   // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
   // https://docs.expo.io/versions/latest/sdk/local-authentication/
@@ -55,7 +45,7 @@ const BiometricsScreen = ({ navigation }) => {
         throw new Error(Localized('No Faces / Fingers found'));
       }
     } catch (error) {
-      Alert.alert(Localized('An error has occured'), error?.message);
+      Alert.alert(Localized('An error has occurred'), error?.message);
     }
   };
 
@@ -81,12 +71,12 @@ const BiometricsScreen = ({ navigation }) => {
     // this sets the biometrics in App.js at the root of the project
     storeBiometrics(enableBiometrics);
     // if the user has ever been ruby or above AND if they have not already created a team then they can create a team, otherwise we don't let them go to that screen
-    hasPermissions && !alreadyHasTeam
+    hasPermissionsToWrite && !alreadyHasTeam
       ? navigation.navigate('Create Team Screen')
       : navigation.navigate('App Stack');
   };
 
-  if (loading) {
+  if (loadingAccessCodes) {
     return <LoadingScreen />;
   }
 

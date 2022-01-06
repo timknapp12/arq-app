@@ -17,6 +17,8 @@ import TouchID from '../../../assets/icons/touch-id.svg';
 import Dashboard from '../../../assets/icons/dashboard.svg';
 import Resources from '../../../assets/icons/resources.svg';
 import News from '../../../assets/icons/news.svg';
+import Team from '../../../assets/icons/team-icon.svg';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../contexts/AppContext';
 import { darkRed, primaryWhite, blue } from '../../styles/colors';
 
@@ -39,8 +41,8 @@ const BadgeContainer = styled.View`
   align-items: center;
   top: 6px;
   right: -6px;
-  height: ${badgeCircumfrance}px;
-  width: ${badgeCircumfrance}px;
+  min-height: ${badgeCircumfrance}px;
+  min-width: ${badgeCircumfrance}px;
   border-radius: ${badgeCircumfrance / 2}px;
 `;
 
@@ -149,5 +151,40 @@ export const NewsIcon = ({ fill = primaryWhite, size = 34, ...props }) => (
 );
 NewsIcon.propTypes = {
   fill: PropTypes.string,
+  size: PropTypes.number,
+};
+
+export const TeamIcon = ({ fill = primaryWhite, size = 34, ...props }) => (
+  <Team style={{ color: fill }} width={size} height={size} {...props} />
+);
+TeamIcon.propTypes = {
+  fill: PropTypes.string,
+  size: PropTypes.number,
+};
+
+const ThemedActivityIndicator = styled.ActivityIndicator`
+  color: ${(props) => props.theme.disabledBackgroundColor};
+`;
+
+export const LoadingSpinner = ({ size = 'small', ...props }) => (
+  <ThemedActivityIndicator size={size} {...props} />
+);
+
+LoadingSpinner.propTypes = { size: PropTypes.string };
+
+export const ChevronIcon = ({ isExpanded, size = 24 }) => {
+  const { theme } = useContext(AppContext);
+
+  return (
+    <MaterialCommunityIcon
+      name={isExpanded ? 'chevron-up' : 'chevron-down'}
+      color={theme.primaryTextColor}
+      size={size}
+    />
+  );
+};
+
+ChevronIcon.propTypes = {
+  isExpanded: PropTypes.bool.isRequired,
   size: PropTypes.number,
 };

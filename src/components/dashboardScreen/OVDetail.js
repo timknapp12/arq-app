@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
@@ -6,11 +6,7 @@ import { H4, Flexbox, QualifiedIcon, NotQualifiedIcon } from '../common';
 import { Localized } from '../../translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
-import {
-  donut1primaryColor,
-  donut2primaryColor,
-  donut3primaryColor,
-} from '../../styles/colors';
+import AppContext from '../../contexts/AppContext';
 import { calculateLegPercentages } from '../../utils/calculateLegPercentages';
 
 const TitleContainer = styled.View`
@@ -20,6 +16,8 @@ const TitleContainer = styled.View`
 `;
 
 const OVDetail = ({ ranklist, closeMenus, user }) => {
+  const { theme } = useContext(AppContext);
+
   const initialRankName = user?.rank.name;
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.rank;
@@ -93,7 +91,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
           // this adds commas, since toLocalString() does not work on android
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H4>
-        <Flexbox padding={20} width="100%" direction="row">
+        <Flexbox padding={20} width="100%" direction="row" justify="center">
           <Flexbox accessibilityLabel="Distributor leg one" width="auto">
             <TitleContainer>
               {isQualified || user.leg1 >= maxQOV.leg1Max ? (
@@ -113,7 +111,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
               // Ternary as a safety check, in case the calculations for % are wrong -
               // the circle should always be full if the user is qualified for any certain level
               max={isQualified ? user.leg1 : maxQOV.leg1Max}
-              color={donut1primaryColor}
+              color={theme.donut1primaryColor}
               onPress={closeMenus}
               showTapIcon={user?.leg1 < rank?.maximumPerLeg}
               remainingQov={remainingQovLeg1}
@@ -139,7 +137,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
               testID="leg-two-donut-svg"
               percentage={user.leg2}
               max={isQualified ? user.leg2 : maxQOV.leg2Max}
-              color={donut2primaryColor}
+              color={theme.donut2primaryColor}
               onPress={closeMenus}
               showTapIcon={user?.leg2 < rank?.maximumPerLeg}
               remainingQov={remainingQovLeg2}
@@ -166,7 +164,7 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
             testID="leg-three-donut-svg"
             percentage={user.leg3}
             max={isQualified ? user.leg3 : maxQOV.leg3Max}
-            color={donut3primaryColor}
+            color={theme.donut3primaryColor}
             onPress={closeMenus}
             showTapIcon={user?.leg3 < rank?.maximumPerLeg}
             remainingQov={remainingQovLeg3}

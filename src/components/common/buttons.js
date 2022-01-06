@@ -7,7 +7,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { H4Book, H3, Checkmark } from './texts';
+import { H4Book, Checkmark } from './texts';
 import FacebookLogo from '../../../assets/icons/facebook-logo.svg';
 import AppleIcon from '../../../assets/icons/apple-button.svg';
 import GoogleLogo from '../../../assets/icons/google-button.svg';
@@ -70,7 +70,7 @@ const ThemedTertiary = styled.TouchableOpacity`
   border-width: ${(props) => (props.selected ? '2px' : '1px')};
   border-color: ${(props) =>
     props.selected
-      ? props.theme.teriarySelectedBorderColor
+      ? props.theme.tertiarySelectedBorderColor
       : props.theme.tertiaryDisabledBorderColor};
   background-color: ${(props) =>
     props.selected
@@ -99,6 +99,27 @@ TertiaryButton.propTypes = {
   selected: PropTypes.bool,
   children: PropTypes.string.isRequired,
 };
+
+// GOOGLE LOGIN
+export const GoogleLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <GoogleLogo />
+  </TouchableOpacity>
+);
+
+// FACEBOOK LOGIN
+export const FacebookLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <FacebookLogo />
+  </TouchableOpacity>
+);
+
+// APPLE LOGIN
+export const AppleLoginButton = ({ ...props }) => (
+  <TouchableOpacity {...props}>
+    <AppleIcon />
+  </TouchableOpacity>
+);
 
 // SWITCH
 export const Switch = ({ value, onValueChange, ...props }) => {
@@ -199,6 +220,7 @@ Checkbox.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
 
+// this is used on the Prospect Screen
 // ADD BUTTON
 export const AddButton = styled.TouchableOpacity`
   height: 56px;
@@ -209,31 +231,6 @@ export const AddButton = styled.TouchableOpacity`
   align-items: center;
   position: absolute;
   bottom: ${(props) => props.bottom};
-  right: 12px;
+  right: ${(props) => props.right};
   box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
 `;
-
-export const ButtonText = styled(H3)`
-  font-family: 'Avenir-Black';
-`;
-
-// GOOGLE LOGIN
-export const GoogleLoginButton = ({ ...props }) => (
-  <TouchableOpacity {...props}>
-    <GoogleLogo />
-  </TouchableOpacity>
-);
-
-// FACEBOOK LOGIN
-export const FacebookLoginButton = ({ ...props }) => (
-  <TouchableOpacity {...props}>
-    <FacebookLogo />
-  </TouchableOpacity>
-);
-
-// APPLE LOGIN
-export const AppleLoginButton = ({ ...props }) => (
-  <TouchableOpacity {...props}>
-    <AppleIcon />
-  </TouchableOpacity>
-);

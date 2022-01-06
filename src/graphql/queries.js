@@ -4,7 +4,17 @@ export const GET_USER = gql`
   query TreeNodeFor($legacyAssociateId: Int!) {
     treeNodeFor(legacyAssociateId: $legacyAssociateId) {
       associateId
-      uplineAssociateId
+      uplineTreeNode {
+        associate {
+          associateId
+          legacyAssociateId
+        }
+      }
+      associate {
+        associateId
+        firstName
+        lastName
+      }
       orders {
         orderId
       }
@@ -13,7 +23,6 @@ export const GET_USER = gql`
       ov
       qoV
       pa
-      canSee
       leg1
       leg2
       leg3
@@ -40,6 +49,109 @@ export const GET_USER = gql`
         highestRank {
           rankId
           rankName
+        }
+      }
+      #autoShip {
+      #  leg1Total {
+      #    processedPv
+      #  }
+      #  leg2Total {
+      #    processedPv
+      #  }
+      #  leg3Total {
+      #    processedPv
+      #  }
+      #  entireLineTotal {
+      #    processedPv
+      #    projectedPv
+      #  }
+      #}
+      #glance {
+      #  entireLineTotal {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg1Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg2Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #  leg3Total {
+      #    ambassadorMonthCount
+      #    eventMonthCount
+      #    preferedMonthCount
+      #  }
+      #}
+      childTreeNodes {
+        uplineTreeNode {
+          associate {
+            associateId
+            legacyAssociateId
+          }
+        }
+        associate {
+          associateId
+          legacyAssociateId
+          firstName
+          lastName
+          profileUrl
+          associateType
+          associateStatus
+        }
+        rank {
+          rankId
+          rankName
+        }
+        pv
+        qoV
+        pa
+        previousAmbassadorMonthlyRecord {
+          personalVolume
+          personallySponsoredActiveAmbassadorCount
+          qov
+          rankId
+        }
+        childTreeNodes {
+          uplineTreeNode {
+            associate {
+              associateId
+              legacyAssociateId
+            }
+          }
+          associate {
+            associateId
+            legacyAssociateId
+            firstName
+            lastName
+            profileUrl
+            associateType
+            associateStatus
+          }
+          rank {
+            rankId
+            rankName
+          }
+          pv
+          qoV
+          pa
+          previousAmbassadorMonthlyRecord {
+            personalVolume
+            personallySponsoredActiveAmbassadorCount
+            qov
+            rankId
+          }
+          childTreeNodes {
+            associate {
+              associateId
+              associateType
+            }
+          }
         }
       }
     }
@@ -105,11 +217,7 @@ export const GET_MARKETS = gql`
 
 export const GET_CORPORATE_RESOURCES = gql`
   query CorporateResoures($countries: [Int!], $languageCode: String) {
-    corporateResources(
-      countries: $countries
-      languageCode: $languageCode
-      order: { displayOrder: ASC }
-    ) {
+    corporateResources(countries: $countries, languageCode: $languageCode) {
       originalFolderName
       folderName
       folderId
@@ -228,7 +336,10 @@ export const GET_TEAM_RESOURCES = gql`
 
 export const GET_ASSETS = gql`
   query Links($folderId: Int!) {
-    links(where: { folderId: { eq: $folderId } }) {
+    links(
+      where: { folderId: { eq: $folderId } }
+      order: { displayOrder: ASC }
+    ) {
       folderId
       linkId
       linkTitle
@@ -303,7 +414,6 @@ export const GET_NEWS = gql`
       associateId: $associateId
       countries: $countries
       languageCode: $languageCode
-      order: { displayOrder: ASC }
     ) {
       folderId
       folderName
@@ -336,6 +446,79 @@ export const GET_PROSPECT_NOTIFICATIONS = gql`
       sentLinks {
         displayName
         sentLinkId
+      }
+    }
+  }
+`;
+
+export const GET_ORDERS = gql`
+  query Orders($associateId: Int!) {
+    orders(associateId: $associateId) {
+      orderId
+      dateOrder
+      totalCost
+      pv
+      type
+      orderDetails {
+        orderDetailId
+        amount
+        productName
+        quantity
+        pv
+      }
+    }
+  }
+`;
+
+export const SEARCH_TREE = gql`
+  query SearchTree(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+    $name: String!
+    $status: AssociateStatus
+    $type: AssociateTypeEnum
+    $rankName: String
+  ) {
+    searchTree(
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+      name: $name
+      status: $status
+      type: $type
+      rankName: $rankName
+    ) {
+      nodes {
+        uplineTreeNode {
+          associateId
+          legacyAssociateId
+        }
+        associateId
+        legacyAssociateId
+        firstName
+        lastName
+        profileUrl
+        associateType
+        associateStatus
+        depth
+        rank {
+          rankId
+          rankName
+        }
+      }
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          associateId
+        }
       }
     }
   }

@@ -20,7 +20,7 @@ const AccessCodeModal = ({
   isNew,
   isError,
   setIsError,
-  setSelectedTeamName,
+  setSelectedTeamName = () => {},
 }) => {
   const { associateId } = useContext(AppContext);
 
@@ -90,7 +90,8 @@ const AccessCodeModal = ({
     <EditModal
       visible={visible}
       onClose={onCancel}
-      onSave={isNew ? onCreate : onSave}>
+      onSave={isNew ? onCreate : onSave}
+    >
       <H5Black style={{ textAlign: 'center' }}>{header}</H5Black>
       <H5Secondary style={{ marginTop: 8, marginBottom: 8 }}>
         {instructions}

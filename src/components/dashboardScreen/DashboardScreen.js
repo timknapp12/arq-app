@@ -25,6 +25,7 @@ import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
+import TabButtonContext from '../../contexts/TabButtonContext';
 
 const DashboardScreen = ({ navigation }) => {
   // set defaults for user so UI doesn't crash before real data loads
@@ -57,6 +58,7 @@ const DashboardScreen = ({ navigation }) => {
     setDisplayNotifications,
     displayNotifications,
   } = useContext(LoginContext);
+  const { closeAddOptions } = useContext(TabButtonContext);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -86,6 +88,7 @@ const DashboardScreen = ({ navigation }) => {
 
   const fadeIn = () => {
     setIsMenuOpen(true);
+    closeAddOptions();
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 700,
@@ -102,6 +105,7 @@ const DashboardScreen = ({ navigation }) => {
 
   const closeMenus = () => {
     fadeOut();
+    closeAddOptions();
     // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
     Platform.OS === 'ios' && setDisplayNotifications(false);
   };
@@ -141,7 +145,8 @@ const DashboardScreen = ({ navigation }) => {
               style={{ marginRight: 15 }}
               onPress={() => navigate(item)}
               selected={view.name === item?.name}
-              key={item?.name}>
+              key={item?.name}
+            >
               {item?.name}
             </TertiaryButton>
           ))}
@@ -164,7 +169,8 @@ const DashboardScreen = ({ navigation }) => {
             width: '100%',
             height: '100%',
             zIndex: -1,
-          }}>
+          }}
+        >
           {view.name === Localized('Overview').toUpperCase() && (
             <Overview user={user} closeMenus={closeMenus} />
           )}

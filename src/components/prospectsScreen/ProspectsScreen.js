@@ -8,15 +8,18 @@ import {
   TouchableOpacity,
   Animated,
   ActivityIndicator,
+  Image,
 } from 'react-native';
-import { ScreenContainer, Flexbox, AddButton, ButtonText } from '../common';
+import { ScreenContainer, Flexbox, AddButton } from '../common';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
 import FilterMenu from './FilterMenu';
 import AppContext from '../../contexts/AppContext';
 import ProspectsContext from '../../contexts/ProspectsContext';
+import LoginContext from '../../contexts/LoginContext';
 import ProspectsView from './ProspectsView';
 import AddContactModal from './AddContactModal';
+import add from '../../../assets/icons/AddIcon_White.png';
 import {
   GET_PROSPECTS_BY_FIRSTNAME,
   GET_PROSPECTS_BY_LASTNAME,
@@ -24,13 +27,9 @@ import {
 
 const ProspectsScreen = ({ navigation, route }) => {
   const { theme, associateId } = useContext(AppContext);
-  const {
-    sortBy,
-    setSortBy,
-    setSubject,
-    setRedirectUrl,
-    setProspectLinkIsNeeded,
-  } = useContext(ProspectsContext);
+  const { setSubject, setRedirectUrl, setProspectLinkIsNeeded } =
+    useContext(ProspectsContext);
+  const { sortBy, setSortBy } = useContext(LoginContext);
   const isFocused = useIsFocused();
 
   const linkTitle = route?.params?.title ?? '';
@@ -175,8 +174,15 @@ const ProspectsScreen = ({ navigation, route }) => {
           <AddButton
             onPress={() => setIsAddContactModalOpen(true)}
             bottom="40px"
+            right="16px"
           >
-            <ButtonText>+</ButtonText>
+            <Image
+              source={add}
+              style={{
+                height: 46,
+                width: 46,
+              }}
+            />
           </AddButton>
         </ScreenContainer>
       </TouchableWithoutFeedback>

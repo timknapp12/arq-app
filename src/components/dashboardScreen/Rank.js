@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
@@ -7,14 +7,7 @@ import { H4, H5, Flexbox } from '../common';
 import { Localized } from '../../translations/Localized';
 import DoubleDonut from './DoubleDonut';
 import Slider from './Slider';
-import {
-  donut1primaryColor,
-  donut1secondaryColor,
-  donut2primaryColor,
-  donut3primaryColor,
-  donut2secondaryColor,
-  donut3secondaryColor,
-} from '../../styles/colors';
+import AppContext from '../../contexts/AppContext';
 import { reshapePerc } from '../../utils/calculateLegPercentages';
 import { CALCULATE_QOV } from '../../graphql/queries';
 
@@ -27,14 +20,16 @@ const Legend = styled.View`
   align-items: center;
 `;
 
-const Square = styled.View`
+const Dot = styled.View`
   height: 16px;
   width: 16px;
+  border-radius: 8px;
   margin-right: 4px;
-  background-color: ${({ squareFill }) => squareFill};
+  background-color: ${({ dotFill }) => dotFill};
 `;
 
 const Rank = ({ ranklist, user, closeMenus }) => {
+  const { theme } = useContext(AppContext);
   const { pv, pa, leg1, leg2, leg3, previousAmbassadorMonthlyRecord } = user;
 
   const lastMonthPV = previousAmbassadorMonthlyRecord?.personalVolume ?? 0;
@@ -137,23 +132,23 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           justify="space-between"
           direction="row"
         >
-          <Flexbox accessibilityLabel="monthly comparrison pv" width="50%">
+          <Flexbox accessibilityLabel="monthly comparison pv" width="50%">
             <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
             <DoubleDonut
               testID="total-pv-donut-svg"
               // ternary to ensure no error with 0 values of distributor rank
               outerpercentage={rank.rankId === 1 ? 0 : pvPerc}
               outermax={100}
-              outercolor={donut1primaryColor}
+              outercolor={theme.donut1primaryColor}
               innerpercentage={rank.rankId === 1 ? 0 : lastMonthPVPerc}
               innermax={100}
-              innercolor={donut1secondaryColor}
+              innercolor={theme.donut1secondaryColor}
               view="rank"
               onPress={closeMenus}
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={donut1primaryColor} />
+                <Dot dotFill={theme.donut1primaryColor} />
                 {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
                 <H5 testID="this-month-total-pv">{`${Math.floor(pv)
                   .toString()
@@ -164,7 +159,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
               <Legend>
-                <Square squareFill={donut1secondaryColor} />
+                <Dot dotFill={theme.donut1secondaryColor} />
                 <H5 testID="last-month-total-pv">{`${Math.floor(lastMonthPV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
@@ -176,7 +171,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             </LegendContainer>
           </Flexbox>
 
-          <Flexbox accessibilityLabel="monthly comparrison qov" width="50%">
+          <Flexbox accessibilityLabel="monthly comparison qov" width="50%">
             <H4 testID="total-qov-donut-label">
               {showRemainingQov
                 ? Localized('Remaining QOV')
@@ -186,10 +181,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
               testID="total-qov-donut-svg"
               outerpercentage={rank.rankId === 1 ? 0 : qoVPerc}
               outermax={100}
-              outercolor={donut2primaryColor}
+              outercolor={theme.donut2primaryColor}
               innerpercentage={rank.rankId === 1 ? 0 : lastMonthQOVPerc}
               innermax={100}
-              innercolor={donut2secondaryColor}
+              innercolor={theme.donut2secondaryColor}
               view="rank"
               onPress={() => {
                 closeMenus();
@@ -201,7 +196,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             />
             <LegendContainer>
               <Legend>
-                <Square squareFill={donut2primaryColor} />
+                <Dot dotFill={theme.donut2primaryColor} />
                 <H5 testID="this-month-total-qov">{`${Math.floor(qoV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
@@ -211,7 +206,7 @@ const Rank = ({ ranklist, user, closeMenus }) => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
               </Legend>
               <Legend>
-                <Square squareFill={donut2secondaryColor} />
+                <Dot dotFill={theme.donut2secondaryColor} />
                 <H5 testID="last-month-total-qov">{`${Math.floor(lastMonthQOV)
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
@@ -226,32 +221,32 @@ const Rank = ({ ranklist, user, closeMenus }) => {
 
         <Flexbox
           style={{ paddingTop: 12 }}
-          accessibilityLabel="monthly comparrison personally enrolled"
+          accessibilityLabel="monthly comparison personally enrolled"
           width="auto"
         >
           <H4 testID="personally-enrolled-donut-label">
-            {Localized('Personally Enrolled')}
+            {Localized('Personally Active')}
           </H4>
           <DoubleDonut
-            testID="personally-enrolled-donut-svg"
+            testID="personally-active-donut-svg"
             outerpercentage={rank.rankId === 1 ? 0 : paPerc}
             outermax={100}
-            outercolor={donut3primaryColor}
+            outercolor={theme.donut3primaryColor}
             innerpercentage={rank.rankId === 1 ? 0 : lastMonthPAPerc}
             innermax={100}
-            innercolor={donut3secondaryColor}
+            innercolor={theme.donut3secondaryColor}
             view="rank"
             onPress={closeMenus}
           />
           <LegendContainer>
             <Legend>
-              <Square squareFill={donut3primaryColor} />
+              <Dot dotFill={theme.donut3primaryColor} />
               <H5 testID="this-month-personally-enrolled">{`${Math.floor(
                 pa,
               )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
             </Legend>
             <Legend>
-              <Square squareFill={donut3secondaryColor} />
+              <Dot dotFill={theme.donut3secondaryColor} />
               <H5 testID="last-month-personally-enrolled">{`${Math.floor(
                 lastMonthPA,
               )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
