@@ -2,8 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { useQuery } from '@apollo/client';
 import { Flexbox, H5, LoadingSpinner } from '../../common';
-import MyAmbassadorCard from './myAmbassadorCard/MyAmbassadorCard';
-import MyCustomerCard from './myCustomerCard/MyCustomerCard';
+import MyDownlineCard from './myDownlineCard/MyDownlineCard';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { GET_USER } from '../../../graphql/queries';
 import { Localized } from '../../../translations/Localized';
@@ -76,20 +75,13 @@ const MyTeamList = () => {
     }
   }, [sortBy, levelInTree, memberData]);
 
-  const renderItem = ({ item }) =>
-    item?.associate?.associateType === 'AMBASSADOR' ? (
-      <MyAmbassadorCard
-        autoExpand={item?.associate?.associateId === selectedMemberId}
-        member={item}
-        level={levelInTree}
-      />
-    ) : (
-      <MyCustomerCard
-        autoExpand={item?.associate?.associateId === selectedMemberId}
-        member={item}
-        level={levelInTree}
-      />
-    );
+  const renderItem = ({ item }) => (
+    <MyDownlineCard
+      autoExpand={item?.associate?.associateId === selectedMemberId}
+      member={item}
+      level={levelInTree}
+    />
+  );
 
   if (loading) {
     return (
