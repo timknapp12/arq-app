@@ -141,7 +141,10 @@ const Donut = ({
                 defaultValue="0"
                 style={[
                   StyleSheet.absoluteFillObject,
-                  { fontSize: fontSize, color: color },
+                  {
+                    fontSize: inputValue.length > 7 ? 21 : fontSize,
+                    color: color,
+                  },
                   { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
                 ]}
               />
@@ -151,7 +154,10 @@ const Donut = ({
                 value={inputValue}
                 style={[
                   StyleSheet.absoluteFillObject,
-                  { fontSize: fontSize, color: color },
+                  {
+                    fontSize: inputValue.length > 7 ? 21 : fontSize,
+                    color: color,
+                  },
                   { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
                 ]}
               />

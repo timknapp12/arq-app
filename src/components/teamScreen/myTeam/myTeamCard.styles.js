@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { H6 } from '../../common';
 
-// used in MyAmbassadorCard.js
+// used in MyDownlineCard.js
 export const CardContainer = styled.View`
   width: ${(props) => (props.nested ? '95%' : '100%')};
   background-color: ${(props) => props.theme.cardBackgroundColor};

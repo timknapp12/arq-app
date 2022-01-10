@@ -6,10 +6,10 @@ import SwipeableZoom from '../SwipeableZoom';
 import DownlineProfileInfoContainer from '../DownlineProfileInfoContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { findMembersInDownlineOneLevel } from '../../../../utils/teamView/filterDownline';
-import MyCustomerCard from '../myCustomerCard/MyCustomerCard';
+import MyCustomerExpandedInfo from './MyCustomerExpandedInfo';
 
 // eslint-disable-next-line react/display-name
-const MyAmbassadorCard = React.memo(
+const MyDownlineCard = React.memo(
   ({ autoExpand = false, member, nested, level }) => {
     const {
       sortBy,
@@ -18,6 +18,7 @@ const MyAmbassadorCard = React.memo(
       currentMembersUplineId,
       closeAllMenus,
     } = useContext(MyTeamViewContext);
+
     const [isExpanded, setIsExpanded] = useState(autoExpand);
 
     const { legacyAssociateId } = member?.associate;
@@ -50,6 +51,13 @@ const MyAmbassadorCard = React.memo(
       setLevelInTree(levelToIncrementOnZoomOut);
     };
 
+    const ExpandedInfo = ({ ...props }) =>
+      member?.associate?.associateType === 'AMBASSADOR' ? (
+        <MyAmbassadorExpandedInfo {...props} />
+      ) : (
+        <MyCustomerExpandedInfo {...props} />
+      );
+
     return (
       <>
         <SwipeableZoom
@@ -66,39 +74,28 @@ const MyAmbassadorCard = React.memo(
               onPress={toggleExpanded}
               closeAllMenus={closeAllMenus}
             />
-            {isExpanded && (
-              <MyAmbassadorExpandedInfo member={member} level={level + 1} />
-            )}
+            {isExpanded && <ExpandedInfo member={member} level={level + 1} />}
           </CardContainer>
         </SwipeableZoom>
         {!nested &&
-          childData?.map((child) =>
-            child?.associate?.associateType === 'AMBASSADOR' ? (
-              <MyAmbassadorCard
-                member={child}
-                key={child?.associate?.associateId}
-                nested
-                level={level + 1}
-              />
-            ) : (
-              <MyCustomerCard
-                member={child}
-                key={child?.associate?.associateId}
-                nested
-                level={level + 1}
-              />
-            ),
-          )}
+          childData?.map((child) => (
+            <MyDownlineCard
+              member={child}
+              key={child?.associate?.associateId}
+              nested
+              level={level + 1}
+            />
+          ))}
       </>
     );
   },
 );
 
-MyAmbassadorCard.propTypes = {
+MyDownlineCard.propTypes = {
   autoExpand: PropTypes.bool,
   member: PropTypes.object.isRequired,
   nested: PropTypes.bool,
   level: PropTypes.number,
 };
 
-export default MyAmbassadorCard;
+export default MyDownlineCard;

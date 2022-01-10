@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
 import TapIcon from '../../../assets/icons/icTap.svg';
-import { Flexbox, H5, H2Heavy } from '../common';
+import { Flexbox, H5, H2Heavy, H3Heavy } from '../common';
 import { Localized } from '../../translations/Localized';
 
 const Legend = styled.View`
@@ -83,6 +83,13 @@ const DoubleDonut = ({
     };
   }, [outermax, outerpercentage]);
 
+  const InnerText = ({ ...props }) =>
+    remainingQov?.toString().length > 6 ? (
+      <H3Heavy {...props} />
+    ) : (
+      <H2Heavy {...props} />
+    );
+
   return (
     <TouchableOpacity activeOpacity={1} onPress={onPress}>
       <View
@@ -142,9 +149,13 @@ const DoubleDonut = ({
             height="100%"
           >
             {showRemainingQov ? (
-              <H2Heavy style={{ color: outercolor }}>
+              <InnerText
+                style={{
+                  color: outercolor,
+                }}
+              >
                 {remainingQov.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </H2Heavy>
+              </InnerText>
             ) : (
               <>
                 <Legend>
