@@ -32,15 +32,23 @@ const BarChartLegend = ({
       <Legend>
         <Bullet color={primaryColor} />
         {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
-        <H5 testID="this-month-total-pv">{`${Localized(
-          'This month',
-        )}: ${primaryTotal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
-          'of',
-        )} ${requiredTotal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+        {requiredTotal ? (
+          <H5 testID="this-month-total-pv">{`${Localized(
+            'This month',
+          )}: ${primaryTotal
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
+            'of',
+          )} ${requiredTotal
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+        ) : (
+          <H5 testID="this-month-total-pv">{`${Localized(
+            'This month',
+          )}: ${primaryTotal
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+        )}
       </Legend>
       <Legend>
         <Bullet color={secondaryColor} />
@@ -57,7 +65,7 @@ BarChartLegend.propTypes = {
   secondaryColor: PropTypes.string.isRequired,
   primaryTotal: PropTypes.number.isRequired,
   secondaryTotal: PropTypes.number.isRequired,
-  requiredTotal: PropTypes.number.isRequired,
+  requiredTotal: PropTypes.number,
 };
 
 export default BarChartLegend;
