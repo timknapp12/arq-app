@@ -116,7 +116,7 @@ export const calculateLegPercentages = (user, requirements) => {
 
 export const reshapePerc = (min, max) => {
   let result = Math.round((min / max) * 100);
-  if (result > 100) {
+  if (result > 100 || max === 0) {
     result = 100;
   }
   return result;
