@@ -27,7 +27,7 @@ const Dot = styled.View`
   background-color: ${({ dotFill }) => dotFill};
 `;
 
-const TeamRank = ({ ranklist, user, closeMenus }) => {
+const OvRank = ({ ranklist, user, closeMenus }) => {
   const { theme } = useContext(AppContext);
   const { pv, pa, leg1, leg2, leg3, previousAmbassadorMonthlyRecord } = user;
 
@@ -255,7 +255,7 @@ const TeamRank = ({ ranklist, user, closeMenus }) => {
   );
 };
 
-TeamRank.propTypes = {
+OvRank.propTypes = {
   ranklist: PropTypes.arrayOf(
     PropTypes.shape({
       rankId: PropTypes.number,
@@ -271,4 +271,4 @@ TeamRank.propTypes = {
   closeMenus: PropTypes.func,
 };
 
-export default TeamRank;
+export default OvRank;

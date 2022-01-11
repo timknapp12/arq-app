@@ -13,7 +13,7 @@ import {
   getPercentage,
 } from '../../../../utils/teamView/calculateBasedOnNextRank';
 
-const CustomerRankBarChartContainer = ({ member }) => {
+const CvRankBarChartContainer = ({ member }) => {
   const { theme } = useContext(AppContext);
   const { ranks } = useContext(LoginContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
@@ -21,7 +21,7 @@ const CustomerRankBarChartContainer = ({ member }) => {
   const [lastMonthCv, setLastMonthCv] = useState(0);
   const { cv = 0, pa, rank, previousAmbassadorMonthlyRecord } = member;
 
-  // TODO - get current CUSTOMER RANK and replace Team Rank
+  // TODO - get current CV Rank and replace OV Rank
   // default rankId for an inactive ambassador is 1
   // show what rank is next
   const currentRankId = rank?.rankId ?? 1;
@@ -98,8 +98,8 @@ const CustomerRankBarChartContainer = ({ member }) => {
   );
 };
 
-CustomerRankBarChartContainer.propTypes = {
+CvRankBarChartContainer.propTypes = {
   member: PropTypes.object.isRequired,
 };
 
-export default CustomerRankBarChartContainer;
+export default CvRankBarChartContainer;

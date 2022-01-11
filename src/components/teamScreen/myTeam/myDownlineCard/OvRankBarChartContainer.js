@@ -13,7 +13,7 @@ import {
   getPercentage,
 } from '../../../../utils/teamView/calculateBasedOnNextRank';
 
-const TeamRankBarChartContainer = ({ member }) => {
+const OvRankBarChartContainer = ({ member }) => {
   const { theme } = useContext(AppContext);
   const { ranks } = useContext(LoginContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
@@ -114,8 +114,8 @@ const TeamRankBarChartContainer = ({ member }) => {
   );
 };
 
-TeamRankBarChartContainer.propTypes = {
+OvRankBarChartContainer.propTypes = {
   member: PropTypes.object.isRequired,
 };
 
-export default TeamRankBarChartContainer;
+export default OvRankBarChartContainer;

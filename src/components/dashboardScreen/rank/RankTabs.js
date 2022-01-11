@@ -22,18 +22,18 @@ const RankTabs = ({ selectedTab, setSelectedTab, closeMenus }) => {
         <TouchableOpacity
           style={{ marginEnd: 8 }}
           onPress={() => {
-            setSelectedTab('teamRank');
+            setSelectedTab('ovRank');
             closeMenus();
           }}
         >
-          {selectedTab === 'teamRank' ? (
+          {selectedTab === 'ovRank' ? (
             <>
-              <H4>{Localized('Team Rank')}</H4>
+              <H4>{Localized('OV Rank')}</H4>
               <Underline />
             </>
           ) : (
             <>
-              <H4Secondary>{Localized('Team Rank')}</H4Secondary>
+              <H4Secondary>{Localized('OV Rank')}</H4Secondary>
               <InvisibleUnderline />
             </>
           )}
@@ -42,18 +42,18 @@ const RankTabs = ({ selectedTab, setSelectedTab, closeMenus }) => {
         <TouchableOpacity
           style={{ marginStart: 8 }}
           onPress={() => {
-            setSelectedTab('customerRank');
+            setSelectedTab('cvRank');
             closeMenus();
           }}
         >
-          {selectedTab === 'customerRank' ? (
+          {selectedTab === 'cvRank' ? (
             <>
-              <H4>{Localized('Customer Rank')}</H4>
+              <H4>{Localized('CV Rank')}</H4>
               <Underline />
             </>
           ) : (
             <>
-              <H4Secondary>{Localized('Customer Rank')}</H4Secondary>
+              <H4Secondary>{Localized('CV Rank')}</H4Secondary>
               <InvisibleUnderline />
             </>
           )}

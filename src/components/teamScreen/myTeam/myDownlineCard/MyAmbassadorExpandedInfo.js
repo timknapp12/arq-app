@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Flexbox, H6, H6Secondary } from '../../../common';
-import TeamRankBarChartContainer from './TeamRankBarChartContainer';
-import CustomerRankBarChartContainer from './CustomerRankBarChartContainer';
+import OvRankBarChartContainer from './OvRankBarChartContainer';
+import CvRankBarChartContainer from './CvRankBarChartContainer';
 import OrdersContainer from '../OrdersContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../../translations/Localized';
@@ -16,7 +16,7 @@ import {
 const MyAmbassadorExpandedInfo = ({ member, level }) => {
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
-  const [selectedTab, setSelectedTab] = useState('teamRank');
+  const [selectedTab, setSelectedTab] = useState('ovRank');
 
   return (
     <TouchableWithoutFeedback onPress={closeAllMenus}>
@@ -29,18 +29,18 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
           <TouchableOpacity
             style={{ marginEnd: 16 }}
             onPress={() => {
-              setSelectedTab('teamRank');
+              setSelectedTab('ovRank');
               closeAllMenus();
             }}
           >
-            {selectedTab === 'teamRank' ? (
+            {selectedTab === 'ovRank' ? (
               <>
-                <H6>{Localized('Team Rank')}</H6>
+                <H6>{Localized('OV Rank')}</H6>
                 <Underline />
               </>
             ) : (
               <>
-                <H6Secondary>{Localized('Team Rank')}</H6Secondary>
+                <H6Secondary>{Localized('OV Rank')}</H6Secondary>
                 <InvisibleUnderline />
               </>
             )}
@@ -48,18 +48,18 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
 
           <TouchableOpacity
             onPress={() => {
-              setSelectedTab('customerRank');
+              setSelectedTab('cvRank');
               closeAllMenus();
             }}
           >
-            {selectedTab === 'customerRank' ? (
+            {selectedTab === 'cvRank' ? (
               <>
-                <H6>{Localized('Customer Rank')}</H6>
+                <H6>{Localized('CV Rank')}</H6>
                 <Underline />
               </>
             ) : (
               <>
-                <H6Secondary>{Localized('Customer Rank')}</H6Secondary>
+                <H6Secondary>{Localized('CV Rank')}</H6Secondary>
                 <InvisibleUnderline />
               </>
             )}
@@ -86,11 +86,11 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
           </TouchableOpacity>
         </Flexbox>
         <BarChartAndOrdersContainer>
-          {selectedTab === 'teamRank' && (
-            <TeamRankBarChartContainer member={member} />
+          {selectedTab === 'ovRank' && (
+            <OvRankBarChartContainer member={member} />
           )}
-          {selectedTab === 'customerRank' && (
-            <CustomerRankBarChartContainer level={level} member={member} />
+          {selectedTab === 'cvRank' && (
+            <CvRankBarChartContainer level={level} member={member} />
           )}
           {selectedTab === 'orders' && (
             <OrdersContainer level={level} member={member} />

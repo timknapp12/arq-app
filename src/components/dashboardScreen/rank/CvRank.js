@@ -25,7 +25,7 @@ const Dot = styled.View`
   background-color: ${({ dotFill }) => dotFill};
 `;
 
-const CustomerRank = ({ ranklist, user, closeMenus }) => {
+const CVRank = ({ ranklist, user, closeMenus }) => {
   const { theme } = useContext(AppContext);
   const {
     cv,
@@ -88,7 +88,7 @@ const CustomerRank = ({ ranklist, user, closeMenus }) => {
         isQualified={isQualified}
       />
       <Flexbox
-        accessibilityLabel="customer rank cv"
+        accessibilityLabel="CV Rank cv"
         width="100%"
         justify="space-between"
       >
@@ -139,7 +139,7 @@ const CustomerRank = ({ ranklist, user, closeMenus }) => {
 
       <Flexbox
         style={{ paddingTop: 12 }}
-        accessibilityLabel="customer rank autoship cv"
+        accessibilityLabel="CV Rank autoship cv"
         width="auto"
       >
         <H4>{Localized('Autoship CV')}</H4>
@@ -176,7 +176,7 @@ const CustomerRank = ({ ranklist, user, closeMenus }) => {
   );
 };
 
-CustomerRank.propTypes = {
+CVRank.propTypes = {
   ranklist: PropTypes.arrayOf(
     PropTypes.shape({
       rankId: PropTypes.number,
@@ -192,4 +192,4 @@ CustomerRank.propTypes = {
   closeMenus: PropTypes.func,
 };
 
-export default CustomerRank;
+export default CVRank;

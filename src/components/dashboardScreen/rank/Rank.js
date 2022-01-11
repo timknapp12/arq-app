@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Flexbox } from '../../common';
 import RankTabs from './RankTabs';
-import TeamRank from './TeamRank';
-import CustomerRank from './CustomerRank';
+import OvRank from './OvRank';
+import CvRank from './CvRank';
 
 const Rank = ({ ranklist, user, closeMenus }) => {
-  const [selectedTab, setSelectedTab] = useState('teamRank');
+  const [selectedTab, setSelectedTab] = useState('ovRank');
+
   return (
     <TouchableWithoutFeedback onPress={closeMenus}>
       <>
@@ -17,14 +18,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           closeMenus={closeMenus}
         />
         <Flexbox justify="flex-start" onStartShouldSetResponder={() => true}>
-          {selectedTab === 'teamRank' ? (
-            <TeamRank ranklist={ranklist} user={user} closeMenus={closeMenus} />
+          {selectedTab === 'ovRank' ? (
+            <OvRank ranklist={ranklist} user={user} closeMenus={closeMenus} />
           ) : (
-            <CustomerRank
-              ranklist={ranklist}
-              user={user}
-              closeMenus={closeMenus}
-            />
+            <CvRank ranklist={ranklist} user={user} closeMenus={closeMenus} />
           )}
         </Flexbox>
       </>
