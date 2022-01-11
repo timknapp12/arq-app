@@ -104,7 +104,7 @@ const ExpandedProductCard = ({
           }}
         />
         <AssetIconContainer>
-          {assetList.map((asset) => {
+          {assetList?.map((asset) => {
             if (asset.contentType === 'pdf') {
               return (
                 <TouchableOpacity

@@ -196,6 +196,33 @@ RadioButton.propTypes = {
   onPress: PropTypes.func,
 };
 
+// Radio Button with react-native TouchableOpacity instead of react-native-gesture-handler since the radio button above
+// won't work on Android if the position is not absolute positioned.
+const NativeRadioContainer = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const NativeTouchableRadioButton = ({
+  label = '',
+  isSelected,
+  onPress,
+  ...props
+}) => {
+  return (
+    <NativeRadioContainer onPress={onPress} {...props}>
+      <Button>{isSelected && <Fill />}</Button>
+      <H4Book style={{ marginStart: 12, marginEnd: 8 }}>{label}</H4Book>
+    </NativeRadioContainer>
+  );
+};
+
+NativeTouchableRadioButton.propTypes = {
+  label: PropTypes.string,
+  isSelected: PropTypes.bool,
+  onPress: PropTypes.func,
+};
+
 // CHECKBOX BUTTON
 
 const StyledCheckbox = styled.View`
