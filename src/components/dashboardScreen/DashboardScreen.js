@@ -163,7 +163,7 @@ const DashboardScreen = ({ navigation }) => {
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
-            paddingBottom: 30,
+            paddingBottom: 60,
           }}
           style={{
             width: '100%',
