@@ -43,7 +43,9 @@ const MyTeamSearchFilterModal = ({
 
   reshapedRanks?.unshift({ label: Localized('All'), value: 'ALL' });
 
-  const statusPickerOpacity = status !== 'ALL' && status !== 'ACTIVE' ? 1 : 0.5;
+  const statusSelectedFromPicker = status !== 'ALL' && status !== 'ACTIVE';
+
+  const statusPickerOpacity = statusSelectedFromPicker ? 1 : 0.5;
   const rankPickerOpacity = type === 'AMBASSADOR' ? 1 : 0.5;
 
   const onSubmit = () => {
@@ -90,7 +92,7 @@ const MyTeamSearchFilterModal = ({
             >
               <NativeTouchableRadioButton
                 label=""
-                isSelected={status !== 'ALL' && status !== 'ACTIVE'}
+                isSelected={statusSelectedFromPicker}
                 onPress={() => setStatus(dropdownStatus)}
               />
               <Flexbox direction="row" justify="flex-start" width="100%">
