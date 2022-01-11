@@ -65,7 +65,7 @@ const ResourcesCategoryScreen = ({ route, navigation }) => {
                 progress={toastProgress}
               />
 
-              {assetList.map((item, index) => (
+              {assetList?.map((item, index) => (
                 <AssetCard
                   isCalloutOpenFromParent={isCalloutOpenFromParent}
                   setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}

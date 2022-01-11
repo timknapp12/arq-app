@@ -238,8 +238,6 @@ const ResourceCard = ({
             setIsUploadAssetModalOpen(false);
             closeCallout();
           }}
-          // folderId={folderId}
-          // displayOrder={assetList.length + 1}
           selectedTeamName={selectedTeamName}
         />
       )}

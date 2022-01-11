@@ -1,18 +1,10 @@
-import React, {
-  useState,
-  useContext,
-  useRef,
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import {
   FlatList,
   View,
-  Animated,
   TouchableOpacity,
   Keyboard,
   Platform,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
@@ -28,7 +20,7 @@ import FilterIcon from '../../../../../assets/icons/filter-icon.svg';
 import DownlineProfileInfoContainer from '../DownlineProfileInfoContainer';
 import AppContext from '../../../../contexts/AppContext';
 import { CardContainer } from '../myTeamCard.styles';
-import MyTeamSearchFilterMenu from './MyTeamSearchFilterMenu';
+import MyTeamSearchFilterModal from './MyTeamSearchFilterModal';
 import { SEARCH_TREE } from '../../../../graphql/queries';
 import { Localized } from '../../../../translations/Localized';
 
@@ -43,36 +35,10 @@ const SearchDownlineScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [reshapedData, setReshapedData] = useState([]);
 
-  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(-300)).current;
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [hasSearchCompleted, setHasSearchCompleted] = useState(false);
   const [hasUserSubmittedNewFilter, setHasUserSubmittedNewFilter] =
     useState(false);
-
-  const openFilterMenu = () => {
-    setIsFilterMenuOpen(true);
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 700,
-      useNativeDriver: false,
-    }).start();
-  };
-  const closeFilterMenu = () => {
-    Animated.timing(fadeAnim, {
-      toValue: -300,
-      duration: 700,
-      useNativeDriver: false,
-    }).start(() => setIsFilterMenuOpen(false));
-  };
-
-  const toggleMenu = () => {
-    if (isFilterMenuOpen) {
-      return closeFilterMenu();
-    } else {
-      openFilterMenu();
-      Keyboard.dismiss();
-    }
-  };
 
   const variables = {
     first: 50,
@@ -109,7 +75,7 @@ const SearchDownlineScreen = () => {
     setReshapedData(reformattedData);
     return () => {
       setReshapedData([]);
-      setIsFilterMenuOpen(false);
+      setIsFilterModalOpen(false);
     };
   }, [data]);
 
@@ -119,7 +85,7 @@ const SearchDownlineScreen = () => {
         searchTree({
           variables: variables,
         }),
-      1000,
+      700,
     ),
     [],
   );
@@ -136,11 +102,10 @@ const SearchDownlineScreen = () => {
         variables: variables,
       });
     }
-  }, [hasUserSubmittedNewFilter]);
+  }, [hasUserSubmittedNewFilter, searchTerm]);
 
   const handleChange = (value) => {
     setSearchTerm(value);
-    closeFilterMenu();
     setHasSearchCompleted(false);
   };
 
@@ -155,7 +120,7 @@ const SearchDownlineScreen = () => {
   };
 
   const onPressCard = (item) => {
-    if (Platform.OS === 'android' && isFilterMenuOpen) {
+    if (Platform.OS === 'android' && isFilterModalOpen) {
       return;
     }
     viewInMyTeamView(item);
@@ -196,7 +161,10 @@ const SearchDownlineScreen = () => {
     >
       <Flexbox width="100%" height="100%" justify="flex-start" padding={8}>
         <Flexbox direction="row" justify="space-between">
-          <TouchableOpacity style={{ padding: 4 }} onPress={toggleMenu}>
+          <TouchableOpacity
+            style={{ padding: 4 }}
+            onPress={() => setIsFilterModalOpen((state) => !state)}
+          >
             <FilterIcon
               style={{
                 height: 30,
@@ -211,7 +179,6 @@ const SearchDownlineScreen = () => {
               testID="propsect-search-input"
               value={searchTerm}
               onChangeText={handleChange}
-              onFocus={closeFilterMenu}
               returnKeyType="done"
               placeholder="Search by first and last name"
               placeholderTextColor={theme.placeholderTextColor}
@@ -224,10 +191,9 @@ const SearchDownlineScreen = () => {
           />
         </Flexbox>
 
-        {isFilterMenuOpen && (
+        {isFilterModalOpen && (
           <Flexbox align="flex-start">
-            <MyTeamSearchFilterMenu
-              style={{ left: fadeAnim }}
+            <MyTeamSearchFilterModal
               selectedStatus={selectedStatus}
               setSelectedStatus={setSelectedStatus}
               selectedDropdownStatus={selectedDropdownStatus}
@@ -236,51 +202,50 @@ const SearchDownlineScreen = () => {
               setSelectedType={setSelectedType}
               selectedRank={selectedRank}
               setSelectedRank={setSelectedRank}
-              onClose={closeFilterMenu}
+              onClose={() => setIsFilterModalOpen(false)}
               setHasUserSubmittedNewFilter={setHasUserSubmittedNewFilter}
               setHasSearchCompleted={setHasSearchCompleted}
+              visible={isFilterModalOpen}
             />
           </Flexbox>
         )}
-        <TouchableWithoutFeedback onPress={closeFilterMenu}>
-          <Flexbox
-            style={{
-              height: '100%',
-              zIndex: -2,
-              marginTop: 6,
-            }}
-          >
-            {loading && !hasSearchCompleted && (
-              <LoadingSpinner style={{ marginTop: 10 }} size="large" />
-            )}
+        <Flexbox
+          style={{
+            height: '100%',
+            zIndex: -2,
+            marginTop: 6,
+          }}
+        >
+          {loading && !hasSearchCompleted && (
+            <LoadingSpinner style={{ marginTop: 10 }} size="large" />
+          )}
 
-            {reshapedData?.length > 0 || !hasSearchCompleted ? (
-              <Flexbox width="95%" style={{ zIndex: -1 }}>
-                <FlatList
-                  style={{
-                    width: '100%',
-                    marginBottom: 30,
-                  }}
-                  data={reshapedData}
-                  renderItem={renderItem}
-                  keyExtractor={(item) =>
-                    item?.associate?.associateId?.toString()
-                  }
-                  onEndReachedThreshold={1}
-                  onEndReached={handleOnEndReached}
-                  onRefresh={() => {
-                    refetch();
-                    setHasSearchCompleted(false);
-                  }}
-                  refreshing={refreshing}
-                  onScroll={Keyboard.dismiss}
-                />
-              </Flexbox>
-            ) : (
-              <H6>{Localized('Item not found')}</H6>
-            )}
-          </Flexbox>
-        </TouchableWithoutFeedback>
+          {reshapedData?.length > 0 || !hasSearchCompleted ? (
+            <Flexbox width="95%" style={{ zIndex: -1 }}>
+              <FlatList
+                style={{
+                  width: '100%',
+                  marginBottom: 30,
+                }}
+                data={reshapedData}
+                renderItem={renderItem}
+                keyExtractor={(item) =>
+                  item?.associate?.associateId?.toString()
+                }
+                onEndReachedThreshold={1}
+                onEndReached={handleOnEndReached}
+                onRefresh={() => {
+                  refetch();
+                  setHasSearchCompleted(false);
+                }}
+                refreshing={refreshing}
+                onScroll={Keyboard.dismiss}
+              />
+            </Flexbox>
+          ) : (
+            <H6>{Localized('Item not found')}</H6>
+          )}
+        </Flexbox>
       </Flexbox>
     </ScreenContainer>
   );

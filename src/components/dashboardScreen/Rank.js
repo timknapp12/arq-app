@@ -137,10 +137,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             <DoubleDonut
               testID="total-pv-donut-svg"
               // ternary to ensure no error with 0 values of distributor rank
-              outerpercentage={rank.rankId === 1 ? 0 : pvPerc}
+              outerpercentage={pvPerc}
               outermax={100}
               outercolor={theme.donut1primaryColor}
-              innerpercentage={rank.rankId === 1 ? 0 : lastMonthPVPerc}
+              innerpercentage={lastMonthPVPerc}
               innermax={100}
               innercolor={theme.donut1secondaryColor}
               view="rank"
@@ -179,10 +179,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
             </H4>
             <DoubleDonut
               testID="total-qov-donut-svg"
-              outerpercentage={rank.rankId === 1 ? 0 : qoVPerc}
+              outerpercentage={qoVPerc}
               outermax={100}
               outercolor={theme.donut2primaryColor}
-              innerpercentage={rank.rankId === 1 ? 0 : lastMonthQOVPerc}
+              innerpercentage={lastMonthQOVPerc}
               innermax={100}
               innercolor={theme.donut2secondaryColor}
               view="rank"
@@ -229,10 +229,10 @@ const Rank = ({ ranklist, user, closeMenus }) => {
           </H4>
           <DoubleDonut
             testID="personally-active-donut-svg"
-            outerpercentage={rank.rankId === 1 ? 0 : paPerc}
+            outerpercentage={paPerc}
             outermax={100}
             outercolor={theme.donut3primaryColor}
-            innerpercentage={rank.rankId === 1 ? 0 : lastMonthPAPerc}
+            innerpercentage={lastMonthPAPerc}
             innermax={100}
             innercolor={theme.donut3secondaryColor}
             view="rank"
