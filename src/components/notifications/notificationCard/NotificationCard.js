@@ -12,6 +12,7 @@ import {
   PIN_PROSPECT_NOTIFICATION,
   PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED,
 } from '../../../graphql/mutations';
+import getLocalDate from '../../../translations/getLocalDate/getLocalDate';
 
 const NotificationCard = ({
   data,
@@ -63,16 +64,8 @@ const NotificationCard = ({
     setIsCalloutOpen(false);
   };
 
-  const options = {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  };
+  const formattedDate = getLocalDate(data?.dateViewUtc, deviceLanguage);
 
-  let [y, m, d, hh, mm, ss, ms] = data?.dateViewUtc.match(/\d+/g);
-  let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
-  let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
   const [onRemove] = useMutation(CLEAR_PROSPECT_NOTIFICATION, {
     variables: { viewId },
     onCompleted: () => refetchProspectsNotifications(),
