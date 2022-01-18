@@ -14,6 +14,7 @@ import {
   InnerContainer,
   TitleAndDateContainer,
 } from './NewsCard.styles';
+import getLocalDate from '../../translations/getLocalDate/getLocalDate';
 
 const NewsCard = ({
   linkId,
@@ -67,14 +68,8 @@ const NewsCard = ({
     url ? Linking.openURL(url) : {};
   };
 
-  const options = {
-    month: 'short',
-    day: 'numeric',
-  };
-
-  let [y, m, d, hh, mm, ss, ms] = date.match(/\d+/g);
-  let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
-  let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
+  const options = 'MMM DD';
+  const formattedDate = getLocalDate(date, deviceLanguage, options);
 
   return (
     <CardContainer {...props}>

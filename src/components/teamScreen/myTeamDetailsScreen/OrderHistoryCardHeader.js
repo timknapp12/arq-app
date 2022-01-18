@@ -9,22 +9,12 @@ import {
   H6RightMargin,
 } from '../myTeam/myTeamCard.styles';
 import AppContext from '../../../contexts/AppContext';
-
-const options = {
-  month: 'numeric',
-  day: 'numeric',
-  year: '2-digit',
-};
+import getLocalDate from '../../../translations/getLocalDate/getLocalDate';
 
 const OrderHistoryCardHeader = ({ order, isExpanded, onPress }) => {
   const { theme, deviceLanguage } = useContext(AppContext);
 
-  const getLocalDate = (date) => {
-    let [y, m, d, hh, mm, ss, ms] = date.match(/\d+/g);
-    let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
-    let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
-    return formattedDate;
-  };
+  const formattedDate = getLocalDate(order?.dateOrder, deviceLanguage);
 
   return (
     <Flexbox direction="row" justify="space-between" align="center">
@@ -66,7 +56,7 @@ const OrderHistoryCardHeader = ({ order, isExpanded, onPress }) => {
                 <H6RightMargin>{order?.orderId}</H6RightMargin>
               </HorizontalScrollViewCell>
               <HorizontalScrollViewCell minWidth="30%">
-                <H6RightMargin>{getLocalDate(order?.dateOrder)}</H6RightMargin>
+                <H6RightMargin>{formattedDate}</H6RightMargin>
               </HorizontalScrollViewCell>
               <HorizontalScrollViewCell minWidth="30%">
                 <H6RightMargin>{`$${order?.totalCost.toFixed(

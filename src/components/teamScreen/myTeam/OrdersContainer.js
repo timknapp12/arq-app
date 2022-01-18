@@ -20,12 +20,7 @@ import {
   HorizontalScrollViewCell,
   H6RightMargin,
 } from './myTeamCard.styles';
-
-const options = {
-  month: 'numeric',
-  day: 'numeric',
-  year: '2-digit',
-};
+import getLocalDate from '../../../translations/getLocalDate/getLocalDate';
 
 const OrdersContainer = ({ member, level = 0 }) => {
   const { theme, deviceLanguage } = useContext(AppContext);
@@ -47,13 +42,6 @@ const OrdersContainer = ({ member, level = 0 }) => {
       setShortList([]);
     };
   }, [data]);
-
-  const getLocalDate = (date) => {
-    let [y, m, d, hh, mm, ss, ms] = date.match(/\d+/g);
-    let regexDate = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
-    let formattedDate = regexDate.toLocaleString(deviceLanguage, options);
-    return formattedDate;
-  };
 
   const navigation = useNavigation();
   const navigateToOrderHistory = () =>
@@ -122,7 +110,7 @@ const OrdersContainer = ({ member, level = 0 }) => {
                 </HorizontalScrollViewCell>
                 <HorizontalScrollViewCell minWidth="25%" justify="flex-start">
                   <H6RightMargin>
-                    {getLocalDate(order?.dateOrder)}
+                    {getLocalDate(order?.dateOrder, deviceLanguage)}
                   </H6RightMargin>
                 </HorizontalScrollViewCell>
                 <HorizontalScrollViewCell>

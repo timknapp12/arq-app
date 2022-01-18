@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, Animated } from 'react-native';
+import { View, Animated, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Svg, { G, Circle } from 'react-native-svg';
 import Donut from './Donut';
@@ -83,9 +83,11 @@ const DoubleDonut = ({
     };
   }, [outermax, outerpercentage]);
 
+  const textShrinkCutOffLength = Platform.OS === 'android' ? 5 : 6;
+
   const InnerText = ({ ...props }) =>
-    remainingQov?.toString().length > 6 ? (
-      <H3Heavy {...props} />
+    remainingQov?.toString().length > textShrinkCutOffLength ? (
+      <H3Heavy {...props} style={{ fontSize: 20 }} />
     ) : (
       <H2Heavy {...props} />
     );

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Animated, TextInput } from 'react-native';
+import { StyleSheet, View, Animated, TextInput, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Flexbox } from '../common';
 import Svg, { G, Circle } from 'react-native-svg';
@@ -91,6 +91,8 @@ const Donut = ({
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
+  const textShrinkCutOffLength = Platform.OS === 'android' ? 5 : 6;
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -142,7 +144,10 @@ const Donut = ({
                 style={[
                   StyleSheet.absoluteFillObject,
                   {
-                    fontSize: inputValue.length > 7 ? 21 : fontSize,
+                    fontSize:
+                      inputValue.length > textShrinkCutOffLength
+                        ? 20
+                        : fontSize,
                     color: color,
                   },
                   { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
@@ -155,7 +160,10 @@ const Donut = ({
                 style={[
                   StyleSheet.absoluteFillObject,
                   {
-                    fontSize: inputValue.length > 7 ? 21 : fontSize,
+                    fontSize:
+                      inputValue.length > textShrinkCutOffLength
+                        ? 20
+                        : fontSize,
                     color: color,
                   },
                   { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
