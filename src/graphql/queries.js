@@ -51,6 +51,27 @@ export const GET_USER = gql`
           rankName
         }
       }
+      statsAtAGlance {
+        downlineAutoShip {
+          processedAutoShipPv
+          beginningAutoShipPv
+        }
+        leg1 {
+          processedAutoShipPv
+        }
+        leg2 {
+          processedAutoShipPv
+        }
+        leg3 {
+          processedAutoShipPv
+        }
+        monthlyAmbassadorCount {
+          myEnrollmentCount
+        }
+        monthlyPreferredCount {
+          myEnrollmentCount
+        }
+      }
       #autoShip {
       #  leg1Total {
       #    processedPv

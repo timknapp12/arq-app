@@ -1,26 +1,30 @@
 import { Localized } from '../../../translations/Localized';
 
-export const reshapeAtAGlanceCategories = (autoShip, glance, pieColorMap) => {
+export const reshapeAtAGlanceCategories = (
+  statsAtAGlance,
+  glance,
+  pieColorMap,
+) => {
   return [
     {
       id: 0,
       title: Localized('Autoships'),
       data: [
         {
-          value: autoShip?.leg1Total?.processedPv ?? 0,
+          value: statsAtAGlance?.leg1?.processedAutoShipPv ?? 0,
           color: pieColorMap?.autoships0,
         },
         {
-          value: autoShip?.leg2Total?.processedPv ?? 0,
+          value: statsAtAGlance?.leg2?.processedAutoShipPv ?? 0,
           color: pieColorMap?.autoships1,
         },
         {
-          value: autoShip?.leg3Total?.processedPv ?? 0,
+          value: statsAtAGlance?.leg3?.processedAutoShipPv ?? 0,
           color: pieColorMap?.autoships2,
         },
       ],
-      firstTotal: autoShip?.entireLineTotal?.processedPv ?? 0,
-      secondTotal: autoShip?.entireLineTotal?.projectedPv ?? 0,
+      firstTotal: statsAtAGlance?.downlineAutoShip?.processedAutoShipPv ?? 0,
+      secondTotal: statsAtAGlance?.downlineAutoShip?.beginningAutoShipPv ?? 0,
     },
     {
       id: 1,
@@ -60,24 +64,25 @@ export const reshapeAtAGlanceCategories = (autoShip, glance, pieColorMap) => {
       ],
       firstTotal: glance?.entireLineTotal?.preferedMonthCount ?? 0,
     },
-    {
-      id: 3,
-      title: Localized('Event Tickets'),
-      data: [
-        {
-          value: glance?.leg1Total?.eventMonthCount ?? 0,
-          color: pieColorMap?.eventTickets0,
-        },
-        {
-          value: glance?.leg2Total?.eventMonthCount ?? 0,
-          color: pieColorMap?.eventTickets1,
-        },
-        {
-          value: glance?.leg3Total?.eventMonthCount ?? 0,
-          color: pieColorMap?.eventTickets2,
-        },
-      ],
-      firstTotal: glance?.entireLineTotal?.eventMonthCount ?? 0,
-    },
+    // TODO integrate stats for event tickets when they are ready
+    // {
+    //   id: 3,
+    //   title: Localized('Event Tickets'),
+    //   data: [
+    //     {
+    //       value: glance?.leg1Total?.eventMonthCount ?? 0,
+    //       color: pieColorMap?.eventTickets0,
+    //     },
+    //     {
+    //       value: glance?.leg2Total?.eventMonthCount ?? 0,
+    //       color: pieColorMap?.eventTickets1,
+    //     },
+    //     {
+    //       value: glance?.leg3Total?.eventMonthCount ?? 0,
+    //       color: pieColorMap?.eventTickets2,
+    //     },
+    //   ],
+    //   firstTotal: glance?.entireLineTotal?.eventMonthCount ?? 0,
+    // },
   ];
 };
