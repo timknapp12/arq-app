@@ -14,6 +14,7 @@ import AppContext from '../../../contexts/AppContext';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
+import { maxWidth } from '../../../styles/constants';
 
 const MyTeamView = ({
   closeMenus,
@@ -95,7 +96,7 @@ const MyTeamView = ({
           align="center"
           justify="flex-start"
           height="100%"
-          style={{ zIndex: -1, maxWidth: 425 }}
+          style={{ zIndex: -1, maxWidth }}
         >
           <FilterSearchBar
             onPress={() =>
