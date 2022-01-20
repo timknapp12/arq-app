@@ -1,42 +1,73 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
-import { Flexbox } from '../../common';
+import { TouchableOpacity, View } from 'react-native';
+import { Flexbox, H6Secondary } from '../../common';
 import mockTreeData from './mockTreeData';
 import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
 import { DraxProvider, DraxView } from 'react-native-drax';
+import { LinearGradient } from 'expo-linear-gradient';
+import AppContext from '../../../contexts/AppContext';
 
 // source for finding coordinates https://stackoverflow.com/questions/26599782/positioning-divs-in-a-circle-using-javascript
 //   (x, y) = (rx * cos(θ), ry * sin(θ)) to find coordinates on a circle
 
-const innerCircleDimensions = 60;
-
-const radius = 150 - 42;
+const innerCircleDiameter = 64;
+const paddingOffset = 46;
+const radius = 150 - paddingOffset;
 
 const OuterCircle = styled.View`
   margin: 20px 0;
-  border: 1px solid white;
+  border-width: 2px;
+  border-color: ${(props) => props.theme.cardBackgroundColor}
   padding: 0 12px 12px 12px;
   position: relative;
 `;
 
+const innerCircleDimensions = {
+  height: innerCircleDiameter,
+  width: innerCircleDiameter,
+  borderRadius: innerCircleDiameter / 2,
+  paddingTop: 4,
+  justifyContent: 'space-around',
+  alignItems: 'center',
+};
+
 const InnerCircle = styled(DraxView)`
-  height: ${innerCircleDimensions}px;
-  width: ${innerCircleDimensions}px;
-  border-radius: ${innerCircleDimensions / 2}px;
-  background-color: ${({ color }) => color};
+  ${innerCircleDimensions};
   margin-top: 12px;
   position: absolute;
 `;
 
+const LevelIndicator = styled.View`
+  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  justify-content: center;
+  align-items: center;
+  height: ${innerCircleDiameter / 4}px;
+  width: 100%;
+  /* position: absolute;
+  bottom: 0; */
+  opacity: 0.5;
+`;
+
 const ReceivingCircle = styled(DraxView)`
-  height: ${innerCircleDimensions + 4}px;
-  width: ${innerCircleDimensions + 4}px;
-  border-radius: ${innerCircleDimensions + 4 / 2}px;
-  border: 1px solid white;
+  height: ${innerCircleDiameter + 8}px;
+  width: ${innerCircleDiameter + 8}px;
+  border-radius: ${innerCircleDiameter + 8 / 2}px;
+  border-width: 3px;
+  border-color: ${(props) => props.theme.disabledTextColor};
+`;
+
+const activityIndicatorDiameter = 14;
+
+const ActivityIndicator = styled.View`
+  width: ${activityIndicatorDiameter}px;
+  height: ${activityIndicatorDiameter}px;
+  border-radius: ${activityIndicatorDiameter + 8 / 2}px;
+  background-color: green;
 `;
 
 const VisibilityTreeView = () => {
+  const { theme } = useContext(AppContext);
   const outerCircleDiameter = 300;
 
   const [outsideList, insideItem] =
@@ -89,12 +120,33 @@ const VisibilityTreeView = () => {
                 }}
               >
                 <InnerCircle
-                  color={item.color}
                   onDragStart={() => {
                     console.log('start drag');
                   }}
                   payload="world"
-                />
+                >
+                  <LinearGradient
+                    colors={[theme.disabledTextColor, theme.backgroundColor]}
+                    style={innerCircleDimensions}
+                    start={{ x: 0.1, y: 0.1 }}
+                  >
+                    <View
+                      style={{
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ActivityIndicator />
+                      <H6Secondary style={{ fontSize: 12 }}>
+                        {item?.firstName}
+                      </H6Secondary>
+                      <H6Secondary style={{ fontSize: 12 }}>
+                        {item?.lastName}
+                      </H6Secondary>
+                    </View>
+                    <LevelIndicator />
+                  </LinearGradient>
+                </InnerCircle>
               </TouchableOpacity>
             ))}
             {insideItem !== null && (
@@ -106,12 +158,33 @@ const VisibilityTreeView = () => {
                 }}
               >
                 <InnerCircle
-                  color={insideItem.color}
                   onDragStart={() => {
                     console.log('start drag');
                   }}
                   payload="world"
-                />
+                >
+                  <LinearGradient
+                    colors={[theme.disabledTextColor, theme.backgroundColor]}
+                    style={innerCircleDimensions}
+                    start={{ x: 0.1, y: 0.1 }}
+                  >
+                    <View
+                      style={{
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <ActivityIndicator />
+                      <H6Secondary style={{ fontSize: 12 }}>
+                        {insideItem?.firstName}
+                      </H6Secondary>
+                      <H6Secondary style={{ fontSize: 12 }}>
+                        {insideItem?.lastName}
+                      </H6Secondary>
+                    </View>
+                    <LevelIndicator />
+                  </LinearGradient>
+                </InnerCircle>
               </TouchableOpacity>
             )}
           </OuterCircle>
