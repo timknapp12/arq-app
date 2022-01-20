@@ -38,5 +38,3 @@ const mockTreeData = [
 ];
 
 export default mockTreeData;
-
-//   (x, y) = (rx * cos(θ), ry * sin(θ))
