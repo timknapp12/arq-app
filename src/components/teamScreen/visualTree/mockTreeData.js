@@ -17,24 +17,24 @@ const mockTreeData = [
     lastName: 'Geyerman',
     color: 'green',
   },
-  {
-    id: 3,
-    firstName: 'Ethan',
-    lastName: 'Reihle',
-    color: 'tomato',
-  },
-  {
-    id: 4,
-    firstName: 'Jake',
-    lastName: 'Hepworth',
-    color: 'pink',
-  },
-  {
-    id: 5,
-    firstName: 'Paul',
-    lastName: 'Hovley',
-    color: 'purple',
-  },
+  // {
+  //   id: 3,
+  //   firstName: 'Ethan',
+  //   lastName: 'Reihle',
+  //   color: 'tomato',
+  // },
+  // {
+  //   id: 4,
+  //   firstName: 'Jake',
+  //   lastName: 'Hepworth',
+  //   color: 'pink',
+  // },
+  // {
+  //   id: 5,
+  //   firstName: 'Paul',
+  //   lastName: 'Hovley',
+  //   color: 'purple',
+  // },
 ];
 
 export default mockTreeData;
