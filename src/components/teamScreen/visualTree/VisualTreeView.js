@@ -11,8 +11,8 @@ import AppContext from '../../../contexts/AppContext';
 // source for finding coordinates https://stackoverflow.com/questions/26599782/positioning-divs-in-a-circle-using-javascript
 //   (x, y) = (rx * cos(θ), ry * sin(θ)) to find coordinates on a circle
 
-const innerCircleDiameter = 64;
-const paddingOffset = 46;
+const innerCircleDiameter = 96;
+const paddingOffset = 50;
 const radius = 150 - paddingOffset;
 
 const OuterCircle = styled.View`
@@ -34,7 +34,7 @@ const innerCircleDimensions = {
 
 const InnerCircle = styled(DraxView)`
   ${innerCircleDimensions};
-  margin-top: 12px;
+  margin-top: 10px;
   position: absolute;
 `;
 
@@ -44,8 +44,8 @@ const LevelIndicator = styled.View`
   align-items: center;
   height: ${innerCircleDiameter / 4}px;
   width: 100%;
-  /* position: absolute;
-  bottom: 0; */
+  position: absolute;
+  bottom: 0;
   opacity: 0.5;
 `;
 
@@ -68,7 +68,8 @@ const ActivityIndicator = styled.View`
 
 const VisibilityTreeView = () => {
   const { theme } = useContext(AppContext);
-  const outerCircleDiameter = 300;
+
+  const outerCircleDiameter = 320;
 
   const [outsideList, insideItem] =
     reformatListForVisualTreeBubbles(mockTreeData);
