@@ -1,14 +1,25 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { DraxView } from 'react-native-drax';
+import { TouchableOpacity } from 'react-native';
 
 const innerCircleDiameter = 96;
 
-export const OuterCircle = styled.View`
+export const OuterCircle = styled(DraxView)`
   margin: 20px 0;
   border-width: 2px;
-  border-color: ${(props) => props.theme.cardBackgroundColor}
+  border-color: ${(props) => props.borderColor};
   padding: 0 12px 12px 12px;
   position: relative;
+`;
+
+export const ReceivingCircle = styled(DraxView)`
+  height: ${innerCircleDiameter + 12}px;
+  width: ${innerCircleDiameter + 12}px;
+  border-radius: ${innerCircleDiameter + 12 / 2}px;
+  border-width: 3px;
+  border-color: ${(props) => props.borderColor};
 `;
 
 export const innerCircleDimensions = {
@@ -37,14 +48,6 @@ export const LevelIndicator = styled.View`
   opacity: 0.5;
 `;
 
-export const ReceivingCircle = styled(DraxView)`
-  height: ${innerCircleDiameter + 8}px;
-  width: ${innerCircleDiameter + 8}px;
-  border-radius: ${innerCircleDiameter + 8 / 2}px;
-  border-width: 3px;
-  border-color: ${(props) => props.theme.disabledTextColor};
-`;
-
 const activityBadgeDiameter = 14;
 
 export const ActivityBadge = styled.View`
@@ -53,3 +56,25 @@ export const ActivityBadge = styled.View`
   border-radius: ${activityBadgeDiameter + 8 / 2}px;
   background-color: green;
 `;
+
+const roundButtonDiameter = 24;
+
+const Round = styled.View`
+  height: ${roundButtonDiameter}px;
+  width: ${roundButtonDiameter}px;
+  border-radius: ${roundButtonDiameter / 2}px;
+  border-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  border-width: 1px;
+  background-color: ${(props) =>
+    props.selected ? props.theme.primaryButtonBackgroundColor : 'transparent'};
+`;
+
+export const RoundButton = ({ selected, ...props }) => (
+  <TouchableOpacity {...props}>
+    <Round selected={selected} />
+  </TouchableOpacity>
+);
+
+RoundButton.propTypes = {
+  selected: PropTypes.bool,
+};
