@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components/native';
-import { TouchableOpacity, View } from 'react-native';
-import { Flexbox, H6Secondary } from '../../common';
+import { Flexbox } from '../../common';
 import mockTreeData from './mockTreeData';
 import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
 import { DraxProvider, DraxView } from 'react-native-drax';
-import { LinearGradient } from 'expo-linear-gradient';
+import VisualTreeBubble from './VisualTreeBubble';
 import AppContext from '../../../contexts/AppContext';
 
 // source for finding coordinates https://stackoverflow.com/questions/26599782/positioning-divs-in-a-circle-using-javascript
@@ -15,64 +14,59 @@ const innerCircleDiameter = 96;
 const paddingOffset = 50;
 const radius = 150 - paddingOffset;
 
-const OuterCircle = styled.View`
+const OuterCircle = styled(DraxView)`
   margin: 20px 0;
   border-width: 2px;
-  border-color: ${(props) => props.theme.cardBackgroundColor}
+  border-color: ${(props) => props.borderColor};
   padding: 0 12px 12px 12px;
   position: relative;
 `;
 
-const innerCircleDimensions = {
-  height: innerCircleDiameter,
-  width: innerCircleDiameter,
-  borderRadius: innerCircleDiameter / 2,
-  paddingTop: 4,
-  justifyContent: 'space-around',
-  alignItems: 'center',
-};
-
-const InnerCircle = styled(DraxView)`
-  ${innerCircleDimensions};
-  margin-top: 10px;
-  position: absolute;
-`;
-
-const LevelIndicator = styled.View`
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
-  justify-content: center;
-  align-items: center;
-  height: ${innerCircleDiameter / 4}px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  opacity: 0.5;
-`;
-
 const ReceivingCircle = styled(DraxView)`
-  height: ${innerCircleDiameter + 8}px;
-  width: ${innerCircleDiameter + 8}px;
-  border-radius: ${innerCircleDiameter + 8 / 2}px;
+  height: ${innerCircleDiameter + 12}px;
+  width: ${innerCircleDiameter + 12}px;
+  border-radius: ${innerCircleDiameter + 12 / 2}px;
   border-width: 3px;
-  border-color: ${(props) => props.theme.disabledTextColor};
-`;
-
-const activityIndicatorDiameter = 14;
-
-const ActivityIndicator = styled.View`
-  width: ${activityIndicatorDiameter}px;
-  height: ${activityIndicatorDiameter}px;
-  border-radius: ${activityIndicatorDiameter + 8 / 2}px;
-  background-color: green;
+  border-color: ${(props) => props.borderColor};
 `;
 
 const VisibilityTreeView = () => {
   const { theme } = useContext(AppContext);
+  const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
+    theme.disabledTextColor,
+  );
+  const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
+    useState(theme.disabledTextColor);
+  const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
+  console.log('idOfDraggedItem', idOfDraggedItem);
+  const uplineId = -1;
 
   const outerCircleDiameter = 320;
 
+  const treeListCopy = [...mockTreeData];
+
   const [outsideList, insideItem] =
-    reformatListForVisualTreeBubbles(mockTreeData);
+    reformatListForVisualTreeBubbles(treeListCopy);
+
+  const onDragStart = (item) => {
+    setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
+    setIdOfDraggedItem(item.id);
+  };
+
+  const onDragEnd = () => setReceiveCirlceBorderColor(theme.disabledTextColor);
+
+  const onDragDrop = () => setReceiveCirlceBorderColor(theme.disabledTextColor);
+
+  const onDragStartUpline = (item) => {
+    setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
+    setIdOfDraggedItem(item.id);
+  };
+
+  const onDragEndUpline = () =>
+    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
+
+  const onDragDropUpline = () =>
+    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
 
   return (
     <Flexbox
@@ -85,6 +79,10 @@ const VisibilityTreeView = () => {
       <DraxProvider>
         <Flexbox>
           <ReceivingCircle
+            borderColor={receiveCirlceBorderColor}
+            receivingStyle={
+              uplineId !== idOfDraggedItem && { backgroundColor: 'green' }
+            }
             onReceiveDragEnter={({ dragged: { payload } }) => {
               console.log(`Entered ${payload}`);
             }}
@@ -94,17 +92,49 @@ const VisibilityTreeView = () => {
             onReceiveDragDrop={({ dragged: { payload } }) => {
               console.log(`REVEIVED ${payload}`);
             }}
-          />
+          >
+            <VisualTreeBubble
+              style={{ position: 'absolute', top: -9, left: 3 }}
+              item={{ id: -1, firstName: 'Upline', lastName: 'Smithson' }}
+              draggable={true}
+              onDragStart={() => onDragStartUpline({ id: -1 })}
+              onDragEnd={onDragEndUpline}
+              onDragDrop={onDragDropUpline}
+              payload={-1}
+            />
+          </ReceivingCircle>
           <OuterCircle
+            borderColor={outerCircleReceiveBorderColor}
+            receivingStyle={
+              uplineId === idOfDraggedItem && { backgroundColor: 'green' }
+            }
             style={{
               width: outerCircleDiameter,
               height: outerCircleDiameter,
               borderRadius: outerCircleDiameter / 2,
             }}
+            onReceiveDragEnter={({ dragged: { payload } }) => {
+              console.log(`Entered ${payload}`);
+            }}
+            onReceiveDragExit={({ dragged: { payload } }) => {
+              console.log(`LEAVING ${payload}`);
+            }}
+            onReceiveDragDrop={({ dragged: { payload } }) => {
+              console.log(`REVEIVED ${payload}`);
+            }}
           >
             {outsideList?.map((item, index) => (
-              <TouchableOpacity
+              <VisualTreeBubble
                 key={item.id}
+                item={item}
+                draggable={true}
+                longPressDelay={200}
+                onPress={() => console.log('on Press')}
+                onLongPress={() => console.log('on Long Press')}
+                onDragStart={() => onDragStart(item)}
+                onDragEnd={onDragEnd}
+                onDragDrop={onDragDrop}
+                payload="world"
                 style={{
                   top:
                     radius -
@@ -119,77 +149,31 @@ const VisibilityTreeView = () => {
                         (360 / outsideList.length) * ((index * Math.PI) / 180),
                       ),
                 }}
-              >
-                <InnerCircle
-                  onDragStart={() => {
-                    console.log('start drag');
-                  }}
-                  payload="world"
-                >
-                  <LinearGradient
-                    colors={[theme.disabledTextColor, theme.backgroundColor]}
-                    style={innerCircleDimensions}
-                    start={{ x: 0.1, y: 0.1 }}
-                  >
-                    <View
-                      style={{
-                        justifyContent: 'flex-end',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <ActivityIndicator />
-                      <H6Secondary style={{ fontSize: 12 }}>
-                        {item?.firstName}
-                      </H6Secondary>
-                      <H6Secondary style={{ fontSize: 12 }}>
-                        {item?.lastName}
-                      </H6Secondary>
-                    </View>
-                    <LevelIndicator />
-                  </LinearGradient>
-                </InnerCircle>
-              </TouchableOpacity>
+              />
             ))}
             {insideItem !== null && (
-              <TouchableOpacity
+              <VisualTreeBubble
+                onPress={() => console.log('on Press')}
+                onLongPress={() => console.log('on Long Press')}
+                item={insideItem}
+                draggable={true}
+                onDragStart={() => onDragStart(insideItem)}
+                onDragEnd={onDragEnd}
+                onDragDrop={onDragDrop}
+                payload="middle bubble"
                 style={{
                   position: 'absolute',
                   top: radius - 0,
                   left: radius + 12,
                 }}
-              >
-                <InnerCircle
-                  onDragStart={() => {
-                    console.log('start drag');
-                  }}
-                  payload="world"
-                >
-                  <LinearGradient
-                    colors={[theme.disabledTextColor, theme.backgroundColor]}
-                    style={innerCircleDimensions}
-                    start={{ x: 0.1, y: 0.1 }}
-                  >
-                    <View
-                      style={{
-                        justifyContent: 'flex-end',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <ActivityIndicator />
-                      <H6Secondary style={{ fontSize: 12 }}>
-                        {insideItem?.firstName}
-                      </H6Secondary>
-                      <H6Secondary style={{ fontSize: 12 }}>
-                        {insideItem?.lastName}
-                      </H6Secondary>
-                    </View>
-                    <LevelIndicator />
-                  </LinearGradient>
-                </InnerCircle>
-              </TouchableOpacity>
+              />
             )}
           </OuterCircle>
           <ReceivingCircle
+            borderColor={receiveCirlceBorderColor}
+            receivingStyle={
+              uplineId !== idOfDraggedItem && { backgroundColor: 'green' }
+            }
             onReceiveDragEnter={({ dragged: { payload } }) => {
               console.log(`Entered ${payload}`);
             }}
