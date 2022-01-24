@@ -1,37 +1,25 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components/native';
 import { Flexbox } from '../../common';
 import mockTreeData from './mockTreeData';
 import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
-import { DraxProvider, DraxView } from 'react-native-drax';
+import VisualTreeSearchBar from './VisualTreeSearchBar';
+import { DraxProvider } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import AppContext from '../../../contexts/AppContext';
+import { OuterCircle, ReceivingCircle } from './visualTree.styles';
 
 // source for finding coordinates https://stackoverflow.com/questions/26599782/positioning-divs-in-a-circle-using-javascript
 //   (x, y) = (rx * cos(θ), ry * sin(θ)) to find coordinates on a circle
 
-const innerCircleDiameter = 96;
+// source for drag n drop library https://github.com/nuclearpasta/react-native-drax#usage
+
 const paddingOffset = 50;
 const radius = 150 - paddingOffset;
 
-const OuterCircle = styled(DraxView)`
-  margin: 20px 0;
-  border-width: 2px;
-  border-color: ${(props) => props.borderColor};
-  padding: 0 12px 12px 12px;
-  position: relative;
-`;
-
-const ReceivingCircle = styled(DraxView)`
-  height: ${innerCircleDiameter + 12}px;
-  width: ${innerCircleDiameter + 12}px;
-  border-radius: ${innerCircleDiameter + 12 / 2}px;
-  border-width: 3px;
-  border-color: ${(props) => props.borderColor};
-`;
-
 const VisibilityTreeView = () => {
   const { theme } = useContext(AppContext);
+
+  const [selectedPane, setSelectedPane] = useState(1);
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
   );
@@ -76,6 +64,10 @@ const VisibilityTreeView = () => {
       padding={4}
       style={{ zIndex: -1, maxWidth: 425 }}
     >
+      <VisualTreeSearchBar
+        selectedPane={selectedPane}
+        setSelectedPane={setSelectedPane}
+      />
       <DraxProvider>
         <Flexbox>
           <ReceivingCircle
