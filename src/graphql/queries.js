@@ -65,11 +65,17 @@ export const GET_USER = gql`
         leg3 {
           processedAutoShipPv
         }
-        monthlyAmbassadorCount {
-          myEnrollmentCount
+        monthlyAmbEnrCount {
+          downlineCount
+          downlineLeg1
+          downlineLeg2
+          downlineLeg3
         }
         monthlyPreferredCount {
-          myEnrollmentCount
+          downlineCount
+          downlineLeg1
+          downlineLeg2
+          downlineLeg3
         }
       }
       #autoShip {

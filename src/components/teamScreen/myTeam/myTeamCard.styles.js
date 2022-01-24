@@ -163,6 +163,7 @@ export const OrderDetailsContainer = styled.View`
 
 export const OrderDetailTitleContainer = styled.View`
   width: 40%;
+  flex-direction: row;
 `;
 
 export const OrderDetailRow = styled.View`

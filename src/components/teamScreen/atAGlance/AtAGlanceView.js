@@ -36,34 +36,9 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
     payouts2: theme.payoutsPie3,
   };
 
-  // TODO - delete the mock data
-  const mockGlance = {
-    entireLineTotal: {
-      ambassadorMonthCount: 8,
-      eventMonthCount: 14,
-      preferedMonthCount: 4,
-    },
-    leg1Total: {
-      ambassadorMonthCount: 5,
-      eventMonthCount: 8,
-      preferedMonthCount: 2,
-    },
-    leg2Total: {
-      ambassadorMonthCount: 2,
-      eventMonthCount: 4,
-      preferedMonthCount: 1,
-    },
-    leg3Total: {
-      ambassadorMonthCount: 1,
-      eventMonthCount: 2,
-      preferedMonthCount: 1,
-    },
-  };
-
   useEffect(() => {
     const reshapedCategories = reshapeAtAGlanceCategories(
       user?.statsAtAGlance,
-      user?.glance ?? mockGlance,
       pieColorMap,
     );
     setCategories(reshapedCategories);

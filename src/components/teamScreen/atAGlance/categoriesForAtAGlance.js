@@ -1,10 +1,6 @@
 import { Localized } from '../../../translations/Localized';
 
-export const reshapeAtAGlanceCategories = (
-  statsAtAGlance,
-  glance,
-  pieColorMap,
-) => {
+export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
   return [
     {
       id: 0,
@@ -31,38 +27,38 @@ export const reshapeAtAGlanceCategories = (
       title: Localized('Ambassador Enrollments'),
       data: [
         {
-          value: glance?.leg1Total?.ambassadorMonthCount ?? 0,
+          value: statsAtAGlance?.monthlyAmbEnrCount?.downlineLeg1 ?? 0,
           color: pieColorMap?.ambassadorEnrollments0,
         },
         {
-          value: glance?.leg2Total?.ambassadorMonthCount ?? 0,
+          value: statsAtAGlance?.monthlyAmbEnrCount?.downlineLeg2 ?? 0,
           color: pieColorMap?.ambassadorEnrollments1,
         },
         {
-          value: glance?.leg3Total?.ambassadorMonthCount ?? 0,
+          value: statsAtAGlance?.monthlyAmbEnrCount?.downlineLeg3 ?? 0,
           color: pieColorMap?.ambassadorEnrollments2,
         },
       ],
-      firstTotal: glance?.entireLineTotal?.ambassadorMonthCount ?? 0,
+      firstTotal: statsAtAGlance?.monthlyAmbEnrCount?.downlineCount ?? 0,
     },
     {
       id: 2,
       title: Localized('PC Enrollments'),
       data: [
         {
-          value: glance?.leg1Total?.preferedMonthCount ?? 0,
+          value: statsAtAGlance?.monthlyPreferredCount?.downlineLeg1 ?? 0,
           color: pieColorMap?.pcEnrollments0,
         },
         {
-          value: glance?.leg2Total?.preferedMonthCount ?? 0,
+          value: statsAtAGlance?.monthlyPreferredCount?.downlineLeg2 ?? 0,
           color: pieColorMap?.pcEnrollments1,
         },
         {
-          value: glance?.leg3Total?.preferedMonthCount ?? 0,
+          value: statsAtAGlance?.monthlyPreferredCount?.downlineLeg3 ?? 0,
           color: pieColorMap?.pcEnrollments2,
         },
       ],
-      firstTotal: glance?.entireLineTotal?.preferedMonthCount ?? 0,
+      firstTotal: statsAtAGlance?.monthlyPreferredCount?.downlineCount ?? 0,
     },
     // TODO integrate stats for event tickets when they are ready
     // {
