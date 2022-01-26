@@ -155,7 +155,7 @@ const UploadAssetModal = ({
         : '',
     comments: '',
     displayOrder: displayOrder,
-    fileName: '',
+    fileName: 'strongbad system',
     imageUrl: '',
     dateStart: new Date().toISOString(),
     dateEnd: new Date().toISOString(),

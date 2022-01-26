@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   View,
 } from 'react-native';
-import { Flexbox, Label, Input, H5Black } from '../../common';
+import { Flexbox, Label, Input, H5Black, AlertText } from '../../common';
 import ImageIcon from '../../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
@@ -58,6 +58,11 @@ const AddFolderModal = ({
   const [imageFile, setImageFile] = useState({ url: folderUrl });
   const [isFileInputFocused, setIsFileInputFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+  const errorMessage = Localized(
+    'Sorry there was an error! Please try again later',
+  );
 
   // permissions for photo library
   useEffect(() => {
@@ -126,7 +131,8 @@ const AddFolderModal = ({
     },
     onError: (error) => {
       setIsLoading(false);
-      console.log(`error`, error);
+      setIsError(true);
+      console.log(`error in addUpdateFolder`, error);
     },
   });
 
@@ -184,7 +190,10 @@ const AddFolderModal = ({
           onFocus={() => setIsFileInputFocused(false)}
           testID="resource-folder-title-input"
           value={title}
-          onChangeText={(text) => setTitle(text)}
+          onChangeText={(text) => {
+            setTitle(text);
+            setIsError(false);
+          }}
           returnKeyType="done"
           onSubmitEditing={Keyboard.dismiss}
           style={{ marginTop: marginSize }}
@@ -199,6 +208,7 @@ const AddFolderModal = ({
             onPress={() => {
               setIsWideLayout(false);
               setIsFileInputFocused(false);
+              setIsError(false);
             }}
           >
             <Flexbox
@@ -229,6 +239,7 @@ const AddFolderModal = ({
             onPress={() => {
               setIsWideLayout(true);
               setIsFileInputFocused(false);
+              setIsError(false);
             }}
           >
             <Flexbox height="106px">
@@ -260,6 +271,7 @@ const AddFolderModal = ({
           onPress={() => {
             pickImage();
             setIsFileInputFocused(true);
+            setIsError(false);
           }}
           style={{ width: '100%' }}
         >
@@ -287,6 +299,11 @@ const AddFolderModal = ({
             <FileUnderline focused={isFileInputFocused} />
           </Flexbox>
         </TouchableOpacity>
+        {isError ? (
+          <AlertText style={{ textAlign: 'center' }}>{errorMessage}</AlertText>
+        ) : (
+          <View style={{ height: 30 }} />
+        )}
       </Flexbox>
     </EditModal>
   );
