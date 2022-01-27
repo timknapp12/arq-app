@@ -32,8 +32,10 @@ const OrderHistoryView = ({ member, level }) => {
         <OrderTableHeaderRow>
           <H6Secondary>{`${Localized('Order')} #`}</H6Secondary>
           <H6Secondary>{Localized('Date')}</H6Secondary>
-          <H6Secondary>{Localized('Total')}</H6Secondary>
-          <H6Secondary style={{ marginEnd: 32 }}>PV</H6Secondary>
+          <H6Secondary>PV</H6Secondary>
+          <H6Secondary style={{ marginEnd: 32 }}>
+            {Localized('Total')}
+          </H6Secondary>
         </OrderTableHeaderRow>
       </Flexbox>
       <FlatList

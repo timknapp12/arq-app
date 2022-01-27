@@ -7,6 +7,7 @@ import { Gap, H4Black } from '../../common';
 import { reshapeAtAGlanceCategories } from './categoriesForAtAGlance';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
+import { maxWidth } from '../../../styles/constants';
 
 const AtAGlanceView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
@@ -25,6 +26,7 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
     pcEnrollments0: theme.pcEnrollmentsPie1,
     pcEnrollments1: theme.pcEnrollmentsPie2,
     pcEnrollments2: theme.pcEnrollmentsPie3,
+    // eventTickets feature is not ready yet to implelment
     eventTickets0: theme.eventTicketsPie1,
     eventTickets1: theme.eventTicketsPie2,
     eventTickets2: theme.eventTicketsPie3,
@@ -34,41 +36,9 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
     payouts2: theme.payoutsPie3,
   };
 
-  // TODO - delete the 2 mock data sets
-  const mockAutoship = {
-    leg1Total: { processedPv: 232000 },
-    leg2Total: { processedPv: 22000 },
-    leg3Total: { processedPv: 1700 },
-    entireLineTotal: { processedPv: 255700, projectedPv: 298500 },
-  };
-
-  const mockGlance = {
-    entireLineTotal: {
-      ambassadorMonthCount: 8,
-      eventMonthCount: 14,
-      preferedMonthCount: 4,
-    },
-    leg1Total: {
-      ambassadorMonthCount: 5,
-      eventMonthCount: 8,
-      preferedMonthCount: 2,
-    },
-    leg2Total: {
-      ambassadorMonthCount: 2,
-      eventMonthCount: 4,
-      preferedMonthCount: 1,
-    },
-    leg3Total: {
-      ambassadorMonthCount: 1,
-      eventMonthCount: 2,
-      preferedMonthCount: 1,
-    },
-  };
-
   useEffect(() => {
     const reshapedCategories = reshapeAtAGlanceCategories(
-      user?.autoShip ?? mockAutoship,
-      user?.glance ?? mockGlance,
+      user?.statsAtAGlance,
       pieColorMap,
     );
     setCategories(reshapedCategories);
@@ -76,7 +46,7 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
   }, []);
 
   return (
-    <View {...props} style={{ width: 320 }}>
+    <View {...props} style={{ width: '100%', padding: 12, maxWidth }}>
       <H4Black style={{ textAlign: 'center' }}>
         {selectedCategory?.title ?? ''}
       </H4Black>

@@ -58,13 +58,13 @@ const OrderHistoryCardHeader = ({ order, isExpanded, onPress }) => {
               <HorizontalScrollViewCell minWidth="30%">
                 <H6RightMargin>{formattedDate}</H6RightMargin>
               </HorizontalScrollViewCell>
-              <HorizontalScrollViewCell minWidth="30%">
+              <HorizontalScrollViewCell minWidth="20%">
+                <H6RightMargin>{order?.pv}</H6RightMargin>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell justify="flex-end" minWidth="30%">
                 <H6RightMargin>{`$${order?.totalCost.toFixed(
                   2,
                 )}`}</H6RightMargin>
-              </HorizontalScrollViewCell>
-              <HorizontalScrollViewCell justify="flex-end" minWidth="20%">
-                <H6RightMargin>{order?.pv}</H6RightMargin>
               </HorizontalScrollViewCell>
             </Flexbox>
           </TouchableOpacity>

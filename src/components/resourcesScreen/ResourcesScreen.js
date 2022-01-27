@@ -32,7 +32,7 @@ const ResourcesScreen = ({ navigation }) => {
     if (isFocused) {
       Analytics.logEvent('Resources_Screen_Visited', {
         screen: 'Resources Screen',
-        purpose: 'User iond to Resources Screen',
+        purpose: 'User navigated to Resources Screen',
       });
     }
     return () => {

@@ -15,6 +15,7 @@ import LeaderboardTabs from './LeaderboardTabs';
 // TODO - delete mock results once real data is received
 import { searchResults } from '../myTeam/mockSearchResults';
 import StandingsCard from './StandingsCard';
+import { maxWidth } from '../../../styles/constants';
 
 const LeaderbaordView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
@@ -59,7 +60,7 @@ const LeaderbaordView = ({ closeMenus, ...props }) => {
         width="95%"
         height="100%"
         padding={4}
-        style={{ zIndex: -1, maxWidth: 425 }}
+        style={{ zIndex: -1, maxWidth }}
       >
         <LeaderboardTabs
           selectedTab={selectedTab}

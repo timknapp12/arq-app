@@ -42,13 +42,11 @@ const OrderHistoryCard = ({ order }) => {
             >
               <OrderDetailsContainer>
                 <OrderDetailTitleContainer>
+                  <H6RightMargin>{item?.quantity}</H6RightMargin>
                   <H6RightMargin>{item?.productName}</H6RightMargin>
                 </OrderDetailTitleContainer>
                 <HorizontalScrollViewCell>
-                  <H6RightMargin>{item?.quantity}</H6RightMargin>
-                </HorizontalScrollViewCell>
-                <HorizontalScrollViewCell>
-                  <H6RightMargin>{`PV-${item?.pv}`}</H6RightMargin>
+                  <H6RightMargin>{item?.pv}</H6RightMargin>
                 </HorizontalScrollViewCell>
                 <HorizontalScrollViewCell>
                   <H6RightMargin>{`$${item?.amount.toFixed(2)}`}</H6RightMargin>

@@ -26,6 +26,7 @@ import SettingsModal from '../mainMenu/SettingsModal';
 import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
+import { maxWidth } from '../../styles/constants';
 
 const DashboardScreen = ({ navigation }) => {
   // set defaults for user so UI doesn't crash before real data loads
@@ -168,6 +169,7 @@ const DashboardScreen = ({ navigation }) => {
           style={{
             width: '100%',
             height: '100%',
+            maxWidth,
             zIndex: -1,
           }}
         >

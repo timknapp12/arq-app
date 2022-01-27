@@ -74,11 +74,11 @@ const OrdersContainer = ({ member, level = 0 }) => {
               <HorizontalScrollViewCell minWidth="25%" justify="center">
                 <H6Secondary>{Localized('Date')}</H6Secondary>
               </HorizontalScrollViewCell>
-              <HorizontalScrollViewCell minWidth="20%">
-                <H6Secondary>{Localized('Total')}</H6Secondary>
-              </HorizontalScrollViewCell>
-              <HorizontalScrollViewCell minWidth="25%">
+              <HorizontalScrollViewCell minWidth="18%">
                 <H6Secondary>PV</H6Secondary>
+              </HorizontalScrollViewCell>
+              <HorizontalScrollViewCell minWidth="27%">
+                <H6Secondary>{Localized('Total')}</H6Secondary>
               </HorizontalScrollViewCell>
             </OrderTableHeaderRow>
           </ScrollView>
@@ -114,12 +114,12 @@ const OrdersContainer = ({ member, level = 0 }) => {
                   </H6RightMargin>
                 </HorizontalScrollViewCell>
                 <HorizontalScrollViewCell>
+                  <H6RightMargin>{order?.pv}</H6RightMargin>
+                </HorizontalScrollViewCell>
+                <HorizontalScrollViewCell minWidth="25%">
                   <H6RightMargin>{`$${order?.totalCost.toFixed(
                     2,
                   )}`}</H6RightMargin>
-                </HorizontalScrollViewCell>
-                <HorizontalScrollViewCell minWidth="20%">
-                  <H6RightMargin>{order?.pv}</H6RightMargin>
                 </HorizontalScrollViewCell>
               </OrderTableRow>
             </ScrollView>

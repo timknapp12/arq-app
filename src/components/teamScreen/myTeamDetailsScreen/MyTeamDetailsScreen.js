@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ScreenContainer, Flexbox } from '../../common';
 import OrderHistoryView from './OrderHistoryView';
+import { maxWidth } from '../../../styles/constants';
 
 const MyTeamDetailsScreen = ({ route }) => {
   const { viewType, member, level } = route?.params;
@@ -14,7 +15,7 @@ const MyTeamDetailsScreen = ({ route }) => {
         justifyContent: 'flex-start',
       }}
     >
-      <Flexbox style={{ maxWidth: 425 }}>
+      <Flexbox style={{ maxWidth }}>
         <Flexbox padding={10}>
           {viewType === 'orderHistory' && (
             <OrderHistoryView member={member} level={level} />
