@@ -34,7 +34,7 @@ const VisibilityTreeView = ({ paneOneId, paneTwoId, paneThreeId }) => {
         paneTwoId={paneTwoId}
         paneThreeId={paneThreeId}
       />
-      <MainScrollView>
+      <MainScrollView minimumZoomScale={0.5} maximumZoomScale={5} horizontal>
         {selectedPane === 1 && <VisualTreePane />}
       </MainScrollView>
     </Flexbox>
