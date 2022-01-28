@@ -80,10 +80,10 @@ const TeamScreen = ({ navigation, route }) => {
       testID: 'At_A_Glance_button',
     },
     { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' },
-    {
-      name: Localized('Leaderboard').toUpperCase(),
-      testID: 'Leaderboard_button',
-    },
+    // {
+    //   name: Localized('Leaderboard').toUpperCase(),
+    //   testID: 'Leaderboard_button',
+    // },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
