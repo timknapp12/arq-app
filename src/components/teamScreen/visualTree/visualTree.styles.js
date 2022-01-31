@@ -33,7 +33,7 @@ export const innerCircleDimensions = {
 
 export const InnerCircle = styled(DraxView)`
   ${innerCircleDimensions};
-  margin-top: 10px;
+  margin-top: 8px;
   position: absolute;
 `;
 

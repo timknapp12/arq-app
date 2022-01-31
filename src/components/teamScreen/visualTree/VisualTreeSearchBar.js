@@ -9,18 +9,18 @@ import { Localized } from '../../../translations/Localized';
 const VisualTreeSearchBar = ({
   selectedPane,
   setSelectedPane,
-  paneOneId,
-  paneTwoId,
-  paneThreeId,
+  paneOneSearchId,
+  paneTwoSearchId,
+  paneThreeSearchId,
 }) => {
   const navigation = useNavigation();
   const navigateToSearchScreen = () => {
     navigation.navigate('Search Visual Tree Screen', {
       title: Localized('Search My Team'),
       selectedPane,
-      paneOneId,
-      paneTwoId,
-      paneThreeId,
+      paneOneSearchId,
+      paneTwoSearchId,
+      paneThreeSearchId,
     });
   };
 
@@ -49,9 +49,9 @@ VisualTreeSearchBar.propTypes = {
   setSelectedPane: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
   setSearchTerm: PropTypes.func.isRequired,
-  paneOneId: PropTypes.number.isRequired,
-  paneTwoId: PropTypes.number.isRequired,
-  paneThreeId: PropTypes.number.isRequired,
+  paneOneSearchId: PropTypes.number.isRequired,
+  paneTwoSearchId: PropTypes.number.isRequired,
+  paneThreeSearchId: PropTypes.number.isRequired,
 };
 
 export default VisualTreeSearchBar;

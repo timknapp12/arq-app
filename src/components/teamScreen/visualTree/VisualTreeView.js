@@ -9,13 +9,17 @@ import VisualTreePane from './VisualTreePane';
 
 // source for drag n drop library https://github.com/nuclearpasta/react-native-drax#usage
 
-const VisibilityTreeView = ({ paneOneId, paneTwoId, paneThreeId }) => {
+const VisibilityTreeView = ({
+  paneOneSearchId,
+  paneTwoSearchId,
+  paneThreeSearchId,
+}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPane, setSelectedPane] = useState(1);
 
-  console.log('paneOneId', paneOneId);
-  console.log('paneTwoId', paneTwoId);
-  console.log('paneThreeId', paneThreeId);
+  console.log('paneOneSearchId', paneOneSearchId);
+  console.log('paneTwoSearchId', paneTwoSearchId);
+  console.log('paneThreeSearchId', paneThreeSearchId);
 
   return (
     <Flexbox
@@ -30,21 +34,21 @@ const VisibilityTreeView = ({ paneOneId, paneTwoId, paneThreeId }) => {
         setSelectedPane={setSelectedPane}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
-        paneOneId={paneOneId}
-        paneTwoId={paneTwoId}
-        paneThreeId={paneThreeId}
+        paneOneSearchId={paneOneSearchId}
+        paneTwoSearchId={paneTwoSearchId}
+        paneThreeSearchId={paneThreeSearchId}
       />
-      <MainScrollView minimumZoomScale={0.5} maximumZoomScale={5} horizontal>
-        {selectedPane === 1 && <VisualTreePane />}
+      <MainScrollView minimumZoomScale={0.5} maximumZoomScale={5}>
+        {selectedPane === 1 && <VisualTreePane searchId={paneOneSearchId} />}
       </MainScrollView>
     </Flexbox>
   );
 };
 
 VisibilityTreeView.propTypes = {
-  paneOneId: PropTypes.number,
-  paneTwoId: PropTypes.number,
-  paneThreeId: PropTypes.number,
+  paneOneSearchId: PropTypes.number,
+  paneTwoSearchId: PropTypes.number,
+  paneThreeSearchId: PropTypes.number,
 };
 
 export default VisibilityTreeView;
