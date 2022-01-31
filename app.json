@@ -29,7 +29,8 @@
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true,
       "infoPlist": {
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "UIRequiresFullScreen": true
       },
       "requireFullScreen": true,
       "usesIcloudStorage": true
