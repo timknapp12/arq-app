@@ -26,6 +26,7 @@ import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
 import LeaderbaordView from './leaderboard/LeaderbaordView';
+import VisibilityTreeView from './visibilityTree/VisibilityTreeView';
 
 const TeamScreen = ({ navigation, route }) => {
   const { legacyId } = useContext(AppContext);
@@ -84,6 +85,10 @@ const TeamScreen = ({ navigation, route }) => {
     //   name: Localized('Leaderboard').toUpperCase(),
     //   testID: 'Leaderboard_button',
     // },
+    {
+      name: 'Visibility Tree',
+      testID: 'visibility_tree_button',
+    },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -209,6 +214,7 @@ const TeamScreen = ({ navigation, route }) => {
         {view.name === Localized('Leaderboard').toUpperCase() && (
           <LeaderbaordView closeMenus={closeMenus} />
         )}
+        {view.name === 'Visibility Tree' && <VisibilityTreeView />}
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
