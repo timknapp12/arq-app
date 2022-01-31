@@ -28,6 +28,7 @@ const PieChart = ({
   firstTotal,
   secondTotal,
   closeMenus,
+  showLegend,
 }) => {
   const [showDefaultPie, setShowDefaultPie] = useState(false);
   const pieTextColor = data?.[0]?.color;
@@ -61,32 +62,34 @@ const PieChart = ({
   }
   return (
     <TouchableWithoutFeedback onPress={closeMenus}>
-      <Flexbox justify="flex-start" direction="row">
-        <Pie
-          data={data}
-          width={pieWidth}
-          height={pieHeight}
-          chartConfig={chartConfig}
-          accessor={accessor}
-          backgroundColor="transparent"
-          paddingLeft="50"
-          hasLegend={false}
-        />
-        {showDefaultPie && <DefaultPie />}
-        <PieHole>
-          <PieHoleText color={pieTextColor}>
-            {firstTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          </PieHoleText>
-          {secondTotal ? (
-            <PieHoleText color={pieTextColor}>{Localized('of')}</PieHoleText>
-          ) : null}
-          {secondTotal ? (
+      <Flexbox justify="center" direction="row">
+        <Flexbox justify="flex-start" direction="row" width="auto">
+          <Pie
+            data={data}
+            width={pieWidth}
+            height={pieHeight}
+            chartConfig={chartConfig}
+            accessor={accessor}
+            backgroundColor="transparent"
+            paddingLeft="50"
+            hasLegend={false}
+          />
+          {showDefaultPie && <DefaultPie />}
+          <PieHole>
             <PieHoleText color={pieTextColor}>
-              {secondTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              {firstTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             </PieHoleText>
-          ) : null}
-        </PieHole>
-        <PieLegend data={data} />
+            {secondTotal ? (
+              <PieHoleText color={pieTextColor}>{Localized('of')}</PieHoleText>
+            ) : null}
+            {secondTotal ? (
+              <PieHoleText color={pieTextColor}>
+                {secondTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </PieHoleText>
+            ) : null}
+          </PieHole>
+          {showLegend && <PieLegend data={data} />}
+        </Flexbox>
       </Flexbox>
     </TouchableWithoutFeedback>
   );
@@ -98,6 +101,7 @@ PieChart.propTypes = {
   firstTotal: PropTypes.number.isRequired,
   secondTotal: PropTypes.number,
   closeMenus: PropTypes.func.isRequired,
+  showLegend: PropTypes.bool.isRequired,
 };
 
 export default PieChart;

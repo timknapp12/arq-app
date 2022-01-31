@@ -56,6 +56,7 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
         firstTotal={selectedCategory?.firstTotal ?? 0}
         secondTotal={selectedCategory?.secondTotal ?? 0}
         closeMenus={closeMenus}
+        showLegend={selectedCategory?.title === 'Autoships'}
       />
       {categories.map((item) => (
         <View key={item?.id}>
