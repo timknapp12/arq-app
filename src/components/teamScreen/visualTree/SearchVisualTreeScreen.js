@@ -19,9 +19,9 @@ import AppContext from '../../../contexts/AppContext';
 
 const SearchVisualTreeScreen = ({ route }) => {
   const selectedPane = route?.params?.selectedPane;
-  const paneOneId = route?.params?.paneOneId;
-  const paneTwoId = route?.params?.paneTwoId;
-  const paneThreeId = route?.params?.paneThreeId;
+  const paneOneSearchId = route?.params?.paneOneSearchId;
+  const paneTwoSearchId = route?.params?.paneTwoSearchId;
+  const paneThreeSearchId = route?.params?.paneThreeSearchId;
 
   const { theme } = useContext(AppContext);
 
@@ -91,21 +91,21 @@ const SearchVisualTreeScreen = ({ route }) => {
 
   const viewInMyTeamView = (item) => {
     navigation.navigate('Team Screen', {
-      searchId: item?.uplineTreeNode?.legacyAssociateId,
-      selectedMemberId: item?.associate?.associateId,
-      levelInTree: item?.depth - 2,
-      paneOneId:
+      // searchId: item?.uplineTreeNode?.legacyAssociateId,
+      // selectedMemberId: item?.associate?.associateId,
+      // levelInTree: item?.depth - 2,
+      paneOneSearchId:
         selectedPane === 1
-          ? item?.uplineTreeNode?.legacyAssociateId
-          : paneOneId,
-      paneTwoId:
+          ? item?.associate?.legacyAssociateId
+          : paneOneSearchId,
+      paneTwoSearchId:
         selectedPane === 2
-          ? item?.uplineTreeNode?.legacyAssociateId
-          : paneTwoId,
-      paneThreeId:
+          ? item?.associate?.legacyAssociateId
+          : paneTwoSearchId,
+      paneThreeSearchId:
         selectedPane === 3
-          ? item?.uplineTreeNode?.legacyAssociateId
-          : paneThreeId,
+          ? item?.associate?.legacyAssociateId
+          : paneThreeSearchId,
     });
   };
 

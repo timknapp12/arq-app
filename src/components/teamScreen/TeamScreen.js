@@ -216,9 +216,9 @@ const TeamScreen = ({ navigation, route }) => {
         )}
         {view.name === Localized('Visual Tree').toUpperCase() && (
           <VisualTreeView
-            paneOneId={route?.params?.paneOneId ?? 0}
-            paneTwoId={route?.params?.paneTwoId ?? 0}
-            paneThreeId={route?.params?.paneThreeId ?? 0}
+            paneOneSearchId={route?.params?.paneOneSearchId ?? 0}
+            paneTwoSearchId={route?.params?.paneTwoSearchId ?? 0}
+            paneThreeSearchId={route?.params?.paneThreeSearchId ?? 0}
           />
         )}
         {isMyInfoModalOpen && (

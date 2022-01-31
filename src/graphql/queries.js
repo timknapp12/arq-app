@@ -8,9 +8,12 @@ export const GET_USER = gql`
         associate {
           associateId
           legacyAssociateId
+          firstName
+          lastName
         }
       }
       associate {
+        legacyAssociateId
         associateId
         firstName
         lastName
