@@ -26,12 +26,8 @@ const VisualTreePane = ({ searchId }) => {
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
   //   console.log('idOfDraggedItem', idOfDraggedItem);
 
-  const initialData = [
-    [{ associateId: 0, firstName: 'Tim', lastName: 'Knapp' }],
-    null,
-  ];
-  const [treeData, setTreeData] = useState(initialData);
-  console.log('treeData', treeData);
+  const [treeData, setTreeData] = useState(null);
+  const [memberAtTop, setMemberAtTop] = useState(null);
 
   console.log('searchId', searchId);
 
@@ -45,8 +41,6 @@ const VisualTreePane = ({ searchId }) => {
     console.log('loading');
   }
 
-  console.log('data', data?.treeNodeFor?.childTreeNodes);
-
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -58,25 +52,34 @@ const VisualTreePane = ({ searchId }) => {
   useEffect(() => {
     if (searchId !== 0) {
       getUser();
-      setTreeData(data);
-      fadeIn();
     }
   }, [searchId]);
 
-  //   console.log('data', data?.treeNodeFor?.childTreeNodes);
-  const filteredData = findMembersInDownlineOneLevel(
-    data?.treeNodeFor?.childTreeNodes,
-    'AMBASSADOR',
-  );
+  const setSearchedMember = (item) => ({
+    associateId: item?.associateId,
+    firstName: item?.associate?.firstName,
+    lastName: item?.associate?.lastName,
+  });
 
-  console.log('filteredData', filteredData);
+  useEffect(() => {
+    if (data) {
+      const filteredData = findMembersInDownlineOneLevel(
+        data?.treeNodeFor?.childTreeNodes,
+        'AMBASSADOR',
+      );
+      setTreeData(filteredData);
+      const topLevelMember = setSearchedMember(data?.treeNodeFor);
+      setMemberAtTop(topLevelMember);
+      fadeIn();
+    }
+  }, [data]);
 
   const uplineId = -1;
 
-  const treeListCopy = filteredData ? [...filteredData] : [];
+  const treeListCopy = treeData ? [...treeData] : [];
 
-  const outerCircleDiameter = filteredData?.length
-    ? baseDiameter + filteredData?.length * 22
+  const outerCircleDiameter = treeData?.length
+    ? baseDiameter + treeData?.length * 22
     : baseDiameter;
 
   const radius = outerCircleDiameter / 2 - paddingOffset;
@@ -86,7 +89,7 @@ const VisualTreePane = ({ searchId }) => {
 
   const onDragStart = (item) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
-    setIdOfDraggedItem(item.id);
+    setIdOfDraggedItem(item?.associateId);
   };
 
   const onDragEnd = () => setReceiveCirlceBorderColor(theme.disabledTextColor);
@@ -95,7 +98,7 @@ const VisualTreePane = ({ searchId }) => {
 
   const onDragStartUpline = (item) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
-    setIdOfDraggedItem(item.id);
+    setIdOfDraggedItem(item?.associateId);
   };
 
   const onDragEndUpline = () =>
@@ -136,15 +139,17 @@ const VisualTreePane = ({ searchId }) => {
               console.log(`REVEIVED ${payload}`);
             }}
           >
-            <VisualTreeBubble
-              style={{ position: 'absolute', top: -7, left: 3 }}
-              item={{ id: -1, firstName: 'Upline', lastName: 'Smithson' }}
-              draggable={true}
-              onDragStart={() => onDragStartUpline({ id: -1 })}
-              onDragEnd={onDragEndUpline}
-              onDragDrop={onDragDropUpline}
-              payload={-1}
-            />
+            {memberAtTop && (
+              <VisualTreeBubble
+                style={{ position: 'absolute', top: -7, left: 3 }}
+                item={memberAtTop}
+                draggable={true}
+                onDragStart={() => onDragStartUpline({ id: -1 })}
+                onDragEnd={onDragEndUpline}
+                onDragDrop={onDragDropUpline}
+                payload={-1}
+              />
+            )}
           </ReceivingCircle>
 
           <OuterCircleAnimatedContainer
@@ -172,36 +177,37 @@ const VisualTreePane = ({ searchId }) => {
                 console.log(`REVEIVED ${payload}`);
               }}
             >
-              {outsideList?.map((item, index) => (
-                <VisualTreeBubble
-                  key={item?.associateId}
-                  item={item?.associate}
-                  draggable={true}
-                  longPressDelay={200}
-                  onPress={() => console.log('on Press')}
-                  onLongPress={() => console.log('on Long Press')}
-                  onDragStart={() => onDragStart(item)}
-                  onDragEnd={onDragEnd}
-                  onDragDrop={onDragDrop}
-                  payload="world"
-                  style={{
-                    top:
-                      radius -
-                      radius *
-                        Math.cos(
-                          (360 / outsideList?.length) *
-                            ((index * Math.PI) / 180),
-                        ),
-                    left:
-                      radius +
-                      radius *
-                        Math.sin(
-                          (360 / outsideList?.length) *
-                            ((index * Math.PI) / 180),
-                        ),
-                  }}
-                />
-              ))}
+              {outsideList.length > 0 &&
+                outsideList?.map((item, index) => (
+                  <VisualTreeBubble
+                    key={item?.associateId}
+                    item={item?.associate}
+                    draggable={true}
+                    longPressDelay={200}
+                    onPress={() => console.log('on Press')}
+                    onLongPress={() => console.log('on Long Press')}
+                    onDragStart={() => onDragStart(item)}
+                    onDragEnd={onDragEnd}
+                    onDragDrop={onDragDrop}
+                    payload="world"
+                    style={{
+                      top:
+                        radius -
+                        radius *
+                          Math.cos(
+                            (360 / outsideList?.length) *
+                              ((index * Math.PI) / 180),
+                          ),
+                      left:
+                        radius +
+                        radius *
+                          Math.sin(
+                            (360 / outsideList?.length) *
+                              ((index * Math.PI) / 180),
+                          ),
+                    }}
+                  />
+                ))}
               {insideItem !== null && (
                 <VisualTreeBubble
                   onPress={() => console.log('on Press')}

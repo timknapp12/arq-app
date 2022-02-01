@@ -31,8 +31,9 @@ const VisualTreeBubble = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+
   return (
-    <TouchableOpacity {...props} key={item.id}>
+    <TouchableOpacity {...props}>
       <InnerCircle
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
