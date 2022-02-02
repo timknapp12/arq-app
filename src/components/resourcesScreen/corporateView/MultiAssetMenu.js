@@ -9,7 +9,7 @@ import { Localized } from '../../../translations/Localized';
 
 const Container = styled.View`
   background-color: ${(props) => props.theme.backgroundColor};
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.dropShadow};
   padding: 12px;
   min-width: 180px;
   border-radius: 2px;

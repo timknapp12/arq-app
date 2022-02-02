@@ -26,7 +26,7 @@ const Inner = styled.KeyboardAvoidingView`
   height: 70%;
   background-color: ${(props) => props.theme.backgroundColor};
   padding: 20px 20px 0px 20px;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.dropShadow};
 `;
 
 const DeviceContactsModal = ({

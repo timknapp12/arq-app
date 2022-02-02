@@ -19,7 +19,7 @@ const AddButton = styled(GestureTouchable)`
   border-radius: 28px;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.dropShadow};
 `;
 
 // ANIMATED ADD BUTTON OPTIONS
@@ -37,7 +37,7 @@ const SmallAddButton = styled(GestureTouchable)`
   border-radius: 20px;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.dropShadow};
 `;
 
 const AnimatedRow = Animated.createAnimatedComponent(ButtonRow);
