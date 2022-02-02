@@ -10,6 +10,8 @@ export const GET_USER = gql`
           legacyAssociateId
           firstName
           lastName
+          associateType
+          associateStatus
         }
       }
       associate {
@@ -17,6 +19,8 @@ export const GET_USER = gql`
         associateId
         firstName
         lastName
+        associateType
+        associateStatus
       }
       orders {
         orderId

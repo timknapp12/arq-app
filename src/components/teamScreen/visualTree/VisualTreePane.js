@@ -24,12 +24,13 @@ const VisualTreePane = ({ searchId }) => {
   const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
     useState(theme.disabledTextColor);
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
-  //   console.log('idOfDraggedItem', idOfDraggedItem);
+  console.log('idOfDraggedItem', idOfDraggedItem);
 
   const [treeData, setTreeData] = useState(null);
   const [memberAtTop, setMemberAtTop] = useState(null);
+  const [uplineMember, setUplineMember] = useState(null);
 
-  console.log('searchId', searchId);
+  // console.log('searchId', searchId);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     variables: { legacyAssociateId: searchId },
@@ -56,9 +57,12 @@ const VisualTreePane = ({ searchId }) => {
   }, [searchId]);
 
   const setSearchedMember = (item) => ({
-    associateId: item?.associateId,
+    associateId: item?.associate?.associateId,
+    legacyAssociateId: item?.associate?.legacyAssociateId,
     firstName: item?.associate?.firstName,
     lastName: item?.associate?.lastName,
+    associateType: item?.associate?.associateType,
+    associateStatus: item?.associate?.associateStatus,
   });
 
   useEffect(() => {
@@ -70,11 +74,11 @@ const VisualTreePane = ({ searchId }) => {
       setTreeData(filteredData);
       const topLevelMember = setSearchedMember(data?.treeNodeFor);
       setMemberAtTop(topLevelMember);
+      const upline = setSearchedMember(data?.treeNodeFor?.uplineTreeNode);
+      setUplineMember(upline);
       fadeIn();
     }
   }, [data]);
-
-  const uplineId = -1;
 
   const treeListCopy = treeData ? [...treeData] : [];
 
@@ -92,20 +96,30 @@ const VisualTreePane = ({ searchId }) => {
     setIdOfDraggedItem(item?.associateId);
   };
 
-  const onDragEnd = () => setReceiveCirlceBorderColor(theme.disabledTextColor);
+  const onDragEnd = () => {
+    setReceiveCirlceBorderColor(theme.disabledTextColor);
+    setIdOfDraggedItem(null);
+  };
 
-  const onDragDrop = () => setReceiveCirlceBorderColor(theme.disabledTextColor);
+  const onDragDrop = () => {
+    setReceiveCirlceBorderColor(theme.disabledTextColor);
+    setIdOfDraggedItem(null);
+  };
 
   const onDragStartUpline = (item) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.associateId);
   };
 
-  const onDragEndUpline = () =>
+  const onDragEndUpline = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
+    setIdOfDraggedItem(null);
+  };
 
-  const onDragDropUpline = () =>
+  const onDragDropUpline = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
+    setIdOfDraggedItem(null);
+  };
 
   const OuterCircleAnimatedContainer = Animated.createAnimatedComponent(View);
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -115,19 +129,44 @@ const VisualTreePane = ({ searchId }) => {
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
+          width: '100%',
+          minHeight: '100%',
         }}
         style={{
           width: '100%',
-          height: '100%',
+          minHeight: '100%',
           zIndex: -1,
         }}
         horizontal
       >
-        <Flexbox onStartShouldSetResponder={() => true}>
+        <Flexbox
+          onStartShouldSetResponder={() => true}
+          align="center"
+          justify="center"
+        >
+          {uplineMember && (
+            <Flexbox padding={20}>
+              <VisualTreeBubble
+                item={uplineMember}
+                draggable={true}
+                onDragStart={() => onDragStart(uplineMember)}
+                onDragEnd={onDragEnd}
+                onDragDrop={onDragDrop}
+                payload="world"
+                position="relative"
+                isBeingDragged={idOfDraggedItem === uplineMember?.associateId}
+              />
+            </Flexbox>
+          )}
           <ReceivingCircle
+            style={{
+              opacity: fadeAnim,
+            }}
             borderColor={receiveCirlceBorderColor}
             receivingStyle={
-              uplineId !== idOfDraggedItem && { backgroundColor: 'green' }
+              memberAtTop?.associateId !== idOfDraggedItem && {
+                backgroundColor: 'green',
+              }
             }
             onReceiveDragEnter={({ dragged: { payload } }) => {
               console.log(`Entered ${payload}`);
@@ -144,10 +183,12 @@ const VisualTreePane = ({ searchId }) => {
                 style={{ position: 'absolute', top: -7, left: 3 }}
                 item={memberAtTop}
                 draggable={true}
-                onDragStart={() => onDragStartUpline({ id: -1 })}
+                longPressDelay={200}
+                onDragStart={() => onDragStartUpline(memberAtTop)}
                 onDragEnd={onDragEndUpline}
                 onDragDrop={onDragDropUpline}
-                payload={-1}
+                payload={'test'}
+                isBeingDragged={idOfDraggedItem === memberAtTop?.associateId}
               />
             )}
           </ReceivingCircle>
@@ -160,7 +201,9 @@ const VisualTreePane = ({ searchId }) => {
             <OuterCircle
               borderColor={outerCircleReceiveBorderColor}
               receivingStyle={
-                uplineId === idOfDraggedItem && { backgroundColor: 'green' }
+                memberAtTop?.associateId === idOfDraggedItem && {
+                  backgroundColor: 'green',
+                }
               }
               style={{
                 width: outerCircleDiameter,
@@ -180,16 +223,19 @@ const VisualTreePane = ({ searchId }) => {
               {outsideList.length > 0 &&
                 outsideList?.map((item, index) => (
                   <VisualTreeBubble
-                    key={item?.associateId}
+                    key={item?.associate?.associateId}
                     item={item?.associate}
                     draggable={true}
-                    longPressDelay={200}
-                    onPress={() => console.log('on Press')}
-                    onLongPress={() => console.log('on Long Press')}
-                    onDragStart={() => onDragStart(item)}
+                    // longPressDelay={200}
+                    // onPress={() => console.log('on Press')}
+                    // onLongPress={() => console.log('on Long Press')}
+                    onDragStart={() => onDragStart(item?.associate)}
                     onDragEnd={onDragEnd}
                     onDragDrop={onDragDrop}
                     payload="world"
+                    isBeingDragged={
+                      idOfDraggedItem === item?.associate?.associateId
+                    }
                     style={{
                       top:
                         radius -
@@ -214,10 +260,13 @@ const VisualTreePane = ({ searchId }) => {
                   onLongPress={() => console.log('on Long Press')}
                   item={insideItem?.associate}
                   draggable={true}
-                  onDragStart={() => onDragStart(insideItem)}
+                  onDragStart={() => onDragStart(insideItem?.associate)}
                   onDragEnd={onDragEnd}
                   onDragDrop={onDragDrop}
                   payload="middle bubble"
+                  isBeingDragged={
+                    idOfDraggedItem === insideItem?.associate?.associateId
+                  }
                   style={{
                     position: 'absolute',
                     top: radius - 0,
@@ -229,10 +278,11 @@ const VisualTreePane = ({ searchId }) => {
           </OuterCircleAnimatedContainer>
 
           <ReceivingCircle
+            style={{
+              opacity: fadeAnim,
+            }}
             borderColor={receiveCirlceBorderColor}
-            receivingStyle={
-              uplineId !== idOfDraggedItem && { backgroundColor: 'green' }
-            }
+            receivingStyle={{ backgroundColor: 'green' }}
             onReceiveDragEnter={({ dragged: { payload } }) => {
               console.log(`Entered ${payload}`);
             }}

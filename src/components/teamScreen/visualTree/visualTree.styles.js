@@ -20,6 +20,7 @@ export const ReceivingCircle = styled(DraxView)`
   border-radius: ${innerCircleDiameter + 12 / 2}px;
   border-width: 3px;
   border-color: ${(props) => props.borderColor};
+  position: relative;
 `;
 
 export const innerCircleDimensions = {
@@ -34,7 +35,8 @@ export const innerCircleDimensions = {
 export const InnerCircle = styled(DraxView)`
   ${innerCircleDimensions};
   margin-top: 8px;
-  position: absolute;
+  position: ${(props) => props.position};
+  opacity: ${(props) => (props.highlight ? 1 : 0.5)};
 `;
 
 export const LevelIndicator = styled.View`
