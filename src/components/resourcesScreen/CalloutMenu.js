@@ -23,7 +23,7 @@ const Container = styled.View`
   position: absolute;
   right: 0;
   top: 64px;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.dropShadow};
 `;
 
 // The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
@@ -103,7 +103,8 @@ const CalloutMenu = ({
           onPress={() => {
             onDownload();
             closeCallout();
-          }}>
+          }}
+        >
           <Row>
             <DownloadIcon style={iconStyle} />
             <H4Book>{Localized('Download')}</H4Book>

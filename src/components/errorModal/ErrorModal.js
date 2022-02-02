@@ -17,7 +17,7 @@ const Inner = styled.View`
   width: 80%;
   background-color: ${(props) => props.theme.backgroundColor};
   padding: 20px;
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.dropShadow};
 `;
 
 const ErrorModal = ({ visible, onClose, errorMessage }) => {
@@ -27,13 +27,15 @@ const ErrorModal = ({ visible, onClose, errorMessage }) => {
       transparent={true}
       visible={visible}
       statusBarTranslucent={true}
-      onRequestClose={onClose}>
+      onRequestClose={onClose}
+    >
       <Container>
         <Inner>
           <TouchableOpacity
             testID="close-edit-modal-button"
             style={{ width: 24, paddingTop: 8, paddingBottom: 8 }}
-            onPress={onClose}>
+            onPress={onClose}
+          >
             <CloseIcon />
           </TouchableOpacity>
           <Flexbox style={{ paddingBottom: 10 }}>
@@ -43,7 +45,8 @@ const ErrorModal = ({ visible, onClose, errorMessage }) => {
             <H4Secondary
               style={{
                 textAlign: 'center',
-              }}>
+              }}
+            >
               {errorMessage ? `Error: "${errorMessage}"` : null}
             </H4Secondary>
           </Flexbox>

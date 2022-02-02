@@ -36,7 +36,8 @@ export const InnerCircle = styled(DraxView)`
   ${innerCircleDimensions};
   margin-top: 8px;
   position: ${(props) => props.position};
-  opacity: ${(props) => (props.highlight ? 1 : 0.5)};
+  box-shadow: ${(props) =>
+    props.highlight ? props.theme.bubbleShadow : 'none'};
 `;
 
 export const LevelIndicator = styled.View`
