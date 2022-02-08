@@ -44,6 +44,7 @@ import ProfileImage from './ProfileImage';
 // import csCountries from '../../translations/countries/cs-countries.json';
 // import nlCountries from '../../translations/countries/nl-countries.json';
 import usStates from '../../translations/countries/us-states.json';
+import validateEmailPattern from '../../utils/regex/validateEmailPattern';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -147,16 +148,12 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     }
   };
   const validateEmail = () => {
-    // source for regex https://regexlib.com/Search.aspx?k=email&c=-1&m=5&ps=20
-    const pattern = new RegExp(
-      /^((([!#$%&'*+\-/=?^_`{|}~\w])|([!#$%&'*+\-/=?^_`{|}~\w][!#$%&'*+\-/=?^_`{|}~\\.\w]{0,}[!#$%&'*+\-/=?^_`{|}~\w]))[@]\w+([-.]\w+)*\.\w+([-.]\w+)*)$/,
-    );
-    if (!pattern.test(emailAddress)) {
-      setIsEmailError(true);
-      return false;
-    } else {
+    if (validateEmailPattern(emailAddress)) {
       setIsEmailError(false);
       return true;
+    } else {
+      setIsEmailError(true);
+      return false;
     }
   };
   const validatePhone = () => {
