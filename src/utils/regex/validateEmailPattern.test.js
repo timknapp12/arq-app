@@ -31,19 +31,19 @@ describe('validate email pattern', () => {
     const output = true;
     expect(validateEmailPattern(input)).toBe(output);
   });
-  test('.test_1@gmail.com returns true', () => {
+  test('.test_1@gmail.com returns false', () => {
     const input = '.test_1@gmail.com';
 
     const output = false;
     expect(validateEmailPattern(input)).toBe(output);
   });
-  test('test_1.@gmail.com returns true', () => {
+  test('test_1.@gmail.com returns false', () => {
     const input = 'test_1.@gmail.com';
 
     const output = false;
     expect(validateEmailPattern(input)).toBe(output);
   });
-  test('a>b@email.com returns true', () => {
+  test('a>b@email.com returns false', () => {
     const input = 'a>b@email.com';
 
     const output = false;
