@@ -149,7 +149,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const validateEmail = () => {
     // source for regex https://regexlib.com/Search.aspx?k=email&c=-1&m=5&ps=20
     const pattern = new RegExp(
-      '^([a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+)@[a-zA-Z0-9]+(?:[.-]?[a-zA-Z0-9]+).[a-zA-Z]{2,7})$',
+      /^((([!#$%&'*+\-/=?^_`{|}~\w])|([!#$%&'*+\-/=?^_`{|}~\w][!#$%&'*+\-/=?^_`{|}~\\.\w]{0,}[!#$%&'*+\-/=?^_`{|}~\w]))[@]\w+([-.]\w+)*\.\w+([-.]\w+)*)$/,
     );
     if (!pattern.test(emailAddress)) {
       setIsEmailError(true);
@@ -255,25 +255,26 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     countryCode: address?.countryCode,
   };
 
+  // TODO - when we allow fields to be edited, then use commented out code below to validate fields
   const onSubmit = () => {
-    if (!validateAllFields()) {
-      return false;
-    } else {
-      setLoading(true);
-      // only save image if it has been changed
-      isNewImageSelected
-        ? saveProfileImageToFirebase(
-            myInfo,
-            profileUrl,
-            updateProfile,
-            variables,
-            onCompleted,
-          )
-        : updateProfile({
-            variables: variables,
-            onCompleted: onCompleted(),
-          });
-    }
+    // if (!validateAllFields()) {
+    //   return false;
+    // } else {
+    setLoading(true);
+    // only save image if it has been changed
+    isNewImageSelected
+      ? saveProfileImageToFirebase(
+          myInfo,
+          profileUrl,
+          updateProfile,
+          variables,
+          onCompleted,
+        )
+      : updateProfile({
+          variables: variables,
+          onCompleted: onCompleted(),
+        });
+    // }
   };
 
   // let localeLanguageTag = Localization.locale.substring(0, 2);
