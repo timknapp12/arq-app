@@ -168,12 +168,14 @@ const AddContactModal = ({
     displayName: displayName,
     emailAddress: emailAddress,
     primaryPhone: primaryPhone,
-    address1: address?.address1,
-    address2: address?.address2,
-    city: address?.city,
-    state: address?.state,
-    zip: address?.zip,
-    countryCode: address?.countryCode,
+    address: {
+      address1: address?.address1,
+      address2: address?.address2,
+      city: address?.city,
+      state: address?.state,
+      zip: address?.zip,
+      countryCode: address?.countryCode,
+    },
     notes: notes,
   };
 
@@ -235,12 +237,14 @@ const AddContactModal = ({
       transparent={false}
       visible={isAddContactModalOpen}
       statusBarTranslucent={true}
-      onRequestClose={onClose}>
+      onRequestClose={onClose}
+    >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <ScreenContainer style={{ justifyContent: 'flex-start' }}>
           <KeyboardAvoidingView
             style={{ flex: 1, width: '100%' }}
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          >
             <Header>
               <HeaderButtonContainer>
                 <TouchableOpacity
@@ -249,7 +253,8 @@ const AddContactModal = ({
                     paddingBottom: 8,
                   }}
                   testID="add-contact-info-close-modal-button"
-                  onPress={onClose}>
+                  onPress={onClose}
+                >
                   <CloseIcon />
                 </TouchableOpacity>
               </HeaderButtonContainer>
@@ -262,7 +267,8 @@ const AddContactModal = ({
                 {isSaveButtonVisisble ? (
                   <TouchableOpacity
                     testID="add-contact-info-save-button"
-                    onPress={onSubmit}>
+                    onPress={onSubmit}
+                  >
                     {loading ? (
                       <ActivityIndicator
                         color={theme.disabledBackgroundColor}
@@ -284,7 +290,8 @@ const AddContactModal = ({
               ref={scrollViewRef}
               style={{ width: '100%' }}
               contentContainerStyle={{ paddingBottom: 24 }}
-              keyboardShouldPersistTaps="always">
+              keyboardShouldPersistTaps="always"
+            >
               <Flexbox justify="flex-start" height="100%">
                 <Subheader justify="center">
                   <H5Heavy>{Localized('Contact Information')}</H5Heavy>
@@ -305,7 +312,8 @@ const AddContactModal = ({
                       width={nameInputWidth}
                       justify="space-between"
                       align="flex-end"
-                      height="100%">
+                      height="100%"
+                    >
                       <AnimatedInput
                         testID="add-contact-first-name-input"
                         label={Localized('First Name')}
@@ -407,7 +415,8 @@ const AddContactModal = ({
                       zIndex: 4,
                       paddingTop: 4,
                       marginBottom: 4,
-                    }}>
+                    }}
+                  >
                     {address?.countryCode === 'us' ? (
                       <Flexbox width="48%" align="flex-start">
                         <Picker

@@ -268,7 +268,7 @@ export const DELETE_ASSET = gql`
 `;
 
 export const ADD_UPDATE_PROSPECT = gql`
-  mutation AddUpdateProspect(
+  mutation AddUpdateProspectV2(
     $associateId: Int!
     $prospectId: String!
     $thumbnailUrl: String
@@ -277,15 +277,10 @@ export const ADD_UPDATE_PROSPECT = gql`
     $displayName: String
     $emailAddress: String
     $primaryPhone: String
-    $address1: String
-    $address2: String
-    $city: String
-    $state: String
-    $zip: String
-    $countryCode: String
+    $address: InputAddressInput
     $notes: String
   ) {
-    addUpdateProspect(
+    addUpdateProspectV2(
       input: {
         associateId: $associateId
         prospectId: $prospectId
@@ -295,12 +290,7 @@ export const ADD_UPDATE_PROSPECT = gql`
         displayName: $displayName
         emailAddress: $emailAddress
         primaryPhone: $primaryPhone
-        address1: $address1
-        address2: $address2
-        city: $city
-        state: $state
-        zip: $zip
-        countryCode: $countryCode
+        address: $address
         notes: $notes
       }
     ) {
