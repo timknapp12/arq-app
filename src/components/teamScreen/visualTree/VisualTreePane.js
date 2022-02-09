@@ -2,7 +2,7 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, Animated } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
-import { Flexbox } from '../../common';
+import { Flexbox, LoadingSpinner, H4 } from '../../common';
 import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
 import { DraxProvider } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
@@ -10,6 +10,7 @@ import AppContext from '../../../contexts/AppContext';
 import { OuterCircle, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
+import { Localized } from '../../../translations/Localized';
 
 const paddingOffset = 60;
 
@@ -24,7 +25,7 @@ const VisualTreePane = ({ searchId, level }) => {
   const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
     useState(theme.disabledTextColor);
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
-  console.log('idOfDraggedItem', idOfDraggedItem);
+  // console.log('idOfDraggedItem', idOfDraggedItem);
 
   const [treeData, setTreeData] = useState(null);
   const [memberAtTop, setMemberAtTop] = useState(null);
@@ -38,10 +39,6 @@ const VisualTreePane = ({ searchId, level }) => {
     onError: (error) =>
       console.log('error in get user in VisualTreePane.js', error),
   });
-
-  if (loading) {
-    console.log('loading');
-  }
 
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
@@ -80,6 +77,10 @@ const VisualTreePane = ({ searchId, level }) => {
       fadeIn();
     }
   }, [data]);
+
+  useEffect(() => {
+    setIsOutsideBubbleEntering(memberAtTop?.associate === idOfDraggedItem);
+  }, [memberAtTop, idOfDraggedItem]);
 
   const treeListCopy = treeData ? [...treeData] : [];
 
@@ -124,178 +125,191 @@ const VisualTreePane = ({ searchId, level }) => {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
+  if (loading) {
+    setTimeout(() => {
+      return <LoadingSpinner style={{ marginTop: 10 }} size="large" />;
+    }, 500);
+  }
+
   return (
     <DraxProvider>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          width: '100%',
-          minHeight: '100%',
-        }}
-        style={{
-          width: '100%',
-          minHeight: '100%',
-          zIndex: -1,
-        }}
-        horizontal
-      >
-        <Flexbox
-          onStartShouldSetResponder={() => true}
-          align="center"
-          justify="center"
+      {searchId !== 0 ? (
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            width: '100%',
+            minHeight: '100%',
+          }}
+          style={{
+            width: '100%',
+            minHeight: '100%',
+            zIndex: -1,
+          }}
+          horizontal
         >
-          {uplineMember && (
-            <Flexbox padding={20}>
-              <VisualTreeBubble
-                member={uplineMember}
-                draggable={true}
-                onDragStart={() => onDragStart(uplineMember)}
-                onDragEnd={onDragEnd}
-                onDragDrop={onDragDrop}
-                payload="world"
-                position="relative"
-                isBeingDragged={idOfDraggedItem === uplineMember?.associateId}
-                level={level - 1}
-              />
-            </Flexbox>
-          )}
-          <ReceivingCircle
-            // style={{
-            //   opacity: fadeAnim,
-            // }}
-            borderColor={receiveCirlceBorderColor}
-            receivingStyle={
-              memberAtTop?.associateId !== idOfDraggedItem && {
-                backgroundColor: 'green',
-              }
-            }
-            onReceiveDragEnter={({ dragged: { payload } }) => {
-              console.log(`Entered ${payload}`);
-              setIsOutsideBubbleEntering(true);
-            }}
-            onReceiveDragExit={({ dragged: { payload } }) => {
-              console.log(`LEAVING ${payload}`);
-              setIsOutsideBubbleEntering(false);
-            }}
-            onReceiveDragDrop={({ dragged: { payload } }) => {
-              console.log(`REVEIVED ${payload}`);
-            }}
+          <Flexbox
+            onStartShouldSetResponder={() => true}
+            align="center"
+            justify="center"
           >
-            {memberAtTop && !isOutsideBubbleEntering && (
-              <VisualTreeBubble
-                style={{ position: 'absolute', top: -7, left: 3 }}
-                member={memberAtTop}
-                draggable={true}
-                longPressDelay={200}
-                onDragStart={() => onDragStartUpline(memberAtTop)}
-                onDragEnd={onDragEndUpline}
-                onDragDrop={onDragDropUpline}
-                payload={'test'}
-                isBeingDragged={idOfDraggedItem === memberAtTop?.associateId}
-                level={level}
-              />
-            )}
-          </ReceivingCircle>
-
-          <OuterCircle
-            borderColor={outerCircleReceiveBorderColor}
-            receivingStyle={
-              memberAtTop?.associateId === idOfDraggedItem && {
-                backgroundColor: 'green',
-              }
-            }
-            style={{
-              opacity: fadeAnim,
-              width: outerCircleDiameter,
-              height: outerCircleDiameter,
-              borderRadius: outerCircleDiameter / 2,
-            }}
-            onReceiveDragEnter={({ dragged: { payload } }) => {
-              console.log(`Entered ${payload}`);
-            }}
-            onReceiveDragExit={({ dragged: { payload } }) => {
-              console.log(`LEAVING ${payload}`);
-            }}
-            onReceiveDragDrop={({ dragged: { payload } }) => {
-              console.log(`REVEIVED ${payload}`);
-            }}
-          >
-            {outsideList.length > 0 &&
-              outsideList?.map((item, index) => (
+            {uplineMember && (
+              <Flexbox padding={20}>
                 <VisualTreeBubble
-                  key={item?.associate?.associateId}
-                  member={item?.associate}
+                  member={uplineMember}
                   draggable={true}
-                  // longPressDelay={200}
-                  // onPress={() => console.log('on Press')}
-                  // onLongPress={() => console.log('on Long Press')}
-                  onDragStart={() => onDragStart(item?.associate)}
+                  onDragStart={() => onDragStart(uplineMember)}
                   onDragEnd={onDragEnd}
                   onDragDrop={onDragDrop}
                   payload="world"
+                  position="relative"
+                  isBeingDragged={idOfDraggedItem === uplineMember?.associateId}
+                  level={level - 1}
+                />
+              </Flexbox>
+            )}
+            <ReceivingCircle
+              // style={{
+              //   opacity: fadeAnim,
+              // }}
+              borderColor={receiveCirlceBorderColor}
+              receivingStyle={
+                memberAtTop?.associateId !== idOfDraggedItem && {
+                  backgroundColor: 'green',
+                }
+              }
+              onReceiveDragEnter={({ dragged: { payload } }) => {
+                console.log(`Entered ${payload}`);
+                memberAtTop?.associateId !== idOfDraggedItem &&
+                  setIsOutsideBubbleEntering(true);
+              }}
+              onReceiveDragExit={({ dragged: { payload } }) => {
+                console.log(`LEAVING ${payload}`);
+                setIsOutsideBubbleEntering(false);
+              }}
+              onReceiveDragDrop={({ dragged: { payload } }) => {
+                console.log(`REVEIVED ${payload}`);
+              }}
+            >
+              {memberAtTop && !isOutsideBubbleEntering && (
+                <VisualTreeBubble
+                  style={{ position: 'absolute', top: -7, left: 3 }}
+                  member={memberAtTop}
+                  draggable={true}
+                  longPressDelay={200}
+                  onDragStart={() => onDragStartUpline(memberAtTop)}
+                  onDragEnd={onDragEndUpline}
+                  onDragDrop={onDragDropUpline}
+                  payload={'test'}
+                  isBeingDragged={idOfDraggedItem === memberAtTop?.associateId}
+                  level={level}
+                />
+              )}
+            </ReceivingCircle>
+
+            <OuterCircle
+              borderColor={outerCircleReceiveBorderColor}
+              receivingStyle={
+                memberAtTop?.associateId === idOfDraggedItem && {
+                  backgroundColor: 'green',
+                }
+              }
+              style={{
+                opacity: fadeAnim,
+                width: outerCircleDiameter,
+                height: outerCircleDiameter,
+                borderRadius: outerCircleDiameter / 2,
+              }}
+              onReceiveDragEnter={({ dragged: { payload } }) => {
+                console.log(`Entered ${payload}`);
+              }}
+              onReceiveDragExit={({ dragged: { payload } }) => {
+                console.log(`LEAVING ${payload}`);
+              }}
+              onReceiveDragDrop={({ dragged: { payload } }) => {
+                console.log(`REVEIVED ${payload}`);
+              }}
+            >
+              {outsideList.length > 0 &&
+                outsideList?.map((item, index) => (
+                  <VisualTreeBubble
+                    key={item?.associate?.associateId}
+                    member={item?.associate}
+                    draggable={true}
+                    // longPressDelay={200}
+                    // onPress={() => console.log('on Press')}
+                    // onLongPress={() => console.log('on Long Press')}
+                    onDragStart={() => onDragStart(item?.associate)}
+                    onDragEnd={onDragEnd}
+                    onDragDrop={onDragDrop}
+                    payload="world"
+                    isBeingDragged={
+                      idOfDraggedItem === item?.associate?.associateId
+                    }
+                    level={level + 1}
+                    style={{
+                      top:
+                        radius -
+                        radius *
+                          Math.cos(
+                            (360 / outsideList?.length) *
+                              ((index * Math.PI) / 180),
+                          ),
+                      left:
+                        radius +
+                        radius *
+                          Math.sin(
+                            (360 / outsideList?.length) *
+                              ((index * Math.PI) / 180),
+                          ),
+                    }}
+                  />
+                ))}
+              {insideItem !== null && (
+                <VisualTreeBubble
+                  onPress={() => console.log('on Press')}
+                  onLongPress={() => console.log('on Long Press')}
+                  member={insideItem?.associate}
+                  draggable={true}
+                  onDragStart={() => onDragStart(insideItem?.associate)}
+                  onDragEnd={onDragEnd}
+                  onDragDrop={onDragDrop}
+                  payload="middle bubble"
                   isBeingDragged={
-                    idOfDraggedItem === item?.associate?.associateId
+                    idOfDraggedItem === insideItem?.associate?.associateId
                   }
                   level={level + 1}
                   style={{
-                    top:
-                      radius -
-                      radius *
-                        Math.cos(
-                          (360 / outsideList?.length) *
-                            ((index * Math.PI) / 180),
-                        ),
-                    left:
-                      radius +
-                      radius *
-                        Math.sin(
-                          (360 / outsideList?.length) *
-                            ((index * Math.PI) / 180),
-                        ),
+                    position: 'absolute',
+                    top: radius - 0,
+                    left: radius + 12,
                   }}
                 />
-              ))}
-            {insideItem !== null && (
-              <VisualTreeBubble
-                onPress={() => console.log('on Press')}
-                onLongPress={() => console.log('on Long Press')}
-                member={insideItem?.associate}
-                draggable={true}
-                onDragStart={() => onDragStart(insideItem?.associate)}
-                onDragEnd={onDragEnd}
-                onDragDrop={onDragDrop}
-                payload="middle bubble"
-                isBeingDragged={
-                  idOfDraggedItem === insideItem?.associate?.associateId
-                }
-                level={level + 1}
-                style={{
-                  position: 'absolute',
-                  top: radius - 0,
-                  left: radius + 12,
-                }}
-              />
-            )}
-          </OuterCircle>
+              )}
+            </OuterCircle>
 
-          <ReceivingCircle
-            // style={{
-            //   opacity: fadeAnim,
-            // }}
-            borderColor={receiveCirlceBorderColor}
-            receivingStyle={{ backgroundColor: 'green' }}
-            onReceiveDragEnter={({ dragged: { payload } }) => {
-              console.log(`Entered ${payload}`);
-            }}
-            onReceiveDragExit={({ dragged: { payload } }) => {
-              console.log(`LEAVING ${payload}`);
-            }}
-            onReceiveDragDrop={({ dragged: { payload } }) => {
-              console.log(`RECEIVED ${payload}`);
-            }}
-          />
-        </Flexbox>
-      </ScrollView>
+            <ReceivingCircle
+              // style={{
+              //   opacity: fadeAnim,
+              // }}
+              borderColor={receiveCirlceBorderColor}
+              receivingStyle={{ backgroundColor: 'green' }}
+              onReceiveDragEnter={({ dragged: { payload } }) => {
+                console.log(`Entered ${payload}`);
+              }}
+              onReceiveDragExit={({ dragged: { payload } }) => {
+                console.log(`LEAVING ${payload}`);
+              }}
+              onReceiveDragDrop={({ dragged: { payload } }) => {
+                console.log(`RECEIVED ${payload}`);
+              }}
+            />
+          </Flexbox>
+        </ScrollView>
+      ) : (
+        <H4 style={{ textAlign: 'center', marginTop: 16 }}>
+          {Localized('Search for a team member')}
+        </H4>
+      )}
     </DraxProvider>
   );
 };

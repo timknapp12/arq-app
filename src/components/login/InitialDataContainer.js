@@ -34,7 +34,7 @@ const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, setHasPermissionsToWrite, deviceLanguage } =
     useContext(AppContext);
 
-  const [email, setEmail] = useState('tim@test.com');
+  const [email, setEmail] = useState('tim2@test.com');
   const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
