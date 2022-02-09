@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { H6Secondary } from '../../common';
+import { H6Secondary, LevelLabel } from '../../common';
 import AppContext from '../../../contexts/AppContext';
+import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
 import {
   ActivityBadge,
   LevelIndicator,
@@ -22,7 +23,7 @@ const innerCircleDimensions = {
 };
 
 const VisualTreeBubble = ({
-  item,
+  member,
   onDragStart,
   onDragEnd,
   onDragDrop,
@@ -30,9 +31,23 @@ const VisualTreeBubble = ({
   draggable,
   position = 'absolute',
   isBeingDragged,
+  level,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+
+  const memberTypeColorMap = {
+    activeAmbassador: theme.primaryButtonBackgroundColor,
+    activePreferred: theme.customerAvatarAccent,
+    activeRetail: theme.retailAvatarAccent,
+    warning: theme.warningAvatarAccent,
+    terminated: theme.alertAvatarAccent,
+  };
+
+  const [, color] = filterMemberByStatusAndType(
+    { associate: member },
+    memberTypeColorMap,
+  );
 
   return (
     <TouchableOpacity {...props}>
@@ -59,11 +74,27 @@ const VisualTreeBubble = ({
           >
             <ActivityBadge />
             <H6Secondary style={{ fontSize: 12 }}>
-              {item?.firstName}
+              {member?.firstName}
             </H6Secondary>
-            <H6Secondary style={{ fontSize: 12 }}>{item?.lastName}</H6Secondary>
+            <H6Secondary style={{ fontSize: 12 }}>
+              {member?.lastName}
+            </H6Secondary>
           </View>
-          <LevelIndicator />
+          <LevelIndicator color={color}>
+            {level ? (
+              <LevelLabel
+                style={{
+                  fontSize: 16,
+                  color:
+                    color === theme.warningAvatarAccent
+                      ? theme.backgroundColor
+                      : theme.primaryTextColor,
+                }}
+              >
+                {level}
+              </LevelLabel>
+            ) : null}
+          </LevelIndicator>
         </LinearGradient>
       </InnerCircle>
     </TouchableOpacity>
@@ -71,7 +102,7 @@ const VisualTreeBubble = ({
 };
 
 VisualTreeBubble.propTypes = {
-  item: PropTypes.object.isRequired,
+  member: PropTypes.object.isRequired,
   onDragStart: PropTypes.func,
   onDragEnd: PropTypes.func,
   onDragDrop: PropTypes.func,
@@ -79,6 +110,7 @@ VisualTreeBubble.propTypes = {
   draggable: PropTypes.bool.isRequired,
   position: PropTypes.string,
   isBeingDragged: PropTypes.bool.isRequired,
+  level: PropTypes.number.isRequired,
 };
 
 export default VisualTreeBubble;

@@ -41,7 +41,7 @@ export const InnerCircle = styled(DraxView)`
 `;
 
 export const LevelIndicator = styled.View`
-  background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
+  background-color: ${(props) => props.color};
   justify-content: center;
   align-items: center;
   height: ${innerCircleDiameter / 4}px;

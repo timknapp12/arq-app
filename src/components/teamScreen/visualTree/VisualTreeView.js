@@ -13,6 +13,9 @@ const VisibilityTreeView = ({
   paneOneSearchId,
   paneTwoSearchId,
   paneThreeSearchId,
+  paneOneSearchLevel,
+  paneTwoSearchLevel,
+  paneThreeSearchLevel,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPane, setSelectedPane] = useState(1);
@@ -39,7 +42,12 @@ const VisibilityTreeView = ({
         paneThreeSearchId={paneThreeSearchId}
       />
       <MainScrollView minimumZoomScale={0.5} maximumZoomScale={5}>
-        {selectedPane === 1 && <VisualTreePane searchId={paneOneSearchId} />}
+        {selectedPane === 1 && (
+          <VisualTreePane
+            searchId={paneOneSearchId}
+            level={paneOneSearchLevel}
+          />
+        )}
       </MainScrollView>
     </Flexbox>
   );
@@ -49,6 +57,9 @@ VisibilityTreeView.propTypes = {
   paneOneSearchId: PropTypes.number,
   paneTwoSearchId: PropTypes.number,
   paneThreeSearchId: PropTypes.number,
+  paneOneSearchLevel: PropTypes.number,
+  paneTwoSearchLevel: PropTypes.number,
+  paneThreeSearchLevel: PropTypes.number,
 };
 
 export default VisibilityTreeView;
