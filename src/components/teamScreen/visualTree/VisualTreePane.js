@@ -15,7 +15,7 @@ const paddingOffset = 60;
 
 const baseDiameter = 230;
 
-const VisualTreePane = ({ searchId }) => {
+const VisualTreePane = ({ searchId, level }) => {
   const { theme } = useContext(AppContext);
 
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
@@ -57,7 +57,7 @@ const VisualTreePane = ({ searchId }) => {
     }
   }, [searchId]);
 
-  const setSearchedMember = (item) => ({
+  const reshapeMember = (item) => ({
     associateId: item?.associate?.associateId,
     legacyAssociateId: item?.associate?.legacyAssociateId,
     firstName: item?.associate?.firstName,
@@ -73,9 +73,9 @@ const VisualTreePane = ({ searchId }) => {
         'AMBASSADOR',
       );
       setTreeData(filteredData);
-      const topLevelMember = setSearchedMember(data?.treeNodeFor);
+      const topLevelMember = reshapeMember(data?.treeNodeFor);
       setMemberAtTop(topLevelMember);
-      const upline = setSearchedMember(data?.treeNodeFor?.uplineTreeNode);
+      const upline = reshapeMember(data?.treeNodeFor?.uplineTreeNode);
       setUplineMember(upline);
       fadeIn();
     }
@@ -84,7 +84,7 @@ const VisualTreePane = ({ searchId }) => {
   const treeListCopy = treeData ? [...treeData] : [];
 
   const outerCircleDiameter = treeData?.length
-    ? baseDiameter + treeData?.length * 22
+    ? baseDiameter + treeData?.length * 24
     : baseDiameter;
 
   const radius = outerCircleDiameter / 2 - paddingOffset;
@@ -147,7 +147,7 @@ const VisualTreePane = ({ searchId }) => {
           {uplineMember && (
             <Flexbox padding={20}>
               <VisualTreeBubble
-                item={uplineMember}
+                member={uplineMember}
                 draggable={true}
                 onDragStart={() => onDragStart(uplineMember)}
                 onDragEnd={onDragEnd}
@@ -155,6 +155,7 @@ const VisualTreePane = ({ searchId }) => {
                 payload="world"
                 position="relative"
                 isBeingDragged={idOfDraggedItem === uplineMember?.associateId}
+                level={level - 1}
               />
             </Flexbox>
           )}
@@ -183,7 +184,7 @@ const VisualTreePane = ({ searchId }) => {
             {memberAtTop && !isOutsideBubbleEntering && (
               <VisualTreeBubble
                 style={{ position: 'absolute', top: -7, left: 3 }}
-                item={memberAtTop}
+                member={memberAtTop}
                 draggable={true}
                 longPressDelay={200}
                 onDragStart={() => onDragStartUpline(memberAtTop)}
@@ -191,6 +192,7 @@ const VisualTreePane = ({ searchId }) => {
                 onDragDrop={onDragDropUpline}
                 payload={'test'}
                 isBeingDragged={idOfDraggedItem === memberAtTop?.associateId}
+                level={level}
               />
             )}
           </ReceivingCircle>
@@ -222,7 +224,7 @@ const VisualTreePane = ({ searchId }) => {
               outsideList?.map((item, index) => (
                 <VisualTreeBubble
                   key={item?.associate?.associateId}
-                  item={item?.associate}
+                  member={item?.associate}
                   draggable={true}
                   // longPressDelay={200}
                   // onPress={() => console.log('on Press')}
@@ -234,6 +236,7 @@ const VisualTreePane = ({ searchId }) => {
                   isBeingDragged={
                     idOfDraggedItem === item?.associate?.associateId
                   }
+                  level={level + 1}
                   style={{
                     top:
                       radius -
@@ -256,7 +259,7 @@ const VisualTreePane = ({ searchId }) => {
               <VisualTreeBubble
                 onPress={() => console.log('on Press')}
                 onLongPress={() => console.log('on Long Press')}
-                item={insideItem?.associate}
+                member={insideItem?.associate}
                 draggable={true}
                 onDragStart={() => onDragStart(insideItem?.associate)}
                 onDragEnd={onDragEnd}
@@ -265,6 +268,7 @@ const VisualTreePane = ({ searchId }) => {
                 isBeingDragged={
                   idOfDraggedItem === insideItem?.associate?.associateId
                 }
+                level={level + 1}
                 style={{
                   position: 'absolute',
                   top: radius - 0,
@@ -298,6 +302,7 @@ const VisualTreePane = ({ searchId }) => {
 
 VisualTreePane.propTypes = {
   searchId: PropTypes.number.isRequired,
+  level: PropTypes.number,
 };
 
 export default VisualTreePane;
