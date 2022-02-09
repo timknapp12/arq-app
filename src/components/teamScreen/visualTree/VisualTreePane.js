@@ -28,9 +28,10 @@ const VisualTreePane = ({ searchId, level }) => {
   // console.log('idOfDraggedItem', idOfDraggedItem);
 
   const [treeData, setTreeData] = useState(null);
-  const [memberAtTop, setMemberAtTop] = useState(null);
+  const [focusedMember, setFocusedMember] = useState(null);
   const [uplineMember, setUplineMember] = useState(null);
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
+  const [levelOfFocusedMember, setLevelOfFocusedMember] = useState(null);
 
   // console.log('searchId', searchId);
 
@@ -44,6 +45,14 @@ const VisualTreePane = ({ searchId, level }) => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 2000,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 500,
       useNativeDriver: false,
     }).start();
   };
@@ -71,7 +80,7 @@ const VisualTreePane = ({ searchId, level }) => {
       );
       setTreeData(filteredData);
       const topLevelMember = reshapeMember(data?.treeNodeFor);
-      setMemberAtTop(topLevelMember);
+      setFocusedMember(topLevelMember);
       const upline = reshapeMember(data?.treeNodeFor?.uplineTreeNode);
       setUplineMember(upline);
       fadeIn();
@@ -79,8 +88,14 @@ const VisualTreePane = ({ searchId, level }) => {
   }, [data]);
 
   useEffect(() => {
-    setIsOutsideBubbleEntering(memberAtTop?.associate === idOfDraggedItem);
-  }, [memberAtTop, idOfDraggedItem]);
+    setIsOutsideBubbleEntering(focusedMember?.associate === idOfDraggedItem);
+  }, [focusedMember, idOfDraggedItem]);
+
+  useEffect(() => {
+    if (level) {
+      setLevelOfFocusedMember(level);
+    }
+  }, [level]);
 
   const treeListCopy = treeData ? [...treeData] : [];
 
@@ -151,6 +166,9 @@ const VisualTreePane = ({ searchId, level }) => {
             onStartShouldSetResponder={() => true}
             align="center"
             justify="center"
+            // style={{
+            //   opacity: fadeAnim,
+            // }}
           >
             {uplineMember && (
               <Flexbox padding={20}>
@@ -160,10 +178,10 @@ const VisualTreePane = ({ searchId, level }) => {
                   onDragStart={() => onDragStart(uplineMember)}
                   onDragEnd={onDragEnd}
                   onDragDrop={onDragDrop}
-                  payload="world"
+                  payload={uplineMember?.legacyAssociateId}
                   position="relative"
                   isBeingDragged={idOfDraggedItem === uplineMember?.associateId}
-                  level={level - 1}
+                  level={levelOfFocusedMember - 1}
                 />
               </Flexbox>
             )}
@@ -173,35 +191,44 @@ const VisualTreePane = ({ searchId, level }) => {
               // }}
               borderColor={receiveCirlceBorderColor}
               receivingStyle={
-                memberAtTop?.associateId !== idOfDraggedItem && {
+                focusedMember?.associateId !== idOfDraggedItem && {
                   backgroundColor: 'green',
                 }
               }
-              onReceiveDragEnter={({ dragged: { payload } }) => {
-                console.log(`Entered ${payload}`);
-                memberAtTop?.associateId !== idOfDraggedItem &&
+              onReceiveDragEnter={() => {
+                focusedMember?.associateId !== idOfDraggedItem &&
                   setIsOutsideBubbleEntering(true);
               }}
-              onReceiveDragExit={({ dragged: { payload } }) => {
-                console.log(`LEAVING ${payload}`);
+              onReceiveDragExit={() => {
                 setIsOutsideBubbleEntering(false);
               }}
               onReceiveDragDrop={({ dragged: { payload } }) => {
                 console.log(`REVEIVED ${payload}`);
+                if (payload !== idOfDraggedItem) {
+                  getUser({ variables: { legacyAssociateId: payload } });
+                  fadeOut();
+                  if (payload === uplineMember?.legacyAssociateId) {
+                    setLevelOfFocusedMember((state) => state - 1);
+                  } else {
+                    setLevelOfFocusedMember((state) => state + 1);
+                  }
+                }
               }}
             >
-              {memberAtTop && !isOutsideBubbleEntering && (
+              {focusedMember && !isOutsideBubbleEntering && (
                 <VisualTreeBubble
                   style={{ position: 'absolute', top: -7, left: 3 }}
-                  member={memberAtTop}
+                  member={focusedMember}
                   draggable={true}
                   longPressDelay={200}
-                  onDragStart={() => onDragStartUpline(memberAtTop)}
+                  onDragStart={() => onDragStartUpline(focusedMember)}
                   onDragEnd={onDragEndUpline}
                   onDragDrop={onDragDropUpline}
-                  payload={'test'}
-                  isBeingDragged={idOfDraggedItem === memberAtTop?.associateId}
-                  level={level}
+                  payload={focusedMember?.legacyAssociateId}
+                  isBeingDragged={
+                    idOfDraggedItem === focusedMember?.associateId
+                  }
+                  level={levelOfFocusedMember}
                 />
               )}
             </ReceivingCircle>
@@ -209,7 +236,7 @@ const VisualTreePane = ({ searchId, level }) => {
             <OuterCircle
               borderColor={outerCircleReceiveBorderColor}
               receivingStyle={
-                memberAtTop?.associateId === idOfDraggedItem && {
+                focusedMember?.associateId === idOfDraggedItem && {
                   backgroundColor: 'green',
                 }
               }
@@ -241,11 +268,11 @@ const VisualTreePane = ({ searchId, level }) => {
                     onDragStart={() => onDragStart(item?.associate)}
                     onDragEnd={onDragEnd}
                     onDragDrop={onDragDrop}
-                    payload="world"
+                    payload={item?.associate?.legacyAssociateId}
                     isBeingDragged={
                       idOfDraggedItem === item?.associate?.associateId
                     }
-                    level={level + 1}
+                    level={levelOfFocusedMember + 1}
                     style={{
                       top:
                         radius -
@@ -273,11 +300,11 @@ const VisualTreePane = ({ searchId, level }) => {
                   onDragStart={() => onDragStart(insideItem?.associate)}
                   onDragEnd={onDragEnd}
                   onDragDrop={onDragDrop}
-                  payload="middle bubble"
+                  payload={insideItem?.associate?.legacyAssociateId}
                   isBeingDragged={
                     idOfDraggedItem === insideItem?.associate?.associateId
                   }
-                  level={level + 1}
+                  level={levelOfFocusedMember + 1}
                   style={{
                     position: 'absolute',
                     top: radius - 0,
