@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { DraxView } from 'react-native-drax';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Animated } from 'react-native';
 
 const innerCircleDiameter = 96;
+
+export const AnimatedContainer = styled(Animated.View)`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
 
 export const OuterCircle = styled(DraxView)`
   margin: 20px 0;
