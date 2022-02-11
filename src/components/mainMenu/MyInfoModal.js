@@ -106,12 +106,14 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     displayName: displayName,
     emailAddress: emailAddress,
     primaryPhoneNumber: primaryPhoneNumber,
-    address1: address?.address1,
-    address2: address?.address2,
-    city: address?.city,
-    state: address?.state,
-    zip: address?.zip,
-    countryCode: address?.countryCode,
+    address: {
+      address1: address?.address1,
+      address2: address?.address2,
+      city: address?.city,
+      state: address?.state,
+      zip: address?.zip,
+      countryCode: address?.countryCode,
+    },
   };
 
   const onSubmit = () => {

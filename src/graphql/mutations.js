@@ -72,7 +72,7 @@ export const CONFIRM_ACCESS_CODE = gql`
 `;
 
 export const UPDATE_USER = gql`
-  mutation UpdateAssociate(
+  mutation UpdateAssociateV2(
     $associateId: Int!
     $profileUrl: String
     $profileImageFileName: String
@@ -81,15 +81,10 @@ export const UPDATE_USER = gql`
     $displayName: String
     $emailAddress: String
     $primaryPhoneNumber: String
-    $address1: String
-    $address2: String
-    $city: String
-    $state: String
-    $zip: String
-    $countryCode: String
+    $address: InputAddressInput
     $defaultCountry: Int
   ) {
-    updateAssociate(
+    updateAssociateV2(
       input: {
         associateId: $associateId
         profileUrl: $profileUrl
@@ -99,12 +94,7 @@ export const UPDATE_USER = gql`
         displayName: $displayName
         emailAddress: $emailAddress
         primaryPhoneNumber: $primaryPhoneNumber
-        address1: $address1
-        address2: $address2
-        city: $city
-        state: $state
-        zip: $zip
-        countryCode: $countryCode
+        address: $address
         defaultCountry: $defaultCountry
       }
     ) {
