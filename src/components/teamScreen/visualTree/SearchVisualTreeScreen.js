@@ -112,9 +112,9 @@ const SearchVisualTreeScreen = ({ route }) => {
       paneOneSearchLevel:
         selectedPane === 1 ? item?.depth - 1 : paneOneSearchLevel,
       paneTwoSearchLevel:
-        selectedPane === 1 ? item?.depth - 1 : paneTwoSearchLevel,
+        selectedPane === 2 ? item?.depth - 1 : paneTwoSearchLevel,
       paneThreeSearchLevel:
-        selectedPane === 1 ? item?.depth - 1 : paneThreeSearchLevel,
+        selectedPane === 3 ? item?.depth - 1 : paneThreeSearchLevel,
     });
   };
 
