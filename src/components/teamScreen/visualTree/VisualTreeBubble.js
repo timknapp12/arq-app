@@ -31,6 +31,7 @@ const VisualTreeBubble = ({
   draggable,
   position = 'absolute',
   isBeingDragged,
+  isDroppedItem,
   level,
   ...props
 }) => {
@@ -60,6 +61,7 @@ const VisualTreeBubble = ({
         draggingStyle={{ opacity: 0.3 }}
         position={position}
         highlight={isBeingDragged}
+        isDroppedItem={isDroppedItem}
       >
         <LinearGradient
           colors={[theme.disabledTextColor, theme.backgroundColor]}
@@ -110,6 +112,7 @@ VisualTreeBubble.propTypes = {
   draggable: PropTypes.bool.isRequired,
   position: PropTypes.string,
   isBeingDragged: PropTypes.bool.isRequired,
+  isDroppedItem: PropTypes.bool,
   level: PropTypes.number.isRequired,
 };
 

@@ -44,6 +44,7 @@ export const InnerCircle = styled(DraxView)`
   position: ${(props) => props.position};
   box-shadow: ${(props) =>
     props.highlight ? props.theme.bubbleShadow : 'none'};
+  opacity: ${(props) => (props.isDroppedItem ? 0.5 : 1)};
 `;
 
 export const LevelIndicator = styled.View`

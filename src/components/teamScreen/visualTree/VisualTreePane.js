@@ -2,24 +2,15 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, Animated } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
-import { Flexbox, LoadingSpinner, H4 } from '../../common';
-import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
+import { Flexbox, LoadingSpinner, H5 } from '../../common';
 import { DraxProvider } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
+import VisualTreePaneSection from './VisualTreePaneSection';
 import AppContext from '../../../contexts/AppContext';
-import {
-  AnimatedContainer,
-  OuterCircle,
-  ReceivingCircle,
-} from './visualTree.styles';
+import { AnimatedContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
-import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
-
-const paddingOffset = 60;
-
-const baseDiameter = 230;
 
 const VisualTreePane = ({ searchId, level }) => {
   const { theme, legacyId } = useContext(AppContext);
@@ -30,7 +21,6 @@ const VisualTreePane = ({ searchId, level }) => {
   const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
     useState(theme.disabledTextColor);
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
-  // console.log('idOfDraggedItem', idOfDraggedItem);
 
   const [treeData, setTreeData] = useState(null);
   const [focusedMember, setFocusedMember] = useState(null);
@@ -61,9 +51,16 @@ const VisualTreePane = ({ searchId, level }) => {
 
   useEffect(() => {
     if (searchId !== 0) {
+      console.log('searchId', searchId);
       getUser({ variables: { legacyAssociateId: searchId } });
     }
-  }, [searchId]);
+  }, [searchId, level]);
+  // TODO
+  // reset downline bubbles after a parent is changed
+  // scroll to bottom of container
+  // handle proper receiving areas styles and functionality
+  // handle draggable=false
+  // add stats for dragging bubbles
 
   const reshapeMember = (item) => ({
     associateId: item?.associate?.associateId,
@@ -102,17 +99,6 @@ const VisualTreePane = ({ searchId, level }) => {
     }
   }, [level]);
 
-  const treeListCopy = treeData ? [...treeData] : [];
-
-  const outerCircleDiameter = treeData?.length
-    ? baseDiameter + treeData?.length * 24
-    : baseDiameter;
-
-  const radius = outerCircleDiameter / 2 - paddingOffset;
-
-  const [outsideList, insideItem] =
-    reformatListForVisualTreeBubbles(treeListCopy);
-
   const onDragStart = (item) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
@@ -128,17 +114,17 @@ const VisualTreePane = ({ searchId, level }) => {
     setIdOfDraggedItem(null);
   };
 
-  const onDragStartUpline = (item) => {
+  const onDragStartFocused = (item) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
   };
 
-  const onDragEndUpline = () => {
+  const onDragEndFocused = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
 
-  const onDragDropUpline = () => {
+  const onDragDropFocused = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
@@ -150,6 +136,8 @@ const VisualTreePane = ({ searchId, level }) => {
       return <LoadingSpinner style={{ marginTop: 10 }} size="large" />;
     }, 500);
   }
+
+  const scrollViewRef = useRef();
 
   return (
     <DraxProvider>
@@ -166,6 +154,12 @@ const VisualTreePane = ({ searchId, level }) => {
             zIndex: -1,
           }}
           horizontal
+          ref={scrollViewRef}
+          onContentSizeChange={() => {
+            if (scrollViewRef !== null) {
+              scrollViewRef.current.scrollToEnd({ animated: false });
+            }
+          }}
         >
           <AnimatedContainer
             onStartShouldSetResponder={() => true}
@@ -179,7 +173,7 @@ const VisualTreePane = ({ searchId, level }) => {
                   onDragStart={() => onDragStart(uplineMember)}
                   onDragEnd={onDragEnd}
                   onDragDrop={onDragDrop}
-                  payload={uplineMember?.legacyAssociateId}
+                  payload={uplineMember}
                   position="relative"
                   isBeingDragged={
                     idOfDraggedItem === uplineMember?.legacyAssociateId
@@ -203,11 +197,20 @@ const VisualTreePane = ({ searchId, level }) => {
                 setIsOutsideBubbleEntering(false);
               }}
               onReceiveDragDrop={({ dragged: { payload } }) => {
-                console.log(`RECEIVED ${payload}`);
-                if (payload !== focusedMember?.legacyAssociateId) {
-                  getUser({ variables: { legacyAssociateId: payload } });
+                if (
+                  payload?.legacyAssociateId !==
+                  focusedMember?.legacyAssociateId
+                ) {
+                  getUser({
+                    variables: {
+                      legacyAssociateId: payload?.legacyAssociateId,
+                    },
+                  });
                   fadeOut();
-                  if (payload === uplineMember?.legacyAssociateId) {
+                  if (
+                    payload?.legacyAssociateId ===
+                    uplineMember?.legacyAssociateId
+                  ) {
                     setLevelOfFocusedMember((state) => state - 1);
                   } else {
                     setLevelOfFocusedMember((state) => state + 1);
@@ -221,10 +224,10 @@ const VisualTreePane = ({ searchId, level }) => {
                   member={focusedMember}
                   draggable={true}
                   longPressDelay={200}
-                  onDragStart={() => onDragStartUpline(focusedMember)}
-                  onDragEnd={onDragEndUpline}
-                  onDragDrop={onDragDropUpline}
-                  payload={focusedMember?.legacyAssociateId}
+                  onDragStart={() => onDragStartFocused(focusedMember)}
+                  onDragEnd={onDragEndFocused}
+                  onDragDrop={onDragDropFocused}
+                  payload={focusedMember}
                   isBeingDragged={
                     idOfDraggedItem === focusedMember?.legacyAssociateId
                   }
@@ -233,105 +236,17 @@ const VisualTreePane = ({ searchId, level }) => {
               )}
             </ReceivingCircle>
 
-            <OuterCircle
-              borderColor={outerCircleReceiveBorderColor}
-              receivingStyle={
-                !isLegacyAssociateIdInArray(treeData, idOfDraggedItem) && {
-                  backgroundColor: 'green',
-                }
-              }
-              style={{
-                width: outerCircleDiameter,
-                height: outerCircleDiameter,
-                borderRadius: outerCircleDiameter / 2,
-              }}
-              onReceiveDragEnter={({ dragged: { payload } }) => {
-                console.log(`Entered ${payload}`);
-              }}
-              onReceiveDragExit={({ dragged: { payload } }) => {
-                console.log(`LEAVING ${payload}`);
-              }}
-              onReceiveDragDrop={({ dragged: { payload } }) => {
-                console.log(`RECEIVED ${payload}`);
-              }}
-            >
-              {outsideList.length > 0 &&
-                outsideList?.map((item, index) => (
-                  <VisualTreeBubble
-                    key={item?.associate?.associateId}
-                    member={item?.associate}
-                    draggable={true}
-                    // longPressDelay={200}
-                    // onPress={() => console.log('on Press')}
-                    // onLongPress={() => console.log('on Long Press')}
-                    onDragStart={() => onDragStart(item?.associate)}
-                    onDragEnd={onDragEnd}
-                    onDragDrop={onDragDrop}
-                    payload={item?.associate?.legacyAssociateId}
-                    isBeingDragged={
-                      idOfDraggedItem === item?.associate?.legacyAssociateId
-                    }
-                    level={levelOfFocusedMember + 1}
-                    style={{
-                      top:
-                        radius -
-                        radius *
-                          Math.cos(
-                            (360 / outsideList?.length) *
-                              ((index * Math.PI) / 180),
-                          ),
-                      left:
-                        radius +
-                        radius *
-                          Math.sin(
-                            (360 / outsideList?.length) *
-                              ((index * Math.PI) / 180),
-                          ),
-                    }}
-                  />
-                ))}
-              {insideItem !== null && (
-                <VisualTreeBubble
-                  onPress={() => console.log('on Press')}
-                  onLongPress={() => console.log('on Long Press')}
-                  member={insideItem?.associate}
-                  draggable={true}
-                  onDragStart={() => onDragStart(insideItem?.associate)}
-                  onDragEnd={onDragEnd}
-                  onDragDrop={onDragDrop}
-                  payload={insideItem?.associate?.legacyAssociateId}
-                  isBeingDragged={
-                    idOfDraggedItem === insideItem?.associate?.legacyAssociateId
-                  }
-                  level={levelOfFocusedMember + 1}
-                  style={{
-                    position: 'absolute',
-                    top: radius - 0,
-                    left: radius + 12,
-                  }}
-                />
-              )}
-            </OuterCircle>
-
-            <ReceivingCircle
-              borderColor={receiveCirlceBorderColor}
-              receivingStyle={{ backgroundColor: 'green' }}
-              onReceiveDragEnter={({ dragged: { payload } }) => {
-                console.log(`Entered ${payload}`);
-              }}
-              onReceiveDragExit={({ dragged: { payload } }) => {
-                console.log(`LEAVING ${payload}`);
-              }}
-              onReceiveDragDrop={({ dragged: { payload } }) => {
-                console.log(`RECEIVED ${payload}`);
-              }}
+            <VisualTreePaneSection
+              level={levelOfFocusedMember + 1}
+              parentData={treeData}
+              fadeIn={fadeIn}
             />
           </AnimatedContainer>
         </ScrollView>
       ) : (
-        <H4 style={{ textAlign: 'center', marginTop: 16 }}>
+        <H5 style={{ textAlign: 'center', marginTop: 16 }}>
           {Localized('Search for a team member')}
-        </H4>
+        </H5>
       )}
     </DraxProvider>
   );

@@ -20,9 +20,8 @@ const VisibilityTreeView = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPane, setSelectedPane] = useState(1);
 
-  console.log('paneOneSearchId', paneOneSearchId);
-  console.log('paneTwoSearchId', paneTwoSearchId);
-  console.log('paneThreeSearchId', paneThreeSearchId);
+  console.log('paneTwoSearchLevel', paneTwoSearchLevel);
+  console.log('paneThreeSearchLevel', paneThreeSearchLevel);
 
   return (
     <Flexbox
