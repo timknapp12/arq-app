@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { H2Book, H5, H6, LevelLabel, Flexbox } from '../../common';
+import { H4Book, H5, H6, LevelLabel, Flexbox } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
 import {
@@ -37,7 +37,7 @@ const DownlineProfileInfo = ({ member, level, showAccentColor = true }) => {
           <ThumbnailImage source={{ uri: profileUrl }} />
         ) : (
           <DefaultThumbnailBackground>
-            <H2Book>{initials.toUpperCase()}</H2Book>
+            <H4Book>{initials.toUpperCase()}</H4Book>
           </DefaultThumbnailBackground>
         )}
         {showAccentColor && (

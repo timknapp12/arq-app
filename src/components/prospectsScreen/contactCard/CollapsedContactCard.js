@@ -42,7 +42,8 @@ const CollapsedContactCard = ({
         <TouchableOpacity
           /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
           activeOpacity={isFilterMenuOpen || isCalloutOpenFromParent ? 1 : 0.2}
-          onPress={toggleExpanded}>
+          onPress={toggleExpanded}
+        >
           <Row>
             {thumbnailUrl ? (
               <CollapsedImage
@@ -52,7 +53,7 @@ const CollapsedContactCard = ({
               />
             ) : (
               <CollapsedImageDefault>
-                <H2Book>{initials}</H2Book>
+                <H4Book>{initials}</H4Book>
               </CollapsedImageDefault>
             )}
             <Stack>
