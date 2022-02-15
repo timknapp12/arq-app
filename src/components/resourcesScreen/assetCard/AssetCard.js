@@ -236,7 +236,11 @@ const AssetCard = ({
             navigation={navigation}
             onPress={openAsset}
           />
-          <TouchableOpacity style={{ flex: 1 }} onPress={openAsset}>
+          <TouchableOpacity
+            activeOpacity={isCalloutOpenFromParent ? 1 : 0.2}
+            style={{ flex: 1 }}
+            onPress={openAsset}
+          >
             <TitleAndDescription>
               <H5
                 ellipsizeMode="tail"
