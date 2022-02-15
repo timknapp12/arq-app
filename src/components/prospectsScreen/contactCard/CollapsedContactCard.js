@@ -1,13 +1,12 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { H2Book, H4Book, H6 } from '../../common';
+import { H4Book, H6 } from '../../common';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import account from '../../../../assets/icons/ic_account.png';
 import AddContactModal from '../AddContactModal';
 import AppContext from '../../../contexts/AppContext';
-import ProspectsContext from '../../../contexts/ProspectsContext';
 import {
   CardContainer,
   Row,
@@ -24,6 +23,7 @@ const CollapsedContactCard = ({
   thumbnailUrl = '',
   initials,
   isCalloutOpen,
+  isCalloutOpenFromParent,
   onCallout,
   isFilterMenuOpen,
   onRemove,
@@ -32,7 +32,6 @@ const CollapsedContactCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
-  const { isCalloutOpenFromParent } = useContext(ProspectsContext);
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   const { firstName, lastName, primaryPhone, emailAddress } = data;
@@ -110,6 +109,7 @@ CollapsedContactCard.propTypes = {
   thumbnailUrl: PropTypes.string,
   initials: PropTypes.string.isRequired,
   isCalloutOpen: PropTypes.bool.isRequired,
+  isCalloutOpenFromParent: PropTypes.bool.isRequired,
   onCallout: PropTypes.func.isRequired,
   isFilterMenuOpen: PropTypes.bool.isRequired,
   onRemove: PropTypes.func.isRequired,

@@ -196,6 +196,7 @@ const ContactCard = ({
       thumbnailUrl={thumbnailUrl}
       initials={initials}
       isCalloutOpen={isCalloutOpen}
+      isCalloutOpenFromParent={isCalloutOpenFromParent}
       onCallout={onCallout}
       isFilterMenuOpen={isFilterMenuOpen}
       onRemove={onRemove}
