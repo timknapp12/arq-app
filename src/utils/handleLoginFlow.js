@@ -105,6 +105,14 @@ export const handleGetDirectScaleInfo = (
         linkText: Localized('Contact Support'),
       });
       break;
+    default:
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'Sorry! It looks like there is an issue with your account - Please contact support',
+        ),
+        url: 'https://qsciences.com/contact-us',
+        linkText: Localized('Contact Support'),
+      });
   }
 };
 
@@ -139,6 +147,12 @@ export const handleLoginValidationProcess = (
         ),
       );
       break;
+    default:
+      setErrorMessage(
+        Localized(
+          'Message failed to send - Please check your info and try again',
+        ),
+      );
   }
 };
 
@@ -161,6 +175,12 @@ export const handleConfirmAccessCode = (
         ),
       );
       break;
+    default:
+      setErrorMessage(
+        Localized(
+          'The access code may have expired - Please get a new code and try again',
+        ),
+      );
   }
 };
 

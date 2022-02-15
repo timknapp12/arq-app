@@ -33,7 +33,10 @@ const CreateTeamScreen = ({ navigation }) => {
         navigation.navigate('App Stack');
       }
     },
-    onError: (error) => setErrorMessage(error.message),
+    onError: (error) => {
+      console.log('error in create team', error);
+      setErrorMessage(error.message);
+    },
   });
 
   const accessCodeRef = useRef(null);
