@@ -347,7 +347,6 @@ const AssetCard = ({
           />
         )}
       </OuterContainer>
-      {/* TODO conditionally render the options in the callout  */}
       {isCalloutOpen && (
         <CalloutMenu
           url={url}
