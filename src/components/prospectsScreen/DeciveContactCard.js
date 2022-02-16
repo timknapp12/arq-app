@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { H2Book, H4Book, H6 } from '../common';
+import { H4Book, H6 } from '../common';
 import {
   TouchableCardContainer,
   Row,
@@ -54,7 +54,7 @@ const DeciveContactCard = ({
           <CollapsedImage source={{ uri: contact?.image?.uri }} />
         ) : (
           <CollapsedImageDefault>
-            <H2Book>{initials}</H2Book>
+            <H4Book>{initials}</H4Book>
           </CollapsedImageDefault>
         )}
         <Stack>

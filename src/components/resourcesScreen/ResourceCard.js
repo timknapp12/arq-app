@@ -123,9 +123,13 @@ const ResourceCard = ({
   return (
     <CardContainer isWideLayout={isWideLayout} {...props}>
       <TouchableOpacity
-        /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
         activeOpacity={
-          isMenuOpen || isTeamMenuOpen || displayNotifications ? 1 : 0.2
+          isMenuOpen ||
+          isTeamMenuOpen ||
+          displayNotifications ||
+          isCalloutOpenFromParent
+            ? 1
+            : 0.2
         }
         onPress={onPress}
       >
