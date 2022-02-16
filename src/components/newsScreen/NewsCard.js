@@ -75,7 +75,6 @@ const NewsCard = ({
     <CardContainer {...props}>
       <OuterContainer isExpanded={isExpanded} isReadYet={!isReadYet}>
         <TouchableOpacity
-          /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
           activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
           style={{ flex: 1 }}
           onPress={openLink}

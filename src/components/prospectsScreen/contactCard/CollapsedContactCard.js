@@ -39,7 +39,6 @@ const CollapsedContactCard = ({
     <>
       <CardContainer {...props}>
         <TouchableOpacity
-          /* active opacity changes depending on whether the touch event is outside the click boundary of the menu */
           activeOpacity={isFilterMenuOpen || isCalloutOpenFromParent ? 1 : 0.2}
           onPress={toggleExpanded}
         >
