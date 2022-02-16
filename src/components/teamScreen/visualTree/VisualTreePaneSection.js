@@ -45,6 +45,11 @@ const VisualTreePaneSection = ({ level, fadeIn, parentData }) => {
     }
   }, [data]);
 
+  useEffect(() => {
+    setTreeData([]);
+    setDroppedMember(null);
+  }, [parentData]);
+
   const treeListCopy = parentData ? [...parentData] : [];
 
   const outerCircleDiameter = parentData?.length
