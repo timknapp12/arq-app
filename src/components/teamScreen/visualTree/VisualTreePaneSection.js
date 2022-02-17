@@ -15,7 +15,7 @@ const paddingOffset = 60;
 
 const baseDiameter = 230;
 
-const VisualTreePaneSection = ({ level, parentData, fadeIn, fadeOut }) => {
+const VisualTreePaneSection = ({ level, parentData }) => {
   const { theme } = useContext(AppContext);
 
   const [treeData, setTreeData] = useState(null);
@@ -40,9 +40,6 @@ const VisualTreePaneSection = ({ level, parentData, fadeIn, fadeOut }) => {
         'AMBASSADOR',
       );
       setTreeData(filteredData);
-      setTimeout(() => {
-        fadeIn();
-      }, 500);
     }
   }, [data]);
 
@@ -193,7 +190,6 @@ const VisualTreePaneSection = ({ level, parentData, fadeIn, fadeOut }) => {
           getUser({
             variables: { legacyAssociateId: payload?.legacyAssociateId },
           });
-          fadeOut();
           setDroppedMember(payload);
         }}
       >
@@ -219,8 +215,6 @@ const VisualTreePaneSection = ({ level, parentData, fadeIn, fadeOut }) => {
             <VisualTreePaneSection
               level={level + 1}
               parentData={treeData}
-              fadeIn={fadeIn}
-              fadeOut={fadeOut}
               outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
             />
           ) : (
@@ -255,8 +249,6 @@ const VisualTreePaneSection = ({ level, parentData, fadeIn, fadeOut }) => {
 VisualTreePaneSection.propTypes = {
   level: PropTypes.number.isRequired,
   parentData: PropTypes.array,
-  fadeIn: PropTypes.func.isRequired,
-  fadeOut: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;
