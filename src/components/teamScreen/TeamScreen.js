@@ -216,6 +216,7 @@ const TeamScreen = ({ navigation, route }) => {
         )}
         {view.name === Localized('Visual Tree').toUpperCase() && (
           <VisualTreeView
+            closeMenus={closeMenus}
             paneOneSearchId={route?.params?.paneOneSearchId ?? 0}
             paneTwoSearchId={route?.params?.paneTwoSearchId ?? 0}
             paneThreeSearchId={route?.params?.paneThreeSearchId ?? 0}

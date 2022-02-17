@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { DraxView } from 'react-native-drax';
-import { TouchableOpacity, Animated } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 const innerCircleDiameter = 96;
 
-export const AnimatedContainer = styled(Animated.View)`
+export const VisualTreeContainer = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;

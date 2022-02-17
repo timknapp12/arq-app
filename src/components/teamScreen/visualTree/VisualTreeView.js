@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Flexbox, MainScrollView } from '../../common';
+import { ScrollView } from 'react-native';
+import { Flexbox } from '../../common';
 import VisualTreeSearchBar from './VisualTreeSearchBar';
 import VisualTreePane from './VisualTreePane';
 
@@ -10,6 +11,7 @@ import VisualTreePane from './VisualTreePane';
 // source for drag n drop library https://github.com/nuclearpasta/react-native-drax#usage
 
 const VisibilityTreeView = ({
+  closeMenus,
   paneOneSearchId,
   paneTwoSearchId,
   paneThreeSearchId,
@@ -22,6 +24,8 @@ const VisibilityTreeView = ({
 
   console.log('paneTwoSearchLevel', paneTwoSearchLevel);
   console.log('paneThreeSearchLevel', paneThreeSearchLevel);
+
+  const scrollViewRef = useRef(null);
 
   return (
     <Flexbox
@@ -40,19 +44,35 @@ const VisibilityTreeView = ({
         paneTwoSearchId={paneTwoSearchId}
         paneThreeSearchId={paneThreeSearchId}
       />
-      <MainScrollView minimumZoomScale={0.5} maximumZoomScale={5}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 140,
+        }}
+        style={{
+          width: '100%',
+          height: '100%',
+          zIndex: -1,
+        }}
+        ref={scrollViewRef}
+        onContentSizeChange={(_, height) => {
+          scrollViewRef?.current?.scrollTo({ y: height, amimated: true });
+        }}
+      >
         {selectedPane === 1 && (
           <VisualTreePane
             searchId={paneOneSearchId}
             level={paneOneSearchLevel}
+            closeMenus={closeMenus}
           />
         )}
-      </MainScrollView>
+      </ScrollView>
     </Flexbox>
   );
 };
 
 VisibilityTreeView.propTypes = {
+  closeMenus: PropTypes.func.isRequired,
   paneOneSearchId: PropTypes.number,
   paneTwoSearchId: PropTypes.number,
   paneThreeSearchId: PropTypes.number,
