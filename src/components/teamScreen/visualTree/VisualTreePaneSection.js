@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
-import { LoadingSpinner } from '../../common';
+import { LoadingSpinner, H6 } from '../../common';
 import { GET_USER } from '../../../graphql/queries';
 import VisualTreeBubble from './VisualTreeBubble';
 import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
@@ -9,12 +9,13 @@ import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDow
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import AppContext from '../../../contexts/AppContext';
 import { OuterCircle, ReceivingCircle } from './visualTree.styles';
+import { Localized } from '../../../translations/Localized';
 
 const paddingOffset = 60;
 
 const baseDiameter = 230;
 
-const VisualTreePaneSection = ({ level, fadeIn, parentData }) => {
+const VisualTreePaneSection = ({ level, parentData, fadeIn, fadeOut }) => {
   const { theme } = useContext(AppContext);
 
   const [treeData, setTreeData] = useState(null);
@@ -46,7 +47,7 @@ const VisualTreePaneSection = ({ level, fadeIn, parentData }) => {
   }, [data]);
 
   useEffect(() => {
-    setTreeData([]);
+    setTreeData(null);
     setDroppedMember(null);
   }, [parentData]);
 
@@ -192,6 +193,7 @@ const VisualTreePaneSection = ({ level, fadeIn, parentData }) => {
           getUser({
             variables: { legacyAssociateId: payload?.legacyAssociateId },
           });
+          fadeOut();
           setDroppedMember(payload);
         }}
       >
@@ -211,13 +213,40 @@ const VisualTreePaneSection = ({ level, fadeIn, parentData }) => {
           />
         )}
       </ReceivingCircle>
-      {treeData?.length > 0 && (
-        <VisualTreePaneSection
-          level={level + 1}
-          parentData={treeData}
-          fadeIn={fadeIn}
-          outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
-        />
+      {treeData !== null && (
+        <>
+          {treeData?.length > 0 ? (
+            <VisualTreePaneSection
+              level={level + 1}
+              parentData={treeData}
+              fadeIn={fadeIn}
+              fadeOut={fadeOut}
+              outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
+            />
+          ) : (
+            <OuterCircle
+              borderColor={outerCircleReceiveBorderColor}
+              receivingStyle={
+                !isLegacyAssociateIdInArray(treeData, idOfDraggedItem) && {
+                  backgroundColor: 'green',
+                }
+              }
+              style={{
+                width: baseDiameter,
+                height: baseDiameter,
+                borderRadius: baseDiameter / 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <H6 style={{ textAlign: 'center' }}>
+                {`${droppedMember?.firstName} ${
+                  droppedMember?.lastName
+                }: ${Localized('has no team members')}`}
+              </H6>
+            </OuterCircle>
+          )}
+        </>
       )}
     </>
   );
@@ -227,6 +256,7 @@ VisualTreePaneSection.propTypes = {
   level: PropTypes.number.isRequired,
   parentData: PropTypes.array,
   fadeIn: PropTypes.func.isRequired,
+  fadeOut: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;
