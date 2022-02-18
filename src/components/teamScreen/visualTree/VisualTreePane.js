@@ -10,6 +10,7 @@ import AppContext from '../../../contexts/AppContext';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
+import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
 
 const VisualTreePane = ({ searchId, level, closeMenus }) => {
@@ -18,9 +19,7 @@ const VisualTreePane = ({ searchId, level, closeMenus }) => {
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
   );
-  const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
-    useState(theme.disabledTextColor);
-  console.log('outerCircleReceiveBorderColor', outerCircleReceiveBorderColor);
+
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
 
   const [treeData, setTreeData] = useState(null);
@@ -94,17 +93,14 @@ const VisualTreePane = ({ searchId, level, closeMenus }) => {
   };
 
   const onDragStartFocused = (item) => {
-    setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
   };
 
   const onDragEndFocused = () => {
-    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
 
   const onDragDropFocused = () => {
-    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
 
@@ -113,6 +109,25 @@ const VisualTreePane = ({ searchId, level, closeMenus }) => {
       return <LoadingSpinner style={{ marginTop: 10 }} size="large" />;
     }, 500);
   }
+
+  const isAValidDropToTopCirlce =
+    isLegacyAssociateIdInArray(treeData, idOfDraggedItem) ||
+    uplineMember?.legacyAssociateId === idOfDraggedItem;
+
+  const onReceiveDragDrop = (payload) => {
+    if (isAValidDropToTopCirlce) {
+      getUser({
+        variables: {
+          legacyAssociateId: payload?.legacyAssociateId,
+        },
+      });
+      if (payload?.legacyAssociateId === uplineMember?.legacyAssociateId) {
+        setLevelOfFocusedMember((state) => state - 1);
+      } else {
+        setLevelOfFocusedMember((state) => state + 1);
+      }
+    }
+  };
 
   return (
     <DraxProvider>
@@ -152,37 +167,19 @@ const VisualTreePane = ({ searchId, level, closeMenus }) => {
               <ReceivingCircle
                 borderColor={receiveCirlceBorderColor}
                 receivingStyle={
-                  focusedMember?.legacyAssociateId !== idOfDraggedItem && {
+                  isAValidDropToTopCirlce && {
                     backgroundColor: 'green',
                   }
                 }
                 onReceiveDragEnter={() => {
-                  focusedMember?.legacyAssociateId !== idOfDraggedItem &&
-                    setIsOutsideBubbleEntering(true);
+                  isAValidDropToTopCirlce && setIsOutsideBubbleEntering(true);
                 }}
                 onReceiveDragExit={() => {
                   setIsOutsideBubbleEntering(false);
                 }}
-                onReceiveDragDrop={({ dragged: { payload } }) => {
-                  if (
-                    payload?.legacyAssociateId !==
-                    focusedMember?.legacyAssociateId
-                  ) {
-                    getUser({
-                      variables: {
-                        legacyAssociateId: payload?.legacyAssociateId,
-                      },
-                    });
-                    if (
-                      payload?.legacyAssociateId ===
-                      uplineMember?.legacyAssociateId
-                    ) {
-                      setLevelOfFocusedMember((state) => state - 1);
-                    } else {
-                      setLevelOfFocusedMember((state) => state + 1);
-                    }
-                  }
-                }}
+                onReceiveDragDrop={({ dragged: { payload } }) =>
+                  onReceiveDragDrop(payload)
+                }
               >
                 {focusedMember && !isOutsideBubbleEntering && (
                   <VisualTreeBubble
@@ -205,6 +202,8 @@ const VisualTreePane = ({ searchId, level, closeMenus }) => {
               <VisualTreePaneSection
                 level={levelOfFocusedMember + 1}
                 parentData={treeData}
+                setTopCirlceBorderColor={setReceiveCirlceBorderColor}
+                setIdOfDraggedItemForParent={setIdOfDraggedItem}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
