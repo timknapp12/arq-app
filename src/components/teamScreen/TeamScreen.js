@@ -220,9 +220,9 @@ const TeamScreen = ({ navigation, route }) => {
             paneOneSearchId={route?.params?.paneOneSearchId ?? 0}
             paneTwoSearchId={route?.params?.paneTwoSearchId ?? 0}
             paneThreeSearchId={route?.params?.paneThreeSearchId ?? 0}
-            paneOneSearchLevel={route?.params?.paneOneSearchLevel}
-            paneTwoSearchLevel={route?.params?.paneTwoSearchLevel}
-            paneThreeSearchLevel={route?.params?.paneThreeSearchLevel}
+            paneOneSearchLevel={route?.params?.paneOneSearchLevel ?? 0}
+            paneTwoSearchLevel={route?.params?.paneTwoSearchLevel ?? 0}
+            paneThreeSearchLevel={route?.params?.paneThreeSearchLevel ?? 0}
           />
         )}
         {isMyInfoModalOpen && (

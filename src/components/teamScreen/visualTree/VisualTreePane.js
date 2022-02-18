@@ -38,10 +38,6 @@ const VisualTreePane = ({ searchId, level, closeMenus }) => {
       getUser({ variables: { legacyAssociateId: searchId } });
     }
   }, [searchId, level]);
-  // TODO
-  // handle proper receiving areas styles and functionality
-  // add stats for dragging bubbles
-  // allow bubbles to move up and clear out stuff below them
 
   const reshapeMember = (item) => ({
     associateId: item?.associate?.associateId,
