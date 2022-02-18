@@ -15,18 +15,24 @@ const paddingOffset = 60;
 
 const baseDiameter = 230;
 
-const VisualTreePaneSection = ({ level, parentData }) => {
+const VisualTreePaneSection = ({
+  level,
+  parentData,
+  setTopCirlceBorderColor = () => {},
+  setIdOfDraggedItemForParent = () => {},
+}) => {
   const { theme } = useContext(AppContext);
 
   const [treeData, setTreeData] = useState(null);
-  const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
-    theme.disabledTextColor,
-  );
   const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
     useState(theme.disabledTextColor);
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
   const [droppedMember, setDroppedMember] = useState(null);
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
+  const [
+    isBottomBubbleEnteringOuterCirlce,
+    setIsBottomBubbleEnteringOuterCirlce,
+  ] = useState(false);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
@@ -64,18 +70,21 @@ const VisualTreePaneSection = ({ level, parentData }) => {
   }, [droppedMember, idOfDraggedItem]);
 
   const onDragStart = (item) => {
-    setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    setIdOfDraggedItemForParent(item?.legacyAssociateId);
+    setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
   };
 
   const onDragEnd = () => {
-    setReceiveCirlceBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
+    setIdOfDraggedItemForParent(null);
+    setTopCirlceBorderColor(theme.disabledTextColor);
   };
 
   const onDragDrop = () => {
-    setReceiveCirlceBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
+    setIdOfDraggedItemForParent(null);
+    setTopCirlceBorderColor(theme.disabledTextColor);
   };
 
   const onDragStartFromBottom = (item) => {
@@ -93,18 +102,21 @@ const VisualTreePaneSection = ({ level, parentData }) => {
     setIdOfDraggedItem(null);
   };
 
+  const isAValidDropToBottomCirlce =
+    isLegacyAssociateIdInArray(parentData, idOfDraggedItem) &&
+    idOfDraggedItem !== droppedMember?.legacyAssociateId;
+
   if (loading) {
     setTimeout(() => {
       return <LoadingSpinner style={{ marginTop: 10 }} size="large" />;
     }, 500);
   }
-
   return (
     <>
       <OuterCircle
         borderColor={outerCircleReceiveBorderColor}
         receivingStyle={
-          !isLegacyAssociateIdInArray(treeData, idOfDraggedItem) && {
+          droppedMember?.legacyAssociateId === idOfDraggedItem && {
             backgroundColor: 'green',
           }
         }
@@ -113,11 +125,21 @@ const VisualTreePaneSection = ({ level, parentData }) => {
           height: outerCircleDiameter,
           borderRadius: outerCircleDiameter / 2,
         }}
-        // onReceiveDragEnter={({ dragged: { payload } }) => {}}
-        // onReceiveDragExit={({ dragged: { payload } }) => {}}
-        // onReceiveDragDrop={({ dragged: { payload } }) => {}}
+        onReceiveDragEnter={() =>
+          idOfDraggedItem === droppedMember?.legacyAssociateId &&
+          setIsBottomBubbleEnteringOuterCirlce(true)
+        }
+        onReceiveDragExit={() => setIsBottomBubbleEnteringOuterCirlce(false)}
+        onReceiveDragDrop={() => {
+          if (idOfDraggedItem === droppedMember?.legacyAssociateId) {
+            setIsBottomBubbleEnteringOuterCirlce(false);
+            setTreeData(null);
+            setDroppedMember(null);
+          }
+        }}
       >
         {outsideList.length > 0 &&
+          !isBottomBubbleEnteringOuterCirlce &&
           outsideList?.map((item, index) => (
             <VisualTreeBubble
               key={item?.associate?.associateId}
@@ -151,7 +173,7 @@ const VisualTreePaneSection = ({ level, parentData }) => {
               }}
             />
           ))}
-        {insideItem !== null && (
+        {insideItem !== null && !isBottomBubbleEnteringOuterCirlce && (
           <VisualTreeBubble
             member={insideItem?.associate}
             draggable={true}
@@ -177,20 +199,29 @@ const VisualTreePaneSection = ({ level, parentData }) => {
       </OuterCircle>
 
       <ReceivingCircle
-        borderColor={receiveCirlceBorderColor}
-        receivingStyle={{ backgroundColor: 'green' }}
+        borderColor={
+          isAValidDropToBottomCirlce
+            ? theme.primaryButtonBackgroundColor
+            : theme.disabledTextColor
+        }
+        receivingStyle={
+          isAValidDropToBottomCirlce && {
+            backgroundColor: 'green',
+          }
+        }
         onReceiveDragEnter={() => {
-          droppedMember?.legacyAssociateId !== idOfDraggedItem &&
-            setIsOutsideBubbleEntering(true);
+          isAValidDropToBottomCirlce && setIsOutsideBubbleEntering(true);
         }}
         onReceiveDragExit={() => {
           setIsOutsideBubbleEntering(false);
         }}
         onReceiveDragDrop={({ dragged: { payload } }) => {
-          getUser({
-            variables: { legacyAssociateId: payload?.legacyAssociateId },
-          });
-          setDroppedMember(payload);
+          if (isAValidDropToBottomCirlce) {
+            getUser({
+              variables: { legacyAssociateId: payload?.legacyAssociateId },
+            });
+            setDroppedMember(payload);
+          }
         }}
       >
         {droppedMember && !isOutsideBubbleEntering && (
@@ -215,11 +246,12 @@ const VisualTreePaneSection = ({ level, parentData }) => {
             <VisualTreePaneSection
               level={level + 1}
               parentData={treeData}
-              outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
+              borderColor={outerCircleReceiveBorderColor}
             />
           ) : (
             <OuterCircle
-              borderColor={outerCircleReceiveBorderColor}
+              // TODO adjust borderColor and receiving style when the functionailty for placement suite is ready
+              borderColor={null}
               receivingStyle={
                 !isLegacyAssociateIdInArray(treeData, idOfDraggedItem) && {
                   backgroundColor: 'green',
@@ -249,6 +281,8 @@ const VisualTreePaneSection = ({ level, parentData }) => {
 VisualTreePaneSection.propTypes = {
   level: PropTypes.number.isRequired,
   parentData: PropTypes.array,
+  setTopCirlceBorderColor: PropTypes.func,
+  setIdOfDraggedItemForParent: PropTypes.func,
 };
 
 export default VisualTreePaneSection;

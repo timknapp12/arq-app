@@ -12,6 +12,9 @@ const VisualTreeSearchBar = ({
   paneOneSearchId,
   paneTwoSearchId,
   paneThreeSearchId,
+  paneOneSearchLevel,
+  paneTwoSearchLevel,
+  paneThreeSearchLevel,
 }) => {
   const navigation = useNavigation();
   const navigateToSearchScreen = () => {
@@ -21,6 +24,9 @@ const VisualTreeSearchBar = ({
       paneOneSearchId,
       paneTwoSearchId,
       paneThreeSearchId,
+      paneOneSearchLevel,
+      paneTwoSearchLevel,
+      paneThreeSearchLevel,
     });
   };
 
@@ -47,11 +53,12 @@ const VisualTreeSearchBar = ({
 VisualTreeSearchBar.propTypes = {
   selectedPane: PropTypes.number.isRequired,
   setSelectedPane: PropTypes.func.isRequired,
-  searchTerm: PropTypes.string.isRequired,
-  setSearchTerm: PropTypes.func.isRequired,
   paneOneSearchId: PropTypes.number.isRequired,
   paneTwoSearchId: PropTypes.number.isRequired,
   paneThreeSearchId: PropTypes.number.isRequired,
+  paneOneSearchLevel: PropTypes.number.isRequired,
+  paneTwoSearchLevel: PropTypes.number.isRequired,
+  paneThreeSearchLevel: PropTypes.number.isRequired,
 };
 
 export default VisualTreeSearchBar;

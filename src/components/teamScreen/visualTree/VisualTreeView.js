@@ -19,11 +19,7 @@ const VisibilityTreeView = ({
   paneTwoSearchLevel,
   paneThreeSearchLevel,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedPane, setSelectedPane] = useState(1);
-
-  console.log('paneTwoSearchLevel', paneTwoSearchLevel);
-  console.log('paneThreeSearchLevel', paneThreeSearchLevel);
 
   const scrollViewRef = useRef(null);
 
@@ -38,11 +34,12 @@ const VisibilityTreeView = ({
       <VisualTreeSearchBar
         selectedPane={selectedPane}
         setSelectedPane={setSelectedPane}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
         paneOneSearchId={paneOneSearchId}
         paneTwoSearchId={paneTwoSearchId}
         paneThreeSearchId={paneThreeSearchId}
+        paneOneSearchLevel={paneOneSearchLevel}
+        paneTwoSearchLevel={paneTwoSearchLevel}
+        paneThreeSearchLevel={paneThreeSearchLevel}
       />
       <ScrollView
         contentContainerStyle={{
@@ -63,6 +60,20 @@ const VisibilityTreeView = ({
           <VisualTreePane
             searchId={paneOneSearchId}
             level={paneOneSearchLevel}
+            closeMenus={closeMenus}
+          />
+        )}
+        {selectedPane === 2 && (
+          <VisualTreePane
+            searchId={paneTwoSearchId}
+            level={paneTwoSearchLevel}
+            closeMenus={closeMenus}
+          />
+        )}
+        {selectedPane === 3 && (
+          <VisualTreePane
+            searchId={paneThreeSearchId}
+            level={paneThreeSearchLevel}
             closeMenus={closeMenus}
           />
         )}

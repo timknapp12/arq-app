@@ -94,9 +94,6 @@ const SearchVisualTreeScreen = ({ route }) => {
 
   const viewInMyTeamView = (item) => {
     navigation.navigate('Team Screen', {
-      // searchId: item?.uplineTreeNode?.legacyAssociateId,
-      // selectedMemberId: item?.associate?.associateId,
-      // levelInTree: item?.depth - 2,
       paneOneSearchId:
         selectedPane === 1
           ? item?.associate?.legacyAssociateId
@@ -196,7 +193,6 @@ const SearchVisualTreeScreen = ({ route }) => {
                   onEndReached={handleOnEndReached}
                   onRefresh={() => {
                     refetch();
-                    // setHasSearchCompleted(false);
                   }}
                   refreshing={refreshing}
                   onScroll={Keyboard.dismiss}
