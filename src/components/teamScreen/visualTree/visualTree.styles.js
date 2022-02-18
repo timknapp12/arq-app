@@ -15,7 +15,8 @@ export const VisualTreeContainer = styled.View`
 export const OuterCircle = styled(DraxView)`
   margin: 20px 0;
   border-width: 2px;
-  border-color: ${(props) => props.borderColor};
+  border-color: ${(props) =>
+    props.borderColor ? props.borderColor : props.theme.disabledTextColor};
   padding: 0 12px 12px 12px;
   position: relative;
 `;
