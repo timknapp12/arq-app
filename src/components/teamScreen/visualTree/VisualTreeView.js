@@ -1,6 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView } from 'react-native';
 import { Flexbox } from '../../common';
 import VisualTreeSearchBar from './VisualTreeSearchBar';
 import VisualTreePane from './VisualTreePane';
@@ -21,8 +20,6 @@ const VisibilityTreeView = ({
 }) => {
   const [selectedPane, setSelectedPane] = useState(1);
 
-  const scrollViewRef = useRef(null);
-
   return (
     <Flexbox
       justify="flex-start"
@@ -41,43 +38,26 @@ const VisibilityTreeView = ({
         paneTwoSearchLevel={paneTwoSearchLevel}
         paneThreeSearchLevel={paneThreeSearchLevel}
       />
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 140,
-        }}
+      <VisualTreePane
+        style={{ display: selectedPane === 1 ? 'flex' : 'none' }}
+        searchId={paneOneSearchId}
+        level={paneOneSearchLevel}
+        closeMenus={closeMenus}
+      />
+      <VisualTreePane
+        style={{ display: selectedPane === 2 ? 'flex' : 'none' }}
+        searchId={paneTwoSearchId}
+        level={paneTwoSearchLevel}
+        closeMenus={closeMenus}
+      />
+      <VisualTreePane
         style={{
-          width: '100%',
-          height: '100%',
-          zIndex: -1,
+          display: selectedPane === 3 ? 'flex' : 'none',
         }}
-        ref={scrollViewRef}
-        onContentSizeChange={(_, height) => {
-          scrollViewRef?.current?.scrollTo({ y: height, amimated: true });
-        }}
-      >
-        {selectedPane === 1 && (
-          <VisualTreePane
-            searchId={paneOneSearchId}
-            level={paneOneSearchLevel}
-            closeMenus={closeMenus}
-          />
-        )}
-        {selectedPane === 2 && (
-          <VisualTreePane
-            searchId={paneTwoSearchId}
-            level={paneTwoSearchLevel}
-            closeMenus={closeMenus}
-          />
-        )}
-        {selectedPane === 3 && (
-          <VisualTreePane
-            searchId={paneThreeSearchId}
-            level={paneThreeSearchLevel}
-            closeMenus={closeMenus}
-          />
-        )}
-      </ScrollView>
+        searchId={paneThreeSearchId}
+        level={paneThreeSearchLevel}
+        closeMenus={closeMenus}
+      />
     </Flexbox>
   );
 };
