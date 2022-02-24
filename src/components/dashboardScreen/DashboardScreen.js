@@ -18,7 +18,7 @@ import {
 import MainHeader from '../mainHeader/MainHeader';
 import { Localized } from '../../translations/Localized';
 import Overview from './Overview';
-import Rank from './Rank';
+import Rank from './rank/Rank';
 import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';

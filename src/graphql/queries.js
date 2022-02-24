@@ -44,6 +44,8 @@ export const GET_USER = gql`
         leg1
         leg2
         leg3
+        preferredCustomerVolume
+        retailCustomerVolume
       }
       currentAmbassadorMonthlyRecord {
         highestRank {

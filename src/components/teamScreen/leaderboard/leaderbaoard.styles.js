@@ -17,7 +17,6 @@ export const CardContainer = styled.View`
   margin-bottom: 10px;
   height: auto;
   align-self: flex-end;
-  /* flex-direction: row; */
 `;
 
 export const StandingsContainer = styled.View`
