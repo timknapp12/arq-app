@@ -25,11 +25,11 @@ const Overview = ({ user, closeMenus }) => {
             userProfile?.firstName ?? ''
           }`}</H3>
           <H4Secondary>{`${Localized('OV Rank')}: ${
-            user?.rank?.rankName
+            user?.rank?.rankName ?? ''
           }`}</H4Secondary>
           {/* TODO get CV Rank name  */}
           <H4Secondary>{`${Localized('CV Rank')}: ${
-            user?.rank?.rankName
+            user?.customerSalesRank?.rankName ?? ''
           }`}</H4Secondary>
         </Flexbox>
 
