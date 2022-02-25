@@ -27,6 +27,7 @@ export const GET_USER = gql`
       leg2
       leg3
       totalOv
+      teamAutoshipVolume
       rank {
         rankId
         minimumQoV
@@ -37,6 +38,12 @@ export const GET_USER = gql`
         requiredPv
         requiredPa
       }
+      customerSalesRank {
+        customerSalesRankId
+        rankName
+        minimumCv
+        requiredPv
+      }
       previousAmbassadorMonthlyRecord {
         personalVolume
         personallySponsoredActiveAmbassadorCount
@@ -46,6 +53,7 @@ export const GET_USER = gql`
         leg3
         preferredCustomerVolume
         retailCustomerVolume
+        teamAutoshipVolume
       }
       currentAmbassadorMonthlyRecord {
         highestRank {

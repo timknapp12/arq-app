@@ -27,22 +27,21 @@ const Dot = styled.View`
 
 const CVRank = ({ ranklist, user, closeMenus }) => {
   const { theme } = useContext(AppContext);
-  const {
-    cv,
-    previousAmbassadorMonthlyRecord,
-    teamAutoshipVolume = 123456,
-  } = user;
+  const { cv, previousAmbassadorMonthlyRecord, teamAutoshipVolume } = user;
 
   const lastMonthCV =
     previousAmbassadorMonthlyRecord?.preferredCustomerVolume +
     previousAmbassadorMonthlyRecord?.retailCustomerVolume;
 
-  const lastMonthAutoship =
-    previousAmbassadorMonthlyRecord?.teamAutoshipVolume ?? 321654;
+  const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
 
-  const initialRankName = user?.rank?.rankName;
+  const initialRankName = user?.customerSalesRank?.rankName;
   const [rankName, setRankName] = useState(initialRankName);
-  const initialRank = user?.rank;
+  const initialRank = {
+    minimumQoV: user?.customerSalesRank?.minimumCv,
+    rankName: user?.customerSalesRank?.rankName,
+    rankId: user?.customerSalesRank?.customerSalesRankId,
+  };
   const [rank, setRank] = useState(initialRank);
   const [showRemainingCV, setShowRemainingCV] = useState(false);
   const [showTapIcon, setShowTapIcon] = useState(false);
@@ -72,10 +71,7 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
 
   const lastMonthCVPerc = reshapePerc(lastMonthCV, rank.minimumQoV);
 
-  // TODO - change team autoship volume to customer volume when data is available
-  const autoshipPerc = reshapePerc(teamAutoshipVolume, rank.requiredPa);
-
-  const lastMonthAutoshipPerc = reshapePerc(lastMonthAutoship, 0);
+  const autoshipPerc = reshapePerc(teamAutoshipVolume, lastMonthAutoship);
 
   return (
     <>
@@ -96,7 +92,6 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
           {showRemainingCV ? Localized('Remaining CV') : Localized('Total CV')}
         </H4>
         <DoubleDonut
-          // ternary to ensure no error with 0 values of distributor rank
           outerpercentage={cvPerc}
           outermax={100}
           outercolor={theme.donut1primaryColor}
@@ -147,7 +142,7 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
           outerpercentage={autoshipPerc}
           outermax={100}
           outercolor={theme.donut2primaryColor}
-          innerpercentage={lastMonthAutoshipPerc}
+          innerpercentage={100}
           innermax={100}
           innercolor={theme.donut3secondaryColor}
           view="rank"
