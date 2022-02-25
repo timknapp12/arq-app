@@ -27,6 +27,16 @@ const BarChartLegend = ({
   secondaryTotal,
   requiredTotal,
 }) => {
+  const primaryTotalToString = primaryTotal
+    ?.toString()
+    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const requiredTotalToString = requiredTotal
+    ?.toString()
+    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const secondaryTotalToString = secondaryTotal
+    ?.toString()
+    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   return (
     <LegendContainer>
       <Legend>
@@ -34,26 +44,18 @@ const BarChartLegend = ({
         {requiredTotal ? (
           <H5 testID="this-month-total-pv">{`${Localized(
             'This month',
-          )}: ${primaryTotal
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
+          )}: ${primaryTotalToString} ${Localized(
             'of',
-          )} ${requiredTotal
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+          )} ${requiredTotalToString}`}</H5>
         ) : (
           <H5 testID="this-month-total-pv">{`${Localized(
             'This month',
-          )}: ${primaryTotal
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+          )}: ${primaryTotalToString}`}</H5>
         )}
       </Legend>
       <Legend>
         <Bullet color={secondaryColor} />
-        <H5>{`${Localized('Last month')}: ${secondaryTotal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+        <H5>{`${Localized('Last month')}: ${secondaryTotalToString}`}</H5>
       </Legend>
     </LegendContainer>
   );
