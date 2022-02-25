@@ -134,7 +134,6 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
           <H4 testID="total-pv-donut-label">{Localized('Total PV')}</H4>
           <DoubleDonut
             testID="total-pv-donut-svg"
-            // ternary to ensure no error with 0 values of distributor rank
             outerpercentage={pvPerc}
             outermax={100}
             outercolor={theme.donut1primaryColor}
@@ -147,7 +146,6 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
           <LegendContainer>
             <Legend>
               <Dot dotFill={theme.donut1primaryColor} />
-              {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
               <H5 testID="this-month-total-pv">{`${Math.floor(pv)
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
