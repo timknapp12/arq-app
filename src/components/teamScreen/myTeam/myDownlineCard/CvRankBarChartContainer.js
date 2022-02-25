@@ -19,21 +19,23 @@ const CvRankBarChartContainer = ({ member }) => {
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
   const [lastMonthCv, setLastMonthCv] = useState(0);
-  const { cv = 0, pa, rank, previousAmbassadorMonthlyRecord } = member;
+  const {
+    cv = 0,
+    customerSalesRank,
+    previousAmbassadorMonthlyRecord,
+    teamAutoshipVolume,
+  } = member;
 
-  // TODO - get current CV Rank and replace OV Rank
-  // default rankId for an inactive ambassador is 1
-  // show what rank is next
-  const currentRankId = rank?.rankId ?? 1;
+  const defaultRankForInactiveAmbassador = 1;
+  const currentRankId =
+    customerSalesRank?.customerSalesRankId ?? defaultRankForInactiveAmbassador;
 
-  // get maximums for each category for chart
   const requiredCvForNextRank = findRequiredValueOfNextRank(
     currentRankId,
     ranks,
     'minimumQoV',
   );
 
-  // get percentages based on max above
   const thisMonthCvWidth = getPercentage(cv, requiredCvForNextRank);
   const lastMonthCvWidth = getPercentage(
     previousAmbassadorMonthlyRecord?.preferredCustomerVolume ??
@@ -42,10 +44,12 @@ const CvRankBarChartContainer = ({ member }) => {
     requiredCvForNextRank,
   );
 
-  // TODO get real data for last month autoship volume - replace pa and autoship
-  const thisMonthAutoshipWidth = pa > 0 ? 100 : 0;
-  const lastMonthAutoshipWidth =
-    previousAmbassadorMonthlyRecord?.autoship > 0 ? 100 : 0;
+  const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
+  const thisMonthAutoshipWidth = getPercentage(
+    teamAutoshipVolume,
+    lastMonthAutoship,
+  );
+  const lastMonthAutoshipWidth = lastMonthAutoship > 0 ? 100 : 0;
 
   useEffect(() => {
     // handle sum of NaN in case the values are null
@@ -89,8 +93,8 @@ const CvRankBarChartContainer = ({ member }) => {
           <BarChartLegend
             primaryColor={theme.donut3primaryColor}
             secondaryColor={theme.donut3secondaryColor}
-            primaryTotal={pa}
-            secondaryTotal={lastMonthAutoshipWidth}
+            primaryTotal={teamAutoshipVolume ?? 0}
+            secondaryTotal={lastMonthAutoship ?? 0}
           />
         </Flexbox>
       </>

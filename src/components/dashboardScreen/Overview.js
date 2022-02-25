@@ -27,7 +27,6 @@ const Overview = ({ user, closeMenus }) => {
           <H4Secondary>{`${Localized('OV Rank')}: ${
             user?.rank?.rankName ?? ''
           }`}</H4Secondary>
-          {/* TODO get CV Rank name  */}
           <H4Secondary>{`${Localized('CV Rank')}: ${
             user?.customerSalesRank?.rankName ?? ''
           }`}</H4Secondary>

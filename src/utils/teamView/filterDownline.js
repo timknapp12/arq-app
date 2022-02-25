@@ -24,7 +24,7 @@ export const filterMemberByStatusAndType = (member, memberTypeColorMap) => {
   let label;
   let color;
   if (associateType === 'AMBASSADOR' && associateStatus === 'ACTIVE') {
-    label = `${member?.rank?.rankName} / ${member?.rank?.rankName}`;
+    label = `${member?.rank?.rankName} / ${member?.customerSalesRank?.rankName}`;
     color = memberTypeColorMap.activeAmbassador;
     return [label, color];
   }
