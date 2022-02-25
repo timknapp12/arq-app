@@ -267,8 +267,12 @@ describe('filterMemberByStatusAndType', () => {
         rankId: 1,
         rankName: 'Gold',
       },
+      customerSalesRank: {
+        customerSalesRankId: 1,
+        rankName: 'Ambassador',
+      },
     };
-    const output = ['Gold', blue];
+    const output = ['Gold / Ambassador', blue];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
