@@ -311,5 +311,10 @@
   "Organization": "Organizace",
   "Leg 1 Remaining": "Zbývá do Leg 1",
   "Leg 2 Remaining": "Zbývá do Leg 2",
-  "Leg 3 Remaining": "Zbývá do Leg 3"
+  "Leg 3 Remaining": "Zbývá do Leg 3",
+  "OV Rank": "Pozice OV",
+  "CV Rank": "Pozice CV",
+  "Total CV": "Celkové CV",
+  "Remaining CV": "Zbývající CV",
+  "Autoship CV": "Autoship CV"
 }

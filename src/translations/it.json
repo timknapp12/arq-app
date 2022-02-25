@@ -311,5 +311,10 @@
   "Organization": "Organizzazione",
   "Leg 1 Remaining": "Leg 1 Rimanente",
   "Leg 2 Remaining": "Leg 2 Rimanente",
-  "Leg 3 Remaining": "Leg 3 Rimanente"
+  "Leg 3 Remaining": "Leg 3 Rimanente",
+  "OV Rank": "Classifica OV",
+  "CV Rank": "Classifica CV",
+  "Total CV": "CV Totale",
+  "Remaining CV": "CV Restante",
+  "Autoship CV": "Spedizione automatica CV"
 }

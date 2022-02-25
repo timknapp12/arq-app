@@ -311,5 +311,10 @@
   "Organization": "Organisasjon",
   "Leg 1 Remaining": "Leg 1 Gjenstår",
   "Leg 2 Remaining": "Leg 2 Gjenstår",
-  "Leg 3 Remaining": "Leg 3 Gjenstår"
+  "Leg 3 Remaining": "Leg 3 Gjenstår",
+  "OV Rank": "OV-rangering",
+  "CV Rank": "CV-rangering",
+  "Total CV": "Samlet CV",
+  "Remaining CV": "Gjenværende CV",
+  "Autoship CV": "Autosend CV"
 }
