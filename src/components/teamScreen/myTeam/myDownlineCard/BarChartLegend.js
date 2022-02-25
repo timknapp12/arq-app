@@ -31,7 +31,6 @@ const BarChartLegend = ({
     <LegendContainer>
       <Legend>
         <Bullet color={primaryColor} />
-        {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
         {requiredTotal ? (
           <H5 testID="this-month-total-pv">{`${Localized(
             'This month',
