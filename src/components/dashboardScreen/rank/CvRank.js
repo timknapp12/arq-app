@@ -7,6 +7,7 @@ import DoubleDonut from '../DoubleDonut';
 import Slider from '../Slider';
 import AppContext from '../../../contexts/AppContext';
 import { reshapePerc } from '../../../utils/calculateLegPercentages';
+import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 
 const LegendContainer = styled.View`
   margin-top: 8px;
@@ -110,24 +111,15 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
         <LegendContainer>
           <Legend>
             <Dot dotFill={theme.donut1primaryColor} />
-            {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
-            <H5>{`${Math.floor(cv)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
-              'of',
-            )} ${rank?.minimumQoV
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+            <H5>{`${stringify(cv)} ${Localized('of')} ${stringify(
+              rank?.minimumQoV,
+            )}`}</H5>
           </Legend>
           <Legend>
             <Dot dotFill={theme.donut1secondaryColor} />
-            <H5>{`${Math.floor(lastMonthCV)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
-              'of',
-            )} ${rank?.minimumQoV
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+            <H5>{`${stringify(lastMonthCV)} ${Localized('of')} ${stringify(
+              rank?.minimumQoV,
+            )}`}</H5>
           </Legend>
         </LegendContainer>
       </Flexbox>
@@ -151,19 +143,11 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
         <LegendContainer>
           <Legend>
             <Dot dotFill={theme.donut2primaryColor} />
-            <H5>
-              {Math.floor(teamAutoshipVolume)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </H5>
+            <H5>{stringify(teamAutoshipVolume)}</H5>
           </Legend>
           <Legend>
             <Dot dotFill={theme.donut3secondaryColor} />
-            <H5>
-              {Math.floor(lastMonthAutoship)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            </H5>
+            <H5>{stringify(lastMonthAutoship)}</H5>
           </Legend>
         </LegendContainer>
       </Flexbox>

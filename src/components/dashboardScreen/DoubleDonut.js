@@ -8,6 +8,7 @@ import Donut from './Donut';
 import TapIcon from '../../../assets/icons/icTap.svg';
 import { Flexbox, H5, H2Heavy, H3Heavy } from '../common';
 import { Localized } from '../../translations/Localized';
+import stringify from '../../utils/roundDownAndAddCommas/stringify';
 
 const Legend = styled.View`
   flex-direction: row;
@@ -156,7 +157,7 @@ const DoubleDonut = ({
                   color: outercolor,
                 }}
               >
-                {remainingQov.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                {stringify(remainingQov)}
               </InnerText>
             ) : (
               <>

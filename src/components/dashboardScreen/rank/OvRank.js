@@ -9,6 +9,7 @@ import Slider from '../Slider';
 import AppContext from '../../../contexts/AppContext';
 import { reshapePerc } from '../../../utils/calculateLegPercentages';
 import { CALCULATE_QOV } from '../../../graphql/queries';
+import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 
 const LegendContainer = styled.View`
   margin-top: 8px;
@@ -146,23 +147,15 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
           <LegendContainer>
             <Legend>
               <Dot dotFill={theme.donut1primaryColor} />
-              <H5 testID="this-month-total-pv">{`${Math.floor(pv)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
+              <H5 testID="this-month-total-pv">{`${stringify(pv)} ${Localized(
                 'of',
-              )} ${rank?.requiredPv
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+              )} ${stringify(rank?.requiredPv)}`}</H5>
             </Legend>
             <Legend>
               <Dot dotFill={theme.donut1secondaryColor} />
-              <H5 testID="last-month-total-pv">{`${Math.floor(lastMonthPV)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
-                'of',
-              )} ${rank?.requiredPv
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+              <H5 testID="last-month-total-pv">{`${stringify(
+                lastMonthPV,
+              )} ${Localized('of')} ${stringify(rank?.requiredPv)}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -193,23 +186,15 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
           <LegendContainer>
             <Legend>
               <Dot dotFill={theme.donut2primaryColor} />
-              <H5 testID="this-month-total-qov">{`${Math.floor(qoV)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
+              <H5 testID="this-month-total-qov">{`${stringify(qoV)} ${Localized(
                 'of',
-              )} ${rank?.minimumQoV
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+              )} ${stringify(rank?.minimumQoV)}`}</H5>
             </Legend>
             <Legend>
               <Dot dotFill={theme.donut2secondaryColor} />
-              <H5 testID="last-month-total-qov">{`${Math.floor(lastMonthQOV)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
-                'of',
-              )} ${rank?.minimumQoV
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+              <H5 testID="last-month-total-qov">{`${stringify(
+                lastMonthQOV,
+              )} ${Localized('of')} ${stringify(rank?.minimumQoV)}`}</H5>
             </Legend>
           </LegendContainer>
         </Flexbox>
@@ -237,13 +222,13 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
         <LegendContainer>
           <Legend>
             <Dot dotFill={theme.donut3primaryColor} />
-            <H5 testID="this-month-personally-enrolled">{`${Math.floor(
+            <H5 testID="this-month-personally-enrolled">{`${stringify(
               pa,
             )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
           </Legend>
           <Legend>
             <Dot dotFill={theme.donut3secondaryColor} />
-            <H5 testID="last-month-personally-enrolled">{`${Math.floor(
+            <H5 testID="last-month-personally-enrolled">{`${stringify(
               lastMonthPA,
             )} ${Localized('of')} ${rank?.requiredPa}`}</H5>
           </Legend>

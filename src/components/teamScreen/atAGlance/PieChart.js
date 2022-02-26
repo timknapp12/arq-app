@@ -12,6 +12,7 @@ import {
   DefaultPie,
 } from './atAGlance.styles';
 import { TouchableWithoutFeedback } from 'react-native';
+import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 
 // source for pie chart https://www.npmjs.com/package/react-native-chart-kit
 const chartConfig = {
@@ -77,14 +78,14 @@ const PieChart = ({
           {showDefaultPie && <DefaultPie />}
           <PieHole>
             <PieHoleText color={pieTextColor}>
-              {firstTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              {stringify(firstTotal)}
             </PieHoleText>
             {secondTotal ? (
               <PieHoleText color={pieTextColor}>{Localized('of')}</PieHoleText>
             ) : null}
             {secondTotal ? (
               <PieHoleText color={pieTextColor}>
-                {secondTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                {stringify(secondTotal)}
               </PieHoleText>
             ) : null}
           </PieHole>

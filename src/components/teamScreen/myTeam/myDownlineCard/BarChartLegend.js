@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H5 } from '../../../common';
 import { Localized } from '../../../../translations/Localized';
+import stringify from '../../../../utils/roundDownAndAddCommas/stringify';
 
 const LegendContainer = styled.View`
   margin-top: 8px;
@@ -27,16 +28,6 @@ const BarChartLegend = ({
   secondaryTotal,
   requiredTotal,
 }) => {
-  const primaryTotalToString = primaryTotal
-    ?.toString()
-    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const requiredTotalToString = requiredTotal
-    ?.toString()
-    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const secondaryTotalToString = secondaryTotal
-    ?.toString()
-    ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
   return (
     <LegendContainer>
       <Legend>
@@ -44,18 +35,18 @@ const BarChartLegend = ({
         {requiredTotal ? (
           <H5 testID="this-month-total-pv">{`${Localized(
             'This month',
-          )}: ${primaryTotalToString} ${Localized(
-            'of',
-          )} ${requiredTotalToString}`}</H5>
+          )}: ${stringify(primaryTotal)} ${Localized('of')} ${stringify(
+            requiredTotal,
+          )}`}</H5>
         ) : (
           <H5 testID="this-month-total-pv">{`${Localized(
             'This month',
-          )}: ${primaryTotalToString}`}</H5>
+          )}: ${stringify(primaryTotal)}`}</H5>
         )}
       </Legend>
       <Legend>
         <Bullet color={secondaryColor} />
-        <H5>{`${Localized('Last month')}: ${secondaryTotalToString}`}</H5>
+        <H5>{`${Localized('Last month')}: ${stringify(secondaryTotal)}`}</H5>
       </Legend>
     </LegendContainer>
   );

@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Flexbox } from '../common';
 import Svg, { G, Circle } from 'react-native-svg';
 import TapIcon from '../../../assets/icons/icTap.svg';
+import stringify from '../../utils/roundDownAndAddCommas/stringify';
 
 // source for donut svg: https://www.youtube.com/watch?v=x2LtzCxbWI0
 
@@ -68,12 +69,7 @@ const Donut = ({
       }
       if (inputRef?.current) {
         inputRef.current.setNativeProps({
-          text: `${Math.floor(v.value)
-            // this adds commas, since toLocalString() does not work on android
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}${
-            showPercentageSymbol ? '%' : ''
-          }`,
+          text: `${stringify(v.value)}${showPercentageSymbol ? '%' : ''}`,
         });
       }
     });
@@ -84,13 +80,8 @@ const Donut = ({
 
   // sometimes the values have decimals so we round up the number before making a string with commas
   const inputValue = showRemainingQov
-    ? Math.floor(remainingQov)
-        ?.toString()
-        ?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    : Math.floor(percentage)
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
+    ? stringify(remainingQov)
+    : stringify(percentage);
   const textShrinkCutOffLength = Platform.OS === 'android' ? 5 : 6;
 
   return (
