@@ -7,6 +7,7 @@ import { H6 } from '../../common';
 import { ThemedCard } from './atAGlance.styles';
 // import AppContext from '../../../contexts/AppContext';
 // import { ChevronContainer } from './atAGlance.styles';
+import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 
 const CardForAtAGlance = ({
   title = '',
@@ -29,7 +30,7 @@ const CardForAtAGlance = ({
         }}
       >
         <H6>{title}</H6>
-        <H6>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</H6>
+        <H6>{stringify(value)}</H6>
       </TouchableOpacity>
       {/* TODO - add ability to drill down into depth with chevron */}
       {/* <ChevronContainer>

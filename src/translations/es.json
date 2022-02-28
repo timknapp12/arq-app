@@ -259,7 +259,7 @@
   "At A Glance": " De un vistazo",
   "My Team": "Mi Equipo",
   "Leaderboard": "Tablero de Liderazgo",
-  "Autoships": "Autoships",
+  "Autoships": "Envíos Automáticos",
   "Ambassador Enrollments": " Inscripción de Embajadores ",
   "PC Enrollments": " Inscripción de PC",
   "Event Tickets": " Entradas para Eventos ",
@@ -311,5 +311,10 @@
   "Organization": "Organización",
   "Leg 1 Remaining": "Leg 1 Restante",
   "Leg 2 Remaining": "Leg 2 Restante",
-  "Leg 3 Remaining": "Leg 3 Restante"
+  "Leg 3 Remaining": "Leg 3 Restante",
+  "OV Rank": "Rango OV",
+  "CV Rank": "Rango CV",
+  "Total CV": "CV Total",
+  "Remaining CV": "CV Restante",
+  "Autoship CV": "CV de Envío Automático"
 }

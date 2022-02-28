@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H5 } from '../../../common';
 import { Localized } from '../../../../translations/Localized';
+import stringify from '../../../../utils/roundDownAndAddCommas/stringify';
 
 const LegendContainer = styled.View`
   margin-top: 8px;
@@ -31,22 +32,21 @@ const BarChartLegend = ({
     <LegendContainer>
       <Legend>
         <Bullet color={primaryColor} />
-        {/* toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") gives commas for large numbers */}
-        <H5 testID="this-month-total-pv">{`${Localized(
-          'This month',
-        )}: ${primaryTotal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${Localized(
-          'of',
-        )} ${requiredTotal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+        {requiredTotal ? (
+          <H5 testID="this-month-total-pv">{`${Localized(
+            'This month',
+          )}: ${stringify(primaryTotal)} ${Localized('of')} ${stringify(
+            requiredTotal,
+          )}`}</H5>
+        ) : (
+          <H5 testID="this-month-total-pv">{`${Localized(
+            'This month',
+          )}: ${stringify(primaryTotal)}`}</H5>
+        )}
       </Legend>
       <Legend>
         <Bullet color={secondaryColor} />
-        <H5>{`${Localized('Last month')}: ${secondaryTotal
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</H5>
+        <H5>{`${Localized('Last month')}: ${stringify(secondaryTotal)}`}</H5>
       </Legend>
     </LegendContainer>
   );
@@ -57,7 +57,7 @@ BarChartLegend.propTypes = {
   secondaryColor: PropTypes.string.isRequired,
   primaryTotal: PropTypes.number.isRequired,
   secondaryTotal: PropTypes.number.isRequired,
-  requiredTotal: PropTypes.number.isRequired,
+  requiredTotal: PropTypes.number,
 };
 
 export default BarChartLegend;

@@ -24,8 +24,11 @@ const Overview = ({ user, closeMenus }) => {
           <H3>{`${Localized('Welcome back')} ${
             userProfile?.firstName ?? ''
           }`}</H3>
-          <H4Secondary>{`${Localized('Rank')}: ${
-            user?.rank?.rankName
+          <H4Secondary>{`${Localized('OV Rank')}: ${
+            user?.rank?.rankName ?? ''
+          }`}</H4Secondary>
+          <H4Secondary>{`${Localized('CV Rank')}: ${
+            user?.customerSalesRank?.rankName ?? ''
           }`}</H4Secondary>
         </Flexbox>
 

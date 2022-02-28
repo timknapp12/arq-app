@@ -27,6 +27,7 @@ export const GET_USER = gql`
       leg2
       leg3
       totalOv
+      teamAutoshipVolume
       rank {
         rankId
         minimumQoV
@@ -37,6 +38,12 @@ export const GET_USER = gql`
         requiredPv
         requiredPa
       }
+      customerSalesRank {
+        customerSalesRankId
+        rankName
+        minimumCv
+        requiredPv
+      }
       previousAmbassadorMonthlyRecord {
         personalVolume
         personallySponsoredActiveAmbassadorCount
@@ -44,6 +51,9 @@ export const GET_USER = gql`
         leg1
         leg2
         leg3
+        preferredCustomerVolume
+        retailCustomerVolume
+        teamAutoshipVolume
       }
       currentAmbassadorMonthlyRecord {
         highestRank {
@@ -78,43 +88,6 @@ export const GET_USER = gql`
           downlineLeg3
         }
       }
-      #autoShip {
-      #  leg1Total {
-      #    processedPv
-      #  }
-      #  leg2Total {
-      #    processedPv
-      #  }
-      #  leg3Total {
-      #    processedPv
-      #  }
-      #  entireLineTotal {
-      #    processedPv
-      #    projectedPv
-      #  }
-      #}
-      #glance {
-      #  entireLineTotal {
-      #    ambassadorMonthCount
-      #    eventMonthCount
-      #    preferedMonthCount
-      #  }
-      #  leg1Total {
-      #    ambassadorMonthCount
-      #    eventMonthCount
-      #    preferedMonthCount
-      #  }
-      #  leg2Total {
-      #    ambassadorMonthCount
-      #    eventMonthCount
-      #    preferedMonthCount
-      #  }
-      #  leg3Total {
-      #    ambassadorMonthCount
-      #    eventMonthCount
-      #    preferedMonthCount
-      #  }
-      #}
       childTreeNodes {
         uplineTreeNode {
           associate {
@@ -138,11 +111,22 @@ export const GET_USER = gql`
         pv
         qoV
         pa
+        cv
+        teamAutoshipVolume
+        customerSalesRank {
+          customerSalesRankId
+          rankName
+          minimumCv
+          requiredPv
+        }
         previousAmbassadorMonthlyRecord {
           personalVolume
           personallySponsoredActiveAmbassadorCount
           qov
           rankId
+          preferredCustomerVolume
+          retailCustomerVolume
+          teamAutoshipVolume
         }
         childTreeNodes {
           uplineTreeNode {
@@ -167,11 +151,22 @@ export const GET_USER = gql`
           pv
           qoV
           pa
+          cv
+          teamAutoshipVolume
+          customerSalesRank {
+            customerSalesRankId
+            rankName
+            minimumCv
+            requiredPv
+          }
           previousAmbassadorMonthlyRecord {
             personalVolume
             personallySponsoredActiveAmbassadorCount
             qov
             rankId
+            preferredCustomerVolume
+            retailCustomerVolume
+            teamAutoshipVolume
           }
           childTreeNodes {
             associate {
