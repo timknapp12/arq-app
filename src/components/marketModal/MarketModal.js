@@ -28,6 +28,8 @@ const MarketModal = ({
   items,
   value,
   onValueChange,
+  // the following props are used for CorporateView.js but not NewsScreen.js
+  onSave = () => {},
   showLanguages,
   selectedLanguage,
   onLanguageValueChange,
@@ -38,6 +40,7 @@ const MarketModal = ({
     if (!value) {
       return Alert.alert(Localized('Please select a market'));
     }
+    onSave();
     return onClose();
   };
 
@@ -152,6 +155,7 @@ MarketModal.propTypes = {
   items: PropTypes.array.isRequired,
   value: PropTypes.string,
   onValueChange: PropTypes.func,
+  onSave: PropTypes.func,
   showLanguages: PropTypes.bool,
   selectedLanguage: PropTypes.string,
   onLanguageValueChange: PropTypes.func,
