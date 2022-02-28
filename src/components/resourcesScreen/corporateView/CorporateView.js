@@ -47,10 +47,14 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
   const [marketId, setMarketId] = useState(null);
 
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    deviceLanguage || 'en',
+  );
+
   const { data } = useQuery(GET_CORPORATE_RESOURCES, {
     variables: {
       countries: marketId,
-      languageCode: deviceLanguage || 'en',
+      languageCode: selectedLanguage,
     },
     onError: (error) => console.log(`error in get corporate resources`, error),
   });
@@ -184,6 +188,9 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
           items={markets}
           value={selectedMarket}
           onValueChange={(value) => setSelectedMarket(value)}
+          showLanguages
+          selectedLanguage={selectedLanguage}
+          onLanguageValueChange={(value) => setSelectedLanguage(value)}
         />
       )}
     </>
