@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
 import {
   View,
@@ -47,13 +47,25 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const [marketUrl, setMarketUrl] = useState(initialMarketUrl);
   const [marketId, setMarketId] = useState(null);
 
-  const { data } = useQuery(GET_CORPORATE_RESOURCES, {
-    variables: {
-      countries: marketId,
-      languageCode: deviceLanguage || 'en',
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    deviceLanguage || 'en',
+  );
+
+  const [getCorporateResources, { data }] = useLazyQuery(
+    GET_CORPORATE_RESOURCES,
+    {
+      variables: {
+        countries: marketId,
+        languageCode: selectedLanguage,
+      },
+      onError: (error) =>
+        console.log(`error in get corporate resources`, error),
     },
-    onError: (error) => console.log(`error in get corporate resources`, error),
-  });
+  );
+
+  useEffect(() => {
+    getCorporateResources();
+  }, []);
 
   useEffect(() => {
     if (userMarket) {
@@ -184,6 +196,10 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
           items={markets}
           value={selectedMarket}
           onValueChange={(value) => setSelectedMarket(value)}
+          onSave={getCorporateResources}
+          showLanguages
+          selectedLanguage={selectedLanguage}
+          onLanguageValueChange={(value) => setSelectedLanguage(value)}
         />
       )}
     </>
