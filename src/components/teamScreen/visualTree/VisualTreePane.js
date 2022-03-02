@@ -183,7 +183,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                   borderColor={receiveCirlceBorderColor}
                   receivingStyle={
                     isAValidDropToTopCirlce && {
-                      backgroundColor: 'green',
+                      backgroundColor: theme.dropZoneBackgroundColor,
                     }
                   }
                   onReceiveDragEnter={() => {
