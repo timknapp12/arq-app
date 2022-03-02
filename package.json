@@ -44,6 +44,7 @@
     "expo-screen-orientation": "~3.1.0",
     "expo-sharing": "~9.1.2",
     "expo-status-bar": "~1.0.4",
+    "expo-updates": "~0.5.4",
     "firebase": "8.2.3",
     "graphql": "^15.5.0",
     "graphql-anywhere": "^4.2.7",
@@ -67,15 +68,13 @@
     "react-native-screens": "~3.0.0",
     "react-native-slider": "^0.11.0",
     "react-native-svg": "12.1.0",
-    "react-native-user-inactivity": "^1.2.0",
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.2.3",
     "rn-pdf-reader-js": "^4.1.1",
     "styled-components": "^5.2.1",
-    "subscriptions-transport-ws": "^0.9.19",
-    "expo-updates": "~0.5.4"
+    "subscriptions-transport-ws": "^0.9.19"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
