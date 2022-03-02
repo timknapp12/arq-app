@@ -30,9 +30,9 @@ const MarketModal = ({
   onValueChange,
   // the following props are used for CorporateView.js but not NewsScreen.js
   onSave = () => {},
-  showLanguages,
-  selectedLanguage,
-  onLanguageValueChange,
+  showLanguages = false,
+  selectedLanguage = '',
+  onLanguageValueChange = () => {},
 }) => {
   const ref = useRef(value);
   const languageRef = useRef(selectedLanguage);

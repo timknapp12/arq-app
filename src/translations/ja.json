@@ -311,5 +311,10 @@
   "Organization": "団体",
   "Leg 1 Remaining": "残存 Leg 1",
   "Leg 2 Remaining": "残存 Leg 2",
-  "Leg 3 Remaining": "残存 Leg 3"
+  "Leg 3 Remaining": "残存 Leg 3",
+  "OV Rank": "OVランク",
+  "CV Rank": "CVランク",
+  "Total CV": "合計CV",
+  "Remaining CV": "残CV",
+  "Autoship CV": "オートシップCV"
 }
