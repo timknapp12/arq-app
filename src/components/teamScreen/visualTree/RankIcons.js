@@ -1,12 +1,35 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import PropTypes from 'prop-types';
+import RankIcon from './RankIcon';
+import { RankIconsContainer, RankPlaceholder } from './visualTree.styles';
 
-const RankIcons = () => {
+const RankIcons = ({ member }) => {
+  const isOVAmbassador = member?.ovRankName !== 'Ambassador';
+  const isCVAmbassador = member?.cvRankName !== 'Ambassador';
+
+  const AmbassadorOVRankIcon = () =>
+    isOVAmbassador ? (
+      <RankIcon rankName={member?.ovRankName} />
+    ) : (
+      <RankPlaceholder />
+    );
+  const AmbassadorCVRankIcon = () =>
+    isCVAmbassador ? (
+      <RankIcon rankName={member?.cvRankName} />
+    ) : (
+      <RankPlaceholder />
+    );
+
   return (
-    <View style={{ flexDirection: 'row' }}>
-      <Text>RankIcons</Text>
-    </View>
+    <RankIconsContainer>
+      <AmbassadorOVRankIcon />
+      <AmbassadorCVRankIcon />
+    </RankIconsContainer>
   );
+};
+
+RankIcons.propTypes = {
+  member: PropTypes.object.isRequired,
 };
 
 export default RankIcons;

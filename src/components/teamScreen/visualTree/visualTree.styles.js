@@ -52,6 +52,11 @@ export const RankIconsContainer = styled.View`
   flex-direction: row;
 `;
 
+export const RankPlaceholder = styled.View`
+  height: 20px;
+  width: 20px;
+`;
+
 export const LevelIndicator = styled.View`
   background-color: ${(props) => props.color};
   justify-content: center;
