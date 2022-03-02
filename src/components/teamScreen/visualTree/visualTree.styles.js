@@ -59,15 +59,6 @@ export const LevelIndicator = styled.View`
   opacity: 0.5;
 `;
 
-const activityBadgeDiameter = 14;
-
-export const ActivityBadge = styled.View`
-  width: ${activityBadgeDiameter}px;
-  height: ${activityBadgeDiameter}px;
-  border-radius: ${activityBadgeDiameter + 8 / 2}px;
-  background-color: green;
-`;
-
 const roundButtonDiameter = 24;
 
 const Round = styled.View`

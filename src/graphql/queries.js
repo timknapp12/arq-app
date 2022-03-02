@@ -13,6 +13,10 @@ export const GET_USER = gql`
           associateType
           associateStatus
         }
+        rank {
+          rankId
+          rankName
+        }
       }
       associate {
         legacyAssociateId

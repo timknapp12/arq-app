@@ -143,12 +143,12 @@ const VisualTreePaneSection = ({
           outsideList?.map((item, index) => (
             <VisualTreeBubble
               key={item?.associate?.associateId}
-              member={item?.associate}
+              member={{ ...item?.associate, rankName: item?.rank?.rankName }}
               draggable={true}
               onDragStart={() => onDragStart(item?.associate)}
               onDragEnd={onDragEnd}
               onDragDrop={onDragDrop}
-              payload={item?.associate}
+              payload={{ ...item?.associate, rankName: item?.rank?.rankName }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
               }
@@ -175,12 +175,18 @@ const VisualTreePaneSection = ({
           ))}
         {insideItem !== null && !isBottomBubbleEnteringOuterCirlce && (
           <VisualTreeBubble
-            member={insideItem?.associate}
+            member={{
+              ...insideItem?.associate,
+              rankName: insideItem?.rank?.rankName,
+            }}
             draggable={true}
             onDragStart={() => onDragStart(insideItem?.associate)}
             onDragEnd={onDragEnd}
             onDragDrop={onDragDrop}
-            payload={insideItem?.associate}
+            payload={{
+              ...insideItem?.associate,
+              rankName: insideItem?.rank?.rankName,
+            }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId
             }

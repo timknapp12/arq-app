@@ -5,11 +5,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { H6Secondary, LevelLabel } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
-import {
-  ActivityBadge,
-  LevelIndicator,
-  InnerCircle,
-} from './visualTree.styles';
+import { LevelIndicator, InnerCircle } from './visualTree.styles';
+import RankIcon from './RankIcon';
 
 const innerCircleDiameter = 96;
 
@@ -17,8 +14,6 @@ const innerCircleDimensions = {
   height: innerCircleDiameter,
   width: innerCircleDiameter,
   borderRadius: innerCircleDiameter / 2,
-  paddingTop: 4,
-  justifyContent: 'space-around',
   alignItems: 'center',
 };
 
@@ -70,11 +65,15 @@ const VisualTreeBubble = ({
         >
           <View
             style={{
-              justifyContent: 'flex-end',
               alignItems: 'center',
+              padding: 12,
             }}
           >
-            <ActivityBadge />
+            {member?.rankName !== 'Ambassador' ? (
+              <RankIcon rankName={member?.rankName} size={20} />
+            ) : (
+              <View style={{ height: 20 }} />
+            )}
             <H6Secondary style={{ fontSize: 12 }}>
               {member?.firstName}
             </H6Secondary>

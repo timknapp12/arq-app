@@ -47,6 +47,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     associateType: item?.associate?.associateType,
     associateStatus: item?.associate?.associateStatus,
     uplineId: item?.uplineNode?.associate?.legacyAssociateId,
+    rankName: item?.rank?.rankName,
   });
 
   useEffect(() => {
