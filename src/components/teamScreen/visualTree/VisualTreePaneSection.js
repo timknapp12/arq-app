@@ -117,7 +117,7 @@ const VisualTreePaneSection = ({
         borderColor={outerCircleReceiveBorderColor}
         receivingStyle={
           droppedMember?.legacyAssociateId === idOfDraggedItem && {
-            backgroundColor: 'green',
+            backgroundColor: theme.dropZoneBackgroundColor,
           }
         }
         style={{
@@ -206,7 +206,7 @@ const VisualTreePaneSection = ({
         }
         receivingStyle={
           isAValidDropToBottomCirlce && {
-            backgroundColor: 'green',
+            backgroundColor: theme.dropZoneBackgroundColor,
           }
         }
         onReceiveDragEnter={() => {
@@ -254,7 +254,7 @@ const VisualTreePaneSection = ({
               borderColor={null}
               receivingStyle={
                 !isLegacyAssociateIdInArray(treeData, idOfDraggedItem) && {
-                  backgroundColor: 'green',
+                  backgroundColor: theme.dropZoneBackgroundColor,
                 }
               }
               style={{

@@ -100,6 +100,7 @@ export const lightTheme = {
   donut3secondaryColor: orangeAccentLight,
   dropShadow: dropShadow,
   bubbleShadow: lightUpperDropShadow,
+  dropZoneBackgroundColor: nero,
 };
 
 export const darkTheme = {
@@ -167,4 +168,5 @@ export const darkTheme = {
   donut3secondaryColor: orangeAccentLight,
   dropShadow: dropShadow,
   bubbleShadow: lightUpperDropShadow,
+  dropZoneBackgroundColor: nero,
 };
