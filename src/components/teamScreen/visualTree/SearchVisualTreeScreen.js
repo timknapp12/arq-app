@@ -186,9 +186,8 @@ const SearchVisualTreeScreen = ({ route }) => {
                   }}
                   data={reshapedData}
                   renderItem={renderItem}
-                  keyExtractor={(item) =>
-                    item?.associate?.associateId?.toString()
-                  }
+                  // setting key to index vs a unique id avoids data conflicts if the user scrolls really fast
+                  keyExtractor={(_, index) => index.toString()}
                   onEndReachedThreshold={1}
                   onEndReached={handleOnEndReached}
                   onRefresh={() => {
