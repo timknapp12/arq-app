@@ -530,6 +530,10 @@ export const SEARCH_TREE = gql`
           rankId
           rankName
         }
+        customerSalesRank {
+          customerSalesRankId
+          rankName
+        }
       }
       totalCount
       pageInfo {

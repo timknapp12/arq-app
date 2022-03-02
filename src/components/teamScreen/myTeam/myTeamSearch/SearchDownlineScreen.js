@@ -236,9 +236,7 @@ const SearchDownlineScreen = () => {
                 }}
                 data={reshapedData}
                 renderItem={renderItem}
-                keyExtractor={(item) =>
-                  item?.associate?.associateId?.toString()
-                }
+                keyExtractor={(_, index) => index.toString()}
                 onEndReachedThreshold={1}
                 onEndReached={handleOnEndReached}
                 onRefresh={() => {
