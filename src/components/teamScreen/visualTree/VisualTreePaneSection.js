@@ -18,6 +18,7 @@ const baseDiameter = 230;
 const VisualTreePaneSection = ({
   level,
   parentData,
+  focusedMember,
   setTopCirlceBorderColor = () => {},
   setIdOfDraggedItemForParent = () => {},
 }) => {
@@ -124,6 +125,10 @@ const VisualTreePaneSection = ({
           width: outerCircleDiameter,
           height: outerCircleDiameter,
           borderRadius: outerCircleDiameter / 2,
+          justifyContent:
+            outsideList.length === 0 && insideItem === null ? 'center' : null,
+          alignItems:
+            outsideList.length === 0 && insideItem === null ? 'center' : null,
         }}
         onReceiveDragEnter={() =>
           idOfDraggedItem === droppedMember?.legacyAssociateId &&
@@ -143,12 +148,20 @@ const VisualTreePaneSection = ({
           outsideList?.map((item, index) => (
             <VisualTreeBubble
               key={item?.associate?.associateId}
-              member={{ ...item?.associate, rankName: item?.rank?.rankName }}
+              member={{
+                ...item?.associate,
+                ovRankName: item?.rank?.rankName,
+                cvRankName: item?.customerSalesRank?.rankName,
+              }}
               draggable={true}
               onDragStart={() => onDragStart(item?.associate)}
               onDragEnd={onDragEnd}
               onDragDrop={onDragDrop}
-              payload={{ ...item?.associate, rankName: item?.rank?.rankName }}
+              payload={{
+                ...item?.associate,
+                ovRankName: item?.rank?.rankName,
+                cvRankName: item?.customerSalesRank?.rankName,
+              }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
               }
@@ -177,7 +190,8 @@ const VisualTreePaneSection = ({
           <VisualTreeBubble
             member={{
               ...insideItem?.associate,
-              rankName: insideItem?.rank?.rankName,
+              ovRankName: insideItem?.rank?.rankName,
+              cvRankName: insideItem?.customerSalesRank?.rankName,
             }}
             draggable={true}
             onDragStart={() => onDragStart(insideItem?.associate)}
@@ -185,7 +199,8 @@ const VisualTreePaneSection = ({
             onDragDrop={onDragDrop}
             payload={{
               ...insideItem?.associate,
-              rankName: insideItem?.rank?.rankName,
+              ovRankName: insideItem?.rank?.rankName,
+              cvRankName: insideItem?.customerSalesRank?.rankName,
             }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId
@@ -201,6 +216,13 @@ const VisualTreePaneSection = ({
               left: radius + 12,
             }}
           />
+        )}
+        {outsideList.length === 0 && insideItem === null && (
+          <H6 style={{ textAlign: 'center' }}>
+            {`${focusedMember?.firstName} ${
+              focusedMember?.lastName
+            }: ${Localized('has no team members')}`}
+          </H6>
         )}
       </OuterCircle>
 
@@ -287,6 +309,7 @@ const VisualTreePaneSection = ({
 VisualTreePaneSection.propTypes = {
   level: PropTypes.number.isRequired,
   parentData: PropTypes.array,
+  focusedMember: PropTypes.object,
   setTopCirlceBorderColor: PropTypes.func,
   setIdOfDraggedItemForParent: PropTypes.func,
 };

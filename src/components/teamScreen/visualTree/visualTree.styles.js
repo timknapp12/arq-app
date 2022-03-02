@@ -48,6 +48,10 @@ export const InnerCircle = styled(DraxView)`
   opacity: ${(props) => (props.isDroppedItem ? 0.5 : 1)};
 `;
 
+export const RankIconsContainer = styled.View`
+  flex-direction: row;
+`;
+
 export const LevelIndicator = styled.View`
   background-color: ${(props) => props.color};
   justify-content: center;

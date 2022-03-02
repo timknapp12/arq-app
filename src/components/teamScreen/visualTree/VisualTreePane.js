@@ -47,7 +47,8 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     associateType: item?.associate?.associateType,
     associateStatus: item?.associate?.associateStatus,
     uplineId: item?.uplineNode?.associate?.legacyAssociateId,
-    rankName: item?.rank?.rankName,
+    ovRankName: item?.rank?.rankName,
+    cvRankName: item?.customerSalesRank?.rankName,
   });
 
   useEffect(() => {
@@ -218,6 +219,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                 <VisualTreePaneSection
                   level={levelOfFocusedMember + 1}
                   parentData={treeData}
+                  focusedMember={focusedMember}
                   setTopCirlceBorderColor={setReceiveCirlceBorderColor}
                   setIdOfDraggedItemForParent={setIdOfDraggedItem}
                 />
