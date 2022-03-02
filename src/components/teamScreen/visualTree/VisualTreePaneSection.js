@@ -18,6 +18,7 @@ const baseDiameter = 230;
 const VisualTreePaneSection = ({
   level,
   parentData,
+  focusedMember,
   setTopCirlceBorderColor = () => {},
   setIdOfDraggedItemForParent = () => {},
 }) => {
@@ -117,13 +118,17 @@ const VisualTreePaneSection = ({
         borderColor={outerCircleReceiveBorderColor}
         receivingStyle={
           droppedMember?.legacyAssociateId === idOfDraggedItem && {
-            backgroundColor: 'green',
+            backgroundColor: theme.dropZoneBackgroundColor,
           }
         }
         style={{
           width: outerCircleDiameter,
           height: outerCircleDiameter,
           borderRadius: outerCircleDiameter / 2,
+          justifyContent:
+            outsideList.length === 0 && insideItem === null ? 'center' : null,
+          alignItems:
+            outsideList.length === 0 && insideItem === null ? 'center' : null,
         }}
         onReceiveDragEnter={() =>
           idOfDraggedItem === droppedMember?.legacyAssociateId &&
@@ -143,12 +148,20 @@ const VisualTreePaneSection = ({
           outsideList?.map((item, index) => (
             <VisualTreeBubble
               key={item?.associate?.associateId}
-              member={item?.associate}
+              member={{
+                ...item?.associate,
+                ovRankName: item?.rank?.rankName,
+                cvRankName: item?.customerSalesRank?.rankName,
+              }}
               draggable={true}
               onDragStart={() => onDragStart(item?.associate)}
               onDragEnd={onDragEnd}
               onDragDrop={onDragDrop}
-              payload={item?.associate}
+              payload={{
+                ...item?.associate,
+                ovRankName: item?.rank?.rankName,
+                cvRankName: item?.customerSalesRank?.rankName,
+              }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
               }
@@ -175,12 +188,20 @@ const VisualTreePaneSection = ({
           ))}
         {insideItem !== null && !isBottomBubbleEnteringOuterCirlce && (
           <VisualTreeBubble
-            member={insideItem?.associate}
+            member={{
+              ...insideItem?.associate,
+              ovRankName: insideItem?.rank?.rankName,
+              cvRankName: insideItem?.customerSalesRank?.rankName,
+            }}
             draggable={true}
             onDragStart={() => onDragStart(insideItem?.associate)}
             onDragEnd={onDragEnd}
             onDragDrop={onDragDrop}
-            payload={insideItem?.associate}
+            payload={{
+              ...insideItem?.associate,
+              ovRankName: insideItem?.rank?.rankName,
+              cvRankName: insideItem?.customerSalesRank?.rankName,
+            }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId
             }
@@ -196,6 +217,13 @@ const VisualTreePaneSection = ({
             }}
           />
         )}
+        {outsideList.length === 0 && insideItem === null && (
+          <H6 style={{ textAlign: 'center' }}>
+            {`${focusedMember?.firstName} ${
+              focusedMember?.lastName
+            }: ${Localized('has no team members')}`}
+          </H6>
+        )}
       </OuterCircle>
 
       <ReceivingCircle
@@ -206,7 +234,7 @@ const VisualTreePaneSection = ({
         }
         receivingStyle={
           isAValidDropToBottomCirlce && {
-            backgroundColor: 'green',
+            backgroundColor: theme.dropZoneBackgroundColor,
           }
         }
         onReceiveDragEnter={() => {
@@ -254,7 +282,7 @@ const VisualTreePaneSection = ({
               borderColor={null}
               receivingStyle={
                 !isLegacyAssociateIdInArray(treeData, idOfDraggedItem) && {
-                  backgroundColor: 'green',
+                  backgroundColor: theme.dropZoneBackgroundColor,
                 }
               }
               style={{
@@ -281,6 +309,7 @@ const VisualTreePaneSection = ({
 VisualTreePaneSection.propTypes = {
   level: PropTypes.number.isRequired,
   parentData: PropTypes.array,
+  focusedMember: PropTypes.object,
   setTopCirlceBorderColor: PropTypes.func,
   setIdOfDraggedItemForParent: PropTypes.func,
 };

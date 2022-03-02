@@ -48,6 +48,15 @@ export const InnerCircle = styled(DraxView)`
   opacity: ${(props) => (props.isDroppedItem ? 0.5 : 1)};
 `;
 
+export const RankIconsContainer = styled.View`
+  flex-direction: row;
+`;
+
+export const RankPlaceholder = styled.View`
+  height: 20px;
+  width: 20px;
+`;
+
 export const LevelIndicator = styled.View`
   background-color: ${(props) => props.color};
   justify-content: center;
@@ -57,15 +66,6 @@ export const LevelIndicator = styled.View`
   position: absolute;
   bottom: 0;
   opacity: 0.5;
-`;
-
-const activityBadgeDiameter = 14;
-
-export const ActivityBadge = styled.View`
-  width: ${activityBadgeDiameter}px;
-  height: ${activityBadgeDiameter}px;
-  border-radius: ${activityBadgeDiameter + 8 / 2}px;
-  background-color: green;
 `;
 
 const roundButtonDiameter = 24;

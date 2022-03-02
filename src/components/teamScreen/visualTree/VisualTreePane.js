@@ -47,6 +47,8 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     associateType: item?.associate?.associateType,
     associateStatus: item?.associate?.associateStatus,
     uplineId: item?.uplineNode?.associate?.legacyAssociateId,
+    ovRankName: item?.rank?.rankName,
+    cvRankName: item?.customerSalesRank?.rankName,
   });
 
   useEffect(() => {
@@ -183,7 +185,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                   borderColor={receiveCirlceBorderColor}
                   receivingStyle={
                     isAValidDropToTopCirlce && {
-                      backgroundColor: 'green',
+                      backgroundColor: theme.dropZoneBackgroundColor,
                     }
                   }
                   onReceiveDragEnter={() => {
@@ -217,6 +219,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                 <VisualTreePaneSection
                   level={levelOfFocusedMember + 1}
                   parentData={treeData}
+                  focusedMember={focusedMember}
                   setTopCirlceBorderColor={setReceiveCirlceBorderColor}
                   setIdOfDraggedItemForParent={setIdOfDraggedItem}
                 />
