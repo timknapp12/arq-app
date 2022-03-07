@@ -82,28 +82,34 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const onDragStart = (item) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    closeMenus();
   };
 
   const onDragEnd = () => {
     setReceiveCirlceBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
+    closeMenus();
   };
 
   const onDragDrop = () => {
     setReceiveCirlceBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
+    closeMenus();
   };
 
   const onDragStartFocused = (item) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
+    closeMenus();
   };
 
   const onDragEndFocused = () => {
     setIdOfDraggedItem(null);
+    closeMenus();
   };
 
   const onDragDropFocused = () => {
     setIdOfDraggedItem(null);
+    closeMenus();
   };
 
   if (loading) {
@@ -226,6 +232,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                   focusedMember={focusedMember}
                   setTopCirlceBorderColor={setReceiveCirlceBorderColor}
                   setIdOfDraggedItemForParent={setIdOfDraggedItem}
+                  closeMenus={closeMenus}
                 />
               </VisualTreeContainer>
             </TouchableWithoutFeedback>

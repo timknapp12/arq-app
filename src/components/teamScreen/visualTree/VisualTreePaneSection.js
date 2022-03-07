@@ -21,6 +21,7 @@ const VisualTreePaneSection = ({
   focusedMember,
   setTopCirlceBorderColor = () => {},
   setIdOfDraggedItemForParent = () => {},
+  closeMenus,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -74,33 +75,39 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setIdOfDraggedItemForParent(item?.legacyAssociateId);
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
+    closeMenus();
   };
 
   const onDragEnd = () => {
     setIdOfDraggedItem(null);
     setIdOfDraggedItemForParent(null);
     setTopCirlceBorderColor(theme.disabledTextColor);
+    closeMenus();
   };
 
   const onDragDrop = () => {
     setIdOfDraggedItem(null);
     setIdOfDraggedItemForParent(null);
     setTopCirlceBorderColor(theme.disabledTextColor);
+    closeMenus();
   };
 
   const onDragStartFromBottom = (item) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    closeMenus();
   };
 
   const onDragEndFromBottom = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
+    closeMenus();
   };
 
   const onDragDropFromBottom = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
+    closeMenus();
   };
 
   const isAValidDropToBottomCirlce =
@@ -287,6 +294,7 @@ const VisualTreePaneSection = ({
               level={level + 1}
               parentData={treeData}
               borderColor={outerCircleReceiveBorderColor}
+              closeMenus={closeMenus}
             />
           ) : (
             <OuterCircle
@@ -324,6 +332,7 @@ VisualTreePaneSection.propTypes = {
   focusedMember: PropTypes.object,
   setTopCirlceBorderColor: PropTypes.func,
   setIdOfDraggedItemForParent: PropTypes.func,
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;
