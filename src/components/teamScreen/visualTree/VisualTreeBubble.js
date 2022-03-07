@@ -47,7 +47,7 @@ const VisualTreeBubble = ({
   );
 
   return (
-    <TouchableOpacity {...props}>
+    <TouchableOpacity {...props} activeOpacity={1}>
       <Bubble
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
@@ -59,13 +59,7 @@ const VisualTreeBubble = ({
         highlight={highlight}
         isDroppedItem={isDroppedItem}
         renderHoverContent={() => (
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 160,
-            }}
-          >
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <VisualTreeBubbleStatBar member={member} />
             <VisualTreeBubble
               member={member}
@@ -79,7 +73,7 @@ const VisualTreeBubble = ({
               isDroppedItem={isDroppedItem}
               level={level}
             />
-            <View style={{ height: 94 }} />
+            <View style={{ height: 110 }} />
           </View>
         )}
       >

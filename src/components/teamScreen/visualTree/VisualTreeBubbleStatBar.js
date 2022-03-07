@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { H6Secondary } from '../../common';
+import { H6Secondary, Gap } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import RankIcon from './RankIcon';
@@ -57,19 +57,22 @@ const VisualTreeBubbleStatBar = ({ member }) => {
     <VisualTreeStatsBarCard>
       <Row>
         <AmbassadorOVRankIcon />
-        <H6Secondary style={{ marginStart: 12 }}>{`${Localized(
+        <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
           'Total QOV',
         )}: ${stringify(member?.qov)}`}</H6Secondary>
       </Row>
+      <Gap height="4px" />
       <BarContainer>
         <Bar width={`${ovWidth}%`} color={theme.donut1primaryColor} />
       </BarContainer>
+      <Gap height="4px" />
       <Row>
         <AmbassadorCVRankIcon />
-        <H6Secondary style={{ marginStart: 12 }}>{`${Localized(
+        <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
           'Total CV',
         )}: ${stringify(member?.cv)}`}</H6Secondary>
       </Row>
+      <Gap height="4px" />
       <BarContainer>
         <Bar width={`${cvWidth}%`} color={theme.donut3primaryColor} />
       </BarContainer>

@@ -92,9 +92,9 @@ RoundButton.propTypes = {
 
 export const VisualTreeStatsBarCard = styled.View`
   background-color: ${(props) => props.theme.cardBackgroundColor};
-  width: 160px;
-  height: 84px;
+  width: 200px;
+  height: 100px;
   z-index: 200;
   border-radius: 5px;
-  padding: 12px;
+  padding: 6px;
 `;
