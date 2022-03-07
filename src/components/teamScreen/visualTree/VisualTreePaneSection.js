@@ -152,6 +152,8 @@ const VisualTreePaneSection = ({
                 ...item?.associate,
                 ovRankName: item?.rank?.rankName,
                 cvRankName: item?.customerSalesRank?.rankName,
+                cv: item?.cv,
+                qov: item?.qoV,
               }}
               draggable={true}
               onDragStart={() => onDragStart(item?.associate)}
@@ -192,6 +194,8 @@ const VisualTreePaneSection = ({
               ...insideItem?.associate,
               ovRankName: insideItem?.rank?.rankName,
               cvRankName: insideItem?.customerSalesRank?.rankName,
+              cv: insideItem?.cv,
+              qov: insideItem?.qoV,
             }}
             draggable={true}
             onDragStart={() => onDragStart(insideItem?.associate)}

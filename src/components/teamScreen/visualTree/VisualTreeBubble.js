@@ -5,15 +5,16 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { H6Secondary, LevelLabel } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
-import { LevelIndicator, InnerCircle } from './visualTree.styles';
+import { LevelIndicator, Bubble } from './visualTree.styles';
 import RankIcons from './RankIcons';
+import VisualTreeBubbleStatBar from './VisualTreeBubbleStatBar';
 
-const innerCircleDiameter = 96;
+const bubbleDiameter = 96;
 
-const innerCircleDimensions = {
-  height: innerCircleDiameter,
-  width: innerCircleDiameter,
-  borderRadius: innerCircleDiameter / 2,
+const bubbleDimensions = {
+  height: bubbleDiameter,
+  width: bubbleDiameter,
+  borderRadius: bubbleDiameter / 2,
   alignItems: 'center',
 };
 
@@ -25,7 +26,7 @@ const VisualTreeBubble = ({
   payload,
   draggable,
   position = 'absolute',
-  isBeingDragged,
+  highlight,
   isDroppedItem,
   level,
   ...props
@@ -47,7 +48,7 @@ const VisualTreeBubble = ({
 
   return (
     <TouchableOpacity {...props}>
-      <InnerCircle
+      <Bubble
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragDrop={onDragDrop}
@@ -55,12 +56,36 @@ const VisualTreeBubble = ({
         draggable={draggable}
         draggingStyle={{ opacity: 0.3 }}
         position={position}
-        highlight={isBeingDragged}
+        highlight={highlight}
         isDroppedItem={isDroppedItem}
+        renderHoverContent={() => (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 160,
+            }}
+          >
+            <VisualTreeBubbleStatBar />
+            <VisualTreeBubble
+              member={member}
+              onDragStart={onDragStart}
+              onDragEnd={onDragEnd}
+              onDragDrop={onDragDrop}
+              payload={payload}
+              draggable={draggable}
+              position="relative"
+              highlight
+              isDroppedItem={isDroppedItem}
+              level={level}
+            />
+            <View style={{ height: 94 }} />
+          </View>
+        )}
       >
         <LinearGradient
           colors={[theme.disabledTextColor, theme.backgroundColor]}
-          style={innerCircleDimensions}
+          style={bubbleDimensions}
           start={{ x: 0.1, y: 0.1 }}
         >
           <View
@@ -93,7 +118,7 @@ const VisualTreeBubble = ({
             ) : null}
           </LevelIndicator>
         </LinearGradient>
-      </InnerCircle>
+      </Bubble>
     </TouchableOpacity>
   );
 };
@@ -106,7 +131,7 @@ VisualTreeBubble.propTypes = {
   payload: PropTypes.any,
   draggable: PropTypes.bool.isRequired,
   position: PropTypes.string,
-  isBeingDragged: PropTypes.bool.isRequired,
+  highlight: PropTypes.bool,
   isDroppedItem: PropTypes.bool,
   level: PropTypes.number.isRequired,
 };

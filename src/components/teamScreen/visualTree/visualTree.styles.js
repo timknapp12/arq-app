@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { DraxView } from 'react-native-drax';
 import { TouchableOpacity } from 'react-native';
 
-const innerCircleDiameter = 96;
+const bubbleDiameter = 96;
 
 export const VisualTreeContainer = styled.View`
   justify-content: center;
@@ -22,25 +22,25 @@ export const OuterCircle = styled(DraxView)`
 `;
 
 export const ReceivingCircle = styled(DraxView)`
-  height: ${innerCircleDiameter + 12}px;
-  width: ${innerCircleDiameter + 12}px;
-  border-radius: ${innerCircleDiameter + 12 / 2}px;
+  height: ${bubbleDiameter + 12}px;
+  width: ${bubbleDiameter + 12}px;
+  border-radius: ${bubbleDiameter + 12 / 2}px;
   border-width: 3px;
   border-color: ${(props) => props.borderColor};
   position: relative;
 `;
 
-export const innerCircleDimensions = {
-  height: innerCircleDiameter,
-  width: innerCircleDiameter,
-  borderRadius: innerCircleDiameter / 2,
+const bubbleDimensions = {
+  height: bubbleDiameter,
+  width: bubbleDiameter,
+  borderRadius: bubbleDiameter / 2,
   paddingTop: 4,
   justifyContent: 'space-around',
   alignItems: 'center',
 };
 
-export const InnerCircle = styled(DraxView)`
-  ${innerCircleDimensions};
+export const Bubble = styled(DraxView)`
+  ${bubbleDimensions};
   margin-top: 8px;
   position: ${(props) => props.position};
   box-shadow: ${(props) =>
@@ -61,7 +61,7 @@ export const LevelIndicator = styled.View`
   background-color: ${(props) => props.color};
   justify-content: center;
   align-items: center;
-  height: ${innerCircleDiameter / 4}px;
+  height: ${bubbleDiameter / 4}px;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -89,3 +89,12 @@ export const RoundButton = ({ selected, ...props }) => (
 RoundButton.propTypes = {
   selected: PropTypes.bool,
 };
+
+export const VisualTreeStatsBarCard = styled.View`
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  width: 160px;
+  height: 84px;
+  z-index: 200;
+  border-radius: 5px;
+  padding: 12px;
+`;
