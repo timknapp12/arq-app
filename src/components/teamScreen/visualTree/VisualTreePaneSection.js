@@ -151,7 +151,9 @@ const VisualTreePaneSection = ({
               member={{
                 ...item?.associate,
                 ovRankName: item?.rank?.rankName,
+                ovRankId: item?.rank?.rankId,
                 cvRankName: item?.customerSalesRank?.rankName,
+                cvRankId: item?.customerSalesRank?.customerSalesRankId,
                 cv: item?.cv,
                 qov: item?.qoV,
               }}
@@ -193,7 +195,9 @@ const VisualTreePaneSection = ({
             member={{
               ...insideItem?.associate,
               ovRankName: insideItem?.rank?.rankName,
+              ovRankId: insideItem?.rank?.rankId,
               cvRankName: insideItem?.customerSalesRank?.rankName,
+              cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
               cv: insideItem?.cv,
               qov: insideItem?.qoV,
             }}
@@ -204,7 +208,11 @@ const VisualTreePaneSection = ({
             payload={{
               ...insideItem?.associate,
               ovRankName: insideItem?.rank?.rankName,
+              ovRankId: insideItem?.rank?.rankId,
               cvRankName: insideItem?.customerSalesRank?.rankName,
+              cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
+              cv: insideItem?.cv,
+              qov: insideItem?.qoV,
             }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId

@@ -66,7 +66,7 @@ const VisualTreeBubble = ({
               width: 160,
             }}
           >
-            <VisualTreeBubbleStatBar />
+            <VisualTreeBubbleStatBar member={member} />
             <VisualTreeBubble
               member={member}
               onDragStart={onDragStart}

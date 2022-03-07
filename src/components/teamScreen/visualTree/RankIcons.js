@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RankIcon from './RankIcon';
-import { RankIconsContainer, RankPlaceholder } from './visualTree.styles';
+import { Row, RankPlaceholder } from './visualTree.styles';
 
 const RankIcons = ({ member }) => {
   const isOVAmbassador = member?.ovRankName !== 'Ambassador';
@@ -21,10 +21,10 @@ const RankIcons = ({ member }) => {
     );
 
   return (
-    <RankIconsContainer>
+    <Row>
       <AmbassadorOVRankIcon />
       <AmbassadorCVRankIcon />
-    </RankIconsContainer>
+    </Row>
   );
 };
 

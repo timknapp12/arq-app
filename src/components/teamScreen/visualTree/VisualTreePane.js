@@ -48,9 +48,11 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     associateStatus: item?.associate?.associateStatus,
     uplineId: item?.uplineNode?.associate?.legacyAssociateId,
     ovRankName: item?.rank?.rankName,
+    ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
-    cv: item?.cv,
+    cvRankId: item?.customerSalesRank?.customerSalesRankId,
     qov: item?.qoV,
+    cv: item?.cv,
   });
 
   useEffect(() => {

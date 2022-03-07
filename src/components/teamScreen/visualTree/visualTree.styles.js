@@ -48,7 +48,7 @@ export const Bubble = styled(DraxView)`
   opacity: ${(props) => (props.isDroppedItem ? 0.5 : 1)};
 `;
 
-export const RankIconsContainer = styled.View`
+export const Row = styled.View`
   flex-direction: row;
 `;
 
