@@ -144,6 +144,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
       contentContainerStyle={{
         flexGrow: 1,
         paddingBottom: 140,
+        paddingTop: 80,
       }}
       style={{
         width: '100%',

@@ -171,7 +171,11 @@ const VisualTreePaneSection = ({
               payload={{
                 ...item?.associate,
                 ovRankName: item?.rank?.rankName,
+                ovRankId: item?.rank?.rankId,
                 cvRankName: item?.customerSalesRank?.rankName,
+                cvRankId: item?.customerSalesRank?.customerSalesRankId,
+                cv: item?.cv,
+                qov: item?.qoV,
               }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
