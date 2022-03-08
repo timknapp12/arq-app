@@ -65,6 +65,7 @@ export const LevelIndicator = styled.View`
   width: 100%;
   position: absolute;
   bottom: 0;
+  opacity: 0.5;
 `;
 
 const roundButtonDiameter = 24;
