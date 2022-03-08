@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { H6Secondary, LevelLabel } from '../../common';
 import AppContext from '../../../contexts/AppContext';
@@ -11,11 +11,12 @@ import VisualTreeBubbleStatBar from './VisualTreeBubbleStatBar';
 
 const bubbleDiameter = 96;
 
-const bubbleDimensions = {
+const bubbleStyle = {
   height: bubbleDiameter,
   width: bubbleDiameter,
   borderRadius: bubbleDiameter / 2,
   alignItems: 'center',
+  overflow: 'hidden',
 };
 
 const VisualTreeBubble = ({
@@ -45,6 +46,8 @@ const VisualTreeBubble = ({
     { associate: member },
     memberTypeColorMap,
   );
+
+  const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
 
   return (
     <TouchableOpacity {...props} activeOpacity={1}>
@@ -77,41 +80,43 @@ const VisualTreeBubble = ({
           </View>
         )}
       >
-        <LinearGradient
-          colors={[theme.disabledTextColor, theme.backgroundColor]}
-          style={bubbleDimensions}
-          start={{ x: 0.1, y: 0.1 }}
-        >
-          <View
-            style={{
-              alignItems: 'center',
-              padding: 12,
-            }}
+        <View>
+          <LinearGradient
+            colors={[theme.disabledTextColor, theme.backgroundColor]}
+            style={bubbleStyle}
+            start={{ x: gradientStart, y: gradientStart }}
           >
-            <RankIcons member={member} />
-            <H6Secondary style={{ fontSize: 12 }}>
-              {member?.firstName}
-            </H6Secondary>
-            <H6Secondary style={{ fontSize: 12 }}>
-              {member?.lastName}
-            </H6Secondary>
-          </View>
-          <LevelIndicator color={color}>
-            {level ? (
-              <LevelLabel
-                style={{
-                  fontSize: 16,
-                  color:
-                    color === theme.warningAvatarAccent
-                      ? theme.backgroundColor
-                      : theme.primaryTextColor,
-                }}
-              >
-                {level}
-              </LevelLabel>
-            ) : null}
-          </LevelIndicator>
-        </LinearGradient>
+            <View
+              style={{
+                alignItems: 'center',
+                padding: 12,
+              }}
+            >
+              <RankIcons member={member} />
+              <H6Secondary style={{ fontSize: 12 }}>
+                {member?.firstName}
+              </H6Secondary>
+              <H6Secondary style={{ fontSize: 12 }}>
+                {member?.lastName}
+              </H6Secondary>
+            </View>
+            <LevelIndicator color={color}>
+              {level ? (
+                <LevelLabel
+                  style={{
+                    fontSize: 16,
+                    color:
+                      color === theme.warningAvatarAccent
+                        ? theme.backgroundColor
+                        : theme.primaryTextColor,
+                  }}
+                >
+                  {level}
+                </LevelLabel>
+              ) : null}
+            </LevelIndicator>
+          </LinearGradient>
+        </View>
       </Bubble>
     </TouchableOpacity>
   );

@@ -30,7 +30,7 @@ export const ReceivingCircle = styled(DraxView)`
   position: relative;
 `;
 
-const bubbleDimensions = {
+const bubbleStyle = {
   height: bubbleDiameter,
   width: bubbleDiameter,
   borderRadius: bubbleDiameter / 2,
@@ -40,7 +40,7 @@ const bubbleDimensions = {
 };
 
 export const Bubble = styled(DraxView)`
-  ${bubbleDimensions};
+  ${bubbleStyle};
   margin-top: 8px;
   position: ${(props) => props.position};
   box-shadow: ${(props) =>
@@ -65,7 +65,6 @@ export const LevelIndicator = styled.View`
   width: 100%;
   position: absolute;
   bottom: 0;
-  opacity: 0.5;
 `;
 
 const roundButtonDiameter = 24;
