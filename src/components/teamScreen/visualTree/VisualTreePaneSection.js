@@ -21,6 +21,7 @@ const VisualTreePaneSection = ({
   focusedMember,
   setTopCirlceBorderColor = () => {},
   setIdOfDraggedItemForParent = () => {},
+  closeMenus,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -74,6 +75,7 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setIdOfDraggedItemForParent(item?.legacyAssociateId);
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
+    closeMenus();
   };
 
   const onDragEnd = () => {
@@ -91,6 +93,7 @@ const VisualTreePaneSection = ({
   const onDragStartFromBottom = (item) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    closeMenus();
   };
 
   const onDragEndFromBottom = () => {
@@ -151,7 +154,11 @@ const VisualTreePaneSection = ({
               member={{
                 ...item?.associate,
                 ovRankName: item?.rank?.rankName,
+                ovRankId: item?.rank?.rankId,
                 cvRankName: item?.customerSalesRank?.rankName,
+                cvRankId: item?.customerSalesRank?.customerSalesRankId,
+                cv: item?.cv,
+                qov: item?.qoV,
               }}
               draggable={true}
               onDragStart={() => onDragStart(item?.associate)}
@@ -160,7 +167,11 @@ const VisualTreePaneSection = ({
               payload={{
                 ...item?.associate,
                 ovRankName: item?.rank?.rankName,
+                ovRankId: item?.rank?.rankId,
                 cvRankName: item?.customerSalesRank?.rankName,
+                cvRankId: item?.customerSalesRank?.customerSalesRankId,
+                cv: item?.cv,
+                qov: item?.qoV,
               }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
@@ -191,7 +202,11 @@ const VisualTreePaneSection = ({
             member={{
               ...insideItem?.associate,
               ovRankName: insideItem?.rank?.rankName,
+              ovRankId: insideItem?.rank?.rankId,
               cvRankName: insideItem?.customerSalesRank?.rankName,
+              cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
+              cv: insideItem?.cv,
+              qov: insideItem?.qoV,
             }}
             draggable={true}
             onDragStart={() => onDragStart(insideItem?.associate)}
@@ -200,7 +215,11 @@ const VisualTreePaneSection = ({
             payload={{
               ...insideItem?.associate,
               ovRankName: insideItem?.rank?.rankName,
+              ovRankId: insideItem?.rank?.rankId,
               cvRankName: insideItem?.customerSalesRank?.rankName,
+              cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
+              cv: insideItem?.cv,
+              qov: insideItem?.qoV,
             }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId
@@ -275,6 +294,7 @@ const VisualTreePaneSection = ({
               level={level + 1}
               parentData={treeData}
               borderColor={outerCircleReceiveBorderColor}
+              closeMenus={closeMenus}
             />
           ) : (
             <OuterCircle
@@ -312,6 +332,7 @@ VisualTreePaneSection.propTypes = {
   focusedMember: PropTypes.object,
   setTopCirlceBorderColor: PropTypes.func,
   setIdOfDraggedItemForParent: PropTypes.func,
+  closeMenus: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;

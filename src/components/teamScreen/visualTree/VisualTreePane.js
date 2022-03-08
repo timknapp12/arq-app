@@ -48,7 +48,11 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     associateStatus: item?.associate?.associateStatus,
     uplineId: item?.uplineNode?.associate?.legacyAssociateId,
     ovRankName: item?.rank?.rankName,
+    ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
+    cvRankId: item?.customerSalesRank?.customerSalesRankId,
+    qov: item?.qoV,
+    cv: item?.cv,
   });
 
   useEffect(() => {
@@ -78,6 +82,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const onDragStart = (item) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    closeMenus();
   };
 
   const onDragEnd = () => {
@@ -92,6 +97,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
 
   const onDragStartFocused = (item) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
+    closeMenus();
   };
 
   const onDragEndFocused = () => {
@@ -134,6 +140,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
       contentContainerStyle={{
         flexGrow: 1,
         paddingBottom: 140,
+        paddingTop: 80,
       }}
       style={{
         width: '100%',
@@ -222,6 +229,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                   focusedMember={focusedMember}
                   setTopCirlceBorderColor={setReceiveCirlceBorderColor}
                   setIdOfDraggedItemForParent={setIdOfDraggedItem}
+                  closeMenus={closeMenus}
                 />
               </VisualTreeContainer>
             </TouchableWithoutFeedback>

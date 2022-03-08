@@ -1,20 +1,22 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { H6Secondary, LevelLabel } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
-import { LevelIndicator, InnerCircle } from './visualTree.styles';
+import { LevelIndicator, Bubble } from './visualTree.styles';
 import RankIcons from './RankIcons';
+import VisualTreeBubbleStatBar from './VisualTreeBubbleStatBar';
 
-const innerCircleDiameter = 96;
+const bubbleDiameter = 96;
 
-const innerCircleDimensions = {
-  height: innerCircleDiameter,
-  width: innerCircleDiameter,
-  borderRadius: innerCircleDiameter / 2,
+const bubbleStyle = {
+  height: bubbleDiameter,
+  width: bubbleDiameter,
+  borderRadius: bubbleDiameter / 2,
   alignItems: 'center',
+  overflow: 'hidden',
 };
 
 const VisualTreeBubble = ({
@@ -25,7 +27,7 @@ const VisualTreeBubble = ({
   payload,
   draggable,
   position = 'absolute',
-  isBeingDragged,
+  highlight,
   isDroppedItem,
   level,
   ...props
@@ -45,9 +47,11 @@ const VisualTreeBubble = ({
     memberTypeColorMap,
   );
 
+  const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
+
   return (
-    <TouchableOpacity {...props}>
-      <InnerCircle
+    <TouchableOpacity {...props} activeOpacity={1}>
+      <Bubble
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragDrop={onDragDrop}
@@ -55,45 +59,65 @@ const VisualTreeBubble = ({
         draggable={draggable}
         draggingStyle={{ opacity: 0.3 }}
         position={position}
-        highlight={isBeingDragged}
+        highlight={highlight}
         isDroppedItem={isDroppedItem}
-      >
-        <LinearGradient
-          colors={[theme.disabledTextColor, theme.backgroundColor]}
-          style={innerCircleDimensions}
-          start={{ x: 0.1, y: 0.1 }}
-        >
-          <View
-            style={{
-              alignItems: 'center',
-              padding: 12,
-            }}
-          >
-            <RankIcons member={member} />
-            <H6Secondary style={{ fontSize: 12 }}>
-              {member?.firstName}
-            </H6Secondary>
-            <H6Secondary style={{ fontSize: 12 }}>
-              {member?.lastName}
-            </H6Secondary>
+        renderHoverContent={() => (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <VisualTreeBubbleStatBar member={member} />
+            <VisualTreeBubble
+              member={member}
+              onDragStart={onDragStart}
+              onDragEnd={onDragEnd}
+              onDragDrop={onDragDrop}
+              payload={payload}
+              draggable={draggable}
+              position="relative"
+              highlight
+              isDroppedItem={isDroppedItem}
+              level={level}
+            />
+            <View style={{ height: 110 }} />
           </View>
-          <LevelIndicator color={color}>
-            {level ? (
-              <LevelLabel
-                style={{
-                  fontSize: 16,
-                  color:
-                    color === theme.warningAvatarAccent
-                      ? theme.backgroundColor
-                      : theme.primaryTextColor,
-                }}
-              >
-                {level}
-              </LevelLabel>
-            ) : null}
-          </LevelIndicator>
-        </LinearGradient>
-      </InnerCircle>
+        )}
+      >
+        <View>
+          <LinearGradient
+            colors={[theme.disabledTextColor, theme.backgroundColor]}
+            style={bubbleStyle}
+            start={{ x: gradientStart, y: gradientStart }}
+          >
+            <View
+              style={{
+                alignItems: 'center',
+                padding: 12,
+              }}
+            >
+              <RankIcons member={member} />
+              <H6Secondary style={{ fontSize: 12 }}>
+                {member?.firstName}
+              </H6Secondary>
+              <H6Secondary style={{ fontSize: 12 }}>
+                {member?.lastName}
+              </H6Secondary>
+            </View>
+            <LevelIndicator color={color}>
+              {level ? (
+                <LevelLabel
+                  style={{
+                    fontSize: 16,
+                    color:
+                      color === theme.warningAvatarAccent
+                        ? theme.backgroundColor
+                        : theme.primaryTextColor,
+                  }}
+                >
+                  {level}
+                </LevelLabel>
+              ) : null}
+            </LevelIndicator>
+          </LinearGradient>
+        </View>
+      </Bubble>
     </TouchableOpacity>
   );
 };
@@ -106,7 +130,7 @@ VisualTreeBubble.propTypes = {
   payload: PropTypes.any,
   draggable: PropTypes.bool.isRequired,
   position: PropTypes.string,
-  isBeingDragged: PropTypes.bool.isRequired,
+  highlight: PropTypes.bool,
   isDroppedItem: PropTypes.bool,
   level: PropTypes.number.isRequired,
 };
