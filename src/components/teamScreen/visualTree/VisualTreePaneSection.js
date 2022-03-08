@@ -82,14 +82,12 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(null);
     setIdOfDraggedItemForParent(null);
     setTopCirlceBorderColor(theme.disabledTextColor);
-    closeMenus();
   };
 
   const onDragDrop = () => {
     setIdOfDraggedItem(null);
     setIdOfDraggedItemForParent(null);
     setTopCirlceBorderColor(theme.disabledTextColor);
-    closeMenus();
   };
 
   const onDragStartFromBottom = (item) => {
@@ -101,13 +99,11 @@ const VisualTreePaneSection = ({
   const onDragEndFromBottom = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
-    closeMenus();
   };
 
   const onDragDropFromBottom = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
-    closeMenus();
   };
 
   const isAValidDropToBottomCirlce =

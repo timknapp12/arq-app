@@ -88,13 +88,11 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const onDragEnd = () => {
     setReceiveCirlceBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
-    closeMenus();
   };
 
   const onDragDrop = () => {
     setReceiveCirlceBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
-    closeMenus();
   };
 
   const onDragStartFocused = (item) => {
@@ -104,12 +102,10 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
 
   const onDragEndFocused = () => {
     setIdOfDraggedItem(null);
-    closeMenus();
   };
 
   const onDragDropFocused = () => {
     setIdOfDraggedItem(null);
-    closeMenus();
   };
 
   if (loading) {
