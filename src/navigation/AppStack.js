@@ -7,7 +7,9 @@ import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetSc
 import AppContext from '../contexts/AppContext';
 import LoginContext from '../contexts/LoginContext';
 import ProspectsStack from './ProspectsStack';
+import EnrollmentScreen from '../components/enrollment/EnrollmentScreen';
 import { getToken } from '../utils/firebase/login';
+import { Localized } from '../translations/Localized';
 
 const App = createStackNavigator();
 
@@ -79,6 +81,22 @@ const AppStack = () => {
           }}
           name="Prospects Stack"
           component={ProspectsStack}
+        />
+        <App.Screen
+          options={() => ({
+            title: Localized('Enrollment').toUpperCase(),
+            headerBackTitleVisible: false,
+            headerStyle: { backgroundColor: theme.backgroundColor },
+            headerTintColor: theme.primaryTextColor,
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontSize: 20,
+              fontFamily: 'Avenir-Light',
+              letterSpacing: 1.43,
+            },
+          })}
+          name="Enrollment Screen"
+          component={EnrollmentScreen}
         />
       </App.Navigator>
     </View>
