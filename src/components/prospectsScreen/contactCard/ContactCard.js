@@ -17,6 +17,7 @@ const ContactCard = ({
   setIsTouchDisabled,
   isFilterMenuOpen = false,
   closeFilterMenu = () => {},
+  fromEnrollmentScreen,
   ...props
 }) => {
   const { associateId } = useContext(AppContext);
@@ -157,6 +158,8 @@ const ContactCard = ({
     await setMessageType('email');
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
+    } else if (fromEnrollmentScreen) {
+      onEmail(emailAddress, `${defaultMessageIntro}${redirectUrl}`);
     } else {
       onEmail(emailAddress);
     }
@@ -167,6 +170,8 @@ const ContactCard = ({
     await setMessageType('text');
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
+    } else if (fromEnrollmentScreen) {
+      onMessage(primaryPhone, `${defaultMessageIntro}${redirectUrl}`);
     } else {
       onMessage(primaryPhone);
     }
@@ -214,6 +219,7 @@ ContactCard.propTypes = {
   setIsTouchDisabled: PropTypes.func.isRequired,
   isFilterMenuOpen: PropTypes.bool,
   closeFilterMenu: PropTypes.func,
+  fromEnrollmentScreen: PropTypes.bool,
 };
 
 export default ContactCard;
