@@ -101,7 +101,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
                   marginStart: 8,
                 }}
               >
-                <H4Book>{Localized('Enroll')}</H4Book>
+                <H4Book>{Localized('Ambassador Enrollments')}</H4Book>
                 <H6Book>
                   {Localized('Help people enroll with Q Sciences today.')}
                 </H6Book>

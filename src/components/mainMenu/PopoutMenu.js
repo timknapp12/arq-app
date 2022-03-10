@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4Book } from '../common';
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 
 const SideMenu = styled.View`
   z-index: 2;
@@ -34,6 +35,8 @@ const PopoutMenu = ({
   navigation,
 }) => {
   const { signOutOfFirebase } = useContext(AppContext);
+  const { userProfile } = useContext(LoginContext);
+
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableContainer>
@@ -41,7 +44,8 @@ const PopoutMenu = ({
           onPress={() => {
             fadeOut();
             setIsMyInfoModalOpen(true);
-          }}>
+          }}
+        >
           <H4Book>{Localized('My Info')}</H4Book>
         </Touchable>
       </TouchableContainer>
@@ -51,7 +55,8 @@ const PopoutMenu = ({
           onPress={() => {
             fadeOut();
             setIsSettingsModalOpen(true);
-          }}>
+          }}
+        >
           <H4Book>{Localized('Settings')}</H4Book>
         </Touchable>
       </TouchableContainer>
@@ -61,31 +66,34 @@ const PopoutMenu = ({
           onPress={() => {
             fadeOut();
             navigation.navigate('Prospects Stack');
-          }}>
+          }}
+        >
           <H4Book>{Localized('Prospects')}</H4Book>
-        </Touchable>
-      </TouchableContainer>
-
-      {/* <TouchableContainer>
-        <Touchable
-          onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
-          <H4Book>{Localized('Chat With Support')}</H4Book>
         </Touchable>
       </TouchableContainer>
 
       <TouchableContainer>
         <Touchable
-          onPress={() => Alert.alert('This feature is not quite ready yet :)')}>
-          <H4Book>{Localized('Share My Shop')}</H4Book>
+          onPress={() =>
+            navigation.navigate('App Stack', {
+              screen: 'Enrollment Screen',
+              params: {
+                emailAddress: userProfile?.emailAddress,
+              },
+            })
+          }
+        >
+          <H4Book>{Localized('Enrollment')}</H4Book>
         </Touchable>
-      </TouchableContainer> */}
+      </TouchableContainer>
 
       <TouchableContainer>
         <Touchable
           onPress={async () => {
             await signOutOfFirebase();
             navigation.navigate('Login Screen');
-          }}>
+          }}
+        >
           <H4Book>{Localized('Sign Out')}</H4Book>
         </Touchable>
       </TouchableContainer>

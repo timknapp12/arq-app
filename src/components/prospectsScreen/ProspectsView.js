@@ -13,6 +13,7 @@ const ProspectsView = ({
   setIsTouchDisabled,
   isFilterMenuOpen,
   closeFilterMenu,
+  fromEnrollmentScreen,
 }) => {
   return (
     <MainScrollView>
@@ -24,7 +25,8 @@ const ProspectsView = ({
           padding: 10,
         }}
         accessibilityLabel="Team Resources"
-        onStartShouldSetResponder={() => true}>
+        onStartShouldSetResponder={() => true}
+      >
         {prospects?.length < 1 ? (
           <Flexbox>
             <H5>{Localized('There are no saved prospects')}</H5>
@@ -41,6 +43,7 @@ const ProspectsView = ({
             setIsTouchDisabled={setIsTouchDisabled}
             isFilterMenuOpen={isFilterMenuOpen}
             closeFilterMenu={closeFilterMenu}
+            fromEnrollmentScreen={fromEnrollmentScreen}
           />
         ))}
       </View>
@@ -56,6 +59,7 @@ ProspectsView.propTypes = {
   setIsTouchDisabled: PropTypes.func.isRequired,
   isFilterMenuOpen: PropTypes.bool.isRequired,
   closeFilterMenu: PropTypes.func.isRequired,
+  fromEnrollmentScreen: PropTypes.bool,
 };
 
 export default ProspectsView;
