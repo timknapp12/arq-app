@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4Book } from '../common';
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 
 const SideMenu = styled.View`
   z-index: 2;
@@ -34,6 +35,8 @@ const PopoutMenu = ({
   navigation,
 }) => {
   const { signOutOfFirebase } = useContext(AppContext);
+  const { userProfile } = useContext(LoginContext);
+
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
       <TouchableContainer>
@@ -74,6 +77,9 @@ const PopoutMenu = ({
           onPress={() =>
             navigation.navigate('App Stack', {
               screen: 'Enrollment Screen',
+              params: {
+                emailAddress: userProfile?.emailAddress,
+              },
             })
           }
         >

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { ScrollView, Linking, Share } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useNavigation } from '@react-navigation/native';
@@ -12,16 +12,16 @@ import {
 import EnrollmentScreenCard from './EnrollmentScreenCard';
 import { Localized } from '../../translations/Localized';
 
-const EnrollmentScreen = () => {
-  const [selectedOption, setSelectedOption] = useState('preferred');
+const EnrollmentScreen = ({ route }) => {
+  const emailAddress = route?.params?.emailAddress;
 
-  const genericUrl =
-    selectedOption === 'preferred'
-      ? 'https://www.google.com'
-      : 'https://www.qsciences.com';
+  const [selectedOption, setSelectedOption] = useState('pc');
+
+  // TODO - update url when back end has new enrollment key instead of email address
+  const url = `https://shopq.qsciences.com?associate_type=${selectedOption}%24referred_by_email=${emailAddress}`;
 
   const title =
-    selectedOption === 'preferred'
+    selectedOption === 'pc'
       ? 'Preferred Customer Enrollment'
       : 'Retail Customer Enrollment';
 
@@ -31,7 +31,7 @@ const EnrollmentScreen = () => {
       screen: 'Prospects Screen',
       params: {
         title,
-        url: genericUrl,
+        url,
         prospectLinkIsNeeded: false,
         fromEnrollmentScreen: true,
       },
@@ -49,8 +49,8 @@ const EnrollmentScreen = () => {
           <Flexbox align="flex-start">
             <RadioButton
               label={Localized('Preferred Customer')}
-              isSelected={selectedOption === 'preferred'}
-              onPress={() => setSelectedOption('preferred')}
+              isSelected={selectedOption === 'pc'}
+              onPress={() => setSelectedOption('pc')}
             />
             <RadioButton
               label={Localized('Retail Customer')}
@@ -63,7 +63,7 @@ const EnrollmentScreen = () => {
               'Have a prospect scan the QR code below to open the enrollment form on their device',
             )}:`}
           >
-            <QRCode size={120} value={genericUrl} />
+            <QRCode size={120} value={url} />
           </EnrollmentScreenCard>
           <EnrollmentScreenCard
             text={`${Localized(
@@ -79,7 +79,7 @@ const EnrollmentScreen = () => {
               'Open the enrollment form in Shop Q so you can help your prospect enroll',
             )}:`}
           >
-            <SecondaryButton onPress={() => Linking.openURL(genericUrl)}>
+            <SecondaryButton onPress={() => Linking.openURL(url)}>
               {Localized('Open in Shop Q').toUpperCase()}
             </SecondaryButton>
           </EnrollmentScreenCard>
@@ -88,9 +88,7 @@ const EnrollmentScreen = () => {
               'Share the link with a prospect via text message',
             )}:`}
           >
-            <SecondaryButton
-              onPress={() => Share.share({ message: genericUrl })}
-            >
+            <SecondaryButton onPress={() => Share.share({ message: url })}>
               {Localized('Share Link').toUpperCase()}
             </SecondaryButton>
           </EnrollmentScreenCard>
@@ -98,6 +96,10 @@ const EnrollmentScreen = () => {
       </ScrollView>
     </ScreenContainer>
   );
+};
+
+EnrollmentScreen.propTypes = {
+  route: PropTypes.object.isRequired,
 };
 
 export default EnrollmentScreen;

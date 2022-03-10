@@ -154,12 +154,14 @@ const ContactCard = ({
     onError: (error) => console.log(`error in getProspectUrl:`, error),
   });
 
+  const enrollmentLink = `${defaultMessageIntro}${redirectUrl}%24firstname=${firstName}%24lastname=${lastName}`;
+
   const sendEmail = async () => {
     await setMessageType('email');
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
     } else if (fromEnrollmentScreen) {
-      onEmail(emailAddress, `${defaultMessageIntro}${redirectUrl}`);
+      onEmail(emailAddress, enrollmentLink);
     } else {
       onEmail(emailAddress);
     }
@@ -171,7 +173,7 @@ const ContactCard = ({
     if (prospectLinkIsNeeded) {
       await getProspectUrl();
     } else if (fromEnrollmentScreen) {
-      onMessage(primaryPhone, `${defaultMessageIntro}${redirectUrl}`);
+      onMessage(primaryPhone, enrollmentLink);
     } else {
       onMessage(primaryPhone);
     }
