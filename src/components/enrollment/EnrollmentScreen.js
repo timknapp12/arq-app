@@ -39,7 +39,9 @@ const EnrollmentScreen = ({ route }) => {
   };
 
   return (
-    <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+    <ScreenContainer
+      style={{ justifyContent: 'flex-start', paddingTop: 0, paddingBottom: 0 }}
+    >
       <ScrollView
         contentContainerStyle={{
           paddingTop: 20,

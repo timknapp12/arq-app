@@ -10,6 +10,7 @@ import ProspectsStack from './ProspectsStack';
 import EnrollmentScreen from '../components/enrollment/EnrollmentScreen';
 import { getToken } from '../utils/firebase/login';
 import { Localized } from '../translations/Localized';
+import { CloseIcon } from '../components/common';
 
 const App = createStackNavigator();
 
@@ -87,6 +88,11 @@ const AppStack = () => {
             title: Localized('Enrollment').toUpperCase(),
             headerBackTitleVisible: false,
             headerStyle: { backgroundColor: theme.backgroundColor },
+            headerBackImage: () => (
+              <View style={{ marginStart: 8 }}>
+                <CloseIcon />
+              </View>
+            ),
             headerTintColor: theme.primaryTextColor,
             headerTitleAlign: 'center',
             headerTitleStyle: {
