@@ -316,5 +316,18 @@
   "CV Rank": "Classifica CV",
   "Total CV": "CV Totale",
   "Remaining CV": "CV Restante",
-  "Autoship CV": "Spedizione automatica CV"
+  "Autoship CV": "Spedizione automatica CV",
+  "View, share and download resources in the following language": "Visualizza, condividi e scarica risorse nella seguente lingua",
+  "If not available in the selected language, the resource will be shown in English": "Se non è disponibile nella lingua selezionata, la risorsa sarà mostrata in inglese",
+  "English": "Inglese",
+  "Spanish": "Spagnolo",
+  "German": "Tedesco",
+  "French": "Francese",
+  "Italian": "Italiano",
+  "Norwegian": "Norvegese",
+  "Czech": "Ceco",
+  "Dutch": "Olandese",
+  "Japanese": "Giapponese",
+  "Market": "Mercato",
+  "Language": "Lingua"
 }
