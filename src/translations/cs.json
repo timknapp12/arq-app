@@ -316,5 +316,18 @@
   "CV Rank": "Pozice CV",
   "Total CV": "Celkové CV",
   "Remaining CV": "Zbývající CV",
-  "Autoship CV": "Autoship CV"
+  "Autoship CV": "Autoship CV",
+  "View, share and download resources in the following language": "Zobrazit, sdílet a stáhnout zdroje v následujícím jazyce",
+  "If not available in the selected language, the resource will be shown in English": "Pokud zdroj není dostupný ve vybraném jazyce, bude zobrazen v angličtině",
+  "English": "Angličtina",
+  "Spanish": "Španělština",
+  "German": "Němčina",
+  "French": "Francouzština",
+  "Italian": "Italština",
+  "Norwegian": "Norština",
+  "Czech": "Čeština",
+  "Dutch": "Dánština",
+  "Japanese": "Japonština",
+  "Market": "Trh",
+  "Language": "Jazyk"
 }
