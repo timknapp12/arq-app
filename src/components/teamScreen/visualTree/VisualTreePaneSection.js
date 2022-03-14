@@ -106,6 +106,13 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(null);
   };
 
+  const onReceiveDragDropOuterCircle = () => {
+    if (idOfDraggedItem !== droppedMember?.legacyAssociateId) return;
+    setIsBottomBubbleEnteringOuterCirlce(false);
+    setTreeData(null);
+    setDroppedMember(null);
+  };
+
   const isAValidDropToBottomCirlce =
     isLegacyAssociateIdInArray(parentData, idOfDraggedItem) &&
     idOfDraggedItem !== droppedMember?.legacyAssociateId;
@@ -138,13 +145,7 @@ const VisualTreePaneSection = ({
           setIsBottomBubbleEnteringOuterCirlce(true)
         }
         onReceiveDragExit={() => setIsBottomBubbleEnteringOuterCirlce(false)}
-        onReceiveDragDrop={() => {
-          if (idOfDraggedItem === droppedMember?.legacyAssociateId) {
-            setIsBottomBubbleEnteringOuterCirlce(false);
-            setTreeData(null);
-            setDroppedMember(null);
-          }
-        }}
+        onReceiveDragDrop={onReceiveDragDropOuterCircle}
       >
         {outsideList.length > 0 &&
           !isBottomBubbleEnteringOuterCirlce &&

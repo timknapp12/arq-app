@@ -33,8 +33,9 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
       console.log('error in get user in VisualTreePane.js', error),
   });
 
+  const emptySearchId = 0;
   useEffect(() => {
-    if (searchId !== 0) {
+    if (searchId !== emptySearchId) {
       getUser({ variables: { legacyAssociateId: searchId } });
     }
   }, [searchId, level]);
@@ -56,17 +57,17 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   });
 
   useEffect(() => {
-    if (data) {
-      const filteredData = findMembersInDownlineOneLevel(
-        data?.treeNodeFor?.childTreeNodes,
-        'AMBASSADOR',
-      );
-      setTreeData(filteredData);
-      const topLevelMember = reshapeMember(data?.treeNodeFor);
-      setFocusedMember(topLevelMember);
-      const upline = reshapeMember(data?.treeNodeFor?.uplineTreeNode);
-      setUplineMember(upline);
-    }
+    if (!data) return;
+
+    const filteredData = findMembersInDownlineOneLevel(
+      data?.treeNodeFor?.childTreeNodes,
+      'AMBASSADOR',
+    );
+    setTreeData(filteredData);
+    const topLevelMember = reshapeMember(data?.treeNodeFor);
+    setFocusedMember(topLevelMember);
+    const upline = reshapeMember(data?.treeNodeFor?.uplineTreeNode);
+    setUplineMember(upline);
   }, [data]);
 
   useEffect(() => {
@@ -119,17 +120,16 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     uplineMember?.legacyAssociateId === idOfDraggedItem;
 
   const onReceiveDragDrop = (payload) => {
-    if (isAValidDropToTopCirlce) {
-      getUser({
-        variables: {
-          legacyAssociateId: payload?.legacyAssociateId,
-        },
-      });
-      if (payload?.legacyAssociateId === uplineMember?.legacyAssociateId) {
-        setLevelOfFocusedMember((state) => state - 1);
-      } else {
-        setLevelOfFocusedMember((state) => state + 1);
-      }
+    if (!isAValidDropToTopCirlce) return;
+    getUser({
+      variables: {
+        legacyAssociateId: payload?.legacyAssociateId,
+      },
+    });
+    if (payload?.legacyAssociateId === uplineMember?.legacyAssociateId) {
+      setLevelOfFocusedMember((state) => state - 1);
+    } else {
+      setLevelOfFocusedMember((state) => state + 1);
     }
   };
 
