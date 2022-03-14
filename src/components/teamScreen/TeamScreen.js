@@ -26,6 +26,7 @@ import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
 import LeaderbaordView from './leaderboard/LeaderbaordView';
+import VisualTreeView from './visualTree/VisualTreeView';
 
 const TeamScreen = ({ navigation, route }) => {
   const { legacyId } = useContext(AppContext);
@@ -84,6 +85,10 @@ const TeamScreen = ({ navigation, route }) => {
     //   name: Localized('Leaderboard').toUpperCase(),
     //   testID: 'Leaderboard_button',
     // },
+    {
+      name: Localized('Visual Tree').toUpperCase(),
+      testID: 'visual_tree_button',
+    },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -208,6 +213,17 @@ const TeamScreen = ({ navigation, route }) => {
         )}
         {view.name === Localized('Leaderboard').toUpperCase() && (
           <LeaderbaordView closeMenus={closeMenus} />
+        )}
+        {view.name === Localized('Visual Tree').toUpperCase() && (
+          <VisualTreeView
+            closeMenus={closeMenus}
+            paneOneSearchId={route?.params?.paneOneSearchId ?? 0}
+            paneTwoSearchId={route?.params?.paneTwoSearchId ?? 0}
+            paneThreeSearchId={route?.params?.paneThreeSearchId ?? 0}
+            paneOneSearchLevel={route?.params?.paneOneSearchLevel ?? 0}
+            paneTwoSearchLevel={route?.params?.paneTwoSearchLevel ?? 0}
+            paneThreeSearchLevel={route?.params?.paneThreeSearchLevel ?? 0}
+          />
         )}
         {isMyInfoModalOpen && (
           <MyInfoModal

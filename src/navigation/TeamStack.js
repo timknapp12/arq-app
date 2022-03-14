@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import TeamScreen from '../components/teamScreen/TeamScreen';
 import SearchDownlineScreen from '../components/teamScreen/myTeam/myTeamSearch/SearchDownlineScreen';
+import SearchVisualTreeScreen from '../components/teamScreen/visualTree/SearchVisualTreeScreen';
 import MyTeamDetailsScreen from '../components/teamScreen/myTeamDetailsScreen/MyTeamDetailsScreen';
 import AppContext from '../contexts/AppContext';
 
@@ -35,6 +36,13 @@ const TeamStack = () => {
       <Team.Screen
         name="Search Downline Screen"
         component={SearchDownlineScreen}
+        options={({ route }) => ({
+          title: route.params.title.toUpperCase(),
+        })}
+      />
+      <Team.Screen
+        name="Search Visual Tree Screen"
+        component={SearchVisualTreeScreen}
         options={({ route }) => ({
           title: route.params.title.toUpperCase(),
         })}

@@ -32,6 +32,7 @@ import {
   darkRed,
   warningYellow,
 } from './colors';
+import { dropShadow, lightUpperDropShadow } from './constants';
 
 // source for themes with styled components: https://styled-components.com/docs/advanced#theming
 export const lightTheme = {
@@ -98,6 +99,9 @@ export const lightTheme = {
   donut2secondaryColor: purpleAccentLight,
   donut3primaryColor: orangeAccent,
   donut3secondaryColor: orangeAccentLight,
+  dropShadow: dropShadow,
+  bubbleShadow: lightUpperDropShadow,
+  dropZoneBackgroundColor: nero,
 };
 
 export const darkTheme = {
@@ -164,4 +168,7 @@ export const darkTheme = {
   donut2secondaryColor: purpleAccentLight,
   donut3primaryColor: orangeAccent,
   donut3secondaryColor: orangeAccentLight,
+  dropShadow: dropShadow,
+  bubbleShadow: lightUpperDropShadow,
+  dropZoneBackgroundColor: nero,
 };

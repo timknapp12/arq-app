@@ -8,12 +8,29 @@ export const GET_USER = gql`
         associate {
           associateId
           legacyAssociateId
+          firstName
+          lastName
+          associateType
+          associateStatus
         }
+        rank {
+          rankId
+          rankName
+        }
+        customerSalesRank {
+          customerSalesRankId
+          rankName
+        }
+        cv
+        qoV
       }
       associate {
+        legacyAssociateId
         associateId
         firstName
         lastName
+        associateType
+        associateStatus
       }
       orders {
         orderId

@@ -283,5 +283,5 @@ export const AddButton = styled.TouchableOpacity`
   position: absolute;
   bottom: ${(props) => props.bottom};
   right: ${(props) => props.right};
-  box-shadow: 0px 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: ${(props) => props.theme.dropShadow};
 `;

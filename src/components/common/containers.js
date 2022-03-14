@@ -56,8 +56,9 @@ Flexbox.propTypes = {
   direction: PropTypes.string,
 };
 
-export const MainScrollView = ({ children }) => (
+export const MainScrollView = ({ children, ...props }) => (
   <ScrollView
+    {...props}
     contentContainerStyle={{
       flexGrow: 1,
       paddingBottom: 240,
