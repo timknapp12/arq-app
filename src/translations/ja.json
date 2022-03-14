@@ -316,5 +316,18 @@
   "CV Rank": "CVランク",
   "Total CV": "合計CV",
   "Remaining CV": "残CV",
-  "Autoship CV": "オートシップCV"
+  "Autoship CV": "オートシップCV",
+  "View, share and download resources in the following language": "下記の言語で閲覧やダウンロードを行います",
+  "If not available in the selected language, the resource will be shown in English": "選択された言語に対応しない場合は、英語で表示されます",
+  "English": "英語",
+  "Spanish": "スペイン語",
+  "German": "ドイツ語",
+  "French": "フランス語",
+  "Italian": "イタリア語",
+  "Norwegian": "ノルウェー語",
+  "Czech": "チェコ語",
+  "Dutch": "オランダ語",
+  "Japanese": "日本語",
+  "Market": "市場",
+  "Language": "言語"
 }

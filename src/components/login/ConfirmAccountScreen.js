@@ -147,6 +147,8 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     validateUser();
   };
 
+  const qLogoHeight = 108;
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -159,8 +161,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
       <QLogoScreenContainer>
         <ScrollView
           contentContainerStyle={{
-            // the Q Logo is 108px in height
-            height: height - 108,
+            height: height - qLogoHeight,
             paddingBottom: 140,
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -180,7 +181,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
               <H4Book>{username}</H4Book>
               <Gap />
               <RadioButton
-                label="Back Office Password"
+                label={Localized('Back Office Password')}
                 isSelected={selectedOption === 'password'}
                 onPress={() => setSelectedOption('password')}
               />

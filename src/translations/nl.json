@@ -316,5 +316,18 @@
   "CV Rank": "CV-rang",
   "Total CV": "Totale CV",
   "Remaining CV": "Resterende CV",
-  "Autoship CV": "Autoship CV"
+  "Autoship CV": "Autoship CV",
+  "View, share and download resources in the following language": "Bronnen in de volgende taal bekijken, delen en downloaden",
+  "If not available in the selected language, the resource will be shown in English": "Indien niet beschikbaar in de geselecteerde taal, zal de bron in het Engels worden getoond",
+  "English": "Engels",
+  "Spanish": "Spaans",
+  "German": "Duits",
+  "French": "Frans",
+  "Italian": "Italiaans",
+  "Norwegian": "Noors",
+  "Czech": "Tsjechisch",
+  "Dutch": "Nederlands",
+  "Japanese": "Japans",
+  "Market": "Markt",
+  "Language": "Taal"
 }

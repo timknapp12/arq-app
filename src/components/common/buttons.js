@@ -54,6 +54,30 @@ PrimaryButton.propTypes = {
 };
 
 // SECONDARY BUTTON
+const ThemedSecondaryButton = styled.TouchableOpacity`
+  ${sharedCss};
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border-color: ${(props) => props.theme.secondaryButtonTextColor};
+  border-width: 2px;
+`;
+
+const ThemedSecondaryButtonText = styled.Text`
+  font-family: 'Avenir-Light';
+  font-size: 24px;
+  color: ${(props) => props.theme.secondaryButtonTextColor};
+`;
+
+export const SecondaryButton = ({ children, ...props }) => (
+  <ThemedSecondaryButton {...props}>
+    <ThemedSecondaryButtonText>{children}</ThemedSecondaryButtonText>
+  </ThemedSecondaryButton>
+);
+
+SecondaryButton.propTypes = {
+  children: PropTypes.string.isRequired,
+};
 
 // TERTIARY BUTTON
 const ButtonContainer = styled.View`
