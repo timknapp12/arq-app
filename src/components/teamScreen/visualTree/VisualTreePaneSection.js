@@ -22,6 +22,7 @@ const VisualTreePaneSection = ({
   setTopCirlceBorderColor = () => {},
   setIdOfDraggedItemForParent = () => {},
   closeMenus,
+  contentOffsetX,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -185,6 +186,7 @@ const VisualTreePaneSection = ({
                 item?.associate?.legacyAssociateId
               }
               level={level}
+              contentOffsetX={contentOffsetX}
               style={{
                 top:
                   radius -
@@ -236,6 +238,7 @@ const VisualTreePaneSection = ({
               insideItem?.associate?.legacyAssociateId
             }
             level={level}
+            contentOffsetX={contentOffsetX}
             style={{
               position: 'absolute',
               top: radius - 0,
@@ -291,6 +294,7 @@ const VisualTreePaneSection = ({
               idOfDraggedItem === droppedMember?.legacyAssociateId
             }
             level={level}
+            contentOffsetX={contentOffsetX}
           />
         )}
       </ReceivingCircle>
@@ -302,6 +306,7 @@ const VisualTreePaneSection = ({
               parentData={treeData}
               borderColor={outerCircleReceiveBorderColor}
               closeMenus={closeMenus}
+              contentOffsetX={contentOffsetX}
             />
           ) : (
             <OuterCircle
@@ -340,6 +345,7 @@ VisualTreePaneSection.propTypes = {
   setTopCirlceBorderColor: PropTypes.func,
   setIdOfDraggedItemForParent: PropTypes.func,
   closeMenus: PropTypes.func.isRequired,
+  contentOffsetX: PropTypes.number.isRequired,
 };
 
 export default VisualTreePaneSection;
