@@ -7,6 +7,7 @@ import { DraxProvider } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
 import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
@@ -14,7 +15,8 @@ import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociat
 import { Localized } from '../../../translations/Localized';
 
 const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
-  const { theme, legacyId } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
+  const { user } = useContext(LoginContext);
 
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
@@ -175,7 +177,10 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                   <Flexbox padding={20}>
                     <VisualTreeBubble
                       member={uplineMember}
-                      draggable={uplineMember?.legacyAssociateId !== legacyId}
+                      draggable={
+                        uplineMember?.legacyAssociateId !==
+                        user?.uplineTreeNode?.associate?.legacyAssociateId
+                      }
                       onDragStart={() => onDragStart(uplineMember)}
                       onDragEnd={onDragEnd}
                       onDragDrop={onDragDrop}
