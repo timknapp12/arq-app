@@ -161,7 +161,10 @@ const VisualTreePaneSection = ({
                 cv: item?.cv,
                 qov: item?.qoV,
               }}
-              draggable={true}
+              draggable={
+                item?.associate?.legacyAssociateId !==
+                droppedMember?.legacyAssociateId
+              }
               onDragStart={() => onDragStart(item?.associate)}
               onDragEnd={onDragEnd}
               onDragDrop={onDragDrop}
@@ -209,7 +212,10 @@ const VisualTreePaneSection = ({
               cv: insideItem?.cv,
               qov: insideItem?.qoV,
             }}
-            draggable={true}
+            draggable={
+              insideItem?.associate?.legacyAssociateId !==
+              droppedMember?.legacyAssociateId
+            }
             onDragStart={() => onDragStart(insideItem?.associate)}
             onDragEnd={onDragEnd}
             onDragDrop={onDragDrop}
