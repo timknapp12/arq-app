@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Flexbox } from '../../common';
 import VisualTreeSearchBar from './VisualTreeSearchBar';
 import VisualTreePane from './VisualTreePane';
@@ -10,6 +10,8 @@ import TeamScreenContext from '../../../contexts/TeamScreenContext';
 const VisibilityTreeView = ({ ...props }) => {
   const {
     closeMenus,
+    selectedVisualTreePane,
+    setSelectedVisualTreePane,
     paneOneSearchId,
     paneTwoSearchId,
     paneThreeSearchId,
@@ -17,7 +19,6 @@ const VisibilityTreeView = ({ ...props }) => {
     paneTwoSearchLevel,
     paneThreeSearchLevel,
   } = useContext(TeamScreenContext);
-  const [selectedPane, setSelectedPane] = useState(1);
 
   return (
     <Flexbox
@@ -29,24 +30,24 @@ const VisibilityTreeView = ({ ...props }) => {
       {...props}
     >
       <VisualTreeSearchBar
-        selectedPane={selectedPane}
-        setSelectedPane={setSelectedPane}
+        selectedVisualTreePane={selectedVisualTreePane}
+        setSelectedVisualTreePane={setSelectedVisualTreePane}
       />
       <VisualTreePane
-        style={{ display: selectedPane === 1 ? 'flex' : 'none' }}
+        style={{ display: selectedVisualTreePane === 1 ? 'flex' : 'none' }}
         searchId={paneOneSearchId}
         level={paneOneSearchLevel}
         closeMenus={closeMenus}
       />
       <VisualTreePane
-        style={{ display: selectedPane === 2 ? 'flex' : 'none' }}
+        style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
         searchId={paneTwoSearchId}
         level={paneTwoSearchLevel}
         closeMenus={closeMenus}
       />
       <VisualTreePane
         style={{
-          display: selectedPane === 3 ? 'flex' : 'none',
+          display: selectedVisualTreePane === 3 ? 'flex' : 'none',
         }}
         searchId={paneThreeSearchId}
         level={paneThreeSearchLevel}

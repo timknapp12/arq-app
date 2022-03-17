@@ -1,10 +1,12 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   FlatList,
   View,
   TouchableOpacity,
   Keyboard,
   Platform,
+  LogBox,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
@@ -25,8 +27,14 @@ import { SEARCH_TREE } from '../../../../graphql/queries';
 import { Localized } from '../../../../translations/Localized';
 import { maxWidth } from '../../../../styles/constants';
 
-const SearchDownlineScreen = () => {
+const SearchDownlineScreen = ({ route }) => {
+  const viewInVisualTree = route?.params?.viewInVisualTree;
+
   const { theme } = useContext(AppContext);
+
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
 
   const [selectedStatus, setSelectedStatus] = useState('ALL');
   const [selectedDropdownStatus, setSelectedDropdownStatus] = useState('');
@@ -127,6 +135,10 @@ const SearchDownlineScreen = () => {
     viewInMyTeamView(item);
   };
 
+  const viewItemInVisualTree = (item) => {
+    viewInVisualTree(item);
+  };
+
   const refreshing = networkStatus === NetworkStatus.refetch;
 
   const handleOnEndReached = () => {
@@ -147,6 +159,8 @@ const SearchDownlineScreen = () => {
         cardIsExpandable={false}
         member={item}
         onPress={() => onPressCard(item)}
+        showVisualTreeIcon
+        viewItemInVisualTree={() => viewItemInVisualTree(item)}
       />
     </CardContainer>
   );
@@ -254,6 +268,10 @@ const SearchDownlineScreen = () => {
       </Flexbox>
     </ScreenContainer>
   );
+};
+
+SearchDownlineScreen.propTypes = {
+  route: PropTypes.object.isRequired,
 };
 
 export default SearchDownlineScreen;

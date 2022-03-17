@@ -14,7 +14,7 @@ const MyDownlineCard = React.memo(
   ({ autoExpand = false, member, nested, level }) => {
     const { currentMembersUplineId, closeAllMenus } =
       useContext(MyTeamViewContext);
-    const { sortBy, setLegacyAssociateId, setLevelInTree } =
+    const { sortBy, setLegacyAssociateId, setLevelInTree, viewInVisualTree } =
       useContext(TeamScreenContext);
 
     const [isExpanded, setIsExpanded] = useState(autoExpand);
@@ -71,6 +71,8 @@ const MyDownlineCard = React.memo(
               isExpanded={isExpanded}
               onPress={toggleExpanded}
               closeAllMenus={closeAllMenus}
+              showVisualTreeIcon
+              viewItemInVisualTree={() => viewInVisualTree(member)}
             />
             {isExpanded && <ExpandedInfo member={member} level={level + 1} />}
           </CardContainer>

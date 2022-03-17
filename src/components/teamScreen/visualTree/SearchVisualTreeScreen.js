@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Keyboard, FlatList, TouchableWithoutFeedback } from 'react-native';
+import {
+  Keyboard,
+  FlatList,
+  TouchableWithoutFeedback,
+  LogBox,
+} from 'react-native';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
-import { useNavigation } from '@react-navigation/native';
 import debounce from 'lodash.debounce';
 import {
   ScreenContainer,
@@ -18,13 +22,10 @@ import DownlineProfileInfoContainer from '../myTeam/DownlineProfileInfoContainer
 import AppContext from '../../../contexts/AppContext';
 
 const SearchVisualTreeScreen = ({ route }) => {
-  const selectedPane = route?.params?.selectedPane;
-  const paneOneSearchId = route?.params?.paneOneSearchId;
-  const paneTwoSearchId = route?.params?.paneTwoSearchId;
-  const paneThreeSearchId = route?.params?.paneThreeSearchId;
-  const paneOneSearchLevel = route?.params?.paneOneSearchLevel;
-  const paneTwoSearchLevel = route?.params?.paneTwoSearchLevel;
-  const paneThreeSearchLevel = route?.params?.paneThreeSearchLevel;
+  const viewInVisualTree = route?.params?.viewInVisualTree;
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
 
   const { theme } = useContext(AppContext);
 
@@ -90,33 +91,8 @@ const SearchVisualTreeScreen = ({ route }) => {
     setHasSearchCompleted(false);
   };
 
-  const navigation = useNavigation();
-
-  const viewInMyTeamView = (item) => {
-    navigation.navigate('Team Screen', {
-      paneOneSearchId:
-        selectedPane === 1
-          ? item?.associate?.legacyAssociateId
-          : paneOneSearchId,
-      paneTwoSearchId:
-        selectedPane === 2
-          ? item?.associate?.legacyAssociateId
-          : paneTwoSearchId,
-      paneThreeSearchId:
-        selectedPane === 3
-          ? item?.associate?.legacyAssociateId
-          : paneThreeSearchId,
-      paneOneSearchLevel:
-        selectedPane === 1 ? item?.depth - 1 : paneOneSearchLevel,
-      paneTwoSearchLevel:
-        selectedPane === 2 ? item?.depth - 1 : paneTwoSearchLevel,
-      paneThreeSearchLevel:
-        selectedPane === 3 ? item?.depth - 1 : paneThreeSearchLevel,
-    });
-  };
-
   const onPressCard = (item) => {
-    viewInMyTeamView(item);
+    viewInVisualTree(item);
   };
 
   const refreshing = networkStatus === NetworkStatus.refetch;

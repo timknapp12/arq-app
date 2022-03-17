@@ -7,27 +7,17 @@ import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import TeamScreenContext from '../../../contexts/TeamScreenContext';
 import { Localized } from '../../../translations/Localized';
 
-const VisualTreeSearchBar = ({ selectedPane, setSelectedPane }) => {
-  const {
-    paneOneSearchId,
-    paneTwoSearchId,
-    paneThreeSearchId,
-    paneOneSearchLevel,
-    paneTwoSearchLevel,
-    paneThreeSearchLevel,
-  } = useContext(TeamScreenContext);
+const VisualTreeSearchBar = ({
+  selectedVisualTreePane,
+  setSelectedVisualTreePane,
+}) => {
+  const { viewInVisualTree } = useContext(TeamScreenContext);
 
   const navigation = useNavigation();
   const navigateToSearchScreen = () => {
     navigation.navigate('Search Visual Tree Screen', {
       title: Localized('Search My Team'),
-      selectedPane,
-      paneOneSearchId,
-      paneTwoSearchId,
-      paneThreeSearchId,
-      paneOneSearchLevel,
-      paneTwoSearchLevel,
-      paneThreeSearchLevel,
+      viewInVisualTree,
     });
   };
 
@@ -35,16 +25,16 @@ const VisualTreeSearchBar = ({ selectedPane, setSelectedPane }) => {
     <FilterSearchBar onPress={navigateToSearchScreen}>
       <Flexbox direction="row" width="100px">
         <RoundButton
-          selected={selectedPane === 1}
-          onPress={() => setSelectedPane(1)}
+          selected={selectedVisualTreePane === 1}
+          onPress={() => setSelectedVisualTreePane(1)}
         />
         <RoundButton
-          selected={selectedPane === 2}
-          onPress={() => setSelectedPane(2)}
+          selected={selectedVisualTreePane === 2}
+          onPress={() => setSelectedVisualTreePane(2)}
         />
         <RoundButton
-          selected={selectedPane === 3}
-          onPress={() => setSelectedPane(3)}
+          selected={selectedVisualTreePane === 3}
+          onPress={() => setSelectedVisualTreePane(3)}
         />
       </Flexbox>
     </FilterSearchBar>
@@ -52,8 +42,8 @@ const VisualTreeSearchBar = ({ selectedPane, setSelectedPane }) => {
 };
 
 VisualTreeSearchBar.propTypes = {
-  selectedPane: PropTypes.number.isRequired,
-  setSelectedPane: PropTypes.func.isRequired,
+  selectedVisualTreePane: PropTypes.number.isRequired,
+  setSelectedVisualTreePane: PropTypes.func.isRequired,
 };
 
 export default VisualTreeSearchBar;

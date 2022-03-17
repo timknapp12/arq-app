@@ -38,6 +38,7 @@ const TeamScreen = ({ navigation, route }) => {
   const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
   const [sortBy, setSortBy] = useState('ORGANIZATION');
   const [levelInTree, setLevelInTree] = useState(0);
+  const [selectedVisualTreePane, setSelectedVisualTreePane] = useState(1);
 
   useEffect(() => {
     if (route?.params?.searchId) {
@@ -75,6 +76,15 @@ const TeamScreen = ({ navigation, route }) => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const [view, setView] = useState(initialView);
+
+  useEffect(() => {
+    if (route?.params?.navigateToVisualTree) {
+      setView({
+        name: Localized('Visual Tree').toUpperCase(),
+        testID: 'visual_tree_button',
+      });
+    }
+  }, [route?.params?.navigateToVisualTree]);
 
   const tertiaryButtonText = [
     {
@@ -138,6 +148,39 @@ const TeamScreen = ({ navigation, route }) => {
     }
   };
 
+  const viewInVisualTree = (item) => {
+    navigation.navigate('Team Screen', {
+      paneOneSearchId:
+        selectedVisualTreePane === 1
+          ? item?.associate?.legacyAssociateId
+          : route?.params?.paneOneSearchId ?? legacyId,
+      paneTwoSearchId:
+        selectedVisualTreePane === 2
+          ? item?.associate?.legacyAssociateId
+          : route?.params?.paneTwoSearchId ?? 0,
+      paneThreeSearchId:
+        selectedVisualTreePane === 3
+          ? item?.associate?.legacyAssociateId
+          : route?.params?.paneThreeSearchId ?? 0,
+      paneOneSearchLevel:
+        selectedVisualTreePane === 1
+          ? item?.depth - 1
+          : route?.params?.paneOneSearchLevel ?? 0,
+      paneTwoSearchLevel:
+        selectedVisualTreePane === 2
+          ? item?.depth - 1
+          : route?.params?.paneTwoSearchLevel ?? 0,
+      paneThreeSearchLevel:
+        selectedVisualTreePane === 3
+          ? item?.depth - 1
+          : route?.params?.paneThreeSearchLevel ?? 0,
+    });
+    setView({
+      name: Localized('Visual Tree').toUpperCase(),
+      testID: 'visual_tree_button',
+    });
+  };
+
   return (
     <TeamScreenContext.Provider
       value={{
@@ -149,12 +192,15 @@ const TeamScreen = ({ navigation, route }) => {
         setSortBy,
         levelInTree,
         setLevelInTree,
+        selectedVisualTreePane,
+        setSelectedVisualTreePane,
         paneOneSearchId: route?.params?.paneOneSearchId ?? legacyId,
         paneTwoSearchId: route?.params?.paneTwoSearchId ?? 0,
         paneThreeSearchId: route?.params?.paneThreeSearchId ?? 0,
         paneOneSearchLevel: route?.params?.paneOneSearchLevel ?? 0,
         paneTwoSearchLevel: route?.params?.paneTwoSearchLevel ?? 0,
         paneThreeSearchLevel: route?.params?.paneThreeSearchLevel ?? 0,
+        viewInVisualTree,
       }}
     >
       <TouchableWithoutFeedback
