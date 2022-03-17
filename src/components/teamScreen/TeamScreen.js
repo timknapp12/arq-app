@@ -77,15 +77,6 @@ const TeamScreen = ({ navigation, route }) => {
 
   const [view, setView] = useState(initialView);
 
-  useEffect(() => {
-    if (route?.params?.navigateToVisualTree) {
-      setView({
-        name: Localized('Visual Tree').toUpperCase(),
-        testID: 'visual_tree_button',
-      });
-    }
-  }, [route?.params?.navigateToVisualTree]);
-
   const tertiaryButtonText = [
     {
       name: Localized('At A Glance').toUpperCase(),

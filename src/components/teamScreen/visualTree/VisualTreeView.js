@@ -7,7 +7,7 @@ import TeamScreenContext from '../../../contexts/TeamScreenContext';
 // source for finding coordinates https://stackoverflow.com/questions/26599782/positioning-divs-in-a-circle-using-javascript
 //   (x, y) = (rx * cos(θ), ry * sin(θ)) to find coordinates on a circle
 
-const VisibilityTreeView = ({ ...props }) => {
+const VisualTreeView = ({ ...props }) => {
   const {
     closeMenus,
     selectedVisualTreePane,
@@ -57,4 +57,4 @@ const VisibilityTreeView = ({ ...props }) => {
   );
 };
 
-export default VisibilityTreeView;
+export default VisualTreeView;
