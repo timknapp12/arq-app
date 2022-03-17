@@ -36,6 +36,8 @@ const VisualTreePaneSection = ({
     isBottomBubbleEnteringOuterCirlce,
     setIsBottomBubbleEnteringOuterCirlce,
   ] = useState(false);
+  // reloadSameData flag is when a bubble is dragged back up to the bigger outer circle and then immediately back down to the smaller receiving circle (because the data doesn't reset in this case)
+  const [reloadSameData, setReloadSameData] = useState(false);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
@@ -43,14 +45,15 @@ const VisualTreePaneSection = ({
   });
 
   useEffect(() => {
-    if (data) {
+    if (data || reloadSameData) {
       const filteredData = findMembersInDownlineOneLevel(
         data?.treeNodeFor?.childTreeNodes,
         'AMBASSADOR',
       );
       setTreeData(filteredData);
+      setReloadSameData(false);
     }
-  }, [data]);
+  }, [data, reloadSameData]);
 
   useEffect(() => {
     setTreeData(null);
@@ -277,6 +280,7 @@ const VisualTreePaneSection = ({
             getUser({
               variables: { legacyAssociateId: payload?.legacyAssociateId },
             });
+            setReloadSameData(true);
             setDroppedMember(payload);
           }
         }}
