@@ -1,5 +1,4 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
   Animated,
@@ -12,22 +11,21 @@ import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import AppContext from '../../../contexts/AppContext';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
+import TeamScreenContext from '../../../contexts/TeamScreenContext';
 import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
 import { maxWidth } from '../../../styles/constants';
 
-const MyTeamView = ({
-  closeMenus,
-  selectedMemberId,
-  legacyAssociateId,
-  setLegacyAssociateId,
-  sortBy,
-  setSortBy,
-  levelInTree,
-  setLevelInTree,
-  ...props
-}) => {
+const MyTeamView = () => {
   const { theme } = useContext(AppContext);
+  const {
+    closeMenus,
+    legacyAssociateId,
+    setLegacyAssociateId,
+    sortBy,
+    setSortBy,
+    levelInTree,
+  } = useContext(TeamScreenContext);
 
   const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
   const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
@@ -80,18 +78,12 @@ const MyTeamView = ({
     <MyTeamViewContext.Provider
       value={{
         closeAllMenus,
-        sortBy,
-        levelInTree,
         setMyTeamViewHeader,
-        setLevelInTree,
-        legacyAssociateId,
-        setLegacyAssociateId,
         currentMembersUplineId,
         setCurrentMembersUplineId,
-        selectedMemberId,
       }}
     >
-      <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
+      <TouchableWithoutFeedback onPress={() => closeAllMenus()}>
         <Flexbox
           align="center"
           justify="flex-start"
@@ -138,17 +130,6 @@ const MyTeamView = ({
       </TouchableWithoutFeedback>
     </MyTeamViewContext.Provider>
   );
-};
-
-MyTeamView.propTypes = {
-  closeMenus: PropTypes.func.isRequired,
-  selectedMemberId: PropTypes.number,
-  legacyAssociateId: PropTypes.number.isRequired,
-  setLegacyAssociateId: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
-  setSortBy: PropTypes.func.isRequired,
-  levelInTree: PropTypes.number.isRequired,
-  setLevelInTree: PropTypes.func.isRequired,
 };
 
 export default MyTeamView;

@@ -5,19 +5,17 @@ import { CardContainer } from '../myTeamCard.styles';
 import SwipeableZoom from '../SwipeableZoom';
 import DownlineProfileInfoContainer from '../DownlineProfileInfoContainer';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
+import TeamScreenContext from '../../../../contexts/TeamScreenContext';
 import { findMembersInDownlineOneLevel } from '../../../../utils/teamView/filterDownline';
 import MyCustomerExpandedInfo from './MyCustomerExpandedInfo';
 
 // eslint-disable-next-line react/display-name
 const MyDownlineCard = React.memo(
   ({ autoExpand = false, member, nested, level }) => {
-    const {
-      sortBy,
-      setLegacyAssociateId,
-      setLevelInTree,
-      currentMembersUplineId,
-      closeAllMenus,
-    } = useContext(MyTeamViewContext);
+    const { currentMembersUplineId, closeAllMenus } =
+      useContext(MyTeamViewContext);
+    const { sortBy, setLegacyAssociateId, setLevelInTree } =
+      useContext(TeamScreenContext);
 
     const [isExpanded, setIsExpanded] = useState(autoExpand);
 

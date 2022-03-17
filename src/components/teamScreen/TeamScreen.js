@@ -22,6 +22,7 @@ import SettingsModal from '../mainMenu/SettingsModal';
 import NotificationsColumn from '../notifications/NotificationsColumn';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TeamScreenContext from '../../contexts/TeamScreenContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
@@ -138,122 +139,123 @@ const TeamScreen = ({ navigation, route }) => {
   };
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        closeMenus();
+    <TeamScreenContext.Provider
+      value={{
+        closeMenus,
+        selectedMemberId: route?.params?.selectedMemberId,
+        legacyAssociateId,
+        setLegacyAssociateId,
+        sortBy,
+        setSortBy,
+        levelInTree,
+        setLevelInTree,
+        paneOneSearchId: route?.params?.paneOneSearchId ?? legacyId,
+        paneTwoSearchId: route?.params?.paneTwoSearchId ?? 0,
+        paneThreeSearchId: route?.params?.paneThreeSearchId ?? 0,
+        paneOneSearchLevel: route?.params?.paneOneSearchLevel ?? 0,
+        paneTwoSearchLevel: route?.params?.paneTwoSearchLevel ?? 0,
+        paneThreeSearchLevel: route?.params?.paneThreeSearchLevel ?? 0,
       }}
     >
-      <ScreenContainer
-        style={{
-          justifyContent: 'flex-start',
-          height: '100%',
+      <TouchableWithoutFeedback
+        onPress={() => {
+          closeMenus();
         }}
       >
-        <Flexbox style={{ zIndex: 2 }}>
-          <MainHeader
-            isMenuOpen={isMenuOpen}
-            fadeIn={fadeIn}
-            fadeOut={fadeOut}
-            setIsMenuOpen={setIsMenuOpen}
-          />
-          <NotificationsColumn />
-        </Flexbox>
-
-        <TopButtonBar>
-          {tertiaryButtonText.map((item) => (
-            <TertiaryButton
-              style={{ marginRight: 15 }}
-              onPress={() => navigate(item)}
-              selected={view.name === item?.name}
-              key={item?.name}
-            >
-              {item?.name}
-            </TertiaryButton>
-          ))}
-        </TopButtonBar>
-        <Flexbox>
-          <PopoutMenu
-            fadeAnim={fadeAnim}
-            fadeOut={fadeOut}
-            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            setIsSettingsModalOpen={setIsSettingsModalOpen}
-            navigation={navigation}
-          />
-        </Flexbox>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            alignItems: 'center',
-            paddingBottom: 30,
-          }}
+        <ScreenContainer
           style={{
-            width: '100%',
+            justifyContent: 'flex-start',
             height: '100%',
-            zIndex: -1,
           }}
         >
-          <AtAGlanceView
+          <Flexbox style={{ zIndex: 2 }}>
+            <MainHeader
+              isMenuOpen={isMenuOpen}
+              fadeIn={fadeIn}
+              fadeOut={fadeOut}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+            <NotificationsColumn />
+          </Flexbox>
+
+          <TopButtonBar>
+            {tertiaryButtonText.map((item) => (
+              <TertiaryButton
+                style={{ marginRight: 15 }}
+                onPress={() => navigate(item)}
+                selected={view.name === item?.name}
+                key={item?.name}
+              >
+                {item?.name}
+              </TertiaryButton>
+            ))}
+          </TopButtonBar>
+          <Flexbox>
+            <PopoutMenu
+              fadeAnim={fadeAnim}
+              fadeOut={fadeOut}
+              setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+              setIsSettingsModalOpen={setIsSettingsModalOpen}
+              navigation={navigation}
+            />
+          </Flexbox>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              alignItems: 'center',
+              paddingBottom: 30,
+            }}
+            style={{
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+            }}
+          >
+            <AtAGlanceView
+              style={{
+                display:
+                  view.name === Localized('At A Glance').toUpperCase()
+                    ? 'flex'
+                    : 'none',
+              }}
+              onStartShouldSetResponder={() => true}
+              closeMenus={closeMenus}
+            />
+          </ScrollView>
+          {view.name === Localized('My Team').toUpperCase() && <MyTeamView />}
+          <LeaderboardView
             style={{
               display:
-                view.name === Localized('At A Glance').toUpperCase()
+                view.name === Localized('Leaderboard').toUpperCase()
                   ? 'flex'
                   : 'none',
             }}
-            onStartShouldSetResponder={() => true}
             closeMenus={closeMenus}
           />
-        </ScrollView>
-        {view.name === Localized('My Team').toUpperCase() && (
-          <MyTeamView
-            closeMenus={closeMenus}
-            selectedMemberId={route?.params?.selectedMemberId}
-            legacyAssociateId={legacyAssociateId}
-            setLegacyAssociateId={setLegacyAssociateId}
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-            levelInTree={levelInTree}
-            setLevelInTree={setLevelInTree}
-          />
-        )}
-        <LeaderboardView
-          style={{
-            display:
-              view.name === Localized('Leaderboard').toUpperCase()
-                ? 'flex'
-                : 'none',
-          }}
-          closeMenus={closeMenus}
-        />
 
-        <VisualTreeView
-          style={{
-            display:
-              view.name === Localized('Visual Tree').toUpperCase()
-                ? 'flex'
-                : 'none',
-          }}
-          closeMenus={closeMenus}
-          paneOneSearchId={route?.params?.paneOneSearchId ?? legacyId}
-          paneTwoSearchId={route?.params?.paneTwoSearchId ?? 0}
-          paneThreeSearchId={route?.params?.paneThreeSearchId ?? 0}
-          paneOneSearchLevel={route?.params?.paneOneSearchLevel ?? 0}
-          paneTwoSearchLevel={route?.params?.paneTwoSearchLevel ?? 0}
-          paneThreeSearchLevel={route?.params?.paneThreeSearchLevel ?? 0}
-        />
-        {isMyInfoModalOpen && (
-          <MyInfoModal
-            isMyInfoModalOpen={isMyInfoModalOpen}
-            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+          <VisualTreeView
+            style={{
+              display:
+                view.name === Localized('Visual Tree').toUpperCase()
+                  ? 'flex'
+                  : 'none',
+            }}
           />
-        )}
-        {isSettingsModalOpen && (
-          <SettingsModal
-            isSettingsModalOpen={isSettingsModalOpen}
-            setIsSettingsModalOpen={setIsSettingsModalOpen}
-          />
-        )}
-      </ScreenContainer>
-    </TouchableWithoutFeedback>
+          {isMyInfoModalOpen && (
+            <MyInfoModal
+              isMyInfoModalOpen={isMyInfoModalOpen}
+              setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+            />
+          )}
+          {isSettingsModalOpen && (
+            <SettingsModal
+              isSettingsModalOpen={isSettingsModalOpen}
+              setIsSettingsModalOpen={setIsSettingsModalOpen}
+            />
+          )}
+        </ScreenContainer>
+      </TouchableWithoutFeedback>
+    </TeamScreenContext.Provider>
   );
 };
 

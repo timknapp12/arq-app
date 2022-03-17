@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import { Flexbox } from '../../common';
 import { RoundButton } from './visualTree.styles';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
+import TeamScreenContext from '../../../contexts/TeamScreenContext';
 import { Localized } from '../../../translations/Localized';
 
-const VisualTreeSearchBar = ({
-  selectedPane,
-  setSelectedPane,
-  paneOneSearchId,
-  paneTwoSearchId,
-  paneThreeSearchId,
-  paneOneSearchLevel,
-  paneTwoSearchLevel,
-  paneThreeSearchLevel,
-}) => {
+const VisualTreeSearchBar = ({ selectedPane, setSelectedPane }) => {
+  const {
+    paneOneSearchId,
+    paneTwoSearchId,
+    paneThreeSearchId,
+    paneOneSearchLevel,
+    paneTwoSearchLevel,
+    paneThreeSearchLevel,
+  } = useContext(TeamScreenContext);
+
   const navigation = useNavigation();
   const navigateToSearchScreen = () => {
     navigation.navigate('Search Visual Tree Screen', {
@@ -53,12 +54,6 @@ const VisualTreeSearchBar = ({
 VisualTreeSearchBar.propTypes = {
   selectedPane: PropTypes.number.isRequired,
   setSelectedPane: PropTypes.func.isRequired,
-  paneOneSearchId: PropTypes.number.isRequired,
-  paneTwoSearchId: PropTypes.number.isRequired,
-  paneThreeSearchId: PropTypes.number.isRequired,
-  paneOneSearchLevel: PropTypes.number.isRequired,
-  paneTwoSearchLevel: PropTypes.number.isRequired,
-  paneThreeSearchLevel: PropTypes.number.isRequired,
 };
 
 export default VisualTreeSearchBar;

@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 import { Flexbox } from '../../common';
 import VisualTreeSearchBar from './VisualTreeSearchBar';
 import VisualTreePane from './VisualTreePane';
+import TeamScreenContext from '../../../contexts/TeamScreenContext';
 
 // source for finding coordinates https://stackoverflow.com/questions/26599782/positioning-divs-in-a-circle-using-javascript
 //   (x, y) = (rx * cos(θ), ry * sin(θ)) to find coordinates on a circle
 
-// source for drag n drop library https://github.com/nuclearpasta/react-native-drax#usage
-
-const VisibilityTreeView = ({
-  closeMenus,
-  paneOneSearchId,
-  paneTwoSearchId,
-  paneThreeSearchId,
-  paneOneSearchLevel,
-  paneTwoSearchLevel,
-  paneThreeSearchLevel,
-  ...props
-}) => {
+const VisibilityTreeView = ({ ...props }) => {
+  const {
+    closeMenus,
+    paneOneSearchId,
+    paneTwoSearchId,
+    paneThreeSearchId,
+    paneOneSearchLevel,
+    paneTwoSearchLevel,
+    paneThreeSearchLevel,
+  } = useContext(TeamScreenContext);
   const [selectedPane, setSelectedPane] = useState(1);
 
   return (
@@ -33,12 +31,6 @@ const VisibilityTreeView = ({
       <VisualTreeSearchBar
         selectedPane={selectedPane}
         setSelectedPane={setSelectedPane}
-        paneOneSearchId={paneOneSearchId}
-        paneTwoSearchId={paneTwoSearchId}
-        paneThreeSearchId={paneThreeSearchId}
-        paneOneSearchLevel={paneOneSearchLevel}
-        paneTwoSearchLevel={paneTwoSearchLevel}
-        paneThreeSearchLevel={paneThreeSearchLevel}
       />
       <VisualTreePane
         style={{ display: selectedPane === 1 ? 'flex' : 'none' }}
@@ -62,16 +54,6 @@ const VisibilityTreeView = ({
       />
     </Flexbox>
   );
-};
-
-VisibilityTreeView.propTypes = {
-  closeMenus: PropTypes.func.isRequired,
-  paneOneSearchId: PropTypes.number,
-  paneTwoSearchId: PropTypes.number,
-  paneThreeSearchId: PropTypes.number,
-  paneOneSearchLevel: PropTypes.number,
-  paneTwoSearchLevel: PropTypes.number,
-  paneThreeSearchLevel: PropTypes.number,
 };
 
 export default VisibilityTreeView;
