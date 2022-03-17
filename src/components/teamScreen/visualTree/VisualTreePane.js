@@ -7,6 +7,7 @@ import { DraxProvider } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
 import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
@@ -14,7 +15,8 @@ import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociat
 import { Localized } from '../../../translations/Localized';
 
 const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
-  const { theme, legacyId } = useContext(AppContext);
+  const { theme } = useContext(AppContext);
+  const { user } = useContext(LoginContext);
 
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
@@ -27,6 +29,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const [uplineMember, setUplineMember] = useState(null);
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
   const [levelOfFocusedMember, setLevelOfFocusedMember] = useState(null);
+  const [contentOffsetX, setContentOffsetX] = useState(0);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
@@ -135,16 +138,18 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
 
   const scrollViewRef = useRef(null);
 
+  // this is needed to keep track of when the user scrolls horizontally to adjust absolute position of bubbles if the scrollview is wider than 100% width
+  const onHorizontalScroll = ({ contentOffset }) => {
+    setContentOffsetX(contentOffset.x);
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{
-        flexGrow: 1,
         paddingBottom: 140,
         paddingTop: 80,
       }}
       style={{
-        width: '100%',
-        height: '100%',
         zIndex: -1,
         ...style,
       }}
@@ -157,15 +162,15 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
         {searchId !== 0 ? (
           <ScrollView
             contentContainerStyle={{
-              flexGrow: 1,
-              width: '100%',
+              minWidth: '100%',
               minHeight: '100%',
             }}
             style={{
-              width: '100%',
               minHeight: '100%',
               zIndex: -1,
             }}
+            onScroll={({ nativeEvent }) => onHorizontalScroll(nativeEvent)}
+            scrollEventThrottle={16}
             //the nested ScrollView with 'horizontal' prop allows for scrolling horizontally, while the parent ScrollView allows vertical
             horizontal
           >
@@ -175,7 +180,10 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                   <Flexbox padding={20}>
                     <VisualTreeBubble
                       member={uplineMember}
-                      draggable={uplineMember?.legacyAssociateId !== legacyId}
+                      draggable={
+                        uplineMember?.legacyAssociateId !==
+                        user?.uplineTreeNode?.associate?.legacyAssociateId
+                      }
                       onDragStart={() => onDragStart(uplineMember)}
                       onDragEnd={onDragEnd}
                       onDragDrop={onDragDrop}
@@ -185,6 +193,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                         idOfDraggedItem === uplineMember?.legacyAssociateId
                       }
                       level={levelOfFocusedMember - 1}
+                      contentOffsetX={contentOffsetX}
                     />
                   </Flexbox>
                 )}
@@ -219,6 +228,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                         idOfDraggedItem === focusedMember?.legacyAssociateId
                       }
                       level={levelOfFocusedMember}
+                      contentOffsetX={contentOffsetX}
                     />
                   )}
                 </ReceivingCircle>
@@ -230,6 +240,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                   setTopCirlceBorderColor={setReceiveCirlceBorderColor}
                   setIdOfDraggedItemForParent={setIdOfDraggedItem}
                   closeMenus={closeMenus}
+                  contentOffsetX={contentOffsetX}
                 />
               </VisualTreeContainer>
             </TouchableWithoutFeedback>

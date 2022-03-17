@@ -22,6 +22,7 @@ const VisualTreePaneSection = ({
   setTopCirlceBorderColor = () => {},
   setIdOfDraggedItemForParent = () => {},
   closeMenus,
+  contentOffsetX,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -35,6 +36,8 @@ const VisualTreePaneSection = ({
     isBottomBubbleEnteringOuterCirlce,
     setIsBottomBubbleEnteringOuterCirlce,
   ] = useState(false);
+  // reloadSameData flag is when a bubble is dragged back up to the bigger outer circle and then immediately back down to the smaller receiving circle (because the data doesn't reset in this case)
+  const [reloadSameData, setReloadSameData] = useState(false);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
@@ -42,14 +45,15 @@ const VisualTreePaneSection = ({
   });
 
   useEffect(() => {
-    if (data) {
+    if (data || reloadSameData) {
       const filteredData = findMembersInDownlineOneLevel(
         data?.treeNodeFor?.childTreeNodes,
         'AMBASSADOR',
       );
       setTreeData(filteredData);
+      setReloadSameData(false);
     }
-  }, [data]);
+  }, [data, reloadSameData]);
 
   useEffect(() => {
     setTreeData(null);
@@ -161,7 +165,10 @@ const VisualTreePaneSection = ({
                 cv: item?.cv,
                 qov: item?.qoV,
               }}
-              draggable={true}
+              draggable={
+                item?.associate?.legacyAssociateId !==
+                droppedMember?.legacyAssociateId
+              }
               onDragStart={() => onDragStart(item?.associate)}
               onDragEnd={onDragEnd}
               onDragDrop={onDragDrop}
@@ -182,6 +189,7 @@ const VisualTreePaneSection = ({
                 item?.associate?.legacyAssociateId
               }
               level={level}
+              contentOffsetX={contentOffsetX}
               style={{
                 top:
                   radius -
@@ -209,7 +217,10 @@ const VisualTreePaneSection = ({
               cv: insideItem?.cv,
               qov: insideItem?.qoV,
             }}
-            draggable={true}
+            draggable={
+              insideItem?.associate?.legacyAssociateId !==
+              droppedMember?.legacyAssociateId
+            }
             onDragStart={() => onDragStart(insideItem?.associate)}
             onDragEnd={onDragEnd}
             onDragDrop={onDragDrop}
@@ -230,6 +241,7 @@ const VisualTreePaneSection = ({
               insideItem?.associate?.legacyAssociateId
             }
             level={level}
+            contentOffsetX={contentOffsetX}
             style={{
               position: 'absolute',
               top: radius - 0,
@@ -268,6 +280,7 @@ const VisualTreePaneSection = ({
             getUser({
               variables: { legacyAssociateId: payload?.legacyAssociateId },
             });
+            setReloadSameData(true);
             setDroppedMember(payload);
           }
         }}
@@ -285,6 +298,7 @@ const VisualTreePaneSection = ({
               idOfDraggedItem === droppedMember?.legacyAssociateId
             }
             level={level}
+            contentOffsetX={contentOffsetX}
           />
         )}
       </ReceivingCircle>
@@ -296,6 +310,7 @@ const VisualTreePaneSection = ({
               parentData={treeData}
               borderColor={outerCircleReceiveBorderColor}
               closeMenus={closeMenus}
+              contentOffsetX={contentOffsetX}
             />
           ) : (
             <OuterCircle
@@ -334,6 +349,7 @@ VisualTreePaneSection.propTypes = {
   setTopCirlceBorderColor: PropTypes.func,
   setIdOfDraggedItemForParent: PropTypes.func,
   closeMenus: PropTypes.func.isRequired,
+  contentOffsetX: PropTypes.number.isRequired,
 };
 
 export default VisualTreePaneSection;

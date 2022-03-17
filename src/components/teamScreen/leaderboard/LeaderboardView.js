@@ -17,7 +17,7 @@ import { searchResults } from '../myTeam/mockSearchResults';
 import StandingsCard from './StandingsCard';
 import { maxWidth } from '../../../styles/constants';
 
-const LeaderbaordView = ({ closeMenus, ...props }) => {
+const LeaderboardView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
@@ -53,7 +53,7 @@ const LeaderbaordView = ({ closeMenus, ...props }) => {
   );
 
   return (
-    <TouchableWithoutFeedback {...props} onPress={() => closeAllMenus()}>
+    <TouchableWithoutFeedback onPress={() => closeAllMenus()}>
       <Flexbox
         align="flex-start"
         justify="flex-start"
@@ -61,6 +61,7 @@ const LeaderbaordView = ({ closeMenus, ...props }) => {
         height="100%"
         padding={4}
         style={{ zIndex: -1, maxWidth }}
+        {...props}
       >
         <LeaderboardTabs
           selectedTab={selectedTab}
@@ -108,8 +109,8 @@ const LeaderbaordView = ({ closeMenus, ...props }) => {
   );
 };
 
-LeaderbaordView.propTypes = {
+LeaderboardView.propTypes = {
   closeMenus: PropTypes.func.isRequired,
 };
 
-export default LeaderbaordView;
+export default LeaderboardView;

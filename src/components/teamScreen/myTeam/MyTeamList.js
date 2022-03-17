@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import { Flexbox, H5, LoadingSpinner } from '../../common';
 import MyDownlineCard from './myDownlineCard/MyDownlineCard';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
+import TeamScreenContext from '../../../contexts/TeamScreenContext';
 import { GET_USER } from '../../../graphql/queries';
 import { Localized } from '../../../translations/Localized';
 import {
@@ -12,15 +13,10 @@ import {
 } from '../../../utils/teamView/filterDownline';
 
 const MyTeamList = () => {
-  const {
-    closeAllMenus,
-    sortBy,
-    levelInTree,
-    legacyAssociateId,
-    setMyTeamViewHeader,
-    setCurrentMembersUplineId,
-    selectedMemberId,
-  } = useContext(MyTeamViewContext);
+  const { closeAllMenus, setMyTeamViewHeader, setCurrentMembersUplineId } =
+    useContext(MyTeamViewContext);
+  const { sortBy, levelInTree, legacyAssociateId, selectedMemberId } =
+    useContext(TeamScreenContext);
 
   const [data, setData] = useState(null);
   const [isError, setIsError] = useState(false);

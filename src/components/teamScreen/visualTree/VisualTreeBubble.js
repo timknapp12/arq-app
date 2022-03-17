@@ -30,6 +30,7 @@ const VisualTreeBubble = ({
   highlight,
   isDroppedItem,
   level,
+  contentOffsetX,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -48,6 +49,8 @@ const VisualTreeBubble = ({
   );
 
   const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
+  const verticalOffset = -107;
+  const baseHorizontalOffset = -57;
 
   return (
     <TouchableOpacity {...props} activeOpacity={1}>
@@ -62,7 +65,15 @@ const VisualTreeBubble = ({
         highlight={highlight}
         isDroppedItem={isDroppedItem}
         renderHoverContent={() => (
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              top: verticalOffset,
+              left: baseHorizontalOffset - (contentOffsetX ?? 0),
+            }}
+          >
             <VisualTreeBubbleStatBar member={member} />
             <VisualTreeBubble
               member={member}
@@ -75,8 +86,8 @@ const VisualTreeBubble = ({
               highlight
               isDroppedItem={isDroppedItem}
               level={level}
+              contentOffsetX={contentOffsetX}
             />
-            <View style={{ height: 110 }} />
           </View>
         )}
       >
@@ -101,7 +112,7 @@ const VisualTreeBubble = ({
               </H6Secondary>
             </View>
             <LevelIndicator color={color}>
-              {level ? (
+              {level && level > 0 ? (
                 <LevelLabel
                   style={{
                     fontSize: 16,
@@ -132,7 +143,8 @@ VisualTreeBubble.propTypes = {
   position: PropTypes.string,
   highlight: PropTypes.bool,
   isDroppedItem: PropTypes.bool,
-  level: PropTypes.number.isRequired,
+  level: PropTypes.number,
+  contentOffsetX: PropTypes.number.isRequired,
 };
 
 export default VisualTreeBubble;
