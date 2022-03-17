@@ -17,6 +17,7 @@ const VisibilityTreeView = ({
   paneOneSearchLevel,
   paneTwoSearchLevel,
   paneThreeSearchLevel,
+  ...props
 }) => {
   const [selectedPane, setSelectedPane] = useState(1);
 
@@ -27,6 +28,7 @@ const VisibilityTreeView = ({
       height="100%"
       padding={4}
       style={{ zIndex: -1, maxWidth: 425 }}
+      {...props}
     >
       <VisualTreeSearchBar
         selectedPane={selectedPane}

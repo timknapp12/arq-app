@@ -25,7 +25,7 @@ import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
-import LeaderbaordView from './leaderboard/LeaderbaordView';
+import LeaderboardView from './leaderboard/LeaderboardView';
 import VisualTreeView from './visualTree/VisualTreeView';
 
 const TeamScreen = ({ navigation, route }) => {
@@ -192,12 +192,16 @@ const TeamScreen = ({ navigation, route }) => {
             zIndex: -1,
           }}
         >
-          {view.name === Localized('At A Glance').toUpperCase() && (
-            <AtAGlanceView
-              onStartShouldSetResponder={() => true}
-              closeMenus={closeMenus}
-            />
-          )}
+          <AtAGlanceView
+            style={{
+              display:
+                view.name === Localized('At A Glance').toUpperCase()
+                  ? 'flex'
+                  : 'none',
+            }}
+            onStartShouldSetResponder={() => true}
+            closeMenus={closeMenus}
+          />
         </ScrollView>
         {view.name === Localized('My Team').toUpperCase() && (
           <MyTeamView
@@ -211,20 +215,31 @@ const TeamScreen = ({ navigation, route }) => {
             setLevelInTree={setLevelInTree}
           />
         )}
-        {view.name === Localized('Leaderboard').toUpperCase() && (
-          <LeaderbaordView closeMenus={closeMenus} />
-        )}
-        {view.name === Localized('Visual Tree').toUpperCase() && (
-          <VisualTreeView
-            closeMenus={closeMenus}
-            paneOneSearchId={route?.params?.paneOneSearchId ?? 0}
-            paneTwoSearchId={route?.params?.paneTwoSearchId ?? 0}
-            paneThreeSearchId={route?.params?.paneThreeSearchId ?? 0}
-            paneOneSearchLevel={route?.params?.paneOneSearchLevel ?? 0}
-            paneTwoSearchLevel={route?.params?.paneTwoSearchLevel ?? 0}
-            paneThreeSearchLevel={route?.params?.paneThreeSearchLevel ?? 0}
-          />
-        )}
+        <LeaderboardView
+          style={{
+            display:
+              view.name === Localized('Leaderboard').toUpperCase()
+                ? 'flex'
+                : 'none',
+          }}
+          closeMenus={closeMenus}
+        />
+
+        <VisualTreeView
+          style={{
+            display:
+              view.name === Localized('Visual Tree').toUpperCase()
+                ? 'flex'
+                : 'none',
+          }}
+          closeMenus={closeMenus}
+          paneOneSearchId={route?.params?.paneOneSearchId ?? legacyId}
+          paneTwoSearchId={route?.params?.paneTwoSearchId ?? 0}
+          paneThreeSearchId={route?.params?.paneThreeSearchId ?? 0}
+          paneOneSearchLevel={route?.params?.paneOneSearchLevel ?? 0}
+          paneTwoSearchLevel={route?.params?.paneTwoSearchLevel ?? 0}
+          paneThreeSearchLevel={route?.params?.paneThreeSearchLevel ?? 0}
+        />
         {isMyInfoModalOpen && (
           <MyInfoModal
             isMyInfoModalOpen={isMyInfoModalOpen}
