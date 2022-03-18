@@ -22,7 +22,8 @@ const VisualTreePaneSection = ({
   setTopCirlceBorderColor = () => {},
   setIdOfDraggedItemForParent = () => {},
   closeMenus,
-  contentOffsetX,
+  horizontalOffset,
+  verticalOffset,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -189,7 +190,8 @@ const VisualTreePaneSection = ({
                 item?.associate?.legacyAssociateId
               }
               level={level}
-              contentOffsetX={contentOffsetX}
+              horizontalOffset={horizontalOffset}
+              verticalOffset={verticalOffset}
               style={{
                 top:
                   radius -
@@ -241,7 +243,8 @@ const VisualTreePaneSection = ({
               insideItem?.associate?.legacyAssociateId
             }
             level={level}
-            contentOffsetX={contentOffsetX}
+            horizontalOffset={horizontalOffset}
+            verticalOffset={verticalOffset}
             style={{
               position: 'absolute',
               top: radius - 0,
@@ -298,7 +301,8 @@ const VisualTreePaneSection = ({
               idOfDraggedItem === droppedMember?.legacyAssociateId
             }
             level={level}
-            contentOffsetX={contentOffsetX}
+            horizontalOffset={horizontalOffset}
+            verticalOffset={verticalOffset}
           />
         )}
       </ReceivingCircle>
@@ -310,7 +314,8 @@ const VisualTreePaneSection = ({
               parentData={treeData}
               borderColor={outerCircleReceiveBorderColor}
               closeMenus={closeMenus}
-              contentOffsetX={contentOffsetX}
+              horizontalOffset={horizontalOffset}
+              verticalOffset={verticalOffset}
             />
           ) : (
             <OuterCircle
@@ -349,7 +354,8 @@ VisualTreePaneSection.propTypes = {
   setTopCirlceBorderColor: PropTypes.func,
   setIdOfDraggedItemForParent: PropTypes.func,
   closeMenus: PropTypes.func.isRequired,
-  contentOffsetX: PropTypes.number.isRequired,
+  horizontalOffset: PropTypes.number.isRequired,
+  verticalOffset: PropTypes.number.isRequired,
 };
 
 export default VisualTreePaneSection;
