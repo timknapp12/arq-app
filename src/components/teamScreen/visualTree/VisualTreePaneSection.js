@@ -23,7 +23,6 @@ const VisualTreePaneSection = ({
   setIdOfDraggedItemForParent = () => {},
   closeMenus,
   horizontalOffset,
-  verticalOffset,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -191,7 +190,6 @@ const VisualTreePaneSection = ({
               }
               level={level}
               horizontalOffset={horizontalOffset}
-              verticalOffset={verticalOffset}
               style={{
                 top:
                   radius -
@@ -244,7 +242,6 @@ const VisualTreePaneSection = ({
             }
             level={level}
             horizontalOffset={horizontalOffset}
-            verticalOffset={verticalOffset}
             style={{
               position: 'absolute',
               top: radius - 0,
@@ -302,7 +299,6 @@ const VisualTreePaneSection = ({
             }
             level={level}
             horizontalOffset={horizontalOffset}
-            verticalOffset={verticalOffset}
           />
         )}
       </ReceivingCircle>
@@ -315,7 +311,6 @@ const VisualTreePaneSection = ({
               borderColor={outerCircleReceiveBorderColor}
               closeMenus={closeMenus}
               horizontalOffset={horizontalOffset}
-              verticalOffset={verticalOffset}
             />
           ) : (
             <OuterCircle
@@ -355,7 +350,6 @@ VisualTreePaneSection.propTypes = {
   setIdOfDraggedItemForParent: PropTypes.func,
   closeMenus: PropTypes.func.isRequired,
   horizontalOffset: PropTypes.number.isRequired,
-  verticalOffset: PropTypes.number.isRequired,
 };
 
 export default VisualTreePaneSection;

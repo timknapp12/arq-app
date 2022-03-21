@@ -31,7 +31,6 @@ const VisualTreeBubble = ({
   isDroppedItem,
   level,
   horizontalOffset,
-  verticalOffset,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -71,7 +70,7 @@ const VisualTreeBubble = ({
               justifyContent: 'center',
               alignItems: 'center',
               position: 'absolute',
-              top: baseVerticalOffset - (verticalOffset ?? 0),
+              top: baseVerticalOffset,
               left: baseHorizontalOffset - (horizontalOffset ?? 0),
             }}
           >
@@ -88,7 +87,6 @@ const VisualTreeBubble = ({
               isDroppedItem={isDroppedItem}
               level={level}
               horizontalOffset={horizontalOffset}
-              verticalOffset={verticalOffset}
             />
           </View>
         )}
@@ -147,7 +145,6 @@ VisualTreeBubble.propTypes = {
   isDroppedItem: PropTypes.bool,
   level: PropTypes.number,
   horizontalOffset: PropTypes.number.isRequired,
-  verticalOffset: PropTypes.number.isRequired,
 };
 
 export default VisualTreeBubble;
