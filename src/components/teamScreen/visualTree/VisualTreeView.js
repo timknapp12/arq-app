@@ -38,12 +38,14 @@ const VisualTreeView = ({ ...props }) => {
         searchId={paneOneSearchId}
         level={paneOneSearchLevel}
         closeMenus={closeMenus}
+        pane={1}
       />
       <VisualTreePane
         style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
         searchId={paneTwoSearchId}
         level={paneTwoSearchLevel}
         closeMenus={closeMenus}
+        pane={2}
       />
       <VisualTreePane
         style={{
@@ -52,6 +54,7 @@ const VisualTreeView = ({ ...props }) => {
         searchId={paneThreeSearchId}
         level={paneThreeSearchLevel}
         closeMenus={closeMenus}
+        pane={3}
       />
     </Flexbox>
   );

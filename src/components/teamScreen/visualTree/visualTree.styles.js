@@ -28,6 +28,8 @@ export const ReceivingCircle = styled(DraxView)`
   border-width: 3px;
   border-color: ${(props) => props.borderColor};
   position: relative;
+  justify-content: center;
+  align-items: center;
 `;
 
 const bubbleStyle = {

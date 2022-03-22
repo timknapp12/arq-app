@@ -104,10 +104,10 @@ const VisualTreeBubble = ({
               }}
             >
               <RankIcons member={member} />
-              <H6Secondary style={{ fontSize: 12 }}>
+              <H6Secondary style={{ fontSize: 12, textAlign: 'center' }}>
                 {member?.firstName}
               </H6Secondary>
-              <H6Secondary style={{ fontSize: 12 }}>
+              <H6Secondary style={{ fontSize: 12, textAlign: 'center' }}>
                 {member?.lastName}
               </H6Secondary>
             </View>
