@@ -40,6 +40,13 @@ const TeamScreen = ({ navigation, route }) => {
   const [levelInTree, setLevelInTree] = useState(0);
   const [selectedVisualTreePane, setSelectedVisualTreePane] = useState(1);
 
+  const [paneOneSearchId, setPaneOneSearchId] = useState(legacyId);
+  const [paneTwoSearchId, setPaneTwoSearchId] = useState(0);
+  const [paneThreeSearchId, setPaneThreeSearchId] = useState(0);
+  const [paneOneSearchLevel, setPaneOneSearchLevel] = useState(0);
+  const [paneTwoSearchLevel, setPaneTwoSearchLevel] = useState(0);
+  const [paneThreeSearchLevel, setPaneThreeSearchLevel] = useState(0);
+
   useEffect(() => {
     if (route?.params?.searchId) {
       setLegacyAssociateId(route?.params?.searchId);
@@ -83,14 +90,14 @@ const TeamScreen = ({ navigation, route }) => {
       testID: 'At_A_Glance_button',
     },
     { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' },
-    // {
-    //   name: Localized('Leaderboard').toUpperCase(),
-    //   testID: 'Leaderboard_button',
-    // },
     {
       name: Localized('Visual Tree').toUpperCase(),
       testID: 'visual_tree_button',
     },
+    // {
+    //   name: Localized('Leaderboard').toUpperCase(),
+    //   testID: 'Leaderboard_button',
+    // },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -139,37 +146,32 @@ const TeamScreen = ({ navigation, route }) => {
     }
   };
 
+  const paneSearchIdMap = {
+    1: setPaneOneSearchId,
+    2: setPaneTwoSearchId,
+    3: setPaneThreeSearchId,
+  };
+
+  const paneLevelMap = {
+    1: setPaneOneSearchLevel,
+    2: setPaneTwoSearchLevel,
+    3: setPaneThreeSearchLevel,
+  };
+
   const viewInVisualTree = (item) => {
-    navigation.navigate('Team Screen', {
-      paneOneSearchId:
-        selectedVisualTreePane === 1
-          ? item?.associate?.legacyAssociateId
-          : route?.params?.paneOneSearchId ?? legacyId,
-      paneTwoSearchId:
-        selectedVisualTreePane === 2
-          ? item?.associate?.legacyAssociateId
-          : route?.params?.paneTwoSearchId ?? 0,
-      paneThreeSearchId:
-        selectedVisualTreePane === 3
-          ? item?.associate?.legacyAssociateId
-          : route?.params?.paneThreeSearchId ?? 0,
-      paneOneSearchLevel:
-        selectedVisualTreePane === 1
-          ? item?.depth - 1
-          : route?.params?.paneOneSearchLevel ?? 0,
-      paneTwoSearchLevel:
-        selectedVisualTreePane === 2
-          ? item?.depth - 1
-          : route?.params?.paneTwoSearchLevel ?? 0,
-      paneThreeSearchLevel:
-        selectedVisualTreePane === 3
-          ? item?.depth - 1
-          : route?.params?.paneThreeSearchLevel ?? 0,
-    });
+    paneSearchIdMap[selectedVisualTreePane](item?.associate?.legacyAssociateId);
+    paneLevelMap[selectedVisualTreePane](item?.depth - 1);
+    navigation.navigate('Team Screen');
     setView({
       name: Localized('Visual Tree').toUpperCase(),
       testID: 'visual_tree_button',
     });
+  };
+
+  const viewInNewPane = (newPaneNumber, legacyAssociateId, level) => {
+    paneSearchIdMap[newPaneNumber](legacyAssociateId);
+    paneLevelMap[newPaneNumber](level);
+    setSelectedVisualTreePane(newPaneNumber);
   };
 
   return (
@@ -185,13 +187,14 @@ const TeamScreen = ({ navigation, route }) => {
         setLevelInTree,
         selectedVisualTreePane,
         setSelectedVisualTreePane,
-        paneOneSearchId: route?.params?.paneOneSearchId ?? legacyId,
-        paneTwoSearchId: route?.params?.paneTwoSearchId ?? 0,
-        paneThreeSearchId: route?.params?.paneThreeSearchId ?? 0,
-        paneOneSearchLevel: route?.params?.paneOneSearchLevel ?? 0,
-        paneTwoSearchLevel: route?.params?.paneTwoSearchLevel ?? 0,
-        paneThreeSearchLevel: route?.params?.paneThreeSearchLevel ?? 0,
+        paneOneSearchId,
+        paneTwoSearchId,
+        paneThreeSearchId,
+        paneOneSearchLevel,
+        paneTwoSearchLevel,
+        paneThreeSearchLevel,
         viewInVisualTree,
+        viewInNewPane,
       }}
     >
       <TouchableWithoutFeedback
