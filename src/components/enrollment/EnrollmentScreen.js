@@ -8,6 +8,7 @@ import {
   SecondaryButton,
   RadioButton,
   Flexbox,
+  H5Secondary,
 } from '../common';
 import EnrollmentScreenCard from './EnrollmentScreenCard';
 import { Localized } from '../../translations/Localized';
@@ -45,8 +46,12 @@ const EnrollmentScreen = ({ route }) => {
       <ScrollView
         contentContainerStyle={{
           paddingTop: 20,
+          paddingBottom: 20,
         }}
       >
+        <H5Secondary style={{ textAlign: 'center' }}>
+          {Localized('This feature is currently only supported in the USA')}
+        </H5Secondary>
         <Flexbox>
           <Flexbox align="flex-start">
             <RadioButton

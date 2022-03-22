@@ -19,7 +19,7 @@ import { SEARCH_RESOURCES } from '../../../graphql/queries';
 const CorporateSearchScreen = ({ route, navigation }) => {
   const { deviceLanguage, theme } = useContext(AppContext);
   const { marketId } = route.params;
-  console.log(`deviceLanguage`, deviceLanguage);
+
   const [value, setValue] = useState('');
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
