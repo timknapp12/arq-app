@@ -23,8 +23,6 @@ const VisualTreePaneSection = ({
   setIdOfDraggedItemForParent = () => {},
   closeMenus,
   horizontalOffset,
-  pane,
-  setPaneReceiveCircleBorderColor,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -81,7 +79,6 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setIdOfDraggedItemForParent(item?.legacyAssociateId);
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
-    setPaneReceiveCircleBorderColor(theme.primaryButtonBackgroundColor);
     closeMenus();
   };
 
@@ -89,32 +86,27 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(null);
     setIdOfDraggedItemForParent(null);
     setTopCirlceBorderColor(theme.disabledTextColor);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
   };
 
   const onDragDrop = () => {
     setIdOfDraggedItem(null);
     setIdOfDraggedItemForParent(null);
     setTopCirlceBorderColor(theme.disabledTextColor);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
   };
 
   const onDragStartFromBottom = (item) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
-    setPaneReceiveCircleBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
     closeMenus();
   };
 
   const onDragEndFromBottom = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
 
   const onDragDropFromBottom = () => {
     setOuterCircleReceiveBorderColor(theme.disabledTextColor);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
 
@@ -319,8 +311,6 @@ const VisualTreePaneSection = ({
               borderColor={outerCircleReceiveBorderColor}
               closeMenus={closeMenus}
               horizontalOffset={horizontalOffset}
-              pane={pane}
-              setPaneReceiveCircleBorderColor={setPaneReceiveCircleBorderColor}
             />
           ) : (
             <OuterCircle
@@ -360,8 +350,6 @@ VisualTreePaneSection.propTypes = {
   setIdOfDraggedItemForParent: PropTypes.func,
   closeMenus: PropTypes.func.isRequired,
   horizontalOffset: PropTypes.number.isRequired,
-  pane: PropTypes.number.isRequired,
-  setPaneReceiveCircleBorderColor: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;

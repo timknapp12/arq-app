@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, TouchableWithoutFeedback, View } from 'react-native';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
-import { Flexbox, LoadingSpinner, H5, H6 } from '../../common';
+import { Flexbox, LoadingSpinner, H5 } from '../../common';
 import { DraxProvider } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
@@ -14,17 +14,13 @@ import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDow
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
 
-const bubbleDiameter = 96;
-
-const VisualTreePane = ({ searchId, level, closeMenus, style, pane }) => {
+const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const { theme } = useContext(AppContext);
   const { user } = useContext(LoginContext);
 
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
   );
-  const [paneReceiveCircleBorderColor, setPaneReceiveCircleBorderColor] =
-    useState(theme.disabledTextColor);
 
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
 
@@ -89,37 +85,31 @@ const VisualTreePane = ({ searchId, level, closeMenus, style, pane }) => {
 
   const onDragStart = (item) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
-    setPaneReceiveCircleBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
     closeMenus();
   };
 
   const onDragEnd = () => {
     setReceiveCirlceBorderColor(theme.disabledTextColor);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
 
   const onDragDrop = () => {
     setReceiveCirlceBorderColor(theme.disabledTextColor);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
     setIdOfDraggedItem(null);
   };
 
   const onDragStartFocused = (item) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
-    setPaneReceiveCircleBorderColor(theme.primaryButtonBackgroundColor);
     closeMenus();
   };
 
   const onDragEndFocused = () => {
     setIdOfDraggedItem(null);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
   };
 
   const onDragDropFocused = () => {
     setIdOfDraggedItem(null);
-    setPaneReceiveCircleBorderColor(theme.disabledTextColor);
   };
 
   if (loading) {
@@ -207,90 +197,41 @@ const VisualTreePane = ({ searchId, level, closeMenus, style, pane }) => {
                     />
                   </Flexbox>
                 )}
-                <Flexbox direction="row" width="360px">
-                  {pane !== 1 ? (
-                    <ReceivingCircle
-                      borderColor={paneReceiveCircleBorderColor}
-                      receivingStyle={{
-                        backgroundColor: theme.dropZoneBackgroundColor,
-                      }}
-                      // onReceiveDragEnter={() => {
-                      //   isAValidDropToTopCirlce &&
-                      //     setIsOutsideBubbleEntering(true);
-                      // }}
-                      // onReceiveDragExit={() => {
-                      //   setIsOutsideBubbleEntering(false);
-                      // }}
-                      // onReceiveDragDrop={({ dragged: { payload } }) =>
-                      //   onReceiveDragDrop(payload)
-                      // }
-                    >
-                      <H6>{Localized(pane === 2 ? 'View One' : 'View Two')}</H6>
-                    </ReceivingCircle>
-                  ) : (
-                    <View style={{ width: bubbleDiameter }} />
-                  )}
-                  <ReceivingCircle
-                    borderColor={receiveCirlceBorderColor}
-                    receivingStyle={
-                      isAValidDropToTopCirlce && {
-                        backgroundColor: theme.dropZoneBackgroundColor,
+                <ReceivingCircle
+                  borderColor={receiveCirlceBorderColor}
+                  receivingStyle={
+                    isAValidDropToTopCirlce && {
+                      backgroundColor: theme.dropZoneBackgroundColor,
+                    }
+                  }
+                  onReceiveDragEnter={() => {
+                    isAValidDropToTopCirlce && setIsOutsideBubbleEntering(true);
+                  }}
+                  onReceiveDragExit={() => {
+                    setIsOutsideBubbleEntering(false);
+                  }}
+                  onReceiveDragDrop={({ dragged: { payload } }) =>
+                    onReceiveDragDrop(payload)
+                  }
+                >
+                  {focusedMember && !isOutsideBubbleEntering && (
+                    <VisualTreeBubble
+                      style={{ position: 'absolute', top: -7, left: 3 }}
+                      member={focusedMember}
+                      draggable={true}
+                      longPressDelay={200}
+                      onDragStart={() => onDragStartFocused(focusedMember)}
+                      onDragEnd={onDragEndFocused}
+                      onDragDrop={onDragDropFocused}
+                      payload={focusedMember}
+                      isBeingDragged={
+                        idOfDraggedItem === focusedMember?.legacyAssociateId
                       }
-                    }
-                    onReceiveDragEnter={() => {
-                      isAValidDropToTopCirlce &&
-                        setIsOutsideBubbleEntering(true);
-                    }}
-                    onReceiveDragExit={() => {
-                      setIsOutsideBubbleEntering(false);
-                    }}
-                    onReceiveDragDrop={({ dragged: { payload } }) =>
-                      onReceiveDragDrop(payload)
-                    }
-                  >
-                    {focusedMember && !isOutsideBubbleEntering && (
-                      <VisualTreeBubble
-                        style={{ position: 'absolute', top: -7, left: 3 }}
-                        member={focusedMember}
-                        draggable={true}
-                        longPressDelay={200}
-                        onDragStart={() => onDragStartFocused(focusedMember)}
-                        onDragEnd={onDragEndFocused}
-                        onDragDrop={onDragDropFocused}
-                        payload={focusedMember}
-                        isBeingDragged={
-                          idOfDraggedItem === focusedMember?.legacyAssociateId
-                        }
-                        level={levelOfFocusedMember}
-                        horizontalOffset={horizontalOffset}
-                      />
-                    )}
-                  </ReceivingCircle>
-                  {pane !== 3 ? (
-                    <ReceivingCircle
-                      borderColor={paneReceiveCircleBorderColor}
-                      receivingStyle={{
-                        backgroundColor: theme.dropZoneBackgroundColor,
-                      }}
-                      // onReceiveDragEnter={() => {
-                      //   isAValidDropToTopCirlce &&
-                      //     setIsOutsideBubbleEntering(true);
-                      // }}
-                      // onReceiveDragExit={() => {
-                      //   setIsOutsideBubbleEntering(false);
-                      // }}
-                      // onReceiveDragDrop={({ dragged: { payload } }) =>
-                      //   onReceiveDragDrop(payload)
-                      // }
-                    >
-                      <H6>
-                        {Localized(pane === 2 ? 'View Three' : 'View Two')}
-                      </H6>
-                    </ReceivingCircle>
-                  ) : (
-                    <View style={{ width: bubbleDiameter }} />
+                      level={levelOfFocusedMember}
+                      horizontalOffset={horizontalOffset}
+                    />
                   )}
-                </Flexbox>
+                </ReceivingCircle>
 
                 <VisualTreePaneSection
                   level={levelOfFocusedMember + 1}
@@ -300,10 +241,6 @@ const VisualTreePane = ({ searchId, level, closeMenus, style, pane }) => {
                   setIdOfDraggedItemForParent={setIdOfDraggedItem}
                   closeMenus={closeMenus}
                   horizontalOffset={horizontalOffset}
-                  pane={pane}
-                  setPaneReceiveCircleBorderColor={
-                    setPaneReceiveCircleBorderColor
-                  }
                 />
               </VisualTreeContainer>
             </TouchableWithoutFeedback>
@@ -323,7 +260,6 @@ VisualTreePane.propTypes = {
   level: PropTypes.number,
   closeMenus: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
-  pane: PropTypes.number.isRequired,
 };
 
 export default VisualTreePane;
