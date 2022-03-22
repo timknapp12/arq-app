@@ -28,13 +28,17 @@ const Dot = styled.View`
 
 const CVRank = ({ ranklist, user, closeMenus }) => {
   const { theme } = useContext(AppContext);
-  const { cv, previousAmbassadorMonthlyRecord, teamAutoshipVolume } = user;
+  const {
+    cv,
+    previousAmbassadorMonthlyRecord,
+    // teamAutoshipVolume
+  } = user;
 
   const lastMonthCV =
     previousAmbassadorMonthlyRecord?.preferredCustomerVolume +
     previousAmbassadorMonthlyRecord?.retailCustomerVolume;
 
-  const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
+  // const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
 
   const initialRankName = user?.customerSalesRank?.rankName;
   const [rankName, setRankName] = useState(initialRankName);
@@ -72,7 +76,7 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
 
   const lastMonthCVPerc = reshapePerc(lastMonthCV, rank.minimumQoV);
 
-  const autoshipPerc = reshapePerc(teamAutoshipVolume, lastMonthAutoship);
+  // const autoshipPerc = reshapePerc(teamAutoshipVolume, lastMonthAutoship);
 
   return (
     <>
@@ -124,7 +128,7 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
         </LegendContainer>
       </Flexbox>
 
-      <Flexbox
+      {/* <Flexbox
         style={{ paddingTop: 12 }}
         accessibilityLabel="CV Rank autoship cv"
         width="auto"
@@ -150,7 +154,7 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
             <H5>{stringify(lastMonthAutoship)}</H5>
           </Legend>
         </LegendContainer>
-      </Flexbox>
+      </Flexbox> */}
     </>
   );
 };
