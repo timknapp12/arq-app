@@ -72,7 +72,7 @@ const PopoutMenu = ({
         </Touchable>
       </TouchableContainer>
 
-      {userMarket?.countryId === 88 && (
+      {userMarket?.countryCode === 'us' && (
         <TouchableContainer>
           <Touchable
             onPress={() =>
