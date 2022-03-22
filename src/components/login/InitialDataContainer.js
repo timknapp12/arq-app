@@ -276,7 +276,6 @@ const InitialDataContainer = ({ children }) => {
         userProfile: profileData?.associates?.[0],
         updateProfile,
         refetchProfile,
-        marketId,
         setMarketId,
         loadingNews,
         news,
