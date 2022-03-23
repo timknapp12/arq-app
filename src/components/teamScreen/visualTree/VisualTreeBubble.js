@@ -8,6 +8,7 @@ import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownl
 import { LevelIndicator, Bubble } from './visualTree.styles';
 import RankIcons from './RankIcons';
 import VisualTreeBubbleStatBar from './VisualTreeBubbleStatBar';
+import capitalizeFirstLetterOfEachWord from '../../../utils/capitalizeFirstLetterOfEachWord/capitalizeFirstLetterOfEachWord';
 
 const bubbleDiameter = 96;
 
@@ -104,11 +105,11 @@ const VisualTreeBubble = ({
               }}
             >
               <RankIcons member={member} />
-              <H6Secondary style={{ fontSize: 12 }}>
-                {member?.firstName}
+              <H6Secondary style={{ fontSize: 12, textAlign: 'center' }}>
+                {capitalizeFirstLetterOfEachWord(member?.firstName)}
               </H6Secondary>
-              <H6Secondary style={{ fontSize: 12 }}>
-                {member?.lastName}
+              <H6Secondary style={{ fontSize: 12, textAlign: 'center' }}>
+                {capitalizeFirstLetterOfEachWord(member?.lastName)}
               </H6Secondary>
             </View>
             <LevelIndicator color={color}>
