@@ -51,18 +51,11 @@ export const CardContainer = styled.TouchableOpacity`
   width: 100%;
 `;
 
-// the commented out lines still exist in case we decide to have collapsable and expandable cards like we do with other cards in the app
 export const OuterContainer = styled.View`
   width: 100%;
   background-color: ${(props) => props.theme.cardBackgroundColor};
   border-radius: 5px;
   margin-bottom: 2px;
-  /* border-left-color: ${(props) => props.theme.highlight};
-  border-left-width: ${(props) => (props.isStillNew ? '6px' : '0px')};
-  padding: 4px 8px 4px 8px;
-  padding-left: ${(props) => (props.isStillNew ? '10px' : '16px')}; */
-  /* height: ${(props) => (props.isExpanded ? '130px' : '60px')};
-  overflow: hidden; */
 `;
 
 export const Row = styled.View`

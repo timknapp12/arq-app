@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import {
@@ -6,7 +6,6 @@ import {
   Animated,
   Dimensions,
   ScrollView,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import { Directions, State } from 'react-native-gesture-handler';
 import { Flexbox, H5Black } from '../common';
@@ -35,9 +34,6 @@ const NotificationsColumn = () => {
   } = useContext(LoginContext);
 
   const fadeAnim = useRef(new Animated.Value(-(windowHeight + 200))).current;
-
-  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
-  const [isTouchDisabled, setIsTouchDisabled] = useState(false);
 
   const areTherePinnedNotifications = checkForPinnedNotifications(
     prospectNotifications,
@@ -88,87 +84,69 @@ const NotificationsColumn = () => {
   const AnimatedContainer = Animated.createAnimatedComponent(ColumnContainer);
 
   return (
-    <TouchableWithoutFeedback onPress={() => setIsCalloutOpenFromParent(false)}>
-      <AnimatedContainer style={{ top: fadeAnim }}>
-        {loadingProspectNotifications ? (
-          <Flexbox>
-            <H5Black>{Localized('Loading Notifications')}</H5Black>
-            <ActivityIndicator />
-          </Flexbox>
-        ) : (
-          <>
-            <ScrollView
-              style={{ width: '100%', maxHeight: windowHeight - 300 }}
+    <AnimatedContainer style={{ top: fadeAnim }}>
+      {loadingProspectNotifications ? (
+        <Flexbox>
+          <H5Black>{Localized('Loading Notifications')}</H5Black>
+          <ActivityIndicator />
+        </Flexbox>
+      ) : (
+        <>
+          <ScrollView style={{ width: '100%', maxHeight: windowHeight - 300 }}>
+            <Flexbox
+              style={{ zIndex: 2 }}
+              onStartShouldSetResponder={() => true}
             >
-              <Flexbox
-                style={{ zIndex: 2 }}
-                onTouchEnd={() => {
-                  // e.stopPropagation();
-                  setIsCalloutOpenFromParent(false);
-                }}
-                onStartShouldSetResponder={() => true}
-              >
-                {prospectNotifications?.map((item, index) => (
-                  <NotificationCard
-                    style={{ zIndex: -index }}
-                    key={item?.viewId}
-                    data={item}
-                    isCalloutOpenFromParent={isCalloutOpenFromParent}
-                    setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
-                    isTouchDisabled={isTouchDisabled}
-                    setIsTouchDisabled={setIsTouchDisabled}
-                  />
-                ))}
-              </Flexbox>
-              {/* <TouchableWithoutFeedback
-            onPress={() => {
-              setIsCalloutOpenFromParent(false);
-            }}>
-            <NotificationBottomPadding onStartShouldSetResponder={() => true} />
-          </TouchableWithoutFeedback> */}
-            </ScrollView>
-            <ClearButtonContainer
-              direction={Directions.UP}
-              onHandlerStateChange={({ nativeEvent }) => {
-                if (nativeEvent.oldState === State.ACTIVE) {
-                  setDisplayNotifications(false);
-                }
-              }}
-            >
-              {prospectNotifications?.length > 0 ? (
-                <>
-                  <CalloutButton
-                    style={{
-                      marginEnd: 10,
-                    }}
-                    onPress={() => {
-                      setTimeout(() => {
-                        setDisplayNotifications(false);
-                      }, 300);
-                    }}
-                  >
-                    <H5Black>{Localized('Close').toUpperCase()}</H5Black>
-                  </CalloutButton>
-                  <CalloutButton onPress={clearAll}>
-                    <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
-                  </CalloutButton>
-                </>
-              ) : (
-                <>
-                  <CalloutButton
-                    style={{ marginStart: 10 }}
-                    activeOpacity={1}
-                    onPress={() => setDisplayNotifications(false)}
-                  >
-                    <H5Black>{Localized('No notifications')}</H5Black>
-                  </CalloutButton>
-                </>
-              )}
-            </ClearButtonContainer>
-          </>
-        )}
-      </AnimatedContainer>
-    </TouchableWithoutFeedback>
+              {prospectNotifications?.map((item, index) => (
+                <NotificationCard
+                  style={{ zIndex: -index }}
+                  key={item?.viewId}
+                  data={item}
+                />
+              ))}
+            </Flexbox>
+          </ScrollView>
+          <ClearButtonContainer
+            direction={Directions.UP}
+            onHandlerStateChange={({ nativeEvent }) => {
+              if (nativeEvent.oldState === State.ACTIVE) {
+                setDisplayNotifications(false);
+              }
+            }}
+          >
+            {prospectNotifications?.length > 0 ? (
+              <>
+                <CalloutButton
+                  style={{
+                    marginEnd: 10,
+                  }}
+                  onPress={() => {
+                    setTimeout(() => {
+                      setDisplayNotifications(false);
+                    }, 300);
+                  }}
+                >
+                  <H5Black>{Localized('Close').toUpperCase()}</H5Black>
+                </CalloutButton>
+                <CalloutButton onPress={clearAll}>
+                  <H5Black>{Localized('Clear All').toUpperCase()}</H5Black>
+                </CalloutButton>
+              </>
+            ) : (
+              <>
+                <CalloutButton
+                  style={{ marginStart: 10 }}
+                  activeOpacity={1}
+                  onPress={() => setDisplayNotifications(false)}
+                >
+                  <H5Black>{Localized('No notifications')}</H5Black>
+                </CalloutButton>
+              </>
+            )}
+          </ClearButtonContainer>
+        </>
+      )}
+    </AnimatedContainer>
   );
 };
 
