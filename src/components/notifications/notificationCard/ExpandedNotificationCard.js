@@ -7,7 +7,7 @@ import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
 import ViewProspectIcon from '../../../../assets/icons/ShowAllIcon.svg';
 import AppContext from '../../../contexts/AppContext';
 import { Localized } from '../../../translations/Localized';
-import capitalizeFirstLetterOfEachWord from '../../../utils/capitalizeFirstLetterOfEachWord/capitalizeFirstLetterOfEachWord';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 import {
   CardContainer,
   OuterContainer,
@@ -38,16 +38,13 @@ const ExpandedNotificationCard = ({
     color: theme.primaryTextColor,
   };
 
-  const properlyCasedName = capitalizeFirstLetterOfEachWord(
-    `${firstName} ${lastName}`,
-  );
   return (
     <CardContainer {...props} activeOpacity={1}>
       <OuterContainer>
         <Row>
           <InnerContainer>
             <TitleAndDateContainer>
-              <H5Black>{properlyCasedName}</H5Black>
+              <H5Black>{properlyCaseName(firstName, lastName)}</H5Black>
               {dateSent ? (
                 <H6Book style={{ marginEnd: 16 }}>{dateSent}</H6Book>
               ) : null}

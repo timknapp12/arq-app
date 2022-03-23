@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { H4Book, H5, H6, LevelLabel, Flexbox } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
-import capitalizeFirstLetterOfEachWord from '../../../utils/capitalizeFirstLetterOfEachWord/capitalizeFirstLetterOfEachWord';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 import {
   ThumbnailImage,
   DefaultThumbnailBackground,
@@ -29,10 +29,6 @@ const DownlineProfileInfo = ({ member, level, showAccentColor = true }) => {
   const [label, color] = filterMemberByStatusAndType(
     member,
     memberTypeColorMap,
-  );
-
-  const properlyCasedName = capitalizeFirstLetterOfEachWord(
-    `${firstName} ${lastName}`,
   );
 
   return (
@@ -65,7 +61,7 @@ const DownlineProfileInfo = ({ member, level, showAccentColor = true }) => {
         )}
       </View>
       <NameAndRankContainer>
-        <H5>{properlyCasedName}</H5>
+        <H5>{properlyCaseName(firstName, lastName)}</H5>
         <Flexbox direction="row">
           <H6>{label}</H6>
         </Flexbox>

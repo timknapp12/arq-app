@@ -11,7 +11,7 @@ import {
   findMembersInDownlineOneLevel,
   putSelectedMemberAtTopOfList,
 } from '../../../utils/teamView/filterDownline';
-import capitalizeFirstLetterOfEachWord from '../../../utils/capitalizeFirstLetterOfEachWord/capitalizeFirstLetterOfEachWord';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 
 const MyTeamList = () => {
   const { closeAllMenus, setMyTeamViewHeader, setCurrentMembersUplineId } =
@@ -67,10 +67,8 @@ const MyTeamList = () => {
     } else {
       const firstName = memberData?.treeNodeFor?.associate?.firstName ?? '';
       const lastName = memberData?.treeNodeFor?.associate?.lastName ?? '';
-      const properlyCasedName = capitalizeFirstLetterOfEachWord(
-        `${firstName} ${lastName}`,
-      );
-      setMyTeamViewHeader(properlyCasedName);
+
+      setMyTeamViewHeader(properlyCaseName(firstName, lastName));
     }
   }, [sortBy, levelInTree, memberData]);
 
