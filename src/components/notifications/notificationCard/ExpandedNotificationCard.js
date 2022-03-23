@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { H5Black, H6Book } from '../../common';
-// import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
 import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
@@ -20,8 +19,6 @@ import {
 } from './notificationCard.styles';
 
 const ExpandedNotificationCard = ({
-  isExpanded,
-  //   toggleExpanded,
   data,
   dateSent,
   onRemove,
@@ -45,12 +42,8 @@ const ExpandedNotificationCard = ({
     `${firstName} ${lastName}`,
   );
   return (
-    <CardContainer
-      {...props}
-      // onPress={toggleExpanded}
-      activeOpacity={1}
-    >
-      <OuterContainer isExpanded={isExpanded}>
+    <CardContainer {...props} activeOpacity={1}>
+      <OuterContainer>
         <Row>
           <InnerContainer>
             <TitleAndDateContainer>
@@ -62,16 +55,6 @@ const ExpandedNotificationCard = ({
             {displayName ? (
               <H6Book>{`${Localized('Viewed')} ${displayName}`}</H6Book>
             ) : null}
-            {/* <TouchableOpacity
-              onPress={onViewProspect}
-              style={{
-                paddingRight: 12,
-                paddingTop: 2,
-                paddingBottom: 4,
-                alignSelf: 'flex-start',
-              }}>
-              <H6Book>{Localized('View Contact Information')}</H6Book>
-            </TouchableOpacity> */}
             <IconRow>
               <CalloutButton onPress={onRemove}>
                 <Row>
@@ -102,15 +85,6 @@ const ExpandedNotificationCard = ({
               </CalloutButton>
             </IconRow>
           </InnerContainer>
-          {/* <MaterialCommunityIcon
-            name="chevron-up"
-            color={theme.primaryTextColor}
-            size={24}
-            style={{
-              paddingRight: 4,
-              paddingLeft: 4,
-            }}
-          /> */}
         </Row>
       </OuterContainer>
     </CardContainer>
@@ -118,8 +92,6 @@ const ExpandedNotificationCard = ({
 };
 
 ExpandedNotificationCard.propTypes = {
-  isExpanded: PropTypes.bool.isRequired,
-  toggleExpanded: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   dateSent: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
