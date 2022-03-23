@@ -28,7 +28,13 @@ const Dot = styled.View`
   background-color: ${({ dotFill }) => dotFill};
 `;
 
-const OvRank = ({ ranklist, user, closeMenus }) => {
+const OvRank = ({
+  ranklist,
+  user,
+  closeMenus,
+  isRankInfoPopupOpen,
+  setIsRankInfoPopupOpen,
+}) => {
   const { theme } = useContext(AppContext);
   const { pv, pa, leg1, leg2, leg3, previousAmbassadorMonthlyRecord } = user;
 
@@ -124,6 +130,8 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
         setRank={setRank}
         ranklist={ranklist}
         isQualified={isQualified}
+        isRankInfoPopupOpen={isRankInfoPopupOpen}
+        setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
       />
       <Flexbox
         accessibilityLabel="Distributor rank"
@@ -252,6 +260,8 @@ OvRank.propTypes = {
   ),
   user: PropTypes.object,
   closeMenus: PropTypes.func,
+  isRankInfoPopupOpen: PropTypes.bool.isRequired,
+  setIsRankInfoPopupOpen: PropTypes.func.isRequired,
 };
 
 export default OvRank;

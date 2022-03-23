@@ -26,7 +26,13 @@ const Dot = styled.View`
   background-color: ${({ dotFill }) => dotFill};
 `;
 
-const CVRank = ({ ranklist, user, closeMenus }) => {
+const CVRank = ({
+  ranklist,
+  user,
+  closeMenus,
+  isRankInfoPopupOpen,
+  setIsRankInfoPopupOpen,
+}) => {
   const { theme } = useContext(AppContext);
   const {
     cv,
@@ -87,6 +93,8 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
         setRank={setRank}
         ranklist={ranklist}
         isQualified={isQualified}
+        isRankInfoPopupOpen={isRankInfoPopupOpen}
+        setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
       />
       <Flexbox
         accessibilityLabel="CV Rank cv"
@@ -173,6 +181,8 @@ CVRank.propTypes = {
   ),
   user: PropTypes.object,
   closeMenus: PropTypes.func,
+  isRankInfoPopupOpen: PropTypes.bool.isRequired,
+  setIsRankInfoPopupOpen: PropTypes.func.isRequired,
 };
 
 export default CVRank;

@@ -16,7 +16,13 @@ const TitleContainer = styled.View`
   align-items: center;
 `;
 
-const OVDetail = ({ ranklist, closeMenus, user }) => {
+const OVDetail = ({
+  ranklist,
+  closeMenus,
+  user,
+  isRankInfoPopupOpen,
+  setIsRankInfoPopupOpen,
+}) => {
   const { theme } = useContext(AppContext);
 
   const initialRankName = user?.rank.name;
@@ -87,6 +93,8 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
           setRank={setRank}
           ranklist={ranklist}
           isQualified={isQualified}
+          isRankInfoPopupOpen={isRankInfoPopupOpen}
+          setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
         />
         <H4>{`${Localized('Maximum QOV Per Leg')}: ${stringify(
           rank.maximumPerLeg,
@@ -188,8 +196,10 @@ OVDetail.propTypes = {
       maximumPerLeg: PropTypes.number,
     }),
   ),
-  closeMenus: PropTypes.func,
-  user: PropTypes.object,
+  closeMenus: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  isRankInfoPopupOpen: PropTypes.bool.isRequired,
+  setIsRankInfoPopupOpen: PropTypes.func.isRequired,
 };
 
 export default OVDetail;

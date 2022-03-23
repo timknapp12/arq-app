@@ -84,6 +84,7 @@ const DashboardScreen = ({ navigation }) => {
   const [view, setView] = useState(tertiaryButtonText[0]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isRankInfoPopupOpen, setIsRankInfoPopupOpen] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(-500)).current;
 
@@ -107,6 +108,7 @@ const DashboardScreen = ({ navigation }) => {
   const closeMenus = () => {
     fadeOut();
     closeAddOptions();
+    setIsRankInfoPopupOpen(false);
     // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
     Platform.OS === 'ios' && setDisplayNotifications(false);
   };
@@ -177,10 +179,22 @@ const DashboardScreen = ({ navigation }) => {
             <Overview user={user} closeMenus={closeMenus} />
           )}
           {view.name === Localized('Rank').toUpperCase() && (
-            <Rank ranklist={ranks} user={user} closeMenus={closeMenus} />
+            <Rank
+              ranklist={ranks}
+              user={user}
+              closeMenus={closeMenus}
+              isRankInfoPopupOpen={isRankInfoPopupOpen}
+              setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+            />
           )}
           {view.name === Localized('OV Detail').toUpperCase() && (
-            <OVDetail ranklist={ranks} user={user} closeMenus={closeMenus} />
+            <OVDetail
+              ranklist={ranks}
+              user={user}
+              closeMenus={closeMenus}
+              isRankInfoPopupOpen={isRankInfoPopupOpen}
+              setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+            />
           )}
         </ScrollView>
         {isMyInfoModalOpen && (

@@ -6,7 +6,13 @@ import RankTabs from './RankTabs';
 import OvRank from './OvRank';
 import CvRank from './CvRank';
 
-const Rank = ({ ranklist, user, closeMenus }) => {
+const Rank = ({
+  ranklist,
+  user,
+  closeMenus,
+  isRankInfoPopupOpen,
+  setIsRankInfoPopupOpen,
+}) => {
   const [selectedTab, setSelectedTab] = useState('ovRank');
 
   return (
@@ -19,9 +25,21 @@ const Rank = ({ ranklist, user, closeMenus }) => {
         />
         <Flexbox justify="flex-start" onStartShouldSetResponder={() => true}>
           {selectedTab === 'ovRank' ? (
-            <OvRank ranklist={ranklist} user={user} closeMenus={closeMenus} />
+            <OvRank
+              ranklist={ranklist}
+              user={user}
+              closeMenus={closeMenus}
+              isRankInfoPopupOpen={isRankInfoPopupOpen}
+              setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+            />
           ) : (
-            <CvRank ranklist={ranklist} user={user} closeMenus={closeMenus} />
+            <CvRank
+              ranklist={ranklist}
+              user={user}
+              closeMenus={closeMenus}
+              isRankInfoPopupOpen={isRankInfoPopupOpen}
+              setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+            />
           )}
         </Flexbox>
       </>
@@ -41,8 +59,10 @@ Rank.propTypes = {
       requiredPa: PropTypes.number,
     }),
   ),
-  user: PropTypes.object,
-  closeMenus: PropTypes.func,
+  user: PropTypes.object.isRequired,
+  closeMenus: PropTypes.func.isRequired,
+  isRankInfoPopupOpen: PropTypes.bool.isRequired,
+  setIsRankInfoPopupOpen: PropTypes.func.isRequired,
 };
 
 export default Rank;
