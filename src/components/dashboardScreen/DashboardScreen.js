@@ -25,6 +25,7 @@ import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
+import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import { maxWidth } from '../../styles/constants';
 
@@ -84,6 +85,7 @@ const DashboardScreen = ({ navigation }) => {
   const [view, setView] = useState(tertiaryButtonText[0]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isRankInfoPopupOpen, setIsRankInfoPopupOpen] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(-500)).current;
 
@@ -107,6 +109,7 @@ const DashboardScreen = ({ navigation }) => {
   const closeMenus = () => {
     fadeOut();
     closeAddOptions();
+    setIsRankInfoPopupOpen(false);
     // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
     Platform.OS === 'ios' && setDisplayNotifications(false);
   };
@@ -129,75 +132,82 @@ const DashboardScreen = ({ navigation }) => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   return (
-    <TouchableWithoutFeedback onPress={closeMenus}>
-      <ScreenContainer style={{ justifyContent: 'flex-start', height: 'auto' }}>
-        <Flexbox style={{ zIndex: 2 }}>
-          <MainHeader
-            isMenuOpen={isMenuOpen}
-            fadeIn={fadeIn}
-            fadeOut={fadeOut}
-            setIsMenuOpen={setIsMenuOpen}
-          />
-          <NotificationsColumn />
-        </Flexbox>
-        <TopButtonBar>
-          {tertiaryButtonText.map((item) => (
-            <TertiaryButton
-              style={{ marginRight: 15 }}
-              onPress={() => navigate(item)}
-              selected={view.name === item?.name}
-              key={item?.name}
-            >
-              {item?.name}
-            </TertiaryButton>
-          ))}
-        </TopButtonBar>
-        <Flexbox>
-          <PopoutMenu
-            fadeAnim={fadeAnim}
-            fadeOut={fadeOut}
-            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-            setIsSettingsModalOpen={setIsSettingsModalOpen}
-            navigation={navigation}
-          />
-        </Flexbox>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: 60,
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            maxWidth,
-            zIndex: -1,
-          }}
+    <DashboardScreenContext.Provider
+      value={{
+        ranklist: ranks,
+        user,
+        closeMenus,
+        isRankInfoPopupOpen,
+        setIsRankInfoPopupOpen,
+        displayNotifications,
+      }}
+    >
+      <TouchableWithoutFeedback onPress={closeMenus}>
+        <ScreenContainer
+          style={{ justifyContent: 'flex-start', height: 'auto' }}
         >
-          {view.name === Localized('Overview').toUpperCase() && (
-            <Overview user={user} closeMenus={closeMenus} />
+          <Flexbox style={{ zIndex: 2 }}>
+            <MainHeader
+              isMenuOpen={isMenuOpen}
+              fadeIn={fadeIn}
+              fadeOut={fadeOut}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+            <NotificationsColumn />
+          </Flexbox>
+          <TopButtonBar>
+            {tertiaryButtonText.map((item) => (
+              <TertiaryButton
+                style={{ marginRight: 15 }}
+                onPress={() => navigate(item)}
+                selected={view.name === item?.name}
+                key={item?.name}
+              >
+                {item?.name}
+              </TertiaryButton>
+            ))}
+          </TopButtonBar>
+          <Flexbox>
+            <PopoutMenu
+              fadeAnim={fadeAnim}
+              fadeOut={fadeOut}
+              setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+              setIsSettingsModalOpen={setIsSettingsModalOpen}
+              navigation={navigation}
+            />
+          </Flexbox>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingBottom: 60,
+            }}
+            style={{
+              width: '100%',
+              height: '100%',
+              maxWidth,
+              zIndex: -1,
+            }}
+          >
+            {view.name === Localized('Overview').toUpperCase() && <Overview />}
+            {view.name === Localized('Rank').toUpperCase() && <Rank />}
+            {view.name === Localized('OV Detail').toUpperCase() && <OVDetail />}
+          </ScrollView>
+          {isMyInfoModalOpen && (
+            <MyInfoModal
+              isMyInfoModalOpen={isMyInfoModalOpen}
+              setIsMyInfoModalOpen={setIsMyInfoModalOpen}
+            />
           )}
-          {view.name === Localized('Rank').toUpperCase() && (
-            <Rank ranklist={ranks} user={user} closeMenus={closeMenus} />
+          {isSettingsModalOpen && (
+            <SettingsModal
+              isSettingsModalOpen={isSettingsModalOpen}
+              setIsSettingsModalOpen={setIsSettingsModalOpen}
+              data={user?.associate}
+            />
           )}
-          {view.name === Localized('OV Detail').toUpperCase() && (
-            <OVDetail ranklist={ranks} user={user} closeMenus={closeMenus} />
-          )}
-        </ScrollView>
-        {isMyInfoModalOpen && (
-          <MyInfoModal
-            isMyInfoModalOpen={isMyInfoModalOpen}
-            setIsMyInfoModalOpen={setIsMyInfoModalOpen}
-          />
-        )}
-        {isSettingsModalOpen && (
-          <SettingsModal
-            isSettingsModalOpen={isSettingsModalOpen}
-            setIsSettingsModalOpen={setIsSettingsModalOpen}
-            data={user?.associate}
-          />
-        )}
-      </ScreenContainer>
-    </TouchableWithoutFeedback>
+        </ScreenContainer>
+      </TouchableWithoutFeedback>
+    </DashboardScreenContext.Provider>
   );
 };
 
