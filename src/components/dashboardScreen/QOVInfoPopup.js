@@ -1,21 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, H6Secondary, Flexbox } from '../common';
-import Close from '../../../assets/icons/CloseIcon.svg';
-
-const CloseIcon = styled(Close)`
-  color: ${(props) => props.theme.disabledTextColor};
-`;
+import CloseIcon from '../../../assets/icons/CloseIcon.svg';
+import AppContext from '../../contexts/AppContext';
 
 const QOVInfoPopup = ({ onClose }) => {
+  const { theme } = useContext(AppContext);
   return (
     <Card style={{ position: 'absolute', top: 30 }}>
       <Flexbox direction="row">
         <H6Secondary>Rank Qualifications are based on:</H6Secondary>
         <TouchableOpacity onPress={onClose}>
-          <CloseIcon style={{ height: 30, width: 30 }} />
+          <CloseIcon
+            style={{ color: theme.disabledTextColor, height: 30, width: 30 }}
+          />
         </TouchableOpacity>
       </Flexbox>
       <H6Secondary>1. PV</H6Secondary>

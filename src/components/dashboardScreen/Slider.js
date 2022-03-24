@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Dimensions, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import { H4, H6Secondary, Flexbox } from '../common';
 import CustomSlider from './CustomSlider';
 import QOVInfoPopup from './QOVInfoPopup';
@@ -10,24 +9,23 @@ import {
   findRankObject,
   findRankIndex,
 } from '../../utils/findRankInSlider';
+import AppContext from '../../contexts/AppContext';
 import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 import InfoIcon from '../../../assets/icons/InfoIcon.svg';
 import { Localized } from '../../translations/Localized';
-
-const Info = styled(InfoIcon)`
-  color: ${(props) => props.theme.primaryButtonBackgroundColor};
-`;
 
 const { width } = Dimensions.get('window');
 const sliderWidth = width - 40;
 
 const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
+  const { theme } = useContext(AppContext);
   const {
     ranklist,
     isRankInfoPopupOpen,
     setIsRankInfoPopupOpen,
     displayNotifications,
   } = useContext(DashboardScreenContext);
+
   const maximumValue = ranklist.length - 1;
   const initialValue = findRankIndex(ranklist, rank.rankName);
   const [value, setValue] = useState(initialValue);
@@ -77,7 +75,13 @@ const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
                   ? `(${Localized('qualified')})`
                   : `(${Localized('not qualified')})`}
               </H6Secondary>
-              <Info style={{ height: 24, width: 24 }} />
+              <InfoIcon
+                style={{
+                  color: theme.primaryButtonBackgroundColor,
+                  height: 24,
+                  width: 24,
+                }}
+              />
             </TouchableOpacity>
             {isRankInfoPopupOpen && (
               <QOVInfoPopup onClose={() => setIsRankInfoPopupOpen(false)} />
