@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4, H5, Flexbox } from '../../common';
 import { Localized } from '../../../translations/Localized';
 import DoubleDonut from '../DoubleDonut';
 import Slider from '../Slider';
 import AppContext from '../../../contexts/AppContext';
+import DashboardScreenContext from '../../../contexts/DashboardScreenContext';
 import { reshapePerc } from '../../../utils/calculateLegPercentages';
 import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 
@@ -26,15 +26,10 @@ const Dot = styled.View`
   background-color: ${({ dotFill }) => dotFill};
 `;
 
-const CVRank = ({
-  ranklist,
-  user,
-  closeMenus,
-  isRankInfoPopupOpen,
-  setIsRankInfoPopupOpen,
-  displayNotifications,
-}) => {
+const CVRank = () => {
   const { theme } = useContext(AppContext);
+  const { user, closeMenus } = useContext(DashboardScreenContext);
+
   const {
     cv,
     previousAmbassadorMonthlyRecord,
@@ -92,11 +87,7 @@ const CVRank = ({
         setRankName={setRankName}
         rank={rank}
         setRank={setRank}
-        ranklist={ranklist}
         isQualified={isQualified}
-        isRankInfoPopupOpen={isRankInfoPopupOpen}
-        setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
-        displayNotifications={displayNotifications}
       />
       <Flexbox
         accessibilityLabel="CV Rank cv"
@@ -167,25 +158,6 @@ const CVRank = ({
       </Flexbox> */}
     </>
   );
-};
-
-CVRank.propTypes = {
-  ranklist: PropTypes.arrayOf(
-    PropTypes.shape({
-      rankId: PropTypes.number,
-      rankName: PropTypes.string,
-      requiredPv: PropTypes.number,
-      minimumQoV: PropTypes.number,
-      legMaxPercentage: PropTypes.number,
-      maximumPerLeg: PropTypes.number,
-      requiredPa: PropTypes.number,
-    }),
-  ),
-  user: PropTypes.object,
-  closeMenus: PropTypes.func,
-  isRankInfoPopupOpen: PropTypes.bool.isRequired,
-  setIsRankInfoPopupOpen: PropTypes.func.isRequired,
-  displayNotifications: PropTypes.bool.isRequired,
 };
 
 export default CVRank;

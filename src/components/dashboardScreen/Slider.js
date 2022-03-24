@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Dimensions, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
@@ -10,6 +10,7 @@ import {
   findRankObject,
   findRankIndex,
 } from '../../utils/findRankInSlider';
+import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 import InfoIcon from '../../../assets/icons/InfoIcon.svg';
 import { Localized } from '../../translations/Localized';
 
@@ -20,17 +21,13 @@ const Info = styled(InfoIcon)`
 const { width } = Dimensions.get('window');
 const sliderWidth = width - 40;
 
-const Slider = ({
-  rank,
-  setRank,
-  rankName,
-  setRankName,
-  ranklist,
-  isQualified,
-  isRankInfoPopupOpen,
-  setIsRankInfoPopupOpen,
-  displayNotifications,
-}) => {
+const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
+  const {
+    ranklist,
+    isRankInfoPopupOpen,
+    setIsRankInfoPopupOpen,
+    displayNotifications,
+  } = useContext(DashboardScreenContext);
   const maximumValue = ranklist.length - 1;
   const initialValue = findRankIndex(ranklist, rank.rankName);
   const [value, setValue] = useState(initialValue);
@@ -101,24 +98,11 @@ const Slider = ({
 };
 
 Slider.propTypes = {
-  ranklist: PropTypes.arrayOf(
-    PropTypes.shape({
-      rankId: PropTypes.number,
-      name: PropTypes.string,
-      requiredPv: PropTypes.number,
-      minimumQoV: PropTypes.number,
-      legMaxPercentage: PropTypes.number,
-      maximumPerLeg: PropTypes.number,
-    }),
-  ),
   rank: PropTypes.object,
   setRank: PropTypes.func,
   rankName: PropTypes.string,
   setRankName: PropTypes.func,
   isQualified: PropTypes.bool,
-  isRankInfoPopupOpen: PropTypes.bool.isRequired,
-  setIsRankInfoPopupOpen: PropTypes.func.isRequired,
-  displayNotifications: PropTypes.bool.isRequired,
 };
 
 export default Slider;

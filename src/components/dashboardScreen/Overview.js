@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import { H4, Flexbox, H4Secondary, H3 } from '../common';
 import { Localized } from '../../translations/Localized';
 import Donut from './Donut';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 
-const Overview = ({ user, closeMenus }) => {
+const Overview = () => {
   const { theme } = useContext(AppContext);
   const { userProfile } = useContext(LoginContext);
+  const { user, closeMenus } = useContext(DashboardScreenContext);
 
   const { pv, totalOv, cv } = user;
 
@@ -69,11 +70,6 @@ const Overview = ({ user, closeMenus }) => {
       </Flexbox>
     </TouchableWithoutFeedback>
   );
-};
-
-Overview.propTypes = {
-  user: PropTypes.object,
-  closeMenus: PropTypes.func,
 };
 
 export default Overview;
