@@ -121,7 +121,6 @@ const DashboardScreen = ({ navigation }) => {
     }
     closeMenus();
     setDisplayNotifications(false);
-    setIsRankInfoPopupOpen(false);
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'Dashboard Screen',
