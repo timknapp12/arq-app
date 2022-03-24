@@ -12,6 +12,7 @@ const Rank = ({
   closeMenus,
   isRankInfoPopupOpen,
   setIsRankInfoPopupOpen,
+  displayNotifications,
 }) => {
   const [selectedTab, setSelectedTab] = useState('ovRank');
 
@@ -31,6 +32,7 @@ const Rank = ({
               closeMenus={closeMenus}
               isRankInfoPopupOpen={isRankInfoPopupOpen}
               setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+              displayNotifications={displayNotifications}
             />
           ) : (
             <CvRank
@@ -39,6 +41,7 @@ const Rank = ({
               closeMenus={closeMenus}
               isRankInfoPopupOpen={isRankInfoPopupOpen}
               setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+              displayNotifications={displayNotifications}
             />
           )}
         </Flexbox>
@@ -63,6 +66,7 @@ Rank.propTypes = {
   closeMenus: PropTypes.func.isRequired,
   isRankInfoPopupOpen: PropTypes.bool.isRequired,
   setIsRankInfoPopupOpen: PropTypes.func.isRequired,
+  displayNotifications: PropTypes.bool.isRequired,
 };
 
 export default Rank;

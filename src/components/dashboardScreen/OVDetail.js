@@ -22,6 +22,7 @@ const OVDetail = ({
   user,
   isRankInfoPopupOpen,
   setIsRankInfoPopupOpen,
+  displayNotifications,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -95,6 +96,7 @@ const OVDetail = ({
           isQualified={isQualified}
           isRankInfoPopupOpen={isRankInfoPopupOpen}
           setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+          displayNotifications={displayNotifications}
         />
         <H4>{`${Localized('Maximum QOV Per Leg')}: ${stringify(
           rank.maximumPerLeg,
@@ -200,6 +202,7 @@ OVDetail.propTypes = {
   user: PropTypes.object.isRequired,
   isRankInfoPopupOpen: PropTypes.bool.isRequired,
   setIsRankInfoPopupOpen: PropTypes.func.isRequired,
+  displayNotifications: PropTypes.bool.isRequired,
 };
 
 export default OVDetail;

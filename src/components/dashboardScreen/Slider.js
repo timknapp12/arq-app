@@ -29,6 +29,7 @@ const Slider = ({
   isQualified,
   isRankInfoPopupOpen,
   setIsRankInfoPopupOpen,
+  displayNotifications,
 }) => {
   const maximumValue = ranklist.length - 1;
   const initialValue = findRankIndex(ranklist, rank.rankName);
@@ -45,6 +46,12 @@ const Slider = ({
   const onSlidingComplete = () => {
     setRank(findRankObject(ranklist, value));
     setIsQualifiedTextDisplayed(true);
+  };
+
+  const toggleQOVInfoPopup = () => {
+    // this is because touch events bleed through the notifications column to the info button underneath on android
+    if (displayNotifications) return;
+    setIsRankInfoPopupOpen((state) => !state);
   };
 
   return (
@@ -66,7 +73,7 @@ const Slider = ({
                 alignItems: 'flex-end',
                 justifyContent: 'center',
               }}
-              onPress={() => setIsRankInfoPopupOpen((state) => !state)}
+              onPress={toggleQOVInfoPopup}
             >
               <H6Secondary style={{ marginEnd: 8 }}>
                 {isQualified
@@ -111,6 +118,7 @@ Slider.propTypes = {
   isQualified: PropTypes.bool,
   isRankInfoPopupOpen: PropTypes.bool.isRequired,
   setIsRankInfoPopupOpen: PropTypes.func.isRequired,
+  displayNotifications: PropTypes.bool.isRequired,
 };
 
 export default Slider;

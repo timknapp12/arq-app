@@ -32,6 +32,7 @@ const CVRank = ({
   closeMenus,
   isRankInfoPopupOpen,
   setIsRankInfoPopupOpen,
+  displayNotifications,
 }) => {
   const { theme } = useContext(AppContext);
   const {
@@ -95,6 +96,7 @@ const CVRank = ({
         isQualified={isQualified}
         isRankInfoPopupOpen={isRankInfoPopupOpen}
         setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+        displayNotifications={displayNotifications}
       />
       <Flexbox
         accessibilityLabel="CV Rank cv"
@@ -183,6 +185,7 @@ CVRank.propTypes = {
   closeMenus: PropTypes.func,
   isRankInfoPopupOpen: PropTypes.bool.isRequired,
   setIsRankInfoPopupOpen: PropTypes.func.isRequired,
+  displayNotifications: PropTypes.bool.isRequired,
 };
 
 export default CVRank;

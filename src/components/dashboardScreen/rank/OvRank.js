@@ -34,6 +34,7 @@ const OvRank = ({
   closeMenus,
   isRankInfoPopupOpen,
   setIsRankInfoPopupOpen,
+  displayNotifications,
 }) => {
   const { theme } = useContext(AppContext);
   const { pv, pa, leg1, leg2, leg3, previousAmbassadorMonthlyRecord } = user;
@@ -132,6 +133,7 @@ const OvRank = ({
         isQualified={isQualified}
         isRankInfoPopupOpen={isRankInfoPopupOpen}
         setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+        displayNotifications={displayNotifications}
       />
       <Flexbox
         accessibilityLabel="Distributor rank"
@@ -262,6 +264,7 @@ OvRank.propTypes = {
   closeMenus: PropTypes.func,
   isRankInfoPopupOpen: PropTypes.bool.isRequired,
   setIsRankInfoPopupOpen: PropTypes.func.isRequired,
+  displayNotifications: PropTypes.bool.isRequired,
 };
 
 export default OvRank;

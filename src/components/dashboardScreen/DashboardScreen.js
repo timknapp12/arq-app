@@ -120,6 +120,7 @@ const DashboardScreen = ({ navigation }) => {
     }
     closeMenus();
     setDisplayNotifications(false);
+    setIsRankInfoPopupOpen(false);
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'Dashboard Screen',
@@ -185,6 +186,7 @@ const DashboardScreen = ({ navigation }) => {
               closeMenus={closeMenus}
               isRankInfoPopupOpen={isRankInfoPopupOpen}
               setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+              displayNotifications={displayNotifications}
             />
           )}
           {view.name === Localized('OV Detail').toUpperCase() && (
@@ -194,6 +196,7 @@ const DashboardScreen = ({ navigation }) => {
               closeMenus={closeMenus}
               isRankInfoPopupOpen={isRankInfoPopupOpen}
               setIsRankInfoPopupOpen={setIsRankInfoPopupOpen}
+              displayNotifications={displayNotifications}
             />
           )}
         </ScrollView>
