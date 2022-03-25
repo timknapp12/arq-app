@@ -4,6 +4,7 @@ import { View, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { H6Secondary, LevelLabel } from '../../common';
 import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
 import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
 import { LevelIndicator, Bubble } from './visualTree.styles';
 import RankIcons from './RankIcons';
@@ -35,6 +36,7 @@ const VisualTreeBubble = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+  const { displayNotifications } = useContext(LoginContext);
 
   const memberTypeColorMap = {
     activeAmbassador: theme.primaryButtonBackgroundColor,
@@ -51,7 +53,7 @@ const VisualTreeBubble = ({
 
   const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
   const verticalOffset = -107;
-  const baseHorizontalOffset = -57;
+  const baseHorizontalOffset = -51;
 
   return (
     <TouchableOpacity {...props} activeOpacity={1}>
@@ -60,7 +62,9 @@ const VisualTreeBubble = ({
         onDragEnd={onDragEnd}
         onDragDrop={onDragDrop}
         payload={payload}
-        draggable={draggable}
+        draggable={
+          draggable && !(Platform.OS === 'android' && displayNotifications)
+        }
         draggingStyle={{ opacity: 0.3 }}
         position={position}
         highlight={highlight}

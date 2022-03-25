@@ -82,6 +82,7 @@ const MyTeamView = () => {
         setMyTeamViewHeader,
         currentMembersUplineId,
         setCurrentMembersUplineId,
+        isFilterMenuOpen,
       }}
     >
       <TouchableWithoutFeedback onPress={() => closeAllMenus()}>
