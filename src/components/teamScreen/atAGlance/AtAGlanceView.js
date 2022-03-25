@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import PieChart from './PieChart';
 import CardForAtAGlance from './CardForAtAGlance';
 import { Gap, H4Black } from '../../common';
@@ -11,7 +11,7 @@ import { maxWidth } from '../../../styles/constants';
 
 const AtAGlanceView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
-  const { user } = useContext(LoginContext);
+  const { user, displayNotifications } = useContext(LoginContext);
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState({});
@@ -65,6 +65,7 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
             title={item?.title}
             value={item?.firstTotal ?? 0}
             onPress={() => {
+              if (Platform.OS == 'android' && displayNotifications) return;
               setSelectedCategory(item);
               closeMenus();
             }}

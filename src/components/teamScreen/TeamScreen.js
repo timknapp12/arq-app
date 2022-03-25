@@ -123,9 +123,7 @@ const TeamScreen = ({ navigation, route }) => {
 
   const navigate = (item) => {
     // this is so android touches that bleed through the notifications window onto the tertiary buttons won't navigate
-    if (displayNotifications) {
-      return;
-    }
+    if (displayNotifications) return;
     closeMenus();
     setDisplayNotifications(false);
     setView(item);

@@ -109,9 +109,10 @@ const DashboardScreen = ({ navigation }) => {
   const closeMenus = () => {
     fadeOut();
     closeAddOptions();
-    setIsRankInfoPopupOpen(false);
     // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
-    Platform.OS === 'ios' && setDisplayNotifications(false);
+    Platform.OS === 'ios' &&
+      setDisplayNotifications(false) &&
+      setIsRankInfoPopupOpen(false);
   };
 
   const navigate = (item) => {
