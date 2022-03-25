@@ -28,7 +28,9 @@ const Dot = styled.View`
 
 const CVRank = () => {
   const { theme } = useContext(AppContext);
-  const { user, closeMenus } = useContext(DashboardScreenContext);
+  const { user, closeMenus, setIsRankInfoPopupOpen } = useContext(
+    DashboardScreenContext,
+  );
 
   const {
     cv,
@@ -107,6 +109,7 @@ const CVRank = () => {
           view="rank"
           onPress={() => {
             closeMenus();
+            setIsRankInfoPopupOpen(false);
             showTapIcon && setShowRemainingCV((state) => !state);
           }}
           showTapIcon={showTapIcon}
@@ -143,7 +146,10 @@ const CVRank = () => {
           innermax={100}
           innercolor={theme.donut3secondaryColor}
           view="rank"
-          onPress={closeMenus}
+          onPress={() => {
+            closeMenus();
+            setIsRankInfoPopupOpen(false);
+          }}
         />
         <LegendContainer>
           <Legend>
