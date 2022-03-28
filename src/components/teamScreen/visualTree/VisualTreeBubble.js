@@ -50,7 +50,7 @@ const VisualTreeBubble = ({
 
   const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
   const baseVerticalOffset = -107;
-  const baseHorizontalOffset = -57;
+  const baseHorizontalOffset = -51;
 
   return (
     <TouchableOpacity {...props} activeOpacity={1}>
