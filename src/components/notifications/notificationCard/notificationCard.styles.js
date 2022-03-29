@@ -1,51 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
-
-import { FlingGestureHandler } from 'react-native-gesture-handler';
-
-export const ColumnContainer = styled.View`
-  padding: 0px;
-  width: 100%;
-  background-color: ${(props) => props.theme.backgroundColor};
-  position: absolute;
-`;
-
-const ButtonContainer = styled.View`
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  background-color: ${(props) => props.theme.cardBackgroundColor};
-  padding: 12px;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-  border-width: 2px;
-  border-color: ${(props) => props.theme.backgroundColor};
-  position: relative;
-  z-index: -1;
-`;
-
-export const ClearButtonContainer = ({ children, ...props }) => {
-  return (
-    <FlingGestureHandler {...props}>
-      <ButtonContainer>{children}</ButtonContainer>
-    </FlingGestureHandler>
-  );
-};
-
-ClearButtonContainer.propTypes = {
-  children: PropTypes.any.isRequired,
-};
-
-export const NotificationBottomPadding = styled.View`
-  background-color: ${(props) => props.theme.backgroundColor};
-  border-bottom-width: 6px;
-  border-color: ${(props) => props.theme.cardBackgroundColor};
-  height: 100px;
-  margin-bottom: 2px;
-`;
 
 export const CardContainer = styled.TouchableOpacity`
   width: 100%;

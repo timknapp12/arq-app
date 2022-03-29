@@ -42,12 +42,7 @@ const TeamView = ({
   setIsOwner,
 }) => {
   const { theme, associateId, hasPermissionsToWrite } = useContext(AppContext);
-  const {
-    displayNotifications,
-    setDisplayNotifications,
-    alreadyHasTeam,
-    showAddOptions,
-  } = useContext(LoginContext);
+  const { alreadyHasTeam, showAddOptions } = useContext(LoginContext);
   const { setSelectedFolderName } = useContext(TabButtonContext);
 
   // get all of the access codes that the user has subscribed to
@@ -110,13 +105,6 @@ const TeamView = ({
       (showAddOptions && Platform.OS === 'android')
     ) {
       return closeMenus();
-    }
-    // close notifications window if it is open instead of navigating to resource
-    if (displayNotifications && Platform.OS === 'android') {
-      return;
-    }
-    if (displayNotifications && Platform.OS === 'ios') {
-      return setDisplayNotifications(false);
     }
     setSelectedFolderName(item?.folderName);
     navigation.navigate('Team Resources Category Screen', {
@@ -235,11 +223,6 @@ const TeamView = ({
   };
 
   const goToSearch = () => {
-    // close notifications window if it is open instead of navigating
-    // this is because android touches bleed through the notifications window and could activate this function
-    if (displayNotifications) {
-      return setDisplayNotifications(false);
-    }
     closeMenus();
     navigation.navigate('Team Search Screen', {
       title: selectedTeamName.toUpperCase(),

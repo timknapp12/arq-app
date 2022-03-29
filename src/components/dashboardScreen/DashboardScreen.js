@@ -23,7 +23,6 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
 import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
@@ -57,8 +56,6 @@ const DashboardScreen = ({ navigation }) => {
       },
     },
     ranks = [],
-    setDisplayNotifications,
-    displayNotifications,
   } = useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
@@ -72,7 +69,6 @@ const DashboardScreen = ({ navigation }) => {
     }
     return () => {
       closeMenus();
-      setDisplayNotifications(false);
     };
   }, [isFocused]);
 
@@ -110,18 +106,11 @@ const DashboardScreen = ({ navigation }) => {
     fadeOut();
     closeAddOptions();
     // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
-    Platform.OS === 'ios' &&
-      setDisplayNotifications(false) &&
-      setIsRankInfoPopupOpen(false);
+    Platform.OS === 'ios' && setIsRankInfoPopupOpen(false);
   };
 
   const navigate = (item) => {
-    // this is so android touches that bleed through the notifications window onto the tertiary buttons won't navigate
-    if (displayNotifications) {
-      return;
-    }
     closeMenus();
-    setDisplayNotifications(false);
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'Dashboard Screen',
@@ -140,22 +129,19 @@ const DashboardScreen = ({ navigation }) => {
         closeMenus,
         isRankInfoPopupOpen,
         setIsRankInfoPopupOpen,
-        displayNotifications,
       }}
     >
       <TouchableWithoutFeedback onPress={closeMenus}>
         <ScreenContainer
           style={{ justifyContent: 'flex-start', height: 'auto' }}
         >
-          <Flexbox style={{ zIndex: 2 }}>
-            <MainHeader
-              isMenuOpen={isMenuOpen}
-              fadeIn={fadeIn}
-              fadeOut={fadeOut}
-              setIsMenuOpen={setIsMenuOpen}
-            />
-            <NotificationsColumn />
-          </Flexbox>
+          <MainHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+          />
+
           <TopButtonBar>
             {tertiaryButtonText.map((item) => (
               <TertiaryButton

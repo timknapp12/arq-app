@@ -29,13 +29,7 @@ const FlagIcon = styled.Image`
 
 const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   const { deviceLanguage } = useContext(AppContext);
-  const {
-    userMarket,
-    markets,
-    setDisplayNotifications,
-    displayNotifications,
-    showAddOptions,
-  } = useContext(LoginContext);
+  const { userMarket, markets, showAddOptions } = useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   // this is to dismiss the little callout popup menu by tapping anywhere on the screen
@@ -90,14 +84,6 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
     ) {
       return closeMenus();
     }
-    // don't allow navigation if notifications is open
-    if (displayNotifications && Platform.OS === 'android') {
-      return;
-    }
-    // close notifications window if it is open instead of navigating to resource
-    if (displayNotifications && Platform.OS === 'ios') {
-      return setDisplayNotifications(false);
-    }
     closeMenus();
     if (item?.originalFolderName === 'Products') {
       navigation.navigate('Product Category Screen', {
@@ -123,21 +109,11 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
   };
 
   const openMarketModal = () => {
-    // close notifications window if it is open instead of opening modal
-    // this is because android touches bleed through the notifications window and could activate this function
-    if (displayNotifications) {
-      return setDisplayNotifications(false);
-    }
     closeAddOptions();
     setIsMarketModalOpen(true);
   };
 
   const goToSearch = () => {
-    // close notifications window if it is open instead of navigating search
-    // this is because android touches bleed through the notifications window and could activate this function
-    if (displayNotifications) {
-      return setDisplayNotifications(false);
-    }
     closeMenus();
     navigation.navigate('Corporate Search Screen', {
       marketId: marketId,

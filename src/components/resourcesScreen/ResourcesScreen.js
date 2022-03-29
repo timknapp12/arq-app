@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, Platform, TouchableWithoutFeedback } from 'react-native';
+import { Animated, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -14,17 +14,13 @@ import { Localized } from '../../translations/Localized';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import NotificationsColumn from '../notifications/NotificationsColumn';
 import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
 import FavoritesView from './FavoritesView';
-import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 
 const ResourcesScreen = ({ navigation }) => {
-  const { setDisplayNotifications, displayNotifications } =
-    useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const isFocused = useIsFocused();
@@ -37,7 +33,6 @@ const ResourcesScreen = ({ navigation }) => {
     }
     return () => {
       closeMenus();
-      setDisplayNotifications(false);
     };
   }, [isFocused]);
 
@@ -88,13 +83,8 @@ const ResourcesScreen = ({ navigation }) => {
 
   const openTeamMenu = () => {
     // touch events on android bleed through to underlying elements, so this prevents the default touch event if an item is touched on the side menu or notifications
-    if (isMenuOpen || displayNotifications) {
+    if (isMenuOpen) {
       return;
-    }
-    // close notifications window if it is open instead of opening modal
-    // this is because android touches bleed through the notifications window and could activate this function
-    if (displayNotifications) {
-      return setDisplayNotifications(false);
     }
     closeAddOptions();
     setIsTeamMenuOpen(true);
@@ -121,17 +111,10 @@ const ResourcesScreen = ({ navigation }) => {
   const closeMenus = () => {
     fadeOut();
     closeAddOptions();
-    // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
-    Platform.OS === 'ios' && setDisplayNotifications(false);
   };
 
   const navigate = (item) => {
-    // this is so android touches that bleed through the notifications window onto the tertiary buttons won't navigate
-    if (displayNotifications) {
-      return;
-    }
     closeMenus();
-    setDisplayNotifications(false);
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'ResourcesScreen',
@@ -152,15 +135,12 @@ const ResourcesScreen = ({ navigation }) => {
           height: '100%',
         }}
       >
-        <Flexbox style={{ zIndex: 2 }}>
-          <MainHeader
-            isMenuOpen={isMenuOpen}
-            fadeIn={fadeIn}
-            fadeOut={fadeOut}
-            setIsMenuOpen={setIsMenuOpen}
-          />
-          <NotificationsColumn />
-        </Flexbox>
+        <MainHeader
+          isMenuOpen={isMenuOpen}
+          fadeIn={fadeIn}
+          fadeOut={fadeOut}
+          setIsMenuOpen={setIsMenuOpen}
+        />
 
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (
