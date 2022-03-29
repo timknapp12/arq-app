@@ -6,7 +6,6 @@ import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
 import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
 import AppContext from '../../contexts/AppContext';
-import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 
 const Card = styled.View`
@@ -23,32 +22,20 @@ const Row = styled.View`
 
 const ServicesView = ({ closeMenus, isMenuOpen }) => {
   const { theme } = useContext(AppContext);
-  const { displayNotifications, setDisplayNotifications } =
-    useContext(LoginContext);
 
   // on android, the touch events of the menu buttons will bleed through and activate the touches on the cards underneath. This func will prevent that
   const onPress = () => {
     if (isMenuOpen && Platform.OS === 'android') {
       return;
     }
-    // don't allow navigation if notifications is open
-    if (displayNotifications && Platform.OS === 'android') {
-      return;
-    }
-    // close notifications window if it is open instead of navigating
-    if (displayNotifications && Platform.OS === 'ios') {
-      return setDisplayNotifications(false);
-    }
-    if (!displayNotifications) {
-      Linking.openURL('https://office2.myqsciences.com/#/Login');
-    }
+    Linking.openURL('https://office2.myqsciences.com/#/Login');
     closeMenus();
   };
   return (
     <MainScrollView>
       <View style={{ width: '100%' }}>
         <TouchableOpacity
-          activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
+          activeOpacity={isMenuOpen ? 1 : 0.2}
           onPress={onPress}
         >
           <Card>
@@ -80,7 +67,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
-          activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
+          activeOpacity={isMenuOpen ? 1 : 0.2}
           onPress={onPress}
         >
           <Card>

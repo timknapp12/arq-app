@@ -12,7 +12,7 @@ import {
 } from '../../../graphql/mutations';
 import getLocalDate from '../../../translations/getLocalDate/getLocalDate';
 
-const NotificationCard = ({ data, ...props }) => {
+const NotificationCard = ({ data, onClose, ...props }) => {
   const { deviceLanguage } = useContext(AppContext);
   const { refetchProspectsNotifications } = useContext(LoginContext);
 
@@ -48,7 +48,8 @@ const NotificationCard = ({ data, ...props }) => {
   });
 
   const navigation = useNavigation();
-  const onViewProspect = () =>
+  const onViewProspect = () => {
+    onClose();
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Search Screen',
       params: {
@@ -57,6 +58,7 @@ const NotificationCard = ({ data, ...props }) => {
         }`,
       },
     });
+  };
 
   return (
     <ExpandedNotificationCard
@@ -72,6 +74,7 @@ const NotificationCard = ({ data, ...props }) => {
 
 NotificationCard.propTypes = {
   data: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default NotificationCard;

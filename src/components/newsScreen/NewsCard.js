@@ -28,12 +28,7 @@ const NewsCard = ({
   ...props
 }) => {
   const { theme, deviceLanguage, associateId } = useContext(AppContext);
-  const {
-    refetchNews,
-    displayNotifications,
-    setDisplayNotifications,
-    showAddOptions,
-  } = useContext(LoginContext);
+  const { refetchNews, showAddOptions } = useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,14 +43,6 @@ const NewsCard = ({
   const openLink = () => {
     if (isMenuOpen) {
       return closeMenus();
-    }
-    // don't allow opening if notifications is open
-    if (displayNotifications && Platform.OS === 'android') {
-      return;
-    }
-    // close notifications window if it is open instead of opening link
-    if (displayNotifications && Platform.OS === 'ios') {
-      return setDisplayNotifications(false);
     }
     if (Platform.OS === 'android' && showAddOptions) {
       return closeAddOptions();
@@ -75,7 +62,7 @@ const NewsCard = ({
     <CardContainer {...props}>
       <OuterContainer isExpanded={isExpanded} isReadYet={!isReadYet}>
         <TouchableOpacity
-          activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
+          activeOpacity={isMenuOpen ? 1 : 0.2}
           style={{ flex: 1 }}
           onPress={openLink}
         >

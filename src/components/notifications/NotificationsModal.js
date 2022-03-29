@@ -43,7 +43,7 @@ const NotificationsModal = ({ visible, onClose }) => {
   });
 
   const renderItem = ({ item }) => (
-    <NotificationCard data={item} visible={visible} />
+    <NotificationCard data={item} onClose={onClose} />
   );
 
   return (

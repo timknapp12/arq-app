@@ -6,7 +6,6 @@ import VisualTreeIcon from '../../../../assets/icons/VisualTreeIcon.svg';
 import { TouchableRow, ChevronContainer } from './myTeamCard.styles';
 import DownlineProfileInfo from './DownlineProfileInfo';
 import AppContext from '../../../contexts/AppContext';
-import LoginContext from '../../../contexts/LoginContext';
 
 const DownlineProfileInfoContainer = ({
   member,
@@ -21,17 +20,12 @@ const DownlineProfileInfoContainer = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
-  const { displayNotifications } = useContext(LoginContext);
 
   return (
     <TouchableRow
       activeOpacity={1}
       onPress={() => {
-        if (
-          Platform.OS === 'android' &&
-          (displayNotifications || isFilterMenuOpen)
-        )
-          return;
+        if (Platform.OS === 'android' && isFilterMenuOpen) return;
         onPress();
         closeAllMenus();
       }}
@@ -45,7 +39,6 @@ const DownlineProfileInfoContainer = ({
           member?.associate?.associateType === 'AMBASSADOR' ? (
             <TouchableOpacity
               onPress={() => {
-                if (Platform.OS === 'android' && displayNotifications) return;
                 viewItemInVisualTree();
               }}
             >

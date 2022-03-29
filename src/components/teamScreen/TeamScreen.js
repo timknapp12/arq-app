@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Animated,
-  Platform,
-  TouchableWithoutFeedback,
-  ScrollView,
-} from 'react-native';
+import { Animated, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -20,7 +15,6 @@ import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
 import AppContext from '../../contexts/AppContext';
-import LoginContext from '../../contexts/LoginContext';
 import TeamScreenContext from '../../contexts/TeamScreenContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import AtAGlanceView from './atAGlance/AtAGlanceView';
@@ -30,8 +24,6 @@ import VisualTreeView from './visualTree/VisualTreeView';
 
 const TeamScreen = ({ navigation, route }) => {
   const { legacyId } = useContext(AppContext);
-  const { setDisplayNotifications, displayNotifications } =
-    useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const [legacyAssociateId, setLegacyAssociateId] = useState(legacyId);
@@ -60,7 +52,6 @@ const TeamScreen = ({ navigation, route }) => {
     }
     return () => {
       closeMenus();
-      setDisplayNotifications(false);
     };
   }, [isFocused]);
 
@@ -116,15 +107,11 @@ const TeamScreen = ({ navigation, route }) => {
   const closeMenus = () => {
     fadeOut();
     closeAddOptions();
-    // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
-    Platform.OS === 'ios' && setDisplayNotifications(false);
   };
 
   const navigate = (item) => {
     // this is so android touches that bleed through the notifications window onto the tertiary buttons won't navigate
-    if (displayNotifications) return;
     closeMenus();
-    setDisplayNotifications(false);
     setView(item);
     Analytics.logEvent(`${item?.testID}_tapped`, {
       screen: 'TeamScreen',

@@ -20,7 +20,6 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
 
   const {
     userProfile = { profileUrl: '' },
-    setDisplayNotifications,
     prospectNotificationCount,
     setProspectNotificationCount,
   } = useContext(LoginContext);
@@ -61,7 +60,6 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
           onPress={(e) => {
             e.stopPropagation();
             toggleMenu();
-            setDisplayNotifications(false);
           }}
         >
           {url && isImageValid && urlHasChanged ? (

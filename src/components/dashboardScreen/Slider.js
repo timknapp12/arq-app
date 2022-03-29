@@ -20,12 +20,9 @@ const sliderWidth = width - 40;
 
 const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
   const { theme } = useContext(AppContext);
-  const {
-    ranklist,
-    isRankInfoPopupOpen,
-    setIsRankInfoPopupOpen,
-    displayNotifications,
-  } = useContext(DashboardScreenContext);
+  const { ranklist, isRankInfoPopupOpen, setIsRankInfoPopupOpen } = useContext(
+    DashboardScreenContext,
+  );
 
   const maximumValue = ranklist.length - 1;
   const initialValue = findRankIndex(ranklist, rank.rankName);
@@ -45,8 +42,6 @@ const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
   };
 
   const toggleQOVInfoPopup = () => {
-    // this is because touch events bleed through the notifications column to the info button underneath on android
-    if (displayNotifications) return;
     setIsRankInfoPopupOpen((state) => !state);
   };
 
