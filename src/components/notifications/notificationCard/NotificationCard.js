@@ -14,8 +14,7 @@ import getLocalDate from '../../../translations/getLocalDate/getLocalDate';
 
 const NotificationCard = ({ data, ...props }) => {
   const { deviceLanguage } = useContext(AppContext);
-  const { refetchProspectsNotifications, displayNotifications } =
-    useContext(LoginContext);
+  const { refetchProspectsNotifications } = useContext(LoginContext);
 
   const { viewId, isSaved } = data;
 
@@ -29,10 +28,8 @@ const NotificationCard = ({ data, ...props }) => {
   );
 
   useEffect(() => {
-    if (displayNotifications) {
-      notificationHasBeenViewed();
-    }
-  }, [displayNotifications]);
+    notificationHasBeenViewed();
+  }, []);
 
   const formattedDate = getLocalDate(data?.dateViewUtc, deviceLanguage);
 
@@ -74,7 +71,7 @@ const NotificationCard = ({ data, ...props }) => {
 };
 
 NotificationCard.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.object.isRequired,
 };
 
 export default NotificationCard;

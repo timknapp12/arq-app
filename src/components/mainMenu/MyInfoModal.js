@@ -11,7 +11,6 @@ import {
   Platform,
   View,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -23,9 +22,9 @@ import {
   Subheader,
   Header,
   H3,
+  LoadingSpinner,
 } from '../common';
 import { Localized } from '../../translations/Localized';
-import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from './ProfileImage';
@@ -46,7 +45,6 @@ const NameContainer = styled.View`
 `;
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
-  const { theme } = useContext(AppContext);
   const {
     updateProfile,
     refetchProfile,
@@ -184,9 +182,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     onPress={onSubmit}
                   >
                     {loading ? (
-                      <ActivityIndicator
-                        color={theme.disabledBackgroundColor}
-                      />
+                      <LoadingSpinner style={{ marginTop: 10 }} size="large" />
                     ) : (
                       <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
                     )}

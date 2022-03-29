@@ -14,7 +14,6 @@ import { Localized } from '../../translations/Localized';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import NotificationsColumn from '../notifications/NotificationsColumn';
 import CorporateView from './corporateView/CorporateView';
 import TeamView from './teamView/TeamView';
 import ServicesView from './ServicesView';
@@ -152,15 +151,12 @@ const ResourcesScreen = ({ navigation }) => {
           height: '100%',
         }}
       >
-        <Flexbox style={{ zIndex: 2 }}>
-          <MainHeader
-            isMenuOpen={isMenuOpen}
-            fadeIn={fadeIn}
-            fadeOut={fadeOut}
-            setIsMenuOpen={setIsMenuOpen}
-          />
-          <NotificationsColumn />
-        </Flexbox>
+        <MainHeader
+          isMenuOpen={isMenuOpen}
+          fadeIn={fadeIn}
+          fadeOut={fadeOut}
+          setIsMenuOpen={setIsMenuOpen}
+        />
 
         <TopButtonBar>
           {tertiaryButtonText.map((item) => (

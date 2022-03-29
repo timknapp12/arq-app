@@ -23,7 +23,6 @@ import OVDetail from './OVDetail';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import NotificationsColumn from '../notifications/NotificationsColumn';
 import LoginContext from '../../contexts/LoginContext';
 import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
@@ -147,15 +146,13 @@ const DashboardScreen = ({ navigation }) => {
         <ScreenContainer
           style={{ justifyContent: 'flex-start', height: 'auto' }}
         >
-          <Flexbox style={{ zIndex: 2 }}>
-            <MainHeader
-              isMenuOpen={isMenuOpen}
-              fadeIn={fadeIn}
-              fadeOut={fadeOut}
-              setIsMenuOpen={setIsMenuOpen}
-            />
-            <NotificationsColumn />
-          </Flexbox>
+          <MainHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+          />
+
           <TopButtonBar>
             {tertiaryButtonText.map((item) => (
               <TertiaryButton

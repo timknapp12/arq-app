@@ -19,7 +19,6 @@ import { Localized } from '../../translations/Localized';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
-import NotificationsColumn from '../notifications/NotificationsColumn';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TeamScreenContext from '../../contexts/TeamScreenContext';
@@ -203,15 +202,12 @@ const TeamScreen = ({ navigation, route }) => {
             height: '100%',
           }}
         >
-          <Flexbox style={{ zIndex: 2 }}>
-            <MainHeader
-              isMenuOpen={isMenuOpen}
-              fadeIn={fadeIn}
-              fadeOut={fadeOut}
-              setIsMenuOpen={setIsMenuOpen}
-            />
-            <NotificationsColumn />
-          </Flexbox>
+          <MainHeader
+            isMenuOpen={isMenuOpen}
+            fadeIn={fadeIn}
+            fadeOut={fadeOut}
+            setIsMenuOpen={setIsMenuOpen}
+          />
 
           <TopButtonBar>
             {tertiaryButtonText.map((item) => (

@@ -27,7 +27,6 @@ import MarketModal from '../marketModal/MarketModal';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
 import { findMarketId } from '../../utils/markets/findMarketId';
 import NewsCardMap from './NewsCardMap';
-import NotificationsColumn from '../notifications/NotificationsColumn';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
@@ -143,15 +142,13 @@ const NewsScreen = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={closeMenus}>
       <ScreenContainer style={{ justifyContent: 'flex-start' }}>
-        <Flexbox style={{ zIndex: 2 }}>
-          <MainHeader
-            isMenuOpen={isMenuOpen}
-            fadeIn={fadeIn}
-            fadeOut={fadeOut}
-            setIsMenuOpen={setIsMenuOpen}
-          />
-          <NotificationsColumn />
-        </Flexbox>
+        <MainHeader
+          isMenuOpen={isMenuOpen}
+          fadeIn={fadeIn}
+          fadeOut={fadeOut}
+          setIsMenuOpen={setIsMenuOpen}
+        />
+
         <TopButtonBar>
           {news?.map((item) => (
             <TertiaryButton
