@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Modal, FlatList, View } from 'react-native';
+import { TouchableOpacity, Modal, View } from 'react-native';
 import { useMutation } from '@apollo/client';
 import {
   ScreenContainer,
@@ -12,6 +12,7 @@ import {
   Flexbox,
   H5Black,
   Gap,
+  MainScrollView,
 } from '../common';
 import NotificationCard from './notificationCard/NotificationCard';
 import { checkForPinnedNotifications } from '../../utils/notifications/checkForPinnedNotifications';
@@ -29,7 +30,11 @@ const NotificationsModal = ({ visible, onClose }) => {
     prospectNotifications,
   );
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
     variables: { associateId, deletePinned: false },
@@ -41,10 +46,6 @@ const NotificationsModal = ({ visible, onClose }) => {
     },
     onError: (error) => console.log(`error in clear all:`, error),
   });
-
-  const renderItem = ({ item }) => (
-    <NotificationCard data={item} onClose={onClose} />
-  );
 
   return (
     <Modal
@@ -79,13 +80,16 @@ const NotificationsModal = ({ visible, onClose }) => {
                 {Localized('No notifications')}
               </H5Black>
             ) : (
-              <>
-                <FlatList
-                  style={{ width: '100%' }}
-                  data={prospectNotifications}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item?.viewId?.toString()}
-                />
+              <Flexbox height="90%">
+                <MainScrollView paddingBottom={0}>
+                  {prospectNotifications?.map((item) => (
+                    <NotificationCard
+                      key={item?.viewId}
+                      data={item}
+                      onClose={onClose}
+                    />
+                  ))}
+                </MainScrollView>
                 <Flexbox width="85%" padding={12}>
                   <PrimaryButton
                     onPress={() => {
@@ -96,7 +100,7 @@ const NotificationsModal = ({ visible, onClose }) => {
                     {Localized('Clear All').toUpperCase()}
                   </PrimaryButton>
                 </Flexbox>
-              </>
+              </Flexbox>
             )}
           </>
         )}
