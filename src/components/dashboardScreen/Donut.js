@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  StyleSheet,
   View,
   Animated,
   TextInput,
@@ -41,6 +40,7 @@ const Donut = ({
   remainingQov,
   showRemainingQov,
   setShowRemainingQov,
+  absolutePosition = 65,
 }) => {
   // once the animation is complete and option is toggled to see remaining and then toggled back to original animated value goes to 0
   // so this will detect when it will be 0 and can show the original "non-animated" value
@@ -107,12 +107,7 @@ const Donut = ({
           setHasShownRemainingAtLeastOnce(true);
         }}
       >
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Svg
             width={radius * 2}
             height={radius * 2}
@@ -152,7 +147,6 @@ const Donut = ({
                   editable={false}
                   defaultValue="0"
                   style={[
-                    StyleSheet.absoluteFillObject,
                     {
                       fontSize:
                         inputValue.length > textShrinkCutOffLength
@@ -160,7 +154,12 @@ const Donut = ({
                           : fontSize,
                       color: color,
                     },
-                    { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
+                    {
+                      fontFamily: 'Avenir-Heavy',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: absolutePosition,
+                    },
                   ]}
                 />
               ) : (
@@ -168,7 +167,6 @@ const Donut = ({
                   editable={false}
                   value={inputValue}
                   style={[
-                    StyleSheet.absoluteFillObject,
                     {
                       fontSize:
                         inputValue.length > textShrinkCutOffLength
@@ -176,7 +174,12 @@ const Donut = ({
                           : fontSize,
                       color: color,
                     },
-                    { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
+                    {
+                      fontFamily: 'Avenir-Heavy',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: absolutePosition,
+                    },
                   ]}
                 />
               )}
@@ -210,6 +213,7 @@ Donut.propTypes = {
   remainingQov: PropTypes.number,
   showRemainingQov: PropTypes.bool,
   setShowRemainingQov: PropTypes.func,
+  absolutePosition: PropTypes.number,
 };
 
 export default Donut;
