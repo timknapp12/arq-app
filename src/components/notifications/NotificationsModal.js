@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Modal, View } from 'react-native';
 import { useMutation } from '@apollo/client';
@@ -30,11 +30,7 @@ const NotificationsModal = ({ visible, onClose }) => {
     prospectNotifications,
   );
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
     variables: { associateId, deletePinned: false },
