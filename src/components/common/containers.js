@@ -56,12 +56,12 @@ Flexbox.propTypes = {
   direction: PropTypes.string,
 };
 
-export const MainScrollView = ({ children, ...props }) => (
+export const MainScrollView = ({ children, paddingBottom = 240, ...props }) => (
   <ScrollView
     {...props}
     contentContainerStyle={{
       flexGrow: 1,
-      paddingBottom: 240,
+      paddingBottom,
     }}
     style={{
       width: '100%',
@@ -75,6 +75,7 @@ export const MainScrollView = ({ children, ...props }) => (
 
 MainScrollView.propTypes = {
   children: PropTypes.any,
+  paddingBottom: PropTypes.number,
 };
 
 export const Gap = styled.View`
