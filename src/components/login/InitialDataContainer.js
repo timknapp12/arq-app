@@ -249,6 +249,8 @@ const InitialDataContainer = ({ children }) => {
     alreadyHasTeam &&
     findUsersOwnTeamInfo(associateId, userAccessCodesData?.accesses ?? '');
 
+  const baseEnrollmentUrl = 'https://shopq.qsciences.com?store=';
+
   return (
     <LoginContext.Provider
       value={{
@@ -295,6 +297,7 @@ const InitialDataContainer = ({ children }) => {
         loadingAccessCodes,
         usersTeamInfo,
         refetchUserAccessCodes,
+        baseEnrollmentUrl,
       }}
     >
       {children}

@@ -23,6 +23,7 @@ import {
   Header,
   H3,
   LoadingSpinner,
+  TextArea,
 } from '../common';
 import { Localized } from '../../translations/Localized';
 import LoginContext from '../../contexts/LoginContext';
@@ -48,6 +49,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const {
     updateProfile,
     refetchProfile,
+    baseEnrollmentUrl,
     userProfile: data = {
       profileUrl: '',
       profileImageFileName: '',
@@ -56,6 +58,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       displayName: '',
       emailAddress: '',
       primaryPhoneNumber: '',
+      associateSlugs: [],
       address: {
         address1: '',
         address2: '',
@@ -87,6 +90,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     displayName,
     emailAddress,
     primaryPhoneNumber,
+    associateSlugs,
     address,
   } = myInfo;
 
@@ -291,6 +295,16 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     value={legacyAssociateId?.toString()}
                     editable={false}
                   />
+                  <Flexbox height="100px">
+                    <TextArea
+                      testID="shopQ-website-input"
+                      label={Localized('ShopQ Website')}
+                      value={`${baseEnrollmentUrl}${associateSlugs?.[0]?.slug}`}
+                      editable={false}
+                      multiline
+                      numberOfLines={2}
+                    />
+                  </Flexbox>
                 </Flexbox>
                 <Subheader style={{ marginTop: 12 }} justify="center">
                   <H5Heavy>{Localized('Address')}</H5Heavy>

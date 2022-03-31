@@ -154,7 +154,10 @@ const ContactCard = ({
     onError: (error) => console.log(`error in getProspectUrl:`, error),
   });
 
-  const enrollmentLink = `${defaultMessageIntro}${redirectUrl}%24firstname=${firstName}%24lastname=${lastName}`;
+  const enrollmentLink = `${defaultMessageIntro}${redirectUrl}%24firstname=${firstName.replace(
+    /\s/g,
+    '',
+  )}%24lastname=${lastName.replace(/\s/g, '')}`;
 
   const sendEmail = async () => {
     await setMessageType('email');

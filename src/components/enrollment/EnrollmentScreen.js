@@ -14,17 +14,17 @@ import EnrollmentScreenCard from './EnrollmentScreenCard';
 import { Localized } from '../../translations/Localized';
 
 const EnrollmentScreen = ({ route }) => {
-  const emailAddress = route?.params?.emailAddress;
+  const slug = route?.params?.slug;
+  const baseEnrollmentUrl = route?.params?.baseEnrollmentUrl;
 
   const [selectedOption, setSelectedOption] = useState('pc');
 
-  // TODO - update url when back end has new enrollment key instead of email address
-  const url = `https://shopq.qsciences.com?associate_type=${selectedOption}%24referred_by_email=${emailAddress}`;
+  const url = `${baseEnrollmentUrl}${slug}%24type=${selectedOption}`;
 
   const title =
     selectedOption === 'pc'
-      ? 'Preferred Customer Enrollment'
-      : 'Retail Customer Enrollment';
+      ? Localized('Preferred Customer Enrollment')
+      : Localized('Retail Customer Enrollment');
 
   const navigation = useNavigation();
   const onSend = () => {

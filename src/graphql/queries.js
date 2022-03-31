@@ -212,6 +212,10 @@ export const GET_PROFILE = gql`
       associateType
       associateStatus
       defaultCountry
+      associateSlugs {
+        associateSlugId
+        slug
+      }
       country {
         countryId
         countryCode
