@@ -109,7 +109,6 @@ const LoginScreen = ({
       setIsErrorModalOpen(false);
       setErrorMessage('');
       clearFields();
-      // get associate id if it exists
       if (data.loginArqAmbassador.associate) {
         // set id so treeNodeFor query can be called in dashboard
         const id = data.loginArqAmbassador.associate.associateId;
