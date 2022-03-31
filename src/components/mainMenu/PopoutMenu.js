@@ -35,7 +35,8 @@ const PopoutMenu = ({
   navigation,
 }) => {
   const { signOutOfFirebase } = useContext(AppContext);
-  const { userProfile, userMarket } = useContext(LoginContext);
+  const { userProfile, userMarket, baseEnrollmentUrl } =
+    useContext(LoginContext);
 
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
@@ -79,7 +80,8 @@ const PopoutMenu = ({
               navigation.navigate('App Stack', {
                 screen: 'Enrollment Screen',
                 params: {
-                  emailAddress: userProfile?.emailAddress,
+                  slug: userProfile?.associateSlugs?.[0]?.slug,
+                  baseEnrollmentUrl,
                 },
               })
             }

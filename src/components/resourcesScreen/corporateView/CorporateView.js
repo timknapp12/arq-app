@@ -173,7 +173,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
           value={selectedMarket}
           onValueChange={(value) => setSelectedMarket(value)}
           onSave={getCorporateResources}
-          // showLanguages
+          showLanguages
           selectedLanguage={selectedLanguage}
           onLanguageValueChange={(value) => setSelectedLanguage(value)}
         />
