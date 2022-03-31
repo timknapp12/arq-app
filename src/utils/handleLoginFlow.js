@@ -26,20 +26,21 @@ export const handleLoginUser = (
         navigation.navigate('App Stack');
       }
       break;
-    case 'VERIFICATION_NEEDED':
+    case 'NO_LOGIN':
       navigation.navigate('Enter Id Screen');
       break;
-    case 'NOT_AN_AMBASSADOR':
-      // send to a screen that gives more info an becoming an ambassador
-      navigation.navigate('Redirect Unauthorized User Screen', {
-        message: Localized(
-          'It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador',
-        ),
-        url: 'https://qsciences.com/opportunity',
-        linkText: Localized('Find out more'),
-      });
-      break;
-    case 'NOT_ELIGIBLE_AMBASSADOR':
+    // TODO - handle more use cases from Q Services
+    // case 'NOT_AN_AMBASSADOR':
+    //   // send to a screen that gives more info an becoming an ambassador
+    //   navigation.navigate('Redirect Unauthorized User Screen', {
+    //     message: Localized(
+    //       'It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador',
+    //     ),
+    //     url: 'https://qsciences.com/opportunity',
+    //     linkText: Localized('Find out more'),
+    //   });
+    //   break;
+    default:
       // send to a screen for user to contact support regarding issue with account
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: Localized(
@@ -48,11 +49,6 @@ export const handleLoginUser = (
         url: 'https://qsciences.com/contact-us',
         linkText: Localized('Contact Support'),
       });
-      break;
-    default:
-      // sign out of firebase and send to login screen
-      signOutOfFirebase();
-      navigation.navigate('Login Screen');
   }
 };
 
