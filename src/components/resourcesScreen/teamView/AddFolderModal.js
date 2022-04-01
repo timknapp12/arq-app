@@ -7,10 +7,16 @@ import {
   Platform,
   Alert,
   Keyboard,
-  ActivityIndicator,
   View,
 } from 'react-native';
-import { Flexbox, Label, Input, H5Black, AlertText } from '../../common';
+import {
+  Flexbox,
+  Label,
+  Input,
+  H5Black,
+  AlertText,
+  LoadingSpinner,
+} from '../../common';
 import ImageIcon from '../../../../assets/icons/image-icon.svg';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
@@ -181,7 +187,7 @@ const AddFolderModal = ({
           }}
         >
           {isLoading && (
-            <ActivityIndicator color={theme.disabledBackgroundColor} />
+            <LoadingSpinner color={theme.disabledBackgroundColor} />
           )}
         </View>
         <Input

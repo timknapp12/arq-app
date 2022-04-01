@@ -1,20 +1,14 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-  ActivityIndicator,
-} from 'react-native';
-import { ScreenContainer, Flexbox, Input } from '../../common';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { ScreenContainer, Flexbox, Input, LoadingSpinner } from '../../common';
 import AssetCard from '../assetCard/AssetCard';
 import DownloadToast from '../DownloadToast';
-import AppContext from '../../../contexts/AppContext';
 import { SEARCH_RESOURCES } from '../../../graphql/queries';
 
 const TeamSearchScreen = ({ route, navigation }) => {
-  const { theme } = useContext(AppContext);
   const { selectedTeamName, isOwner } = route.params;
   const [value, setValue] = useState('');
 
@@ -96,11 +90,7 @@ const TeamSearchScreen = ({ route, navigation }) => {
           }}
         >
           {loading ? (
-            <ActivityIndicator
-              style={{ marginTop: 30 }}
-              size="large"
-              color={theme.disabledBackgroundColor}
-            />
+            <LoadingSpinner style={{ marginTop: 30 }} size="large" />
           ) : (
             <TouchableWithoutFeedback
               onPress={() => setIsCalloutOpenFromParent(false)}

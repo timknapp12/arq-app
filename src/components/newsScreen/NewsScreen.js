@@ -5,7 +5,6 @@ import {
   Animated,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -13,6 +12,7 @@ import {
   TertiaryButton,
   TopButtonBar,
   H5,
+  LoadingSpinner,
 } from '../common';
 import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
@@ -26,7 +26,6 @@ import MarketModal from '../marketModal/MarketModal';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
 import { findMarketId } from '../../utils/markets/findMarketId';
 import NewsCardMap from './NewsCardMap';
-import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import { Localized } from '../../translations/Localized';
@@ -39,7 +38,6 @@ const FlagIcon = styled.Image`
 `;
 
 const NewsScreen = ({ navigation }) => {
-  const { theme } = useContext(AppContext);
   const { userMarket, markets, setMarketId, loadingNews, news } =
     useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
@@ -174,10 +172,7 @@ const NewsScreen = ({ navigation }) => {
         </Flexbox>
 
         {loadingNews ? (
-          <ActivityIndicator
-            size="large"
-            color={theme.disabledBackgroundColor}
-          />
+          <LoadingSpinner size="large" />
         ) : (
           <MainScrollView>
             {view?.links?.length > 0 ? (
