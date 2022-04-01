@@ -2,13 +2,14 @@ import { gql } from '@apollo/client';
 
 // possible values returned for loginStatus: "VERIFICATION_NEEDED", "NOT_AN_AMBASSADOR", "SUCCESS"
 export const LOGIN_USER = gql`
-  mutation LoginUser($ambassadorOnly: Boolean!) {
-    loginUser(ambassadorOnly: $ambassadorOnly) {
-      loginStatus
+  mutation LoginArqAmbassador {
+    loginArqAmbassador {
+      success
+      loginResults
+      message
       associate {
         associateId
         legacyAssociateId
-        firstName
       }
     }
   }

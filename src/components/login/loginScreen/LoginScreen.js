@@ -109,16 +109,17 @@ const LoginScreen = ({
       setIsErrorModalOpen(false);
       setErrorMessage('');
       clearFields();
-      // get associate id if it exists
-      if (data.loginUser.associate) {
+      if (data.loginArqAmbassador.associate) {
         // set id so treeNodeFor query can be called in dashboard
-        const id = data.loginUser.associate.associateId;
+        const id = data.loginArqAmbassador.associate.associateId;
         setAssociateId(id);
-        const legacyId = data.loginUser.associate.legacyAssociateId;
+        const legacyId = data.loginArqAmbassador.associate.legacyAssociateId;
         setLegacyId(legacyId);
       }
-      const status = data?.loginUser?.loginStatus;
-      console.log(`status`, status);
+      const status =
+        data?.loginArqAmbassador?.success === true
+          ? 'SUCCESS'
+          : data?.loginArqAmbassador?.loginResults;
       handleLoginUser(
         status,
         navigation,

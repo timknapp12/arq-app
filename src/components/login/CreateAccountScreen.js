@@ -46,7 +46,10 @@ const CreateAccountScreen = ({ navigation }) => {
       setErrorMessage('');
       clearFields();
 
-      const status = data?.loginUser?.loginStatus;
+      const status =
+        data?.loginArqAmbassador?.success === true
+          ? 'SUCCESS'
+          : data?.loginArqAmbassador?.loginResults;
       handleLoginUser(
         status,
         navigation,
