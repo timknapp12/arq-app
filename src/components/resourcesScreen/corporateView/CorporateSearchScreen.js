@@ -154,7 +154,6 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                       setToastInfo={setToastInfo}
                       setIsNavDisabled={setIsNavDisabled}
                       isNavDisabled={isNavDisabled}
-                      hasPermissionsToWrite
                     />
                   ))}
                 </View>

@@ -4,15 +4,11 @@ import { H4, Flexbox, H4Secondary, H3 } from '../common';
 import { Localized } from '../../translations/Localized';
 import Donut from './Donut';
 import AppContext from '../../contexts/AppContext';
-import LoginContext from '../../contexts/LoginContext';
 import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 
 const Overview = () => {
   const { theme } = useContext(AppContext);
-  const { userProfile } = useContext(LoginContext);
   const { user, closeMenus } = useContext(DashboardScreenContext);
-
-  const { pv, totalOv, cv } = user;
 
   return (
     <TouchableWithoutFeedback onPress={closeMenus}>
@@ -23,7 +19,7 @@ const Overview = () => {
           width="100%"
         >
           <H3>{`${Localized('Welcome back')} ${
-            userProfile?.firstName ?? ''
+            user?.associate?.firstName ?? ''
           }`}</H3>
           <H4Secondary>{`${Localized('OV Rank')}: ${
             user?.rank?.rankName ?? ''
@@ -38,8 +34,8 @@ const Overview = () => {
             <H4 testID="pv-donut-label">PV</H4>
             <Donut
               testID="pv-donut-svg"
-              percentage={pv}
-              max={pv}
+              percentage={user?.pv}
+              max={user?.pv}
               color={theme.donut1primaryColor}
               onPress={closeMenus}
             />
@@ -49,8 +45,8 @@ const Overview = () => {
             <H4 testID="cv-donut-label">CV</H4>
             <Donut
               testID="cv-donut-svg"
-              percentage={cv}
-              max={cv}
+              percentage={user?.cv}
+              max={user?.cv}
               color={theme.donut2primaryColor}
               onPress={closeMenus}
             />
@@ -61,8 +57,8 @@ const Overview = () => {
           <H4 testID="ov-donut-label">OV</H4>
           <Donut
             testID="ov-donut-svg"
-            percentage={totalOv}
-            max={totalOv}
+            percentage={user?.totalOv}
+            max={user?.totalOv}
             color={theme.donut3primaryColor}
             onPress={closeMenus}
           />

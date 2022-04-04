@@ -41,8 +41,9 @@ const TeamView = ({
   isOwner,
   setIsOwner,
 }) => {
-  const { theme, associateId, hasPermissionsToWrite } = useContext(AppContext);
-  const { alreadyHasTeam, showAddOptions } = useContext(LoginContext);
+  const { theme, associateId } = useContext(AppContext);
+  const { alreadyHasTeam, showAddOptions, hasPermissionsToWrite } =
+    useContext(LoginContext);
   const { setSelectedFolderName } = useContext(TabButtonContext);
 
   // get all of the access codes that the user has subscribed to

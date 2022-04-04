@@ -6,12 +6,8 @@ import PdfIcon from '../../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../../assets/icons/video-icon.svg';
 import PodcastIcon from '../../../../../assets/icons/podcast-icon.svg';
 import ImageIcon from '../../../../../assets/icons/image-icon.svg';
-// TODO put heart icons back when we have backend support
-// import HeartFillIcon from '../../../../../assets/icons/heart-fill-icon.svg';
-// import HeartOutlineIcon from '../../../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../../assets/icons/share-icon.svg';
-import RemoveIcon from '../../../../../assets/icons/remove-icon.svg';
 import SendIcon from '../../../../../assets/icons/send-icon.svg';
 import LeadCaptureIcon from '../../../../../assets/icons/enrollment-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -28,7 +24,6 @@ import {
 } from './ExpandedProductCard.styles';
 
 const ExpandedProductCard = ({
-  // isFavorite,
   title,
   url,
   isExpanded,
@@ -40,7 +35,6 @@ const ExpandedProductCard = ({
   onShare,
   onSend,
   onLeadCapture,
-  hasPermissionsToWrite,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -178,16 +172,6 @@ const ExpandedProductCard = ({
         </TitleAndDescription>
       </InnerContainer>
       <IconRow>
-        {/* {isFavorite ? (
-          <HeartFillIcon
-            style={smallIconStyle}
-          />
-        ) : (
-          <HeartOutlineIcon
-            style={smallIconStyle}
-          />
-        )} */}
-        {hasPermissionsToWrite && <RemoveIcon style={smallIconStyle} />}
         <TouchableOpacity onPress={onDownload}>
           <DownloadIcon style={smallIconStyle} />
         </TouchableOpacity>
@@ -218,6 +202,5 @@ ExpandedProductCard.propTypes = {
   onShare: PropTypes.func,
   onSend: PropTypes.func,
   onLeadCapture: PropTypes.func,
-  hasPermissionsToWrite: PropTypes.bool,
 };
 export default ExpandedProductCard;
