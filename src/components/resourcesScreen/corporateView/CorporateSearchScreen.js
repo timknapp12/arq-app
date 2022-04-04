@@ -2,11 +2,10 @@ import React, { useState, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
 import debounce from 'lodash.debounce';
-import { ScreenContainer, Flexbox, Input } from '../../common';
+import { ScreenContainer, Flexbox, Input, LoadingSpinner } from '../../common';
 import {
   ScrollView,
   TouchableWithoutFeedback,
-  ActivityIndicator,
   Platform,
   View,
 } from 'react-native';
@@ -17,7 +16,7 @@ import DownloadToast from '../DownloadToast';
 import { SEARCH_RESOURCES } from '../../../graphql/queries';
 
 const CorporateSearchScreen = ({ route, navigation }) => {
-  const { deviceLanguage, theme } = useContext(AppContext);
+  const { deviceLanguage } = useContext(AppContext);
   const { marketId } = route.params;
 
   const [value, setValue] = useState('');
@@ -106,11 +105,7 @@ const CorporateSearchScreen = ({ route, navigation }) => {
           }}
         >
           {loading ? (
-            <ActivityIndicator
-              style={{ marginTop: 30 }}
-              size="large"
-              color={theme.disabledBackgroundColor}
-            />
+            <LoadingSpinner style={{ marginTop: 30 }} size="large" />
           ) : (
             <TouchableWithoutFeedback onPress={dismiss}>
               <Flexbox
@@ -159,7 +154,6 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                       setToastInfo={setToastInfo}
                       setIsNavDisabled={setIsNavDisabled}
                       isNavDisabled={isNavDisabled}
-                      hasPermissionsToWrite
                     />
                   ))}
                 </View>

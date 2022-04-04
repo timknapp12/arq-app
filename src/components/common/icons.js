@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image } from 'react-native';
+import { Image, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import NotificationsIcon from '../../../assets/icons/notification-icon.svg';
@@ -162,13 +162,16 @@ TeamIcon.propTypes = {
   size: PropTypes.number,
 };
 
-const ThemedActivityIndicator = styled.ActivityIndicator`
-  color: ${(props) => props.theme.disabledBackgroundColor};
-`;
-
-export const LoadingSpinner = ({ size = 'small', ...props }) => (
-  <ThemedActivityIndicator size={size} {...props} />
-);
+export const LoadingSpinner = ({ size = 'small', ...props }) => {
+  const { theme } = useContext(AppContext);
+  return (
+    <ActivityIndicator
+      color={theme.primaryButtonBackgroundColor}
+      size={size}
+      {...props}
+    />
+  );
+};
 
 LoadingSpinner.propTypes = { size: PropTypes.string };
 

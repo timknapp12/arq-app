@@ -31,8 +31,7 @@ import {
 } from '../../utils/teamResources/findTeamResourceData';
 
 const InitialDataContainer = ({ children }) => {
-  const { associateId, legacyId, setHasPermissionsToWrite, deviceLanguage } =
-    useContext(AppContext);
+  const { associateId, legacyId, deviceLanguage } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -90,20 +89,28 @@ const InitialDataContainer = ({ children }) => {
     onError: (e) => console.log(`error in get markets`, e),
   });
 
-  const [getUser, { data: userData }] = useLazyQuery(GET_USER, {
-    variables: { legacyAssociateId: legacyId },
-    onError: (e) => console.log(`error in get user`, e),
-    onCompleted: (data) => {
-      if (
-        data?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank?.rankId >
-        10
-      ) {
-        setHasPermissionsToWrite(true);
-      } else {
-        setHasPermissionsToWrite(false);
-      }
+  const [hasPermissionsToWrite, setHasPermissionsToWrite] = useState(false);
+
+  const [getUser, { loading: loadingUserData, data: userData }] = useLazyQuery(
+    GET_USER,
+    {
+      variables: { legacyAssociateId: legacyId },
+      onError: (e) => console.log(`error in get user`, e),
     },
-  });
+  );
+
+  useEffect(() => {
+    getUser();
+  }, [legacyId]);
+
+  useEffect(() => {
+    if (!userData) return;
+    const platinumRankId = 10;
+    const value =
+      userData?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank
+        ?.rankId > platinumRankId;
+    setHasPermissionsToWrite(value);
+  }, [userData]);
 
   const [getProfile, { data: profileData, refetch: refetchProfile }] =
     useLazyQuery(GET_PROFILE, {
@@ -188,10 +195,6 @@ const InitialDataContainer = ({ children }) => {
   }, [subscriptionData]);
 
   useEffect(() => {
-    getUser();
-  }, [legacyId]);
-
-  useEffect(() => {
     if (associateId) {
       getProfile();
       getProspectNotifications();
@@ -274,6 +277,8 @@ const InitialDataContainer = ({ children }) => {
         ranks: ranksData?.ranks,
         markets: marketsData?.activeCountries,
         user: userData?.treeNodeFor,
+        hasPermissionsToWrite,
+        loadingUserData,
         userProfile: profileData?.associates?.[0],
         updateProfile,
         refetchProfile,

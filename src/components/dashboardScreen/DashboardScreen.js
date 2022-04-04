@@ -11,6 +11,7 @@ import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
   Flexbox,
+  LoadingSpinner,
   ScreenContainer,
   TertiaryButton,
   TopButtonBar,
@@ -29,34 +30,7 @@ import TabButtonContext from '../../contexts/TabButtonContext';
 import { maxWidth } from '../../styles/constants';
 
 const DashboardScreen = ({ navigation }) => {
-  // set defaults for user so UI doesn't crash before real data loads
-  const {
-    user = {
-      pv: 0,
-      qoV: 0,
-      totalOv: 0,
-      pa: 0,
-      cv: 0,
-      leg1: 0,
-      leg2: 0,
-      leg3: 0,
-      rank: {
-        rankId: 1,
-        rankName: 'Ambassador',
-        minimumQoV: 0,
-        maximumPerLeg: 0,
-        legMaxPercentage: 100,
-        requiredPv: 0,
-        requiredPa: 0,
-      },
-      previousAmbassadorMonthlyRecord: {
-        personalVolume: 0,
-        personallySponsoredActiveAmbassadorCount: 0,
-        qov: 0,
-      },
-    },
-    ranks = [],
-  } = useContext(LoginContext);
+  const { ranks = [], user, loadingUserData } = useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const isFocused = useIsFocused();
@@ -163,22 +137,32 @@ const DashboardScreen = ({ navigation }) => {
               navigation={navigation}
             />
           </Flexbox>
-          <ScrollView
-            contentContainerStyle={{
-              flexGrow: 1,
-              paddingBottom: 60,
-            }}
-            style={{
-              width: '100%',
-              height: '100%',
-              maxWidth,
-              zIndex: -1,
-            }}
-          >
-            {view.name === Localized('Overview').toUpperCase() && <Overview />}
-            {view.name === Localized('Rank').toUpperCase() && <Rank />}
-            {view.name === Localized('OV Detail').toUpperCase() && <OVDetail />}
-          </ScrollView>
+          {loadingUserData ? (
+            <Flexbox height="90%" justify="center">
+              <LoadingSpinner size="large" />
+            </Flexbox>
+          ) : (
+            <ScrollView
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingBottom: 60,
+              }}
+              style={{
+                width: '100%',
+                height: '100%',
+                maxWidth,
+                zIndex: -1,
+              }}
+            >
+              {view.name === Localized('Overview').toUpperCase() && (
+                <Overview />
+              )}
+              {view.name === Localized('Rank').toUpperCase() && <Rank />}
+              {view.name === Localized('OV Detail').toUpperCase() && (
+                <OVDetail />
+              )}
+            </ScrollView>
+          )}
           {isMyInfoModalOpen && (
             <MyInfoModal
               isMyInfoModalOpen={isMyInfoModalOpen}

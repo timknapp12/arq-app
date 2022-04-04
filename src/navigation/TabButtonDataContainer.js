@@ -21,13 +21,14 @@ const { width: screenWidth } = Dimensions.get('screen');
 const duration = 250;
 
 const TabButtonDataContainer = ({ children }) => {
-  const { associateId, hasPermissionsToWrite } = useContext(AppContext);
+  const { associateId } = useContext(AppContext);
   const {
     showAddOptions,
     setShowAddOptions,
     usersTeamInfo,
     refetchUserAccessCodes,
     alreadyHasTeam,
+    hasPermissionsToWrite,
   } = useContext(LoginContext);
 
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
