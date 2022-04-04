@@ -186,9 +186,7 @@ const AddFolderModal = ({
             alignItems: 'center',
           }}
         >
-          {isLoading && (
-            <LoadingSpinner color={theme.disabledBackgroundColor} />
-          )}
+          {isLoading && <LoadingSpinner />}
         </View>
         <Input
           label={Localized('Title')}
