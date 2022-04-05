@@ -1,5 +1,4 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -8,7 +7,10 @@
     "eject": "expo eject",
     "test": "jest",
     "storybook": "start-storybook -p 7007",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build-dev": "eas build --platform all --profile development",
+    "build-preview": "eas build --platform all --profile preview",
+    "build-prod": "eas build --platform all --profile production"
   },
   "dependencies": {
     "@apollo/client": "^3.4.11",
@@ -36,6 +38,7 @@
     "expo-font": "~9.1.0",
     "expo-google-sign-in": "~9.1.0",
     "expo-image-picker": "~10.1.4",
+    "expo-linear-gradient": "~9.1.0",
     "expo-local-authentication": "~11.0.2",
     "expo-localization": "~10.1.0",
     "expo-media-library": "~12.0.2",
@@ -43,6 +46,7 @@
     "expo-random": "~11.1.2",
     "expo-screen-orientation": "~3.1.0",
     "expo-sharing": "~9.1.2",
+    "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.5.4",
     "firebase": "8.2.3",
@@ -76,8 +80,7 @@
     "react-native-webview": "11.2.3",
     "rn-pdf-reader-js": "^4.1.1",
     "styled-components": "^5.2.1",
-    "subscriptions-transport-ws": "^0.9.19",
-    "expo-linear-gradient": "~9.1.0"
+    "subscriptions-transport-ws": "^0.9.19"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
