@@ -1,22 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  Dimensions,
-  ScrollView,
-  useWindowDimensions,
-} from 'react-native';
+import { Image, Dimensions, ScrollView } from 'react-native';
 import { ScreenContainer } from '../common';
-// import PDFReader from 'rn-pdf-reader-js';
+import PDFReader from 'rn-pdf-reader-js';
 import baseImage from '../../../assets/icons/image.png';
 import AppContext from '../../contexts/AppContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import Pdf from 'react-native-pdf';
-
-const { height } = useWindowDimensions();
 
 const ResourcesAssetScreen = ({ route }) => {
-  console.log('height', height);
   const { theme } = useContext(AppContext);
   const { url, contentType } = route.params;
   const [imageWidth, setImageWidth] = useState(300);
@@ -37,16 +28,16 @@ const ResourcesAssetScreen = ({ route }) => {
 
   if (contentType === 'pdf') {
     return (
-      <Pdf
+      <PDFReader
         style={{
           backgroundColor: theme.backgroundColor,
         }}
-        // webviewStyle={{
-        //   backgroundColor: theme.backgroundColor,
-        //   marginTop: -4,
-        //   marginStart: -4,
-        //   padding: 0,
-        // }}
+        webviewStyle={{
+          backgroundColor: theme.backgroundColor,
+          marginTop: -4,
+          marginStart: -4,
+          padding: 0,
+        }}
         source={{ uri: url ? url : baseImage }}
       />
     );

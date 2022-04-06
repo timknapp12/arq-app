@@ -8,25 +8,15 @@
         "buildType": "apk"
       },
       "developmentClient": true,
-      "distribution": "internal",
-      "env": {
-        "API_URL": "https://qservices-dev.qsciences.com/graphql"
-      }
+      "distribution": "internal"
     },
     "preview": {
       "android": {
         "buildType": "apk"
       },
-      "distribution": "internal",
-      "env": {
-        "API_URL": "https://qservices-staging.qsciences.com/graphql"
-      }
+      "distribution": "internal"
     },
-    "production": {
-      "env": {
-        "API_URL": "https://qservices-staging.qsciences.com/graphql"
-      }
-    }
+    "production": {}
   },
   "submit": {
     "production": {}

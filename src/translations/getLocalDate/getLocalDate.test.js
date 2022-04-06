@@ -88,13 +88,6 @@ describe('get local date showing shortened month', () => {
     const output = 'July 14';
     expect(getLocalDate(utcString, language, format)).toBe(output);
   });
-  test('cs shows červenec 14', () => {
-    const language = 'cs';
-    moment.locale(language);
-
-    const output = 'červenec 14';
-    expect(getLocalDate(utcString, language, format)).toBe(output);
-  });
   test('de shows Juli 14', () => {
     const language = 'de';
     moment.locale(language);
