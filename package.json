@@ -9,7 +9,7 @@
     "storybook": "start-storybook -p 7007",
     "build-storybook": "build-storybook",
     "build-dev": "eas build --platform all --profile development",
-    "build-preview": "eas build --platform all --profile preview",
+    "build-staging": "eas build --platform all --profile staging",
     "build-prod": "eas build --platform all --profile production"
   },
   "dependencies": {
