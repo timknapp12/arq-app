@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-  Animated,
-  Platform,
-} from 'react-native';
+import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
@@ -55,7 +50,6 @@ const DashboardScreen = ({ navigation }) => {
   const [view, setView] = useState(tertiaryButtonText[0]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isRankInfoPopupOpen, setIsRankInfoPopupOpen] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(-500)).current;
 
@@ -79,8 +73,6 @@ const DashboardScreen = ({ navigation }) => {
   const closeMenus = () => {
     fadeOut();
     closeAddOptions();
-    // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
-    Platform.OS === 'ios' && setIsRankInfoPopupOpen(false);
   };
 
   const navigate = (item) => {
@@ -97,13 +89,7 @@ const DashboardScreen = ({ navigation }) => {
 
   return (
     <DashboardScreenContext.Provider
-      value={{
-        ranklist: ranks,
-        user,
-        closeMenus,
-        isRankInfoPopupOpen,
-        setIsRankInfoPopupOpen,
-      }}
+      value={{ ranklist: ranks, user, closeMenus }}
     >
       <TouchableWithoutFeedback onPress={closeMenus}>
         <ScreenContainer
