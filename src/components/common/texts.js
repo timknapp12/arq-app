@@ -124,6 +124,12 @@ export const H6Book = styled.Text`
   color: ${(props) => props.theme.primaryTextColor};
 `;
 
+export const H6Heavy = styled.Text`
+  font-family: 'Avenir-Heavy';
+  font-size: 14px;
+  color: ${(props) => props.theme.primaryTextColor};
+`;
+
 export const Checkmark = styled.Text`
   font-family: 'Avenir-Heavy';
   font-size: 12px;

@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4, H6Secondary, Flexbox } from '../common';
 import CustomSlider from './CustomSlider';
-import QOVInfoPopup from './QOVInfoPopup';
+import RankQualificationsModal from './RankQualificationsModal';
 import {
   findRankName,
   findRankObject,
@@ -20,12 +20,12 @@ const sliderWidth = width - 40;
 
 const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
   const { theme } = useContext(AppContext);
-  const { ranklist, isRankInfoPopupOpen, setIsRankInfoPopupOpen } = useContext(
-    DashboardScreenContext,
-  );
+  const { ranklist } = useContext(DashboardScreenContext);
 
   const maximumValue = ranklist.length - 1;
   const initialValue = findRankIndex(ranklist, rank.rankName);
+  const [isRankQualificationsModalOpen, setIsRankQualificationsModalOpen] =
+    useState(false);
   const [value, setValue] = useState(initialValue);
   const [isQualifiedTextDisplayed, setIsQualifiedTextDisplayed] =
     useState(true);
@@ -39,10 +39,6 @@ const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
   const onSlidingComplete = () => {
     setRank(findRankObject(ranklist, value));
     setIsQualifiedTextDisplayed(true);
-  };
-
-  const toggleQOVInfoPopup = () => {
-    setIsRankInfoPopupOpen((state) => !state);
   };
 
   return (
@@ -64,7 +60,7 @@ const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
                 alignItems: 'flex-end',
                 justifyContent: 'center',
               }}
-              onPress={toggleQOVInfoPopup}
+              onPress={() => setIsRankQualificationsModalOpen(true)}
             >
               <H6Secondary style={{ marginEnd: 8 }}>
                 {isQualified
@@ -79,8 +75,11 @@ const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
                 }}
               />
             </TouchableOpacity>
-            {isRankInfoPopupOpen && (
-              <QOVInfoPopup onClose={() => setIsRankInfoPopupOpen(false)} />
+            {isRankQualificationsModalOpen && (
+              <RankQualificationsModal
+                visible={isRankQualificationsModalOpen}
+                onClose={() => setIsRankQualificationsModalOpen(false)}
+              />
             )}
           </Flexbox>
         )}
