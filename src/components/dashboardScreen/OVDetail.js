@@ -18,9 +18,7 @@ const TitleContainer = styled.View`
 
 const OVDetail = () => {
   const { theme } = useContext(AppContext);
-  const { closeMenus, user, setIsRankInfoPopupOpen } = useContext(
-    DashboardScreenContext,
-  );
+  const { closeMenus, user } = useContext(DashboardScreenContext);
 
   const initialRankName = user?.rank.name;
   const [rankName, setRankName] = useState(initialRankName);
@@ -114,10 +112,7 @@ const OVDetail = () => {
               // the circle should always be full if the user is qualified for any certain level
               max={isQualified ? user.leg1 : maxQOV.leg1Max}
               color={theme.donut1primaryColor}
-              onPress={() => {
-                closeMenus();
-                setIsRankInfoPopupOpen(false);
-              }}
+              onPress={closeMenus}
               showTapIcon={user?.leg1 < rank?.maximumPerLeg}
               remainingQov={remainingQovLeg1}
               showRemainingQov={showRemainingQovLeg1}
@@ -143,10 +138,7 @@ const OVDetail = () => {
               percentage={user.leg2}
               max={isQualified ? user.leg2 : maxQOV.leg2Max}
               color={theme.donut2primaryColor}
-              onPress={() => {
-                closeMenus();
-                setIsRankInfoPopupOpen(false);
-              }}
+              onPress={closeMenus}
               showTapIcon={user?.leg2 < rank?.maximumPerLeg}
               remainingQov={remainingQovLeg2}
               showRemainingQov={showRemainingQovLeg2}
@@ -173,10 +165,7 @@ const OVDetail = () => {
             percentage={user.leg3}
             max={isQualified ? user.leg3 : maxQOV.leg3Max}
             color={theme.donut3primaryColor}
-            onPress={() => {
-              closeMenus();
-              setIsRankInfoPopupOpen(false);
-            }}
+            onPress={closeMenus}
             showTapIcon={user?.leg3 < rank?.maximumPerLeg}
             remainingQov={remainingQovLeg3}
             showRemainingQov={showRemainingQovLeg3}

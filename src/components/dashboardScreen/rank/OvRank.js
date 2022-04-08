@@ -30,9 +30,7 @@ const Dot = styled.View`
 
 const OvRank = () => {
   const { theme } = useContext(AppContext);
-  const { user, closeMenus, setIsRankInfoPopupOpen } = useContext(
-    DashboardScreenContext,
-  );
+  const { user, closeMenus } = useContext(DashboardScreenContext);
 
   const { pv, pa, leg1, leg2, leg3, previousAmbassadorMonthlyRecord } = user;
 
@@ -145,10 +143,7 @@ const OvRank = () => {
             innermax={100}
             innercolor={theme.donut1secondaryColor}
             view="rank"
-            onPress={() => {
-              closeMenus();
-              setIsRankInfoPopupOpen(false);
-            }}
+            onPress={closeMenus}
           />
           <LegendContainer>
             <Legend>
@@ -183,7 +178,6 @@ const OvRank = () => {
             view="rank"
             onPress={() => {
               closeMenus();
-              setIsRankInfoPopupOpen(false);
               showTapIcon && setShowRemainingQov((state) => !state);
             }}
             showTapIcon={showTapIcon}
@@ -224,10 +218,7 @@ const OvRank = () => {
           innermax={100}
           innercolor={theme.donut3secondaryColor}
           view="rank"
-          onPress={() => {
-            closeMenus();
-            setIsRankInfoPopupOpen(false);
-          }}
+          onPress={closeMenus}
         />
         <LegendContainer>
           <Legend>
