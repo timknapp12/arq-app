@@ -82,7 +82,7 @@ const NewsScreen = ({ navigation }) => {
     if (news) {
       setView(news?.[0]);
     }
-  }, [marketUrl]);
+  }, [marketUrl, news]);
 
   const navigate = (item) => {
     closeMenus();
