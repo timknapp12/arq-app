@@ -242,17 +242,17 @@ describe('findMembersInDownlineOneLevel', () => {
 });
 
 const blue = '#007985';
-const caramel = '#D59957';
-const violet = '#70346E';
-const darkRed = '#AC2A1C';
+const earthYellow = '#D59957';
+const palastinePurple = '#70346E';
+const carnelian = '#AC2A1C';
 const warningYellow = '#FDD207';
 
 const memberTypeColorMap = {
   activeAmbassador: blue,
-  activePreferred: caramel,
-  activeRetail: violet,
+  activePreferred: earthYellow,
+  activeRetail: palastinePurple,
   warning: warningYellow,
-  terminated: darkRed,
+  terminated: carnelian,
 };
 
 describe('filterMemberByStatusAndType', () => {
@@ -290,7 +290,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Gold',
       },
     };
-    const output = ['Terminated', darkRed];
+    const output = ['Terminated', carnelian];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
@@ -344,7 +344,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Gold',
       },
     };
-    const output = ['Chargeback', darkRed];
+    const output = ['Chargeback', carnelian];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
@@ -362,7 +362,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Gold',
       },
     };
-    const output = ['Fraudulent Behavior', darkRed];
+    const output = ['Fraudulent Behavior', carnelian];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
@@ -398,7 +398,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Ambassador',
       },
     };
-    const output = ['Preferred Customer', caramel];
+    const output = ['Preferred Customer', earthYellow];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
@@ -416,7 +416,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Ambassador',
       },
     };
-    const output = ['Terminated', darkRed];
+    const output = ['Terminated', carnelian];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
@@ -434,7 +434,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Ambassador',
       },
     };
-    const output = ['Retail', violet];
+    const output = ['Retail', palastinePurple];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),
@@ -452,7 +452,7 @@ describe('filterMemberByStatusAndType', () => {
         rankName: 'Ambassador',
       },
     };
-    const output = ['Terminated', darkRed];
+    const output = ['Terminated', carnelian];
 
     expect(
       filterMemberByStatusAndType(input, memberTypeColorMap),

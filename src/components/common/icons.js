@@ -20,7 +20,7 @@ import News from '../../../assets/icons/news.svg';
 import Team from '../../../assets/icons/team-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../contexts/AppContext';
-import { darkRed, primaryWhite, blue } from '../../styles/colors';
+import { carnelian, primaryWhite, blue } from '../../styles/colors';
 
 const IconContainer = styled.View`
   position: relative;
@@ -35,7 +35,7 @@ const ThemedImage = styled.Image`
 const badgeCircumfrance = 16;
 
 const BadgeContainer = styled.View`
-  background-color: ${darkRed};
+  background-color: ${carnelian};
   position: absolute;
   justify-content: center;
   align-items: center;
