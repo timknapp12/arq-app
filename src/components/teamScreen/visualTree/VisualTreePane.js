@@ -55,7 +55,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
     cvRankId: item?.customerSalesRank?.customerSalesRankId,
-    qov: item?.qoV,
+    ov: item?.ov,
     cv: item?.cv,
   });
 

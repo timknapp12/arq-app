@@ -18,7 +18,7 @@ const OvRankBarChartContainer = ({ member }) => {
   const { ranks } = useContext(LoginContext);
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
-  const { pv, qoV, pa, rank, previousAmbassadorMonthlyRecord } = member;
+  const { pv, ov, pa, rank, previousAmbassadorMonthlyRecord } = member;
 
   // default rankId for an inactive ambassador is 1
   // show what rank is next
@@ -50,7 +50,7 @@ const OvRankBarChartContainer = ({ member }) => {
     requiredPvForNextRank,
   );
 
-  const thisMonthQovWidth = getPercentage(qoV, requiredQovForNextRank);
+  const thisMonthQovWidth = getPercentage(ov, requiredQovForNextRank);
   const lastMonthQovWidth = getPercentage(
     previousAmbassadorMonthlyRecord?.qov ?? 0,
     requiredQovForNextRank,
@@ -84,15 +84,14 @@ const OvRankBarChartContainer = ({ member }) => {
             requiredTotal={requiredPvForNextRank}
           />
           <Gap />
-          <H4>{Localized('Total QOV')}</H4>
+          <H4>{Localized('Total OV')}</H4>
           <Bar value={thisMonthQovWidth} color={theme.donut2primaryColor} />
           <Bar value={lastMonthQovWidth} color={theme.donut2secondaryColor} />
           <BarChartLegend
             primaryColor={theme.donut2primaryColor}
             secondaryColor={theme.donut2secondaryColor}
-            primaryTotal={qoV}
+            primaryTotal={ov}
             secondaryTotal={previousAmbassadorMonthlyRecord?.qov ?? 0}
-            requiredTotal={requiredQovForNextRank}
           />
           <Gap />
           <H4>{Localized('Personally Active')}</H4>
