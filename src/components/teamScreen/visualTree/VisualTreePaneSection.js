@@ -122,9 +122,7 @@ const VisualTreePaneSection = ({
     idOfDraggedItem !== droppedMember?.legacyAssociateId;
 
   if (loading) {
-    setTimeout(() => {
-      return <LoadingSpinner style={{ marginTop: 10 }} size="large" />;
-    }, 500);
+    return <LoadingSpinner style={{ marginTop: 20 }} size="large" />;
   }
   return (
     <>
