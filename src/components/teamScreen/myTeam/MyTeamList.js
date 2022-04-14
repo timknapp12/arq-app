@@ -93,7 +93,7 @@ const MyTeamList = () => {
       <Flexbox style={{ width: 320, height: 220 }}>
         <H5 style={{ textAlign: 'center' }}>
           {Localized(
-            'We had a problem retrieving your data. Please try again later',
+            'We had a problem retrieving your data Please try again later',
           )}
         </H5>
       </Flexbox>

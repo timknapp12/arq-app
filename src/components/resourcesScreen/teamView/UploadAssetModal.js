@@ -206,14 +206,14 @@ const UploadAssetModal = ({
     if (contentType === 'image' && file.contentType !== 'image') {
       return Alert.alert(
         Localized(
-          `You selected a File Type of 'image' but uploaded a document that doesn't match. Please make sure these match`,
+          `You selected a File Type of 'image' but uploaded a document that doesn't match Please make sure these match`,
         ),
       );
     }
     if (contentType === 'pdf' && file.contentType !== 'pdf') {
       return Alert.alert(
         Localized(
-          `You selected a File Type of 'pdf' but uploaded a document that doesn't match. Please make sure these match`,
+          `You selected a File Type of 'pdf' but uploaded a document that doesn't match Please make sure these match`,
         ),
       );
     }

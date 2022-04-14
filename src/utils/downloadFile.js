@@ -22,12 +22,12 @@ export const downloadFile = async (
     if (contentType === 'image') {
       setToastInfo(
         filename,
-        Localized('Downloading to Photos...'),
+        Localized('Downloading to Photos'),
         true,
         progress,
       );
     } else {
-      setToastInfo(filename, Localized('Downloading...'), true, progress);
+      setToastInfo(filename, Localized('Downloading'), true, progress);
     }
     return progress;
   };

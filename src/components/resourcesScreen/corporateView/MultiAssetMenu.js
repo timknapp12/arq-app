@@ -18,11 +18,19 @@ const Container = styled.View`
   top: 64px;
 `;
 
-const contentTypeMap = {
-  image: Localized('Image'),
-  pdf: Localized('Document'),
-  video: Localized('Video'),
-  podcast: Localized('Podcast'),
+const translateLabel = (contentType) => {
+  if (contentType === 'image') {
+    return Localized('Image');
+  }
+  if (contentType === 'pdf') {
+    return Localized('Document');
+  }
+  if (contentType === 'video') {
+    return Localized('Video');
+  }
+  if (contentType === 'podcast') {
+    return Localized('Podcast');
+  } else return '';
 };
 
 // The TouchableOpacity from react native works on ios and the TouchableOpacity from react-native-gesture-hanlder works on android
@@ -50,7 +58,7 @@ const MultiAssetMenu = ({ title, options, onPress, onClose }) => {
         <RadioButton
           onPress={() => setSelectedAsset(item)}
           key={item?.linkId}
-          label={contentTypeMap[item?.contentType]}
+          label={translateLabel(item?.contentType)}
           isSelected={item?.linkId === selectedAsset.linkId}
         />
       ))}
