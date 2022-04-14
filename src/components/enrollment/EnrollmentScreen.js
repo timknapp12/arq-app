@@ -46,7 +46,7 @@ const EnrollmentScreen = ({ route }) => {
       <ScrollView
         contentContainerStyle={{
           paddingTop: 20,
-          paddingBottom: 20,
+          paddingBottom: 100,
         }}
       >
         <H5Secondary style={{ textAlign: 'center' }}>

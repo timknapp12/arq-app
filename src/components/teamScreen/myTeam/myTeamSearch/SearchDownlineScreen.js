@@ -201,7 +201,7 @@ const SearchDownlineScreen = ({ route }) => {
               value={searchTerm}
               onChangeText={handleChange}
               returnKeyType="done"
-              placeholder="Search by first and last name"
+              placeholder={Localized('Search by first and last name')}
               placeholderTextColor={theme.placeholderTextColor}
             />
           </Flexbox>
