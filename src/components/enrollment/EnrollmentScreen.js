@@ -19,7 +19,9 @@ const EnrollmentScreen = ({ route }) => {
 
   const [selectedOption, setSelectedOption] = useState('pc');
 
-  const url = `${baseEnrollmentUrl}${slug}%24type=${selectedOption}`;
+  const url = `${baseEnrollmentUrl}${encodeURIComponent(
+    `=`,
+  )}${slug}${encodeURIComponent(`&type=`)}${selectedOption}`;
 
   const title =
     selectedOption === 'pc'

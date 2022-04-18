@@ -8,6 +8,7 @@ import AppContext from '../../../contexts/AppContext';
 import ProspectsContext from '../../../contexts/ProspectsContext';
 import { Localized } from '../../../translations/Localized';
 import { GET_PROSPECT_URL } from '../../../graphql/mutations';
+import encodeProspectUrl from '../../../utils/encodeProspectUrl/encodeProspectUrl';
 
 const ContactCard = ({
   data,
@@ -144,7 +145,10 @@ const ContactCard = ({
   const [getProspectUrl] = useMutation(GET_PROSPECT_URL, {
     variables: variables,
     onCompleted: async (data) => {
-      const message = data?.addUpdateProspectLink?.prospectUrl;
+      // encode url if it is Android
+      const rawMessage = data?.addUpdateProspectLink?.prospectUrl;
+      const message =
+        Platform.OS === 'ios' ? rawMessage : encodeProspectUrl(rawMessage);
       if (messageType === 'email') {
         onEmail(emailAddress, `${defaultMessageIntro}${message}`);
       } else if (messageType === 'text') {
@@ -154,10 +158,13 @@ const ContactCard = ({
     onError: (error) => console.log(`error in getProspectUrl:`, error),
   });
 
-  const enrollmentLink = `${defaultMessageIntro}${redirectUrl}%24firstname=${firstName.replace(
+  const urlParams = `${encodeURIComponent(`&firstname=`)}${firstName.replace(
     /\s/g,
     '',
-  )}%24lastname=${lastName.replace(/\s/g, '')}`;
+  )}${encodeURIComponent(`&lastname=`)}${lastName.replace(/\s/g, '')}`;
+  const encoded = `${redirectUrl}${urlParams}`;
+
+  const enrollmentLink = `${defaultMessageIntro}${encoded}`;
 
   const sendEmail = async () => {
     await setMessageType('email');

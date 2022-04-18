@@ -33,8 +33,8 @@ import {
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, deviceLanguage } = useContext(AppContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('tim2@test.com');
+  const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [directScaleUser, setDirectScaleUser] = useState({
@@ -252,7 +252,7 @@ const InitialDataContainer = ({ children }) => {
     alreadyHasTeam &&
     findUsersOwnTeamInfo(associateId, userAccessCodesData?.accesses ?? '');
 
-  const baseEnrollmentUrl = 'https://shopq.qsciences.com?store=';
+  const baseEnrollmentUrl = 'https://shopq.qsciences.com?store';
 
   return (
     <LoginContext.Provider
