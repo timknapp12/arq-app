@@ -36,14 +36,13 @@ const rankIconMap = {
   'Crown Diamond': CrownDiamond,
 };
 
-const RankIcon = ({ rankName, size = 20 }) => {
+const RankIcon = ({ rankName }) => {
   const IconComponent = rankIconMap[rankName];
-  return <IconComponent style={{ height: size, width: size }} />;
+  return <IconComponent />;
 };
 
 RankIcon.propTypes = {
   rankName: PropTypes.string.isRequired,
-  size: PropTypes.number,
 };
 
 export default RankIcon;
