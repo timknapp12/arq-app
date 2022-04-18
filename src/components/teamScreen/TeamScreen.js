@@ -208,7 +208,7 @@ const TeamScreen = ({ navigation, route }) => {
               </TertiaryButton>
             ))}
           </TopButtonBar>
-          <Flexbox>
+          <Flexbox style={{ zIndex: 1 }}>
             <PopoutMenu
               fadeAnim={fadeAnim}
               fadeOut={fadeOut}
