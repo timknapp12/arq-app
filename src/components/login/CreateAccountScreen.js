@@ -40,7 +40,6 @@ const CreateAccountScreen = ({ navigation }) => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    variables: { ambassadorOnly: true },
     onCompleted: (data) => {
       setIsErrorModalOpen(false);
       setErrorMessage('');
