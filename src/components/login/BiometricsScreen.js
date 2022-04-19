@@ -12,9 +12,13 @@ import LoginContext from '../../contexts/LoginContext';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
 
 const BiometricsScreen = ({ navigation }) => {
-  const { theme, hasPermissionsToWrite } = useContext(AppContext);
-  const { storeBiometrics, alreadyHasTeam, loadingAccessCodes } =
-    useContext(LoginContext);
+  const { theme } = useContext(AppContext);
+  const {
+    storeBiometrics,
+    alreadyHasTeam,
+    loadingAccessCodes,
+    hasPermissionsToWrite,
+  } = useContext(LoginContext);
   const [enableBiometrics, setEnableBiometrics] = useState(true);
   const label = Localized(
     Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',

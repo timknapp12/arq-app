@@ -7,10 +7,9 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Animated,
-  ActivityIndicator,
   Image,
 } from 'react-native';
-import { ScreenContainer, Flexbox, AddButton } from '../common';
+import { ScreenContainer, Flexbox, AddButton, LoadingSpinner } from '../common';
 import FilterIcon from '../../../assets/icons/filter-icon.svg';
 import FilterSearchBar from '../filterSearchBar/FilterSearchBar';
 import FilterMenu from './FilterMenu';
@@ -157,10 +156,7 @@ const ProspectsScreen = ({ navigation, route }) => {
             />
           </Flexbox>
           {loading || loadingByFirstName ? (
-            <ActivityIndicator
-              size="large"
-              color={theme.disabledBackgroundColor}
-            />
+            <LoadingSpinner size="large" />
           ) : (
             <ProspectsView
               prospects={prospects}

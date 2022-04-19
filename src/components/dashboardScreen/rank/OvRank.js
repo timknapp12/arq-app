@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useLazyQuery } from '@apollo/client';
 import { H4, H5, Flexbox } from '../../common';
@@ -7,6 +6,7 @@ import { Localized } from '../../../translations/Localized';
 import DoubleDonut from '../DoubleDonut';
 import Slider from '../Slider';
 import AppContext from '../../../contexts/AppContext';
+import DashboardScreenContext from '../../../contexts/DashboardScreenContext';
 import { reshapePerc } from '../../../utils/calculateLegPercentages';
 import { CALCULATE_QOV } from '../../../graphql/queries';
 import stringify from '../../../utils/roundDownAndAddCommas/stringify';
@@ -28,8 +28,10 @@ const Dot = styled.View`
   background-color: ${({ dotFill }) => dotFill};
 `;
 
-const OvRank = ({ ranklist, user, closeMenus }) => {
+const OvRank = () => {
   const { theme } = useContext(AppContext);
+  const { user, closeMenus } = useContext(DashboardScreenContext);
+
   const { pv, pa, leg1, leg2, leg3, previousAmbassadorMonthlyRecord } = user;
 
   const lastMonthPV = previousAmbassadorMonthlyRecord?.personalVolume ?? 0;
@@ -122,7 +124,6 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
         setRankName={setRankName}
         rank={rank}
         setRank={setRank}
-        ranklist={ranklist}
         isQualified={isQualified}
       />
       <Flexbox
@@ -236,22 +237,6 @@ const OvRank = ({ ranklist, user, closeMenus }) => {
       </Flexbox>
     </>
   );
-};
-
-OvRank.propTypes = {
-  ranklist: PropTypes.arrayOf(
-    PropTypes.shape({
-      rankId: PropTypes.number,
-      rankName: PropTypes.string,
-      requiredPv: PropTypes.number,
-      minimumQoV: PropTypes.number,
-      legMaxPercentage: PropTypes.number,
-      maximumPerLeg: PropTypes.number,
-      requiredPa: PropTypes.number,
-    }),
-  ),
-  user: PropTypes.object,
-  closeMenus: PropTypes.func,
 };
 
 export default OvRank;

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image } from 'react-native';
+import { Image, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import NotificationsIcon from '../../../assets/icons/notification-icon.svg';
@@ -20,7 +20,7 @@ import News from '../../../assets/icons/news.svg';
 import Team from '../../../assets/icons/team-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../contexts/AppContext';
-import { darkRed, primaryWhite, blue } from '../../styles/colors';
+import { carnelian, primaryWhite, blue } from '../../styles/colors';
 
 const IconContainer = styled.View`
   position: relative;
@@ -35,7 +35,7 @@ const ThemedImage = styled.Image`
 const badgeCircumfrance = 16;
 
 const BadgeContainer = styled.View`
-  background-color: ${darkRed};
+  background-color: ${carnelian};
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -162,13 +162,16 @@ TeamIcon.propTypes = {
   size: PropTypes.number,
 };
 
-const ThemedActivityIndicator = styled.ActivityIndicator`
-  color: ${(props) => props.theme.disabledBackgroundColor};
-`;
-
-export const LoadingSpinner = ({ size = 'small', ...props }) => (
-  <ThemedActivityIndicator size={size} {...props} />
-);
+export const LoadingSpinner = ({ size = 'small', ...props }) => {
+  const { theme } = useContext(AppContext);
+  return (
+    <ActivityIndicator
+      color={theme.primaryButtonBackgroundColor}
+      size={size}
+      {...props}
+    />
+  );
+};
 
 LoadingSpinner.propTypes = { size: PropTypes.string };
 

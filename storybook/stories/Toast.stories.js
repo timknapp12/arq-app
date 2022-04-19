@@ -32,10 +32,5 @@ storiesOf('Toasts', module)
   .addDecorator((getStory) => <ScreenContainer>{getStory()}</ScreenContainer>)
   .add('default', () => <Example />)
   .add('Download Toast', () => (
-    <DownloadToast
-      visible
-      title="Image.png"
-      body="Downloading..."
-      progress={20}
-    />
+    <DownloadToast visible title="Image.png" body="Downloading" progress={20} />
   ));

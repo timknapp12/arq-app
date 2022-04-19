@@ -8,7 +8,6 @@ import RemoveIcon from '../../../assets/icons/remove-icon.svg';
 import UploadIcon from '../../../assets/icons/upload-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
 import AppContext from '../../contexts/AppContext';
-import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import { H6, H4Book, Flexbox } from '../common';
 import { Localized } from '../../translations/Localized';
@@ -46,7 +45,6 @@ const ResourceCard = ({
   ...props
 }) => {
   const { theme } = useContext(AppContext);
-  const { displayNotifications } = useContext(LoginContext);
   const { setSelectedFolderName } = useContext(TabButtonContext);
 
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
@@ -102,7 +100,7 @@ const ResourceCard = ({
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
       Localized(
-        'Removing this will delete all of its content. Do you wish to continue?',
+        'Removing this will delete all of its content Do you wish to continue',
       ),
       [
         {
@@ -124,12 +122,7 @@ const ResourceCard = ({
     <CardContainer isWideLayout={isWideLayout} {...props}>
       <TouchableOpacity
         activeOpacity={
-          isMenuOpen ||
-          isTeamMenuOpen ||
-          displayNotifications ||
-          isCalloutOpenFromParent
-            ? 1
-            : 0.2
+          isMenuOpen || isTeamMenuOpen || isCalloutOpenFromParent ? 1 : 0.2
         }
         onPress={onPress}
       >

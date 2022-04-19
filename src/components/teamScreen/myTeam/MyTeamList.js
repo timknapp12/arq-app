@@ -11,6 +11,7 @@ import {
   findMembersInDownlineOneLevel,
   putSelectedMemberAtTopOfList,
 } from '../../../utils/teamView/filterDownline';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 
 const MyTeamList = () => {
   const { closeAllMenus, setMyTeamViewHeader, setCurrentMembersUplineId } =
@@ -67,7 +68,7 @@ const MyTeamList = () => {
       const firstName = memberData?.treeNodeFor?.associate?.firstName ?? '';
       const lastName = memberData?.treeNodeFor?.associate?.lastName ?? '';
 
-      setMyTeamViewHeader(`${firstName} ${lastName}`);
+      setMyTeamViewHeader(properlyCaseName(firstName, lastName));
     }
   }, [sortBy, levelInTree, memberData]);
 
@@ -92,7 +93,7 @@ const MyTeamList = () => {
       <Flexbox style={{ width: 320, height: 220 }}>
         <H5 style={{ textAlign: 'center' }}>
           {Localized(
-            'We had a problem retrieving your data. Please try again later',
+            'We had a problem retrieving your data Please try again later',
           )}
         </H5>
       </Flexbox>

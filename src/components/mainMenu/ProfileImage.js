@@ -61,7 +61,7 @@ const ProfileImage = ({
   const [hasPhotosPermissions, setHasPhotosPermissions] = useState(null);
   // permissions for camera
   const getCameraPermissions = async () => {
-    const { status } = await Camera.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     if (status === 'granted') {
       return setHasCameraPermission(true);
     }

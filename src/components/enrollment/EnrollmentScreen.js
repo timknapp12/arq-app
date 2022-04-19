@@ -8,22 +8,25 @@ import {
   SecondaryButton,
   RadioButton,
   Flexbox,
+  H5Secondary,
 } from '../common';
 import EnrollmentScreenCard from './EnrollmentScreenCard';
 import { Localized } from '../../translations/Localized';
 
 const EnrollmentScreen = ({ route }) => {
-  const emailAddress = route?.params?.emailAddress;
+  const slug = route?.params?.slug;
+  const baseEnrollmentUrl = route?.params?.baseEnrollmentUrl;
 
   const [selectedOption, setSelectedOption] = useState('pc');
 
-  // TODO - update url when back end has new enrollment key instead of email address
-  const url = `https://shopq.qsciences.com?associate_type=${selectedOption}%24referred_by_email=${emailAddress}`;
+  const url = `${baseEnrollmentUrl}${encodeURIComponent(
+    `=`,
+  )}${slug}${encodeURIComponent(`&type=`)}${selectedOption}`;
 
   const title =
     selectedOption === 'pc'
-      ? 'Preferred Customer Enrollment'
-      : 'Retail Customer Enrollment';
+      ? Localized('Preferred Customer Enrollment')
+      : Localized('Retail Customer Enrollment');
 
   const navigation = useNavigation();
   const onSend = () => {
@@ -45,8 +48,12 @@ const EnrollmentScreen = ({ route }) => {
       <ScrollView
         contentContainerStyle={{
           paddingTop: 20,
+          paddingBottom: 100,
         }}
       >
+        <H5Secondary style={{ textAlign: 'center' }}>
+          {Localized('This feature is currently only supported in the USA')}
+        </H5Secondary>
         <Flexbox>
           <Flexbox align="flex-start">
             <RadioButton

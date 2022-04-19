@@ -74,10 +74,10 @@ const AccessCodeModal = ({
 
   const instructions = isNew
     ? Localized(
-        `Create a team access code to share resources with your team members. An access code can be 1-20 characters in length.`,
+        `Create a team access code to share resources with your team members An access code can be 1-20 characters in length`,
       )
     : Localized(
-        `A team access code allows you to view, download, and share team resources. If you don't have a team access code you can get one from your leader.`,
+        `A team access code allows you to view, download, and share team resources If you don't have a team access code you can get one from your leader`,
       );
 
   const errorMessage = isNew

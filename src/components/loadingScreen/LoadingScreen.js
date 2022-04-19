@@ -1,13 +1,10 @@
-import React, { useContext } from 'react';
-import { ActivityIndicator } from 'react-native';
-import { ScreenContainer } from '../common';
-import AppContext from '../../contexts/AppContext';
+import React from 'react';
+import { ScreenContainer, LoadingSpinner } from '../common';
 
 const LoadingScreen = () => {
-  const { theme } = useContext(AppContext);
   return (
     <ScreenContainer>
-      <ActivityIndicator size="large" color={theme.disabledBackgroundColor} />
+      <LoadingSpinner size="large" />
     </ScreenContainer>
   );
 };

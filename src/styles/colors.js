@@ -28,27 +28,27 @@ export const blue = '#007985';
 export const red = '#FF0000';
 
 // donut and pie charts
-export const tealAccent = '#94D2BA';
-export const tealAccentDark = '#00FFCC';
-export const tealAccentLight = '#DFF1EA';
+export const turquoiseGreen = '#94D2BA';
+export const turquoiseGreenDark = '#00FFCC';
+export const turquoiseGreenLight = '#DFF1EA';
 
-export const orangeAccent = '#EAB286';
-export const orangeAccentDark = '#FFB200';
-export const orangeAccentLight = '#F9E8DB';
+export const tumbleweed = '#EAB286';
+export const tumbleweedDark = '#FFB200';
+export const tumbleweedLight = '#F9E8DB';
 
-export const yellowAccent = '#B3BE91';
-export const yellowAccentDark = '#B3DE00';
-export const yellowAccentLight = '#E8EBDE';
+export const lauralGreen = '#B3BE91';
+export const lauralGreenDark = '#B3DE00';
+export const lauralGreenLight = '#E8EBDE';
 
-export const blueAccent = '#AFD2D3';
-export const blueAccentDark = '#00D2D3';
-export const blueAccentLight = '#E7F1F2';
+export const powderBlue = '#AFD2D3';
+export const powderBlueDark = '#00D2D3';
+export const powderBlueLight = '#E7F1F2';
 
-export const purpleAccent = '#B6A0BB';
-export const purpleAccentDark = '#B600BB';
-export const purpleAccentLight = '#E9E2EB';
+export const glossyGrape = '#B6A0BB';
+export const glossyGrapeDark = '#B600BB';
+export const glossyGrapeLight = '#E9E2EB';
 
-export const caramel = '#D59957';
-export const violet = '#70346E';
-export const darkRed = '#AC2A1C';
+export const earthYellow = '#D59957';
+export const palastinePurple = '#70346E';
+export const carnelian = '#AC2A1C';
 export const warningYellow = '#FDD207';

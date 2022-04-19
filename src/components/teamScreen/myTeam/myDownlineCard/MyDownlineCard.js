@@ -12,7 +12,7 @@ import MyCustomerExpandedInfo from './MyCustomerExpandedInfo';
 // eslint-disable-next-line react/display-name
 const MyDownlineCard = React.memo(
   ({ autoExpand = false, member, nested, level }) => {
-    const { currentMembersUplineId, closeAllMenus } =
+    const { currentMembersUplineId, closeAllMenus, isFilterMenuOpen } =
       useContext(MyTeamViewContext);
     const { sortBy, setLegacyAssociateId, setLevelInTree, viewInVisualTree } =
       useContext(TeamScreenContext);
@@ -73,6 +73,7 @@ const MyDownlineCard = React.memo(
               closeAllMenus={closeAllMenus}
               showVisualTreeIcon
               viewItemInVisualTree={() => viewInVisualTree(member)}
+              isFilterMenuOpen={isFilterMenuOpen}
             />
             {isExpanded && <ExpandedInfo member={member} level={level + 1} />}
           </CardContainer>

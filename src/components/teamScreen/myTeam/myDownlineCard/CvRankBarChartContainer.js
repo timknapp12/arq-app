@@ -23,7 +23,7 @@ const CvRankBarChartContainer = ({ member }) => {
     cv = 0,
     customerSalesRank,
     previousAmbassadorMonthlyRecord,
-    teamAutoshipVolume,
+    // teamAutoshipVolume,
   } = member;
 
   const defaultRankForInactiveAmbassador = 1;
@@ -44,12 +44,12 @@ const CvRankBarChartContainer = ({ member }) => {
     requiredCvForNextRank,
   );
 
-  const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
-  const thisMonthAutoshipWidth = getPercentage(
-    teamAutoshipVolume,
-    lastMonthAutoship,
-  );
-  const lastMonthAutoshipWidth = lastMonthAutoship > 0 ? 100 : 0;
+  // const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
+  // const thisMonthAutoshipWidth = getPercentage(
+  //   teamAutoshipVolume,
+  //   lastMonthAutoship,
+  // );
+  // const lastMonthAutoshipWidth = lastMonthAutoship > 0 ? 100 : 0;
 
   useEffect(() => {
     // handle sum of NaN in case the values are null
@@ -81,7 +81,7 @@ const CvRankBarChartContainer = ({ member }) => {
             requiredTotal={requiredCvForNextRank}
           />
           <Gap />
-          <H4>{Localized('Autoship CV')}</H4>
+          {/* <H4>{Localized('Autoship CV')}</H4>
           <Bar
             value={thisMonthAutoshipWidth}
             color={theme.donut3primaryColor}
@@ -95,7 +95,7 @@ const CvRankBarChartContainer = ({ member }) => {
             secondaryColor={theme.donut3secondaryColor}
             primaryTotal={teamAutoshipVolume ?? 0}
             secondaryTotal={lastMonthAutoship ?? 0}
-          />
+          /> */}
         </Flexbox>
       </>
     </TouchableWithoutFeedback>

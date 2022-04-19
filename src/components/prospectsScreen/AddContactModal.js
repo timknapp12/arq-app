@@ -12,7 +12,6 @@ import {
   Platform,
   View,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -26,6 +25,7 @@ import {
   Header,
   H3,
   TextArea,
+  LoadingSpinner,
 } from '../common';
 import { Localized } from '../../translations/Localized';
 import * as Localization from 'expo-localization';
@@ -81,7 +81,7 @@ const AddContactModal = ({
     },
   },
 }) => {
-  const { theme, associateId } = useContext(AppContext);
+  const { associateId } = useContext(AppContext);
   const { addUpdateProspect } = useContext(LoginContext);
 
   const scrollViewRef = useRef();
@@ -270,9 +270,7 @@ const AddContactModal = ({
                     onPress={onSubmit}
                   >
                     {loading ? (
-                      <ActivityIndicator
-                        color={theme.disabledBackgroundColor}
-                      />
+                      <LoadingSpinner />
                     ) : (
                       <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
                     )}

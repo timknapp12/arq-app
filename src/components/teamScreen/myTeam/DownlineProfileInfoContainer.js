@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import { ChevronIcon } from '../../common';
 import VisualTreeIcon from '../../../../assets/icons/VisualTreeIcon.svg';
 import { TouchableRow, ChevronContainer } from './myTeamCard.styles';
@@ -16,6 +16,7 @@ const DownlineProfileInfoContainer = ({
   cardIsExpandable = true,
   showVisualTreeIcon,
   viewItemInVisualTree,
+  isFilterMenuOpen = false,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -24,6 +25,7 @@ const DownlineProfileInfoContainer = ({
     <TouchableRow
       activeOpacity={1}
       onPress={() => {
+        if (Platform.OS === 'android' && isFilterMenuOpen) return;
         onPress();
         closeAllMenus();
       }}
@@ -35,7 +37,11 @@ const DownlineProfileInfoContainer = ({
           {cardIsExpandable && <ChevronIcon isExpanded={isExpanded} />}
           {showVisualTreeIcon &&
           member?.associate?.associateType === 'AMBASSADOR' ? (
-            <TouchableOpacity onPress={viewItemInVisualTree}>
+            <TouchableOpacity
+              onPress={() => {
+                viewItemInVisualTree();
+              }}
+            >
               <VisualTreeIcon
                 style={{
                   color: theme.primaryTextColor,
@@ -60,6 +66,7 @@ DownlineProfileInfoContainer.propTypes = {
   cardIsExpandable: PropTypes.bool,
   showVisualTreeIcon: PropTypes.bool,
   viewItemInVisualTree: PropTypes.func,
+  isFilterMenuOpen: PropTypes.bool,
 };
 
 export default DownlineProfileInfoContainer;

@@ -37,20 +37,12 @@ const VisualTreeBubbleStatBar = ({ member }) => {
       <RankPlaceholder />
     );
 
-  const requiredQovForNextRank = findRequiredValueOfNextRank(
-    member?.ovRankId,
-    ranks,
-    'minimumQoV',
-  );
-
-  const ovWidth = getPercentage(member?.qov, requiredQovForNextRank);
-
   const requiredCvForNextRank = findRequiredValueOfNextRank(
     member?.cvRankId,
     ranks,
     'minimumQoV',
   );
-
+  const ovWidth = member?.ov > 0 ? '100%' : '0%';
   const cvWidth = getPercentage(member?.cv, requiredCvForNextRank);
 
   return (
@@ -58,12 +50,12 @@ const VisualTreeBubbleStatBar = ({ member }) => {
       <Row>
         <AmbassadorOVRankIcon />
         <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
-          'Total QOV',
-        )}: ${stringify(member?.qov)}`}</H6Secondary>
+          'Total OV',
+        )}: ${stringify(member?.ov)}`}</H6Secondary>
       </Row>
       <Gap height="4px" />
       <BarContainer>
-        <Bar width={`${ovWidth}%`} color={theme.donut1primaryColor} />
+        <Bar width={ovWidth} color={theme.donut1primaryColor} />
       </BarContainer>
       <Gap height="4px" />
       <Row>

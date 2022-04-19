@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import {
-  TouchableOpacity,
-  Alert,
-  Keyboard,
-  ActivityIndicator,
-  View,
-} from 'react-native';
+import { TouchableOpacity, Alert, Keyboard, View } from 'react-native';
 import {
   Flexbox,
   Label,
@@ -18,6 +12,7 @@ import {
   Picker,
   H5Black,
   AlertText,
+  LoadingSpinner,
 } from '../../common';
 import PaperclipIcon from '../../../../assets/icons/paperclip-icon.svg';
 import EditModal from '../../editModal/EditModal';
@@ -211,14 +206,14 @@ const UploadAssetModal = ({
     if (contentType === 'image' && file.contentType !== 'image') {
       return Alert.alert(
         Localized(
-          `You selected a File Type of 'image' but uploaded a document that doesn't match. Please make sure these match`,
+          `You selected a File Type of 'image' but uploaded a document that doesn't match Please make sure these match`,
         ),
       );
     }
     if (contentType === 'pdf' && file.contentType !== 'pdf') {
       return Alert.alert(
         Localized(
-          `You selected a File Type of 'pdf' but uploaded a document that doesn't match. Please make sure these match`,
+          `You selected a File Type of 'pdf' but uploaded a document that doesn't match Please make sure these match`,
         ),
       );
     }
@@ -264,9 +259,7 @@ const UploadAssetModal = ({
               alignItems: 'center',
             }}
           >
-            {isLoading && (
-              <ActivityIndicator color={theme.disabledBackgroundColor} />
-            )}
+            {isLoading && <LoadingSpinner />}
           </View>
         </Flexbox>
         <Input

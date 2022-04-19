@@ -8,6 +8,7 @@ import {
   Flexbox,
   Picker,
   H5Black,
+  Gap,
 } from '../../../common';
 import LoginContext from '../../../../contexts/LoginContext';
 import statusList from './statusList';
@@ -78,11 +79,13 @@ const MyTeamSearchFilterModal = ({
               onPress={() => setStatus('ALL')}
               isSelected={status === 'ALL'}
             />
+            <Gap height="4px" />
             <NativeTouchableRadioButton
               label={Localized('Active')}
               onPress={() => setStatus('ACTIVE')}
               isSelected={status === 'ACTIVE'}
             />
+            <Gap height="4px" />
             <Flexbox
               direction="row"
               justify="flex-start"
@@ -124,16 +127,19 @@ const MyTeamSearchFilterModal = ({
               onPress={() => setType('ALL')}
               isSelected={type === 'ALL'}
             />
+            <Gap height="4px" />
             <NativeTouchableRadioButton
               label={Localized('Ambassador')}
               onPress={() => setType('AMBASSADOR')}
               isSelected={type === 'AMBASSADOR'}
             />
+            <Gap height="4px" />
             <NativeTouchableRadioButton
               label="PC"
               onPress={() => setType('PREFERRED')}
               isSelected={type === 'PREFERRED'}
             />
+            <Gap height="4px" />
             <NativeTouchableRadioButton
               label={Localized('Retail')}
               onPress={() => setType('RETAIL')}

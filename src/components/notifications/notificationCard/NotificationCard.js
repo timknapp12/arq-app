@@ -1,10 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ExpandedNotificationCard from './ExpandedNotificationCard';
-import CollapsedNotificationCard from './CollapsedNotificationCard';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import {
@@ -14,22 +12,11 @@ import {
 } from '../../../graphql/mutations';
 import getLocalDate from '../../../translations/getLocalDate/getLocalDate';
 
-const NotificationCard = ({
-  data,
-  // isCalloutOpenFromParent,
-  setIsCalloutOpenFromParent,
-  isTouchDisabled,
-  setIsTouchDisabled,
-  ...props
-}) => {
+const NotificationCard = ({ data, onClose, ...props }) => {
   const { deviceLanguage } = useContext(AppContext);
-  const { refetchProspectsNotifications, displayNotifications } =
-    useContext(LoginContext);
+  const { refetchProspectsNotifications } = useContext(LoginContext);
 
   const { viewId, isSaved } = data;
-
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [isCalloutOpen, setIsCalloutOpen] = useState(false);
 
   const [notificationHasBeenViewed] = useMutation(
     PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED,
@@ -41,28 +28,8 @@ const NotificationCard = ({
   );
 
   useEffect(() => {
-    if (displayNotifications) {
-      notificationHasBeenViewed();
-    }
-  }, [displayNotifications]);
-
-  useEffect(() => {
-    if (!isCalloutOpen) {
-      setIsTouchDisabled(false);
-    }
-  }, [isCalloutOpen]);
-
-  const onCallout = () => {
-    setIsCalloutOpen((state) => !state);
-  };
-
-  const toggleExpanded = () => {
-    if (isTouchDisabled && Platform.OS === 'android') {
-      return setIsCalloutOpenFromParent(false);
-    }
-    setIsExpanded((state) => !state);
-    setIsCalloutOpen(false);
-  };
+    notificationHasBeenViewed();
+  }, []);
 
   const formattedDate = getLocalDate(data?.dateViewUtc, deviceLanguage);
 
@@ -81,7 +48,8 @@ const NotificationCard = ({
   });
 
   const navigation = useNavigation();
-  const onViewProspect = () =>
+  const onViewProspect = () => {
+    onClose();
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Search Screen',
       params: {
@@ -90,43 +58,23 @@ const NotificationCard = ({
         }`,
       },
     });
-
-  if (isExpanded) {
-    return (
-      <ExpandedNotificationCard
-        {...props}
-        isExpanded={isExpanded}
-        toggleExpanded={toggleExpanded}
-        data={data}
-        dateSent={formattedDate}
-        onRemove={onRemove}
-        handlePin={handlePin}
-        onViewProspect={onViewProspect}
-      />
-    );
-  }
+  };
 
   return (
-    <CollapsedNotificationCard
+    <ExpandedNotificationCard
       {...props}
-      toggleExpanded={toggleExpanded}
       data={data}
       dateSent={formattedDate}
       onRemove={onRemove}
       handlePin={handlePin}
       onViewProspect={onViewProspect}
-      isCalloutOpen={isCalloutOpen}
-      onCallout={onCallout}
     />
   );
 };
 
 NotificationCard.propTypes = {
-  data: PropTypes.object,
-  isCalloutOpenFromParent: PropTypes.bool.isRequired,
-  setIsCalloutOpenFromParent: PropTypes.func.isRequired,
-  isTouchDisabled: PropTypes.bool.isRequired,
-  setIsTouchDisabled: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default NotificationCard;

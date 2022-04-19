@@ -11,7 +11,6 @@ import {
   Platform,
   View,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -23,9 +22,10 @@ import {
   Subheader,
   Header,
   H3,
+  LoadingSpinner,
+  TextArea,
 } from '../common';
 import { Localized } from '../../translations/Localized';
-import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from './ProfileImage';
@@ -46,10 +46,10 @@ const NameContainer = styled.View`
 `;
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
-  const { theme } = useContext(AppContext);
   const {
     updateProfile,
     refetchProfile,
+    baseEnrollmentUrl,
     userProfile: data = {
       profileUrl: '',
       profileImageFileName: '',
@@ -58,6 +58,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       displayName: '',
       emailAddress: '',
       primaryPhoneNumber: '',
+      associateSlugs: [],
       address: {
         address1: '',
         address2: '',
@@ -89,6 +90,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
     displayName,
     emailAddress,
     primaryPhoneNumber,
+    associateSlugs,
     address,
   } = myInfo;
 
@@ -184,9 +186,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     onPress={onSubmit}
                   >
                     {loading ? (
-                      <ActivityIndicator
-                        color={theme.disabledBackgroundColor}
-                      />
+                      <LoadingSpinner style={{ marginTop: 10 }} size="large" />
                     ) : (
                       <H4Heavy>{Localized('Save').toUpperCase()}</H4Heavy>
                     )}
@@ -295,6 +295,16 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     value={legacyAssociateId?.toString()}
                     editable={false}
                   />
+                  <Flexbox height="100px">
+                    <TextArea
+                      testID="shopQ-website-input"
+                      label={Localized('ShopQ Website')}
+                      value={`${baseEnrollmentUrl}${associateSlugs?.[0]?.slug}`}
+                      editable={false}
+                      multiline
+                      numberOfLines={2}
+                    />
+                  </Flexbox>
                 </Flexbox>
                 <Subheader style={{ marginTop: 12 }} justify="center">
                   <H5Heavy>{Localized('Address')}</H5Heavy>

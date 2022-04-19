@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { H4, Flexbox, QualifiedIcon, NotQualifiedIcon } from '../common';
@@ -7,6 +6,7 @@ import { Localized } from '../../translations/Localized';
 import Slider from './Slider';
 import Donut from './Donut';
 import AppContext from '../../contexts/AppContext';
+import DashboardScreenContext from '../../contexts/DashboardScreenContext';
 import { calculateLegPercentages } from '../../utils/calculateLegPercentages';
 import stringify from '../../utils/roundDownAndAddCommas/stringify';
 
@@ -16,8 +16,9 @@ const TitleContainer = styled.View`
   align-items: center;
 `;
 
-const OVDetail = ({ ranklist, closeMenus, user }) => {
+const OVDetail = () => {
   const { theme } = useContext(AppContext);
+  const { closeMenus, user } = useContext(DashboardScreenContext);
 
   const initialRankName = user?.rank.name;
   const [rankName, setRankName] = useState(initialRankName);
@@ -85,7 +86,6 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
           setRankName={setRankName}
           rank={rank}
           setRank={setRank}
-          ranklist={ranklist}
           isQualified={isQualified}
         />
         <H4>{`${Localized('Maximum QOV Per Leg')}: ${stringify(
@@ -175,21 +175,6 @@ const OVDetail = ({ ranklist, closeMenus, user }) => {
       </Flexbox>
     </TouchableWithoutFeedback>
   );
-};
-
-OVDetail.propTypes = {
-  ranklist: PropTypes.arrayOf(
-    PropTypes.shape({
-      rankId: PropTypes.number,
-      rankName: PropTypes.string,
-      requiredPv: PropTypes.number,
-      minimumQoV: PropTypes.number,
-      legMaxPercentage: PropTypes.number,
-      maximumPerLeg: PropTypes.number,
-    }),
-  ),
-  closeMenus: PropTypes.func,
-  user: PropTypes.object,
 };
 
 export default OVDetail;

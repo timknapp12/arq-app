@@ -1,11 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Animated, TextInput, Platform } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  View,
+  Animated,
+  TextInput,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
+import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
+import styled from 'styled-components/native';
 import { Flexbox } from '../common';
 import Svg, { G, Circle } from 'react-native-svg';
 import TapIcon from '../../../assets/icons/icTap.svg';
 import stringify from '../../utils/roundDownAndAddCommas/stringify';
+
+// The TouchableOpacity works in this situation better from 'react-native-gesture-handler' on ios and from 'react-native' on android
+const Touchable = styled(
+  Platform.OS === 'ios' ? GestureTouchable : TouchableOpacity,
+)``;
 
 // source for donut svg: https://www.youtube.com/watch?v=x2LtzCxbWI0
 
@@ -28,6 +40,7 @@ const Donut = ({
   remainingQov,
   showRemainingQov,
   setShowRemainingQov,
+  absolutePosition = 65,
 }) => {
   // once the animation is complete and option is toggled to see remaining and then toggled back to original animated value goes to 0
   // so this will detect when it will be 0 and can show the original "non-animated" value
@@ -85,91 +98,101 @@ const Donut = ({
   const textShrinkCutOffLength = Platform.OS === 'android' ? 5 : 6;
 
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      onPress={() => {
-        onPress();
-        showTapIcon && setShowRemainingQov((state) => !state);
-        setHasShownRemainingAtLeastOnce(true);
-      }}
-    >
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Svg
-          width={radius * 2}
-          height={radius * 2}
-          viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}
-        >
-          <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
-            <Circle
-              cx="50%"
-              cy="50%"
-              stroke={color}
-              strokeWidth={strokeWidth}
-              r={radius}
-              fill="transparent"
-              strokeOpacity={0.2}
-            />
-            <AnimatedCircle
-              ref={circleRef}
-              cx="50%"
-              cy="50%"
-              stroke={color}
-              strokeWidth={strokeWidth}
-              strokeLinecap="round"
-              r={radius}
-              fill="transparent"
-              strokeDasharray={circleCircumference}
-              strokeDashoffset={circleCircumference / 2}
-            />
-          </G>
-        </Svg>
-        {/* the animated text inside the donut on the overview and ov-detail view */}
-        {view !== 'rank' && (
-          <>
-            {!hasShownRemainingAtLeastOnce ? (
-              <AnimatedInput
-                ref={inputRef}
-                underlineColorAndroid="transparent"
-                editable={false}
-                defaultValue="0"
-                style={[
-                  StyleSheet.absoluteFillObject,
-                  {
-                    fontSize:
-                      inputValue.length > textShrinkCutOffLength
-                        ? 20
-                        : fontSize,
-                    color: color,
-                  },
-                  { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
-                ]}
+    <View>
+      <Touchable
+        activeOpacity={1}
+        onPress={() => {
+          onPress();
+          showTapIcon && setShowRemainingQov((state) => !state);
+          setHasShownRemainingAtLeastOnce(true);
+        }}
+      >
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Svg
+            width={radius * 2}
+            height={radius * 2}
+            viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}
+          >
+            <G rotation="-90" origin={`${halfCircle}, ${halfCircle}`}>
+              <Circle
+                cx="50%"
+                cy="50%"
+                stroke={color}
+                strokeWidth={strokeWidth}
+                r={radius}
+                fill="transparent"
+                strokeOpacity={0.2}
               />
-            ) : (
-              <TextInput
-                editable={false}
-                value={inputValue}
-                style={[
-                  StyleSheet.absoluteFillObject,
-                  {
-                    fontSize:
-                      inputValue.length > textShrinkCutOffLength
-                        ? 20
-                        : fontSize,
-                    color: color,
-                  },
-                  { fontFamily: 'Avenir-Heavy', textAlign: 'center' },
-                ]}
+              <AnimatedCircle
+                ref={circleRef}
+                cx="50%"
+                cy="50%"
+                stroke={color}
+                strokeWidth={strokeWidth}
+                strokeLinecap="round"
+                r={radius}
+                fill="transparent"
+                strokeDasharray={circleCircumference}
+                strokeDashoffset={circleCircumference / 2}
               />
-            )}
-          </>
+            </G>
+          </Svg>
+          {/* the animated text inside the donut on the overview and ov-detail view */}
+          {view !== 'rank' && (
+            <>
+              {!hasShownRemainingAtLeastOnce ? (
+                <AnimatedInput
+                  ref={inputRef}
+                  underlineColorAndroid="transparent"
+                  editable={false}
+                  defaultValue="0"
+                  style={[
+                    {
+                      fontSize:
+                        inputValue.length > textShrinkCutOffLength
+                          ? 20
+                          : fontSize,
+                      color: color,
+                    },
+                    {
+                      fontFamily: 'Avenir-Heavy',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: absolutePosition,
+                    },
+                  ]}
+                />
+              ) : (
+                <TextInput
+                  editable={false}
+                  value={inputValue}
+                  style={[
+                    {
+                      fontSize:
+                        inputValue.length > textShrinkCutOffLength
+                          ? 20
+                          : fontSize,
+                      color: color,
+                    },
+                    {
+                      fontFamily: 'Avenir-Heavy',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: absolutePosition,
+                    },
+                  ]}
+                />
+              )}
+            </>
+          )}
+        </View>
+        {showTapIcon && (
+          <Flexbox style={{ position: 'absolute', bottom: 26 }}>
+            <TapIcon />
+          </Flexbox>
         )}
-      </View>
-      {showTapIcon && (
-        <Flexbox style={{ position: 'absolute', bottom: 26 }}>
-          <TapIcon />
-        </Flexbox>
-      )}
-    </TouchableOpacity>
+      </Touchable>
+    </View>
   );
 };
 
@@ -190,6 +213,7 @@ Donut.propTypes = {
   remainingQov: PropTypes.number,
   showRemainingQov: PropTypes.bool,
   setShowRemainingQov: PropTypes.func,
+  absolutePosition: PropTypes.number,
 };
 
 export default Donut;

@@ -1,9 +1,15 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { Alert, ActivityIndicator } from 'react-native';
+import { Alert } from 'react-native';
 import QLogoScreenContainer from './QLogoScreenContainer';
-import { Flexbox, PrimaryButton, Input, AlertText } from '../common';
+import {
+  Flexbox,
+  PrimaryButton,
+  Input,
+  AlertText,
+  LoadingSpinner,
+} from '../common';
 import { DIRECT_SCALE_INFO } from '../../graphql/mutations';
 import { handleGetDirectScaleInfo } from '../../utils/handleLoginFlow';
 import { getToken } from '../../utils/firebase/login';
@@ -12,8 +18,7 @@ import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
-  const { setToken, setAssociateId, setLegacyId, theme } =
-    useContext(AppContext);
+  const { setToken, setAssociateId, setLegacyId } = useContext(AppContext);
   const { setDirectScaleUser } = useContext(LoginContext);
   const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -54,11 +59,7 @@ const EnterIdScreen = ({ navigation }) => {
   return (
     <QLogoScreenContainer>
       {loading ? (
-        <ActivityIndicator
-          style={{ marginTop: 80 }}
-          size="large"
-          color={theme.disabledBackgroundColor}
-        />
+        <LoadingSpinner style={{ marginTop: 80 }} size="large" />
       ) : (
         <Flexbox style={{ flex: 1, marginTop: 40 }} width="85%">
           <Flexbox width="100%" align="flex-start">

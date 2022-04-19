@@ -40,13 +40,15 @@ const CreateAccountScreen = ({ navigation }) => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    variables: { ambassadorOnly: true },
     onCompleted: (data) => {
       setIsErrorModalOpen(false);
       setErrorMessage('');
       clearFields();
 
-      const status = data?.loginUser?.loginStatus;
+      const status =
+        data?.loginArqAmbassador?.success === true
+          ? 'SUCCESS'
+          : data?.loginArqAmbassador?.loginResults;
       handleLoginUser(
         status,
         navigation,
@@ -85,7 +87,9 @@ const CreateAccountScreen = ({ navigation }) => {
       return Alert.alert('Please re-type a password');
     }
     if (password !== confirmPassword) {
-      return Alert.alert('Passwords must be matching. Please try again');
+      return Alert.alert(
+        Localized(`Passwords don't match Please confirm new password`),
+      );
     }
     firebase
       .auth()

@@ -55,7 +55,8 @@ const ResourcesAssetScreen = ({ route }) => {
             height: '100%',
           }}
           minimumZoomScale={1}
-          maximumZoomScale={5}>
+          maximumZoomScale={5}
+        >
           <Image
             resizeMode={'cover'}
             style={{ width: width, height: calculatedHeight }}

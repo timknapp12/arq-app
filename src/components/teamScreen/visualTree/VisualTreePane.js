@@ -55,7 +55,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
     cvRankId: item?.customerSalesRank?.customerSalesRankId,
-    qov: item?.qoV,
+    ov: item?.ov,
     cv: item?.cv,
   });
 
@@ -112,12 +112,6 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     setIdOfDraggedItem(null);
   };
 
-  if (loading) {
-    setTimeout(() => {
-      return <LoadingSpinner style={{ marginTop: 10 }} size="large" />;
-    }, 500);
-  }
-
   const isAValidDropToTopCirlce =
     isLegacyAssociateIdInArray(treeData, idOfDraggedItem) ||
     uplineMember?.legacyAssociateId === idOfDraggedItem;
@@ -142,6 +136,10 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const onHorizontalScroll = ({ contentOffset }) => {
     setHorizontalOffset(contentOffset.x);
   };
+
+  if (loading) {
+    return <LoadingSpinner style={{ marginTop: 20 }} size="large" />;
+  }
 
   return (
     <ScrollView

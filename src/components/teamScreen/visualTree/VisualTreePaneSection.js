@@ -122,9 +122,7 @@ const VisualTreePaneSection = ({
     idOfDraggedItem !== droppedMember?.legacyAssociateId;
 
   if (loading) {
-    setTimeout(() => {
-      return <LoadingSpinner style={{ marginTop: 10 }} size="large" />;
-    }, 500);
+    return <LoadingSpinner style={{ marginTop: 20 }} size="large" />;
   }
   return (
     <>
@@ -163,7 +161,7 @@ const VisualTreePaneSection = ({
                 cvRankName: item?.customerSalesRank?.rankName,
                 cvRankId: item?.customerSalesRank?.customerSalesRankId,
                 cv: item?.cv,
-                qov: item?.qoV,
+                ov: item?.ov,
               }}
               draggable={
                 item?.associate?.legacyAssociateId !==
@@ -179,7 +177,7 @@ const VisualTreePaneSection = ({
                 cvRankName: item?.customerSalesRank?.rankName,
                 cvRankId: item?.customerSalesRank?.customerSalesRankId,
                 cv: item?.cv,
-                qov: item?.qoV,
+                ov: item?.ov,
               }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
@@ -215,7 +213,7 @@ const VisualTreePaneSection = ({
               cvRankName: insideItem?.customerSalesRank?.rankName,
               cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
               cv: insideItem?.cv,
-              qov: insideItem?.qoV,
+              ov: insideItem?.ov,
             }}
             draggable={
               insideItem?.associate?.legacyAssociateId !==
@@ -231,7 +229,7 @@ const VisualTreePaneSection = ({
               cvRankName: insideItem?.customerSalesRank?.rankName,
               cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
               cv: insideItem?.cv,
-              qov: insideItem?.qoV,
+              ov: insideItem?.ov,
             }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId

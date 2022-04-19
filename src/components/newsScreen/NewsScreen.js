@@ -5,8 +5,6 @@ import {
   Animated,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  ActivityIndicator,
-  Platform,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -14,6 +12,7 @@ import {
   TertiaryButton,
   TopButtonBar,
   H5,
+  LoadingSpinner,
 } from '../common';
 import * as Analytics from 'expo-firebase-analytics';
 import { useIsFocused } from '@react-navigation/native';
@@ -27,8 +26,6 @@ import MarketModal from '../marketModal/MarketModal';
 import { findMarketUrl } from '../../utils/markets/findMarketUrl';
 import { findMarketId } from '../../utils/markets/findMarketId';
 import NewsCardMap from './NewsCardMap';
-import NotificationsColumn from '../notifications/NotificationsColumn';
-import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
 import { Localized } from '../../translations/Localized';
@@ -41,16 +38,8 @@ const FlagIcon = styled.Image`
 `;
 
 const NewsScreen = ({ navigation }) => {
-  const { theme } = useContext(AppContext);
-  const {
-    userMarket,
-    markets,
-    setMarketId,
-    loadingNews,
-    news,
-    setDisplayNotifications,
-    displayNotifications,
-  } = useContext(LoginContext);
+  const { userMarket, markets, setMarketId, loadingNews, news } =
+    useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const isFocused = useIsFocused();
@@ -85,7 +74,6 @@ const NewsScreen = ({ navigation }) => {
     }
     return () => {
       closeMenus();
-      setDisplayNotifications(false);
     };
   }, [isFocused]);
 
@@ -94,13 +82,9 @@ const NewsScreen = ({ navigation }) => {
     if (news) {
       setView(news?.[0]);
     }
-  }, [marketUrl]);
+  }, [marketUrl, news]);
 
   const navigate = (item) => {
-    // this is so android touches that bleed through the notifications window onto the tertiary buttons won't navigate
-    if (displayNotifications) {
-      return;
-    }
     closeMenus();
     setView(item);
     // firebase gives an error if there are spaces in the logEvent name or if it is over 40 characters
@@ -136,22 +120,18 @@ const NewsScreen = ({ navigation }) => {
   const closeMenus = () => {
     fadeOut();
     closeAddOptions();
-    // touch events bleed through the notifications and menu on android so this will prevent the action from happening when a touch event happens on the side menu or notifications window on android
-    Platform.OS === 'ios' && setDisplayNotifications(false);
   };
 
   return (
     <TouchableWithoutFeedback onPress={closeMenus}>
       <ScreenContainer style={{ justifyContent: 'flex-start' }}>
-        <Flexbox style={{ zIndex: 2 }}>
-          <MainHeader
-            isMenuOpen={isMenuOpen}
-            fadeIn={fadeIn}
-            fadeOut={fadeOut}
-            setIsMenuOpen={setIsMenuOpen}
-          />
-          <NotificationsColumn />
-        </Flexbox>
+        <MainHeader
+          isMenuOpen={isMenuOpen}
+          fadeIn={fadeIn}
+          fadeOut={fadeOut}
+          setIsMenuOpen={setIsMenuOpen}
+        />
+
         <TopButtonBar>
           {news?.map((item) => (
             <TertiaryButton
@@ -192,10 +172,7 @@ const NewsScreen = ({ navigation }) => {
         </Flexbox>
 
         {loadingNews ? (
-          <ActivityIndicator
-            size="large"
-            color={theme.disabledBackgroundColor}
-          />
+          <LoadingSpinner size="large" />
         ) : (
           <MainScrollView>
             {view?.links?.length > 0 ? (

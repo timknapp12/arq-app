@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { H4, H5, Flexbox } from '../../common';
 import { Localized } from '../../../translations/Localized';
 import DoubleDonut from '../DoubleDonut';
 import Slider from '../Slider';
 import AppContext from '../../../contexts/AppContext';
+import DashboardScreenContext from '../../../contexts/DashboardScreenContext';
 import { reshapePerc } from '../../../utils/calculateLegPercentages';
 import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 
@@ -26,15 +26,21 @@ const Dot = styled.View`
   background-color: ${({ dotFill }) => dotFill};
 `;
 
-const CVRank = ({ ranklist, user, closeMenus }) => {
+const CVRank = () => {
   const { theme } = useContext(AppContext);
-  const { cv, previousAmbassadorMonthlyRecord, teamAutoshipVolume } = user;
+  const { user, closeMenus } = useContext(DashboardScreenContext);
+
+  const {
+    cv,
+    previousAmbassadorMonthlyRecord,
+    // teamAutoshipVolume
+  } = user;
 
   const lastMonthCV =
     previousAmbassadorMonthlyRecord?.preferredCustomerVolume +
     previousAmbassadorMonthlyRecord?.retailCustomerVolume;
 
-  const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
+  // const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
 
   const initialRankName = user?.customerSalesRank?.rankName;
   const [rankName, setRankName] = useState(initialRankName);
@@ -72,7 +78,7 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
 
   const lastMonthCVPerc = reshapePerc(lastMonthCV, rank.minimumQoV);
 
-  const autoshipPerc = reshapePerc(teamAutoshipVolume, lastMonthAutoship);
+  // const autoshipPerc = reshapePerc(teamAutoshipVolume, lastMonthAutoship);
 
   return (
     <>
@@ -81,7 +87,6 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
         setRankName={setRankName}
         rank={rank}
         setRank={setRank}
-        ranklist={ranklist}
         isQualified={isQualified}
       />
       <Flexbox
@@ -124,7 +129,7 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
         </LegendContainer>
       </Flexbox>
 
-      <Flexbox
+      {/* <Flexbox
         style={{ paddingTop: 12 }}
         accessibilityLabel="CV Rank autoship cv"
         width="auto"
@@ -138,7 +143,9 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
           innermax={100}
           innercolor={theme.donut3secondaryColor}
           view="rank"
-          onPress={closeMenus}
+          onPress={() => {
+            closeMenus();
+          }}
         />
         <LegendContainer>
           <Legend>
@@ -150,25 +157,9 @@ const CVRank = ({ ranklist, user, closeMenus }) => {
             <H5>{stringify(lastMonthAutoship)}</H5>
           </Legend>
         </LegendContainer>
-      </Flexbox>
+      </Flexbox> */}
     </>
   );
-};
-
-CVRank.propTypes = {
-  ranklist: PropTypes.arrayOf(
-    PropTypes.shape({
-      rankId: PropTypes.number,
-      rankName: PropTypes.string,
-      requiredPv: PropTypes.number,
-      minimumQoV: PropTypes.number,
-      legMaxPercentage: PropTypes.number,
-      maximumPerLeg: PropTypes.number,
-      requiredPa: PropTypes.number,
-    }),
-  ),
-  user: PropTypes.object,
-  closeMenus: PropTypes.func,
 };
 
 export default CVRank;

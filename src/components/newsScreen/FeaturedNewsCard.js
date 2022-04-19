@@ -44,12 +44,7 @@ const FeaturedNewsCard = ({
   closeMenus,
 }) => {
   const { associateId } = useContext(AppContext);
-  const {
-    refetchNews,
-    displayNotifications,
-    setDisplayNotifications,
-    showAddOptions,
-  } = useContext(LoginContext);
+  const { refetchNews, showAddOptions } = useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const [isReadYet, setIsReadYet] = useState(isRead);
@@ -64,14 +59,6 @@ const FeaturedNewsCard = ({
     if (isMenuOpen) {
       return closeMenus();
     }
-    // don't allow opening if notifications is open
-    if (displayNotifications && Platform.OS === 'android') {
-      return;
-    }
-    // close notifications window if it is open instead of opening link
-    if (displayNotifications && Platform.OS === 'ios') {
-      return setDisplayNotifications(false);
-    }
     if (Platform.OS === 'android' && showAddOptions) {
       return closeAddOptions();
     }
@@ -84,10 +71,7 @@ const FeaturedNewsCard = ({
   };
 
   return (
-    <TouchableOpacity
-      activeOpacity={isMenuOpen || displayNotifications ? 1 : 0.2}
-      onPress={openLink}
-    >
+    <TouchableOpacity activeOpacity={isMenuOpen ? 1 : 0.2} onPress={openLink}>
       <Container>
         <BannerImage source={{ uri: imageUrl }} defaultSource={defaultImage} />
         <TitleAndDescriptionContainer isReadYet={!isReadYet}>
