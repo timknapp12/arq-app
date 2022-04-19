@@ -25,7 +25,7 @@ const sharedCss = {
 const ThemedButton = styled.TouchableOpacity`
   ${sharedCss};
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   border-radius: 5px;
   background-color: ${(props) =>
     props.disabled
@@ -36,6 +36,7 @@ const ThemedButton = styled.TouchableOpacity`
 const ThemedText = styled.Text`
   font-family: 'Avenir-Light';
   font-size: 24px;
+  text-align: center;
   color: ${(props) =>
     props.disabled
       ? props.theme.disabledTextColor
@@ -57,7 +58,7 @@ PrimaryButton.propTypes = {
 const ThemedSecondaryButton = styled.TouchableOpacity`
   ${sharedCss};
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   border-radius: 5px;
   border-color: ${(props) => props.theme.secondaryButtonTextColor};
   border-width: 2px;
@@ -67,6 +68,7 @@ const ThemedSecondaryButtonText = styled.Text`
   font-family: 'Avenir-Light';
   font-size: 24px;
   color: ${(props) => props.theme.secondaryButtonTextColor};
+  text-align: center;
 `;
 
 export const SecondaryButton = ({ children, ...props }) => (

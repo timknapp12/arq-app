@@ -129,6 +129,7 @@ export const GET_USER = gql`
         qoV
         pa
         cv
+        ov
         teamAutoshipVolume
         customerSalesRank {
           customerSalesRankId
@@ -169,6 +170,7 @@ export const GET_USER = gql`
           qoV
           pa
           cv
+          ov
           teamAutoshipVolume
           customerSalesRank {
             customerSalesRankId

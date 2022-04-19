@@ -100,7 +100,7 @@ const ResourceCard = ({
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
       Localized(
-        'Removing this will delete all of its content. Do you wish to continue?',
+        'Removing this will delete all of its content Do you wish to continue',
       ),
       [
         {

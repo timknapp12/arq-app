@@ -19,7 +19,9 @@ const EnrollmentScreen = ({ route }) => {
 
   const [selectedOption, setSelectedOption] = useState('pc');
 
-  const url = `${baseEnrollmentUrl}${slug}%24type=${selectedOption}`;
+  const url = `${baseEnrollmentUrl}${encodeURIComponent(
+    `=`,
+  )}${slug}${encodeURIComponent(`&type=`)}${selectedOption}`;
 
   const title =
     selectedOption === 'pc'
@@ -46,7 +48,7 @@ const EnrollmentScreen = ({ route }) => {
       <ScrollView
         contentContainerStyle={{
           paddingTop: 20,
-          paddingBottom: 20,
+          paddingBottom: 100,
         }}
       >
         <H5Secondary style={{ textAlign: 'center' }}>

@@ -59,7 +59,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
                 <H4Book>{Localized('Back Office')}</H4Book>
                 <H6Book>
                   {Localized(
-                    'Access everything you need to build your business on the go.',
+                    'Access everything you need to build your business on the go',
                   )}
                 </H6Book>
               </View>
@@ -90,7 +90,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
               >
                 <H4Book>{Localized('Ambassador Enrollments')}</H4Book>
                 <H6Book>
-                  {Localized('Help people enroll with Q Sciences today.')}
+                  {Localized('Help people enroll with Q Sciences today')}
                 </H6Book>
               </View>
             </Row>

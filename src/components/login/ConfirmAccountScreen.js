@@ -40,33 +40,21 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
 
   const { username } = route.params;
 
-  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const passwordRef = useRef(null);
   const emailRef = useRef(null);
   const phoneRef = useRef(null);
-  const secondPhoneRef = useRef(null);
 
   // this strips out the parantheses and hyphens from the phone numbers but leaves the plus sign for country codes
   const phoneRegex = new RegExp(/[^0-9 +]+/g);
 
-  const method =
-    selectedOption === 'password'
-      ? 'DIRECT_SCALE'
-      : selectedOption === 'email'
-      ? 'EMAIL'
-      : 'SMS';
+  const method = selectedOption === 'email' ? 'EMAIL' : 'SMS';
 
   const verificationInfo =
-    selectedOption === 'password'
-      ? password
-      : selectedOption === 'email'
-      ? email
-      : phone.replace(phoneRegex, '');
+    selectedOption === 'email' ? email : phone.replace(phoneRegex, '');
 
   const [validateUser, { loading }] = useMutation(LOGIN_VALIDATION_PROCESS, {
     variables: {
@@ -77,9 +65,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     },
     onError: (error) => setErrorMessage(error.message),
     onCompleted: (data) => {
-      console.log(`data`, data);
       const status = data?.loginValidationProcess.status;
-      console.log(`status`, status);
       if (data.loginValidationProcess.associate) {
         const id = data.loginValidationProcess.associate.associateId;
         setAssociateId(id);
@@ -99,15 +85,13 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   });
 
   const isButtonDisabled =
-    (selectedOption === 'password' && !password) ||
+    selectedOption === null ||
     (selectedOption === 'email' && !email) ||
     (selectedOption === 'phone' && !phone);
 
   const refMap = {
-    password: passwordRef,
     email: emailRef,
     phone: phoneRef,
-    secondPhone: secondPhoneRef,
   };
 
   useEffect(() => {
@@ -118,9 +102,6 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
 
   const onSubmit = async () => {
     await getToken(setToken);
-    if (selectedOption === 'password' && !password) {
-      return Alert.alert(Localized('Please enter current password'));
-    }
     if (selectedOption === 'email') {
       if (!email) {
         return Alert.alert(Localized('Please enter a valid email address'));
@@ -173,34 +154,12 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
         >
           <Flexbox
             onStartShouldSetResponder={() => true}
-            height="100%"
+            height="90%"
             width="85%"
           >
             <Flexbox onStartShouldSetResponder={() => true} align="flex-start">
               <H4Book>{Localized('Back Office Username or Id')}</H4Book>
               <H4Book>{username}</H4Book>
-              <Gap />
-              <RadioButton
-                label={Localized('Back Office Password')}
-                isSelected={selectedOption === 'password'}
-                onPress={() => setSelectedOption('password')}
-              />
-              <Input
-                style={{ opacity: selectedOption === 'password' ? 1 : 0.5 }}
-                ref={passwordRef}
-                testID="confirm-account-password-input"
-                value={password}
-                onChangeText={(text) => {
-                  setErrorMessage('');
-                  setPassword(text);
-                }}
-                onFocus={() => setSelectedOption('password')}
-                textContentType="password"
-                returnKeyType="go"
-                onSubmitEditing={onSubmit}
-                placeholder={Localized('verify account by entering password')}
-                placeholderTextColor={theme.disabledTextColor}
-              />
               {primaryPhoneNumber ? (
                 <>
                   <Gap />
