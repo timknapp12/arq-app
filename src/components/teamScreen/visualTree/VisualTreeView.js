@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import { View } from 'react-native';
+import { DraxProvider } from 'react-native-drax';
 import { Flexbox } from '../../common';
 import VisualTreeSearchBar from './VisualTreeSearchBar';
 import VisualTreePane from './VisualTreePane';
@@ -33,29 +35,32 @@ const VisualTreeView = ({ ...props }) => {
         selectedVisualTreePane={selectedVisualTreePane}
         setSelectedVisualTreePane={setSelectedVisualTreePane}
       />
-      <VisualTreePane
-        style={{ display: selectedVisualTreePane === 1 ? 'flex' : 'none' }}
-        searchId={paneOneSearchId}
-        level={paneOneSearchLevel}
-        closeMenus={closeMenus}
-        pane={1}
-      />
-      <VisualTreePane
-        style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
-        searchId={paneTwoSearchId}
-        level={paneTwoSearchLevel}
-        closeMenus={closeMenus}
-        pane={2}
-      />
-      <VisualTreePane
-        style={{
-          display: selectedVisualTreePane === 3 ? 'flex' : 'none',
-        }}
-        searchId={paneThreeSearchId}
-        level={paneThreeSearchLevel}
-        closeMenus={closeMenus}
-        pane={3}
-      />
+      <DraxProvider>
+        {/* the 2 empty Views are necessary for the autoscroll to work in DraxScrollView in VisualTreePane */}
+        <View />
+        <VisualTreePane
+          style={{ display: selectedVisualTreePane === 1 ? 'flex' : 'none' }}
+          searchId={paneOneSearchId}
+          level={paneOneSearchLevel}
+          closeMenus={closeMenus}
+          pane={1}
+        />
+        <VisualTreePane
+          style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
+          searchId={paneTwoSearchId}
+          level={paneTwoSearchLevel}
+          closeMenus={closeMenus}
+          pane={2}
+        />
+        <VisualTreePane
+          style={{ display: selectedVisualTreePane === 3 ? 'flex' : 'none' }}
+          searchId={paneThreeSearchId}
+          level={paneThreeSearchLevel}
+          closeMenus={closeMenus}
+          pane={3}
+        />
+        <View />
+      </DraxProvider>
     </Flexbox>
   );
 };

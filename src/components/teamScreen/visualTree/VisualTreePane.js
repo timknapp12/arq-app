@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import { Flexbox, LoadingSpinner, H5 } from '../../common';
-import { DraxProvider } from 'react-native-drax';
+import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
 import AppContext from '../../../contexts/AppContext';
@@ -142,10 +142,9 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   }
 
   return (
-    <ScrollView
+    <DraxScrollView
       contentContainerStyle={{
-        paddingBottom: 140,
-        paddingTop: 80,
+        paddingBottom: 200,
       }}
       style={{
         zIndex: -1,
@@ -156,100 +155,98 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
         scrollViewRef?.current?.scrollTo({ y: height, amimated: true });
       }}
     >
-      <DraxProvider>
-        {searchId !== 0 ? (
-          <ScrollView
-            contentContainerStyle={{
-              minWidth: '100%',
-              minHeight: '100%',
-            }}
-            style={{
-              minHeight: '100%',
-              zIndex: -1,
-            }}
-            onScroll={({ nativeEvent }) => onHorizontalScroll(nativeEvent)}
-            scrollEventThrottle={16}
-            //the nested ScrollView with 'horizontal' prop allows for scrolling horizontally, while the parent ScrollView allows vertical
-            horizontal
-          >
-            <TouchableWithoutFeedback onPress={closeMenus}>
-              <VisualTreeContainer onStartShouldSetResponder={() => true}>
-                {uplineMember && (
-                  <Flexbox padding={20}>
-                    <VisualTreeBubble
-                      member={uplineMember}
-                      draggable={
-                        uplineMember?.legacyAssociateId !==
-                        user?.uplineTreeNode?.associate?.legacyAssociateId
-                      }
-                      onDragStart={() => onDragStart(uplineMember)}
-                      onDragEnd={onDragEnd}
-                      onDragDrop={onDragDrop}
-                      payload={uplineMember}
-                      position="relative"
-                      isBeingDragged={
-                        idOfDraggedItem === uplineMember?.legacyAssociateId
-                      }
-                      level={levelOfFocusedMember - 1}
-                      horizontalOffset={horizontalOffset}
-                    />
-                  </Flexbox>
-                )}
-                <ReceivingCircle
-                  borderColor={receiveCirlceBorderColor}
-                  receivingStyle={
-                    isAValidDropToTopCirlce && {
-                      backgroundColor: theme.dropZoneBackgroundColor,
+      {searchId !== 0 ? (
+        <ScrollView
+          contentContainerStyle={{
+            minWidth: '100%',
+            minHeight: '100%',
+          }}
+          style={{
+            minHeight: '100%',
+            zIndex: -1,
+          }}
+          onScroll={({ nativeEvent }) => onHorizontalScroll(nativeEvent)}
+          scrollEventThrottle={16}
+          //the nested ScrollView with 'horizontal' prop allows for scrolling horizontally, while the parent ScrollView allows vertical
+          horizontal
+        >
+          <TouchableWithoutFeedback onPress={closeMenus}>
+            <VisualTreeContainer onStartShouldSetResponder={() => true}>
+              {uplineMember && (
+                <Flexbox padding={20}>
+                  <VisualTreeBubble
+                    member={uplineMember}
+                    draggable={
+                      uplineMember?.legacyAssociateId !==
+                      user?.uplineTreeNode?.associate?.legacyAssociateId
                     }
+                    onDragStart={() => onDragStart(uplineMember)}
+                    onDragEnd={onDragEnd}
+                    onDragDrop={onDragDrop}
+                    payload={uplineMember}
+                    position="relative"
+                    isBeingDragged={
+                      idOfDraggedItem === uplineMember?.legacyAssociateId
+                    }
+                    level={levelOfFocusedMember - 1}
+                    horizontalOffset={horizontalOffset}
+                  />
+                </Flexbox>
+              )}
+              <ReceivingCircle
+                borderColor={receiveCirlceBorderColor}
+                receivingStyle={
+                  isAValidDropToTopCirlce && {
+                    backgroundColor: theme.dropZoneBackgroundColor,
                   }
-                  onReceiveDragEnter={() => {
-                    isAValidDropToTopCirlce && setIsOutsideBubbleEntering(true);
-                  }}
-                  onReceiveDragExit={() => {
-                    setIsOutsideBubbleEntering(false);
-                  }}
-                  onReceiveDragDrop={({ dragged: { payload } }) =>
-                    onReceiveDragDrop(payload)
-                  }
-                >
-                  {focusedMember && !isOutsideBubbleEntering && (
-                    <VisualTreeBubble
-                      style={{ position: 'absolute', top: -7, left: 3 }}
-                      member={focusedMember}
-                      draggable={true}
-                      longPressDelay={200}
-                      onDragStart={() => onDragStartFocused(focusedMember)}
-                      onDragEnd={onDragEndFocused}
-                      onDragDrop={onDragDropFocused}
-                      payload={focusedMember}
-                      isBeingDragged={
-                        idOfDraggedItem === focusedMember?.legacyAssociateId
-                      }
-                      level={levelOfFocusedMember}
-                      horizontalOffset={horizontalOffset}
-                    />
-                  )}
-                </ReceivingCircle>
+                }
+                onReceiveDragEnter={() => {
+                  isAValidDropToTopCirlce && setIsOutsideBubbleEntering(true);
+                }}
+                onReceiveDragExit={() => {
+                  setIsOutsideBubbleEntering(false);
+                }}
+                onReceiveDragDrop={({ dragged: { payload } }) =>
+                  onReceiveDragDrop(payload)
+                }
+              >
+                {focusedMember && !isOutsideBubbleEntering && (
+                  <VisualTreeBubble
+                    style={{ position: 'absolute', top: -7, left: 3 }}
+                    member={focusedMember}
+                    draggable={true}
+                    longPressDelay={200}
+                    onDragStart={() => onDragStartFocused(focusedMember)}
+                    onDragEnd={onDragEndFocused}
+                    onDragDrop={onDragDropFocused}
+                    payload={focusedMember}
+                    isBeingDragged={
+                      idOfDraggedItem === focusedMember?.legacyAssociateId
+                    }
+                    level={levelOfFocusedMember}
+                    horizontalOffset={horizontalOffset}
+                  />
+                )}
+              </ReceivingCircle>
 
-                <VisualTreePaneSection
-                  level={levelOfFocusedMember + 1}
-                  parentData={treeData}
-                  focusedMember={focusedMember}
-                  setTopCirlceBorderColor={setReceiveCirlceBorderColor}
-                  setIdOfDraggedItemForParent={setIdOfDraggedItem}
-                  closeMenus={closeMenus}
-                  horizontalOffset={horizontalOffset}
-                />
-              </VisualTreeContainer>
-            </TouchableWithoutFeedback>
-          </ScrollView>
-        ) : (
-          <H5 style={{ textAlign: 'center', marginTop: 16 }}>
-            {Localized('Search for a team member')}
-          </H5>
-        )}
-      </DraxProvider>
-    </ScrollView>
+              <VisualTreePaneSection
+                level={levelOfFocusedMember + 1}
+                parentData={treeData}
+                focusedMember={focusedMember}
+                setTopCirlceBorderColor={setReceiveCirlceBorderColor}
+                setIdOfDraggedItemForParent={setIdOfDraggedItem}
+                closeMenus={closeMenus}
+                horizontalOffset={horizontalOffset}
+              />
+            </VisualTreeContainer>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      ) : (
+        <H5 style={{ textAlign: 'center', marginTop: 16 }}>
+          {Localized('Search for a team member')}
+        </H5>
+      )}
+    </DraxScrollView>
   );
 };
 
