@@ -28,7 +28,7 @@ const VisualTreeView = ({ ...props }) => {
       width="100%"
       height="100%"
       padding={4}
-      style={{ zIndex: -1, maxWidth: 425 }}
+      style={{ zIndex: -1 }}
       {...props}
     >
       <VisualTreeSearchBar

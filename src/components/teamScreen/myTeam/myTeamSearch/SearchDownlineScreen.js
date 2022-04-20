@@ -25,7 +25,6 @@ import { CardContainer } from '../myTeamCard.styles';
 import MyTeamSearchFilterModal from './MyTeamSearchFilterModal';
 import { SEARCH_TREE } from '../../../../graphql/queries';
 import { Localized } from '../../../../translations/Localized';
-import { maxWidth } from '../../../../styles/constants';
 
 const SearchDownlineScreen = ({ route }) => {
   const viewInVisualTree = route?.params?.viewInVisualTree;
@@ -174,13 +173,7 @@ const SearchDownlineScreen = ({ route }) => {
         height: '100%',
       }}
     >
-      <Flexbox
-        width="100%"
-        height="100%"
-        justify="flex-start"
-        padding={8}
-        style={{ maxWidth }}
-      >
+      <Flexbox width="100%" height="100%" justify="flex-start" padding={8}>
         <Flexbox direction="row" justify="space-between">
           <TouchableOpacity
             style={{ padding: 4 }}
