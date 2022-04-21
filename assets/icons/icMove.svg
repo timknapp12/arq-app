@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 127 127" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icMove</title>
+    <g id="ARQ-and-Shop-Q-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Icons" transform="translate(-323.000000, -798.000000)" stroke="#FFFFFF" stroke-width="3">
+            <g id="icMove" transform="translate(325.000000, 800.000000)">
+                <path d="M122.925,61.462 C122.925,95.407 95.407,122.924 61.463,122.924 C27.518,122.924 0,95.407 0,61.462 C0,27.517 27.518,0 61.463,0 C95.407,0 122.925,27.517 122.925,61.462 Z" id="Stroke-1"></path>
+                <line x1="29.8899" y1="60.3006" x2="98.6319" y2="60.3006" id="Stroke-3"></line>
+                <line x1="98.6321" y1="60.3006" x2="68.9721" y2="30.6406" id="Stroke-5"></line>
+                <line x1="98.6321" y1="60.3006" x2="68.9721" y2="89.9606" id="Stroke-7"></line>
+            </g>
+        </g>
+    </g>
+</svg>

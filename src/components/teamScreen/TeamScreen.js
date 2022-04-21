@@ -31,12 +31,12 @@ const TeamScreen = ({ navigation, route }) => {
   const [levelInTree, setLevelInTree] = useState(0);
   const [selectedVisualTreePane, setSelectedVisualTreePane] = useState(1);
 
-  const [paneOneSearchId, setPaneOneSearchId] = useState(legacyId);
-  const [paneTwoSearchId, setPaneTwoSearchId] = useState(0);
-  const [paneThreeSearchId, setPaneThreeSearchId] = useState(0);
-  const [paneOneSearchLevel, setPaneOneSearchLevel] = useState(0);
-  const [paneTwoSearchLevel, setPaneTwoSearchLevel] = useState(0);
-  const [paneThreeSearchLevel, setPaneThreeSearchLevel] = useState(0);
+  const [pane1SearchId, setPane1SearchId] = useState(legacyId);
+  const [pane2SearchId, setPane2SearchId] = useState(0);
+  const [pane3SearchId, setPane3SearchId] = useState(0);
+  const [pane1SearchLevel, setPane1SearchLevel] = useState(0);
+  const [pane2SearchLevel, setPane2SearchLevel] = useState(0);
+  const [pane3SearchLevel, setPane3SearchLevel] = useState(0);
 
   useEffect(() => {
     if (route?.params?.searchId) {
@@ -131,15 +131,15 @@ const TeamScreen = ({ navigation, route }) => {
   };
 
   const paneSearchIdMap = {
-    1: setPaneOneSearchId,
-    2: setPaneTwoSearchId,
-    3: setPaneThreeSearchId,
+    1: setPane1SearchId,
+    2: setPane2SearchId,
+    3: setPane3SearchId,
   };
 
   const paneLevelMap = {
-    1: setPaneOneSearchLevel,
-    2: setPaneTwoSearchLevel,
-    3: setPaneThreeSearchLevel,
+    1: setPane1SearchLevel,
+    2: setPane2SearchLevel,
+    3: setPane3SearchLevel,
   };
 
   const viewInVisualTree = (item) => {
@@ -171,12 +171,12 @@ const TeamScreen = ({ navigation, route }) => {
         setLevelInTree,
         selectedVisualTreePane,
         setSelectedVisualTreePane,
-        paneOneSearchId,
-        paneTwoSearchId,
-        paneThreeSearchId,
-        paneOneSearchLevel,
-        paneTwoSearchLevel,
-        paneThreeSearchLevel,
+        pane1SearchId,
+        pane2SearchId,
+        pane3SearchId,
+        pane1SearchLevel,
+        pane2SearchLevel,
+        pane3SearchLevel,
         viewInVisualTree,
         viewInNewPane,
       }}

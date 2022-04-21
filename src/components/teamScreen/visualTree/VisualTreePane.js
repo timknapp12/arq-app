@@ -14,7 +14,13 @@ import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDow
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
 
-const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
+const VisualTreePane = ({
+  searchId,
+  level,
+  closeMenus,
+  style,
+  setActiveBubbleMember,
+}) => {
   const { theme } = useContext(AppContext);
   const { user } = useContext(LoginContext);
 
@@ -86,6 +92,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const onDragStart = (item) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    setActiveBubbleMember(item);
     closeMenus();
   };
 
@@ -101,6 +108,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
 
   const onDragStartFocused = (item) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
+    setActiveBubbleMember(item);
     closeMenus();
   };
 
@@ -237,6 +245,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
                 setIdOfDraggedItemForParent={setIdOfDraggedItem}
                 closeMenus={closeMenus}
                 horizontalOffset={horizontalOffset}
+                setActiveBubbleMember={setActiveBubbleMember}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
@@ -255,6 +264,7 @@ VisualTreePane.propTypes = {
   level: PropTypes.number,
   closeMenus: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
+  setActiveBubbleMember: PropTypes.func.isRequired,
 };
 
 export default VisualTreePane;

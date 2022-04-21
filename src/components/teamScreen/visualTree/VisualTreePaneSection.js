@@ -23,6 +23,7 @@ const VisualTreePaneSection = ({
   setIdOfDraggedItemForParent = () => {},
   closeMenus,
   horizontalOffset,
+  setActiveBubbleMember,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -79,6 +80,7 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setIdOfDraggedItemForParent(item?.legacyAssociateId);
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
+    setActiveBubbleMember(item);
     closeMenus();
   };
 
@@ -97,6 +99,7 @@ const VisualTreePaneSection = ({
   const onDragStartFromBottom = (item) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    setActiveBubbleMember(item);
     closeMenus();
   };
 
@@ -309,6 +312,7 @@ const VisualTreePaneSection = ({
               borderColor={outerCircleReceiveBorderColor}
               closeMenus={closeMenus}
               horizontalOffset={horizontalOffset}
+              setActiveBubbleMember={setActiveBubbleMember}
             />
           ) : (
             <OuterCircle
@@ -348,6 +352,7 @@ VisualTreePaneSection.propTypes = {
   setIdOfDraggedItemForParent: PropTypes.func,
   closeMenus: PropTypes.func.isRequired,
   horizontalOffset: PropTypes.number.isRequired,
+  setActiveBubbleMember: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;
