@@ -22,7 +22,7 @@ import MyTeamView from './myTeam/MyTeamView';
 import LeaderboardView from './leaderboard/LeaderboardView';
 import VisualTreeView from './visualTree/VisualTreeView';
 
-const TeamScreen = ({ navigation, route }) => {
+const TeamScreen = ({ navigation }) => {
   const { legacyId } = useContext(AppContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
@@ -30,6 +30,7 @@ const TeamScreen = ({ navigation, route }) => {
   const [sortBy, setSortBy] = useState('ORGANIZATION');
   const [levelInTree, setLevelInTree] = useState(0);
   const [selectedVisualTreePane, setSelectedVisualTreePane] = useState(1);
+  const [selectedMemberId, setSelectedMemberId] = useState(null);
 
   const [pane1SearchId, setPane1SearchId] = useState(legacyId);
   const [pane2SearchId, setPane2SearchId] = useState(0);
@@ -37,17 +38,6 @@ const TeamScreen = ({ navigation, route }) => {
   const [pane1SearchLevel, setPane1SearchLevel] = useState(0);
   const [pane2SearchLevel, setPane2SearchLevel] = useState(0);
   const [pane3SearchLevel, setPane3SearchLevel] = useState(0);
-
-  useEffect(() => {
-    if (route?.params?.searchId) {
-      setLegacyAssociateId(route?.params?.searchId);
-      setSortBy('ORGANIZATION');
-      setLevelInTree(route?.params?.levelInTree);
-    }
-    return () => {
-      setLegacyAssociateId(legacyId);
-    };
-  }, [route?.params?.searchId]);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -62,12 +52,10 @@ const TeamScreen = ({ navigation, route }) => {
     };
   }, [isFocused]);
 
-  const initialView = route?.params?.searchId
-    ? { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' }
-    : {
-        name: Localized('At A Glance').toUpperCase(),
-        testID: 'At_A_Glance_button',
-      };
+  const initialView = {
+    name: Localized('At A Glance').toUpperCase(),
+    testID: 'At_A_Glance_button',
+  };
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -158,11 +146,23 @@ const TeamScreen = ({ navigation, route }) => {
     setSelectedVisualTreePane(newPaneNumber);
   };
 
+  const viewInMyTeamView = (uplineId, memberId, level) => {
+    setSortBy('ORGANIZATION');
+    setLegacyAssociateId(uplineId);
+    setSelectedMemberId(memberId);
+    setLevelInTree(level);
+    navigation.navigate('Team Screen');
+    setView({
+      name: Localized('My Team').toUpperCase(),
+      testID: 'my_team_button',
+    });
+  };
+
   return (
     <TeamScreenContext.Provider
       value={{
         closeMenus,
-        selectedMemberId: route?.params?.selectedMemberId,
+        selectedMemberId,
         legacyAssociateId,
         setLegacyAssociateId,
         sortBy,
@@ -179,6 +179,7 @@ const TeamScreen = ({ navigation, route }) => {
         pane3SearchLevel,
         viewInVisualTree,
         viewInNewPane,
+        viewInMyTeamView,
       }}
     >
       <TouchableWithoutFeedback
@@ -282,7 +283,6 @@ const TeamScreen = ({ navigation, route }) => {
 
 TeamScreen.propTypes = {
   navigation: PropTypes.object,
-  route: PropTypes.object,
 };
 
 export default TeamScreen;

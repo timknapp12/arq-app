@@ -20,6 +20,7 @@ const VisualTreePane = ({
   closeMenus,
   style,
   setActiveBubbleMember,
+  setPaneHasContent,
 }) => {
   const { theme } = useContext(AppContext);
   const { user } = useContext(LoginContext);
@@ -34,12 +35,16 @@ const VisualTreePane = ({
   const [focusedMember, setFocusedMember] = useState(null);
   const [uplineMember, setUplineMember] = useState(null);
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
-  const [levelOfFocusedMember, setLevelOfFocusedMember] = useState(null);
+  const [levelOfFocusedMember, setLevelOfFocusedMember] = useState(0);
   const [horizontalOffset, setHorizontalOffset] = useState(0);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
       console.log('error in get user in VisualTreePane.js', error),
+    onCompleted: () => {
+      setPaneHasContent(true);
+      setActiveBubbleMember(null);
+    },
   });
 
   const emptySearchId = 0;
@@ -56,7 +61,7 @@ const VisualTreePane = ({
     lastName: item?.associate?.lastName,
     associateType: item?.associate?.associateType,
     associateStatus: item?.associate?.associateStatus,
-    uplineId: item?.uplineNode?.associate?.legacyAssociateId,
+    uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
     ovRankName: item?.rank?.rankName,
     ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
@@ -89,10 +94,10 @@ const VisualTreePane = ({
     }
   }, [level]);
 
-  const onDragStart = (item) => {
+  const onDragStart = (item, level) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
-    setActiveBubbleMember(item);
+    setActiveBubbleMember({ ...item, level });
     closeMenus();
   };
 
@@ -106,9 +111,9 @@ const VisualTreePane = ({
     setIdOfDraggedItem(null);
   };
 
-  const onDragStartFocused = (item) => {
+  const onDragStartFocused = (item, level) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
-    setActiveBubbleMember(item);
+    setActiveBubbleMember({ ...item, level });
     closeMenus();
   };
 
@@ -188,7 +193,9 @@ const VisualTreePane = ({
                       uplineMember?.legacyAssociateId !==
                       user?.uplineTreeNode?.associate?.legacyAssociateId
                     }
-                    onDragStart={() => onDragStart(uplineMember)}
+                    onDragStart={() =>
+                      onDragStart(uplineMember, levelOfFocusedMember - 1)
+                    }
                     onDragEnd={onDragEnd}
                     onDragDrop={onDragDrop}
                     payload={uplineMember}
@@ -224,7 +231,9 @@ const VisualTreePane = ({
                     member={focusedMember}
                     draggable={true}
                     longPressDelay={200}
-                    onDragStart={() => onDragStartFocused(focusedMember)}
+                    onDragStart={() =>
+                      onDragStartFocused(focusedMember, levelOfFocusedMember)
+                    }
                     onDragEnd={onDragEndFocused}
                     onDragDrop={onDragDropFocused}
                     payload={focusedMember}
@@ -265,6 +274,7 @@ VisualTreePane.propTypes = {
   closeMenus: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
   setActiveBubbleMember: PropTypes.func.isRequired,
+  setPaneHasContent: PropTypes.func.isRequired,
 };
 
 export default VisualTreePane;

@@ -76,11 +76,11 @@ const VisualTreePaneSection = ({
     setIsOutsideBubbleEntering(droppedMember?.associate === idOfDraggedItem);
   }, [droppedMember, idOfDraggedItem]);
 
-  const onDragStart = (item) => {
+  const onDragStart = (item, level, uplineId) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
     setIdOfDraggedItemForParent(item?.legacyAssociateId);
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
-    setActiveBubbleMember(item);
+    setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
   };
 
@@ -96,10 +96,10 @@ const VisualTreePaneSection = ({
     setTopCirlceBorderColor(theme.disabledTextColor);
   };
 
-  const onDragStartFromBottom = (item) => {
+  const onDragStartFromBottom = (item, level, uplineId) => {
     setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
-    setActiveBubbleMember(item);
+    setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
   };
 
@@ -170,7 +170,13 @@ const VisualTreePaneSection = ({
                 item?.associate?.legacyAssociateId !==
                 droppedMember?.legacyAssociateId
               }
-              onDragStart={() => onDragStart(item?.associate)}
+              onDragStart={() =>
+                onDragStart(
+                  item?.associate,
+                  level,
+                  item?.uplineTreeNode?.associate?.legacyAssociateId,
+                )
+              }
               onDragEnd={onDragEnd}
               onDragDrop={onDragDrop}
               payload={{
@@ -181,6 +187,7 @@ const VisualTreePaneSection = ({
                 cvRankId: item?.customerSalesRank?.customerSalesRankId,
                 cv: item?.cv,
                 ov: item?.ov,
+                uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
               }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
@@ -222,7 +229,13 @@ const VisualTreePaneSection = ({
               insideItem?.associate?.legacyAssociateId !==
               droppedMember?.legacyAssociateId
             }
-            onDragStart={() => onDragStart(insideItem?.associate)}
+            onDragStart={() =>
+              onDragStart(
+                insideItem?.associate,
+                level,
+                insideItem?.uplineTreeNode?.associate?.legacyAssociateId,
+              )
+            }
             onDragEnd={onDragEnd}
             onDragDrop={onDragDrop}
             payload={{
@@ -233,6 +246,8 @@ const VisualTreePaneSection = ({
               cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
               cv: insideItem?.cv,
               ov: insideItem?.ov,
+              uplineId:
+                insideItem?.uplineTreeNode?.associate?.legacyAssociateId,
             }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId
@@ -291,7 +306,13 @@ const VisualTreePaneSection = ({
             style={{ position: 'absolute', top: -7, left: 3 }}
             member={droppedMember}
             draggable={true}
-            onDragStart={() => onDragStartFromBottom(droppedMember)}
+            onDragStart={() =>
+              onDragStartFromBottom(
+                droppedMember,
+                level,
+                droppedMember?.uplineId,
+              )
+            }
             onDragEnd={onDragEndFromBottom}
             onDragDrop={onDragDropFromBottom}
             payload={droppedMember}

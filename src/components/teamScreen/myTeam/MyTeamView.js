@@ -25,6 +25,7 @@ const MyTeamView = () => {
     setSortBy,
     levelInTree,
     viewInVisualTree,
+    viewInMyTeamView,
   } = useContext(TeamScreenContext);
 
   const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
@@ -95,7 +96,8 @@ const MyTeamView = () => {
             onPress={() =>
               navigation.navigate('Search Downline Screen', {
                 title: Localized('Search My Team'),
-                viewInVisualTree: viewInVisualTree,
+                viewInVisualTree,
+                viewInMyTeamView,
               })
             }
           >

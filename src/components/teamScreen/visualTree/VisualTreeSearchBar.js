@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Flexbox, H5 } from '../../common';
+import { Flexbox, H5, TeamIcon } from '../../common';
 import {
   RoundButtonContainer,
   SkewedBorder,
@@ -10,6 +10,7 @@ import {
   SearchBarNav,
   MoveIconsContainer,
   MoveButton,
+  Button,
 } from './visualTree.styles';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
 import TeamScreenContext from '../../../contexts/TeamScreenContext';
@@ -25,11 +26,10 @@ const VisualTreeSearchBar = ({
   pane1HasContent,
   pane2HasContent,
   pane3HasContent,
-  setPane1HasContent,
-  setPane2HasContent,
-  setPane3HasContent,
+  resetActiveBubbleMap,
 }) => {
-  const { viewInVisualTree } = useContext(TeamScreenContext);
+  const { viewInVisualTree, viewInNewPane, viewInMyTeamView } =
+    useContext(TeamScreenContext);
 
   const navigation = useNavigation();
   const navigateToSearchScreen = () => {
@@ -46,6 +46,9 @@ const VisualTreeSearchBar = ({
       ? pane2ActiveMember
       : pane3ActiveMember;
 
+  const legacyId = activeBubbleMember?.legacyAssociateId;
+  const level = activeBubbleMember?.level ?? 2;
+
   const disabledMap = {
     1:
       selectedVisualTreePane === 1 ||
@@ -59,6 +62,13 @@ const VisualTreeSearchBar = ({
       selectedVisualTreePane === 3 ||
       (selectedVisualTreePane === 1 && !pane1ActiveMember) ||
       (selectedVisualTreePane === 2 && !pane2ActiveMember),
+  };
+
+  const viewItemInMyTeamView = (item) => {
+    const uplineId = item?.uplineId;
+    const selectedMemberId = item?.associateId;
+    const levelInTree = item?.level - 1;
+    viewInMyTeamView(uplineId, selectedMemberId, levelInTree);
   };
 
   return (
@@ -90,22 +100,22 @@ const VisualTreeSearchBar = ({
           <MoveButton
             disabled={disabledMap[1]}
             onPress={() => {
-              setPane1HasContent(true);
-              setSelectedVisualTreePane(1);
+              viewInNewPane(1, legacyId, level);
+              resetActiveBubbleMap[selectedVisualTreePane]();
             }}
           />
           <MoveButton
             disabled={disabledMap[2]}
             onPress={() => {
-              setPane2HasContent(true);
-              setSelectedVisualTreePane(2);
+              viewInNewPane(2, legacyId, level);
+              resetActiveBubbleMap[selectedVisualTreePane]();
             }}
           />
           <MoveButton
             disabled={disabledMap[3]}
             onPress={() => {
-              setPane3HasContent(true);
-              setSelectedVisualTreePane(3);
+              viewInNewPane(3, legacyId, level);
+              resetActiveBubbleMap[selectedVisualTreePane]();
             }}
           />
         </MoveIconsContainer>
@@ -115,7 +125,18 @@ const VisualTreeSearchBar = ({
             activeBubbleMember?.lastName,
           )}
         </H5>
-        <View style={{ flex: 1 }} />
+        <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          <Button
+            disabled={!activeBubbleMember}
+            style={{
+              paddingEnd: 4,
+              paddingStart: 4,
+            }}
+            onPress={() => viewItemInMyTeamView(activeBubbleMember)}
+          >
+            <TeamIcon size={26} />
+          </Button>
+        </View>
       </SearchBarNav>
     </>
   );
@@ -130,9 +151,7 @@ VisualTreeSearchBar.propTypes = {
   pane1HasContent: PropTypes.bool.isRequired,
   pane2HasContent: PropTypes.bool.isRequired,
   pane3HasContent: PropTypes.bool.isRequired,
-  setPane1HasContent: PropTypes.func.isRequired,
-  setPane2HasContent: PropTypes.func.isRequired,
-  setPane3HasContent: PropTypes.func.isRequired,
+  resetActiveBubbleMap: PropTypes.object.isRequired,
 };
 
 export default VisualTreeSearchBar;

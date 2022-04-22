@@ -23,12 +23,18 @@ const VisualTreeView = ({ ...props }) => {
   } = useContext(TeamScreenContext);
 
   const [pane1ActiveMember, setPane1ActiveMember] = useState(null);
-  const [pane2ActiveMember, setPane2ActiveName] = useState(null);
+  const [pane2ActiveMember, setPane2ActiveMember] = useState(null);
   const [pane3ActiveMember, setPane3ActiveMember] = useState(null);
 
   const [pane1HasContent, setPane1HasContent] = useState(false);
   const [pane2HasContent, setPane2HasContent] = useState(false);
   const [pane3HasContent, setPane3HasContent] = useState(false);
+
+  const resetActiveBubbleMap = {
+    1: () => setPane1ActiveMember(null),
+    2: () => setPane2ActiveMember(null),
+    3: () => setPane3ActiveMember(null),
+  };
 
   return (
     <Flexbox
@@ -45,11 +51,9 @@ const VisualTreeView = ({ ...props }) => {
         pane2ActiveMember={pane2ActiveMember}
         pane3ActiveMember={pane3ActiveMember}
         pane1HasContent={pane1HasContent}
-        setPane1HasContent={setPane1HasContent}
         pane2HasContent={pane2HasContent}
-        setPane2HasContent={setPane2HasContent}
         pane3HasContent={pane3HasContent}
-        setPane3HasContent={setPane3HasContent}
+        resetActiveBubbleMap={resetActiveBubbleMap}
       />
       <DraxProvider>
         {/* the 2 empty Views are necessary for the autoscroll to work in DraxScrollView in VisualTreePane */}
@@ -61,6 +65,7 @@ const VisualTreeView = ({ ...props }) => {
           closeMenus={closeMenus}
           pane={1}
           setActiveBubbleMember={setPane1ActiveMember}
+          setPaneHasContent={setPane1HasContent}
         />
         <VisualTreePane
           style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
@@ -68,7 +73,8 @@ const VisualTreeView = ({ ...props }) => {
           level={pane2SearchLevel}
           closeMenus={closeMenus}
           pane={2}
-          setActiveBubbleMember={setPane2ActiveName}
+          setActiveBubbleMember={setPane2ActiveMember}
+          setPaneHasContent={setPane2HasContent}
         />
         <VisualTreePane
           style={{ display: selectedVisualTreePane === 3 ? 'flex' : 'none' }}
@@ -77,6 +83,7 @@ const VisualTreeView = ({ ...props }) => {
           closeMenus={closeMenus}
           pane={3}
           setActiveBubbleMember={setPane3ActiveMember}
+          setPaneHasContent={setPane3HasContent}
         />
         <View />
       </DraxProvider>

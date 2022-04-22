@@ -131,7 +131,7 @@ export const MoveIconsContainer = styled(Flexbox)`
   width: 100px;
 `;
 
-const Button = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 

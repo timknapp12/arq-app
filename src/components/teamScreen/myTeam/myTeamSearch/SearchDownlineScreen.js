@@ -8,7 +8,6 @@ import {
   Platform,
   LogBox,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import debounce from 'lodash.debounce';
 import {
@@ -28,6 +27,7 @@ import { Localized } from '../../../../translations/Localized';
 
 const SearchDownlineScreen = ({ route }) => {
   const viewInVisualTree = route?.params?.viewInVisualTree;
+  const viewInMyTeamView = route?.params?.viewInMyTeamView;
 
   const { theme } = useContext(AppContext);
 
@@ -117,21 +117,18 @@ const SearchDownlineScreen = ({ route }) => {
     setHasSearchCompleted(false);
   };
 
-  const navigation = useNavigation();
-
-  const viewInMyTeamView = (item) => {
-    navigation.navigate('Team Screen', {
-      searchId: item?.uplineTreeNode?.legacyAssociateId,
-      selectedMemberId: item?.associate?.associateId,
-      levelInTree: item?.depth - 2,
-    });
+  const viewItemInMyTeamView = (item) => {
+    const uplineId = item?.uplineTreeNode?.legacyAssociateId;
+    const selectedMemberId = item?.associate?.associateId;
+    const levelInTree = item?.depth - 2;
+    viewInMyTeamView(uplineId, selectedMemberId, levelInTree);
   };
 
   const onPressCard = (item) => {
     if (Platform.OS === 'android' && isFilterModalOpen) {
       return;
     }
-    viewInMyTeamView(item);
+    viewItemInMyTeamView(item);
   };
 
   const viewItemInVisualTree = (item) => {
