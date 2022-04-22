@@ -1,4 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import { View } from 'react-native';
+import { DraxProvider } from 'react-native-drax';
 import { Flexbox } from '../../common';
 import VisualTreeSearchBar from './VisualTreeSearchBar';
 import VisualTreePane from './VisualTreePane';
@@ -12,47 +14,79 @@ const VisualTreeView = ({ ...props }) => {
     closeMenus,
     selectedVisualTreePane,
     setSelectedVisualTreePane,
-    paneOneSearchId,
-    paneTwoSearchId,
-    paneThreeSearchId,
-    paneOneSearchLevel,
-    paneTwoSearchLevel,
-    paneThreeSearchLevel,
+    pane1SearchId,
+    pane2SearchId,
+    pane3SearchId,
+    pane1SearchLevel,
+    pane2SearchLevel,
+    pane3SearchLevel,
   } = useContext(TeamScreenContext);
+
+  const [pane1ActiveMember, setPane1ActiveMember] = useState(null);
+  const [pane2ActiveMember, setPane2ActiveMember] = useState(null);
+  const [pane3ActiveMember, setPane3ActiveMember] = useState(null);
+
+  const [pane1HasContent, setPane1HasContent] = useState(false);
+  const [pane2HasContent, setPane2HasContent] = useState(false);
+  const [pane3HasContent, setPane3HasContent] = useState(false);
+
+  const resetActiveBubbleMap = {
+    1: () => setPane1ActiveMember(null),
+    2: () => setPane2ActiveMember(null),
+    3: () => setPane3ActiveMember(null),
+  };
 
   return (
     <Flexbox
       justify="flex-start"
       width="100%"
       height="100%"
-      padding={4}
-      style={{ zIndex: -1, maxWidth: 425 }}
+      style={{ zIndex: -1 }}
       {...props}
     >
       <VisualTreeSearchBar
         selectedVisualTreePane={selectedVisualTreePane}
         setSelectedVisualTreePane={setSelectedVisualTreePane}
+        pane1ActiveMember={pane1ActiveMember}
+        pane2ActiveMember={pane2ActiveMember}
+        pane3ActiveMember={pane3ActiveMember}
+        pane1HasContent={pane1HasContent}
+        pane2HasContent={pane2HasContent}
+        pane3HasContent={pane3HasContent}
+        resetActiveBubbleMap={resetActiveBubbleMap}
       />
-      <VisualTreePane
-        style={{ display: selectedVisualTreePane === 1 ? 'flex' : 'none' }}
-        searchId={paneOneSearchId}
-        level={paneOneSearchLevel}
-        closeMenus={closeMenus}
-      />
-      <VisualTreePane
-        style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
-        searchId={paneTwoSearchId}
-        level={paneTwoSearchLevel}
-        closeMenus={closeMenus}
-      />
-      <VisualTreePane
-        style={{
-          display: selectedVisualTreePane === 3 ? 'flex' : 'none',
-        }}
-        searchId={paneThreeSearchId}
-        level={paneThreeSearchLevel}
-        closeMenus={closeMenus}
-      />
+      <DraxProvider>
+        {/* the 2 empty Views are necessary for the autoscroll to work in DraxScrollView in VisualTreePane */}
+        <View />
+        <VisualTreePane
+          style={{ display: selectedVisualTreePane === 1 ? 'flex' : 'none' }}
+          searchId={pane1SearchId}
+          level={pane1SearchLevel}
+          closeMenus={closeMenus}
+          pane={1}
+          setActiveBubbleMember={setPane1ActiveMember}
+          setPaneHasContent={setPane1HasContent}
+        />
+        <VisualTreePane
+          style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
+          searchId={pane2SearchId}
+          level={pane2SearchLevel}
+          closeMenus={closeMenus}
+          pane={2}
+          setActiveBubbleMember={setPane2ActiveMember}
+          setPaneHasContent={setPane2HasContent}
+        />
+        <VisualTreePane
+          style={{ display: selectedVisualTreePane === 3 ? 'flex' : 'none' }}
+          searchId={pane3SearchId}
+          level={pane3SearchLevel}
+          closeMenus={closeMenus}
+          pane={3}
+          setActiveBubbleMember={setPane3ActiveMember}
+          setPaneHasContent={setPane3HasContent}
+        />
+        <View />
+      </DraxProvider>
     </Flexbox>
   );
 };

@@ -31,7 +31,7 @@ const VisualTreeBubble = ({
   highlight,
   isDroppedItem,
   level,
-  contentOffsetX,
+  horizontalOffset,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -50,7 +50,7 @@ const VisualTreeBubble = ({
   );
 
   const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
-  const verticalOffset = -107;
+  const baseVerticalOffset = -107;
   const baseHorizontalOffset = -51;
 
   return (
@@ -71,8 +71,8 @@ const VisualTreeBubble = ({
               justifyContent: 'center',
               alignItems: 'center',
               position: 'absolute',
-              top: verticalOffset,
-              left: baseHorizontalOffset - (contentOffsetX ?? 0),
+              top: baseVerticalOffset,
+              left: baseHorizontalOffset - (horizontalOffset ?? 0),
             }}
           >
             <VisualTreeBubbleStatBar member={member} />
@@ -87,7 +87,7 @@ const VisualTreeBubble = ({
               highlight
               isDroppedItem={isDroppedItem}
               level={level}
-              contentOffsetX={contentOffsetX}
+              horizontalOffset={horizontalOffset}
             />
           </View>
         )}
@@ -145,7 +145,7 @@ VisualTreeBubble.propTypes = {
   highlight: PropTypes.bool,
   isDroppedItem: PropTypes.bool,
   level: PropTypes.number,
-  contentOffsetX: PropTypes.number.isRequired,
+  horizontalOffset: PropTypes.number.isRequired,
 };
 
 export default VisualTreeBubble;

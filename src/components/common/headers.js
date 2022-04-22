@@ -46,7 +46,7 @@ export const ButtonBar = styled.View`
   height: 36px;
   justify-content: space-between;
   padding: 0 12px;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
   background-color: ${(props) => props.theme.topButtonBarBackground};
 `;
 
@@ -59,7 +59,8 @@ export const TopButtonBar = ({ children, ...props }) => (
         minWidth: '100%',
       }}
       horizontal
-      showsHorizontalScrollIndicator={false}>
+      showsHorizontalScrollIndicator={false}
+    >
       {children}
     </ScrollView>
   </ButtonBar>

@@ -14,7 +14,6 @@ import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
 import TeamScreenContext from '../../../contexts/TeamScreenContext';
 import { Localized } from '../../../translations/Localized';
 import MyTeamList from './MyTeamList';
-import { maxWidth } from '../../../styles/constants';
 
 const MyTeamView = () => {
   const { theme } = useContext(AppContext);
@@ -26,6 +25,7 @@ const MyTeamView = () => {
     setSortBy,
     levelInTree,
     viewInVisualTree,
+    viewInMyTeamView,
   } = useContext(TeamScreenContext);
 
   const [myTeamViewHeader, setMyTeamViewHeader] = useState('');
@@ -90,13 +90,14 @@ const MyTeamView = () => {
           align="center"
           justify="flex-start"
           height="100%"
-          style={{ zIndex: -1, maxWidth }}
+          style={{ zIndex: -1 }}
         >
           <FilterSearchBar
             onPress={() =>
               navigation.navigate('Search Downline Screen', {
                 title: Localized('Search My Team'),
-                viewInVisualTree: viewInVisualTree,
+                viewInVisualTree,
+                viewInMyTeamView,
               })
             }
           >

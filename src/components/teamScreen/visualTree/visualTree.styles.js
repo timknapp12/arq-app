@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { DraxView } from 'react-native-drax';
 import { TouchableOpacity } from 'react-native';
+import { Flexbox } from '../../common';
+import MoveIcon from '../../../../assets/icons/icMove.svg';
 
 const bubbleDiameter = 96;
 
@@ -28,6 +30,8 @@ export const ReceivingCircle = styled(DraxView)`
   border-width: 3px;
   border-color: ${(props) => props.borderColor};
   position: relative;
+  justify-content: center;
+  align-items: center;
 `;
 
 const bubbleStyle = {
@@ -68,6 +72,22 @@ export const LevelIndicator = styled.View`
   opacity: 0.5;
 `;
 
+export const RoundButtonContainer = styled(Flexbox)`
+  flex-direction: row;
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  padding: 6px;
+  margin-left: -12px;
+  width: 100px;
+`;
+
+export const SkewedBorder = styled.View`
+  height: 0;
+  width: 0;
+  border-bottom-color: ${(props) => props.theme.cardBackgroundColor};
+  border-bottom-width: 36px;
+  border-right-width: 24px;
+`;
+
 const roundButtonDiameter = 24;
 
 const Round = styled.View`
@@ -75,19 +95,62 @@ const Round = styled.View`
   width: ${roundButtonDiameter}px;
   border-radius: ${roundButtonDiameter / 2}px;
   border-color: ${(props) => props.theme.primaryButtonBackgroundColor};
-  border-width: 1px;
+  border-width: ${(props) =>
+    props.hasContent && !props.selected ? '0px' : '1px'};
   background-color: ${(props) =>
-    props.selected ? props.theme.primaryButtonBackgroundColor : 'transparent'};
+    props.selected
+      ? props.theme.primaryButtonBackgroundColor
+      : props.hasContent
+      ? props.theme.paneHasContentButtonBackgroundColor
+      : 'transparent'};
 `;
 
-export const RoundButton = ({ selected, ...props }) => (
+export const RoundButton = ({ selected, hasContent, ...props }) => (
   <TouchableOpacity {...props}>
-    <Round selected={selected} />
+    <Round selected={selected} hasContent={hasContent} />
   </TouchableOpacity>
 );
 
 RoundButton.propTypes = {
   selected: PropTypes.bool,
+  hasContent: PropTypes.bool,
+};
+
+export const SearchBarNav = styled(Flexbox)`
+  flex-direction: row;
+  width: 100%;
+  padding: 6px 0;
+  min-height: 28px;
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+`;
+
+export const MoveIconsContainer = styled(Flexbox)`
+  flex-direction: row;
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  padding: 0 6px;
+  width: 100px;
+`;
+
+export const Button = styled.TouchableOpacity`
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+`;
+
+export const MoveButton = ({ onPress, disabled, ...props }) => (
+  <Button
+    {...props}
+    onPress={onPress}
+    disabled={disabled}
+    style={{
+      transform: [{ rotate: '270deg' }],
+    }}
+  >
+    <MoveIcon />
+  </Button>
+);
+
+MoveButton.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export const VisualTreeStatsBarCard = styled.View`

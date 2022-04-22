@@ -102,6 +102,7 @@ export const lightTheme = {
   dropShadow: dropShadow,
   bubbleShadow: lightUpperDropShadow,
   dropZoneBackgroundColor: nero,
+  paneHasContentButtonBackgroundColor: highlightWhite,
 };
 
 export const darkTheme = {
@@ -171,4 +172,5 @@ export const darkTheme = {
   dropShadow: dropShadow,
   bubbleShadow: lightUpperDropShadow,
   dropZoneBackgroundColor: nero,
+  paneHasContentButtonBackgroundColor: highlightWhite,
 };

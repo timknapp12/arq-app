@@ -5,6 +5,12 @@ export const GET_USER = gql`
     treeNodeFor(legacyAssociateId: $legacyAssociateId) {
       associateId
       uplineTreeNode {
+        uplineTreeNode {
+          associate {
+            associateId
+            legacyAssociateId
+          }
+        }
         associate {
           associateId
           legacyAssociateId

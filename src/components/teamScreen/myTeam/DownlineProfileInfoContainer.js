@@ -39,7 +39,7 @@ const DownlineProfileInfoContainer = ({
           member?.associate?.associateType === 'AMBASSADOR' ? (
             <TouchableOpacity
               onPress={() => {
-                viewItemInVisualTree();
+                viewItemInVisualTree(member);
               }}
             >
               <VisualTreeIcon

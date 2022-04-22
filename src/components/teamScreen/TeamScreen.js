@@ -22,7 +22,7 @@ import MyTeamView from './myTeam/MyTeamView';
 import LeaderboardView from './leaderboard/LeaderboardView';
 import VisualTreeView from './visualTree/VisualTreeView';
 
-const TeamScreen = ({ navigation, route }) => {
+const TeamScreen = ({ navigation }) => {
   const { legacyId } = useContext(AppContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
@@ -30,17 +30,14 @@ const TeamScreen = ({ navigation, route }) => {
   const [sortBy, setSortBy] = useState('ORGANIZATION');
   const [levelInTree, setLevelInTree] = useState(0);
   const [selectedVisualTreePane, setSelectedVisualTreePane] = useState(1);
+  const [selectedMemberId, setSelectedMemberId] = useState(null);
 
-  useEffect(() => {
-    if (route?.params?.searchId) {
-      setLegacyAssociateId(route?.params?.searchId);
-      setSortBy('ORGANIZATION');
-      setLevelInTree(route?.params?.levelInTree);
-    }
-    return () => {
-      setLegacyAssociateId(legacyId);
-    };
-  }, [route?.params?.searchId]);
+  const [pane1SearchId, setPane1SearchId] = useState(legacyId);
+  const [pane2SearchId, setPane2SearchId] = useState(0);
+  const [pane3SearchId, setPane3SearchId] = useState(0);
+  const [pane1SearchLevel, setPane1SearchLevel] = useState(0);
+  const [pane2SearchLevel, setPane2SearchLevel] = useState(0);
+  const [pane3SearchLevel, setPane3SearchLevel] = useState(0);
 
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -55,12 +52,10 @@ const TeamScreen = ({ navigation, route }) => {
     };
   }, [isFocused]);
 
-  const initialView = route?.params?.searchId
-    ? { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' }
-    : {
-        name: Localized('At A Glance').toUpperCase(),
-        testID: 'At_A_Glance_button',
-      };
+  const initialView = {
+    name: Localized('At A Glance').toUpperCase(),
+    testID: 'At_A_Glance_button',
+  };
 
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -73,14 +68,14 @@ const TeamScreen = ({ navigation, route }) => {
       testID: 'At_A_Glance_button',
     },
     { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' },
-    // {
-    //   name: Localized('Leaderboard').toUpperCase(),
-    //   testID: 'Leaderboard_button',
-    // },
     {
       name: Localized('Visual Tree').toUpperCase(),
       testID: 'visual_tree_button',
     },
+    // {
+    //   name: Localized('Leaderboard').toUpperCase(),
+    //   testID: 'Leaderboard_button',
+    // },
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -123,36 +118,43 @@ const TeamScreen = ({ navigation, route }) => {
     }
   };
 
+  const paneSearchIdMap = {
+    1: setPane1SearchId,
+    2: setPane2SearchId,
+    3: setPane3SearchId,
+  };
+
+  const paneLevelMap = {
+    1: setPane1SearchLevel,
+    2: setPane2SearchLevel,
+    3: setPane3SearchLevel,
+  };
+
   const viewInVisualTree = (item) => {
-    navigation.navigate('Team Screen', {
-      paneOneSearchId:
-        selectedVisualTreePane === 1
-          ? item?.associate?.legacyAssociateId
-          : route?.params?.paneOneSearchId ?? legacyId,
-      paneTwoSearchId:
-        selectedVisualTreePane === 2
-          ? item?.associate?.legacyAssociateId
-          : route?.params?.paneTwoSearchId ?? 0,
-      paneThreeSearchId:
-        selectedVisualTreePane === 3
-          ? item?.associate?.legacyAssociateId
-          : route?.params?.paneThreeSearchId ?? 0,
-      paneOneSearchLevel:
-        selectedVisualTreePane === 1
-          ? item?.depth - 1
-          : route?.params?.paneOneSearchLevel ?? 0,
-      paneTwoSearchLevel:
-        selectedVisualTreePane === 2
-          ? item?.depth - 1
-          : route?.params?.paneTwoSearchLevel ?? 0,
-      paneThreeSearchLevel:
-        selectedVisualTreePane === 3
-          ? item?.depth - 1
-          : route?.params?.paneThreeSearchLevel ?? 0,
-    });
+    paneSearchIdMap[selectedVisualTreePane](item?.associate?.legacyAssociateId);
+    paneLevelMap[selectedVisualTreePane](item?.depth - 1);
+    navigation.navigate('Team Screen');
     setView({
       name: Localized('Visual Tree').toUpperCase(),
       testID: 'visual_tree_button',
+    });
+  };
+
+  const viewInNewPane = (newPaneNumber, legacyAssociateId, level) => {
+    paneSearchIdMap[newPaneNumber](legacyAssociateId);
+    paneLevelMap[newPaneNumber](level);
+    setSelectedVisualTreePane(newPaneNumber);
+  };
+
+  const viewInMyTeamView = (uplineId, memberId, level) => {
+    setSortBy('ORGANIZATION');
+    setLegacyAssociateId(uplineId);
+    setSelectedMemberId(memberId);
+    setLevelInTree(level);
+    navigation.navigate('Team Screen');
+    setView({
+      name: Localized('My Team').toUpperCase(),
+      testID: 'my_team_button',
     });
   };
 
@@ -160,7 +162,7 @@ const TeamScreen = ({ navigation, route }) => {
     <TeamScreenContext.Provider
       value={{
         closeMenus,
-        selectedMemberId: route?.params?.selectedMemberId,
+        selectedMemberId,
         legacyAssociateId,
         setLegacyAssociateId,
         sortBy,
@@ -169,13 +171,15 @@ const TeamScreen = ({ navigation, route }) => {
         setLevelInTree,
         selectedVisualTreePane,
         setSelectedVisualTreePane,
-        paneOneSearchId: route?.params?.paneOneSearchId ?? legacyId,
-        paneTwoSearchId: route?.params?.paneTwoSearchId ?? 0,
-        paneThreeSearchId: route?.params?.paneThreeSearchId ?? 0,
-        paneOneSearchLevel: route?.params?.paneOneSearchLevel ?? 0,
-        paneTwoSearchLevel: route?.params?.paneTwoSearchLevel ?? 0,
-        paneThreeSearchLevel: route?.params?.paneThreeSearchLevel ?? 0,
+        pane1SearchId,
+        pane2SearchId,
+        pane3SearchId,
+        pane1SearchLevel,
+        pane2SearchLevel,
+        pane3SearchLevel,
         viewInVisualTree,
+        viewInNewPane,
+        viewInMyTeamView,
       }}
     >
       <TouchableWithoutFeedback
@@ -279,7 +283,6 @@ const TeamScreen = ({ navigation, route }) => {
 
 TeamScreen.propTypes = {
   navigation: PropTypes.object,
-  route: PropTypes.object,
 };
 
 export default TeamScreen;

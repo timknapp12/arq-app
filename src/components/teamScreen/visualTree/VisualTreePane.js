@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import { Flexbox, LoadingSpinner, H5 } from '../../common';
-import { DraxProvider } from 'react-native-drax';
+import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
 import AppContext from '../../../contexts/AppContext';
@@ -14,7 +14,14 @@ import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDow
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
 
-const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
+const VisualTreePane = ({
+  searchId,
+  level,
+  closeMenus,
+  style,
+  setActiveBubbleMember,
+  setPaneHasContent,
+}) => {
   const { theme } = useContext(AppContext);
   const { user } = useContext(LoginContext);
 
@@ -28,12 +35,16 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   const [focusedMember, setFocusedMember] = useState(null);
   const [uplineMember, setUplineMember] = useState(null);
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
-  const [levelOfFocusedMember, setLevelOfFocusedMember] = useState(null);
-  const [contentOffsetX, setContentOffsetX] = useState(0);
+  const [levelOfFocusedMember, setLevelOfFocusedMember] = useState(0);
+  const [horizontalOffset, setHorizontalOffset] = useState(0);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
       console.log('error in get user in VisualTreePane.js', error),
+    onCompleted: () => {
+      setPaneHasContent(true);
+      setActiveBubbleMember(null);
+    },
   });
 
   const emptySearchId = 0;
@@ -50,7 +61,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     lastName: item?.associate?.lastName,
     associateType: item?.associate?.associateType,
     associateStatus: item?.associate?.associateStatus,
-    uplineId: item?.uplineNode?.associate?.legacyAssociateId,
+    uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
     ovRankName: item?.rank?.rankName,
     ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
@@ -83,9 +94,10 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     }
   }, [level]);
 
-  const onDragStart = (item) => {
+  const onDragStart = (item, level) => {
     setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setIdOfDraggedItem(item?.legacyAssociateId);
+    setActiveBubbleMember({ ...item, level });
     closeMenus();
   };
 
@@ -99,8 +111,9 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
     setIdOfDraggedItem(null);
   };
 
-  const onDragStartFocused = (item) => {
+  const onDragStartFocused = (item, level) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
+    setActiveBubbleMember({ ...item, level });
     closeMenus();
   };
 
@@ -134,7 +147,7 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
 
   // this is needed to keep track of when the user scrolls horizontally to adjust absolute position of bubbles if the scrollview is wider than 100% width
   const onHorizontalScroll = ({ contentOffset }) => {
-    setContentOffsetX(contentOffset.x);
+    setHorizontalOffset(contentOffset.x);
   };
 
   if (loading) {
@@ -142,10 +155,9 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
   }
 
   return (
-    <ScrollView
+    <DraxScrollView
       contentContainerStyle={{
-        paddingBottom: 140,
-        paddingTop: 80,
+        paddingBottom: 200,
       }}
       style={{
         zIndex: -1,
@@ -156,100 +168,103 @@ const VisualTreePane = ({ searchId, level, closeMenus, style }) => {
         scrollViewRef?.current?.scrollTo({ y: height, amimated: true });
       }}
     >
-      <DraxProvider>
-        {searchId !== 0 ? (
-          <ScrollView
-            contentContainerStyle={{
-              minWidth: '100%',
-              minHeight: '100%',
-            }}
-            style={{
-              minHeight: '100%',
-              zIndex: -1,
-            }}
-            onScroll={({ nativeEvent }) => onHorizontalScroll(nativeEvent)}
-            scrollEventThrottle={16}
-            //the nested ScrollView with 'horizontal' prop allows for scrolling horizontally, while the parent ScrollView allows vertical
-            horizontal
-          >
-            <TouchableWithoutFeedback onPress={closeMenus}>
-              <VisualTreeContainer onStartShouldSetResponder={() => true}>
-                {uplineMember && (
-                  <Flexbox padding={20}>
-                    <VisualTreeBubble
-                      member={uplineMember}
-                      draggable={
-                        uplineMember?.legacyAssociateId !==
-                        user?.uplineTreeNode?.associate?.legacyAssociateId
-                      }
-                      onDragStart={() => onDragStart(uplineMember)}
-                      onDragEnd={onDragEnd}
-                      onDragDrop={onDragDrop}
-                      payload={uplineMember}
-                      position="relative"
-                      isBeingDragged={
-                        idOfDraggedItem === uplineMember?.legacyAssociateId
-                      }
-                      level={levelOfFocusedMember - 1}
-                      contentOffsetX={contentOffsetX}
-                    />
-                  </Flexbox>
-                )}
-                <ReceivingCircle
-                  borderColor={receiveCirlceBorderColor}
-                  receivingStyle={
-                    isAValidDropToTopCirlce && {
-                      backgroundColor: theme.dropZoneBackgroundColor,
+      {searchId !== 0 ? (
+        <ScrollView
+          contentContainerStyle={{
+            minWidth: '100%',
+            minHeight: '100%',
+          }}
+          style={{
+            minHeight: '100%',
+            zIndex: -1,
+          }}
+          onScroll={({ nativeEvent }) => onHorizontalScroll(nativeEvent)}
+          scrollEventThrottle={16}
+          //the nested ScrollView with 'horizontal' prop allows for scrolling horizontally, while the parent ScrollView allows vertical
+          horizontal
+        >
+          <TouchableWithoutFeedback onPress={closeMenus}>
+            <VisualTreeContainer onStartShouldSetResponder={() => true}>
+              {uplineMember && (
+                <Flexbox padding={20}>
+                  <VisualTreeBubble
+                    member={uplineMember}
+                    draggable={
+                      uplineMember?.legacyAssociateId !==
+                      user?.uplineTreeNode?.associate?.legacyAssociateId
                     }
+                    onDragStart={() =>
+                      onDragStart(uplineMember, levelOfFocusedMember - 1)
+                    }
+                    onDragEnd={onDragEnd}
+                    onDragDrop={onDragDrop}
+                    payload={uplineMember}
+                    position="relative"
+                    isBeingDragged={
+                      idOfDraggedItem === uplineMember?.legacyAssociateId
+                    }
+                    level={levelOfFocusedMember - 1}
+                    horizontalOffset={horizontalOffset}
+                  />
+                </Flexbox>
+              )}
+              <ReceivingCircle
+                borderColor={receiveCirlceBorderColor}
+                receivingStyle={
+                  isAValidDropToTopCirlce && {
+                    backgroundColor: theme.dropZoneBackgroundColor,
                   }
-                  onReceiveDragEnter={() => {
-                    isAValidDropToTopCirlce && setIsOutsideBubbleEntering(true);
-                  }}
-                  onReceiveDragExit={() => {
-                    setIsOutsideBubbleEntering(false);
-                  }}
-                  onReceiveDragDrop={({ dragged: { payload } }) =>
-                    onReceiveDragDrop(payload)
-                  }
-                >
-                  {focusedMember && !isOutsideBubbleEntering && (
-                    <VisualTreeBubble
-                      style={{ position: 'absolute', top: -7, left: 3 }}
-                      member={focusedMember}
-                      draggable={true}
-                      longPressDelay={200}
-                      onDragStart={() => onDragStartFocused(focusedMember)}
-                      onDragEnd={onDragEndFocused}
-                      onDragDrop={onDragDropFocused}
-                      payload={focusedMember}
-                      isBeingDragged={
-                        idOfDraggedItem === focusedMember?.legacyAssociateId
-                      }
-                      level={levelOfFocusedMember}
-                      contentOffsetX={contentOffsetX}
-                    />
-                  )}
-                </ReceivingCircle>
+                }
+                onReceiveDragEnter={() => {
+                  isAValidDropToTopCirlce && setIsOutsideBubbleEntering(true);
+                }}
+                onReceiveDragExit={() => {
+                  setIsOutsideBubbleEntering(false);
+                }}
+                onReceiveDragDrop={({ dragged: { payload } }) =>
+                  onReceiveDragDrop(payload)
+                }
+              >
+                {focusedMember && !isOutsideBubbleEntering && (
+                  <VisualTreeBubble
+                    style={{ position: 'absolute', top: -7, left: 3 }}
+                    member={focusedMember}
+                    draggable={true}
+                    longPressDelay={200}
+                    onDragStart={() =>
+                      onDragStartFocused(focusedMember, levelOfFocusedMember)
+                    }
+                    onDragEnd={onDragEndFocused}
+                    onDragDrop={onDragDropFocused}
+                    payload={focusedMember}
+                    isBeingDragged={
+                      idOfDraggedItem === focusedMember?.legacyAssociateId
+                    }
+                    level={levelOfFocusedMember}
+                    horizontalOffset={horizontalOffset}
+                  />
+                )}
+              </ReceivingCircle>
 
-                <VisualTreePaneSection
-                  level={levelOfFocusedMember + 1}
-                  parentData={treeData}
-                  focusedMember={focusedMember}
-                  setTopCirlceBorderColor={setReceiveCirlceBorderColor}
-                  setIdOfDraggedItemForParent={setIdOfDraggedItem}
-                  closeMenus={closeMenus}
-                  contentOffsetX={contentOffsetX}
-                />
-              </VisualTreeContainer>
-            </TouchableWithoutFeedback>
-          </ScrollView>
-        ) : (
-          <H5 style={{ textAlign: 'center', marginTop: 16 }}>
-            {Localized('Search for a team member')}
-          </H5>
-        )}
-      </DraxProvider>
-    </ScrollView>
+              <VisualTreePaneSection
+                level={levelOfFocusedMember + 1}
+                parentData={treeData}
+                focusedMember={focusedMember}
+                setTopCirlceBorderColor={setReceiveCirlceBorderColor}
+                setIdOfDraggedItemForParent={setIdOfDraggedItem}
+                closeMenus={closeMenus}
+                horizontalOffset={horizontalOffset}
+                setActiveBubbleMember={setActiveBubbleMember}
+              />
+            </VisualTreeContainer>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      ) : (
+        <H5 style={{ textAlign: 'center', marginTop: 16 }}>
+          {Localized('Search for a team member')}
+        </H5>
+      )}
+    </DraxScrollView>
   );
 };
 
@@ -258,6 +273,8 @@ VisualTreePane.propTypes = {
   level: PropTypes.number,
   closeMenus: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
+  setActiveBubbleMember: PropTypes.func.isRequired,
+  setPaneHasContent: PropTypes.func.isRequired,
 };
 
 export default VisualTreePane;

@@ -106,7 +106,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
       if (!email) {
         return Alert.alert(Localized('Please enter a valid email address'));
       }
-      if (email !== emailAddress) {
+      if (email.toLowerCase() !== emailAddress.toLowerCase()) {
         return Alert.alert(
           'The email address you entered does not match the email address we have for you',
         );

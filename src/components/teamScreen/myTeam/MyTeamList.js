@@ -58,7 +58,7 @@ const MyTeamList = () => {
 
   // set the header at the top of the My Team view
   useEffect(() => {
-    if (levelInTree === 0 && !selectedMemberId) {
+    if (levelInTree === 0) {
       const header =
         sortBy === 'AMBASSADOR'
           ? Localized('My Ambassadors')
