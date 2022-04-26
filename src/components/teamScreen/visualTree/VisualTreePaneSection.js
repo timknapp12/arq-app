@@ -13,7 +13,9 @@ import { Localized } from '../../../translations/Localized';
 
 const paddingOffset = 60;
 
-const baseDiameter = 230;
+const circularBaseDiameter = 230;
+const gridBaseDiameter = 360;
+const gridBasePadding = 24;
 
 const VisualTreePaneSection = ({
   level,
@@ -63,11 +65,22 @@ const VisualTreePaneSection = ({
 
   const treeListCopy = parentData ? [...parentData] : [];
 
-  const outerCircleDiameter = parentData?.length
-    ? baseDiameter + parentData?.length * 24
-    : baseDiameter;
+  // for 12 items or greater we display them as a grid rather than in a circle
+  const circularLayout = parentData?.length > 0 && parentData?.length < 12;
+  const gridLayout = parentData?.length > 11;
+
+  const gridDiameter = gridBaseDiameter + parentData?.length * 14;
+
+  const outerCircleDiameter = circularLayout
+    ? circularBaseDiameter + parentData?.length * 24
+    : gridLayout
+    ? gridDiameter
+    : circularBaseDiameter;
 
   const radius = outerCircleDiameter / 2 - paddingOffset;
+
+  const gridPadding = gridBasePadding + parentData?.length * 2.55;
+  const outerCirclePadding = parentData?.length > 11 ? gridPadding : 0;
 
   const [outsideList, insideItem] =
     reformatListForVisualTreeBubbles(treeListCopy);
@@ -136,14 +149,22 @@ const VisualTreePaneSection = ({
             backgroundColor: theme.dropZoneBackgroundColor,
           }
         }
+        padding={outsideList?.length > 11 ? outerCirclePadding : 0}
+        wrap={outsideList?.length > 11 ? 'wrap' : 'nowrap'}
         style={{
           width: outerCircleDiameter,
           height: outerCircleDiameter,
           borderRadius: outerCircleDiameter / 2,
           justifyContent:
-            outsideList.length === 0 && insideItem === null ? 'center' : null,
+            (outsideList.length === 0 && insideItem === null) ||
+            outsideList?.length > 11
+              ? 'center'
+              : null,
           alignItems:
-            outsideList.length === 0 && insideItem === null ? 'center' : null,
+            (outsideList.length === 0 && insideItem === null) ||
+            outsideList?.length > 11
+              ? 'center'
+              : null,
         }}
         onReceiveDragEnter={() =>
           idOfDraggedItem === droppedMember?.legacyAssociateId &&
@@ -198,20 +219,23 @@ const VisualTreePaneSection = ({
               }
               level={level}
               horizontalOffset={horizontalOffset}
-              style={{
-                top:
-                  radius -
-                  radius *
-                    Math.cos(
-                      (360 / outsideList?.length) * ((index * Math.PI) / 180),
-                    ),
-                left:
-                  radius +
-                  radius *
-                    Math.sin(
-                      (360 / outsideList?.length) * ((index * Math.PI) / 180),
-                    ),
-              }}
+              position={outsideList?.length > 11 ? 'relative' : 'absolute'}
+              style={
+                outsideList?.length < 12 && {
+                  top:
+                    radius -
+                    radius *
+                      Math.cos(
+                        (360 / outsideList?.length) * ((index * Math.PI) / 180),
+                      ),
+                  left:
+                    radius +
+                    radius *
+                      Math.sin(
+                        (360 / outsideList?.length) * ((index * Math.PI) / 180),
+                      ),
+                }
+              }
             />
           ))}
         {insideItem !== null && !isBottomBubbleEnteringOuterCirlce && (
@@ -338,6 +362,8 @@ const VisualTreePaneSection = ({
           ) : (
             <OuterCircle
               // TODO adjust borderColor and receiving style when the functionailty for placement suite is ready
+              padding={outerCirclePadding}
+              wrap="nowrap"
               borderColor={null}
               receivingStyle={
                 !isLegacyAssociateIdInArray(treeData, idOfDraggedItem) && {
@@ -345,9 +371,9 @@ const VisualTreePaneSection = ({
                 }
               }
               style={{
-                width: baseDiameter,
-                height: baseDiameter,
-                borderRadius: baseDiameter / 2,
+                width: circularBaseDiameter,
+                height: circularBaseDiameter,
+                borderRadius: circularBaseDiameter / 2,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}

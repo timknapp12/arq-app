@@ -21,6 +21,11 @@ export const OuterCircle = styled(DraxView)`
     props.borderColor ? props.borderColor : props.theme.disabledTextColor};
   padding: 0 12px 12px 12px;
   position: relative;
+  flex-direction: row;
+  flex-wrap: ${(props) => props.wrap};
+  padding: ${({ padding }) => (padding ? `${padding}px` : 0)};
+  /* there is some weird padding happening on the bubbles from the left side of -12px */
+  padding-left: ${({ padding }) => (padding ? `${padding}px` : '12px')};
 `;
 
 export const ReceivingCircle = styled(DraxView)`
