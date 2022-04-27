@@ -26,6 +26,7 @@ const VisualTreePaneSection = ({
   closeMenus,
   horizontalOffset,
   setActiveBubbleMember,
+  activeBubbleMember,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -219,6 +220,9 @@ const VisualTreePaneSection = ({
               }
               level={level}
               horizontalOffset={horizontalOffset}
+              selected={
+                activeBubbleMember?.associateId === item?.associate?.associateId
+              }
               position={outsideList?.length > 11 ? 'relative' : 'absolute'}
               style={
                 outsideList?.length < 12 && {
@@ -282,6 +286,10 @@ const VisualTreePaneSection = ({
             }
             level={level}
             horizontalOffset={horizontalOffset}
+            selected={
+              activeBubbleMember?.associateId ===
+              insideItem?.associate?.associateId
+            }
             style={{
               position: 'absolute',
               top: radius - 0,
@@ -345,6 +353,9 @@ const VisualTreePaneSection = ({
             }
             level={level}
             horizontalOffset={horizontalOffset}
+            selected={
+              activeBubbleMember?.associateId === droppedMember?.associateId
+            }
           />
         )}
       </ReceivingCircle>
@@ -358,6 +369,7 @@ const VisualTreePaneSection = ({
               closeMenus={closeMenus}
               horizontalOffset={horizontalOffset}
               setActiveBubbleMember={setActiveBubbleMember}
+              activeBubbleMember={activeBubbleMember}
             />
           ) : (
             <OuterCircle
@@ -400,6 +412,7 @@ VisualTreePaneSection.propTypes = {
   closeMenus: PropTypes.func.isRequired,
   horizontalOffset: PropTypes.number.isRequired,
   setActiveBubbleMember: PropTypes.func.isRequired,
+  activeBubbleMember: PropTypes.object,
 };
 
 export default VisualTreePaneSection;

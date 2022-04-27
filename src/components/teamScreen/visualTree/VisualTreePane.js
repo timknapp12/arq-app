@@ -20,6 +20,7 @@ const VisualTreePane = ({
   closeMenus,
   style,
   setActiveBubbleMember,
+  activeBubbleMember,
   setPaneHasContent,
 }) => {
   const { theme } = useContext(AppContext);
@@ -205,6 +206,10 @@ const VisualTreePane = ({
                     }
                     level={levelOfFocusedMember - 1}
                     horizontalOffset={horizontalOffset}
+                    selected={
+                      activeBubbleMember?.associateId ===
+                      uplineMember?.associateId
+                    }
                   />
                 </Flexbox>
               )}
@@ -242,6 +247,10 @@ const VisualTreePane = ({
                     }
                     level={levelOfFocusedMember}
                     horizontalOffset={horizontalOffset}
+                    selected={
+                      activeBubbleMember?.associateId ===
+                      focusedMember?.associateId
+                    }
                   />
                 )}
               </ReceivingCircle>
@@ -255,6 +264,7 @@ const VisualTreePane = ({
                 closeMenus={closeMenus}
                 horizontalOffset={horizontalOffset}
                 setActiveBubbleMember={setActiveBubbleMember}
+                activeBubbleMember={activeBubbleMember}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
@@ -274,6 +284,7 @@ VisualTreePane.propTypes = {
   closeMenus: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
   setActiveBubbleMember: PropTypes.func.isRequired,
+  activeBubbleMember: PropTypes.object,
   setPaneHasContent: PropTypes.func.isRequired,
 };
 

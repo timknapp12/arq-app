@@ -32,6 +32,7 @@ const VisualTreeBubble = ({
   isDroppedItem,
   level,
   horizontalOffset,
+  selected = false,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -56,6 +57,13 @@ const VisualTreeBubble = ({
   return (
     <TouchableOpacity {...props} activeOpacity={1}>
       <Bubble
+        style={
+          selected &&
+          Platform.OS === 'android' && {
+            shadowColor: theme.primaryTextColor,
+            elevation: 40,
+          }
+        }
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragDrop={onDragDrop}
@@ -65,6 +73,7 @@ const VisualTreeBubble = ({
         position={position}
         highlight={highlight}
         isDroppedItem={isDroppedItem}
+        selected={selected}
         renderHoverContent={() => (
           <View
             style={{
@@ -146,6 +155,7 @@ VisualTreeBubble.propTypes = {
   isDroppedItem: PropTypes.bool,
   level: PropTypes.number,
   horizontalOffset: PropTypes.number.isRequired,
+  selected: PropTypes.bool,
 };
 
 export default VisualTreeBubble;

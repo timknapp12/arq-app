@@ -16,6 +16,7 @@ import {
 } from '../../../utils/teamView/calculateBasedOnNextRank';
 import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 import { Localized } from '../../../translations/Localized';
+import { Platform } from 'react-native';
 
 const VisualTreeBubbleStatBar = ({ member }) => {
   const { theme } = useContext(AppContext);
@@ -46,7 +47,14 @@ const VisualTreeBubbleStatBar = ({ member }) => {
   const cvWidth = getPercentage(member?.cv, requiredCvForNextRank);
 
   return (
-    <VisualTreeStatsBarCard>
+    <VisualTreeStatsBarCard
+      style={
+        Platform.OS === 'android' && {
+          shadowColor: theme.primaryTextColor,
+          elevation: 40,
+        }
+      }
+    >
       <Row>
         <AmbassadorOVRankIcon />
         <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
