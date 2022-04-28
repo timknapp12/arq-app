@@ -21,6 +21,7 @@ import AtAGlanceView from './atAGlance/AtAGlanceView';
 import MyTeamView from './myTeam/MyTeamView';
 import LeaderboardView from './leaderboard/LeaderboardView';
 import VisualTreeView from './visualTree/VisualTreeView';
+import DragNDropTest from './DragNDropTest';
 
 const TeamScreen = ({ navigation }) => {
   const { legacyId } = useContext(AppContext);
@@ -75,6 +76,10 @@ const TeamScreen = ({ navigation }) => {
     // {
     //   name: Localized('Leaderboard').toUpperCase(),
     //   testID: 'Leaderboard_button',
+    // },
+    // {
+    //   name: 'DragNDropTest',
+    //   testID: 'drag_n_drop_test',
     // },
   ];
 
@@ -263,6 +268,7 @@ const TeamScreen = ({ navigation }) => {
                   : 'none',
             }}
           />
+          {view.name === 'DragNDropTest' && <DragNDropTest />}
           {isMyInfoModalOpen && (
             <MyInfoModal
               isMyInfoModalOpen={isMyInfoModalOpen}

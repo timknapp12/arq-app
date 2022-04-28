@@ -65,6 +65,7 @@ const VisualTreeView = ({ ...props }) => {
           closeMenus={closeMenus}
           pane={1}
           setActiveBubbleMember={setPane1ActiveMember}
+          activeBubbleMember={pane1ActiveMember}
           setPaneHasContent={setPane1HasContent}
         />
         <VisualTreePane
@@ -74,6 +75,7 @@ const VisualTreeView = ({ ...props }) => {
           closeMenus={closeMenus}
           pane={2}
           setActiveBubbleMember={setPane2ActiveMember}
+          activeBubbleMember={pane2ActiveMember}
           setPaneHasContent={setPane2HasContent}
         />
         <VisualTreePane
@@ -83,6 +85,7 @@ const VisualTreeView = ({ ...props }) => {
           closeMenus={closeMenus}
           pane={3}
           setActiveBubbleMember={setPane3ActiveMember}
+          activeBubbleMember={pane3ActiveMember}
           setPaneHasContent={setPane3HasContent}
         />
         <View />

@@ -53,7 +53,7 @@ export const Bubble = styled(DraxView)`
   margin-top: 8px;
   position: ${(props) => props.position};
   box-shadow: ${(props) =>
-    props.highlight ? props.theme.bubbleShadow : 'none'};
+    props.highlight || props.selected ? props.theme.bubbleShadow : 'none'};
   opacity: ${(props) => (props.isDroppedItem ? 0.5 : 1)};
 `;
 
