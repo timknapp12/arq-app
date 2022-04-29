@@ -1,5 +1,6 @@
 {
   "NSFaceIDUsageDescription": "Questa app potrà usare l’opzione Face ID o Touch ID per l'autenticazione",
   "NSCameraUsageDescription": "Consentendo l’accesso, potrai scattare una foto da mostrare nel tuo profilo",
-  "NSPhotoLibraryUsageDescription": "AConsentendo l’accesso, potrai selezionare una foto da mostrare nel tuo profilo"
+  "NSPhotoLibraryUsageDescription": "AConsentendo l’accesso, potrai selezionare una foto da mostrare nel tuo profilo",
+  "NSUserTrackingUsageDescription": "Tracking is only used for devices used by the app developers for testing"
 }

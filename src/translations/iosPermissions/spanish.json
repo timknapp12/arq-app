@@ -1,5 +1,6 @@
 {
   "NSFaceIDUsageDescription": "Esta aplicación utilizará Face ID o Touch ID como opciones de autenticación",
   "NSCameraUsageDescription": "Permitir el acceso le permite capturar una imagen para mostrar en su perfil",
-  "NSPhotoLibraryUsageDescription": "Permitir el acceso le permite seleccionar una imagen para mostrar en su perfil"
+  "NSPhotoLibraryUsageDescription": "Permitir el acceso le permite seleccionar una imagen para mostrar en su perfil",
+  "NSUserTrackingUsageDescription": "Tracking is only used for devices used by the app developers for testing"
 }

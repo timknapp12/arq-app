@@ -1,5 +1,6 @@
 {
   "NSFaceIDUsageDescription": "このアプリでは、オプションでFace IDまたはTouch IDを使って認証を行います",
   "NSCameraUsageDescription": "アクセスを許可すると、プロフィールに表示する写真を撮影することができます",
-  "NSPhotoLibraryUsageDescription": "アクセスを許可すると、プロフィールに表示する写真を選択することができます"
+  "NSPhotoLibraryUsageDescription": "アクセスを許可すると、プロフィールに表示する写真を選択することができます",
+  "NSUserTrackingUsageDescription": "Tracking is only used for devices used by the app developers for testing"
 }
