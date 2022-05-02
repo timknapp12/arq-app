@@ -596,3 +596,41 @@ export const CALCULATE_QOV = gql`
     }
   }
 `;
+
+export const LEADERBOARD = gql`
+  query Leaderboard(
+    $leaderboardMonth: LeaderboardMonth! # Either 'CURRENT' or 'PREVIOUS'
+    $leaderboardScope: LeaderboardScope! # Either 'ENTIRE_COMPANY' or 'MY_TEAM'
+    $leaderboardType: LeaderboardType! # Either 'AMBASSADOR_ENROLLMENT' or 'PC_ENROLLMENT' or 'EVENT_SALES'
+    $rankId: Int! # results will show only rank greater or equal to the rankId
+  ) {
+    leaderboard(
+      input: {
+        leaderboardMonth: $leaderboardMonth
+        leaderboardScope: $leaderboardScope
+        leaderboardType: $leaderboardType
+        rankId: $rankId
+      }
+    ) {
+      leaderboardType
+      items {
+        associate {
+          associateId
+          firstName
+          lastName
+          profileUrl
+        }
+        count
+        index
+        rank {
+          rankId
+          rankName
+        }
+        customerSalesRank {
+          customerSalesRankId
+          rankName
+        }
+      }
+    }
+  }
+`;

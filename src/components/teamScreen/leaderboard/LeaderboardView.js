@@ -1,61 +1,68 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   TouchableWithoutFeedback,
   TouchableOpacity,
-  Animated,
-  View,
   FlatList,
 } from 'react-native';
-import { Flexbox, H5, Gap } from '../../common';
+import { useQuery } from '@apollo/client';
+import { Flexbox, H5, Gap, LoadingSpinner } from '../../common';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
+import InfoIcon from '../../../../assets/icons/InfoIcon.svg';
 import AppContext from '../../../contexts/AppContext';
-import LeaderboardFilterMenu from './LeaderboardFilterMenu';
+import LeaderboardFilterModal from './LeaderboardFilterModal';
 import LeaderboardTabs from './LeaderboardTabs';
-// TODO - delete mock results once real data is received
-import { searchResults } from '../myTeam/mockSearchResults';
+import { LEADERBOARD } from '../../../graphql/queries';
 import StandingsCard from './StandingsCard';
 import { maxWidth } from '../../../styles/constants';
+import { Localized } from '../../../translations/Localized';
 
 const LeaderboardView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('company');
-  const [sortBy, setSortBy] = useState('Ambassador Enrollments');
-
-  const fadeAnim = useRef(new Animated.Value(-250)).current;
-
-  const openFilterMenu = () => {
-    setIsFilterMenuOpen(true);
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 700,
-      useNativeDriver: false,
-    }).start();
-  };
-  const closeFilterMenu = () => {
-    Animated.timing(fadeAnim, {
-      toValue: -250,
-      duration: 700,
-      useNativeDriver: false,
-    }).start(() => setIsFilterMenuOpen(false));
-  };
-
-  // this will close the filter menu on this view, but also from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
+  const [isRankLegendOpen, setIsRankLegendOpen] = useState(false);
+  const [selectedTab, setSelectedTab] = useState('ENTIRE_COMPANY');
+  const [selectedLeaderboardMonth, setSelectedLeaderboardMonth] =
+    useState('CURRENT');
+  const [selectedLeaderboardType, setSelectedLeaderboardType] = useState(
+    'AMBASSADOR_ENROLLMENT',
+  );
+  const [selectedRankId, setSelectedRankId] = useState('1');
+  console.log('isRankLegendOpen', isRankLegendOpen);
+  // this will close from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
   const closeAllMenus = () => {
-    closeFilterMenu();
     closeMenus();
+    setIsRankLegendOpen(false);
   };
+
+  const leaderboardTypeMap = {
+    AMBASSADOR_ENROLLMENT: Localized('Ambassador Enrollments'),
+    PC_ENROLLMENT: Localized('PC Enrollments'),
+    EVENT_SALES: Localized('Event Tickets'),
+  };
+
+  const variables = {
+    leaderboardMonth: selectedLeaderboardMonth,
+    leaderboardScope: selectedTab,
+    leaderboardType: selectedLeaderboardType,
+    // we need to pass values to the picker as a string, but need to convert it to a number for Q Services
+    rankId: Number(selectedRankId),
+  };
+
+  const { data, loading } = useQuery(LEADERBOARD, {
+    variables: variables,
+    onError: (err) => console.log('err in leaderboard', err),
+  });
 
   const renderItem = ({ item }) => (
-    <StandingsCard item={item} closeAllMenus={closeAllMenus} />
+    <StandingsCard member={item} closeAllMenus={closeAllMenus} />
   );
 
   return (
     <TouchableWithoutFeedback onPress={() => closeAllMenus()}>
       <Flexbox
-        align="flex-start"
+        align="center"
         justify="flex-start"
         width="95%"
         height="100%"
@@ -70,9 +77,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
         />
         <Gap height="4px" />
         <Flexbox direction="row">
-          <TouchableOpacity
-            onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}
-          >
+          <TouchableOpacity onPress={() => setIsFilterMenuOpen(true)}>
             <FilterIcon
               style={{
                 height: 30,
@@ -82,28 +87,46 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
             />
           </TouchableOpacity>
 
-          <H5>{sortBy}</H5>
+          <H5>{leaderboardTypeMap[selectedLeaderboardType]}</H5>
 
-          <View style={{ width: 30 }} />
+          <TouchableOpacity
+            style={{ width: 30 }}
+            onPress={() => setIsRankLegendOpen((state) => !state)}
+          >
+            <InfoIcon
+              style={{
+                color: theme.secondaryTextColor,
+                height: 24,
+                width: 24,
+              }}
+            />
+          </TouchableOpacity>
         </Flexbox>
         {isFilterMenuOpen && (
-          <Flexbox align="flex-start">
-            <LeaderboardFilterMenu
-              style={{ left: fadeAnim }}
-              onClose={closeMenus}
-              setSortBy={setSortBy}
+          <LeaderboardFilterModal
+            visible={isFilterMenuOpen}
+            onClose={() => setIsFilterMenuOpen(false)}
+            selectedLeaderboardMonth={selectedLeaderboardMonth}
+            setSelectedLeaderboardMonth={setSelectedLeaderboardMonth}
+            selectedLeaderboardType={selectedLeaderboardType}
+            setSelectedLeaderboardType={setSelectedLeaderboardType}
+            selectedRankId={selectedRankId}
+            setSelectedRankId={setSelectedRankId}
+          />
+        )}
+        <Gap height="4px" />
+        {loading ? (
+          <LoadingSpinner style={{ marginTop: 10 }} size="large" />
+        ) : (
+          <Flexbox width="100%" style={{ zIndex: -1, marginBottom: 50 }}>
+            <FlatList
+              style={{ width: '100%', marginBottom: 90 }}
+              data={data?.leaderboard?.items}
+              renderItem={renderItem}
+              keyExtractor={(item) => item?.associate?.associateId?.toString()}
             />
           </Flexbox>
         )}
-        <Gap height="4px" />
-        <Flexbox width="100%" style={{ zIndex: -1, marginBottom: 50 }}>
-          <FlatList
-            style={{ width: '100%', marginBottom: 90 }}
-            data={searchResults}
-            renderItem={renderItem}
-            keyExtractor={(item) => item?.associate?.associateId?.toString()}
-          />
-        </Flexbox>
       </Flexbox>
     </TouchableWithoutFeedback>
   );

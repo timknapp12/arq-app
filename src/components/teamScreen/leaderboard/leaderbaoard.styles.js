@@ -10,7 +10,7 @@ export const InvisibleUnderline = styled.View`
   height: 2px;
 `;
 
-export const CardContainer = styled.View`
+export const CardContainer = styled.TouchableOpacity`
   width: 100%;
   background-color: ${(props) => props.theme.cardBackgroundColor};
   border-radius: 5px;
@@ -26,6 +26,12 @@ export const StandingsContainer = styled.View`
   height: 100%;
   background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
   border-top-left-radius: 5px;
-  border-bottom-left-radius: ${({ isExpanded }) => (isExpanded ? 0 : '5px')};
-  border-bottom-right-radius: ${({ isExpanded }) => (isExpanded ? '5px' : 0)};
+  border-bottom-left-radius: 5px;
+`;
+
+export const NameAndRankIconContainer = styled.View`
+  flex: 1;
+  flex-direction: row;
+  padding: 0 6px;
+  justify-content: space-between;
 `;

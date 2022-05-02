@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { View } from 'react-native';
 import Builder from '../../../../assets/icons/RankIcon-Builder.svg';
 import Pro from '../../../../assets/icons/RankIcon-Pro.svg';
 import Executive from '../../../../assets/icons/RankIcon-Executive.svg';
@@ -18,6 +19,7 @@ import PresidentialDiamond from '../../../../assets/icons/RankIcon-PresidentialD
 import CrownDiamond from '../../../../assets/icons/RankIcon-CrownDiamond.svg';
 
 const rankIconMap = {
+  Ambassador: () => <View />,
   Builder: Builder,
   Pro: Pro,
   Executive: Executive,
@@ -37,12 +39,12 @@ const rankIconMap = {
 };
 
 const RankIcon = ({ rankName }) => {
-  const IconComponent = rankIconMap[rankName];
+  const IconComponent = rankIconMap[rankName] ?? <View />;
   return <IconComponent />;
 };
 
 RankIcon.propTypes = {
-  rankName: PropTypes.string.isRequired,
+  rankName: PropTypes.string,
 };
 
 export default RankIcon;

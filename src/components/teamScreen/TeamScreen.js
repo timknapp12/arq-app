@@ -73,10 +73,10 @@ const TeamScreen = ({ navigation }) => {
       name: Localized('Visual Tree').toUpperCase(),
       testID: 'visual_tree_button',
     },
-    // {
-    //   name: Localized('Leaderboard').toUpperCase(),
-    //   testID: 'Leaderboard_button',
-    // },
+    {
+      name: Localized('Leaderboard').toUpperCase(),
+      testID: 'Leaderboard_button',
+    },
     // {
     //   name: 'DragNDropTest',
     //   testID: 'drag_n_drop_test',
