@@ -14,19 +14,29 @@ export const CardContainer = styled.TouchableOpacity`
   width: 100%;
   background-color: ${(props) => props.theme.cardBackgroundColor};
   border-radius: 5px;
-  margin-bottom: 10px;
-  height: auto;
+  margin-bottom: 6px;
   align-self: flex-end;
 `;
 
+const standingsStyle = {
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+};
+
 export const StandingsContainer = styled.View`
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 100%;
+  ${standingsStyle};
   background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
   border-top-left-radius: 5px;
+  height: 60%;
+`;
+
+export const CountContainer = styled.View`
+  ${standingsStyle};
+  background-color: ${(props) =>
+    props.theme.leaderboardCountNumberBackgroundColor};
   border-bottom-left-radius: 5px;
+  height: 36%;
 `;
 
 export const NameAndRankIconContainer = styled.View`
@@ -34,4 +44,9 @@ export const NameAndRankIconContainer = styled.View`
   flex-direction: row;
   padding: 0 6px;
   justify-content: space-between;
+`;
+
+export const LegendIconRow = styled.View`
+  flex-direction: row;
+  margin-top: 4px;
 `;

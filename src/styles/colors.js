@@ -52,3 +52,5 @@ export const earthYellow = '#D59957';
 export const palastinePurple = '#70346E';
 export const carnelian = '#AC2A1C';
 export const warningYellow = '#FDD207';
+
+export const palestinePurple = '#70346E';

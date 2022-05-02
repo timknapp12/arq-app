@@ -31,6 +31,7 @@ import {
   palastinePurple,
   carnelian,
   warningYellow,
+  palestinePurple,
 } from './colors';
 import { dropShadow, lightUpperDropShadow } from './constants';
 
@@ -103,6 +104,7 @@ export const lightTheme = {
   bubbleShadow: lightUpperDropShadow,
   dropZoneBackgroundColor: nero,
   paneHasContentButtonBackgroundColor: highlightWhite,
+  leaderboardCountNumberBackgroundColor: palestinePurple,
 };
 
 export const darkTheme = {
@@ -173,4 +175,5 @@ export const darkTheme = {
   bubbleShadow: lightUpperDropShadow,
   dropZoneBackgroundColor: nero,
   paneHasContentButtonBackgroundColor: highlightWhite,
+  leaderboardCountNumberBackgroundColor: palestinePurple,
 };

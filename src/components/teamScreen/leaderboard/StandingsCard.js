@@ -1,39 +1,73 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { Flexbox, H2Black } from '../../common';
-import { CardContainer, StandingsContainer } from './leaderbaoard.styles';
-import DownlineProfileInfoContainer from '../myTeam/DownlineProfileInfoContainer';
+import { Flexbox, H2Black, H4Book, H5, H6 } from '../../common';
+import RankIcon from '../visualTree/RankIcon';
+import {
+  CardContainer,
+  StandingsContainer,
+  NameAndRankIconContainer,
+  CountContainer,
+} from './leaderbaoard.styles';
+import {
+  ThumbnailImage,
+  DefaultThumbnailBackground,
+} from '../myTeam/myTeamCard.styles';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 
-const StandingsCard = ({ item, closeAllMenus }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpanded = () => setIsExpanded((state) => !state);
+const StandingsCard = ({ member, closeAllMenus }) => {
+  const { firstName, lastName, profileUrl } = member?.associate;
+  const initials = `${firstName?.charAt(0)}${lastName?.charAt(0)}`;
 
   return (
-    <CardContainer style={{ width: '100%' }}>
-      <Flexbox direction="row" style={{ flex: 1 }}>
-        <StandingsContainer isExpanded={isExpanded}>
-          <H2Black>{item?.standing}</H2Black>
-        </StandingsContainer>
-        <View style={{ flex: 1, padding: 6 }}>
-          <DownlineProfileInfoContainer
-            style={{ flex: 1 }}
-            member={item}
-            isExpanded={isExpanded}
-            onPress={toggleExpanded}
-            closeAllMenus={closeAllMenus}
-            showAccentColor={false}
-          />
+    <CardContainer onPress={closeAllMenus} activeOpacity={1}>
+      <Flexbox direction="row" justity="flex-start" style={{ flex: 1 }}>
+        <Flexbox
+          height="100%"
+          width="60px"
+          align="flex-start"
+          justity="space-between"
+        >
+          <StandingsContainer>
+            <H2Black>{member?.index}</H2Black>
+          </StandingsContainer>
+          <CountContainer>
+            <H6>{member?.count}</H6>
+          </CountContainer>
+        </Flexbox>
+
+        <View style={{ flex: 1, padding: 6, flexDirection: 'row' }}>
+          {profileUrl ? (
+            <ThumbnailImage source={{ uri: profileUrl }} />
+          ) : (
+            <DefaultThumbnailBackground>
+              <H4Book>{initials.toUpperCase()}</H4Book>
+            </DefaultThumbnailBackground>
+          )}
+          <NameAndRankIconContainer>
+            <H5 style={{ flex: 1 }}>{properlyCaseName(firstName, lastName)}</H5>
+            <View style={{ width: 40 }}>
+              <RankIcon rankName={member?.rank?.rankName ?? 'Ambassador'} />
+            </View>
+            <View
+              style={{
+                width: 40,
+                alignItems: 'center',
+              }}
+            >
+              <RankIcon
+                rankName={member?.customerSalesRank?.rankName ?? 'Ambassador'}
+              />
+            </View>
+          </NameAndRankIconContainer>
         </View>
       </Flexbox>
-      {isExpanded && <H2Black>Expanded</H2Black>}
     </CardContainer>
   );
 };
 
 StandingsCard.propTypes = {
-  item: PropTypes.object.isRequired,
+  member: PropTypes.object.isRequired,
   closeAllMenus: PropTypes.func.isRequired,
 };
 
