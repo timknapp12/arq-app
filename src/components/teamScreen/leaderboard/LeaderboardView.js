@@ -1,17 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   FlatList,
+  View,
+  Animated,
 } from 'react-native';
 import { useQuery } from '@apollo/client';
-import { Flexbox, H5, Gap, LoadingSpinner } from '../../common';
+import { Flexbox, H5, Gap, LoadingSpinner, H6Secondary } from '../../common';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import InfoIcon from '../../../../assets/icons/InfoIcon.svg';
 import AppContext from '../../../contexts/AppContext';
 import LeaderboardFilterModal from './LeaderboardFilterModal';
 import LeaderboardTabs from './LeaderboardTabs';
+import RankLegend from './RankLegend';
 import { LEADERBOARD } from '../../../graphql/queries';
 import StandingsCard from './StandingsCard';
 import { maxWidth } from '../../../styles/constants';
@@ -29,12 +32,6 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
     'AMBASSADOR_ENROLLMENT',
   );
   const [selectedRankId, setSelectedRankId] = useState('1');
-  console.log('isRankLegendOpen', isRankLegendOpen);
-  // this will close from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
-  const closeAllMenus = () => {
-    closeMenus();
-    setIsRankLegendOpen(false);
-  };
 
   const leaderboardTypeMap = {
     AMBASSADOR_ENROLLMENT: Localized('Ambassador Enrollments'),
@@ -54,6 +51,32 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
     variables: variables,
     onError: (err) => console.log('err in leaderboard', err),
   });
+
+  // this will close from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
+  const closeAllMenus = () => {
+    closeMenus();
+    isRankLegendOpen && fadeOut();
+  };
+
+  const fadeAnim = useRef(new Animated.Value(-500)).current;
+
+  const fadeIn = () => {
+    setIsRankLegendOpen(true);
+    closeAllMenus();
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: -500,
+      duration: 700,
+      useNativeDriver: false,
+    }).start(() => setIsRankLegendOpen(false));
+  };
 
   const renderItem = ({ item }) => (
     <StandingsCard member={item} closeAllMenus={closeAllMenus} />
@@ -91,7 +114,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
 
           <TouchableOpacity
             style={{ width: 30 }}
-            onPress={() => setIsRankLegendOpen((state) => !state)}
+            onPress={isRankLegendOpen ? fadeOut : fadeIn}
           >
             <InfoIcon
               style={{
@@ -101,7 +124,36 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
               }}
             />
           </TouchableOpacity>
+          <RankLegend fadeAnim={fadeAnim} />
         </Flexbox>
+        <Gap height="4px" />
+        <Flexbox direction="row" padding={4} style={{ zIndex: -1 }}>
+          <H6Secondary>{`${Localized('Place')}/${Localized(
+            'Count',
+          )}`}</H6Secondary>
+          <H6Secondary>{Localized('Name')}</H6Secondary>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={{ marginEnd: 8 }}>
+              <H6Secondary>{Localized('OV Rank')}</H6Secondary>
+            </View>
+            <View>
+              <H6Secondary>{Localized('CV Rank')}</H6Secondary>
+            </View>
+          </View>
+        </Flexbox>
+        {loading ? (
+          <LoadingSpinner style={{ marginTop: 10 }} size="large" />
+        ) : (
+          <Flexbox width="100%" style={{ zIndex: -1, marginBottom: 50 }}>
+            <FlatList
+              style={{ width: '100%', marginBottom: 90 }}
+              data={data?.leaderboard?.items}
+              renderItem={renderItem}
+              keyExtractor={(item) => item?.associate?.associateId?.toString()}
+              onScroll={fadeOut}
+            />
+          </Flexbox>
+        )}
         {isFilterMenuOpen && (
           <LeaderboardFilterModal
             visible={isFilterMenuOpen}
@@ -113,19 +165,6 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
             selectedRankId={selectedRankId}
             setSelectedRankId={setSelectedRankId}
           />
-        )}
-        <Gap height="4px" />
-        {loading ? (
-          <LoadingSpinner style={{ marginTop: 10 }} size="large" />
-        ) : (
-          <Flexbox width="100%" style={{ zIndex: -1, marginBottom: 50 }}>
-            <FlatList
-              style={{ width: '100%', marginBottom: 90 }}
-              data={data?.leaderboard?.items}
-              renderItem={renderItem}
-              keyExtractor={(item) => item?.associate?.associateId?.toString()}
-            />
-          </Flexbox>
         )}
       </Flexbox>
     </TouchableWithoutFeedback>

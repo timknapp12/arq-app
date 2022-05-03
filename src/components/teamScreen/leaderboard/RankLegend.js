@@ -32,7 +32,7 @@ const RankLegend = ({ fadeAnim, ...props }) => {
 };
 
 RankLegend.propTypes = {
-  fadeAnim: PropTypes.number.isRequired,
+  fadeAnim: PropTypes.object.isRequired,
 };
 
 export default RankLegend;
