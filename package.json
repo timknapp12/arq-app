@@ -48,6 +48,7 @@
     "expo-sharing": "~10.0.3",
     "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "~1.1.0",
+    "expo-tracking-transparency": "~2.0.3",
     "expo-updates": "~0.10.15",
     "fbjs": "^3.0.4",
     "firebase": "8.2.3",
