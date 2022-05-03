@@ -2,5 +2,5 @@
   "NSFaceIDUsageDescription": "This app will optionally use Face ID or Touch ID for authentication",
   "NSCameraUsageDescription": "Allowing access lets you take a picture for display in your profile",
   "NSPhotoLibraryUsageDescription": "Allowing access lets you select a picture for display in your profile",
-  "NSUserTrackingUsageDescription": "Tracking is only used for devices used by the app developers for testing"
+  "NSUserTrackingUsageDescription": "We use Tracking to fix bugs and improve your experience. We will never sell your personal information or show you ads."
 }
