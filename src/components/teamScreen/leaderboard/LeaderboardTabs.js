@@ -12,11 +12,11 @@ const LeaderboardTabs = ({ selectedTab, setSelectedTab, closeAllMenus }) => {
         <TouchableOpacity
           style={{ marginEnd: 8 }}
           onPress={() => {
-            setSelectedTab('company');
+            setSelectedTab('ENTIRE_COMPANY');
             closeAllMenus();
           }}
         >
-          {selectedTab === 'company' ? (
+          {selectedTab === 'ENTIRE_COMPANY' ? (
             <>
               <H4>{Localized('Company')}</H4>
               <Underline />
@@ -32,11 +32,11 @@ const LeaderboardTabs = ({ selectedTab, setSelectedTab, closeAllMenus }) => {
         <TouchableOpacity
           style={{ marginStart: 8 }}
           onPress={() => {
-            setSelectedTab('team');
+            setSelectedTab('MY_TEAM');
             closeAllMenus();
           }}
         >
-          {selectedTab === 'team' ? (
+          {selectedTab === 'MY_TEAM' ? (
             <>
               <H4>{Localized('Team')}</H4>
               <Underline />

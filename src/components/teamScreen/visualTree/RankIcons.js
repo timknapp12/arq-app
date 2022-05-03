@@ -9,13 +9,13 @@ const RankIcons = ({ member }) => {
 
   const AmbassadorOVRankIcon = () =>
     isOVAmbassador ? (
-      <RankIcon rankName={member?.ovRankName} />
+      <RankIcon rankName={member?.ovRankName ?? 'Ambassador'} />
     ) : (
       <RankPlaceholder />
     );
   const AmbassadorCVRankIcon = () =>
     isCVAmbassador ? (
-      <RankIcon rankName={member?.cvRankName} />
+      <RankIcon rankName={member?.cvRankName ?? 'Ambassador'} />
     ) : (
       <RankPlaceholder />
     );
