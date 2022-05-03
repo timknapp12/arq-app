@@ -93,11 +93,9 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
         style={{ zIndex: -1, maxWidth }}
         {...props}
       >
-        <LeaderboardTabs
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          closeAllMenus={closeAllMenus}
-        />
+        <H5>{`${leaderboardTypeMap[selectedLeaderboardType]} (${Localized(
+          selectedLeaderboardMonth === 'CURRENT' ? 'This Month' : 'Last Month',
+        ).toLowerCase()})`}</H5>
         <Gap height="4px" />
         <Flexbox direction="row">
           <TouchableOpacity onPress={() => setIsFilterMenuOpen(true)}>
@@ -110,7 +108,11 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
             />
           </TouchableOpacity>
 
-          <H5>{leaderboardTypeMap[selectedLeaderboardType]}</H5>
+          <LeaderboardTabs
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            closeAllMenus={closeAllMenus}
+          />
 
           <TouchableOpacity
             style={{ width: 30 }}
