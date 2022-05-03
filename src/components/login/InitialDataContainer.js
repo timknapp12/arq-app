@@ -7,6 +7,8 @@ import {
   useSubscription,
 } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Analytics from 'expo-firebase-analytics';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import {
@@ -43,6 +45,16 @@ const InitialDataContainer = ({ children }) => {
     primaryPhoneNumber: '',
     secondaryPhoneNumber: '',
   });
+
+  Analytics.setAnalyticsCollectionEnabled(false);
+  useEffect(() => {
+    (async () => {
+      const { status } = await requestTrackingPermissionsAsync();
+      if (status === 'granted') {
+        Analytics.setAnalyticsCollectionEnabled(true);
+      }
+    })();
+  }, []);
 
   const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
 
