@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
+import {
+  ScrollView,
+  RefreshControl,
+  TouchableWithoutFeedback,
+  Animated,
+} from 'react-native';
 import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
@@ -25,7 +30,14 @@ import TabButtonContext from '../../contexts/TabButtonContext';
 import { maxWidth } from '../../styles/constants';
 
 const DashboardScreen = ({ navigation }) => {
-  const { ranks = [], user, loadingUserData } = useContext(LoginContext);
+  const {
+    ranks = [],
+    user,
+    loadingUserData,
+    dasboardRefreshing,
+    setDasboardRefreshing,
+    refetchUser,
+  } = useContext(LoginContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
   const isFocused = useIsFocused();
@@ -87,6 +99,11 @@ const DashboardScreen = ({ navigation }) => {
   const [isMyInfoModalOpen, setIsMyInfoModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
+  const onRefresh = () => {
+    refetchUser();
+    setDasboardRefreshing(true);
+  };
+
   return (
     <DashboardScreenContext.Provider
       value={{ ranklist: ranks, user, closeMenus }}
@@ -139,6 +156,12 @@ const DashboardScreen = ({ navigation }) => {
                 maxWidth,
                 zIndex: -1,
               }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={dasboardRefreshing}
+                  onRefresh={onRefresh}
+                />
+              }
             >
               {view.name === Localized('Overview').toUpperCase() && (
                 <Overview />

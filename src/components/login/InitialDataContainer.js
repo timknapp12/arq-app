@@ -103,13 +103,22 @@ const InitialDataContainer = ({ children }) => {
 
   const [hasPermissionsToWrite, setHasPermissionsToWrite] = useState(false);
 
-  const [getUser, { loading: loadingUserData, data: userData }] = useLazyQuery(
-    GET_USER,
-    {
-      variables: { legacyAssociateId: legacyId },
-      onError: (e) => console.log(`error in get user`, e),
+  const pollIntervalForGetUser = 1000 * 60 * 10;
+  const [dasboardRefreshing, setDasboardRefreshing] = useState(false);
+
+  const [
+    getUser,
+    { loading: loadingUserData, data: userData, refetch: refetchUser },
+  ] = useLazyQuery(GET_USER, {
+    variables: { legacyAssociateId: legacyId },
+    onError: (e) => console.log(`error in get user`, e),
+    onCompleted: () => {
+      setDasboardRefreshing(false);
     },
-  );
+    pollInterval: pollIntervalForGetUser,
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'no-cache',
+  });
 
   useEffect(() => {
     getUser();
@@ -315,6 +324,9 @@ const InitialDataContainer = ({ children }) => {
         usersTeamInfo,
         refetchUserAccessCodes,
         baseEnrollmentUrl,
+        dasboardRefreshing,
+        setDasboardRefreshing,
+        refetchUser,
       }}
     >
       {children}
