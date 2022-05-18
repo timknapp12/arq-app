@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { View, TouchableOpacity, Linking, Platform } from 'react-native';
+import { View, TouchableOpacity, Platform } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
 import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
@@ -28,7 +29,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
     if (isMenuOpen && Platform.OS === 'android') {
       return;
     }
-    Linking.openURL('https://office2.myqsciences.com/#/Login');
+    WebBrowser.openBrowserAsync('https://office2.myqsciences.com/#/Login');
     closeMenus();
   };
   return (

@@ -8,7 +8,8 @@ import * as Facebook from 'expo-facebook';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import { useMutation } from '@apollo/client';
-import { Alert, Platform, View, Linking } from 'react-native';
+import { Alert, Platform, View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { Flexbox, PrimaryButton, AlertText, H4Secondary } from '../common';
 import QLogoScreen from './QLogoScreenContainer';
 import LoadingScreen from '../loadingScreen/LoadingScreen';
@@ -64,7 +65,7 @@ const CreateAccountScreen = ({ navigation }) => {
   });
 
   const onFindOutMore = () => {
-    Linking.openURL('https://qsciences.com');
+    WebBrowser.openBrowserAsync('https://qsciences.com');
   };
 
   const isButtonDisabled = !email || !password || !confirmPassword;

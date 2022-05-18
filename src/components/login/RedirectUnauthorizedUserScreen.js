@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Linking } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import QLogoScreenContainer from './QLogoScreenContainer';
 import { Flexbox, H4Book, Link } from '../common';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const RedirectUnauthorizedUserScreen = ({ route }) => {
   const { message, url, linkText } = route.params;
   const onFindOutMore = () => {
-    Linking.openURL(url);
+    WebBrowser.openBrowserAsync(url);
   };
   return (
     <QLogoScreenContainer>
@@ -17,7 +17,8 @@ const RedirectUnauthorizedUserScreen = ({ route }) => {
         <TouchableOpacity
           style={{ marginTop: 12 }}
           testID="not an-ambassador-link"
-          onPress={onFindOutMore}>
+          onPress={onFindOutMore}
+        >
           <Link>{linkText}</Link>
         </TouchableOpacity>
       </Flexbox>

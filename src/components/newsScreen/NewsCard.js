@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import { Linking, TouchableOpacity, Platform } from 'react-native';
+import { TouchableOpacity, Platform } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { H4Black, H6Book } from '../common';
 import AppContext from '../../contexts/AppContext';
@@ -52,7 +53,7 @@ const NewsCard = ({
     }
     setIsReadYet(true);
     storyHasBeenViewed();
-    url ? Linking.openURL(url) : {};
+    url ? WebBrowser.openBrowserAsync(url) : {};
   };
 
   const options = 'MMM DD';
