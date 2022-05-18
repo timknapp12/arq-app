@@ -35,8 +35,8 @@ import {
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, deviceLanguage } = useContext(AppContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('tim2@test.com');
+  const [password, setPassword] = useState('test123');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [directScaleUser, setDirectScaleUser] = useState({
@@ -104,21 +104,15 @@ const InitialDataContainer = ({ children }) => {
   const [hasPermissionsToWrite, setHasPermissionsToWrite] = useState(false);
 
   const pollIntervalForGetUser = 1000 * 60 * 10;
-  const [dasboardRefreshing, setDasboardRefreshing] = useState(false);
-
-  const [
-    getUser,
-    { loading: loadingUserData, data: userData, refetch: refetchUser },
-  ] = useLazyQuery(GET_USER, {
-    variables: { legacyAssociateId: legacyId },
-    onError: (e) => console.log(`error in get user`, e),
-    onCompleted: () => {
-      setDasboardRefreshing(false);
+  const [getUser, { loading: loadingUserData, data: userData }] = useLazyQuery(
+    GET_USER,
+    {
+      variables: { legacyAssociateId: legacyId },
+      onError: (e) => console.log(`error in get user`, e),
+      pollInterval: pollIntervalForGetUser,
+      notifyOnNetworkStatusChange: true,
     },
-    pollInterval: pollIntervalForGetUser,
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'no-cache',
-  });
+  );
 
   useEffect(() => {
     getUser();
@@ -324,9 +318,6 @@ const InitialDataContainer = ({ children }) => {
         usersTeamInfo,
         refetchUserAccessCodes,
         baseEnrollmentUrl,
-        dasboardRefreshing,
-        setDasboardRefreshing,
-        refetchUser,
       }}
     >
       {children}
