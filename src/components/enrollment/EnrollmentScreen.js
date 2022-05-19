@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, Linking, Share } from 'react-native';
+import { ScrollView, Share } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import QRCode from 'react-native-qrcode-svg';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -88,7 +89,7 @@ const EnrollmentScreen = ({ route }) => {
               'Open the enrollment form in Shop Q so you can help your prospect enroll',
             )}:`}
           >
-            <SecondaryButton onPress={() => Linking.openURL(url)}>
+            <SecondaryButton onPress={() => WebBrowser.openBrowserAsync(url)}>
               {Localized('Open in Shop Q').toUpperCase()}
             </SecondaryButton>
           </EnrollmentScreenCard>

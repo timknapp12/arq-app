@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { View, Linking, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Image, TouchableOpacity, Alert } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { H5, H6Secondary } from '../../../common';
 import PdfIcon from '../../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../../assets/icons/video-icon.svg';
@@ -57,7 +58,7 @@ const ExpandedProductCard = ({
         contentType: asset.contentType,
       });
     } else {
-      Linking.openURL(asset.linkUrl);
+      WebBrowser.openBrowserAsync(asset.linkUrl);
     }
   };
 

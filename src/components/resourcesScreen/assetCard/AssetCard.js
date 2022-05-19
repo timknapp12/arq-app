@@ -1,13 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
-import {
-  TouchableOpacity,
-  Share,
-  Alert,
-  Linking,
-  Platform,
-} from 'react-native';
+import { TouchableOpacity, Share, Alert, Platform } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -176,7 +171,7 @@ const AssetCard = ({
         contentType: contentType,
       });
     } else {
-      Linking.openURL(url);
+      WebBrowser.openBrowserAsync(url);
     }
   };
 

@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
-import { TouchableOpacity, Dimensions, Linking, Platform } from 'react-native';
+import { TouchableOpacity, Dimensions, Platform } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { H4Black, H6Book } from '../common';
 import defaultImage from '../../../assets/icons/image.png';
 import AppContext from '../../contexts/AppContext';
@@ -67,7 +68,7 @@ const FeaturedNewsCard = ({
     }
     setIsReadYet(true);
     storyHasBeenViewed();
-    url ? Linking.openURL(url) : {};
+    url ? WebBrowser.openBrowserAsync(url) : {};
   };
 
   return (

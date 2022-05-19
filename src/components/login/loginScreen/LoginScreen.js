@@ -9,7 +9,8 @@ import * as Facebook from 'expo-facebook';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import { useMutation } from '@apollo/client';
-import { Platform, Linking, Alert, View } from 'react-native';
+import { Platform, Alert, View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
@@ -159,7 +160,7 @@ const LoginScreen = ({
   }, [isFirstAppLoad, useBiometrics, route?.params?.resetLogin]);
 
   const onFindOutMore = () => {
-    Linking.openURL('https://qsciences.com');
+    WebBrowser.openBrowserAsync('https://qsciences.com');
   };
 
   const isButtonDisabled = !email || !password;
