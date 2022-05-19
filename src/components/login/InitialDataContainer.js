@@ -9,6 +9,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
+import { useNotifications } from '../notifications/useNotifications';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import {
@@ -45,6 +46,8 @@ const InitialDataContainer = ({ children }) => {
     primaryPhoneNumber: '',
     secondaryPhoneNumber: '',
   });
+
+  const [expoPushToken, isPushNotificationPermsGranted] = useNotifications();
 
   Analytics.setAnalyticsCollectionEnabled(false);
   useEffect(() => {
@@ -318,6 +321,8 @@ const InitialDataContainer = ({ children }) => {
         usersTeamInfo,
         refetchUserAccessCodes,
         baseEnrollmentUrl,
+        expoPushToken,
+        isPushNotificationPermsGranted,
       }}
     >
       {children}
