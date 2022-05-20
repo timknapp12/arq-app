@@ -2,5 +2,5 @@
   "NSFaceIDUsageDescription": "Diese App verwendet optional Face ID oder Touch ID zur Authentifizierung",
   "NSCameraUsageDescription": "Wenn Sie den Zugriff zulassen, können Sie ein Bild für die Anzeige in Ihrem Profil aufnehmen",
   "NSPhotoLibraryUsageDescription": "Wenn Sie den Zugriff zulassen, können Sie ein Bild für die Anzeige in Ihrem Profil auswählen",
-  "NSUserTrackingUsageDescription": "We use Tracking to fix bugs and improve your experience. We will never sell your personal information or show you ads."
+  "NSUserTrackingUsageDescription": "We gebruiken Tracking om bugs op te lossen en uw ervaring te verbeteren. We zullen uw persoonlijke gegevens nooit verkopen of u advertenties laten zien."
 }

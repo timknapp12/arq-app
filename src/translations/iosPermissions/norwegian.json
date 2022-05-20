@@ -2,5 +2,5 @@
   "NSFaceIDUsageDescription": "Appen vil bruke Face ID eller Touch ID for autentisering",
   "NSCameraUsageDescription": "Du kan ta et bilde for din profil ved å gi tilgang",
   "NSPhotoLibraryUsageDescription": "Velg et bilde for din profil ved å gi tilgang",
-  "NSUserTrackingUsageDescription": "We use Tracking to fix bugs and improve your experience. We will never sell your personal information or show you ads."
+  "NSUserTrackingUsageDescription": "Vi bruker sporing for å fikse feil og forbedre opplevelsen din. Vi vil aldri selge din personlige informasjon eller vise deg annonser."
 }
