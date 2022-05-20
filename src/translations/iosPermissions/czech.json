@@ -2,5 +2,5 @@
   "NSFaceIDUsageDescription": "Tato aplikace bude k ověření identity používat Face ID nebo Touch ID",
   "NSCameraUsageDescription": "Povolení přístupu vám umožní pořídit profilový obrázek",
   "NSPhotoLibraryUsageDescription": "Povolení přístupu vám umožní vybrat profilový obrázek",
-  "NSUserTrackingUsageDescription": "We use Tracking to fix bugs and improve your experience. We will never sell your personal information or show you ads."
+  "NSUserTrackingUsageDescription": "Sledování používáme k nápravě chyb a vylepšení Vašeho zážitku. Nikdy neposkytneme třetí osobě Vaše osobní údaje ani Vám nebudeme zobrazovat reklamy."
 }
