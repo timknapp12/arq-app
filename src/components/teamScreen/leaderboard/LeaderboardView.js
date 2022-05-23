@@ -8,7 +8,7 @@ import {
   Animated,
 } from 'react-native';
 import { useQuery } from '@apollo/client';
-import { Flexbox, H5, Gap, LoadingSpinner, H6Secondary } from '../../common';
+import { Flexbox, H5, LoadingSpinner, H6Secondary } from '../../common';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import InfoIcon from '../../../../assets/icons/InfoIcon.svg';
 import AppContext from '../../../contexts/AppContext';
@@ -94,11 +94,13 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
         {...props}
       >
         <H5>{`${leaderboardTypeMap[selectedLeaderboardType]} (${Localized(
-          selectedLeaderboardMonth === 'CURRENT' ? 'This Month' : 'Last Month',
+          selectedLeaderboardMonth === 'CURRENT' ? 'This month' : 'Last month',
         ).toLowerCase()})`}</H5>
-        <Gap height="4px" />
-        <Flexbox direction="row">
-          <TouchableOpacity onPress={() => setIsFilterMenuOpen(true)}>
+        <Flexbox direction="row" justify="space-around">
+          <TouchableOpacity
+            style={{ padding: 6 }}
+            onPress={() => setIsFilterMenuOpen(true)}
+          >
             <FilterIcon
               style={{
                 height: 30,
@@ -128,7 +130,6 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
           </TouchableOpacity>
           <RankLegend fadeAnim={fadeAnim} />
         </Flexbox>
-        <Gap height="4px" />
         <Flexbox direction="row" padding={4} style={{ zIndex: -1 }}>
           <H6Secondary>{`${Localized('Place')}/${Localized(
             'Count',
