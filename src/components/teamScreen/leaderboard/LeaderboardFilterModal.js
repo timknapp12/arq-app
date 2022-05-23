@@ -63,7 +63,7 @@ const LeaderboardFilterModal = ({
             />
             <Gap height="4px" />
             <NativeTouchableRadioButton
-              label={Localized('Last Month')}
+              label={Localized('Last month')}
               onPress={() => setMonth('PREVIOUS')}
               isSelected={month === 'PREVIOUS'}
             />
