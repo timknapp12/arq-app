@@ -29,19 +29,36 @@ export const handleLoginUser = (
     case 'NO_LOGIN':
       navigation.navigate('Enter Id Screen');
       break;
-    // TODO - handle more use cases from Q Services
-    // case 'NOT_AN_AMBASSADOR':
-    //   // send to a screen that gives more info an becoming an ambassador
-    //   navigation.navigate('Redirect Unauthorized User Screen', {
-    //     message: Localized(
-    //       'It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador',
-    //     ),
-    //     url: 'https://qsciences.com/opportunity',
-    //     linkText: Localized('Find out more'),
-    //   });
-    //   break;
+    case 'PREFERRED_CUSTOMER_FAILURE':
+    case 'RETAIL_FAILURE':
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'It looks like you are not a Q Sciences ambassador - Follow the link below to find out how to become an ambassador',
+        ),
+        url: 'https://qsciences.com/opportunity',
+        linkText: Localized('Find out more'),
+      });
+      break;
+    case 'AMBASSADOR_ARQ_YEARLY_FAILED':
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'It looks like that there in an issue with your annual subscription - It is either expired or cancelled - Contact support if you need further assistance',
+        ),
+        url: 'https://qsciences.com/contact-us',
+        linkText: Localized('Contact Support'),
+      });
+      break;
+    case 'AMBASSADOR_ARQ_MONTHLY_FAILED':
+      navigation.navigate('Redirect Unauthorized User Screen', {
+        message: Localized(
+          'It looks like that there in an issue with your monthly subscription - It is either expired or cancelled - Contact support if you need further assistance',
+        ),
+        url: 'https://qsciences.com/contact-us',
+        linkText: Localized('Contact Support'),
+      });
+      break;
+    case 'BAD_STATUS':
     default:
-      // send to a screen for user to contact support regarding issue with account
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: Localized(
           'Sorry! It looks like there is an issue with your account - Please contact support',
