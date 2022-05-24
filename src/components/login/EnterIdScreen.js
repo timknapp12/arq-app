@@ -12,13 +12,12 @@ import {
 } from '../common';
 import { DIRECT_SCALE_INFO } from '../../graphql/mutations';
 import { handleGetDirectScaleInfo } from '../../utils/handleLoginFlow';
-import { getToken } from '../../utils/firebase/login';
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 
 const EnterIdScreen = ({ navigation }) => {
-  const { setToken, setAssociateId, setLegacyId } = useContext(AppContext);
+  const { setAssociateId, setLegacyId } = useContext(AppContext);
   const { setDirectScaleUser } = useContext(LoginContext);
   const [username, setUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -42,8 +41,7 @@ const EnterIdScreen = ({ navigation }) => {
     },
   });
 
-  const onSubmit = async () => {
-    await getToken(setToken);
+  const onSubmit = () => {
     if (!username) {
       return Alert.alert(
         Localized('Please enter your back office username or id'),

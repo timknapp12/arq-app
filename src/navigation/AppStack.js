@@ -1,55 +1,21 @@
-import React, { useContext, useRef, useEffect } from 'react';
-import { View, PanResponder, LogBox } from 'react-native';
+import React, { useContext } from 'react';
+import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import Tabs from './Tabs';
 import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetScreen';
 import AppContext from '../contexts/AppContext';
-import LoginContext from '../contexts/LoginContext';
 import ProspectsStack from './ProspectsStack';
 import EnrollmentScreen from '../components/enrollment/EnrollmentScreen';
-import { getToken } from '../utils/firebase/login';
 import { Localized } from '../translations/Localized';
 import { CloseIcon } from '../components/common';
 
 const App = createStackNavigator();
 
 const AppStack = () => {
-  const { theme, setToken } = useContext(AppContext);
-  const { setIsFirstAppLoad } = useContext(LoginContext);
+  const { theme } = useContext(AppContext);
 
-  const navigation = useNavigation();
-  const signOut = async () => {
-    await getToken(setToken);
-    await setIsFirstAppLoad(true);
-    navigation.navigate('Login Screen', { resetLogin: true });
-  };
-
-  const timerId = useRef(false);
-
-  const timeForInactivityInSecond = 20 * 60 * 1000;
-
-  const resetInactivityTimeout = () => {
-    clearTimeout(timerId.current);
-    timerId.current = setTimeout(() => {
-      signOut();
-    }, timeForInactivityInSecond);
-  };
-
-  const panResponder = React.useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponderCapture: () => {
-        resetInactivityTimeout();
-      },
-    }),
-  ).current;
-
-  useEffect(() => {
-    resetInactivityTimeout();
-  }, []);
-  LogBox.ignoreLogs(['Setting a timer']);
   return (
-    <View style={{ flex: 1 }} {...panResponder.panHandlers}>
+    <View style={{ flex: 1 }}>
       <App.Navigator>
         <App.Screen
           name="Tabs"

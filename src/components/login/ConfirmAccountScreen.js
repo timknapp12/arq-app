@@ -26,14 +26,13 @@ import {
   encodeEmail,
   encodePhone,
 } from '../../utils/encodeCredentials/encodeCredentials';
-import { getToken } from '../../utils/firebase/login';
 import { LOGIN_VALIDATION_PROCESS } from '../../graphql/mutations';
 import { handleLoginValidationProcess } from '../../utils/handleLoginFlow';
 
 const { height } = Dimensions.get('window');
 
 const ConfirmAccountScreen = ({ navigation, route }) => {
-  const { setAssociateId, setLegacyId, setToken, theme, deviceLanguage } =
+  const { setAssociateId, setLegacyId, theme, deviceLanguage } =
     useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const { emailAddress, primaryPhoneNumber } = directScaleUser;
@@ -100,8 +99,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     }
   }, [selectedOption]);
 
-  const onSubmit = async () => {
-    await getToken(setToken);
+  const onSubmit = () => {
     if (selectedOption === 'email') {
       if (!email) {
         return Alert.alert(Localized('Please enter a valid email address'));
