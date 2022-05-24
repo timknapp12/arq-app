@@ -1,30 +1,11 @@
-import { Alert, Platform } from 'react-native';
-import * as LocalAuthentication from 'expo-local-authentication';
 import { Localized } from '../translations/Localized';
 
 // run this anytime login user mutation is called
-export const handleLoginUser = (
-  status,
-  navigation,
-  useBiometrics,
-  onFaceID,
-  isFirstAppLoad = false,
-  signOutOfFirebase,
-) => {
+export const handleLoginUser = (status, navigation) => {
   switch (status) {
     case 'SUCCESS':
-      // we only want this to run once per app load, otherwise it will trigger someone to use faceId after they log in using a different method
-      if (isFirstAppLoad) {
-        // using faceID is only available if useBiometrics has been set to true in settings or during onboarding flow
-        if (useBiometrics) {
-          onFaceID(navigation, onFaceID, signOutOfFirebase);
-        } else {
-          signOutOfFirebase();
-        }
-      } else {
-        // send the user to the first screen in App Stack, which is the dashboard screen
-        navigation.navigate('App Stack');
-      }
+      // send the user to the first screen in App Stack, which is the dashboard screen
+      navigation.navigate('App Stack');
       break;
     case 'NO_LOGIN':
       navigation.navigate('Enter Id Screen');
@@ -41,18 +22,22 @@ export const handleLoginUser = (
       break;
     case 'AMBASSADOR_ARQ_YEARLY_FAILED':
       navigation.navigate('Redirect Unauthorized User Screen', {
-        message: Localized(
-          'It looks like that there in an issue with your annual subscription - It is either expired or cancelled - Contact support if you need further assistance',
-        ),
+        message: `${Localized(
+          'It looks like there in an issue with your annual subscription',
+        )}. ${Localized('It is either expired or cancelled')}. ${Localized(
+          'Contact support if you need further assistance',
+        )}`,
         url: 'https://qsciences.com/contact-us',
         linkText: Localized('Contact Support'),
       });
       break;
     case 'AMBASSADOR_ARQ_MONTHLY_FAILED':
       navigation.navigate('Redirect Unauthorized User Screen', {
-        message: Localized(
-          'It looks like that there in an issue with your monthly subscription - It is either expired or cancelled - Contact support if you need further assistance',
-        ),
+        message: `${Localized(
+          'It looks like there in an issue with your monthly subscription',
+        )}. ${Localized('It is either expired or cancelled')}. ${Localized(
+          'Contact support if you need further assistance',
+        )}`,
         url: 'https://qsciences.com/contact-us',
         linkText: Localized('Contact Support'),
       });
@@ -139,9 +124,9 @@ export const handleLoginValidationProcess = (
 ) => {
   switch (status) {
     case 'VERIFICATION_COMPLETE':
-      //  send to biometrics screen
+      //  send to dashboard
       setErrorMessage('');
-      navigation.navigate('Biometrics Screen');
+      navigation.navigate('App Stack');
       break;
     case 'MESSAGE_SENT':
       // send to verification code screen
@@ -176,9 +161,9 @@ export const handleConfirmAccessCode = (
 ) => {
   switch (status) {
     case 'VERIFICATION_COMPLETE':
-      // send to biometrics screen
+      // send to dashboard
       setErrorMessage('');
-      navigation.navigate('Biometrics Screen');
+      navigation.navigate('App Stack');
       break;
     case 'CAN_NOT_FIND_TOKEN':
       // give error that token can not be found
@@ -194,40 +179,5 @@ export const handleConfirmAccessCode = (
           'The access code may have expired - Please get a new code and try again',
         ),
       );
-  }
-};
-
-// CANCEL FACEID
-const alertTitle = Localized(Platform.OS === 'ios' ? 'Face ID' : 'Fingerprint');
-const alertBody = Localized(
-  Platform.OS === 'ios' ? 'Sign in with Face ID' : 'Sign in with Fingerprint',
-);
-export const cancelFaceIDAlert = (navigation, onFaceID, signOutOfFirebase) =>
-  Alert.alert(alertTitle, alertBody, [
-    {
-      text: Localized('Cancel'),
-      onPress: () => {
-        signOutOfFirebase();
-        navigation.navigate('Login Screen');
-      },
-    },
-    {
-      text: Localized('Sign in'),
-      onPress: () => onFaceID(navigation, onFaceID, signOutOfFirebase),
-    },
-  ]);
-
-// FACE ID/FINGERPRINT LOGIN
-export const onFaceID = async (navigation, onFaceID, signOutOfFirebase) => {
-  try {
-    // Authenticate user
-    const result = await LocalAuthentication.authenticateAsync();
-    if (result.success) {
-      navigation.navigate('App Stack');
-    } else {
-      cancelFaceIDAlert(navigation, onFaceID, signOutOfFirebase);
-    }
-  } catch (error) {
-    console.log(`error`, error);
   }
 };

@@ -29,7 +29,7 @@ import {
   facebookDisplayName,
 } from '../../../../firebase.config';
 import { LOGIN_USER } from '../../../graphql/mutations';
-import { handleLoginUser, onFaceID } from '../../../utils/handleLoginFlow';
+import { handleLoginUser } from '../../../utils/handleLoginFlow';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -38,23 +38,11 @@ const DividerLine = styled.View`
   background-color: ${(props) => props.theme.disabledTextColor};
 `;
 
-const LoginScreen = ({
-  navigation,
-  route = { params: { resetLogin: false } },
-}) => {
+const LoginScreen = ({ navigation }) => {
   const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
     useContext(AppContext);
-  const {
-    email,
-    password,
-    setErrorMessage,
-    errorMessage,
-    useBiometrics,
-    getBiometrics,
-    isFirstAppLoad,
-    setIsFirstAppLoad,
-    clearFields,
-  } = useContext(LoginContext);
+  const { email, password, setErrorMessage, errorMessage, clearFields } =
+    useContext(LoginContext);
 
   // app starts in loading state
   const [isLoading, setIsLoading] = useState(true);
@@ -120,14 +108,7 @@ const LoginScreen = ({
         data?.loginArqAmbassador?.success === true
           ? 'SUCCESS'
           : data?.loginArqAmbassador?.loginResults;
-      handleLoginUser(
-        status,
-        navigation,
-        useBiometrics,
-        onFaceID,
-        isFirstAppLoad,
-        signOutOfFirebase,
-      );
+      handleLoginUser(status, navigation);
     },
     onError: (error) => {
       setIsLoading(false);
@@ -135,29 +116,17 @@ const LoginScreen = ({
     },
   });
 
-  // if the user has biometrics enabled (stored in async storage), then sign in the user automatically
+  // if the user has a firebase token, then sign in the user automatically
   useEffect(() => {
-    const onAppLoad = async () => {
-      await getBiometrics();
-      if (useBiometrics) {
-        checkIfUserIsLoggedIn(
-          setToken,
-          loginUser,
-          isFirstAppLoad,
-          setIsFirstAppLoad,
-          setIsLoading,
-          route?.params?.resetLogin ?? false, // if this is true then that means the user timed out and was sent back to login screen and will be logged in again automatically if FaceId is turned on
-        );
-      } else {
-        setIsLoading(false);
-      }
+    const onAppLoad = () => {
+      checkIfUserIsLoggedIn(setToken, loginUser, setIsLoading);
     };
     onAppLoad();
     return () => {
       setIsErrorModalOpen(false);
       setErrorMessage('');
     };
-  }, [isFirstAppLoad, useBiometrics, route?.params?.resetLogin]);
+  }, []);
 
   const onFindOutMore = () => {
     WebBrowser.openBrowserAsync('https://qsciences.com');
@@ -174,7 +143,6 @@ const LoginScreen = ({
 
   // login with email and password
   const onSubmit = async () => {
-    await setIsFirstAppLoad(false);
     await signOutOfFirebase();
     if (!email) {
       return Alert.alert(Localized('Please enter an email address'));
@@ -201,7 +169,6 @@ const LoginScreen = ({
   // standalone app for google sign in https://docs.expo.io/versions/latest/sdk/google-sign-in/
   // build https://docs.expo.io/distribution/building-standalone-apps/#building-standalone-apps
   const signInWithGoogleAsync = async () => {
-    await setIsFirstAppLoad(false);
     await signOutOfFirebase();
     try {
       await GoogleSignIn.initAsync();
@@ -245,7 +212,6 @@ const LoginScreen = ({
   // dev account dashboard https://developers.facebook.com/apps/319892812842607/dashboard/
   // expo docs: https://docs.expo.io/versions/latest/sdk/facebook/
   const loginWithFacebook = async () => {
-    await setIsFirstAppLoad(false);
     await signOutOfFirebase();
     await Facebook.initializeAsync({
       appId: facebookAppId,
@@ -301,7 +267,6 @@ const LoginScreen = ({
           idToken: identityToken,
           rawNonce: nonce,
         });
-        // Successful sign in is handled by firebase.auth().onAuthStateChanged
         firebase
           .auth()
           .signInWithCredential(credential)
@@ -309,10 +274,7 @@ const LoginScreen = ({
             var user = userCredential.user;
             user
               .getIdToken(/* forceRefresh */ true)
-              .then(
-                (idToken) =>
-                  console.log(`idToken`, idToken) || setToken(idToken),
-              )
+              .then((idToken) => setToken(idToken))
               .then(() => loginUser())
               .then(() => loginAnalytics('apple'))
               .catch((error) => console.log(`error`, error));
@@ -409,7 +371,6 @@ const LoginScreen = ({
 
 LoginScreen.propTypes = {
   navigation: PropTypes.object,
-  route: PropTypes.object,
 };
 
 export default LoginScreen;

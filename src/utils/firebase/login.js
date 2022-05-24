@@ -23,28 +23,18 @@ let authFlag = true;
 export const checkIfUserIsLoggedIn = async (
   setToken,
   loginUser,
-  isFirstAppLoad,
-  setIsFirstAppLoad,
   // this is passed from sign IN screen but not sign UP screen
   setIsLoading = () => {},
-  // if this is true then that means that the user timed out and was sent back to the login screen, but if FaceId is turned on then we want to log them back in automatically
-  resetLogin = false,
 ) => {
   firebase.auth().onAuthStateChanged((user) => {
     console.log('AUTH STATE CHANGED CALLED ');
-    if (resetLogin) {
-      authFlag = true;
-    }
     if (authFlag) {
       authFlag = false;
       if (user) {
         console.log('user exists ************       ********');
-        user.getIdToken().then(async (idToken) => {
+        user.getIdToken().then((idToken) => {
           setToken(idToken);
-          if (isFirstAppLoad) {
-            await loginUser();
-            setIsFirstAppLoad(false);
-          }
+          loginUser();
         });
       } else {
         console.log('**********        user does NOT exist *********');

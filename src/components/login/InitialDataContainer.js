@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { LogBox } from 'react-native';
 import {
   useQuery,
   useLazyQuery,
   useMutation,
   useSubscription,
 } from '@apollo/client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 import { useNotifications } from '../notifications/useNotifications';
@@ -59,35 +59,11 @@ const InitialDataContainer = ({ children }) => {
     })();
   }, []);
 
-  const [isFirstAppLoad, setIsFirstAppLoad] = useState(true);
-
   const clearFields = () => {
     setEmail('');
     setPassword('');
     setConfirmPassword('');
     setErrorMessage('');
-  };
-  const [useBiometrics, setUseBiometrics] = useState(false);
-
-  const storeBiometrics = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@biometrics', jsonValue);
-      return setUseBiometrics(value);
-    } catch (error) {
-      console.log(`error`, error);
-    }
-  };
-
-  const getBiometrics = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('@biometrics');
-      const parsedValue = jsonValue != null ? JSON.parse(jsonValue) : null;
-      // if there is nothing saved in storage then set to false
-      return setUseBiometrics(parsedValue ? parsedValue : false);
-    } catch (error) {
-      console.log(`error`, error);
-    }
   };
 
   const [userMarket, setUserMarket] = useState({
@@ -106,6 +82,7 @@ const InitialDataContainer = ({ children }) => {
 
   const [hasPermissionsToWrite, setHasPermissionsToWrite] = useState(false);
 
+  LogBox.ignoreLogs(['Setting a timer']);
   const pollIntervalForGetUser = 1000 * 60 * 10;
   const [getUser, { loading: loadingUserData, data: userData }] = useLazyQuery(
     GET_USER,
@@ -253,13 +230,10 @@ const InitialDataContainer = ({ children }) => {
   const [showAddOptions, setShowAddOptions] = useState(false);
 
   // team resources
-  const {
-    loading: loadingAccessCodes,
-    data: userAccessCodesData,
-    refetch: refetchUserAccessCodes,
-  } = useQuery(GET_USERS_ACCESS_CODES, {
-    variables: { associateId },
-  });
+  const { data: userAccessCodesData, refetch: refetchUserAccessCodes } =
+    useQuery(GET_USERS_ACCESS_CODES, {
+      variables: { associateId },
+    });
 
   const alreadyHasTeam = findIfUserHasATeam(
     associateId,
@@ -285,11 +259,6 @@ const InitialDataContainer = ({ children }) => {
         setErrorMessage,
         directScaleUser,
         setDirectScaleUser,
-        isFirstAppLoad,
-        useBiometrics,
-        storeBiometrics,
-        getBiometrics,
-        setIsFirstAppLoad,
         clearFields,
         userMarket,
         ranks: ranksData?.ranks,
@@ -317,7 +286,6 @@ const InitialDataContainer = ({ children }) => {
         showAddOptions,
         setShowAddOptions,
         alreadyHasTeam,
-        loadingAccessCodes,
         usersTeamInfo,
         refetchUserAccessCodes,
         baseEnrollmentUrl,

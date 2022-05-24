@@ -24,7 +24,7 @@ import AppContext from '../../contexts/AppContext';
 import { Localized } from '../../translations/Localized';
 import { facebookAppId, facebookDisplayName } from '../../../firebase.config';
 import { LOGIN_USER } from '../../graphql/mutations';
-import { handleLoginUser, onFaceID } from '../../utils/handleLoginFlow';
+import { handleLoginUser } from '../../utils/handleLoginFlow';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -50,13 +50,7 @@ const CreateAccountScreen = ({ navigation }) => {
         data?.loginArqAmbassador?.success === true
           ? 'SUCCESS'
           : data?.loginArqAmbassador?.loginResults;
-      handleLoginUser(
-        status,
-        navigation,
-        false, //useBiometrics
-        onFaceID,
-        false, //isFirstAppLoad
-      );
+      handleLoginUser(status, navigation);
     },
     onError: (error) => {
       setIsErrorModalOpen(true);

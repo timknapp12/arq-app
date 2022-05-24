@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import * as LocalAuthentication from 'expo-local-authentication';
 import * as firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -13,7 +12,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   View,
-  Alert,
 } from 'react-native';
 import {
   ScreenContainer,
@@ -21,7 +19,6 @@ import {
   CloseIcon,
   Header,
   PrimaryButton,
-  Switch,
   Subheader,
   H4Heavy,
   H5Heavy,
@@ -61,15 +58,8 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   const user = firebase.auth().currentUser;
   const email = user?.email;
 
-  const {
-    storeBiometrics,
-    useBiometrics,
-    markets,
-    userProfile,
-    updateProfile,
-    refetchProfile,
-    userMarket,
-  } = useContext(LoginContext);
+  const { markets, userProfile, updateProfile, refetchProfile, userMarket } =
+    useContext(LoginContext);
 
   const [selectedMarket, setSelectedMarket] = useState(
     userMarket?.countryCode ?? 'us',
@@ -100,45 +90,6 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
     signOutOfFirebase();
     navigation.navigate('Login Screen');
   };
-
-  // source: https://medium.com/swlh/how-to-use-face-id-with-react-native-or-expo-134231a25fe4
-  // https://docs.expo.io/versions/latest/sdk/local-authentication/
-  const onFaceID = async () => {
-    try {
-      // Checking if device is compatible
-      const isCompatible = await LocalAuthentication.hasHardwareAsync();
-
-      if (!isCompatible) {
-        storeBiometrics(false);
-        throw new Error(Localized("Your device isn't compatible"));
-      }
-
-      // Checking if device has biometrics records
-      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
-
-      if (!isEnrolled) {
-        storeBiometrics(false);
-        throw new Error(Localized('No Faces / Fingers found'));
-      }
-      storeBiometrics(true);
-    } catch (error) {
-      Alert.alert(Localized('An error has occurred'), error?.message);
-    }
-  };
-
-  const onFaceIDChange = () => {
-    storeBiometrics(!useBiometrics);
-    if (!useBiometrics && Platform.OS === 'ios') {
-      // the authenticate method below is used in LoginScreen.js, but here it is just used to trigger the permissions dialogue for FaceID for iOS
-      LocalAuthentication.authenticateAsync();
-    }
-  };
-
-  useEffect(() => {
-    if (useBiometrics === true) {
-      onFaceID();
-    }
-  }, [useBiometrics]);
 
   const defaultCountryId = findMarketId(selectedMarket, markets);
 
@@ -248,17 +199,6 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     <RowContainer>
                       <H5Secondary>{Localized('Username')}</H5Secondary>
                       <H5 style={{ marginStart: 8 }}>{email}</H5>
-                    </RowContainer>
-
-                    <RowContainer>
-                      <H5Secondary>
-                        {Localized('Face ID or Fingerprint Sign In')}
-                      </H5Secondary>
-                      <Switch
-                        testID="biometrics-switch"
-                        value={useBiometrics}
-                        onValueChange={onFaceIDChange}
-                      />
                     </RowContainer>
 
                     <H5Secondary

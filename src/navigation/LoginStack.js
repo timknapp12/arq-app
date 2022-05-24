@@ -6,8 +6,6 @@ import CreateAccountScreen from '../components/login/CreateAccountScreen';
 import EnterIdScreen from '../components/login/EnterIdScreen';
 import ConfirmAccountScreen from '../components/login/ConfirmAccountScreen';
 import VerificationCodeScreen from '../components/login/VerificationCodeScreen';
-import BiometricsScreen from '../components/login/BiometricsScreen';
-import CreateTeamScreen from '../components/login/CreateTeamScreen';
 import RedirectUnauthorizedUserScreen from '../components/login/RedirectUnauthorizedUserScreen';
 import AppStack from './AppStack';
 import AppContext from '../contexts/AppContext';
@@ -88,16 +86,6 @@ const LoginStack = () => {
         <Login.Screen
           name="Verification Code Screen"
           component={VerificationCodeScreen}
-          options={onboardingScreenOptions}
-        />
-        <Login.Screen
-          name="Biometrics Screen"
-          component={BiometricsScreen}
-          options={onboardingScreenOptions}
-        />
-        <Login.Screen
-          name="Create Team Screen"
-          component={CreateTeamScreen}
           options={onboardingScreenOptions}
         />
         <Login.Screen
