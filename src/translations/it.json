@@ -378,5 +378,6 @@
   "Place": "Luogo",
   "Count": "Conteggio",
   "Name": "Nome",
-  "Rank Icons": "Icone di grado"
+  "Rank Icons": "Icone di grado",
+  "NSFaceIDUsageDescription": "Questa app potrà usare l’opzione Face ID o Touch ID per l'autenticazione"
 }

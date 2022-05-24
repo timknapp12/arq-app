@@ -379,5 +379,5 @@
   "Count": "合計する",
   "Name": "名前",
   "Rank Icons": "ランクアイコン",
-  "We use Tracking to fix bugs and improve your experience - We will never sell your personal information or show you ads.": "追跡を行う事により、今後のシステム改善に務めています. また、個人情報の譲渡もしくは広告の表示を行いません."
+  "NSFaceIDUsageDescription": "このアプリでは、オプションでFace IDまたはTouch IDを使って認証を行います"
 }

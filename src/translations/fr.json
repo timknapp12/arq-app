@@ -378,5 +378,6 @@
   "Place": "Place",
   "Count": "Compte",
   "Name": "Nom",
-  "Rank Icons": "Icônes de classement"
+  "Rank Icons": "Icônes de classement",
+  "NSFaceIDUsageDescription": "Cette application pourrait utiliser Face ID ou Touch ID pour l'authentification"
 }

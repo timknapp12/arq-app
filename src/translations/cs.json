@@ -378,5 +378,6 @@
   "Place": "Místo",
   "Count": "Počet",
   "Name": "Jméno",
-  "Rank Icons": "Ikony hodnosti"
+  "Rank Icons": "Ikony hodnosti",
+  "NSFaceIDUsageDescription": "Tato aplikace bude k ověření identity používat Face ID nebo Touch ID"
 }

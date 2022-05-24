@@ -378,5 +378,6 @@
   "Place": "Plaats",
   "Count": "Aantal",
   "Name": "Naam",
-  "Rank Icons": "Rangpictogrammen"
+  "Rank Icons": "Rangpictogrammen",
+  "NSFaceIDUsageDescription": "Diese App verwendet optional Face ID oder Touch ID zur Authentifizierung"
 }
