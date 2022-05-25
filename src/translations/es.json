@@ -378,5 +378,6 @@
   "Place": "Lugar",
   "Count": "Cantidad",
   "Name": "Nombre",
-  "Rank Icons": "Iconos de Rango"
+  "Rank Icons": "Iconos de Rango",
+  "NSFaceIDUsageDescription": "Esta aplicación utilizará Face ID o Touch ID como opciones de autenticación"
 }

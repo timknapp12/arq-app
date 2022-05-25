@@ -378,5 +378,6 @@
   "Place": "Plassering",
   "Count": "Antall",
   "Name": "Navn",
-  "Rank Icons": "Rangeringsikoner"
+  "Rank Icons": "Rangeringsikoner",
+  "NSFaceIDUsageDescription": "Appen vil bruke Face ID eller Touch ID for autentisering"
 }

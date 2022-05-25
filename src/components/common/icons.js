@@ -12,7 +12,6 @@ import camera from '../../../assets/icons/button_camera.png';
 import gallery from '../../../assets/icons/buton_gallery.png';
 import edit from '../../../assets/icons/ic_edit.png';
 import deletePng from '../../../assets/icons/ic_delete.png';
-import FaceID from '../../../assets/icons/face-id.svg';
 import TouchID from '../../../assets/icons/touch-id.svg';
 import Dashboard from '../../../assets/icons/dashboard.svg';
 import Resources from '../../../assets/icons/resources.svg';
@@ -116,14 +115,6 @@ export const TouchIDIcon = ({ fill = blue, size = 36, ...props }) => (
   <TouchID width={size} height={size} fill={fill} {...props} />
 );
 TouchIDIcon.propTypes = {
-  fill: PropTypes.string,
-  size: PropTypes.number,
-};
-
-export const FaceIDIcon = ({ fill = blue, size = 36, ...props }) => (
-  <FaceID width={size} height={size} fill={fill} {...props} />
-);
-FaceIDIcon.propTypes = {
   fill: PropTypes.string,
   size: PropTypes.number,
 };

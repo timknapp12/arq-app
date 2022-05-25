@@ -15,10 +15,9 @@ import {
   handleLoginValidationProcess,
   handleConfirmAccessCode,
 } from '../../utils/handleLoginFlow';
-import { getToken } from '../../utils/firebase/login';
 
 const VerificationCodeScreen = ({ navigation, route }) => {
-  const { setAssociateId, setLegacyId, setToken, deviceLanguage } =
+  const { setAssociateId, setLegacyId, deviceLanguage } =
     useContext(AppContext);
 
   const { method, username, verificationInfo } = route.params;
@@ -30,7 +29,6 @@ const VerificationCodeScreen = ({ navigation, route }) => {
     variables: { loginName: username, accessCode: code },
     onError: (error) => setErrorMessage(error.message),
     onCompleted: (data) => {
-      console.log(`data`, data);
       const status = data?.loginValidationToken.status;
       if (data.loginValidationToken.associate) {
         const id = data.loginValidationToken.associate.associateId;
@@ -54,9 +52,7 @@ const VerificationCodeScreen = ({ navigation, route }) => {
       },
       onError: (error) => setErrorMessage(error.message),
       onCompleted: (data) => {
-        console.log(`data`, data);
         const status = data?.loginValidationProcess.status;
-        console.log(`status`, status);
         if (data.loginValidationProcess.associate) {
           const id = data.loginValidationProcess.associate.associateId;
           setAssociateId(id);
@@ -76,8 +72,7 @@ const VerificationCodeScreen = ({ navigation, route }) => {
     },
   );
 
-  const onSubmit = async () => {
-    await getToken(setToken);
+  const onSubmit = () => {
     if (!code) {
       return Alert.alert(Localized('Please enter a verification code'));
     }
@@ -109,7 +104,8 @@ const VerificationCodeScreen = ({ navigation, route }) => {
               <AlertText
                 style={{
                   textAlign: 'center',
-                }}>
+                }}
+              >
                 {errorMessage}
               </AlertText>
               <TouchableOpacity
@@ -117,7 +113,8 @@ const VerificationCodeScreen = ({ navigation, route }) => {
                   setCode('');
                   setErrorMessage('');
                   validateUser();
-                }}>
+                }}
+              >
                 <Link>{Localized('Resend code')}</Link>
               </TouchableOpacity>
             </Flexbox>
