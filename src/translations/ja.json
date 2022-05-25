@@ -379,5 +379,9 @@
   "Count": "合計する",
   "Name": "名前",
   "Rank Icons": "ランクアイコン",
-  "NSFaceIDUsageDescription": "このアプリでは、オプションでFace IDまたはTouch IDを使って認証を行います"
+  "NSFaceIDUsageDescription": "このアプリでは、オプションでFace IDまたはTouch IDを使って認証を行います",
+  "It looks like there in an issue with your annual subscription": "年間サブスクリプションが正常に登録がされていません",
+  "It is either expired or cancelled": "有効期限が切れているか、キャンセルされています",
+  "Contact support if you need further assistance": "ご質問がある際は、カスタマーサポートまでご連絡下さい",
+  "It looks like there in an issue with your monthly subscription": "月間サブスクリプションが正常に登録がされていません"
 }
