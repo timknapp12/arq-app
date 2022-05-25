@@ -15,63 +15,61 @@ const AppStack = () => {
   const { theme } = useContext(AppContext);
 
   return (
-    <View style={{ flex: 1 }}>
-      <App.Navigator>
-        <App.Screen
-          name="Tabs"
-          component={Tabs}
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-          }}
-        />
-        <App.Screen
-          options={({ route }) => ({
-            title: route.params.title,
-            headerBackTitleVisible: false,
-            headerStyle: { backgroundColor: theme.backgroundColor },
-            headerTintColor: theme.primaryTextColor,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 20,
-              fontFamily: 'Avenir-Light',
-              letterSpacing: 1.43,
-            },
-          })}
-          name="Resources Asset Screen"
-          component={ResourcesAssetScreen}
-        />
-        <App.Screen
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-          }}
-          name="Prospects Stack"
-          component={ProspectsStack}
-        />
-        <App.Screen
-          options={() => ({
-            title: Localized('Enrollment').toUpperCase(),
-            headerBackTitleVisible: false,
-            headerStyle: { backgroundColor: theme.backgroundColor },
-            headerBackImage: () => (
-              <View style={{ marginStart: 8 }}>
-                <CloseIcon />
-              </View>
-            ),
-            headerTintColor: theme.primaryTextColor,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 20,
-              fontFamily: 'Avenir-Light',
-              letterSpacing: 1.43,
-            },
-          })}
-          name="Enrollment Screen"
-          component={EnrollmentScreen}
-        />
-      </App.Navigator>
-    </View>
+    <App.Navigator>
+      <App.Screen
+        name="Tabs"
+        component={Tabs}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <App.Screen
+        options={({ route }) => ({
+          title: route.params.title,
+          headerBackTitleVisible: false,
+          headerStyle: { backgroundColor: theme.backgroundColor },
+          headerTintColor: theme.primaryTextColor,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 20,
+            fontFamily: 'Avenir-Light',
+            letterSpacing: 1.43,
+          },
+        })}
+        name="Resources Asset Screen"
+        component={ResourcesAssetScreen}
+      />
+      <App.Screen
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+        name="Prospects Stack"
+        component={ProspectsStack}
+      />
+      <App.Screen
+        options={() => ({
+          title: Localized('Enrollment').toUpperCase(),
+          headerBackTitleVisible: false,
+          headerStyle: { backgroundColor: theme.backgroundColor },
+          headerBackImage: () => (
+            <View style={{ marginStart: 8 }}>
+              <CloseIcon />
+            </View>
+          ),
+          headerTintColor: theme.primaryTextColor,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 20,
+            fontFamily: 'Avenir-Light',
+            letterSpacing: 1.43,
+          },
+        })}
+        name="Enrollment Screen"
+        component={EnrollmentScreen}
+      />
+    </App.Navigator>
   );
 };
 export default AppStack;

@@ -5,10 +5,10 @@ import { useMutation } from '@apollo/client';
 import {
   ScreenContainer,
   Header,
+  H4Heavy,
   H3,
   CloseIcon,
   LoadingSpinner,
-  PrimaryButton,
   Flexbox,
   H5Black,
   Gap,
@@ -54,14 +54,22 @@ const NotificationsModal = ({ visible, onClose }) => {
       <ScreenContainer style={{ justifyContent: 'flex-start' }}>
         <Header>
           <TouchableOpacity
-            style={{ padding: 8 }}
+            style={{ padding: 8, width: 80 }}
             testID="my-info-close-modal-button"
             onPress={onClose}
           >
             <CloseIcon />
           </TouchableOpacity>
           <H3>{Localized('Notifications').toUpperCase()}</H3>
-          <View style={{ width: 30 }} />
+          {prospectNotifications?.length > 0 ? (
+            <TouchableOpacity onPress={clearAll}>
+              <H4Heavy style={{ width: 80, textAlign: 'right' }}>
+                {Localized('Clear').toUpperCase()}
+              </H4Heavy>
+            </TouchableOpacity>
+          ) : (
+            <View style={{ width: 80 }} />
+          )}
         </Header>
         {isLoading ? (
           <Flexbox padding={12}>
@@ -86,16 +94,6 @@ const NotificationsModal = ({ visible, onClose }) => {
                     />
                   ))}
                 </MainScrollView>
-                <Flexbox width="85%" padding={12}>
-                  <PrimaryButton
-                    onPress={() => {
-                      setIsLoading(true);
-                      clearAll();
-                    }}
-                  >
-                    {Localized('Clear All').toUpperCase()}
-                  </PrimaryButton>
-                </Flexbox>
               </Flexbox>
             )}
           </>
