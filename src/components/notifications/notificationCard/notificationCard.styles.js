@@ -44,7 +44,7 @@ export const IconColumn = styled.View`
 
 export const IconRow = styled.View`
   flex-direction: row;
-  flex: 1;
+  flex: ${(props) => (props.isExpanded ? 1 : 'none')};
   justify-content: flex-end;
   align-items: center;
 `;

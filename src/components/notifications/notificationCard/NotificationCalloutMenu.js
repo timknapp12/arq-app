@@ -17,7 +17,7 @@ const Container = styled.View`
   border-radius: 5px;
   position: absolute;
   right: 0;
-  top: 64px;
+  top: ${(props) => `${props.cardHeight - 6}px`};
   box-shadow: ${(props) => props.theme.dropShadow};
 `;
 
@@ -31,6 +31,7 @@ const Row = styled.View`
 `;
 
 const NotificationCalloutMenu = ({
+  cardHeight,
   onRemove,
   handlePin,
   onViewProspect,
@@ -46,7 +47,7 @@ const NotificationCalloutMenu = ({
     color: theme.primaryTextColor,
   };
   return (
-    <Container {...props}>
+    <Container cardHeight={cardHeight} {...props}>
       <CalloutButton onPress={onRemove}>
         <Row>
           <RemoveIcon style={iconStyle} />
@@ -77,6 +78,7 @@ const NotificationCalloutMenu = ({
 };
 
 NotificationCalloutMenu.propTypes = {
+  cardHeight: PropTypes.number.isRequired,
   onRemove: PropTypes.func.isRequired,
   handlePin: PropTypes.func.isRequired,
   onViewProspect: PropTypes.func.isRequired,

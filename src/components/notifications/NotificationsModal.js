@@ -31,6 +31,7 @@ const NotificationsModal = ({ visible, onClose }) => {
   );
 
   const [isLoading, setIsLoading] = useState(false);
+  const [idOfExpandedCard, setIdOfExpandedCard] = useState(0);
 
   const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
     variables: { associateId, deletePinned: false },
@@ -51,7 +52,9 @@ const NotificationsModal = ({ visible, onClose }) => {
       statusBarTranslucent={true}
       onRequestClose={onClose}
     >
-      <ScreenContainer style={{ justifyContent: 'flex-start' }}>
+      <ScreenContainer
+        style={{ justifyContent: 'flex-start', paddingBottom: 0 }}
+      >
         <Header>
           <TouchableOpacity
             style={{ padding: 8, width: 80 }}
@@ -85,12 +88,15 @@ const NotificationsModal = ({ visible, onClose }) => {
               </H5Black>
             ) : (
               <Flexbox height="90%">
-                <MainScrollView paddingBottom={0}>
-                  {prospectNotifications?.map((item) => (
+                <MainScrollView paddingBottom={120}>
+                  {prospectNotifications?.map((item, index) => (
                     <NotificationCard
+                      style={{ zIndex: -index }}
                       key={item?.viewId}
                       data={item}
                       onClose={onClose}
+                      idOfExpandedCard={idOfExpandedCard}
+                      setIdOfExpandedCard={setIdOfExpandedCard}
                     />
                   ))}
                 </MainScrollView>

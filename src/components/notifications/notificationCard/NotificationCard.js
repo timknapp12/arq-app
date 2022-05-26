@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,6 +10,7 @@ import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
 import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
 import ViewProspectIcon from '../../../../assets/icons/ShowAllIcon.svg';
+import NotificationCalloutMenu from './NotificationCalloutMenu';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import {
@@ -29,12 +30,20 @@ import {
 } from './notificationCard.styles';
 import { Localized } from '../../../translations/Localized';
 
-const NotificationCard = ({ data, onClose, ...props }) => {
+const NotificationCard = ({
+  data,
+  onClose,
+  idOfExpandedCard,
+  setIdOfExpandedCard,
+  ...props
+}) => {
   const { theme, deviceLanguage } = useContext(AppContext);
   const { refetchProspectsNotifications } = useContext(LoginContext);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReadYet, setIsReadYet] = useState(false);
+  const [cardHeight, setCardHeight] = useState(0);
+  const [isCalloutOpen, setIsCalloutOpen] = useState(false);
 
   const { viewId, isSaved, prospect, sentLinks } = data;
   const { firstName, lastName } = prospect;
@@ -92,16 +101,38 @@ const NotificationCard = ({ data, onClose, ...props }) => {
     color: theme.primaryTextColor,
   };
 
+  const toggleExpand = () => {
+    if (Platform.OS === 'android' && idOfExpandedCard !== 0)
+      return setIdOfExpandedCard(0);
+    setIsReadYet(true);
+    setIsExpanded((state) => !state);
+    setIdOfExpandedCard(0);
+  };
+
+  const onCallout = () => {
+    setIsCalloutOpen((state) => !state);
+    if (isCalloutOpen) return setIdOfExpandedCard(0);
+    setIdOfExpandedCard(viewId);
+  };
+
+  useEffect(() => {
+    setIsCalloutOpen(viewId === idOfExpandedCard);
+
+    return () => {
+      setIsCalloutOpen(false);
+    };
+  }, [idOfExpandedCard]);
+
   return (
-    <CardContainer {...props}>
+    <CardContainer
+      onLayout={(event) => setCardHeight(event.nativeEvent.layout.height)}
+      {...props}
+    >
       <OuterContainer isExpanded={isExpanded} isReadYet={!isReadYet}>
         <InnerContainer
           isExpanded={isExpanded}
           activeOpacity={1}
-          onPress={() => {
-            setIsReadYet(true);
-            setIsExpanded((state) => !state);
-          }}
+          onPress={toggleExpand}
         >
           <TitleAndDateContainer>
             <H5Black>{properlyCaseName(firstName, lastName)}</H5Black>
@@ -124,15 +155,8 @@ const NotificationCard = ({ data, onClose, ...props }) => {
             </H6Book>
           )}
         </InnerContainer>
-        <IconColumn>
-          <TouchableOpacity
-            onPress={() => {
-              // storyHasBeenViewed();
-              setIsReadYet(true);
-              setIsExpanded((state) => !state);
-              // closeMenus();
-            }}
-          >
+        <IconColumn isExpanded={isExpanded}>
+          <TouchableOpacity onPress={toggleExpand}>
             <MaterialCommunityIcon
               name={isExpanded ? 'chevron-up' : 'chevron-down'}
               color={theme.primaryTextColor}
@@ -140,13 +164,15 @@ const NotificationCard = ({ data, onClose, ...props }) => {
             />
           </TouchableOpacity>
           {!isExpanded && (
-            <KebobIcon
-              style={{
-                height: 20,
-                width: 20,
-                color: theme.primaryTextColor,
-              }}
-            />
+            <TouchableOpacity style={{ padding: 4 }} onPress={onCallout}>
+              <KebobIcon
+                style={{
+                  height: 20,
+                  width: 20,
+                  color: theme.primaryTextColor,
+                }}
+              />
+            </TouchableOpacity>
           )}
         </IconColumn>
         {isExpanded && (
@@ -169,6 +195,15 @@ const NotificationCard = ({ data, onClose, ...props }) => {
           </IconRow>
         )}
       </OuterContainer>
+      {isCalloutOpen && (
+        <NotificationCalloutMenu
+          cardHeight={cardHeight}
+          onRemove={onRemove}
+          handlePin={handlePin}
+          onViewProspect={onViewProspect}
+          isSaved={isSaved}
+        />
+      )}
     </CardContainer>
   );
 };
@@ -176,6 +211,8 @@ const NotificationCard = ({ data, onClose, ...props }) => {
 NotificationCard.propTypes = {
   data: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  idOfExpandedCard: PropTypes.number.isRequired,
+  setIdOfExpandedCard: PropTypes.func.isRequired,
 };
 
 export default NotificationCard;
