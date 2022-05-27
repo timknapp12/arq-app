@@ -32,7 +32,6 @@ import { Localized } from '../../../translations/Localized';
 
 const NotificationCard = ({
   data,
-  onClose,
   idOfExpandedCard,
   setIdOfExpandedCard,
   ...props
@@ -80,7 +79,6 @@ const NotificationCard = ({
 
   const navigation = useNavigation();
   const onViewProspect = () => {
-    onClose();
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Search Screen',
       params: {
@@ -150,7 +148,7 @@ const NotificationCard = ({
               {body}
             </H6Book>
           ) : (
-            <H6Book ellipsizeMode="tail" numberOfLines={3} style={{ flex: 1 }}>
+            <H6Book ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
               {body}
             </H6Book>
           )}
@@ -210,7 +208,6 @@ const NotificationCard = ({
 
 NotificationCard.propTypes = {
   data: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
   idOfExpandedCard: PropTypes.number.isRequired,
   setIdOfExpandedCard: PropTypes.func.isRequired,
 };

@@ -48,3 +48,10 @@ export const IconRow = styled.View`
   justify-content: flex-end;
   align-items: center;
 `;
+
+export const Divider = styled.View`
+  width: 100%;
+  height: 1px;
+  background-color: ${(props) => props.theme.secondaryTextColor};
+  margin: 4px 0 12px 0;
+`;

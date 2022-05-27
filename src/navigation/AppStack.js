@@ -6,6 +6,7 @@ import ResourcesAssetScreen from '../components/resourcesScreen/ResourcesAssetSc
 import AppContext from '../contexts/AppContext';
 import ProspectsStack from './ProspectsStack';
 import EnrollmentScreen from '../components/enrollment/EnrollmentScreen';
+import NotificationsScreen from '../components/notifications/NotificationsScreen';
 import { Localized } from '../translations/Localized';
 import { CloseIcon } from '../components/common';
 
@@ -68,6 +69,13 @@ const AppStack = () => {
         })}
         name="Enrollment Screen"
         component={EnrollmentScreen}
+      />
+      <App.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Notifications Screen"
+        component={NotificationsScreen}
       />
     </App.Navigator>
   );

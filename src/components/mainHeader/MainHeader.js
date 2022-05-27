@@ -2,12 +2,12 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Flexbox, SmallQIcon, BellIcon, Header } from '../common';
 import AccountIcon from '../../../assets/icons/accountProfile.svg';
 import LoginContext from '../../contexts/LoginContext';
 import AppContext from '../../contexts/AppContext';
 import TabButtonContext from '../../contexts/TabButtonContext';
-import NotificationsModal from '../notifications/NotificationsModal';
 
 const ProfileImage = styled.Image`
   height: 24px;
@@ -28,8 +28,6 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
   const [url, setUrl] = useState(userProfile?.profileUrl ?? '');
   // this flag triggers react to re-render the UI
   const [urlHasChanged, setUrlHasChanged] = useState(false);
-  const [isNotificationModalOpen, setIsNotificationsModalOpen] =
-    useState(false);
 
   const toggleMenu = () => {
     if (isMenuOpen) {
@@ -50,6 +48,8 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
       clearTimeout(timer);
     };
   }, [userProfile?.profileUrl]);
+
+  const navigation = useNavigation();
 
   return (
     <Header key={url}>
@@ -81,7 +81,7 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
         <TouchableOpacity
           style={{ padding: 6, paddingStart: 16 }}
           onPress={() => {
-            setIsNotificationsModalOpen(true);
+            navigation.navigate('Notifications Screen');
             fadeOut();
             setProspectNotificationCount(0);
             closeAddOptions();
@@ -90,12 +90,6 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
           <BellIcon badgeValue={prospectNotificationCount} />
         </TouchableOpacity>
       </Flexbox>
-      {isNotificationModalOpen && (
-        <NotificationsModal
-          visible={isNotificationModalOpen}
-          onClose={() => setIsNotificationsModalOpen(false)}
-        />
-      )}
     </Header>
   );
 };
