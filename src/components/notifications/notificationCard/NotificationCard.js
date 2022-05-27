@@ -12,12 +12,12 @@ import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
 import ViewProspectIcon from '../../../../assets/icons/ShowAllIcon.svg';
 import NotificationCalloutMenu from './NotificationCalloutMenu';
 import AppContext from '../../../contexts/AppContext';
-import LoginContext from '../../../contexts/LoginContext';
 import {
   CLEAR_PROSPECT_NOTIFICATION,
   PIN_PROSPECT_NOTIFICATION,
   PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED,
 } from '../../../graphql/mutations';
+import { GET_PROSPECT_NOTIFICATIONS } from '../../../graphql/queries';
 import getLocalDate from '../../../translations/getLocalDate/getLocalDate';
 import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 import {
@@ -36,8 +36,7 @@ const NotificationCard = ({
   setIdOfExpandedCard,
   ...props
 }) => {
-  const { theme, deviceLanguage } = useContext(AppContext);
-  const { refetchProspectsNotifications } = useContext(LoginContext);
+  const { theme, deviceLanguage, associateId } = useContext(AppContext);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReadYet, setIsReadYet] = useState(false);
@@ -65,14 +64,18 @@ const NotificationCard = ({
 
   const [onRemove] = useMutation(CLEAR_PROSPECT_NOTIFICATION, {
     variables: { viewId },
-    onCompleted: () => refetchProspectsNotifications(),
+    refetchQueries: [
+      { query: GET_PROSPECT_NOTIFICATIONS, variables: { associateId } },
+    ],
     onError: (error) =>
       console.log(`error in delete prospect notification:`, error),
   });
 
   const [handlePin] = useMutation(PIN_PROSPECT_NOTIFICATION, {
     variables: { viewId, pin: isSaved ? false : true },
-    onCompleted: () => refetchProspectsNotifications(),
+    refetchQueries: [
+      { query: GET_PROSPECT_NOTIFICATIONS, variables: { associateId } },
+    ],
     onError: (error) =>
       console.log(`error in pin prospect notification`, error),
   });
