@@ -14,7 +14,7 @@ import {
   Gap,
   MainScrollView,
 } from '../common';
-import NotificationCard from './notificationCard/NotificationCard';
+import SwipeableNotification from './notificationCard/SwipeableNotification';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
@@ -89,7 +89,7 @@ const NotificationsScreen = () => {
               <Flexbox height="92%">
                 <MainScrollView paddingBottom={120}>
                   {prospectNotifications?.map((item, index) => (
-                    <NotificationCard
+                    <SwipeableNotification
                       style={{ zIndex: -index }}
                       key={item?.viewId}
                       data={item}
