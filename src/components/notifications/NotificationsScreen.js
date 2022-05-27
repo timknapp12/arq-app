@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import {
@@ -33,6 +33,7 @@ const NotificationsScreen = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [idOfExpandedCard, setIdOfExpandedCard] = useState(0);
+  const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(true);
 
   const navigation = useNavigation();
   const onClose = () => navigation.dispatch(CommonActions.goBack());
@@ -47,6 +48,13 @@ const NotificationsScreen = () => {
     },
     onError: (error) => console.log(`error in clear all:`, error),
   });
+
+  const onTapOutsideBoundary = () => {
+    setIsCalloutOpenFromParent(false);
+    setTimeout(() => {
+      setIsCalloutOpenFromParent(true);
+    }, 500);
+  };
 
   return (
     <ScreenContainer
@@ -85,19 +93,22 @@ const NotificationsScreen = () => {
               {Localized('No notifications')}
             </H5Black>
           ) : (
-            <Flexbox height="92%">
-              <MainScrollView paddingBottom={120}>
-                {prospectNotifications?.map((item, index) => (
-                  <NotificationCard
-                    style={{ zIndex: -index }}
-                    key={item?.viewId}
-                    data={item}
-                    idOfExpandedCard={idOfExpandedCard}
-                    setIdOfExpandedCard={setIdOfExpandedCard}
-                  />
-                ))}
-              </MainScrollView>
-            </Flexbox>
+            <TouchableWithoutFeedback onPress={onTapOutsideBoundary}>
+              <Flexbox height="92%">
+                <MainScrollView paddingBottom={120}>
+                  {prospectNotifications?.map((item, index) => (
+                    <NotificationCard
+                      style={{ zIndex: -index }}
+                      key={item?.viewId}
+                      data={item}
+                      idOfExpandedCard={idOfExpandedCard}
+                      setIdOfExpandedCard={setIdOfExpandedCard}
+                      isCalloutOpenFromParent={isCalloutOpenFromParent}
+                    />
+                  ))}
+                </MainScrollView>
+              </Flexbox>
+            </TouchableWithoutFeedback>
           )}
         </>
       )}

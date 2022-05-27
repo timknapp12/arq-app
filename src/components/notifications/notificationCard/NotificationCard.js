@@ -34,6 +34,7 @@ const NotificationCard = ({
   data,
   idOfExpandedCard,
   setIdOfExpandedCard,
+  isCalloutOpenFromParent,
   ...props
 }) => {
   const { theme, deviceLanguage, associateId } = useContext(AppContext);
@@ -118,11 +119,11 @@ const NotificationCard = ({
 
   useEffect(() => {
     setIsCalloutOpen(viewId === idOfExpandedCard);
-
-    return () => {
-      setIsCalloutOpen(false);
-    };
   }, [idOfExpandedCard]);
+
+  useEffect(() => {
+    if (!isCalloutOpenFromParent) return setIsCalloutOpen(false);
+  }, [isCalloutOpenFromParent]);
 
   return (
     <CardContainer
@@ -213,6 +214,7 @@ NotificationCard.propTypes = {
   data: PropTypes.object.isRequired,
   idOfExpandedCard: PropTypes.number.isRequired,
   setIdOfExpandedCard: PropTypes.func.isRequired,
+  isCalloutOpenFromParent: PropTypes.bool.isRequired,
 };
 
 export default NotificationCard;
