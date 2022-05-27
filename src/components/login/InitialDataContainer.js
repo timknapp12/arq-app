@@ -277,7 +277,6 @@ const InitialDataContainer = ({ children }) => {
         loadingProspectNotifications,
         prospectNotifications:
           prospectNotificationData?.prospectViewsByAssociate,
-        refetchProspectsNotifications,
         prospectNotificationCount,
         setProspectNotificationCount,
         sortBy,

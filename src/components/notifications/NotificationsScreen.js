@@ -15,23 +15,18 @@ import {
   MainScrollView,
 } from '../common';
 import NotificationCard from './notificationCard/NotificationCard';
-import { checkForPinnedNotifications } from '../../utils/notifications/checkForPinnedNotifications';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 import { CLEAR_ALL_PROPSECT_NOTIFICATIONS } from '../../graphql/mutations';
+import { GET_PROSPECT_NOTIFICATIONS } from '../../graphql/queries';
 import { Divider } from './notificationCard/notificationCard.styles';
 
 const NotificationsScreen = () => {
   const { associateId } = useContext(AppContext);
-  const { prospectNotifications, refetchProspectsNotifications } =
+  const { prospectNotifications, loadingProspectNotifications } =
     useContext(LoginContext);
 
-  const areTherePinnedNotifications = checkForPinnedNotifications(
-    prospectNotifications,
-  );
-
-  const [isLoading, setIsLoading] = useState(false);
   const [idOfExpandedCard, setIdOfExpandedCard] = useState(0);
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(true);
 
@@ -40,12 +35,9 @@ const NotificationsScreen = () => {
 
   const [clearAll] = useMutation(CLEAR_ALL_PROPSECT_NOTIFICATIONS, {
     variables: { associateId, deletePinned: false },
-    onCompleted: async () => {
-      await refetchProspectsNotifications();
-      setIsLoading(false);
-      //  if there are no more pinned notifications then close the notification column
-      !areTherePinnedNotifications && onClose();
-    },
+    refetchQueries: [
+      { query: GET_PROSPECT_NOTIFICATIONS, variables: { associateId } },
+    ],
     onError: (error) => console.log(`error in clear all:`, error),
   });
 
@@ -80,7 +72,7 @@ const NotificationsScreen = () => {
         )}
       </Header>
       <Divider />
-      {isLoading ? (
+      {loadingProspectNotifications ? (
         <Flexbox padding={12}>
           <H5Black>{Localized('Loading Notifications')}</H5Black>
           <Gap height="12px" />
