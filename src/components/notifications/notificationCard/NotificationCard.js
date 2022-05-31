@@ -41,7 +41,7 @@ const NotificationCard = ({
   const formattedDate = getLocalDate(data?.dateViewUtc, deviceLanguage);
 
   const body =
-    'jkhsdkjf kjshfkjhf lkjshfkjhkjf kjsahf kjsdf  jkhsdjkfh kjshfkjh kjhsakjfhjkh kjjjh ksakj a s the d skdkj skf k khkhkjh sfjkhjt  ';
+    'This is a body of text in a notification. Who knows what will actually be displayed here? Perhaps it will be that the San Diego Padres won the pennant!';
 
   const iconStyle = {
     marginEnd: 4,

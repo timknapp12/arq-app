@@ -20,9 +20,8 @@ import { GET_PROSPECT_NOTIFICATIONS } from '../../../graphql/queries';
 
 import {
   CardContainer,
-  ZoomContainer,
-  ZoomInTouchableOpacity,
-  ZoomOutTouchableOpacity,
+  SwipedButtonContainer,
+  SwipedButton,
 } from './notificationCard.styles';
 
 const SwipeableNotification = ({
@@ -32,7 +31,7 @@ const SwipeableNotification = ({
   isCalloutOpenFromParent,
   ...props
 }) => {
-  const { associateId } = useContext(AppContext);
+  const { theme, associateId } = useContext(AppContext);
 
   const { viewId, isSaved } = data;
 
@@ -96,6 +95,12 @@ const SwipeableNotification = ({
     if (!isCalloutOpenFromParent) return setIsCalloutOpen(false);
   }, [isCalloutOpenFromParent]);
 
+  const iconStyle = {
+    height: 32,
+    width: 32,
+    color: theme.primaryTextColor,
+  };
+
   const RenderRight = (_, dragX) => {
     const scale = dragX.interpolate({
       inputRange: [-70, 0.5],
@@ -105,37 +110,53 @@ const SwipeableNotification = ({
       transform: [{ scale }],
     };
     return (
-      <ZoomContainer>
-        <ZoomInTouchableOpacity disabled={true} onPress={() => {}}>
+      <SwipedButtonContainer>
+        <SwipedButton
+          style={{
+            marginStart: 4,
+            backgroundColor: theme.leaderboardCountNumberBackgroundColor,
+          }}
+          onPress={onRemove}
+        >
           <Animated.View style={[transformStyle]}>
-            <RemoveIcon />
+            <RemoveIcon style={iconStyle} />
           </Animated.View>
-        </ZoomInTouchableOpacity>
-        <ZoomOutTouchableOpacity disabled={true} onPress={() => {}}>
+        </SwipedButton>
+        <SwipedButton
+          style={{ marginStart: 4, backgroundColor: theme.alertAvatarAccent }}
+          onPress={onViewProspect}
+        >
           <Animated.View style={[transformStyle]}>
-            <ViewProspectIcon />
+            <ViewProspectIcon style={iconStyle} />
           </Animated.View>
-        </ZoomOutTouchableOpacity>
-      </ZoomContainer>
+        </SwipedButton>
+      </SwipedButtonContainer>
     );
   };
 
   const RenderLeft = (_, dragX) => {
     const scale = dragX.interpolate({
-      inputRange: [-70, 0.5],
-      outputRange: [1, 0.5],
+      inputRange: [0.5, 20],
+      outputRange: [0.5, 1],
     });
     const transformStyle = {
       transform: [{ scale }],
     };
     return (
-      <ZoomContainer>
-        <ZoomInTouchableOpacity disabled={true} onPress={() => {}}>
+      <SwipedButtonContainer>
+        <SwipedButton
+          style={{ marginEnd: 4, backgroundColor: theme.customerAvatarAccent }}
+          onPress={handlePin}
+        >
           <Animated.View style={[transformStyle]}>
-            {isSaved ? <UnpinIcon /> : <PinIcon />}
+            {isSaved ? (
+              <UnpinIcon style={iconStyle} />
+            ) : (
+              <PinIcon style={iconStyle} />
+            )}
           </Animated.View>
-        </ZoomInTouchableOpacity>
-      </ZoomContainer>
+        </SwipedButton>
+      </SwipedButtonContainer>
     );
   };
 
@@ -146,7 +167,7 @@ const SwipeableNotification = ({
     >
       <Swipeable
         overshootRight={false}
-        overshooLeft={false}
+        overshootLeft={false}
         renderRightActions={RenderRight}
         renderLeftActions={RenderLeft}
       >

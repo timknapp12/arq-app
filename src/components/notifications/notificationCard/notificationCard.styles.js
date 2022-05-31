@@ -55,3 +55,22 @@ export const Divider = styled.View`
   background-color: ${(props) => props.theme.secondaryTextColor};
   margin: 4px 0 12px 0;
 `;
+
+// Swipeable components
+export const SwipedButtonContainer = styled.View`
+  height: 90px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 2px;
+`;
+
+export const SwipedButton = styled.TouchableOpacity`
+  opacity: ${(props) => (props.disabled ? 0.75 : 1)};
+  width: 56px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+`;
