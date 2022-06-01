@@ -29,7 +29,7 @@ const StandingsCard = ({ member, closeAllMenus }) => {
           justity="space-between"
         >
           <StandingsContainer>
-            <H2Black>{member?.index}</H2Black>
+            <H2Black>{member?.displayOrder}</H2Black>
           </StandingsContainer>
           <CountContainer>
             <H6>{member?.count}</H6>

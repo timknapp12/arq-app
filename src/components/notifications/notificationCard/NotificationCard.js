@@ -4,7 +4,7 @@ import { Platform, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import { H5Black, H6Book } from '../../common';
-import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
+import TrashCanIcon from '../../../../assets/icons/TrashCanIcon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
 import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
 import ViewProspectIcon from '../../../../assets/icons/ShowAllIcon.svg';
@@ -73,7 +73,7 @@ const NotificationCard = ({
         </TitleAndDateContainer>
         {displayName ? (
           <H6Book
-            style={{ marginTop: !isReadYet ? 0 : isExpanded ? 4 : -22 }}
+            style={{ marginTop: !isReadYet ? 0 : isExpanded ? 8 : -22 }}
           >{`${Localized('Viewed')} ${displayName}`}</H6Book>
         ) : null}
         {isExpanded ? (
@@ -109,7 +109,7 @@ const NotificationCard = ({
       {isExpanded && (
         <IconRow>
           <TouchableOpacity onPress={onRemove}>
-            <RemoveIcon style={iconStyle} />
+            <TrashCanIcon style={iconStyle} />
           </TouchableOpacity>
           {isSaved ? (
             <TouchableOpacity onPress={handlePin}>

@@ -31,7 +31,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
   const [selectedLeaderboardType, setSelectedLeaderboardType] = useState(
     'AMBASSADOR_ENROLLMENT',
   );
-  const [selectedRankId, setSelectedRankId] = useState('1');
+  const [selectedRankId, setSelectedRankId] = useState('0');
 
   const leaderboardTypeMap = {
     AMBASSADOR_ENROLLMENT: Localized('Ambassador Enrollments'),
@@ -43,8 +43,8 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
     leaderboardMonth: selectedLeaderboardMonth,
     leaderboardScope: selectedTab,
     leaderboardType: selectedLeaderboardType,
-    // we need to pass values to the picker as a string, but need to convert it to a number for Q Services
-    rankId: Number(selectedRankId),
+    // we need to pass values to the picker as a string, but need to convert it to a number for Q Services, and value of 0 for "ALL" in the filter needs to be converted to 1 for ambassador
+    rankId: selectedRankId === '0' ? 1 : Number(selectedRankId),
   };
 
   const { data, loading } = useQuery(LEADERBOARD, {
@@ -98,7 +98,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
         ).toLowerCase()})`}</H5>
         <Flexbox direction="row" justify="space-around">
           <TouchableOpacity
-            style={{ padding: 6 }}
+            style={{ padding: 6, paddingEnd: 12 }}
             onPress={() => setIsFilterMenuOpen(true)}
           >
             <FilterIcon
@@ -117,7 +117,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
           />
 
           <TouchableOpacity
-            style={{ width: 30 }}
+            style={{ width: 42, alignItems: 'center' }}
             onPress={isRankLegendOpen ? fadeOut : fadeIn}
           >
             <InfoIcon
@@ -147,7 +147,10 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
         {loading ? (
           <LoadingSpinner style={{ marginTop: 10 }} size="large" />
         ) : (
-          <Flexbox width="100%" style={{ zIndex: -1, marginBottom: 50 }}>
+          <Flexbox
+            width="100%"
+            style={{ zIndex: -1, marginBottom: 50, paddingBottom: 30 }}
+          >
             <FlatList
               style={{ width: '100%', marginBottom: 90 }}
               data={data?.leaderboard?.items}
