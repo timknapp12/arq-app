@@ -621,7 +621,7 @@ export const LEADERBOARD = gql`
           profileUrl
         }
         count
-        index
+        displayOrder
         rank {
           rankId
           rankName

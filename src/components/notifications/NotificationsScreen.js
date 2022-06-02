@@ -1,5 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+  Alert,
+} from 'react-native';
 import { useMutation } from '@apollo/client';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import {
@@ -41,6 +46,24 @@ const NotificationsScreen = () => {
     onError: (error) => console.log(`error in clear all:`, error),
   });
 
+  const confirmClearAll = () => {
+    Alert.alert(
+      `${Localized('Clear All')}?`,
+      '',
+      [
+        {
+          text: Localized('Cancel'),
+          style: 'cancel',
+        },
+        {
+          text: Localized('Yes'),
+          onPress: () => clearAll(),
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+
   const onTapOutsideBoundary = () => {
     setIsCalloutOpenFromParent(false);
     setTimeout(() => {
@@ -62,7 +85,7 @@ const NotificationsScreen = () => {
         </TouchableOpacity>
         <H3>{Localized('Notifications').toUpperCase()}</H3>
         {prospectNotifications?.length > 0 ? (
-          <TouchableOpacity onPress={clearAll}>
+          <TouchableOpacity onPress={confirmClearAll}>
             <H4Heavy style={{ width: 80, textAlign: 'right' }}>
               {Localized('Clear').toUpperCase()}
             </H4Heavy>

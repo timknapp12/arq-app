@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { H4Book } from '../../common';
-import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
+import TrashCanIcon from '../../../../assets/icons/TrashCanIcon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
 import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
 import ViewProspectIcon from '../../../../assets/icons/ShowAllIcon.svg';
@@ -50,7 +50,7 @@ const NotificationCalloutMenu = ({
     <Container cardHeight={cardHeight} {...props}>
       <CalloutButton onPress={onRemove}>
         <Row>
-          <RemoveIcon style={iconStyle} />
+          <TrashCanIcon style={iconStyle} />
           <H4Book>{Localized('Clear')}</H4Book>
         </Row>
       </CalloutButton>

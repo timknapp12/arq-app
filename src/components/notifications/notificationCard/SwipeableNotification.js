@@ -5,7 +5,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useMutation } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import AppContext from '../../../contexts/AppContext';
-import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
+import TrashCanIcon from '../../../../assets/icons/TrashCanIcon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
 import UnpinIcon from '../../../../assets/icons/UnpinIcon.svg';
 import ViewProspectIcon from '../../../../assets/icons/ShowAllIcon.svg';
@@ -116,18 +116,21 @@ const SwipeableNotification = ({
             marginStart: 4,
             backgroundColor: theme.leaderboardCountNumberBackgroundColor,
           }}
-          onPress={onRemove}
-        >
-          <Animated.View style={[transformStyle]}>
-            <RemoveIcon style={iconStyle} />
-          </Animated.View>
-        </SwipedButton>
-        <SwipedButton
-          style={{ marginStart: 4, backgroundColor: theme.alertAvatarAccent }}
           onPress={onViewProspect}
         >
           <Animated.View style={[transformStyle]}>
             <ViewProspectIcon style={iconStyle} />
+          </Animated.View>
+        </SwipedButton>
+        <SwipedButton
+          style={{
+            marginStart: 4,
+            backgroundColor: theme.alertAvatarAccent,
+          }}
+          onPress={onRemove}
+        >
+          <Animated.View style={[transformStyle]}>
+            <TrashCanIcon style={iconStyle} />
           </Animated.View>
         </SwipedButton>
       </SwipedButtonContainer>
