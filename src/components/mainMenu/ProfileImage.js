@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { CameraIcon, GalleryIcon } from '../common';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
+import * as Analytics from 'expo-firebase-analytics';
+import { CameraIcon, GalleryIcon } from '../common';
 import { Localized } from '../../translations/Localized';
 
 const ImageContainer = styled.View`
@@ -101,6 +102,7 @@ const ProfileImage = ({
   }, []);
 
   const pickImage = async () => {
+    Analytics.logEvent('Photo_library_opened');
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -116,6 +118,7 @@ const ProfileImage = ({
   };
 
   const openCamera = async () => {
+    Analytics.logEvent('Camera_opened');
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [1, 1],
