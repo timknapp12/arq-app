@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { H2Book, H4Book, H6, Flexbox, Link, Gap } from '../../common';
+import * as Analytics from 'expo-firebase-analytics';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { H2Book, H4Book, H6, Flexbox, Link, Gap } from '../../common';
 import EmailIcon from '../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../assets/icons/message-icon.svg';
 import EditIcon from '../../../../assets/icons/edit-icon.svg';
@@ -97,12 +98,24 @@ const ExpandedContactCard = ({
           <Stack expanded>
             <Row>
               {emailAddress ? (
-                <TouchableOpacity onPress={sendEmail}>
+                <TouchableOpacity
+                  onPress={() => {
+                    sendEmail();
+                    Analytics.logEvent('Email_prospect_from_expanded_card');
+                  }}
+                >
                   <EmailIcon style={largeIconStyle} />
                 </TouchableOpacity>
               ) : null}
               {primaryPhone ? (
-                <TouchableOpacity onPress={sendText}>
+                <TouchableOpacity
+                  onPress={() => {
+                    sendText();
+                    Analytics.logEvent(
+                      'SMS_message_prospect_from_expanded_card',
+                    );
+                  }}
+                >
                   <MessageIcon style={largeIconStyle} />
                 </TouchableOpacity>
               ) : null}
@@ -146,11 +159,21 @@ const ExpandedContactCard = ({
         </TouchableOpacity>
 
         <IconRow>
-          <TouchableOpacity onPress={() => setIsAddContactModalOpen(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsAddContactModalOpen(true);
+              Analytics.logEvent('Edit_prospect_from_expanded_card');
+            }}
+          >
             <EditIcon style={smallIconStyle} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={onRemove}>
+          <TouchableOpacity
+            onPress={() => {
+              onRemove();
+              Analytics.logEvent('Remove_prospect_from_expanded_card');
+            }}
+          >
             <RemoveIcon style={smallIconStyle} />
           </TouchableOpacity>
         </IconRow>

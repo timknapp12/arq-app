@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as Contacts from 'expo-contacts';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -118,6 +119,7 @@ const AddContactModal = ({
   const getDeviceContacts = async () => {
     const { status } = await Contacts.requestPermissionsAsync();
     if (status === 'granted') {
+      Analytics.logEvent('Get_contacts_from_device');
       const { data } = await Contacts.getContactsAsync({
         fields: [
           Contacts.Fields.FirstName,
@@ -184,6 +186,7 @@ const AddContactModal = ({
       return false;
     } else {
       setLoading(true);
+      Analytics.logEvent('Save_prospect');
       // only save image if it has been changed
       isNewImageSelected
         ? saveProfileImageToFirebase(

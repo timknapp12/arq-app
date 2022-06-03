@@ -130,7 +130,10 @@ const ProspectsScreen = ({ navigation, route }) => {
           }}
         >
           <FilterSearchBar
-            onPress={() => navigation.navigate('Prospects Search Screen')}
+            onPress={() => {
+              navigation.navigate('Prospects Search Screen');
+              Analytics.logEvent('Search_prospects_button_tapped');
+            }}
           >
             <TouchableOpacity
               onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}
@@ -170,7 +173,10 @@ const ProspectsScreen = ({ navigation, route }) => {
             />
           )}
           <AddButton
-            onPress={() => setIsAddContactModalOpen(true)}
+            onPress={() => {
+              setIsAddContactModalOpen(true);
+              Analytics.logEvent('Add_prospect_from_in_prospect_screen');
+            }}
             bottom="40px"
             right="16px"
           >
