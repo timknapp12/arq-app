@@ -43,7 +43,7 @@ const ProspectsScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if (isFocused) {
-      Analytics.logEvent('Prospects_Screen_Visited', {
+      Analytics.logEvent('Prospects_Screen_visited', {
         screen: 'Prospects Screen',
         purpose: 'User navigated to Prospects Screen',
       });

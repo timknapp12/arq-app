@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { CommonActions, useNavigation } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   ScreenContainer,
   Header,
@@ -71,6 +72,8 @@ const NotificationsScreen = () => {
     }, 500);
   };
 
+  Analytics.logEvent('Notifications_Screen_visited');
+
   return (
     <ScreenContainer
       style={{ justifyContent: 'flex-start', paddingBottom: 40 }}
@@ -85,7 +88,12 @@ const NotificationsScreen = () => {
         </TouchableOpacity>
         <H3>{Localized('Notifications').toUpperCase()}</H3>
         {prospectNotifications?.length > 0 ? (
-          <TouchableOpacity onPress={confirmClearAll}>
+          <TouchableOpacity
+            onPress={() => {
+              confirmClearAll();
+              Analytics.logEvent('clear_all_notifications_tapped');
+            }}
+          >
             <H4Heavy style={{ width: 80, textAlign: 'right' }}>
               {Localized('Clear').toUpperCase()}
             </H4Heavy>

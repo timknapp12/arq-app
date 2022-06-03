@@ -43,7 +43,7 @@ const TeamScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
-      Analytics.logEvent('Team_Screen_Visited', {
+      Analytics.logEvent('Team_Screen_visited', {
         screen: 'Resources Screen',
         purpose: 'User navigated to Team Screen',
       });

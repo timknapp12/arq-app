@@ -26,7 +26,7 @@ const ResourcesScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
-      Analytics.logEvent('Resources_Screen_Visited', {
+      Analytics.logEvent('Resources_Screen_visited', {
         screen: 'Resources Screen',
         purpose: 'User navigated to Resources Screen',
       });

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as Analytics from 'expo-firebase-analytics';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import { H5Black, H6Book } from '../../common';
 import TrashCanIcon from '../../../../assets/icons/TrashCanIcon.svg';
@@ -108,19 +109,39 @@ const NotificationCard = ({
       </IconColumn>
       {isExpanded && (
         <IconRow>
-          <TouchableOpacity onPress={onRemove}>
+          <TouchableOpacity
+            onPress={() => {
+              onRemove();
+              Analytics.logEvent('Remove_notification_from_expanded_card');
+            }}
+          >
             <TrashCanIcon style={iconStyle} />
           </TouchableOpacity>
           {isSaved ? (
-            <TouchableOpacity onPress={handlePin}>
+            <TouchableOpacity
+              onPress={() => {
+                handlePin();
+                Analytics.logEvent('Unpin_notification_from_expanded_card');
+              }}
+            >
               <UnpinIcon style={iconStyle} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={handlePin}>
+            <TouchableOpacity
+              onPress={() => {
+                handlePin();
+                Analytics.logEvent('Pin_notification_from_expanded_card');
+              }}
+            >
               <PinIcon style={iconStyle} />
             </TouchableOpacity>
           )}
-          <TouchableOpacity onPress={onViewProspect}>
+          <TouchableOpacity
+            onPress={() => {
+              onViewProspect();
+              Analytics.logEvent('View_prospect_from_expanded_card');
+            }}
+          >
             <ViewProspectIcon style={iconStyle} />
           </TouchableOpacity>
         </IconRow>

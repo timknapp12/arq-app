@@ -67,7 +67,7 @@ const NewsScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (isFocused) {
-      Analytics.logEvent('News_Screen_Visited', {
+      Analytics.logEvent('News_Screen_visited', {
         screen: 'News Screen',
         purpose: 'User navigated to News Screen',
       });

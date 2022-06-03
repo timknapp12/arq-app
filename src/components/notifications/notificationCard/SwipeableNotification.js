@@ -4,6 +4,7 @@ import { Animated } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useMutation } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import AppContext from '../../../contexts/AppContext';
 import TrashCanIcon from '../../../../assets/icons/TrashCanIcon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
@@ -116,7 +117,10 @@ const SwipeableNotification = ({
             marginStart: 4,
             backgroundColor: theme.leaderboardCountNumberBackgroundColor,
           }}
-          onPress={onViewProspect}
+          onPress={() => {
+            onViewProspect();
+            Analytics.logEvent('View_prospect_from_swipe');
+          }}
         >
           <Animated.View style={[transformStyle]}>
             <ViewProspectIcon style={iconStyle} />
@@ -127,7 +131,10 @@ const SwipeableNotification = ({
             marginStart: 4,
             backgroundColor: theme.alertAvatarAccent,
           }}
-          onPress={onRemove}
+          onPress={() => {
+            onRemove();
+            Analytics.logEvent('Remove_notification_from_swipe');
+          }}
         >
           <Animated.View style={[transformStyle]}>
             <TrashCanIcon style={iconStyle} />
@@ -149,7 +156,12 @@ const SwipeableNotification = ({
       <SwipedButtonContainer>
         <SwipedButton
           style={{ marginEnd: 4, backgroundColor: theme.customerAvatarAccent }}
-          onPress={handlePin}
+          onPress={() => {
+            handlePin();
+            Analytics.logEvent(
+              `${isSaved ? 'Unpin' : 'Pin'}_notification_from_swipe`,
+            );
+          }}
         >
           <Animated.View style={[transformStyle]}>
             {isSaved ? (
