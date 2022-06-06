@@ -8,6 +8,7 @@ import {
   Animated,
 } from 'react-native';
 import { useQuery } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import { Flexbox, H5, LoadingSpinner, H6Secondary } from '../../common';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import InfoIcon from '../../../../assets/icons/InfoIcon.svg';
@@ -47,9 +48,23 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
     rankId: selectedRankId === '0' ? 1 : Number(selectedRankId),
   };
 
+  const logAnalytics = (month, scope, type, rankId) => {
+    Analytics.logEvent(`ldrboard_by_month_${month}`);
+    Analytics.logEvent(`ldrboard_by_scope_${scope}`);
+    Analytics.logEvent(`ldrboard_by_type_${type}`);
+    Analytics.logEvent(`ldrboard_by_rankId_${rankId}`);
+  };
+
   const { data, loading } = useQuery(LEADERBOARD, {
     variables: variables,
     onError: (err) => console.log('err in leaderboard', err),
+    onCompleted: () =>
+      logAnalytics(
+        selectedLeaderboardMonth,
+        selectedTab,
+        selectedLeaderboardType,
+        selectedRankId,
+      ),
   });
 
   // this will close from the parent 1- the main side menu, 2- the notifications dropdown, 3- expanded button options from the navbar add button
@@ -77,6 +92,9 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
       useNativeDriver: false,
     }).start(() => setIsRankLegendOpen(false));
   };
+
+  const handleOnEndReached = () =>
+    Analytics.logEvent('scrolled_to_bottom_of_leaderboard');
 
   const renderItem = ({ item }) => (
     <StandingsCard member={item} closeAllMenus={closeAllMenus} />
@@ -118,7 +136,10 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
 
           <TouchableOpacity
             style={{ width: 42, alignItems: 'center' }}
-            onPress={isRankLegendOpen ? fadeOut : fadeIn}
+            onPress={() => {
+              isRankLegendOpen ? fadeOut() : fadeIn();
+              !isRankLegendOpen && Analytics.logEvent('opened_rank_legend');
+            }}
           >
             <InfoIcon
               style={{
@@ -157,6 +178,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
               renderItem={renderItem}
               keyExtractor={(item) => item?.associate?.associateId?.toString()}
               onScroll={fadeOut}
+              onEndReached={handleOnEndReached}
             />
           </Flexbox>
         )}
