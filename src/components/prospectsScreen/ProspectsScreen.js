@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as Analytics from 'expo-firebase-analytics';
-import { useIsFocused } from '@react-navigation/native';
 import { useLazyQuery } from '@apollo/client';
 import {
   TouchableWithoutFeedback,
@@ -29,7 +28,6 @@ const ProspectsScreen = ({ navigation, route }) => {
   const { setSubject, setRedirectUrl, setProspectLinkIsNeeded } =
     useContext(ProspectsContext);
   const { sortBy, setSortBy } = useContext(LoginContext);
-  const isFocused = useIsFocused();
 
   const linkTitle = route?.params?.title ?? '';
   const linkUrl = route?.params?.url ?? '';
@@ -42,13 +40,11 @@ const ProspectsScreen = ({ navigation, route }) => {
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isFocused) {
-      Analytics.logEvent('Prospects_Screen_visited', {
-        screen: 'Prospects Screen',
-        purpose: 'User navigated to Prospects Screen',
-      });
-    }
-  }, [isFocused]);
+    Analytics.logEvent('Prospects_Screen_visited', {
+      screen: 'Prospects Screen',
+      purpose: 'User navigated to Prospects Screen',
+    });
+  }, []);
 
   useEffect(() => {
     setSubject(linkTitle);
