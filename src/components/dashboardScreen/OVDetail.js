@@ -45,7 +45,8 @@ const OVDetail = () => {
   const [maxQOV, setMaxQOV] = useState(initialMaxQOV);
 
   useEffect(() => {
-    Analytics.logEvent(`slider_set_to_${rank.rankName}_in_ov_detail`);
+    const formattedName = rank.rankName.split(' ').join('_');
+    Analytics.logEvent(`slider_set_to_${formattedName}_in_ov_detail`);
     if (currentUserRankID >= rank.rankId) {
       setIsQualified(true);
     } else {

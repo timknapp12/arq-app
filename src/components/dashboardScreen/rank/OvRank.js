@@ -101,7 +101,8 @@ const OvRank = () => {
   }, [user, rank]);
 
   useEffect(() => {
-    Analytics.logEvent(`slider_set_to_${rank.rankName}_in_ov_rank`);
+    const formattedName = rank.rankName.split(' ').join('_');
+    Analytics.logEvent(`slider_set_to_${formattedName}_in_ov_rank`);
     calculateQovThisMonth();
     calculateQovLastMonth();
   }, [rank]);

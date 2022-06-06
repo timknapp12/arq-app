@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
+import * as Analytics from 'expo-firebase-analytics';
 import PieChart from './PieChart';
 import CardForAtAGlance from './CardForAtAGlance';
 import { Gap, H4Black } from '../../common';
@@ -44,6 +45,12 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
     setCategories(reshapedCategories);
     setSelectedCategory(reshapedCategories?.[0]);
   }, []);
+
+  useEffect(() => {
+    if (!selectedCategory.title) return;
+    const formattedTitle = selectedCategory.title.split(' ').join('_');
+    Analytics.logEvent(`${formattedTitle}_viewed_at_a_glance`);
+  }, [selectedCategory]);
 
   return (
     <View {...props} style={{ width: '100%', padding: 12, maxWidth }}>
