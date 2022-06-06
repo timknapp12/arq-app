@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import { LoadingSpinner, H6 } from '../../common';
 import { GET_USER } from '../../../graphql/queries';
 import VisualTreeBubble from './VisualTreeBubble';
@@ -96,6 +97,7 @@ const VisualTreePaneSection = ({
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
+    Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
   const onDragEnd = () => {
@@ -115,6 +117,7 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
+    Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
   const onDragEndFromBottom = () => {
@@ -132,6 +135,7 @@ const VisualTreePaneSection = ({
     setIsBottomBubbleEnteringOuterCirlce(false);
     setTreeData(null);
     setDroppedMember(null);
+    Analytics.logEvent('visual_tree_bubble_dropped');
   };
 
   const isAValidDropToBottomCirlce =
@@ -331,6 +335,7 @@ const VisualTreePaneSection = ({
             setReloadSameData(true);
             setDroppedMember(payload);
           }
+          Analytics.logEvent('visual_tree_bubble_dropped');
         }}
       >
         {droppedMember && !isOutsideBubbleEntering && (

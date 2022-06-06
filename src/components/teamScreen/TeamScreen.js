@@ -138,6 +138,7 @@ const TeamScreen = ({ navigation }) => {
   const viewInVisualTree = (item) => {
     paneSearchIdMap[selectedVisualTreePane](item?.associate?.legacyAssociateId);
     paneLevelMap[selectedVisualTreePane](item?.depth - 1);
+    Analytics.logEvent('view_downline_in_visual_tree');
     navigation.navigate('Team Screen');
     setView({
       name: Localized('Visual Tree').toUpperCase(),
@@ -146,6 +147,7 @@ const TeamScreen = ({ navigation }) => {
   };
 
   const viewInNewPane = (newPaneNumber, legacyAssociateId, level) => {
+    Analytics.logEvent(`view_in_new_visual_tree_window_${newPaneNumber}`);
     paneSearchIdMap[newPaneNumber](legacyAssociateId);
     paneLevelMap[newPaneNumber](level);
     setSelectedVisualTreePane(newPaneNumber);
@@ -156,6 +158,7 @@ const TeamScreen = ({ navigation }) => {
     setLegacyAssociateId(uplineId);
     setSelectedMemberId(memberId);
     setLevelInTree(level);
+    Analytics.logEvent('view_downline_in_my_team_section');
     navigation.navigate('Team Screen');
     setView({
       name: Localized('My Team').toUpperCase(),
