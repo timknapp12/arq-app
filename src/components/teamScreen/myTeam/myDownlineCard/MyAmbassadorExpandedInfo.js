@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import * as Analytics from 'expo-firebase-analytics';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Flexbox, H6, H6Secondary } from '../../../common';
 import OvRankBarChartContainer from './OvRankBarChartContainer';
@@ -17,6 +18,10 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
   const { closeAllMenus } = useContext(MyTeamViewContext);
 
   const [selectedTab, setSelectedTab] = useState('ovRank');
+
+  useEffect(() => {
+    Analytics.logEvent(`viewed_${selectedTab}_of_downline_amb`);
+  }, [selectedTab]);
 
   return (
     <TouchableWithoutFeedback onPress={closeAllMenus}>

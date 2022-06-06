@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import debounce from 'lodash.debounce';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   ScreenContainer,
   Flexbox,
@@ -56,6 +57,13 @@ const SearchDownlineScreen = ({ route }) => {
     rankName: selectedRank === 'ALL' ? null : selectedRank,
   };
 
+  const logAnalytics = (status, type, rankName) => {
+    const formattedName = rankName.split(' ').join('_');
+    Analytics.logEvent(`fltr_tm_srch_status_${status}`);
+    Analytics.logEvent(`fltr_tm_srch_status_${type}`);
+    Analytics.logEvent(`fltr_tm_srch_status_${formattedName}`);
+  };
+
   const [searchTree, { loading, data, fetchMore, refetch, networkStatus }] =
     useLazyQuery(SEARCH_TREE, {
       onError: (err) => console.log(`err in searchTree:`, err),
@@ -81,6 +89,7 @@ const SearchDownlineScreen = ({ route }) => {
       },
     }));
     setReshapedData(reformattedData);
+    logAnalytics(selectedStatus, selectedType, selectedRank);
     return () => {
       setReshapedData([]);
       setIsFilterModalOpen(false);
