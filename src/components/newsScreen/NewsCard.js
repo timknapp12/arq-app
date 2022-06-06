@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { TouchableOpacity, Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import * as Analytics from 'expo-firebase-analytics';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { H4Black, H6Book } from '../common';
 import AppContext from '../../contexts/AppContext';
@@ -37,7 +38,13 @@ const NewsCard = ({
 
   const [storyHasBeenViewed] = useMutation(NEWS_STORY_HAS_BEEN_VIEWED, {
     variables: { associateId, linkId, linkViewId: 0 },
-    onCompleted: () => refetchNews(),
+    onCompleted: () => {
+      refetchNews();
+      const formattedTitle = title.split(' ').join('_');
+      const shortenedTitle = formattedTitle.slice(0, 21) + '_news_story_viewed';
+      const strippedTitle = shortenedTitle.replace(/\W/g, '');
+      Analytics.logEvent(strippedTitle);
+    },
     onError: (error) => console.log(`error`, error),
   });
 

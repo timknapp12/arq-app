@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { View, TouchableOpacity, Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import * as Analytics from 'expo-firebase-analytics';
 import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
 import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
@@ -37,7 +38,10 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
       <View style={{ width: '100%' }}>
         <TouchableOpacity
           activeOpacity={isMenuOpen ? 1 : 0.2}
-          onPress={onPress}
+          onPress={() => {
+            onPress();
+            Analytics.logEvent('open_link_to_back_office_in_services');
+          }}
         >
           <Card>
             <Row>
@@ -69,7 +73,10 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={isMenuOpen ? 1 : 0.2}
-          onPress={onPress}
+          onPress={() => {
+            onPress();
+            Analytics.logEvent('open_link_to_amb_enrollment_in_services');
+          }}
         >
           <Card>
             <Row>
