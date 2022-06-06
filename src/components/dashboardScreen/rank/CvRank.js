@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
+import * as Analytics from 'expo-firebase-analytics';
 import { H4, H5, Flexbox } from '../../common';
 import { Localized } from '../../../translations/Localized';
 import DoubleDonut from '../DoubleDonut';
@@ -64,6 +65,7 @@ const CVRank = () => {
   };
 
   useEffect(() => {
+    Analytics.logEvent(`slider_set_to_${rank.rankName}_in_cv_rank`);
     const { cv } = user;
     const { minimumQoV } = rank;
     validateQualification(cv, minimumQoV);

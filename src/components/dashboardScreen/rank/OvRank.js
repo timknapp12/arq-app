@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
 import { useLazyQuery } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import { H4, H5, Flexbox } from '../../common';
 import { Localized } from '../../../translations/Localized';
 import DoubleDonut from '../DoubleDonut';
@@ -100,6 +101,7 @@ const OvRank = () => {
   }, [user, rank]);
 
   useEffect(() => {
+    Analytics.logEvent(`slider_set_to_${rank.rankName}_in_ov_rank`);
     calculateQovThisMonth();
     calculateQovLastMonth();
   }, [rank]);

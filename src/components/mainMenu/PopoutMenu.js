@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Animated } from 'react-native';
+import * as Analytics from 'expo-firebase-analytics';
 // using the standard "TouchableOpacity" from react native didn't work on android with buttons inside a position: absolute view
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { H4Book } from '../common';
@@ -45,6 +46,7 @@ const PopoutMenu = ({
           onPress={() => {
             fadeOut();
             setIsMyInfoModalOpen(true);
+            Analytics.logEvent('my_info_modal_opened');
           }}
         >
           <H4Book>{Localized('My Info')}</H4Book>
@@ -56,6 +58,7 @@ const PopoutMenu = ({
           onPress={() => {
             fadeOut();
             setIsSettingsModalOpen(true);
+            Analytics.logEvent('settings_modal_opened');
           }}
         >
           <H4Book>{Localized('Settings')}</H4Book>
@@ -96,6 +99,7 @@ const PopoutMenu = ({
           onPress={async () => {
             await signOutOfFirebase();
             navigation.navigate('Login Screen');
+            Analytics.logEvent('logged_out_from_main_menu');
           }}
         >
           <H4Book>{Localized('Sign Out')}</H4Book>
