@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
 import { Share, Alert } from 'react-native';
+import * as Analytics from 'expo-firebase-analytics';
 import ExpandedProductCard from './ExpandedProductCard';
 import CollapsedProductCard from './CollapsedProductCard';
 import MultiAssetMenu from '../MultiAssetMenu';
@@ -26,7 +27,6 @@ const ProductCard = ({
   setDisableTouchEvent,
   navigation,
   setToastInfo,
-  isFavorite,
   ...props
 }) => {
   const { associateId } = useContext(AppContext);
@@ -199,18 +199,26 @@ const ProductCard = ({
   };
 
   const onAction = async (item) => {
+    const formattedTitle = item?.linkTitle?.split(' ').join('_');
+    const shortenedTitle =
+      formattedTitle.slice(0, 21) + `_${item?.contentType}`;
+    const strippedTitle = shortenedTitle.replace(/\W/g, '');
     setIsMultiAssetMenuOpen(false);
     setIsCalloutOpenFromParent(false);
     if (multiAssetMenuTitle === Localized('Share')) {
+      Analytics.logEvent(`share_${strippedTitle}`);
       return shareSingleUrl(item?.linkUrl);
     }
     if (multiAssetMenuTitle === Localized('Download')) {
+      Analytics.logEvent(`dwnld_${strippedTitle}`);
       return downloadSingleItem(item);
     }
     if (multiAssetMenuTitle === Localized('Send to Prospect')) {
+      Analytics.logEvent(`2prspct_${strippedTitle}`);
       return sendSingleItem(item);
     }
     if (multiAssetMenuTitle === Localized('Lead Capture')) {
+      Analytics.logEvent(`lead_cap_${strippedTitle}`);
       return onLeadCaptureSingleUrl(item?.linkUrl);
     }
   };
@@ -225,7 +233,6 @@ const ProductCard = ({
           setIsExpanded={setIsExpanded}
           description={description}
           navigation={navigation}
-          isFavorite={isFavorite}
           assetList={assetList}
           onShare={onShare}
           onDownload={onDownload}
@@ -274,7 +281,6 @@ ProductCard.propTypes = {
   setIsCalloutOpenFromParent: PropTypes.func,
   setDisableTouchEvent: PropTypes.func,
   index: PropTypes.number,
-  isFavorite: PropTypes.bool,
 };
 
 export default ProductCard;

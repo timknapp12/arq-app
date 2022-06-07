@@ -2,9 +2,6 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
-// TODO put heart icons back when we have backend support
-// import HeartFillIcon from '../../../../assets/icons/heart-fill-icon.svg';
-// import HeartOutlineIcon from '../../../../assets/icons/heart-outline-icon.svg';
 import DownloadIcon from '../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
@@ -19,7 +16,6 @@ const Container = styled.View`
 `;
 
 const IconRow = ({
-  // isFavorite,
   isOwner,
   contentType,
   onShare,
@@ -50,19 +46,6 @@ const IconRow = ({
           </TouchableOpacity>
         </>
       )}
-      {/* {isFavorite ? (
-        <TouchableOpacity onPress={() => {}}>
-          <HeartFillIcon
-            style={iconStyle}
-          />
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity onPress={() => {}}>
-          <HeartOutlineIcon
-            style={iconStyle}
-          />
-        </TouchableOpacity>
-      )} */}
       {contentType !== 'video' && contentType !== 'podcast' && (
         <TouchableOpacity onPress={onDownload}>
           <DownloadIcon style={iconStyle} />
@@ -82,7 +65,6 @@ const IconRow = ({
 };
 
 IconRow.propTypes = {
-  isFavorite: PropTypes.bool,
   isOwner: PropTypes.bool,
   contentType: PropTypes.string,
   onShare: PropTypes.func,

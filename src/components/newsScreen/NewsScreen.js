@@ -62,6 +62,7 @@ const NewsScreen = ({ navigation }) => {
     if (selectedMarket && markets) {
       setMarketUrl(findMarketUrl(selectedMarket, markets));
       setMarketId(findMarketId(selectedMarket, markets));
+      Analytics.logEvent(`view_news_in_market_${selectedMarket}`);
     }
   }, [selectedMarket, markets]);
 

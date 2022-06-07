@@ -38,7 +38,6 @@ const AssetCard = ({
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   navigation,
-  isFavorite,
   folderId,
   isOwner,
   setToastInfo,
@@ -330,7 +329,6 @@ const AssetCard = ({
         </InnerContainer>
         {isExpanded && (
           <IconRow
-            isFavorite={isFavorite}
             contentType={contentType}
             isOwner={isOwner}
             onShare={onShare}
@@ -346,8 +344,6 @@ const AssetCard = ({
         <CalloutMenu
           url={url}
           title={title}
-          isFavorite={isFavorite}
-          setIsFavorite={() => {}}
           contentType={contentType}
           isOwner={isOwner}
           onShare={onShare}
@@ -404,7 +400,6 @@ AssetCard.propTypes = {
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
-  isFavorite: PropTypes.bool,
   folderId: PropTypes.number,
   isOwner: PropTypes.bool,
   setToastInfo: PropTypes.func,
