@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation, useQuery } from '@apollo/client';
 import { Dimensions, Animated, Easing, Alert } from 'react-native';
+import * as Analytics from 'expo-firebase-analytics';
 import TabButtonContext from '../contexts/TabButtonContext';
 import AccessCodeModal from '../components/resourcesScreen/teamView/AccessCodeModal';
 import AddContactModal from '../components/prospectsScreen/AddContactModal';
@@ -146,6 +147,7 @@ const TabButtonDataContainer = ({ children }) => {
       refetchUserAccessCodes();
       setTeamName('');
       setAccessCode('');
+      Analytics.logEvent('add_team_access_from_anim_button');
       return setIsAccessCodeModalOpen(false);
     },
     onError: () => setIsError(true),
@@ -220,12 +222,14 @@ const TabButtonDataContainer = ({ children }) => {
   };
 
   const handleAddProspect = () => {
+    Analytics.logEvent('go_to_prospects_from_anim_button');
     setIsAddContactModalOpen(true);
     closeAddOptions();
   };
 
   const handleAddFolder = () => {
     if (alreadyHasTeam) {
+      Analytics.logEvent('add_team_folder_from_anim_button');
       setIsAddFolderModalOpen(true);
       closeAddOptions();
     } else {
@@ -236,6 +240,7 @@ const TabButtonDataContainer = ({ children }) => {
 
   const handleAddAsset = () => {
     if (alreadyHasTeam) {
+      Analytics.logEvent('add_team_resource_from_anim_button');
       setIsUploadAssetModalOpen(true);
       closeAddOptions();
     } else {

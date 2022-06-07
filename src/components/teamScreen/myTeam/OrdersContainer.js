@@ -52,7 +52,7 @@ const OrdersContainer = ({ member, level = 0 }) => {
       level,
       viewType: 'orderHistory',
     });
-    Analytics.logEvent(`viewed_entire_order_history_of_team_member`);
+    Analytics.logEvent(`view_entire_ordr_hstry_of_team_member`);
   };
 
   if (loading) {

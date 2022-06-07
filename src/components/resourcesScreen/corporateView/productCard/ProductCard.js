@@ -214,7 +214,7 @@ const ProductCard = ({
       return downloadSingleItem(item);
     }
     if (multiAssetMenuTitle === Localized('Send to Prospect')) {
-      Analytics.logEvent(`2prspct_${strippedTitle}`);
+      Analytics.logEvent(`s2prsct_${strippedTitle}`);
       return sendSingleItem(item);
     }
     if (multiAssetMenuTitle === Localized('Lead Capture')) {

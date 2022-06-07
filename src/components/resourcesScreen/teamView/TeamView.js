@@ -166,6 +166,7 @@ const TeamView = ({
       { query: GET_USERS_ACCESS_CODES, variables: { associateId } },
     ],
     onCompleted: async () => {
+      Analytics.logEvent('add_team_access_code_from_team_menu');
       await storeTeamName(teamName);
       setTeamName('');
       setAccessCode('');
@@ -225,6 +226,7 @@ const TeamView = ({
 
   const goToSearch = () => {
     closeMenus();
+    Analytics.logEvent('Search_for_team_resource');
     navigation.navigate('Team Search Screen', {
       title: selectedTeamName.toUpperCase(),
       selectedTeamName,

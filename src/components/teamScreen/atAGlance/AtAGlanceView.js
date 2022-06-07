@@ -49,7 +49,7 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
   useEffect(() => {
     if (!selectedCategory.title) return;
     const formattedTitle = selectedCategory.title.split(' ').join('_');
-    Analytics.logEvent(`${formattedTitle}_viewed_at_a_glance`);
+    Analytics.logEvent(`${formattedTitle}_viewd_at_a_glnc`);
   }, [selectedCategory]);
 
   return (
