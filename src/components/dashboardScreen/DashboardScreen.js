@@ -31,7 +31,7 @@ const DashboardScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
-      Analytics.logEvent('Dashboard_Screen_Visited', {
+      Analytics.logEvent('Dashboard_Screen_visited', {
         screen: 'Dashboard Screen',
         purpose: 'User navigated to Dashboard Screen',
       });

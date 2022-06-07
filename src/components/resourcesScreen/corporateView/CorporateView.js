@@ -54,6 +54,10 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
       },
       onError: (error) =>
         console.log(`error in get corporate resources`, error),
+      onCompleted: () =>
+        Analytics.logEvent(
+          `view_corp_res_market_${selectedMarket}_in_lang_${selectedLanguage}`,
+        ),
     },
   );
 
@@ -115,6 +119,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
 
   const goToSearch = () => {
     closeMenus();
+    Analytics.logEvent('Search_corp_resources_button_tapped');
     navigation.navigate('Corporate Search Screen', {
       marketId: marketId,
     });

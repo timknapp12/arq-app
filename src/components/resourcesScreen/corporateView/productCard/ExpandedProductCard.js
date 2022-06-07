@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, Alert } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import * as Analytics from 'expo-firebase-analytics';
 import { H5, H6Secondary } from '../../../common';
 import PdfIcon from '../../../../../assets/icons/pdf-icon.svg';
 import VideoIcon from '../../../../../assets/icons/video-icon.svg';
@@ -51,6 +52,13 @@ const ExpandedProductCard = ({
     if (asset?.linkUrl?.length < 1) {
       return Alert.alert(Localized('Item not found'));
     }
+    const formattedTitle = asset?.linkTitle?.split(' ').join('_');
+    const shortenedTitle =
+      formattedTitle.slice(0, 26) + `${asset?.contentType}_opened`;
+    // analytics have to be 1-40 char AND this regex takes out special characters like "&"
+    const strippedTitle = shortenedTitle.replace(/\W/g, '');
+    Analytics.logEvent(strippedTitle);
+
     if (asset.contentType === 'pdf' || asset.contentType === 'image') {
       navigation.navigate('Resources Asset Screen', {
         title: asset.linkTitle.toUpperCase(),
@@ -197,7 +205,6 @@ ExpandedProductCard.propTypes = {
   navigation: PropTypes.object,
   isExpanded: PropTypes.bool,
   setIsExpanded: PropTypes.func,
-  isFavorite: PropTypes.bool,
   assetList: PropTypes.array,
   onDownload: PropTypes.func,
   onShare: PropTypes.func,

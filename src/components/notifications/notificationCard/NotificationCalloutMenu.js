@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
+import * as Analytics from 'expo-firebase-analytics';
 import { H4Book } from '../../common';
 import TrashCanIcon from '../../../../assets/icons/TrashCanIcon.svg';
 import PinIcon from '../../../../assets/icons/pin-icon.svg';
@@ -48,13 +49,25 @@ const NotificationCalloutMenu = ({
   };
   return (
     <Container cardHeight={cardHeight} {...props}>
-      <CalloutButton onPress={onRemove}>
+      <CalloutButton
+        onPress={() => {
+          onRemove();
+          Analytics.logEvent('Remove_notification_from_dropdown');
+        }}
+      >
         <Row>
           <TrashCanIcon style={iconStyle} />
-          <H4Book>{Localized('Clear')}</H4Book>
+          <H4Book>{Localized('Remove')}</H4Book>
         </Row>
       </CalloutButton>
-      <CalloutButton onPress={handlePin}>
+      <CalloutButton
+        onPress={() => {
+          handlePin();
+          Analytics.logEvent(
+            `${isSaved ? 'Unpin' : 'Pin'}_notification_from_dropdown`,
+          );
+        }}
+      >
         {isSaved ? (
           <Row>
             <UnpinIcon style={iconStyle} />
@@ -67,7 +80,12 @@ const NotificationCalloutMenu = ({
           </Row>
         )}
       </CalloutButton>
-      <CalloutButton onPress={onViewProspect}>
+      <CalloutButton
+        onPress={() => {
+          onViewProspect();
+          Analytics.logEvent('View_prospect_from_dropdown');
+        }}
+      >
         <Row>
           <ViewProspectIcon style={iconStyle} />
           <H4Book>{Localized('View Prospect')}</H4Book>

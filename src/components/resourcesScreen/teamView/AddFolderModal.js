@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   Image,
   TouchableOpacity,
@@ -134,6 +135,7 @@ const AddFolderModal = ({
     onCompleted: () => {
       setIsLoading(false);
       onClose();
+      Analytics.logEvent('add_or_update_team_folder');
     },
     onError: (error) => {
       setIsLoading(false);

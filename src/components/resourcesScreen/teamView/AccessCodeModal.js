@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Keyboard, View, Alert } from 'react-native';
 import { useMutation } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import EditModal from '../../editModal/EditModal';
 import { Input, H5Black, H5Secondary, AlertText } from '../../common';
 import { Localized } from '../../../translations/Localized';
@@ -35,6 +36,8 @@ const AccessCodeModal = ({
       { query: GET_USERS_ACCESS_CODES, variables: { associateId } },
     ],
     onCompleted: async (data) => {
+      Analytics.logEvent('created_new_team');
+
       if (data.newTeamAccess === false) {
         return setIsError(true);
       } else {

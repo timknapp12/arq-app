@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
+import * as Analytics from 'expo-firebase-analytics';
 import { H4, Flexbox, QualifiedIcon, NotQualifiedIcon } from '../common';
 import { Localized } from '../../translations/Localized';
 import Slider from './Slider';
@@ -44,6 +45,8 @@ const OVDetail = () => {
   const [maxQOV, setMaxQOV] = useState(initialMaxQOV);
 
   useEffect(() => {
+    const formattedName = rank.rankName.split(' ').join('_');
+    Analytics.logEvent(`slider_set_to_${formattedName}_in_ov_detail`);
     if (currentUserRankID >= rank.rankId) {
       setIsQualified(true);
     } else {

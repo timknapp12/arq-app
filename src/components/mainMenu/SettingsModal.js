@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -87,6 +88,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
 
   const navigation = useNavigation();
   const signOut = () => {
+    Analytics.logEvent('Sign_out_in_settings_tapped');
     signOutOfFirebase();
     navigation.navigate('Login Screen');
   };
@@ -127,6 +129,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   const onSubmit = () => {
     onSaveDefaultMarket();
     setIsSettingsModalOpen(false);
+    Analytics.logEvent(`Save_default_market_id_${defaultCountryId}`);
   };
 
   return (

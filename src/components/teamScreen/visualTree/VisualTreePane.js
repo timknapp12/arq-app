@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import { Flexbox, LoadingSpinner, H5 } from '../../common';
 import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
@@ -100,6 +101,7 @@ const VisualTreePane = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setActiveBubbleMember({ ...item, level });
     closeMenus();
+    Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
   const onDragEnd = () => {
@@ -116,6 +118,7 @@ const VisualTreePane = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setActiveBubbleMember({ ...item, level });
     closeMenus();
+    Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
   const onDragEndFocused = () => {
@@ -226,9 +229,10 @@ const VisualTreePane = ({
                 onReceiveDragExit={() => {
                   setIsOutsideBubbleEntering(false);
                 }}
-                onReceiveDragDrop={({ dragged: { payload } }) =>
-                  onReceiveDragDrop(payload)
-                }
+                onReceiveDragDrop={({ dragged: { payload } }) => {
+                  onReceiveDragDrop(payload);
+                  Analytics.logEvent('visual_tree_bubble_dropped');
+                }}
               >
                 {focusedMember && !isOutsideBubbleEntering && (
                   <VisualTreeBubble

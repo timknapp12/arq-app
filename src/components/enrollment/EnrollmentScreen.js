@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, Share } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import QRCode from 'react-native-qrcode-svg';
 import { useNavigation } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   ScreenContainer,
   SecondaryButton,
@@ -24,6 +25,13 @@ const EnrollmentScreen = ({ route }) => {
     `=`,
   )}${slug}${encodeURIComponent(`&type=`)}${selectedOption}`;
 
+  useEffect(() => {
+    Analytics.logEvent('Enrollment_Screen_visited', {
+      screen: 'Enrollment Screen',
+      purpose: 'User navigated to Enrollment Screen',
+    });
+  }, []);
+
   const title =
     selectedOption === 'pc'
       ? Localized('Preferred Customer Enrollment')
@@ -31,6 +39,7 @@ const EnrollmentScreen = ({ route }) => {
 
   const navigation = useNavigation();
   const onSend = () => {
+    Analytics.logEvent(`send_${selectedOption}_enrollment_link_to_prospect`);
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Screen',
       params: {
@@ -89,7 +98,14 @@ const EnrollmentScreen = ({ route }) => {
               'Open the enrollment form in Shop Q so you can help your prospect enroll',
             )}:`}
           >
-            <SecondaryButton onPress={() => WebBrowser.openBrowserAsync(url)}>
+            <SecondaryButton
+              onPress={() => {
+                WebBrowser.openBrowserAsync(url);
+                Analytics.logEvent(
+                  `Open_${selectedOption}_enrollment_link_in_shopQ`,
+                );
+              }}
+            >
               {Localized('Open in Shop Q').toUpperCase()}
             </SecondaryButton>
           </EnrollmentScreenCard>
@@ -98,7 +114,14 @@ const EnrollmentScreen = ({ route }) => {
               'Share the link with a prospect via text message',
             )}:`}
           >
-            <SecondaryButton onPress={() => Share.share({ message: url })}>
+            <SecondaryButton
+              onPress={() => {
+                Share.share({ message: url });
+                Analytics.logEvent(
+                  `Share_${selectedOption}_enrollment_link_button_tapped`,
+                );
+              }}
+            >
               {Localized('Share Link').toUpperCase()}
             </SecondaryButton>
           </EnrollmentScreenCard>

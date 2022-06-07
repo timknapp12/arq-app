@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { TouchableOpacity, Platform } from 'react-native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
+import * as Analytics from 'expo-firebase-analytics';
 import { H4Book } from '../../common';
 import EditIcon from '../../../../assets/icons/edit-icon.svg';
 import RemoveIcon from '../../../../assets/icons/remove-icon.svg';
@@ -50,20 +51,35 @@ const ContactCalloutMenu = ({
 
   return (
     <Container {...props}>
-      <CalloutButton onPress={onEdit}>
+      <CalloutButton
+        onPress={() => {
+          onEdit();
+          Analytics.logEvent('Edit_prospect_from_dropdown');
+        }}
+      >
         <Row>
           <EditIcon style={iconStyle} />
           <H4Book>{Localized('Edit')}</H4Book>
         </Row>
       </CalloutButton>
-      <CalloutButton onPress={onRemove}>
+      <CalloutButton
+        onPress={() => {
+          onRemove();
+          Analytics.logEvent('Remove_prospect_from_dropdown');
+        }}
+      >
         <Row>
           <RemoveIcon style={iconStyle} />
           <H4Book>{Localized('Remove')}</H4Book>
         </Row>
       </CalloutButton>
       {emailAddress.length > 0 ? (
-        <CalloutButton onPress={sendEmail}>
+        <CalloutButton
+          onPress={() => {
+            sendEmail();
+            Analytics.logEvent('Email_prospect_from_dropdown');
+          }}
+        >
           <Row>
             <EmailIcon style={iconStyle} />
             <H4Book>{Localized('Email')}</H4Book>
@@ -71,7 +87,12 @@ const ContactCalloutMenu = ({
         </CalloutButton>
       ) : null}
       {primaryPhone.length > 0 ? (
-        <CalloutButton onPress={sendText}>
+        <CalloutButton
+          onPress={() => {
+            sendText();
+            Analytics.logEvent('SMS_message_prospect_from_dropdown');
+          }}
+        >
           <Row>
             <MessageIcon style={iconStyle} />
             <H4Book>{Localized('Text Message')}</H4Book>

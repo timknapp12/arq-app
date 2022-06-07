@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import { Flexbox, H5, TeamIcon } from '../../common';
 import {
   RoundButtonContainer,
@@ -33,6 +34,7 @@ const VisualTreeSearchBar = ({
 
   const navigation = useNavigation();
   const navigateToSearchScreen = () => {
+    Analytics.logEvent('search_in_visual_tree');
     navigation.navigate('Search Visual Tree Screen', {
       title: Localized('Search My Team'),
       viewInVisualTree,

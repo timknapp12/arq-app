@@ -131,7 +131,6 @@ const CorporateSearchScreen = ({ route, navigation }) => {
                           setDisableTouchEvent={setDisableTouchEvent}
                           navigation={navigation}
                           setToastInfo={setToastInfo}
-                          isFavorite={false}
                           assetList={item?.links}
                         />
                       ),

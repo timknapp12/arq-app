@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import { Flexbox, H4 } from '../../common';
 import FilterOrgMenu from './FilterOrgMenu';
 import FilterSearchBar from '../../filterSearchBar/FilterSearchBar';
@@ -32,6 +33,7 @@ const MyTeamView = () => {
   const [currentMembersUplineId, setCurrentMembersUplineId] = useState(null);
 
   useEffect(() => {
+    Analytics.logEvent(`filter_my_team_by_${sortBy}`);
     if (levelInTree === 0) {
       const header =
         sortBy === 'AMBASSADOR'
@@ -93,13 +95,14 @@ const MyTeamView = () => {
           style={{ zIndex: -1 }}
         >
           <FilterSearchBar
-            onPress={() =>
+            onPress={() => {
               navigation.navigate('Search Downline Screen', {
                 title: Localized('Search My Team'),
                 viewInVisualTree,
                 viewInMyTeamView,
-              })
-            }
+              });
+              Analytics.logEvent('search_in_my_team');
+            }}
           >
             <TouchableOpacity
               onPress={isFilterMenuOpen ? closeFilterMenu : openFilterMenu}
@@ -128,7 +131,6 @@ const MyTeamView = () => {
               />
             </Flexbox>
           )}
-
           <MyTeamList />
         </Flexbox>
       </TouchableWithoutFeedback>

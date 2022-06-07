@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as Analytics from 'expo-firebase-analytics';
 import { H4, H6Secondary, Flexbox } from '../common';
 import CustomSlider from './CustomSlider';
 import RankQualificationsModal from './RankQualificationsModal';
@@ -60,7 +61,10 @@ const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
                 alignItems: 'flex-end',
                 justifyContent: 'center',
               }}
-              onPress={() => setIsRankQualificationsModalOpen(true)}
+              onPress={() => {
+                setIsRankQualificationsModalOpen(true);
+                Analytics.logEvent('rank_qualifications_modal_opened');
+              }}
             >
               <H6Secondary style={{ marginEnd: 8 }}>
                 {isQualified

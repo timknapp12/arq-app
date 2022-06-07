@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client';
 import { TouchableOpacity, Share, Alert, Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
+import * as Analytics from 'expo-firebase-analytics';
 import KebobIcon from '../../../../assets/icons/kebob-icon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../contexts/AppContext';
@@ -38,7 +39,6 @@ const AssetCard = ({
   isCalloutOpenFromParent,
   setIsCalloutOpenFromParent,
   navigation,
-  isFavorite,
   folderId,
   isOwner,
   setToastInfo,
@@ -56,8 +56,11 @@ const AssetCard = ({
   const [isCalloutOpen, setIsCalloutOpen] = useState(false);
   const [isUploadAssetModalOpen, setIsUploadAssetModalOpen] = useState(false);
 
+  const analyticsName = title.split(' ').join('').slice(0, 23) + contentType;
+
   const onDownload = async () => {
     const filename = `${title.split(' ').join('')}.${ext ?? ''}`;
+    Analytics.logEvent(`dwnld_${analyticsName}`);
     try {
       await downloadFile(url, filename, contentType, setToastInfo);
     } catch (error) {
@@ -103,6 +106,7 @@ const AssetCard = ({
   };
 
   const onShare = async () => {
+    Analytics.logEvent(`share_${analyticsName}`);
     try {
       const result = await Share.share({
         message: url,
@@ -129,7 +133,8 @@ const AssetCard = ({
     onError: (error) => console.log(`error in delete asset`, error),
   });
 
-  const onRemove = () =>
+  const onRemove = () => {
+    Analytics.logEvent(`remove_${analyticsName}`);
     Alert.alert(
       `${Localized('Remove')} "${title}"?`,
       Localized(
@@ -152,6 +157,7 @@ const AssetCard = ({
       ],
       { cancelable: false },
     );
+  };
 
   const openAsset = () => {
     // when a callout menu item on android is tapped, the touch event bleeds through to the item underneath, causing unwanted events to fire. So this prevents that
@@ -164,6 +170,7 @@ const AssetCard = ({
     if (url?.length < 1) {
       return Alert.alert(Localized('Item not found'));
     }
+    Analytics.logEvent(`opened_${analyticsName}`);
     if (contentType === 'pdf' || contentType === 'image') {
       navigation.navigate('Resources Asset Screen', {
         title: title.toUpperCase(),
@@ -176,6 +183,7 @@ const AssetCard = ({
   };
 
   const onSend = () => {
+    Analytics.logEvent(`snd2prsct_${analyticsName}`);
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Screen',
       params: {
@@ -200,6 +208,7 @@ const AssetCard = ({
     variables: variables,
     onError: (error) => console.log(`error in get prospect url`, error),
     onCompleted: async (data) => {
+      Analytics.logEvent(`lead_cap_${analyticsName}`);
       try {
         const result = await Share.share({
           message: data?.addUpdateProspectLink?.prospectUrl,
@@ -330,15 +339,32 @@ const AssetCard = ({
         </InnerContainer>
         {isExpanded && (
           <IconRow
-            isFavorite={isFavorite}
             contentType={contentType}
             isOwner={isOwner}
-            onShare={onShare}
-            onDownload={onDownload}
-            onEdit={() => setIsUploadAssetModalOpen(true)}
-            onRemove={onRemove}
-            onSend={onSend}
-            onLeadCapture={onLeadCapture}
+            onShare={() => {
+              onShare();
+              Analytics.logEvent('share_resource_in_asset_card');
+            }}
+            onDownload={() => {
+              onDownload();
+              Analytics.logEvent('download_resource_in_asset_card');
+            }}
+            onEdit={() => {
+              setIsUploadAssetModalOpen(true);
+              Analytics.logEvent('edit_resource_in_asset_card');
+            }}
+            onRemove={() => {
+              onRemove();
+              Analytics.logEvent('remove_resource_in_asset_card');
+            }}
+            onSend={() => {
+              onSend();
+              Analytics.logEvent('snd2prsct_resource_in_asset_card');
+            }}
+            onLeadCapture={() => {
+              onLeadCapture();
+              Analytics.logEvent('lead_cap_resource_in_asset_card');
+            }}
           />
         )}
       </OuterContainer>
@@ -346,17 +372,33 @@ const AssetCard = ({
         <CalloutMenu
           url={url}
           title={title}
-          isFavorite={isFavorite}
-          setIsFavorite={() => {}}
           contentType={contentType}
           isOwner={isOwner}
-          onShare={onShare}
-          onDownload={onDownload}
+          onShare={() => {
+            onShare();
+            Analytics.logEvent('share_resource_in_drpdwn_menu');
+          }}
+          onDownload={() => {
+            onDownload();
+            Analytics.logEvent('download_resource_in_drpdwn_menu');
+          }}
           closeCallout={closeCallout}
-          onEdit={() => setIsUploadAssetModalOpen(true)}
-          onRemove={onRemove}
-          onSend={onSend}
-          onLeadCapture={onLeadCapture}
+          onEdit={() => {
+            setIsUploadAssetModalOpen(true);
+            Analytics.logEvent('edit_resource_in_drpdwn_menu');
+          }}
+          onRemove={() => {
+            onRemove();
+            Analytics.logEvent('remove_resource_in_drpdwn_menu');
+          }}
+          onSend={() => {
+            onSend();
+            Analytics.logEvent('snd2prsct_resource_in_drpdwn_menu');
+          }}
+          onLeadCapture={() => {
+            onLeadCapture();
+            Analytics.logEvent('lead_cap_resource_in_drpdwn_menu');
+          }}
         />
       )}
       {isUploadAssetModalOpen && (
@@ -404,7 +446,6 @@ AssetCard.propTypes = {
   /* callout from parent is so that tapping anywhere on the screen will close the callout */
   isCalloutOpenFromParent: PropTypes.bool,
   setIsCalloutOpenFromParent: PropTypes.func,
-  isFavorite: PropTypes.bool,
   folderId: PropTypes.number,
   isOwner: PropTypes.bool,
   setToastInfo: PropTypes.func,

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import * as Analytics from 'expo-firebase-analytics';
 import MyAmbassadorExpandedInfo from './MyAmbassadorExpandedInfo';
 import { CardContainer } from '../myTeamCard.styles';
 import SwipeableZoom from '../SwipeableZoom';
@@ -36,6 +37,7 @@ const MyDownlineCard = React.memo(
     const zoomIn = () => {
       setLegacyAssociateId(legacyAssociateId);
       setLevelInTree(level + 1);
+      Analytics.logEvent(`zoom_in_my_team_to_level_${level}`);
     };
 
     const uplineLegacyId = nested
@@ -47,6 +49,7 @@ const MyDownlineCard = React.memo(
     const zoomOut = () => {
       setLegacyAssociateId(uplineLegacyId);
       setLevelInTree(levelToIncrementOnZoomOut);
+      Analytics.logEvent(`zoom_out_my_team_to_level_${level}`);
     };
 
     const ExpandedInfo = ({ ...props }) =>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
+import * as Analytics from 'expo-firebase-analytics';
 import { TouchableOpacity, Alert, Keyboard, View } from 'react-native';
 import {
   Flexbox,
@@ -176,6 +177,7 @@ const UploadAssetModal = ({
     onCompleted: () => {
       setIsLoading(false);
       onClose();
+      Analytics.logEvent('added_team_resource');
     },
     onError: (error) => {
       setIsLoading(false);

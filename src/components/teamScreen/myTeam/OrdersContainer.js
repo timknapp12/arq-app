@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@apollo/client';
+import * as Analytics from 'expo-firebase-analytics';
 import { Flexbox, H6Secondary, Link, LoadingSpinner } from '../../common';
 import AutoshipIcon from '../../../../assets/icons/AutoshipIcon.svg';
 import MyTeamViewContext from '../../../contexts/MyTeamViewContext';
@@ -44,13 +45,15 @@ const OrdersContainer = ({ member, level = 0 }) => {
   }, [data]);
 
   const navigation = useNavigation();
-  const navigateToOrderHistory = () =>
+  const navigateToOrderHistory = () => {
     navigation.navigate('My Team Details Screen', {
       title: Localized('Order History'),
       member,
       level,
       viewType: 'orderHistory',
     });
+    Analytics.logEvent(`view_entire_ordr_hstry_of_team_member`);
+  };
 
   if (loading) {
     return <LoadingSpinner />;
