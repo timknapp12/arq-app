@@ -29,7 +29,6 @@ export const InnerContainer = styled.TouchableOpacity`
 export const TitleAndDateContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  flex: 1;
 `;
 
 export const IconColumn = styled.View`

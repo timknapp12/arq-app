@@ -34,20 +34,26 @@ const SwipeableNotification = ({
 }) => {
   const { theme, associateId } = useContext(AppContext);
 
-  const { viewId, isSaved } = data;
+  const { viewId, isSaved, isReadByAssociate } = data;
+  const [isReadYet, setIsReadYet] = useState(isReadByAssociate);
 
   const [notificationHasBeenViewed] = useMutation(
     PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED,
     {
       variables: { viewId },
+      refetchQueries: [
+        { query: GET_PROSPECT_NOTIFICATIONS, variables: { associateId } },
+      ],
       onError: (error) =>
         console.log(`error in prospect notification hs been viewed`, error),
     },
   );
 
-  useEffect(() => {
+  const markAsRead = () => {
+    if (isReadByAssociate) return;
     notificationHasBeenViewed();
-  }, []);
+    setIsReadYet(true);
+  };
 
   const [onRemove] = useMutation(CLEAR_PROSPECT_NOTIFICATION, {
     variables: { viewId },
@@ -120,6 +126,7 @@ const SwipeableNotification = ({
           onPress={() => {
             onViewProspect();
             Analytics.logEvent('View_prospect_from_swipe');
+            markAsRead();
           }}
         >
           <Animated.View style={[transformStyle]}>
@@ -134,6 +141,7 @@ const SwipeableNotification = ({
           onPress={() => {
             onRemove();
             Analytics.logEvent('Remove_notification_from_swipe');
+            markAsRead();
           }}
         >
           <Animated.View style={[transformStyle]}>
@@ -161,6 +169,7 @@ const SwipeableNotification = ({
             Analytics.logEvent(
               `${isSaved ? 'Unpin' : 'Pin'}_notification_from_swipe`,
             );
+            markAsRead();
           }}
         >
           <Animated.View style={[transformStyle]}>
@@ -187,6 +196,7 @@ const SwipeableNotification = ({
         renderLeftActions={RenderLeft}
       >
         <NotificationCard
+          isReadYet={isReadYet}
           data={data}
           idOfExpandedCard={idOfExpandedCard}
           setIdOfExpandedCard={setIdOfExpandedCard}
@@ -195,6 +205,7 @@ const SwipeableNotification = ({
           onRemove={onRemove}
           handlePin={handlePin}
           onViewProspect={onViewProspect}
+          markAsRead={markAsRead}
         />
       </Swipeable>
       {isCalloutOpen && (

@@ -18,11 +18,8 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
   const { theme } = useContext(AppContext);
   const { closeAddOptions } = useContext(TabButtonContext);
 
-  const {
-    userProfile = { profileUrl: '' },
-    prospectNotificationCount,
-    setProspectNotificationCount,
-  } = useContext(LoginContext);
+  const { userProfile = { profileUrl: '' }, prospectNotificationCount } =
+    useContext(LoginContext);
 
   const [isImageValid, setIsImageValid] = useState(true);
   const [url, setUrl] = useState(userProfile?.profileUrl ?? '');
@@ -83,7 +80,6 @@ const MainHeader = ({ fadeIn = () => {}, fadeOut = () => {}, isMenuOpen }) => {
           onPress={() => {
             navigation.navigate('Notifications Screen');
             fadeOut();
-            setProspectNotificationCount(0);
             closeAddOptions();
           }}
         >
