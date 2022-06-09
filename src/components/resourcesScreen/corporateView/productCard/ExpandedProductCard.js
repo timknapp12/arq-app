@@ -112,7 +112,7 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   onPress={() => openAsset(asset)}
-                  key={asset.linkId}
+                  key={asset?.linkId}
                 >
                   <PdfIcon
                     style={{
@@ -128,7 +128,7 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   onPress={() => openAsset(asset)}
-                  key={asset.linkId}
+                  key={asset?.linkId}
                 >
                   <VideoIcon
                     style={{
@@ -144,7 +144,7 @@ const ExpandedProductCard = ({
               return (
                 <TouchableOpacity
                   onPress={() => openAsset(asset)}
-                  key={asset.linkId}
+                  key={asset?.linkId}
                 >
                   <PodcastIcon
                     style={{
@@ -159,7 +159,7 @@ const ExpandedProductCard = ({
             if (asset.contentType === 'image') {
               return (
                 <TouchableOpacity
-                  key={asset.linkId}
+                  key={asset?.linkId}
                   onPress={() => openAsset(asset)}
                 >
                   <ImageIcon

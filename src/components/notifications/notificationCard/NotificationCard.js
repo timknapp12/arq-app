@@ -22,6 +22,7 @@ import {
 import { Localized } from '../../../translations/Localized';
 
 const NotificationCard = ({
+  isReadYet,
   data,
   idOfExpandedCard,
   setIdOfExpandedCard,
@@ -29,20 +30,20 @@ const NotificationCard = ({
   onRemove,
   handlePin,
   onViewProspect,
+  markAsRead,
 }) => {
   const { theme, deviceLanguage } = useContext(AppContext);
-
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isReadYet, setIsReadYet] = useState(false);
 
   const { isSaved, prospect, sentLinks } = data;
   const { firstName, lastName } = prospect;
   const { displayName } = sentLinks;
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const formattedDate = getLocalDate(data?.dateViewUtc, deviceLanguage);
 
-  const body =
-    'This is a body of text in a notification. Who knows what will actually be displayed here? Perhaps it will be that the San Diego Padres won the pennant!';
+  // const body =
+  //   'This is a body of text in a notification. Who knows what will actually be displayed here? Perhaps it will be that the San Diego Padres won the pennant!';
 
   const iconStyle = {
     marginEnd: 4,
@@ -54,7 +55,7 @@ const NotificationCard = ({
   const toggleExpand = () => {
     if (Platform.OS === 'android' && idOfExpandedCard !== 0)
       return setIdOfExpandedCard(0);
-    setIsReadYet(true);
+    markAsRead();
     setIsExpanded((state) => !state);
     setIdOfExpandedCard(0);
   };
@@ -73,11 +74,9 @@ const NotificationCard = ({
           ) : null}
         </TitleAndDateContainer>
         {displayName ? (
-          <H6Book
-            style={{ marginTop: !isReadYet ? 0 : isExpanded ? 8 : -22 }}
-          >{`${Localized('Viewed')} ${displayName}`}</H6Book>
+          <H6Book>{`${Localized('Viewed')} ${displayName}`}</H6Book>
         ) : null}
-        {isExpanded ? (
+        {/* {isExpanded ? (
           <H6Book ellipsizeMode="tail" numberOfLines={20} style={{ flex: 1 }}>
             {body}
           </H6Book>
@@ -85,7 +84,7 @@ const NotificationCard = ({
           <H6Book ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
             {body}
           </H6Book>
-        )}
+        )} */}
       </InnerContainer>
       <IconColumn isExpanded={isExpanded}>
         <TouchableOpacity onPress={toggleExpand}>
@@ -96,7 +95,13 @@ const NotificationCard = ({
           />
         </TouchableOpacity>
         {!isExpanded && (
-          <TouchableOpacity style={{ padding: 4 }} onPress={onCallout}>
+          <TouchableOpacity
+            style={{ padding: 4 }}
+            onPress={() => {
+              onCallout();
+              markAsRead();
+            }}
+          >
             <KebobIcon
               style={{
                 height: 20,
@@ -151,6 +156,7 @@ const NotificationCard = ({
 };
 
 NotificationCard.propTypes = {
+  isReadYet: PropTypes.bool.isRequired,
   data: PropTypes.object.isRequired,
   idOfExpandedCard: PropTypes.number.isRequired,
   setIdOfExpandedCard: PropTypes.func.isRequired,
@@ -159,6 +165,7 @@ NotificationCard.propTypes = {
   onRemove: PropTypes.func.isRequired,
   handlePin: PropTypes.func.isRequired,
   onViewProspect: PropTypes.func.isRequired,
+  markAsRead: PropTypes.func.isRequired,
 };
 
 export default NotificationCard;
