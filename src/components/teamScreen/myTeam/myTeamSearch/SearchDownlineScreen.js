@@ -37,7 +37,8 @@ const SearchDownlineScreen = ({ route }) => {
   ]);
 
   const [selectedStatus, setSelectedStatus] = useState('ALL');
-  const [selectedDropdownStatus, setSelectedDropdownStatus] = useState('');
+  const [selectedDropdownStatus, setSelectedDropdownStatus] =
+    useState('DOCU_SIGN_HOLD');
   const [selectedType, setSelectedType] = useState('ALL');
   const [selectedRank, setSelectedRank] = useState('ALL');
 
