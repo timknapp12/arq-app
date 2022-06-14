@@ -379,5 +379,9 @@
   "Count": "Anzahl",
   "Name": "Name",
   "Rank Icons": "Rang-Symbole",
-  "NSFaceIDUsageDescription": "Diese App verwendet optional Face ID oder Touch ID zur Authentifizierung"
+  "NSFaceIDUsageDescription": "Diese App verwendet optional Face ID oder Touch ID zur Authentifizierung",
+  "It looks like there in an issue with your annual subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem Jahresabonnement",
+  "It is either expired or cancelled": "Es ist entweder ausgelaufen oder gekündigt",
+  "Contact support if you need further assistance": "Kontaktieren Sie den Support, wenn Sie weitere Hilfe benötigen",
+  "It looks like there in an issue with your monthly subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem Monatsabonnement"
 }

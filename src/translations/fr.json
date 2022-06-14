@@ -379,5 +379,9 @@
   "Count": "Compte",
   "Name": "Nom",
   "Rank Icons": "Icônes de classement",
-  "NSFaceIDUsageDescription": "Cette application pourrait utiliser Face ID ou Touch ID pour l'authentification"
+  "NSFaceIDUsageDescription": "Cette application pourrait utiliser Face ID ou Touch ID pour l'authentification",
+  "It looks like there in an issue with your annual subscription": "Il semble qu’il y ait un problème avec votre abonnement annuel",
+  "It is either expired or cancelled": "Il est expiré ou annulé",
+  "Contact support if you need further assistance": "Veuillez contacter le département de soutien si vous avez besoin d’assistance",
+  "It looks like there in an issue with your monthly subscription": "Il semble qu’il y ait un problème avec votre abonnement mensuel"
 }
