@@ -28,7 +28,7 @@ export const StandingsContainer = styled.View`
   ${standingsStyle};
   background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
   border-top-left-radius: 5px;
-  height: 60%;
+  height: ${(props) => (props.fullHeight ? '100%' : '60%')};
 `;
 
 export const CountContainer = styled.View`
