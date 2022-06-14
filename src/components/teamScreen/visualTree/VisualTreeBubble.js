@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { H6Secondary, LevelLabel } from '../../common';
+import { H6Secondary } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
 import { LevelIndicator, Bubble } from './visualTree.styles';
@@ -121,21 +121,7 @@ const VisualTreeBubble = ({
                 {properlyCaseName(member?.lastName)}
               </H6Secondary>
             </View>
-            <LevelIndicator color={color}>
-              {level && level > 0 ? (
-                <LevelLabel
-                  style={{
-                    fontSize: 16,
-                    color:
-                      color === theme.warningAvatarAccent
-                        ? theme.backgroundColor
-                        : theme.primaryTextColor,
-                  }}
-                >
-                  {level}
-                </LevelLabel>
-              ) : null}
-            </LevelIndicator>
+            <LevelIndicator color={color} />
           </LinearGradient>
         </View>
       </Bubble>
