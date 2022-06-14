@@ -379,5 +379,9 @@
   "Count": "Antall",
   "Name": "Navn",
   "Rank Icons": "Rangeringsikoner",
-  "NSFaceIDUsageDescription": "Appen vil bruke Face ID eller Touch ID for autentisering"
+  "NSFaceIDUsageDescription": "Appen vil bruke Face ID eller Touch ID for autentisering",
+  "It looks like there in an issue with your annual subscription": "Det ser ut til at det er et problem med årsabonnementet ditt",
+  "It is either expired or cancelled": "Det er utløpt eller avbrutt",
+  "Contact support if you need further assistance": "Kontakt vårt supportteam i tilfelle du trenger ytterligere hjelp",
+  "It looks like there in an issue with your monthly subscription": "Det ser ut til at det er et problem med ditt månedlige abonnement"
 }

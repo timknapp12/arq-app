@@ -379,5 +379,9 @@
   "Count": "Conteggio",
   "Name": "Nome",
   "Rank Icons": "Icone di grado",
-  "NSFaceIDUsageDescription": "Questa app potrà usare l’opzione Face ID o Touch ID per l'autenticazione"
+  "NSFaceIDUsageDescription": "Questa app potrà usare l’opzione Face ID o Touch ID per l'autenticazione",
+  "It looks like there in an issue with your annual subscription": "Sembra ci sia un problema con il tuo abbonamento annuale",
+  "It is either expired or cancelled": "È possibile che sia scaduto o che sia stato annullato",
+  "Contact support if you need further assistance": "Se hai bisogno di ulteriore supporto, contatta il nostro centro di assistenza",
+  "It looks like there in an issue with your monthly subscription": "Sembra ci sia un problema con il tuo abbonamento mensile"
 }
