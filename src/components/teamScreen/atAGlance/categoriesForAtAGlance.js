@@ -60,5 +60,25 @@ export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
       ],
       firstTotal: statsAtAGlance?.monthlyPreferredCount?.downlineCount ?? 0,
     },
+    {
+      id: 3,
+      title: Localized('Event Tickets'),
+      data: [
+        {
+          value: statsAtAGlance?.eventTickets?.leg1EventTicketsSold ?? 0,
+          color: pieColorMap?.eventTickets0,
+        },
+        {
+          value: statsAtAGlance?.eventTickets?.leg2EventTicketsSold ?? 0,
+          color: pieColorMap?.eventTickets1,
+        },
+        {
+          value: statsAtAGlance?.eventTickets?.leg3EventTicketsSold ?? 0,
+          color: pieColorMap?.eventTickets2,
+        },
+      ],
+      firstTotal:
+        statsAtAGlance?.eventTickets?.totalDownlineEventTicketsSold ?? 0,
+    },
   ];
 };

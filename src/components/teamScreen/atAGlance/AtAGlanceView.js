@@ -27,7 +27,6 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
     pcEnrollments0: theme.pcEnrollmentsPie1,
     pcEnrollments1: theme.pcEnrollmentsPie2,
     pcEnrollments2: theme.pcEnrollmentsPie3,
-    // eventTickets feature is not ready yet to implelment
     eventTickets0: theme.eventTicketsPie1,
     eventTickets1: theme.eventTicketsPie2,
     eventTickets2: theme.eventTicketsPie3,
@@ -63,7 +62,10 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
         firstTotal={selectedCategory?.firstTotal ?? 0}
         secondTotal={selectedCategory?.secondTotal ?? 0}
         closeMenus={closeMenus}
-        showLegend={selectedCategory?.title === 'Autoships'}
+        showLegend={
+          selectedCategory?.title === 'Autoships' ||
+          selectedCategory?.title === 'Event Tickets'
+        }
       />
       {categories.map((item) => (
         <View key={item?.id}>
