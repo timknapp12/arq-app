@@ -143,21 +143,25 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
             closeAllMenus={closeAllMenus}
           />
 
-          <TouchableOpacity
-            style={{ width: 42, alignItems: 'center' }}
-            onPress={() => {
-              isRankLegendOpen ? fadeOut() : fadeIn();
-              !isRankLegendOpen && Analytics.logEvent('opened_rank_legend');
-            }}
-          >
-            <InfoIcon
-              style={{
-                color: theme.secondaryTextColor,
-                height: 24,
-                width: 24,
+          {selectedTab === 'MY_TEAM' ? (
+            <TouchableOpacity
+              style={{ width: 42, alignItems: 'center' }}
+              onPress={() => {
+                isRankLegendOpen ? fadeOut() : fadeIn();
+                !isRankLegendOpen && Analytics.logEvent('opened_rank_legend');
               }}
-            />
-          </TouchableOpacity>
+            >
+              <InfoIcon
+                style={{
+                  color: theme.secondaryTextColor,
+                  height: 24,
+                  width: 24,
+                }}
+              />
+            </TouchableOpacity>
+          ) : (
+            <View style={{ width: 42 }} />
+          )}
           <RankLegend fadeAnim={fadeAnim} />
         </Flexbox>
         <Flexbox direction="row" padding={4} style={{ zIndex: -1 }}>

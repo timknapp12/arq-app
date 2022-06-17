@@ -110,6 +110,12 @@ export const GET_USER = gql`
           downlineLeg2
           downlineLeg3
         }
+        eventTickets {
+          leg1EventTicketsSold
+          leg2EventTicketsSold
+          leg3EventTicketsSold
+          totalDownlineEventTicketsSold
+        }
       }
       childTreeNodes {
         uplineTreeNode {
