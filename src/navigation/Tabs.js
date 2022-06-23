@@ -9,7 +9,6 @@ import TeamStack from './TeamStack';
 import NewsScreen from '../components/newsScreen/NewsScreen';
 import AppContext from '../contexts/AppContext';
 import LoginContext from '../contexts/LoginContext';
-import * as Analytics from 'expo-firebase-analytics';
 import storybook from '../../assets/icons/storybook.png';
 import { Localized } from '../translations/Localized';
 import StorybookUI from '../../storybook';
@@ -20,15 +19,6 @@ import {
   NewsIcon,
   TabBarButton,
 } from '../components/common';
-
-// source for navigation analytics: https://docs.expo.io/versions/latest/sdk/firebase-analytics/
-const getActiveRouteName = (navigationState) => {
-  if (!navigationState) return null;
-  const route = navigationState.routes[navigationState.index];
-  // Parse the nested navigators
-  if (route.routes) return getActiveRouteName(route);
-  return route.routeName;
-};
 
 // source for tab navigation: https://reactnavigation.org/docs/tab-based-navigation
 const Tab = createBottomTabNavigator();
@@ -42,14 +32,6 @@ const Tabs = () => {
   return (
     <TabButtonDataContainer>
       <Tab.Navigator
-        onNavigationStateChange={(prevState, currentState) => {
-          const currentScreen = getActiveRouteName(currentState);
-          const prevScreen = getActiveRouteName(prevState);
-          if (prevScreen !== currentScreen) {
-            // Update Firebase with the name of your screen
-            Analytics.setCurrentScreen(currentScreen);
-          }
-        }}
         screenOptions={({ route }) => ({
           // eslint-disable-next-line react/display-name
           tabBarIcon: ({ color }) => {
