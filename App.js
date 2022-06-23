@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import AppContext from './src/contexts/AppContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
 import {
   ApolloClient,
@@ -153,30 +154,32 @@ const App = () => {
   }
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <AppContext.Provider
-          value={{
-            theme,
-            setTheme,
-            associateId,
-            setAssociateId,
-            legacyId,
-            setLegacyId,
-            deviceLanguage,
-            token,
-            setToken,
-            signOutOfFirebase,
-          }}
-        >
-          <StatusBar
-            backgroundColor={theme.backgroundColor}
-            style={theme.statusBar}
-          />
-          <NavigationContainer>
-            <LoginStack />
-          </NavigationContainer>
-        </AppContext.Provider>
-      </ThemeProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider theme={theme}>
+          <AppContext.Provider
+            value={{
+              theme,
+              setTheme,
+              associateId,
+              setAssociateId,
+              legacyId,
+              setLegacyId,
+              deviceLanguage,
+              token,
+              setToken,
+              signOutOfFirebase,
+            }}
+          >
+            <StatusBar
+              backgroundColor={theme.backgroundColor}
+              style={theme.statusBar}
+            />
+            <NavigationContainer>
+              <LoginStack />
+            </NavigationContainer>
+          </AppContext.Provider>
+        </ThemeProvider>
+      </GestureHandlerRootView>
     </ApolloProvider>
   );
 };
