@@ -1,8 +1,9 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation, useQuery } from '@apollo/client';
-import { Dimensions, Animated, Easing, Alert } from 'react-native';
+import { Animated, Easing, Alert } from 'react-native';
 import * as Analytics from 'expo-firebase-analytics';
+import { useNavigation } from '@react-navigation/native';
 import TabButtonContext from '../contexts/TabButtonContext';
 import AccessCodeModal from '../components/resourcesScreen/teamView/AccessCodeModal';
 import AddContactModal from '../components/prospectsScreen/AddContactModal';
@@ -18,7 +19,6 @@ import {
 } from '../graphql/queries';
 import { findPropInArray } from '../utils/teamResources/findTeamResourceData';
 
-const { width: screenWidth } = Dimensions.get('screen');
 const duration = 250;
 
 const TabButtonDataContainer = ({ children }) => {
@@ -39,7 +39,7 @@ const TabButtonDataContainer = ({ children }) => {
 
   // Animations for main buttons and smaller buttons that pop up
   const buttonScaleAnim = useRef(new Animated.Value(0)).current;
-  const rowWidthAnim = useRef(new Animated.Value(120)).current;
+  const rowWidthAnim = useRef(new Animated.Value(0)).current;
   const rowTopAnim = useRef(new Animated.Value(0)).current;
   // source for roateAnim https://javascript.plainenglish.io/creating-a-rotation-animation-in-react-native-45c3f2973d62
   const [rotateAnim] = useState(new Animated.Value(0));
@@ -53,7 +53,7 @@ const TabButtonDataContainer = ({ children }) => {
         useNativeDriver: false,
       }),
       Animated.timing(rowWidthAnim, {
-        toValue: screenWidth / 2,
+        toValue: 160,
         duration: duration,
         useNativeDriver: false,
       }),
@@ -78,7 +78,7 @@ const TabButtonDataContainer = ({ children }) => {
         useNativeDriver: false,
       }),
       Animated.timing(rowWidthAnim, {
-        toValue: 120,
+        toValue: 0,
         duration: duration,
         useNativeDriver: false,
       }),
@@ -211,20 +211,22 @@ const TabButtonDataContainer = ({ children }) => {
     }
   }, [selectedFolderName]);
 
-  // if user is not ruby or higher, have the button allow them to add a prospect
-  // if user is ruby or higher, give them all of the add options and make the button toggle the options menu
   const handleMainAddButton = () => {
-    if (hasPermissionsToWrite) {
-      showAddOptions ? closeAddOptions() : openAddOptions();
-    } else {
-      setIsAddContactModalOpen(true);
-    }
+    showAddOptions ? closeAddOptions() : openAddOptions();
   };
 
   const handleAddProspect = () => {
     Analytics.logEvent('go_to_prospects_from_anim_button');
     setIsAddContactModalOpen(true);
     closeAddOptions();
+  };
+
+  const navigation = useNavigation();
+  const handleEnrollment = () => {
+    Analytics.logEvent('go_to_enrolmnt_from_anim_button');
+    navigation.navigate('App Stack', {
+      screen: 'Enrollment Screen',
+    });
   };
 
   const handleAddFolder = () => {
@@ -270,8 +272,10 @@ const TabButtonDataContainer = ({ children }) => {
           setSelectedFolderName,
           handleMainAddButton,
           handleAddProspect,
+          handleEnrollment,
           handleAddFolder,
           handleAddAsset,
+          hasPermissionsToWrite,
         }}
       >
         <>
