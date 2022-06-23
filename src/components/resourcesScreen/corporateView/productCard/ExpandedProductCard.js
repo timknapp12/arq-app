@@ -11,7 +11,7 @@ import ImageIcon from '../../../../../assets/icons/image-icon.svg';
 import DownloadIcon from '../../../../../assets/icons/download-icon.svg';
 import ShareIcon from '../../../../../assets/icons/share-icon.svg';
 import SendIcon from '../../../../../assets/icons/send-icon.svg';
-import LeadCaptureIcon from '../../../../../assets/icons/enrollment-icon.svg';
+import LeadCaptureIcon from '../../../../../assets/icons/AddProspectIcon.svg';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppContext from '../../../../contexts/AppContext';
 import { Localized } from '../../../../translations/Localized';

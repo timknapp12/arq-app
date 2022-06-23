@@ -5,7 +5,7 @@ import { View, TouchableOpacity, Platform } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Analytics from 'expo-firebase-analytics';
 import BackOfficeIcon from '../../../assets/icons/back-office-icon.svg';
-import EnrollmentIcon from '../../../assets/icons/enrollment-icon.svg';
+import EnrollmentIcon from '../../../assets/icons/EnrollmentIcon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
 import AppContext from '../../contexts/AppContext';
 import { Localized } from '../../translations/Localized';
