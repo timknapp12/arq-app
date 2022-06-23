@@ -9,7 +9,7 @@ import ShareIcon from '../../../assets/icons/share-icon.svg';
 import RemoveIcon from '../../../assets/icons/remove-icon.svg';
 import EditIcon from '../../../assets/icons/edit-icon.svg';
 import SendIcon from '../../../assets/icons/send-icon.svg';
-import LeadCaptureIcon from '../../../assets/icons/enrollment-icon.svg';
+import LeadCaptureIcon from '../../../assets/icons/AddProspectIcon.svg';
 import AppContext from '../../contexts/AppContext';
 import { Localized } from '../../translations/Localized';
 

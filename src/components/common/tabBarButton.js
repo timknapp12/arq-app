@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 import { TouchableOpacity as GestureTouchable } from 'react-native-gesture-handler';
 import { Animated, View } from 'react-native';
 import { Flexbox } from './containers';
-import AddProspectIcon from '../../../assets/icons/enrollment-icon.svg';
+import AddProspectIcon from '../../../assets/icons/AddProspectIcon.svg';
+import AddEnrollmentIcon from '../../../assets/icons/AddEnrollmentIcon.svg';
 import AddFolderIcon from '../../../assets/icons/AddFolderIcon.svg';
 import AddAssetIcon from '../../../assets/icons/AddAssetIcon.svg';
 import add from '../../../assets/icons/AddIcon_White.png';
@@ -25,7 +26,7 @@ const AddButton = styled(GestureTouchable)`
 // ANIMATED ADD BUTTON OPTIONS
 const ButtonRow = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   position: absolute;
 `;
@@ -38,6 +39,7 @@ const SmallAddButton = styled(GestureTouchable)`
   justify-content: center;
   align-items: center;
   box-shadow: ${(props) => props.theme.dropShadow};
+  margin: 0 8px;
 `;
 
 const AnimatedRow = Animated.createAnimatedComponent(ButtonRow);
@@ -50,8 +52,10 @@ export const AnimatedAddButtonRow = () => {
     rowWidthAnim,
     rowTopAnim,
     handleAddProspect,
+    handleEnrollment,
     handleAddFolder,
     handleAddAsset,
+    hasPermissionsToWrite,
   } = useContext(TabButtonContext);
 
   const iconStyle = {
@@ -72,21 +76,33 @@ export const AnimatedAddButtonRow = () => {
           <AddProspectIcon style={iconStyle} />
         </AnimatedSmallButton>
         <AnimatedSmallButton
-          onPress={handleAddFolder}
+          onPress={handleEnrollment}
           style={{
             transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
           }}
         >
-          <AddFolderIcon style={iconStyle} />
+          <AddEnrollmentIcon style={iconStyle} />
         </AnimatedSmallButton>
-        <AnimatedSmallButton
-          onPress={handleAddAsset}
-          style={{
-            transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
-          }}
-        >
-          <AddAssetIcon style={iconStyle} />
-        </AnimatedSmallButton>
+        {hasPermissionsToWrite && (
+          <>
+            <AnimatedSmallButton
+              onPress={handleAddFolder}
+              style={{
+                transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
+              }}
+            >
+              <AddFolderIcon style={iconStyle} />
+            </AnimatedSmallButton>
+            <AnimatedSmallButton
+              onPress={handleAddAsset}
+              style={{
+                transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
+              }}
+            >
+              <AddAssetIcon style={iconStyle} />
+            </AnimatedSmallButton>
+          </>
+        )}
       </AnimatedRow>
     </>
   );
