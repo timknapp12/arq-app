@@ -6459,6 +6459,13 @@ expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
+expo-analytics-segment@~11.0.4:
+  version "11.0.4"
+  resolved "https://registry.yarnpkg.com/expo-analytics-segment/-/expo-analytics-segment-11.0.4.tgz#c551060361bb3df4f5c802f877b6a7250f6094f4"
+  integrity sha512-++BCelzXTPsDLgs08sIKUaKUHZTYcOjtSfUCAF9YOH31Yx5iPdWcukUcv81nf7zfonvFbgBKegIPtG7iK7sytw==
+  dependencies:
+    expo-modules-core "~0.4.10"
+
 expo-app-loading@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/expo-app-loading/-/expo-app-loading-1.2.1.tgz#d097abcbb3bb7cae0646f29560a431c9bff95169"
