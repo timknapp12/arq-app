@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { LogBox } from 'react-native';
 import AppContext from './src/contexts/AppContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
@@ -38,6 +39,14 @@ if (!firebase.apps.length) {
 i18n.locale = Localization.locale;
 // When a value is missing from a language it'll fallback to another language with the key present.
 i18n.fallbacks = true;
+
+LogBox.ignoreLogs([
+  'Setting a timer',
+  'Non-serializable values were found in the navigation state',
+  'ViewPropTypes will be removed from React Native',
+  'AsyncStorage has been extracted from react-native',
+  'EventEmitter.removeListener',
+]);
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
