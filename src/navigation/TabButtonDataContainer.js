@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import { Animated, Easing, Alert } from 'react-native';
 import * as Analytics from 'expo-firebase-analytics';
 import { useNavigation } from '@react-navigation/native';
@@ -168,11 +168,20 @@ const TabButtonDataContainer = ({ children }) => {
   };
 
   // GET TEAM RESOURCES
-  const { data: teamResourceData } = useQuery(GET_TEAM_RESOURCES, {
-    variables: { teams: [usersTeamInfo?.teamName] },
-    onError: (e) =>
-      console.log(`error in get team resources in TabButtonContainer.js`, e),
-  });
+  const [getTeamResources, { data: teamResourceData }] = useLazyQuery(
+    GET_TEAM_RESOURCES,
+    {
+      variables: { teams: [usersTeamInfo?.teamName] },
+      onError: (e) =>
+        console.log(`error in get team resources in TabButtonContainer.js`, e),
+    },
+  );
+
+  useEffect(() => {
+    if (usersTeamInfo?.teamName) {
+      getTeamResources();
+    }
+  }, [usersTeamInfo?.teamName]);
 
   const reshapedFolders = teamResourceData?.teamResources?.map((item) => ({
     label: item?.folderName,

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Keyboard,
   Platform,
-  LogBox,
 } from 'react-native';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import debounce from 'lodash.debounce';
@@ -31,10 +30,6 @@ const SearchDownlineScreen = ({ route }) => {
   const viewInMyTeamView = route?.params?.viewInMyTeamView;
 
   const { theme } = useContext(AppContext);
-
-  LogBox.ignoreLogs([
-    'Non-serializable values were found in the navigation state',
-  ]);
 
   const [selectedStatus, setSelectedStatus] = useState('ALL');
   const [selectedDropdownStatus, setSelectedDropdownStatus] =
