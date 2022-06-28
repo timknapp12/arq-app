@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { LogBox } from 'react-native';
 import {
   useQuery,
   useLazyQuery,
@@ -71,9 +70,7 @@ const InitialDataContainer = ({ children }) => {
     countryCode: 'us',
   });
 
-  const { data: ranksData } = useQuery(GET_RANKS, {
-    onError: (e) => console.log(`error in get ranks`, e),
-  });
+  const { data: ranksData } = useQuery(GET_RANKS);
 
   const { data: marketsData } = useQuery(GET_MARKETS, {
     variables: { language: deviceLanguage },
@@ -82,7 +79,6 @@ const InitialDataContainer = ({ children }) => {
 
   const [hasPermissionsToWrite, setHasPermissionsToWrite] = useState(false);
 
-  LogBox.ignoreLogs(['Setting a timer']);
   const pollIntervalForGetUser = 1000 * 60 * 10;
   const [getUser, { loading: loadingUserData, data: userData }] = useLazyQuery(
     GET_USER,
@@ -95,7 +91,9 @@ const InitialDataContainer = ({ children }) => {
   );
 
   useEffect(() => {
-    getUser();
+    if (legacyId) {
+      getUser();
+    }
   }, [legacyId]);
 
   useEffect(() => {
@@ -130,11 +128,10 @@ const InitialDataContainer = ({ children }) => {
       );
   }, [userMarket?.countryCode, marketsData?.activeCountries]);
 
-  const {
-    loading: loadingNews,
-    data: newsData,
-    refetch: refetchNews,
-  } = useQuery(GET_NEWS, {
+  const [
+    getNews,
+    { loading: loadingNews, data: newsData, refetch: refetchNews },
+  ] = useLazyQuery(GET_NEWS, {
     variables: {
       associateId,
       countries: marketId,
@@ -142,6 +139,12 @@ const InitialDataContainer = ({ children }) => {
     },
     onError: (e) => console.log(`error in get news`, e),
   });
+
+  useEffect(() => {
+    if (associateId && marketId && deviceLanguage) {
+      getNews();
+    }
+  }, [associateId, marketId, deviceLanguage]);
 
   const news = newsData?.newsResources ?? [];
 

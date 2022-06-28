@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Keyboard,
-  FlatList,
-  TouchableWithoutFeedback,
-  LogBox,
-} from 'react-native';
+import { Keyboard, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { useLazyQuery, NetworkStatus } from '@apollo/client';
 import debounce from 'lodash.debounce';
 import {
@@ -23,9 +18,6 @@ import AppContext from '../../../contexts/AppContext';
 
 const SearchVisualTreeScreen = ({ route }) => {
   const viewInVisualTree = route?.params?.viewInVisualTree;
-  LogBox.ignoreLogs([
-    'Non-serializable values were found in the navigation state',
-  ]);
 
   const { theme } = useContext(AppContext);
 

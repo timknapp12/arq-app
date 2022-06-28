@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { LogBox } from 'react-native';
 import AppContext from './src/contexts/AppContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
 import {
   ApolloClient,
@@ -37,6 +39,14 @@ if (!firebase.apps.length) {
 i18n.locale = Localization.locale;
 // When a value is missing from a language it'll fallback to another language with the key present.
 i18n.fallbacks = true;
+
+LogBox.ignoreLogs([
+  'Setting a timer',
+  'Non-serializable values were found in the navigation state',
+  'ViewPropTypes will be removed from React Native',
+  'AsyncStorage has been extracted from react-native',
+  'EventEmitter.removeListener',
+]);
 
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
@@ -153,30 +163,32 @@ const App = () => {
   }
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <AppContext.Provider
-          value={{
-            theme,
-            setTheme,
-            associateId,
-            setAssociateId,
-            legacyId,
-            setLegacyId,
-            deviceLanguage,
-            token,
-            setToken,
-            signOutOfFirebase,
-          }}
-        >
-          <StatusBar
-            backgroundColor={theme.backgroundColor}
-            style={theme.statusBar}
-          />
-          <NavigationContainer>
-            <LoginStack />
-          </NavigationContainer>
-        </AppContext.Provider>
-      </ThemeProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider theme={theme}>
+          <AppContext.Provider
+            value={{
+              theme,
+              setTheme,
+              associateId,
+              setAssociateId,
+              legacyId,
+              setLegacyId,
+              deviceLanguage,
+              token,
+              setToken,
+              signOutOfFirebase,
+            }}
+          >
+            <StatusBar
+              backgroundColor={theme.backgroundColor}
+              style={theme.statusBar}
+            />
+            <NavigationContainer>
+              <LoginStack />
+            </NavigationContainer>
+          </AppContext.Provider>
+        </ThemeProvider>
+      </GestureHandlerRootView>
     </ApolloProvider>
   );
 };
