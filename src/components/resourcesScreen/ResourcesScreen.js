@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, TouchableWithoutFeedback } from 'react-native';
+import { Animated, Platform, TouchableWithoutFeedback } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
 import {
@@ -100,7 +100,12 @@ const ResourcesScreen = ({ navigation }) => {
     if (isMenuOpen) {
       return;
     }
-    closeAddOptions();
+    setTimeout(
+      () => {
+        closeAddOptions();
+      },
+      Platform.OS === 'android' ? 500 : 0,
+    );
     Animated.timing(teamFadeAnim, {
       toValue: -500,
       duration: 700,
@@ -110,7 +115,12 @@ const ResourcesScreen = ({ navigation }) => {
 
   const closeMenus = () => {
     fadeOut();
-    closeAddOptions();
+    setTimeout(
+      () => {
+        closeAddOptions();
+      },
+      Platform.OS === 'android' ? 500 : 0,
+    );
   };
 
   const navigate = (item) => {
@@ -133,6 +143,7 @@ const ResourcesScreen = ({ navigation }) => {
         style={{
           justifyContent: 'flex-start',
           height: '100%',
+          paddingBottom: 0,
         }}
       >
         <MainHeader
