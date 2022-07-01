@@ -190,15 +190,12 @@ const TeamScreen = ({ navigation }) => {
         viewInMyTeamView,
       }}
     >
-      <TouchableWithoutFeedback
-        onPress={() => {
-          closeMenus();
-        }}
-      >
+      <TouchableWithoutFeedback onPress={closeMenus}>
         <ScreenContainer
           style={{
             justifyContent: 'flex-start',
             height: '100%',
+            paddingBottom: 0,
           }}
         >
           <MainHeader
