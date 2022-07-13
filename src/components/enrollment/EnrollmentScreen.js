@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
 import { ScrollView, Share } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import QRCode from 'react-native-qrcode-svg';
@@ -13,15 +12,19 @@ import {
   H5Secondary,
 } from '../common';
 import EnrollmentScreenCard from './EnrollmentScreenCard';
+import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 
-const EnrollmentScreen = ({ route }) => {
-  const slug = route?.params?.slug;
-  const baseEnrollmentUrl = route?.params?.baseEnrollmentUrl;
+const EnrollmentScreen = () => {
+  const { baseEnrollmentUrl, userProfile } = useContext(LoginContext);
+  const slug = userProfile?.associateSlugs?.[0]?.slug;
+  const [selectedOption, setSelectedOption] = useState('ambassador');
 
-  const [selectedOption, setSelectedOption] = useState('pc');
-
-  const url = `${baseEnrollmentUrl}${encodeURIComponent(
+  const urlAsPerOption =
+    selectedOption === 'ambassador'
+      ? `${baseEnrollmentUrl}/login?store`
+      : `${baseEnrollmentUrl}?store`;
+  const url = `${urlAsPerOption}${encodeURIComponent(
     `=`,
   )}${slug}${encodeURIComponent(`&type=`)}${selectedOption}`;
 
@@ -66,6 +69,11 @@ const EnrollmentScreen = ({ route }) => {
         </H5Secondary>
         <Flexbox>
           <Flexbox align="flex-start">
+            <RadioButton
+              label={Localized('Ambassador')}
+              isSelected={selectedOption === 'ambassador'}
+              onPress={() => setSelectedOption('ambassador')}
+            />
             <RadioButton
               label={Localized('Preferred Customer')}
               isSelected={selectedOption === 'pc'}
@@ -129,10 +137,6 @@ const EnrollmentScreen = ({ route }) => {
       </ScrollView>
     </ScreenContainer>
   );
-};
-
-EnrollmentScreen.propTypes = {
-  route: PropTypes.object.isRequired,
 };
 
 export default EnrollmentScreen;

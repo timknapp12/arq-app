@@ -36,8 +36,7 @@ const PopoutMenu = ({
   navigation,
 }) => {
   const { signOutOfFirebase } = useContext(AppContext);
-  const { userProfile, userMarket, baseEnrollmentUrl } =
-    useContext(LoginContext);
+  const { userMarket } = useContext(LoginContext);
 
   return (
     <AnimatedMenu style={{ left: fadeAnim }}>
@@ -78,17 +77,7 @@ const PopoutMenu = ({
 
       {userMarket?.countryCode === 'us' && (
         <TouchableContainer>
-          <Touchable
-            onPress={() =>
-              navigation.navigate('App Stack', {
-                screen: 'Enrollment Screen',
-                params: {
-                  slug: userProfile?.associateSlugs?.[0]?.slug,
-                  baseEnrollmentUrl,
-                },
-              })
-            }
-          >
+          <Touchable onPress={() => navigation.navigate('Enrollment Screen')}>
             <H4Book>{Localized('Enrollment')}</H4Book>
           </Touchable>
         </TouchableContainer>
