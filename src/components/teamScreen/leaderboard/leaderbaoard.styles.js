@@ -46,6 +46,10 @@ export const NameAndRankIconContainer = styled.View`
   justify-content: space-between;
 `;
 
+export const RankIconContainer = styled.View`
+  justify-content: space-between;
+`;
+
 export const LegendIconRow = styled.View`
   flex-direction: row;
   margin-top: 4px;
