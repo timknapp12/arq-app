@@ -151,7 +151,7 @@
   "Email Address": "E-mailadres",
   "Type a password": "Typ een wachtwoord",
   "Re-type a password": "Typ het wachtwoord opnieuw",
-  "Reset Password": "Wachtwoord resetten",
+  "Reset Password": "Wachtwoord Resetten",
   "Check your email to reset your password and then sign in": "Check je e-mail om je wachtwoord te resetten en meld je dan aan",
   "First time using ARQ?": "Gebruik je ARQ voor het eerst?",
   "Back Office Username or Id": "Back Office gebruikersnaam of ID",
@@ -383,5 +383,6 @@
   "It looks like there in an issue with your annual subscription": "Het lijkt erop dat er een probleem is met uw jaarabonnement",
   "It is either expired or cancelled": "Het is ofwel verlopen of geannuleerd",
   "Contact support if you need further assistance": "Neem contact op met de klantendienst als u verdere hulp nodig heeft",
-  "It looks like there in an issue with your monthly subscription": "Het lijkt erop dat er een probleem is met uw maandabonnement"
+  "It looks like there in an issue with your monthly subscription": "Het lijkt erop dat er een probleem is met uw maandabonnement",
+  "Reset": "Resetten"
 }
