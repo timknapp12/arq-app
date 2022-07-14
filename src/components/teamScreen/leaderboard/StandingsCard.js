@@ -7,6 +7,7 @@ import {
   CardContainer,
   StandingsContainer,
   NameAndRankIconContainer,
+  RankIconContainer,
   CountContainer,
 } from './leaderbaoard.styles';
 import {
@@ -28,14 +29,9 @@ const StandingsCard = ({ member, closeAllMenus, selectedTab }) => {
           align="flex-start"
           justity="space-between"
         >
-          <StandingsContainer fullHeight={selectedTab === 'ENTIRE_COMPANY'}>
-            <H2Black>{member?.displayOrder}</H2Black>
+          <StandingsContainer>
+            <H2Black>{member?.place}</H2Black>
           </StandingsContainer>
-          {selectedTab === 'MY_TEAM' && (
-            <CountContainer>
-              <H6>{member?.count}</H6>
-            </CountContainer>
-          )}
         </Flexbox>
 
         <View style={{ flex: 1, padding: 6, flexDirection: 'row' }}>
@@ -50,25 +46,29 @@ const StandingsCard = ({ member, closeAllMenus, selectedTab }) => {
             <H5 style={{ flex: 1 }}>{properlyCaseName(firstName, lastName)}</H5>
             {selectedTab === 'MY_TEAM' && (
               <>
-                <View style={{ width: 40 }}>
-                  <RankIcon rankName={member?.rank?.rankName ?? 'Ambassador'} />
-                </View>
-                <View
-                  style={{
-                    width: 40,
-                    alignItems: 'center',
-                  }}
-                >
-                  <RankIcon
-                    rankName={
-                      member?.customerSalesRank?.rankName ?? 'Ambassador'
-                    }
-                  />
-                </View>
+                <RankIconContainer>
+                  <View>
+                    <RankIcon
+                      rankName={member?.rank?.rankName ?? 'Ambassador'}
+                    />
+                  </View>
+                  <View>
+                    <RankIcon
+                      rankName={
+                        member?.customerSalesRank?.rankName ?? 'Ambassador'
+                      }
+                    />
+                  </View>
+                </RankIconContainer>
               </>
             )}
           </NameAndRankIconContainer>
         </View>
+        {selectedTab === 'MY_TEAM' && (
+          <CountContainer>
+            <H6>{member?.count}</H6>
+          </CountContainer>
+        )}
       </Flexbox>
     </CardContainer>
   );

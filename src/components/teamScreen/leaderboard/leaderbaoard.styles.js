@@ -28,15 +28,18 @@ export const StandingsContainer = styled.View`
   ${standingsStyle};
   background-color: ${(props) => props.theme.primaryButtonBackgroundColor};
   border-top-left-radius: 5px;
-  height: ${(props) => (props.fullHeight ? '100%' : '60%')};
+  border-bottom-left-radius: 5px;
+  height: 100%;
 `;
 
 export const CountContainer = styled.View`
   ${standingsStyle};
   background-color: ${(props) =>
     props.theme.leaderboardCountNumberBackgroundColor};
-  border-bottom-left-radius: 5px;
-  height: 36%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 100%;
+  width: 36px;
 `;
 
 export const NameAndRankIconContainer = styled.View`
