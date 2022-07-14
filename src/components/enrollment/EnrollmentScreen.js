@@ -35,14 +35,17 @@ const EnrollmentScreen = () => {
     });
   }, []);
 
-  const title =
-    selectedOption === 'pc'
-      ? Localized('Preferred Customer Enrollment')
-      : Localized('Retail Customer Enrollment');
+  const optionTitleMap = {
+    pc: 'Preferred Customer Enrollment',
+    retail: 'Retail Customer Enrollment',
+    ambassador: 'Ambassador Enrollments',
+  };
+
+  const title = optionTitleMap[selectedOption];
 
   const navigation = useNavigation();
   const onSend = () => {
-    Analytics.logEvent(`send_${selectedOption}_enrollment_link_to_prospect`);
+    Analytics.logEvent(`send_${selectedOption}_enrlmnt_url_to_prospect`);
     navigation.navigate('Prospects Stack', {
       screen: 'Prospects Screen',
       params: {
