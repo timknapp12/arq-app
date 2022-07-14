@@ -96,11 +96,6 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
   const handleOnEndReached = () =>
     Analytics.logEvent('scrolled_to_bottom_of_leaderboard');
 
-  const placeCountLabel =
-    selectedTab === 'MY_TEAM'
-      ? `${Localized('Place')}/${Localized('Count')}`
-      : Localized('Place');
-
   const renderItem = ({ item }) => (
     <StandingsCard
       member={item}
@@ -165,16 +160,18 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
           <RankLegend fadeAnim={fadeAnim} />
         </Flexbox>
         <Flexbox direction="row" padding={4} style={{ zIndex: -1 }}>
-          <H6Secondary style={{ flex: 1 }}>{placeCountLabel}</H6Secondary>
+          <H6Secondary style={{ flex: 1 }}>{Localized('Place')}</H6Secondary>
           <H6Secondary style={{ flex: 1 }}>{Localized('Name')}</H6Secondary>
           {selectedTab === 'MY_TEAM' ? (
-            <View style={{ flexDirection: 'row', flex: 1 }}>
-              <View style={{ marginEnd: 8 }}>
-                <H6Secondary>{Localized('OV Rank')}</H6Secondary>
-              </View>
-              <View>
-                <H6Secondary>{Localized('CV Rank')}</H6Secondary>
-              </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 1,
+                justifyContent: 'flex-end',
+              }}
+            >
+              <H6Secondary style={{ marginEnd: 8 }}>OV/CV</H6Secondary>
+              <H6Secondary>{Localized('Count')}</H6Secondary>
             </View>
           ) : (
             <View style={{ flex: 1 }} />

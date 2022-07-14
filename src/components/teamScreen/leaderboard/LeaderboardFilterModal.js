@@ -38,6 +38,15 @@ const LeaderboardFilterModal = ({
 
   reshapedRanks?.unshift({ label: Localized('All'), value: '0' });
 
+  const onReset = () => {
+    setMonth('CURRENT');
+    setSelectedLeaderboardMonth('CURRENT');
+    setType('AMBASSADOR_ENROLLMENT');
+    setSelectedLeaderboardType('AMBASSADOR_ENROLLMENT');
+    setRankId('0');
+    setSelectedRankId('0');
+  };
+
   const onSubmit = () => {
     setSelectedLeaderboardMonth(month);
     setSelectedLeaderboardType(type);
@@ -119,18 +128,23 @@ const LeaderboardFilterModal = ({
           ) : (
             <Gap height="60px" />
           )}
-
-          <Flexbox
-            direction="row"
-            width="auto"
-            style={{ alignSelf: 'flex-end', marginTop: 12 }}
-          >
-            <TouchableOpacity onPress={onClose} style={{ marginEnd: 4 }}>
-              <H5Black>{Localized('Cancel').toUpperCase()}</H5Black>
+          <Gap height="8px" />
+          <Flexbox direction="row">
+            <TouchableOpacity onPress={onReset}>
+              <H5Black>{Localized('Reset').toUpperCase()}</H5Black>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onSubmit} style={{ marginStart: 4 }}>
-              <H5Black>{Localized('OK').toUpperCase()}</H5Black>
-            </TouchableOpacity>
+            <Flexbox
+              direction="row"
+              width="auto"
+              style={{ alignSelf: 'flex-end' }}
+            >
+              <TouchableOpacity onPress={onClose} style={{ marginEnd: 4 }}>
+                <H5Black>{Localized('Cancel').toUpperCase()}</H5Black>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={onSubmit} style={{ marginStart: 4 }}>
+                <H5Black>{Localized('OK').toUpperCase()}</H5Black>
+              </TouchableOpacity>
+            </Flexbox>
           </Flexbox>
         </Flexbox>
       </ScreenContainer>

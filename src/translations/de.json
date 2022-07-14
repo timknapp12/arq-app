@@ -151,7 +151,7 @@
   "Email Address": "E-Mail-Adresse",
   "Type a password": "Geben Sie ein Passwort ein",
   "Re-type a password": "Geben Sie das Passwort erneut ein",
-  "Reset Password": "Passwort zurücksetzen",
+  "Reset Password": "Passwort Zurücksetzen",
   "Check your email to reset your password and then sign in": "Prüfen Sie Ihre E-Mails, um Ihr Passwort zurückzusetzen, und melden Sie sich dann an.",
   "First time using ARQ?": "Sie verwenden ARQ zum ersten Mal?",
   "Back Office Username or Id": "Back-Office-Benutzername oder -Kennung",
@@ -383,5 +383,6 @@
   "It looks like there in an issue with your annual subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem Jahresabonnement",
   "It is either expired or cancelled": "Es ist entweder ausgelaufen oder gekündigt",
   "Contact support if you need further assistance": "Kontaktieren Sie den Support, wenn Sie weitere Hilfe benötigen",
-  "It looks like there in an issue with your monthly subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem Monatsabonnement"
+  "It looks like there in an issue with your monthly subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem Monatsabonnement",
+  "Reset": "Zurücksetzen"
 }
