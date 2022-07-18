@@ -12,6 +12,9 @@
     },
     "staging": {
       "releaseChannel": "staging",
+      "ios": {
+        "simulator": true
+      },
       "extends": "development"
     },
     "production": {
