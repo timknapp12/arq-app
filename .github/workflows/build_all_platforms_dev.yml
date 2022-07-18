@@ -1,6 +1,8 @@
+name: 1. Development - Build all Platforms
+
 on:
-  workflow_dispatch: 
-    
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,4 +27,4 @@ jobs:
         run: yarn install
 
       - name: 🚀 Build app
-        run: eas build --platform ios --profile staging --non-interactive
+        run: eas build --platform all --profile development --non-interactive
