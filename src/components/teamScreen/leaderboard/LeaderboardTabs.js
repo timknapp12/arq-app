@@ -7,7 +7,7 @@ import { Underline, InvisibleUnderline } from './leaderbaoard.styles';
 
 const LeaderboardTabs = ({ selectedTab, setSelectedTab, closeAllMenus }) => {
   return (
-    <Flexbox accessibilityLabel="Leaderboard Tabs">
+    <Flexbox accessibilityLabel="Leaderboard Tabs" width="auto">
       <Flexbox justify="center" direction="row">
         <TouchableOpacity
           style={{ marginEnd: 8 }}

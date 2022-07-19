@@ -43,8 +43,8 @@ const LeaderboardFilterModal = ({
     setSelectedLeaderboardMonth('CURRENT');
     setType('AMBASSADOR_ENROLLMENT');
     setSelectedLeaderboardType('AMBASSADOR_ENROLLMENT');
-    setRankId('0');
-    setSelectedRankId('0');
+    setRankId('3');
+    setSelectedRankId('3');
   };
 
   const onSubmit = () => {
@@ -128,7 +128,7 @@ const LeaderboardFilterModal = ({
           ) : (
             <Gap height="60px" />
           )}
-          <Gap height="8px" />
+          <Gap height="16px" />
           <Flexbox direction="row">
             <TouchableOpacity onPress={onReset}>
               <H5Black>{Localized('Reset').toUpperCase()}</H5Black>
