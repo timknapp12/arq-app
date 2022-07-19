@@ -32,7 +32,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
   const [selectedLeaderboardType, setSelectedLeaderboardType] = useState(
     'AMBASSADOR_ENROLLMENT',
   );
-  const [selectedRankId, setSelectedRankId] = useState('0');
+  const [selectedRankId, setSelectedRankId] = useState('3');
 
   const leaderboardTypeMap = {
     AMBASSADOR_ENROLLMENT: Localized('Ambassador Enrollments'),
