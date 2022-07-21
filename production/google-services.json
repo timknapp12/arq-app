@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "558665444400",
+    "project_id": "q-innovation-prod",
+    "storage_bucket": "q-innovation-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558665444400:android:eda15e90aca01dfd3551f5",
+        "android_client_info": {
+          "package_name": "com.qsciences.ambassadorResourcesQ"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558665444400-fs8g9bodrrik3olh9fcur1gktkcuqmb9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qsciences.ambassadorResourcesQ",
+            "certificate_hash": "d24a4fe95c6c11ee98b9f6ef4ea51993184012ac"
+          }
+        },
+        {
+          "client_id": "558665444400-hn3mdk2bf8blsto2j63din1n9ofvd232.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNV71vqOo9DhURoV0DJwJ4XLK43WIW5Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558665444400-hn3mdk2bf8blsto2j63din1n9ofvd232.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "558665444400-7p5irt3o5st2nu717bgs78fm8g6oh4ua.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.qsciences.arq"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
