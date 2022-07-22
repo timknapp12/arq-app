@@ -1,8 +1,12 @@
+// DEV Settings
+let uri = 'https://qservices-dev.qsciences.com/graphql';
+
 // Staging settings
 let appName = 'q-connect-pro-staging';
 let appVersion = '0.0.111';
 let bundleIdent = 'com.qsciences.q-connect-pro-staging';
-let resClientID = 'com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd';
+let resClientID =
+  'com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd';
 let googleServicesFileIos = './staging/GoogleService-Info.plist';
 let googleServicesFileAndroid = './staging/google-services.json';
 let versionCode = 110;
@@ -18,12 +22,17 @@ let facebookAppId = '319892812842607';
 let facebookSchemeId = 'fb319892812842607';
 let facebookDisplayName = 'Q ConnectPro';
 
+if (process.env.DEPLOY_ENVIRONMENT === 'staging') {
+  uri = 'https://qservices-staging.qsciences.com/graphql';
+}
+
 // Production settings
-if(process.env.DEPLOY_ENVIRONMENT === 'production') {
+if (process.env.DEPLOY_ENVIRONMENT === 'production') {
   appName = 'ambassador-resources-q';
   appVersion = '2.2.3';
   bundleIdent = 'com.qsciences.ambassadorResourcesQ';
-  resClientID = 'com.googleusercontent.apps.558665444400-qg6odikk6of0p60c53bi97ok7v20sceh';
+  resClientID =
+    'com.googleusercontent.apps.558665444400-qg6odikk6of0p60c53bi97ok7v20sceh';
   googleServicesFileIos = './production/GoogleService-Info.plist';
   googleServicesFileAndroid = './production/google-services.json';
   androidPackage = 'com.qsciences.ambassadorResourcesQ';
@@ -38,120 +47,122 @@ if(process.env.DEPLOY_ENVIRONMENT === 'production') {
   facebookAppId = '172749824824779';
   facebookSchemeId = 'fb172749824824779';
   facebookDisplayName = 'Ambassador Resources Q';
+  uri = 'https://qservicesapi.azurewebsites.net/graphql';
 }
 
 export default {
-  "expo": {
-    "name": appName,
-    "slug": appName,
-    "version": appVersion,
-    "owner": "qsiholdingcompanyinc",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "scheme": "ambassador-resources-q",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
+  expo: {
+    name: appName,
+    slug: appName,
+    version: appVersion,
+    owner: 'qsiholdingcompanyinc',
+    orientation: 'portrait',
+    icon: './assets/icon.png',
+    scheme: 'ambassador-resources-q',
+    splash: {
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#000000',
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0,
-      "enabled": true
+    updates: {
+      fallbackToCacheTimeout: 0,
+      enabled: true,
     },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "bundleIdentifier": bundleIdent,
-      "config": {
-          "googleSignIn": {
-              "reservedClientId": resClientID
-          }
+    assetBundlePatterns: ['**/*'],
+    ios: {
+      bundleIdentifier: bundleIdent,
+      config: {
+        googleSignIn: {
+          reservedClientId: resClientID,
+        },
       },
-      "usesAppleSignIn": true,
-      "buildNumber": appVersion,
-      "googleServicesFile": googleServicesFileIos,
-      "supportsTablet": true,
-      "infoPlist": {
-          "CFBundleAllowMixedLocalizations": true,
-          "UIRequiresFullScreen": true
+      usesAppleSignIn: true,
+      buildNumber: appVersion,
+      googleServicesFile: googleServicesFileIos,
+      supportsTablet: true,
+      infoPlist: {
+        CFBundleAllowMixedLocalizations: true,
+        UIRequiresFullScreen: true,
       },
-      "requireFullScreen": true,
-      "usesIcloudStorage": true
+      requireFullScreen: true,
+      usesIcloudStorage: true,
     },
-    "locales": {
-      "en": "./src/translations/iosPermissions/english.json",
-      "cs": "./src/translations/iosPermissions/czech.json",
-      "de": "./src/translations/iosPermissions/german.json",
-      "es": "./src/translations/iosPermissions/spanish.json",
-      "fr": "./src/translations/iosPermissions/french.json",
-      "it": "./src/translations/iosPermissions/italian.json",
-      "ja": "./src/translations/iosPermissions/japanese.json",
-      "nb": "./src/translations/iosPermissions/norwegian.json",
-      "nl": "./src/translations/iosPermissions/dutch.json"
+    locales: {
+      en: './src/translations/iosPermissions/english.json',
+      cs: './src/translations/iosPermissions/czech.json',
+      de: './src/translations/iosPermissions/german.json',
+      es: './src/translations/iosPermissions/spanish.json',
+      fr: './src/translations/iosPermissions/french.json',
+      it: './src/translations/iosPermissions/italian.json',
+      ja: './src/translations/iosPermissions/japanese.json',
+      nb: './src/translations/iosPermissions/norwegian.json',
+      nl: './src/translations/iosPermissions/dutch.json',
     },
-    "android": {
-      "package": androidPackage,
-      "versionCode": versionCode,
-      "googleServicesFile": googleServicesFileAndroid,
-      "softwareKeyboardLayoutMode": "pan",
-      "splash": {
-          "image": "./assets/splash.png",
-          "resizeMode": "contain",
-          "backgroundColor": "#000000",
-          "mdpi": "./assets/splash@1.png",
-          "hdpi": "./assets/splash@1.5x.png",
-          "xhdpi": "./assets/splash@2x.png",
-          "xxhdpi": "./assets/splash@3x.png",
-          "xxxhdpi": "./assets/splash@4x.png"
+    android: {
+      package: androidPackage,
+      versionCode: versionCode,
+      googleServicesFile: googleServicesFileAndroid,
+      softwareKeyboardLayoutMode: 'pan',
+      splash: {
+        image: './assets/splash.png',
+        resizeMode: 'contain',
+        backgroundColor: '#000000',
+        mdpi: './assets/splash@1.png',
+        hdpi: './assets/splash@1.5x.png',
+        xhdpi: './assets/splash@2x.png',
+        xxhdpi: './assets/splash@3x.png',
+        xxxhdpi: './assets/splash@4x.png',
       },
-      "adaptiveIcon": {
-          "foregroundImage": "./assets/foreground.png",
-          "backgroundImage": "./assets/background.png"
+      adaptiveIcon: {
+        foregroundImage: './assets/foreground.png',
+        backgroundImage: './assets/background.png',
       },
-      "permissions": [
-          "CAMERA",
-          "READ_CONTACTS",
-          "USE_FINGERPRINT",
-          "WRITE_EXTERNAL_STORAGE",
-          "READ_EXTERNAL_STORAGE"
-      ]
+      permissions: [
+        'CAMERA',
+        'READ_CONTACTS',
+        'USE_FINGERPRINT',
+        'WRITE_EXTERNAL_STORAGE',
+        'READ_EXTERNAL_STORAGE',
+      ],
     },
-    "androidNavigationBar": {
-      "barStyle": "light-content",
-      "backgroundColor": "#000000"
+    androidNavigationBar: {
+      barStyle: 'light-content',
+      backgroundColor: '#000000',
     },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "config": {
-        "firebase": {
-          "apiKey": firebaseAPIKey,
-          "authDomain": authDomain,
-          "projectId": projectID,
-          "storageBucket": storageBucket,
-          "messagingSenderId": senderID,
-          "appId": appID,
-          "measurementId": measurementID
-        }
-      }
+    web: {
+      favicon: './assets/favicon.png',
+      config: {
+        firebase: {
+          apiKey: firebaseAPIKey,
+          authDomain: authDomain,
+          projectId: projectID,
+          storageBucket: storageBucket,
+          messagingSenderId: senderID,
+          appId: appID,
+          measurementId: measurementID,
+        },
+      },
     },
-    "facebookAppId": facebookAppId,
-    "facebookScheme": facebookSchemeId,
-    "facebookDisplayName": facebookDisplayName,
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": [
-        "expo.ts",
-        "expo.tsx",
-        "expo.js",
-        "expo.jsx",
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "wasm",
-        "svg"
-      ]
+    facebookAppId: facebookAppId,
+    facebookScheme: facebookSchemeId,
+    facebookDisplayName: facebookDisplayName,
+    packagerOpts: {
+      config: 'metro.config.js',
+      sourceExts: [
+        'expo.ts',
+        'expo.tsx',
+        'expo.js',
+        'expo.jsx',
+        'ts',
+        'tsx',
+        'js',
+        'jsx',
+        'json',
+        'wasm',
+        'svg',
+      ],
     },
-    "plugins": ["expo-tracking-transparency"]
-  }
-}
+    plugins: ['expo-tracking-transparency'],
+  },
+  uri: uri,
+};
