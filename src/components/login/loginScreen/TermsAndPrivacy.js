@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import { H4, Flexbox, H5Secondary } from '../../common';
 import { Localized } from '../../../translations/Localized';
-import config from '../../../../app.json';
+import config from '../../../../app.config';
 
 const termsOfServiceUrl =
   'https://firebasestorage.googleapis.com/v0/b/q-innovation-prod.appspot.com/o/legal%2F%5BQ%20Sciences%5D%20Terms%20of%20Service.pdf?alt=media&token=87c7d801-7b50-4e7b-a712-797a81536089';

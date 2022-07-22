@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "348281014348",
+    "firebase_url": "https://q-connect-pro-staging-default-rtdb.firebaseio.com",
+    "project_id": "q-connect-pro-staging",
+    "storage_bucket": "q-connect-pro-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348281014348:android:e67bd1992b0630a4594ce9",
+        "android_client_info": {
+          "package_name": "com.qsciences.q_connect_pro_staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348281014348-7t5vd1afvk1suasmsootuvojj80vg84p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qsciences.q_connect_pro_staging",
+            "certificate_hash": "045e831ef3d9bb99b19ab107f1ce1726dfe7c38c"
+          }
+        },
+        {
+          "client_id": "348281014348-lplk3ptkokcjse46og4uc5ektcnago28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE1nEF_ttwCmiVp0BCiSwq_M2ee4HA9bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348281014348-96db6n78qgp5fbr1kd7nkld3rimt8flv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "348281014348-276vrs8im5aiji19qjeeidthgk8di879.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.eventpenguin.RNPenguinChat"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348281014348:android:7f61297dc004301e594ce9",
+        "android_client_info": {
+          "package_name": "com.rnpenguinchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348281014348-lplk3ptkokcjse46og4uc5ektcnago28.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE1nEF_ttwCmiVp0BCiSwq_M2ee4HA9bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348281014348-96db6n78qgp5fbr1kd7nkld3rimt8flv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "348281014348-276vrs8im5aiji19qjeeidthgk8di879.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.eventpenguin.RNPenguinChat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

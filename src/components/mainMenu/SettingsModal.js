@@ -31,7 +31,7 @@ import {
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
-import config from '../../../app.json';
+import config from '../../../app.config';
 import { findMarketId } from '../../utils/markets/findMarketId';
 
 const HeaderButtonContainer = styled.View`
