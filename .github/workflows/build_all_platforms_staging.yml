@@ -27,4 +27,4 @@ jobs:
         run: yarn install
 
       - name: 🚀 Build app
-        run: eas build --platform all --profile staging --non-interactive
+        run: DEPLOY_ENVIRONMENT=staging eas build --platform all --profile staging --non-interactive
