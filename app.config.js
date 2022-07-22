@@ -3,13 +3,13 @@ let uri = 'https://qservices-dev.qsciences.com/graphql';
 
 // Staging settings
 let appName = 'q-connect-pro-staging';
-let appVersion = '0.0.111';
+let appVersion = '0.0.112';
 let bundleIdent = 'com.qsciences.q-connect-pro-staging';
 let resClientID =
   'com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd';
 let googleServicesFileIos = './staging/GoogleService-Info.plist';
 let googleServicesFileAndroid = './staging/google-services.json';
-let versionCode = 110;
+let versionCode = 112;
 let androidPackage = 'com.qsciences.q_connect_pro_staging';
 let firebaseAPIKey = 'AIzaSyDLvs6kf7lAlma9v714M_yF4EqP_UDIc5g';
 let authDomain = 'q-connect-pro-staging.firebaseapp.com';
