@@ -21,7 +21,7 @@ import fetch from 'cross-fetch';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
 import { NavigationContainer } from '@react-navigation/native';
-import firebaseConfig from './firebase.config';
+import config from './app.config';
 import * as firebase from 'firebase';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
@@ -31,6 +31,8 @@ import AppLoading from 'expo-app-loading';
 import { ApolloProvider } from '@apollo/client';
 // this allows apollo refetch queries to happen from apollo
 import 'core-js/features/promise';
+
+const firebaseConfig = config.expo.web.config.firebase;
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
