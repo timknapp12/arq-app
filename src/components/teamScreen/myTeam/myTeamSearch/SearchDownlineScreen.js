@@ -160,7 +160,7 @@ const SearchDownlineScreen = ({ route }) => {
         cardIsExpandable={false}
         member={item}
         onPress={() => onPressCard(item)}
-        showVisualTreeIcon
+        // showVisualTreeIcon
         viewItemInVisualTree={() => viewItemInVisualTree(item)}
       />
     </CardContainer>

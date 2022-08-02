@@ -69,10 +69,10 @@ const TeamScreen = ({ navigation }) => {
       testID: 'At_A_Glance_button',
     },
     { name: Localized('My Team').toUpperCase(), testID: 'my_team_button' },
-    {
-      name: Localized('Visual Tree').toUpperCase(),
-      testID: 'visual_tree_button',
-    },
+    // {
+    //   name: Localized('Visual Tree').toUpperCase(),
+    //   testID: 'visual_tree_button',
+    // },
     {
       name: Localized('Leaderboard').toUpperCase(),
       testID: 'Leaderboard_button',
