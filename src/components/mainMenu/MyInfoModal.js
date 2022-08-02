@@ -299,7 +299,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     <TextArea
                       testID="shopQ-website-input"
                       label={Localized('ShopQ Website')}
-                      value={`${baseEnrollmentUrl}${associateSlugs?.[0]?.slug}`}
+                      value={`${baseEnrollmentUrl}?store=${associateSlugs?.[0]?.slug}`}
                       editable={false}
                       multiline
                       numberOfLines={2}
