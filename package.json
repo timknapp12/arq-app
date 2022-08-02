@@ -10,7 +10,9 @@
     "build-storybook": "build-storybook",
     "build-dev": "eas build --platform all --profile development",
     "build-staging": "eas build --platform all --profile staging",
-    "build-prod": "eas build --platform all --profile production"
+    "build-prod": "eas build --platform all --profile production",
+    "publish-staging": "expo publish --release-channel staging",
+    "publish-prod": "expo publish --release-channel production"
   },
   "dependencies": {
     "@apollo/client": "^3.4.11",
