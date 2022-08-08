@@ -74,7 +74,7 @@ const MyDownlineCard = React.memo(
               isExpanded={isExpanded}
               onPress={toggleExpanded}
               closeAllMenus={closeAllMenus}
-              showVisualTreeIcon
+              // showVisualTreeIcon
               viewItemInVisualTree={() => viewInVisualTree(member)}
               isFilterMenuOpen={isFilterMenuOpen}
             />
