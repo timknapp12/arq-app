@@ -8,14 +8,23 @@
       "android": {
         "buildType": "apk"
       },
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "DEPLOY_ENVIRONMENT": "development"
+      }
     },
     "staging": {
       "releaseChannel": "staging",
-      "extends": "development"
+      "extends": "development",
+      "env": {
+        "DEPLOY_ENVIRONMENT": "staging"
+      }
     },
     "production": {
-      "releaseChannel": "production"
+      "releaseChannel": "production",
+      "env": {
+        "DEPLOY_ENVIRONMENT": "production"
+      }
     }
   },
   "submit": {
