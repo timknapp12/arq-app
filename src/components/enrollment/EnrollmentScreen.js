@@ -20,8 +20,8 @@ const EnrollmentScreen = () => {
   const slug = userProfile?.associateSlugs?.[0]?.slug;
   const [selectedOption, setSelectedOption] = useState('ambassador');
 
-  const url = `${shopQUrl}${slug}${encodeURIComponent(
-    `&type=`,
+  const url = `${shopQUrl}${slug}?type${encodeURIComponent(
+    `=`,
   )}${selectedOption}`;
 
   useEffect(() => {
