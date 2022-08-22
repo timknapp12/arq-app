@@ -21,7 +21,7 @@ import fetch from 'cross-fetch';
 import { darkTheme } from './src/styles/themes';
 import LoginStack from './src/navigation/LoginStack';
 import { NavigationContainer } from '@react-navigation/native';
-import config from './app.config';
+import Constants from 'expo-constants';
 import * as firebase from 'firebase';
 import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
@@ -32,7 +32,7 @@ import { ApolloProvider } from '@apollo/client';
 // this allows apollo refetch queries to happen from apollo
 import 'core-js/features/promise';
 
-const firebaseConfig = config.expo.web.config.firebase;
+const firebaseConfig = Constants.manifest.web.config.firebase;
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -84,12 +84,12 @@ const App = () => {
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   const httpLink = new HttpLink({
-    uri: config.uri,
+    uri: Constants.manifest.extra.uri,
     fetch,
   });
 
   const wsLink = new WebSocketLink({
-    uri: config.uri,
+    uri: Constants.manifest.extra.uri,
     options: {
       reconnect: true,
     },
