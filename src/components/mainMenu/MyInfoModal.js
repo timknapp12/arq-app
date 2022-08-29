@@ -306,6 +306,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <Flexbox height="100px">
                     <TextArea
+                      inputStyle={{ paddingRight: 32 }}
                       testID="shopQ-website-input"
                       label={Localized('ShopQ Website')}
                       value={storeUrl}
