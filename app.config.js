@@ -164,5 +164,7 @@ export default {
     },
     plugins: ['expo-tracking-transparency'],
   },
-  uri: uri,
+  extra: {
+    uri: uri,
+  }
 };
