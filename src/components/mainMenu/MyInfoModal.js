@@ -158,13 +158,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   const storeUrl = `${shopQUrl}${associateSlugs?.[0]?.slug}`;
 
-  const copyToClipboard = async () => {
-    try {
-      await Clipboard.setStringAsync('hello');
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+  const copyToClipboard = () => Clipboard.setString(storeUrl);
 
   return (
     <Modal
