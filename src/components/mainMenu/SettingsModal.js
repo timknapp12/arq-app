@@ -253,7 +253,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
               </Flexbox>
             </ScrollView>
           </KeyboardAvoidingView>
-          <H5Secondary>{`ARQ Version: ${config.expo.version}`}</H5Secondary>
+          <H5Secondary>{`ARQ Version: ${config.appVersion}`}</H5Secondary>
         </ScreenContainer>
       </TouchableWithoutFeedback>
     </Modal>
