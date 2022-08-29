@@ -1,7 +1,6 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -13,7 +12,6 @@ import {
   Flexbox,
   RadioButton,
   PrimaryButton,
-  Input,
   H4Book,
   AlertText,
   Gap,
@@ -32,20 +30,15 @@ import { handleLoginValidationProcess } from '../../utils/handleLoginFlow';
 const { height } = Dimensions.get('window');
 
 const ConfirmAccountScreen = ({ navigation, route }) => {
-  const { setAssociateId, setLegacyId, theme, deviceLanguage } =
+  const { setAssociateId, setLegacyId, deviceLanguage } =
     useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const { emailAddress, primaryPhoneNumber } = directScaleUser;
 
   const { username } = route.params;
 
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-
-  const emailRef = useRef(null);
-  const phoneRef = useRef(null);
 
   // this strips out the parantheses and hyphens from the phone numbers but leaves the plus sign for country codes
   const phoneRegex = new RegExp(/[^0-9 +]+/g);
@@ -53,7 +46,9 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   const method = selectedOption === 'email' ? 'EMAIL' : 'SMS';
 
   const verificationInfo =
-    selectedOption === 'email' ? email : phone.replace(phoneRegex, '');
+    selectedOption === 'email'
+      ? emailAddress
+      : primaryPhoneNumber.replace(phoneRegex, '');
 
   const [validateUser, { loading }] = useMutation(LOGIN_VALIDATION_PROCESS, {
     variables: {
@@ -83,46 +78,9 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     },
   });
 
-  const isButtonDisabled =
-    selectedOption === null ||
-    (selectedOption === 'email' && !email) ||
-    (selectedOption === 'phone' && !phone);
-
-  const refMap = {
-    email: emailRef,
-    phone: phoneRef,
-  };
-
-  useEffect(() => {
-    if (selectedOption) {
-      refMap[selectedOption].current.focus();
-    }
-  }, [selectedOption]);
+  const isButtonDisabled = selectedOption === null;
 
   const onSubmit = () => {
-    if (selectedOption === 'email') {
-      if (!email) {
-        return Alert.alert(Localized('Please enter a valid email address'));
-      }
-      if (email.toLowerCase() !== emailAddress.toLowerCase()) {
-        return Alert.alert(
-          'The email address you entered does not match the email address we have for you',
-        );
-      }
-    }
-    if (selectedOption === 'phone') {
-      if (!phone) {
-        return Alert.alert(Localized('Please enter a valid phone number'));
-      }
-      if (
-        phone.replace(phoneRegex, '') !==
-        primaryPhoneNumber.replace(phoneRegex, '')
-      ) {
-        return Alert.alert(
-          'The phone number you entered does not match the phone number we have for you',
-        );
-      }
-    }
     validateUser();
   };
 
@@ -164,28 +122,9 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                   <RadioButton
                     label={`${Localized(
                       'Send verification code to phone number',
-                    )} ${encodePhone(
-                      primaryPhoneNumber.replace(phoneRegex, ''),
-                    )}`}
+                    )} ${encodePhone(primaryPhoneNumber)}`}
                     isSelected={selectedOption === 'phone'}
                     onPress={() => setSelectedOption('phone')}
-                  />
-                  <Input
-                    style={{ opacity: selectedOption === 'phone' ? 1 : 0.5 }}
-                    ref={phoneRef}
-                    testID="confirm-account-phone-input"
-                    value={phone}
-                    onChangeText={(text) => {
-                      setErrorMessage('');
-                      setPhone(text);
-                    }}
-                    onFocus={() => setSelectedOption('phone')}
-                    returnKeyType="go"
-                    onSubmitEditing={onSubmit}
-                    placeholder={Localized(
-                      'verify account by entering phone number',
-                    )}
-                    placeholderTextColor={theme.disabledTextColor}
                   />
                 </>
               ) : null}
@@ -198,26 +137,6 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
                     )} ${encodeEmail(emailAddress)}`}
                     isSelected={selectedOption === 'email'}
                     onPress={() => setSelectedOption('email')}
-                  />
-                  <Input
-                    style={{ opacity: selectedOption === 'email' ? 1 : 0.5 }}
-                    ref={emailRef}
-                    testID="confirm-account-email-input"
-                    value={email}
-                    onChangeText={(text) => {
-                      setErrorMessage('');
-                      setEmail(text);
-                    }}
-                    onFocus={() => setSelectedOption('email')}
-                    keyboardType="email-address"
-                    textContentType="emailAddress"
-                    autoCapitalize="none"
-                    returnKeyType="go"
-                    onSubmitEditing={onSubmit}
-                    placeholder={Localized(
-                      'verify account by entering email address',
-                    )}
-                    placeholderTextColor={theme.disabledTextColor}
                   />
                 </>
               ) : null}

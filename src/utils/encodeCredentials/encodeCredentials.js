@@ -19,11 +19,11 @@ export const encodeEmail = (email) => {
 };
 
 export const encodePhone = (phone) => {
-  const phoneIndex = phone.length - 2;
+  const phoneIndex = phone.length - 4;
   const phoneArray = phone.split('');
   return phoneArray
     .map((digit, index) => {
-      if (index === 0 || index >= phoneIndex) {
+      if (index >= phoneIndex) {
         return digit;
       } else {
         return '*';
