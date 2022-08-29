@@ -247,7 +247,7 @@ const InitialDataContainer = ({ children }) => {
     alreadyHasTeam &&
     findUsersOwnTeamInfo(associateId, userAccessCodesData?.accesses ?? '');
 
-  const shopQUrl = 'https://shopq.qsciences.com/store/';
+  const shopQUrl = 'https://qsciences.com/store/';
 
   return (
     <LoginContext.Provider
