@@ -37,7 +37,8 @@ const TermsAndPrivacy = ({ navigation }) => {
         accessibilityLabel="Terms Privacy Data"
         style={{ marginBottom: 5 }}
         justify="center"
-        direction="row">
+        direction="row"
+      >
         <TouchableOpacity onPress={openTerms} testID="terms-button">
           <H4>{Localized('Terms')}</H4>
         </TouchableOpacity>
@@ -45,11 +46,12 @@ const TermsAndPrivacy = ({ navigation }) => {
         <TouchableOpacity
           onPress={openPrivacy}
           testID="privacy-button"
-          style={{ marginStart: 8 }}>
+          style={{ marginStart: 8 }}
+        >
           <H4>{Localized('Privacy')}</H4>
         </TouchableOpacity>
       </Flexbox>
-      <H5Secondary>{`ARQ Version: ${config.expo.version}`}</H5Secondary>
+      <H5Secondary>{`ARQ Version: ${config.appVersion}`}</H5Secondary>
     </Flexbox>
   );
 };
