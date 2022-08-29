@@ -31,8 +31,8 @@ import {
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
-import config from '../../../app.config';
 import { findMarketId } from '../../utils/markets/findMarketId';
+import Constants from 'expo-constants';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -253,7 +253,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
               </Flexbox>
             </ScrollView>
           </KeyboardAvoidingView>
-          <H5Secondary>{`ARQ Version: ${config.appVersion}`}</H5Secondary>
+          <H5Secondary>{`ARQ Version: ${Constants.manifest.version}`}</H5Secondary>
         </ScreenContainer>
       </TouchableWithoutFeedback>
     </Modal>
