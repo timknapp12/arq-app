@@ -163,8 +163,8 @@ export default {
       ],
     },
     plugins: ['expo-tracking-transparency'],
+    extra: {
+      uri: uri,
+    },
   },
-  extra: {
-    uri: uri,
-  }
 };
