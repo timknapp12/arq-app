@@ -45,7 +45,10 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
     leaderboardScope: selectedTab,
     leaderboardType: selectedLeaderboardType,
     // we need to pass values to the picker as a string, but need to convert it to a number for Q Services, and value of 0 for "ALL" in the filter needs to be converted to 1 for ambassador
-    rankId: selectedRankId === '0' ? 1 : Number(selectedRankId),
+    rankId:
+      selectedRankId === '0' || selectedLeaderboardType === 'EVENT_SALES'
+        ? 1
+        : Number(selectedRankId),
   };
 
   const logAnalytics = (month, scope, type, rankId) => {

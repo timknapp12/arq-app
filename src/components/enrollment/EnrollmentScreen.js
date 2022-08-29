@@ -16,17 +16,13 @@ import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 
 const EnrollmentScreen = () => {
-  const { baseEnrollmentUrl, userProfile } = useContext(LoginContext);
+  const { shopQUrl, userProfile } = useContext(LoginContext);
   const slug = userProfile?.associateSlugs?.[0]?.slug;
   const [selectedOption, setSelectedOption] = useState('ambassador');
 
-  const urlAsPerOption =
-    selectedOption === 'ambassador'
-      ? `${baseEnrollmentUrl}/login?store`
-      : `${baseEnrollmentUrl}?store`;
-  const url = `${urlAsPerOption}${encodeURIComponent(
+  const url = `${shopQUrl}${slug}?type${encodeURIComponent(
     `=`,
-  )}${slug}${encodeURIComponent(`&type=`)}${selectedOption}`;
+  )}${selectedOption}`;
 
   useEffect(() => {
     Analytics.logEvent('Enrollment_Screen_visited', {

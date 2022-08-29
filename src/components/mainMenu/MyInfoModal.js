@@ -49,7 +49,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const {
     updateProfile,
     refetchProfile,
-    baseEnrollmentUrl,
+    shopQUrl,
     userProfile: data = {
       profileUrl: '',
       profileImageFileName: '',
@@ -299,7 +299,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     <TextArea
                       testID="shopQ-website-input"
                       label={Localized('ShopQ Website')}
-                      value={`${baseEnrollmentUrl}?store=${associateSlugs?.[0]?.slug}`}
+                      value={`${shopQUrl}${associateSlugs?.[0]?.slug}`}
                       editable={false}
                       multiline
                       numberOfLines={2}
