@@ -27,28 +27,28 @@ const Row = styled.View`
 const ServicesView = ({ closeMenus, isMenuOpen }) => {
   const { theme } = useContext(AppContext);
 
-  // on android, the touch events of the menu buttons will bleed through and activate the touches on the cards underneath. This func will prevent that
-  const androidCheck = () => {
+  const goToBackOffice = () => {
+    // on android, the touch events of the menu buttons will bleed through and activate the touches on the cards underneath. This func will prevent that
     if (isMenuOpen && Platform.OS === 'android') {
       return;
     }
-  };
-
-  const goToBackOffice = () => {
-    androidCheck();
     WebBrowser.openBrowserAsync('https://office2.myqsciences.com/#/Login');
     closeMenus();
   };
 
   const navigation = useNavigation();
   const goToEnrollmentScreen = () => {
-    androidCheck();
+    if (isMenuOpen && Platform.OS === 'android') {
+      return;
+    }
     navigation.navigate('Enrollment Screen');
     closeMenus();
   };
 
   const goToShopQ = () => {
-    androidCheck();
+    if (isMenuOpen && Platform.OS === 'android') {
+      return;
+    }
     WebBrowser.openBrowserAsync('https://qsciences.com');
     closeMenus();
   };
