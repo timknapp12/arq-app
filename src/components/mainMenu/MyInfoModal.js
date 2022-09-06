@@ -25,11 +25,14 @@ import {
   LoadingSpinner,
   TextArea,
 } from '../common';
+import * as Clipboard from 'expo-clipboard';
 import { Localized } from '../../translations/Localized';
 import LoginContext from '../../contexts/LoginContext';
+import AppContext from '../../contexts/AppContext';
 import { saveProfileImageToFirebase } from '../../utils/firebase/saveProfileImageToFirebase';
 import ProfileImage from './ProfileImage';
 import usStates from '../../translations/countries/us-states.json';
+import CopyIcon from '../../../assets/icons/CopytoClipboardIcon.svg';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -46,6 +49,7 @@ const NameContainer = styled.View`
 `;
 
 const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
+  const { theme } = useContext(AppContext);
   const {
     updateProfile,
     refetchProfile,
@@ -151,6 +155,11 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
       setLoading(false);
     };
   }, [address?.countryCode]);
+
+  const storeUrl = `${shopQUrl}${associateSlugs?.[0]?.slug}`;
+
+  const copyToClipboard = () => Clipboard.setString(storeUrl);
+
   return (
     <Modal
       animationType="slide"
@@ -297,13 +306,26 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                   />
                   <Flexbox height="100px">
                     <TextArea
+                      inputStyle={{ paddingRight: 32 }}
                       testID="shopQ-website-input"
                       label={Localized('ShopQ Website')}
-                      value={`${shopQUrl}${associateSlugs?.[0]?.slug}`}
+                      value={storeUrl}
                       editable={false}
                       multiline
                       numberOfLines={2}
                     />
+                    <TouchableOpacity
+                      style={{ position: 'absolute', bottom: 0, right: 0 }}
+                      onPress={copyToClipboard}
+                    >
+                      <CopyIcon
+                        style={{
+                          height: 36,
+                          width: 36,
+                          color: theme.primaryTextColor,
+                        }}
+                      />
+                    </TouchableOpacity>
                   </Flexbox>
                 </Flexbox>
                 <Subheader style={{ marginTop: 12 }} justify="center">

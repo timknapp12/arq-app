@@ -28,21 +28,21 @@ describe('encode phone', () => {
   test('8013459087 returns 8*******87', () => {
     const input = '8013459087';
 
-    const output = '8*******87';
+    const output = '******9087';
 
     expect(encodePhone(input)).toBe(output);
   });
   test('(801)345-9087 returns (**********87', () => {
     const input = '(801)3459087';
 
-    const output = '(*********87';
+    const output = '********9087';
 
     expect(encodePhone(input)).toBe(output);
   });
   test('345 9087 returns 8*****87', () => {
     const input = '8013459087';
 
-    const output = '8*******87';
+    const output = '******9087';
 
     expect(encodePhone(input)).toBe(output);
   });

@@ -45,10 +45,12 @@ import noCountries from '../../translations/countries/no-countries.json';
 import itCountries from '../../translations/countries/it-countries.json';
 import usStates from '../../translations/countries/us-states.json';
 
-const HeaderButtonContainer = styled.View`
-  width: 100px;
-`;
 const { width } = Dimensions.get('window');
+
+const headerButtonContainerWidth = width < 390 ? 'auto' : '100px';
+const HeaderButtonContainer = styled.View`
+  width: ${headerButtonContainerWidth};
+`;
 const nameInputWidth = `${width - 150}px`;
 
 const NameContainer = styled.View`
