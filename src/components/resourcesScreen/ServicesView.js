@@ -92,6 +92,9 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
           </Card>
         </TouchableOpacity>
 
+        <H6Book>
+          {Localized('This feature is currently only supported in the USA')}
+        </H6Book>
         <TouchableOpacity
           activeOpacity={isMenuOpen ? 1 : 0.2}
           onPress={() => {
@@ -126,6 +129,9 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
           </Card>
         </TouchableOpacity>
 
+        <H6Book>
+          {Localized('This feature is currently only supported in the USA')}
+        </H6Book>
         <TouchableOpacity
           activeOpacity={isMenuOpen ? 1 : 0.2}
           onPress={() => {

@@ -6,6 +6,7 @@ import { Flexbox, H6, H6Secondary } from '../../../common';
 import OvRankBarChartContainer from './OvRankBarChartContainer';
 import CvRankBarChartContainer from './CvRankBarChartContainer';
 import OrdersContainer from '../OrdersContainer';
+import MyDownlineProfileCard from './MyDownlineProfileCard';
 import MyTeamViewContext from '../../../../contexts/MyTeamViewContext';
 import { Localized } from '../../../../translations/Localized';
 import {
@@ -89,6 +90,26 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
               </>
             )}
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ marginStart: 16 }}
+            onPress={() => {
+              setSelectedTab('profile');
+              closeAllMenus();
+            }}
+          >
+            {selectedTab === 'profile' ? (
+              <>
+                <H6>{Localized('Profile')}</H6>
+                <Underline />
+              </>
+            ) : (
+              <>
+                <H6Secondary>{Localized('Profile')}</H6Secondary>
+                <InvisibleUnderline />
+              </>
+            )}
+          </TouchableOpacity>
         </Flexbox>
         <BarChartAndOrdersContainer>
           {selectedTab === 'ovRank' && (
@@ -99,6 +120,11 @@ const MyAmbassadorExpandedInfo = ({ member, level }) => {
           )}
           {selectedTab === 'orders' && (
             <OrdersContainer level={level} member={member} />
+          )}
+          {selectedTab === 'profile' && (
+            <MyDownlineProfileCard
+              associateId={member?.associate?.associateId}
+            />
           )}
         </BarChartAndOrdersContainer>
       </Flexbox>
