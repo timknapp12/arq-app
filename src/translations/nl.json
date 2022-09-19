@@ -260,7 +260,6 @@
   "At A Glance": "In één oogopslag",
   "My Team": "Mijn team",
   "Leaderboard": "Scorebord",
-  "Autoships": "Automatische verzendingen",
   "Ambassador Enrollments": "Aanmeldingen van ambassadeurs",
   "PC Enrollments": "PC-aanmeldingen",
   "Event Tickets": "Tickets voor evenementen",
@@ -317,7 +316,7 @@
   "CV Rank": "CV-rang",
   "Total CV": "Totaal CV",
   "Remaining CV": "Resterende CV",
-  "Autoship CV": "Autoship CV",
+  "Subscription CV": "Abonnement CV",
   "View, share and download resources in the following language": "Bronnen in de volgende taal bekijken, delen en downloaden",
   "If not available in the selected language, the resource will be shown in English": "Indien niet beschikbaar in de geselecteerde taal, zal de bron in het Engels worden getoond",
   "English": "Engels",
@@ -384,5 +383,13 @@
   "It is either expired or cancelled": "Het is ofwel verlopen of geannuleerd",
   "Contact support if you need further assistance": "Neem contact op met de klantendienst als u verdere hulp nodig heeft",
   "It looks like there in an issue with your monthly subscription": "Het lijkt erop dat er een probleem is met uw maandabonnement",
-  "Reset": "Resetten"
+  "Reset": "Resetten",
+  "Subscription": "Abonnement",
+  "Subscriptions": "Abonnementen",
+  "Shopping": "Winkelen",
+  "Shop products and manage your subscription": "Koop producten en beheer jouw abonnement",
+  "It looks like there in an issue with your annual ARQ subscription": "Koop producten en beheer jouw abonnement op qsciences.com",
+  "It looks like there in an issue with your monthly ARQ subscription": "Vypadá to, že došlo k problému s vaším měsíčním předplatným ARQ",
+  "Profile": "Profil",
+  "Not found on file": "Nebylo nalezeno v souboru"
 }

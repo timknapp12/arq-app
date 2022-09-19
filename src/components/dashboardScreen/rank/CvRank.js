@@ -41,7 +41,7 @@ const CVRank = () => {
     previousAmbassadorMonthlyRecord?.preferredCustomerVolume +
     previousAmbassadorMonthlyRecord?.retailCustomerVolume;
 
-  // const lastMonthAutoship = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
+  // const lastMonthSubscription = previousAmbassadorMonthlyRecord?.teamAutoshipVolume;
 
   const initialRankName = user?.customerSalesRank?.rankName;
   const [rankName, setRankName] = useState(initialRankName);
@@ -81,7 +81,7 @@ const CVRank = () => {
 
   const lastMonthCVPerc = reshapePerc(lastMonthCV, rank.minimumQoV);
 
-  // const autoshipPerc = reshapePerc(teamAutoshipVolume, lastMonthAutoship);
+  // const subscriptionPerc = reshapePerc(teamAutoshipVolume, lastMonthSubscription);
 
   return (
     <>
@@ -134,12 +134,12 @@ const CVRank = () => {
 
       {/* <Flexbox
         style={{ paddingTop: 12 }}
-        accessibilityLabel="CV Rank autoship cv"
+        accessibilityLabel="CV Rank Subscription CV"
         width="auto"
       >
-        <H4>{Localized('Autoship CV')}</H4>
+        <H4>{Localized('Subscription CV')}</H4>
         <DoubleDonut
-          outerpercentage={autoshipPerc}
+          outerpercentage={subscriptionPerc}
           outermax={100}
           outercolor={theme.donut2primaryColor}
           innerpercentage={100}
@@ -157,7 +157,7 @@ const CVRank = () => {
           </Legend>
           <Legend>
             <Dot dotFill={theme.donut3secondaryColor} />
-            <H5>{stringify(lastMonthAutoship)}</H5>
+            <H5>{stringify(lastMonthSubscription)}</H5>
           </Legend>
         </LegendContainer>
       </Flexbox> */}

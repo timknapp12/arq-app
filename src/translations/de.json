@@ -260,7 +260,6 @@
   "At A Glance": "Auf einen Blick",
   "My Team": "Mein Team",
   "Leaderboard": "Rangliste",
-  "Autoships": "Autoships",
   "Ambassador Enrollments": "Einschreibungen von Botschaftern",
   "PC Enrollments": "PC-Einschreibungen",
   "Event Tickets": "Veranstaltungstickets",
@@ -317,7 +316,7 @@
   "CV Rank": "CV Rang",
   "Total CV": "Gesamt CV",
   "Remaining CV": "Verbleibendes CV",
-  "Autoship CV": "Autoship CV",
+  "Subscription CV": "Abonnement CV",
   "View, share and download resources in the following language": "Anzeigen, Weitergeben und Herunterladen von Ressourcen in der folgenden Sprache",
   "If not available in the selected language, the resource will be shown in English": "Wenn die Ressource in der ausgewählten Sprache nicht verfügbar ist, wird sie auf Englisch angezeigt",
   "English": "Englisch",
@@ -384,5 +383,13 @@
   "It is either expired or cancelled": "Es ist entweder ausgelaufen oder gekündigt",
   "Contact support if you need further assistance": "Kontaktieren Sie den Support, wenn Sie weitere Hilfe benötigen",
   "It looks like there in an issue with your monthly subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem Monatsabonnement",
-  "Reset": "Zurücksetzen"
+  "Reset": "Zurücksetzen",
+  "Subscription": "Abonnement",
+  "Subscriptions": "Abonnements",
+  "Shopping": "Shopping",
+  "Shop products and manage your subscription": "Kaufen Sie Produkte und verwalten Sie Ihr Abonnement",
+  "It looks like there in an issue with your annual ARQ subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem ARQ-Jahresabonnement",
+  "It looks like there in an issue with your monthly ARQ subscription": "Es sieht so aus, als gäbe es ein Problem mit Ihrem ARQ-Monatsabonnement",
+  "Profile": "Profil",
+  "Not found on file": "Nicht in der Datei gefunden"
 }

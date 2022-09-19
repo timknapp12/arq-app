@@ -269,6 +269,7 @@ export const TextArea = ({
   numberOfLines,
   style,
   onFocus = () => {},
+  inputStyle = {},
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -288,6 +289,7 @@ export const TextArea = ({
           }}
           onBlur={() => setIsFocused(false)}
           focused={isFocused}
+          style={inputStyle}
           {...props}
         />
       </ThemedTextArea>
@@ -303,4 +305,5 @@ TextArea.propTypes = {
   style: PropTypes.object,
   // onFocus prop is used in UploadAssetModal.js or MyInfoModal
   onFocus: PropTypes.func,
+  inputStyle: PropTypes.object,
 };

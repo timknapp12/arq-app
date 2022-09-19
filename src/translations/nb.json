@@ -260,7 +260,6 @@
   "At A Glance": "På et øyeblikk",
   "My Team": "Mitt lag",
   "Leaderboard": "Toppliste",
-  "Autoships": "Automatiske skip",
   "Ambassador Enrollments": "Ambassadørpåmeldinger",
   "PC Enrollments": "PC-påmeldinger",
   "Event Tickets": "Billetter til arrangementer",
@@ -317,7 +316,7 @@
   "CV Rank": "CV-rangering",
   "Total CV": "Total CV",
   "Remaining CV": "Gjenværende CV",
-  "Autoship CV": "Autosend CV",
+  "Subscription CV": "Abonnement CV",
   "View, share and download resources in the following language": "Se, del og last ned ressurser på følgende språk",
   "If not available in the selected language, the resource will be shown in English": "Hvis dette ikke er tilgjengelig på språket som var valgt, vil ressursen vises på engelsk",
   "English": "English",
@@ -384,5 +383,13 @@
   "It is either expired or cancelled": "Det er utløpt eller avbrutt",
   "Contact support if you need further assistance": "Kontakt vårt supportteam i tilfelle du trenger ytterligere hjelp",
   "It looks like there in an issue with your monthly subscription": "Det ser ut til at det er et problem med ditt månedlige abonnement",
-  "Reset": "Tilbakestill"
+  "Reset": "Tilbakestill",
+  "Subscription": "Abonnement",
+  "Subscriptions": "Abonnementer",
+  "Shopping": "Shopping",
+  "Shop products and manage your subscription": "Handle produkter og administrer ditt abonnement",
+  "It looks like there in an issue with your annual ARQ subscription": "Det ser ut til at det oppstod et problem med ditt årlige ARQ-abonnement",
+  "It looks like there in an issue with your monthly ARQ subscription": "Det ser ut til at det oppstod et problem med ditt månedlige ARQ-abonnement",
+  "Profile": "Profil",
+  "Not found on file": "Ikke funnet på filen"
 }

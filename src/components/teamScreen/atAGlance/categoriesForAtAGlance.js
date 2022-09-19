@@ -4,19 +4,20 @@ export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
   return [
     {
       id: 0,
-      title: Localized('Autoships'),
+      title: Localized('Subscriptions'),
+      name: 'subscriptions',
       data: [
         {
           value: statsAtAGlance?.leg1?.processedAutoShipPv ?? 0,
-          color: pieColorMap?.autoships0,
+          color: pieColorMap?.subscriptions0,
         },
         {
           value: statsAtAGlance?.leg2?.processedAutoShipPv ?? 0,
-          color: pieColorMap?.autoships1,
+          color: pieColorMap?.subscriptions1,
         },
         {
           value: statsAtAGlance?.leg3?.processedAutoShipPv ?? 0,
-          color: pieColorMap?.autoships2,
+          color: pieColorMap?.subscriptions2,
         },
       ],
       firstTotal: statsAtAGlance?.downlineAutoShip?.processedAutoShipPv ?? 0,
@@ -25,6 +26,7 @@ export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
     {
       id: 1,
       title: Localized('Ambassador Enrollments'),
+      name: 'ambassador_enrollments',
       data: [
         {
           value: statsAtAGlance?.monthlyAmbEnrCount?.downlineCount ?? 0,
@@ -44,6 +46,7 @@ export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
     {
       id: 2,
       title: Localized('PC Enrollments'),
+      name: 'pc_enrollments',
       data: [
         {
           value: statsAtAGlance?.monthlyPreferredCount?.downlineCount ?? 0,
@@ -63,6 +66,7 @@ export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
     {
       id: 3,
       title: Localized('Event Tickets'),
+      name: 'event_tickets',
       data: [
         {
           value: statsAtAGlance?.eventTickets?.leg1EventTicketsSold ?? 0,
