@@ -18,9 +18,9 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
   const [selectedCategory, setSelectedCategory] = useState({});
 
   const pieColorMap = {
-    autoships0: theme.autoshipPie1,
-    autoships1: theme.autoshipPie2,
-    autoships2: theme.autoshipPie3,
+    subscriptions0: theme.subscriptionPie1,
+    subscriptions1: theme.subscriptionPie2,
+    subscriptions2: theme.subscriptionPie3,
     ambassadorEnrollments0: theme.ambassadorEnrollmentsPie1,
     ambassadorEnrollments1: theme.ambassadorEnrollmentsPie2,
     ambassadorEnrollments2: theme.ambassadorEnrollmentsPie3,
@@ -47,8 +47,7 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
 
   useEffect(() => {
     if (!selectedCategory.title) return;
-    const formattedTitle = selectedCategory.title.split(' ').join('_');
-    Analytics.logEvent(`${formattedTitle}_viewd_at_a_glnc`);
+    Analytics.logEvent(`${selectedCategory.name}_view_at_a_glance`);
   }, [selectedCategory]);
 
   return (
@@ -63,8 +62,8 @@ const AtAGlanceView = ({ closeMenus, ...props }) => {
         secondTotal={selectedCategory?.secondTotal ?? 0}
         closeMenus={closeMenus}
         showLegend={
-          selectedCategory?.title === 'Autoships' ||
-          selectedCategory?.title === 'Event Tickets'
+          selectedCategory?.name === 'subscriptions' ||
+          selectedCategory?.name === 'event_tickets'
         }
       />
       {categories.map((item) => (

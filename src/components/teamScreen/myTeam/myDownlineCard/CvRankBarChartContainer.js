@@ -81,7 +81,7 @@ const CvRankBarChartContainer = ({ member }) => {
             requiredTotal={requiredCvForNextRank}
           />
           <Gap />
-          {/* <H4>{Localized('Autoship CV')}</H4>
+          {/* <H4>{Localized('Subscription CV')}</H4>
           <Bar
             value={thisMonthAutoshipWidth}
             color={theme.donut3primaryColor}
