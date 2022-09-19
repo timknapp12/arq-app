@@ -260,7 +260,6 @@
   "At A Glance": "De un vistazo",
   "My Team": "Mi Equipo",
   "Leaderboard": "Tablero de Liderazgo",
-  "Autoships": "Envíos Automáticos",
   "Ambassador Enrollments": "Inscripción de Embajadores",
   "PC Enrollments": "Inscripción de PC",
   "Event Tickets": "Entradas para Eventos",
@@ -317,7 +316,7 @@
   "CV Rank": "Rango CV",
   "Total CV": "Total CV",
   "Remaining CV": "CV Restante",
-  "Autoship CV": "CV de Envío Automático",
+  "Subscription CV": "Suscripción CV",
   "View, share and download resources in the following language": "Ver, compartir y descargar recursos en el siguiente idioma",
   "If not available in the selected language, the resource will be shown in English": "Si el recurso no estuviera disponible en el idioma seleccionado, se mostrará en inglés",
   "English": "Inglés",
@@ -384,5 +383,13 @@
   "It is either expired or cancelled": "O bien ha vencido o se ha cancelado",
   "Contact support if you need further assistance": "Póngase en contacto con el servicio de soporte si necesita ayuda",
   "It looks like there in an issue with your monthly subscription": "Parece que hay un problema con su suscripción mensual",
-  "Reset": "Restablecer"
+  "Reset": "Restablecer",
+  "Subscription": "Suscripción",
+  "Subscriptions": "Suscripciones",
+  "Shopping": "Compras",
+  "Shop products and manage your subscription at qsciences.com": "Compre productos y administre su suscripción en qsciences.com",
+  "It looks like there in an issue with your annual ARQ subscription": "Parece que hay un problema con su suscripción anual de ARQ",
+  "It looks like there in an issue with your monthly ARQ subscription": "Parece que hay un problema con su suscripción mensual de ARQ",
+  "Profile": "Perfil",
+  "Not found on file": "No encontrado en el archivo"
 }
