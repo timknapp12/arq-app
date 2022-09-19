@@ -260,7 +260,6 @@
   "At A Glance": "一覧",
   "My Team": "マイチーム",
   "Leaderboard": "リーダーボード",
-  "Autoships": "自動送付",
   "Ambassador Enrollments": "アンバサダーの登録",
   "PC Enrollments": "PCの登録",
   "Event Tickets": "イベントチケット",
@@ -317,7 +316,7 @@
   "CV Rank": "CVランク",
   "Total CV": "合計 CV",
   "Remaining CV": "残 CV",
-  "Autoship CV": "オートシップ CV",
+  "Subscription CV": "定期購読 CV",
   "View, share and download resources in the following language": "下記の言語で閲覧やダウンロードを行います",
   "If not available in the selected language, the resource will be shown in English": "選択された言語に対応しない場合は、英語で表示されます",
   "English": "英語",
@@ -384,5 +383,13 @@
   "It is either expired or cancelled": "有効期限が切れているか、キャンセルされています",
   "Contact support if you need further assistance": "ご質問がある際は、カスタマーサポートまでご連絡下さい",
   "It looks like there in an issue with your monthly subscription": "月間サブスクリプションが正常に登録がされていません",
-  "Reset": "を再設定"
+  "Reset": "を再設定",
+  "Subscription": "定期購読",
+  "Subscriptions": "定期購読",
+  "Shopping": "注文",
+  "Shop products and manage your subscription at qsciences.com": "qsciences.comで製品を購入し、定期購読を管理することができます",
+  "It looks like there in an issue with your annual ARQ subscription": "あなたのARQ年間定期購読にエラーが発生しました",
+  "It looks like there in an issue with your monthly ARQ subscription": "あなたのARQ月間定期購読にエラーが発生しました",
+  "Profile": "プロフィール",
+  "Not found on file": "ファイルに見つかりませんでした"
 }

@@ -260,7 +260,6 @@
   "At A Glance": "At A Glance",
   "My Team": "My Team",
   "Leaderboard": "Leaderboard",
-  "Autoships": "Autoships",
   "Ambassador Enrollments": "Ambassador Enrollments",
   "PC Enrollments": "PC Enrollments",
   "Event Tickets": "Event Tickets",
@@ -317,7 +316,7 @@
   "CV Rank": "CV Rank",
   "Total CV": "Total CV",
   "Remaining CV": "Remaining CV",
-  "Autoship CV": "Autoship CV",
+  "Subscription CV": "Subscription CV",
   "View, share and download resources in the following language": "View, share and download resources in the following language",
   "If not available in the selected language, the resource will be shown in English": "If not available in the selected language, the resource will be shown in English",
   "English": "English",
@@ -384,5 +383,13 @@
   "It is either expired or cancelled": "It is either expired or cancelled",
   "Contact support if you need further assistance": "Contact support if you need further assistance",
   "It looks like there in an issue with your monthly subscription": "It looks like there in an issue with your monthly subscription",
-  "Reset": "Reset"
+  "Reset": "Reset",
+  "Subscription": "Subscription",
+  "Subscriptions": "Subscriptions",
+  "Shopping": "Shopping",
+  "Shop products and manage your subscription at qsciences.com": "Shop products and manage your subscription at qsciences.com",
+  "It looks like there in an issue with your annual ARQ subscription": "It looks like there in an issue with your annual ARQ subscription",
+  "It looks like there in an issue with your monthly ARQ subscription": "It looks like there in an issue with your monthly ARQ subscription",
+  "Profile": "Profile",
+  "Not found on file": "Not found on file"
 }

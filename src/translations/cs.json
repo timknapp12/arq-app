@@ -260,7 +260,6 @@
   "At A Glance": "Stručný přehled",
   "My Team": "Můj tým",
   "Leaderboard": "Výsledková tabule",
-  "Autoships": "Automatické objednávky",
   "Ambassador Enrollments": "Nábor ambasadorů",
   "PC Enrollments": "Nábor PC",
   "Event Tickets": "Vstupenky na akce",
@@ -317,7 +316,7 @@
   "CV Rank": "Pozice CV",
   "Total CV": "Celkové CV",
   "Remaining CV": "Zbývající CV",
-  "Autoship CV": "Autoship CV",
+  "Subscription CV": "Předplatné CV",
   "View, share and download resources in the following language": "Zobrazit, sdílet a stáhnout zdroje v následujícím jazyce",
   "If not available in the selected language, the resource will be shown in English": "Pokud zdroj není dostupný ve vybraném jazyce, bude zobrazen v angličtině",
   "English": "Angličtina",
@@ -384,5 +383,13 @@
   "It is either expired or cancelled": "Buď vypršelo nebo bylo zrušeno",
   "Contact support if you need further assistance": "Potřebujete-li další pomoc, kontaktujte podporu",
   "It looks like there in an issue with your monthly subscription": "Vypadá to, že došlo k problému s vaším měsíčním předplatným",
-  "Reset": "Resetovat"
+  "Reset": "Resetovat",
+  "Subscription": "Předplatné",
+  "Subscriptions": "Předplatné",
+  "Shopping": "Nakupování",
+  "Shop products and manage your subscription at qsciences.com": "Nakupujte produkty a spravujte své předplatné na qsciences.com",
+  "It looks like there in an issue with your annual ARQ subscription": "Vypadá to, že došlo k problému s vaším ročním předplatným ARQ",
+  "It looks like there in an issue with your monthly ARQ subscription": "Vypadá to, že došlo k problému s vaším měsíčním předplatným ARQ",
+  "Profile": "Profil",
+  "Not found on file": "Nebylo nalezeno v souboru"
 }
