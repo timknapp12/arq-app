@@ -159,9 +159,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
               >
                 <H4Book>{Localized('Shopping')}</H4Book>
                 <H6Book>
-                  {Localized(
-                    'Shop products and manage your subscription at qsciences.com',
-                  )}
+                  {Localized('Shop products and manage your subscription')}
                 </H6Book>
               </View>
             </Row>
