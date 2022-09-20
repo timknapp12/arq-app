@@ -23,7 +23,7 @@ export const handleLoginUser = (status, navigation) => {
     case 'AMBASSADOR_ARQ_YEARLY_FAILED':
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: `${Localized(
-          'It looks like there in an issue with your annual subscription',
+          'It looks like there in an issue with your annual ARQ subscription',
         )}. ${Localized('It is either expired or cancelled')}. ${Localized(
           'Contact support if you need further assistance',
         )}`,
@@ -34,7 +34,7 @@ export const handleLoginUser = (status, navigation) => {
     case 'AMBASSADOR_ARQ_MONTHLY_FAILED':
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: `${Localized(
-          'It looks like there in an issue with your monthly subscription',
+          'It looks like there in an issue with your monthly ARQ subscription',
         )}. ${Localized('It is either expired or cancelled')}. ${Localized(
           'Contact support if you need further assistance',
         )}`,
