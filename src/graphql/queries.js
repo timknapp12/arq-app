@@ -98,7 +98,7 @@ export const GET_USER = gql`
         leg3 {
           processedAutoShipPv
         }
-        monthlyAmbEnrCount {
+        monthlyAmbComCount {
           downlineCount
           downlineLeg1
           downlineLeg2

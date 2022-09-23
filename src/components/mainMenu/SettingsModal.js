@@ -31,8 +31,8 @@ import {
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TermsAndPrivacy from '../login/loginScreen/TermsAndPrivacy';
 import { findMarketId } from '../../utils/markets/findMarketId';
-import Constants from 'expo-constants';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -130,6 +130,23 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
     onSaveDefaultMarket();
     setIsSettingsModalOpen(false);
     Analytics.logEvent(`Save_default_market_id_${defaultCountryId}`);
+  };
+
+  const openTerms = (url) => {
+    setIsSettingsModalOpen(false);
+    navigation.navigate('Resources Asset Screen', {
+      title: Localized('Terms').toUpperCase(),
+      url: url,
+      contentType: 'pdf',
+    });
+  };
+  const openPrivacy = (url) => {
+    setIsSettingsModalOpen(false);
+    navigation.navigate('Resources Asset Screen', {
+      title: Localized('Privacy').toUpperCase(),
+      url: url,
+      contentType: 'pdf',
+    });
   };
 
   return (
@@ -253,7 +270,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
               </Flexbox>
             </ScrollView>
           </KeyboardAvoidingView>
-          <H5Secondary>{`ARQ Version: ${Constants.manifest.version}`}</H5Secondary>
+          <TermsAndPrivacy openTerms={openTerms} openPrivacy={openPrivacy} />
         </ScreenContainer>
       </TouchableWithoutFeedback>
     </Modal>

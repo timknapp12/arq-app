@@ -285,6 +285,25 @@ const LoginScreen = ({ navigation }) => {
       });
   };
 
+  const openTerms = (url) =>
+    navigation.navigate('App Stack', {
+      screen: 'Resources Asset Screen',
+      params: {
+        title: Localized('Terms').toUpperCase(),
+        url: url,
+        contentType: 'pdf',
+      },
+    });
+  const openPrivacy = (url) =>
+    navigation.navigate('App Stack', {
+      screen: 'Resources Asset Screen',
+      params: {
+        title: Localized('Privacy').toUpperCase(),
+        url: url,
+        contentType: 'pdf',
+      },
+    });
+
   if (isLoading || loadingLoginUser) {
     return <LoadingScreen />;
   }
@@ -358,7 +377,7 @@ const LoginScreen = ({ navigation }) => {
 
         <FindOutMore onPress={onFindOutMore} />
 
-        <TermsAndPrivacy navigation={navigation} />
+        <TermsAndPrivacy openTerms={openTerms} openPrivacy={openPrivacy} />
         <ErrorModal
           visible={isErrorModalOpen}
           onClose={() => setIsErrorModalOpen(false)}
