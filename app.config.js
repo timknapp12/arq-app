@@ -1,15 +1,15 @@
 // DEV Settings
-let uri = 'https://qservices-dev.qsciences.com/graphql';
+let uri = 'https://qservicesstaging-dev.azurewebsites.net/graphql';
 
 // Staging settings
 let appName = 'q-connect-pro-staging';
-let appVersion = '0.0.123';
+let appVersion = '0.0.124';
 let bundleIdent = 'com.qsciences.q-connect-pro-staging';
 let resClientID =
   'com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd';
 let googleServicesFileIos = './staging/GoogleService-Info.plist';
 let googleServicesFileAndroid = './staging/google-services.json';
-let versionCode = 123;
+let versionCode = 124;
 let androidPackage = 'com.qsciences.q_connect_pro_staging';
 let firebaseAPIKey = 'AIzaSyDLvs6kf7lAlma9v714M_yF4EqP_UDIc5g';
 let authDomain = 'q-connect-pro-staging.firebaseapp.com';
@@ -23,20 +23,20 @@ let facebookSchemeId = 'fb319892812842607';
 let facebookDisplayName = 'Q ConnectPro';
 
 if (process.env.DEPLOY_ENVIRONMENT === 'staging') {
-  uri = 'https://qservices-staging.qsciences.com/graphql';
+  uri = 'https://qservicesstaging.azurewebsites.net/graphql';
 }
 
 // Production settings
 if (process.env.DEPLOY_ENVIRONMENT === 'production') {
   appName = 'ambassador-resources-q';
-  appVersion = '2.3.0';
+  appVersion = '2.3.1';
   bundleIdent = 'com.qsciences.ambassadorResourcesQ';
   resClientID =
     'com.googleusercontent.apps.558665444400-qg6odikk6of0p60c53bi97ok7v20sceh';
   googleServicesFileIos = './production/GoogleService-Info.plist';
   googleServicesFileAndroid = './production/google-services.json';
   androidPackage = 'com.qsciences.ambassadorResourcesQ';
-  versionCode = 20030;
+  versionCode = 20031;
   firebaseAPIKey = 'AIzaSyCJ9fsDkv4R-P3Ok8ZYswXB5OfxZNiGXxg';
   authDomain = 'q-innovation-prod.firebaseapp.com';
   projectID = 'q-innovation-prod';
