@@ -49,8 +49,8 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
     GET_CORPORATE_RESOURCES,
     {
       variables: {
-        countries: marketId,
-        languageCode: selectedLanguage,
+        countryId: marketId,
+        languageCode: selectedLanguage || 'en',
       },
       onError: (error) =>
         console.log(`error in get corporate resources`, error),
@@ -151,7 +151,7 @@ const CorporateView = ({ navigation, closeMenus, isMenuOpen }) => {
             accessibilityLabel="Corporate Resources"
             onStartShouldSetResponder={() => true}
           >
-            {data?.corporateResources.map((item, index) => (
+            {data?.corporateResourcesV2.map((item, index) => (
               <ResourceCard
                 isCalloutOpenFromParent={isCalloutOpenFromParent}
                 setIsCalloutOpenFromParent={setIsCalloutOpenFromParent}
