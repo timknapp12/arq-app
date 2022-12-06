@@ -1,7 +1,7 @@
 import { Localized } from '../translations/Localized';
 
 // run this anytime login user mutation is called
-export const handleLoginUser = (status, navigation) => {
+export const handleLoginUser = (status, navigation, username) => {
   switch (status) {
     case 'SUCCESS':
       // send the user to the first screen in App Stack, which is the dashboard screen
@@ -9,6 +9,9 @@ export const handleLoginUser = (status, navigation) => {
       break;
     case 'NO_LOGIN':
       navigation.navigate('Enter Id Screen');
+      break;
+    case 'EMAIL_FOUND':
+      navigation.navigate('Confirm Account Screen', { username });
       break;
     case 'PREFERRED_CUSTOMER_FAILURE':
     case 'RETAIL_FAILURE':

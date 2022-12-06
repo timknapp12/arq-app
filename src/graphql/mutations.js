@@ -10,6 +10,8 @@ export const LOGIN_USER = gql`
       associate {
         associateId
         legacyAssociateId
+        emailAddress
+        primaryPhoneNumber
       }
     }
   }
