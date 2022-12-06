@@ -35,7 +35,7 @@ const DividerLine = styled.View`
 
 const CreateAccountScreen = ({ navigation }) => {
   const { theme, setToken, signOutOfFirebase } = useContext(AppContext);
-  const { email, password, confirmPassword, clearFields } =
+  const { email, password, confirmPassword, clearFields, setDirectScaleUser } =
     useContext(LoginContext);
   const [errorMessage, setErrorMessage] = useState('');
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
@@ -50,7 +50,12 @@ const CreateAccountScreen = ({ navigation }) => {
         data?.loginArqAmbassador?.success === true
           ? 'SUCCESS'
           : data?.loginArqAmbassador?.loginResults;
-      handleLoginUser(status, navigation);
+      const username =
+        data?.loginArqAmbassador?.associate?.legacyAssociateId ?? '';
+      handleLoginUser(status, navigation, username);
+      if (status === 'EMAIL_FOUND') {
+        setDirectScaleUser(data?.loginArqAmbassador?.associate);
+      }
     },
     onError: (error) => {
       setIsErrorModalOpen(true);

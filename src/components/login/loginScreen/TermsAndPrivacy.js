@@ -41,8 +41,8 @@ const TermsAndPrivacy = ({ openTerms, openPrivacy }) => {
 };
 
 TermsAndPrivacy.propTypes = {
-  openTerms: PropTypes.func.isRequired,
-  openPrivacy: PropTypes.func.isRequired,
+  openTerms: PropTypes.func,
+  openPrivacy: PropTypes.func,
 };
 
 export default TermsAndPrivacy;
