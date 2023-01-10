@@ -52,7 +52,7 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   const [validateUser, { loading }] = useMutation(LOGIN_VALIDATION_PROCESS, {
     variables: {
       method: method,
-      loginName: username,
+      loginName: username.toString(),
       verificationInfo: verificationInfo,
       language: deviceLanguage,
     },
