@@ -188,6 +188,38 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
         <TouchableOpacity
           activeOpacity={isMenuOpen ? 1 : 0.2}
           onPress={() => {
+            goToOnboarding();
+            Analytics.logEvent('open_myQFit_onboarding_in_services');
+          }}
+        >
+          <Card>
+            <Row>
+              <OnboardingIcon
+                style={{
+                  height: 48,
+                  width: 48,
+                  color: theme.primaryTextColor,
+                  alignSelf: 'center',
+                }}
+              />
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  marginStart: 8,
+                }}
+              >
+                <H4Book>{Localized('MyQFit Ambassador Onboarding')}</H4Book>
+                <H6Book>{Localized('Join the MyQFIT app')}</H6Book>
+              </View>
+            </Row>
+          </Card>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={isMenuOpen ? 1 : 0.2}
+          onPress={() => {
             goToChallenge();
             Analytics.logEvent('open_myQFit_challenge_in_services');
           }}
@@ -213,41 +245,9 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
                 <H4Book>{Localized('MyQFit Challenge Request')}</H4Book>
                 <H6Book>
                   {Localized(
-                    'Use the MyQFit App to introduce your friends to Q Sciences',
+                    'Request a custom challenge for your team and customers',
                   )}
                 </H6Book>
-              </View>
-            </Row>
-          </Card>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          activeOpacity={isMenuOpen ? 1 : 0.2}
-          onPress={() => {
-            goToOnboarding();
-            Analytics.logEvent('open_myQFit_onboarding_in_services');
-          }}
-        >
-          <Card>
-            <Row>
-              <OnboardingIcon
-                style={{
-                  height: 48,
-                  width: 48,
-                  color: theme.primaryTextColor,
-                  alignSelf: 'center',
-                }}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  marginStart: 8,
-                }}
-              >
-                <H4Book>{Localized('MyQFit Ambassador Onboarding')}</H4Book>
-                <H6Book>{Localized('Join the MyQFIT app')}</H6Book>
               </View>
             </Row>
           </Card>
