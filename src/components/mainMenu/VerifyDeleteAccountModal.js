@@ -43,7 +43,6 @@ const VerifyDeleteAccount = ({
     setIsLoadingDelete(true);
     await onConfirm();
     setIsLoadingDelete(false);
-    onClose();
   };
 
   return (
