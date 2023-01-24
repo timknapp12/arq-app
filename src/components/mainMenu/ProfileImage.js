@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
 import * as Analytics from 'expo-firebase-analytics';
 import { CameraIcon, GalleryIcon } from '../common';
-import { Localized } from '../../translations/Localized';
 
 const ImageContainer = styled.View`
   height: 72px;
@@ -67,12 +65,6 @@ const ProfileImage = ({
       return setHasCameraPermission(true);
     }
     if (status !== 'granted') {
-      Alert.alert(
-        Localized('Sorry, we need camera roll permissions to make this work!'),
-        Localized(
-          'Please go to settings on your device and enable permissions to access your camera',
-        ),
-      );
       setHasCameraPermission(false);
     }
   };
@@ -87,12 +79,6 @@ const ProfileImage = ({
       return setHasPhotosPermissions(true);
     }
     if (status !== 'granted') {
-      Alert.alert(
-        Localized('Sorry, we need camera roll permissions to make this work!'),
-        Localized(
-          'Please go to settings on your device and enable permissions to access your photos',
-        ),
-      );
       setHasPhotosPermissions(false);
     }
   };

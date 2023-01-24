@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="42.29" y="70.96" width="14.39" height="58.08" rx="7.19" ry="7.19"/>
+  <path class="cls-1" d="m150.52,129.04h0c3.96,0,7.19-3.24,7.19-7.19v-43.69c0-3.96-3.24-7.19-7.19-7.19h0c-3.96,0-7.19,3.24-7.19,7.19v43.69c0,3.96,3.24,7.19,7.19,7.19Z"/>
+  <path class="cls-1" d="m63.87,136.83h0c-3.96,0-7.19-3.24-7.19-7.19v-59.27c0-3.96,3.24-7.19,7.19-7.19h0c3.96,0,7.19,3.24,7.19,7.19v59.27c0,3.96-3.24,7.19-7.19,7.19Z"/>
+  <path class="cls-1" d="m136.13,136.83h0c3.96,0,7.19-3.24,7.19-7.19v-59.27c0-3.96-3.24-7.19-7.19-7.19h0c-3.96,0-7.19,3.24-7.19,7.19v59.27c0,3.96,3.24,7.19,7.19,7.19Z"/>
+  <rect class="cls-1" x="92.81" y="71.06" width="14.39" height="57.88" transform="translate(200 0) rotate(90)"/>
+</svg>

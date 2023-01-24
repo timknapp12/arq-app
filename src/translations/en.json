@@ -119,7 +119,7 @@
   "Back Office": "Back Office",
   "Access everything you need to build your business on the go": "Access everything you need to build your business on the go.",
   "Enroll": "Enroll",
-  "Help people enroll with Q Sciences today": "Help people enroll with Q Sciences today.",
+  "Help people enroll with Q Sciences today": "Help people enroll with Q Sciences today",
   "Please select a market": "Please select a market",
   "Select a market to see corresponding resources from Corporate": "Select a market to see corresponding resources from Corporate",
   "Select a market to see corresponding news from Corporate": "Select a market to see corresponding news from Corporate",
@@ -389,5 +389,13 @@
   "It looks like there in an issue with your annual ARQ subscription": "It looks like there in an issue with your annual ARQ subscription",
   "It looks like there in an issue with your monthly ARQ subscription": "It looks like there in an issue with your monthly ARQ subscription",
   "Profile": "Profile",
-  "Not found on file": "Not found on file"
+  "Not found on file": "Not found on file",
+  "Delete Account": "Delete Account",
+  "Are you sure you want to permanently delete your account?": "Are you sure you want to permanently delete your account?",
+  "MyQFit": "MyQFit",
+  "MyQFit Challenge Request": "MyQFit Challenge Request",
+  "MyQFit Ambassador Onboarding": "MyQFit Ambassador Onboarding",
+  "Fitness and nutrition, tools & resources, support & community": "Fitness and nutrition, tools & resources, support & community",
+  "Request a custom challenge for your team and customers": "Request a custom challenge for your team and customers",
+  "Join the MyQFIT app": "Join the MyQFIT app"
 }
