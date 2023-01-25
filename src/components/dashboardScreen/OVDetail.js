@@ -21,7 +21,7 @@ const OVDetail = () => {
   const { theme } = useContext(AppContext);
   const { closeMenus, user } = useContext(DashboardScreenContext);
 
-  const initialRankName = user?.rank.name;
+  const initialRankName = user?.rank.rankName;
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
