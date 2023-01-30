@@ -31,6 +31,7 @@ import {
   findIfUserHasATeam,
   findUsersOwnTeamInfo,
 } from '../../utils/teamResources/findTeamResourceData';
+import { findRankId } from '../../utils/findRankInSlider';
 
 const InitialDataContainer = ({ children }) => {
   const { associateId, legacyId, deviceLanguage } = useContext(AppContext);
@@ -98,7 +99,7 @@ const InitialDataContainer = ({ children }) => {
 
   useEffect(() => {
     if (!userData) return;
-    const platinumRankId = 10;
+    const platinumRankId = findRankId(ranksData.ranks, 'Platinum');
     const value =
       userData?.treeNodeFor?.currentAmbassadorMonthlyRecord?.highestRank
         ?.rankId > platinumRankId;
