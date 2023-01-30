@@ -22,6 +22,7 @@ const LeaderboardFilterModal = ({
   setSelectedRankId,
   onClose,
   visible,
+  initialRankId,
   ...props
 }) => {
   const { ranks } = useContext(LoginContext);
@@ -43,8 +44,8 @@ const LeaderboardFilterModal = ({
     setSelectedLeaderboardMonth('CURRENT');
     setType('AMBASSADOR_ENROLLMENT');
     setSelectedLeaderboardType('AMBASSADOR_ENROLLMENT');
-    setRankId('3');
-    setSelectedRankId('3');
+    setRankId(initialRankId);
+    setSelectedRankId(initialRankId);
   };
 
   const onSubmit = () => {
@@ -161,6 +162,7 @@ LeaderboardFilterModal.propTypes = {
   setSelectedRankId: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
+  initialRankId: PropTypes.string.isRequired,
 };
 
 export default LeaderboardFilterModal;
