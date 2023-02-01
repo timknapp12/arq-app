@@ -4,7 +4,9 @@ import { View } from 'react-native';
 import Builder from '../../../../assets/icons/RankIcon-Builder.svg';
 import Pro from '../../../../assets/icons/RankIcon-Pro.svg';
 import Executive from '../../../../assets/icons/RankIcon-Executive.svg';
+import ExecutivePlus from '../../../../assets/icons/icExecutivePlus.svg';
 import Elite from '../../../../assets/icons/RankIcon-Elite.svg';
+import ElitePlus from '../../../../assets/icons/icElitePlus.svg';
 import Bronze from '../../../../assets/icons/RankIcon-Bronze.svg';
 import Silver from '../../../../assets/icons/RankIcon-Silver.svg';
 import Gold from '../../../../assets/icons/RankIcon-Gold.svg';
@@ -23,7 +25,9 @@ const rankIconMap = {
   Builder: Builder,
   Pro: Pro,
   Executive: Executive,
+  'Executive +': ExecutivePlus,
   Elite: Elite,
+  'Elite +': ElitePlus,
   Bronze: Bronze,
   Silver: Silver,
   Gold: Gold,
