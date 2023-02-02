@@ -21,7 +21,7 @@ const OVDetail = () => {
   const { theme } = useContext(AppContext);
   const { closeMenus, user } = useContext(DashboardScreenContext);
 
-  const initialRankName = user?.rank.name;
+  const initialRankName = user?.rank.rankName;
   const [rankName, setRankName] = useState(initialRankName);
   const initialRank = user?.rank;
   const [rank, setRank] = useState(initialRank);
@@ -45,8 +45,11 @@ const OVDetail = () => {
   const [maxQOV, setMaxQOV] = useState(initialMaxQOV);
 
   useEffect(() => {
-    const formattedName = rank.rankName.split(' ').join('_');
-    Analytics.logEvent(`slider_set_to_${formattedName}_in_ov_detail`);
+    const formattedName = rank.rankName
+      .split(' ')
+      .join('_')
+      .replace('+', 'plus');
+    Analytics.logEvent(`slider_${formattedName}_ov_detail`);
     if (currentUserRankID >= rank.rankId) {
       setIsQualified(true);
     } else {

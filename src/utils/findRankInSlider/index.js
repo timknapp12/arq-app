@@ -11,3 +11,8 @@ export const findRankIndex = (list, name) => {
   const result = list.findIndex((item) => item?.rankName === name);
   return result;
 };
+
+export const findRankId = (list, name) => {
+  const result = list.find((item) => item.rankName === name);
+  return result.rankId;
+};
