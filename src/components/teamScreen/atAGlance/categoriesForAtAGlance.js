@@ -29,7 +29,7 @@ export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
       name: 'ambassador_enrollments',
       data: [
         {
-          value: statsAtAGlance?.monthlyAmbEnrCount?.downlineCount ?? 0,
+          value: statsAtAGlance?.monthlyAmbComCount?.downlineCount ?? 0,
           color: pieColorMap?.ambassadorEnrollments0,
         },
         {
@@ -41,7 +41,7 @@ export const reshapeAtAGlanceCategories = (statsAtAGlance, pieColorMap) => {
           color: pieColorMap?.ambassadorEnrollments2,
         },
       ],
-      firstTotal: statsAtAGlance?.monthlyAmbEnrCount?.downlineCount ?? 0,
+      firstTotal: statsAtAGlance?.monthlyAmbComCount?.downlineCount ?? 0,
     },
     {
       id: 2,

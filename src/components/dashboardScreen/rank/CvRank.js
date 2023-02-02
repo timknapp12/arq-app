@@ -65,8 +65,11 @@ const CVRank = () => {
   };
 
   useEffect(() => {
-    const formattedName = rank.rankName.split(' ').join('_');
-    Analytics.logEvent(`slider_set_to_${formattedName}_in_cv_rank`);
+    const formattedName = rank.rankName
+      .split(' ')
+      .join('_')
+      .replace('+', 'plus');
+    Analytics.logEvent(`slider_${formattedName}_in_cv_rank`);
     const { cv } = user;
     const { minimumQoV } = rank;
     validateQualification(cv, minimumQoV);

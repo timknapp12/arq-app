@@ -125,7 +125,7 @@ const EnrollmentScreen = () => {
               onPress={() => {
                 Share.share({ message: url });
                 Analytics.logEvent(
-                  `Share_${selectedOption}_enrollment_link_button_tapped`,
+                  `Share_${selectedOption}_enroll_link_btn_tapped`,
                 );
               }}
             >

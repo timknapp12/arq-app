@@ -98,7 +98,7 @@ export const GET_USER = gql`
         leg3 {
           processedAutoShipPv
         }
-        monthlyAmbEnrCount {
+        monthlyAmbComCount {
           downlineCount
           downlineLeg1
           downlineLeg2
@@ -273,8 +273,8 @@ export const GET_MARKETS = gql`
 `;
 
 export const GET_CORPORATE_RESOURCES = gql`
-  query CorporateResoures($countries: [Int!], $languageCode: String) {
-    corporateResources(countries: $countries, languageCode: $languageCode) {
+  query CorporateResouresV2($countryId: Int!, $languageCode: String!) {
+    corporateResourcesV2(countryId: $countryId, languageCode: $languageCode) {
       originalFolderName
       folderName
       folderId

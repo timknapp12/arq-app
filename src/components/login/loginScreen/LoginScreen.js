@@ -41,8 +41,14 @@ const DividerLine = styled.View`
 const LoginScreen = ({ navigation }) => {
   const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
     useContext(AppContext);
-  const { email, password, setErrorMessage, errorMessage, clearFields } =
-    useContext(LoginContext);
+  const {
+    email,
+    password,
+    setErrorMessage,
+    errorMessage,
+    clearFields,
+    setDirectScaleUser,
+  } = useContext(LoginContext);
 
   // app starts in loading state
   const [isLoading, setIsLoading] = useState(true);
@@ -108,7 +114,12 @@ const LoginScreen = ({ navigation }) => {
         data?.loginArqAmbassador?.success === true
           ? 'SUCCESS'
           : data?.loginArqAmbassador?.loginResults;
-      handleLoginUser(status, navigation);
+      const username =
+        data?.loginArqAmbassador?.associate?.legacyAssociateId ?? '';
+      handleLoginUser(status, navigation, username);
+      if (status === 'EMAIL_FOUND') {
+        setDirectScaleUser(data?.loginArqAmbassador?.associate);
+      }
     },
     onError: (error) => {
       setIsLoading(false);
@@ -285,6 +296,25 @@ const LoginScreen = ({ navigation }) => {
       });
   };
 
+  const openTerms = (url) =>
+    navigation.navigate('App Stack', {
+      screen: 'Resources Asset Screen',
+      params: {
+        title: Localized('Terms').toUpperCase(),
+        url: url,
+        contentType: 'pdf',
+      },
+    });
+  const openPrivacy = (url) =>
+    navigation.navigate('App Stack', {
+      screen: 'Resources Asset Screen',
+      params: {
+        title: Localized('Privacy').toUpperCase(),
+        url: url,
+        contentType: 'pdf',
+      },
+    });
+
   if (isLoading || loadingLoginUser) {
     return <LoadingScreen />;
   }
@@ -358,7 +388,7 @@ const LoginScreen = ({ navigation }) => {
 
         <FindOutMore onPress={onFindOutMore} />
 
-        <TermsAndPrivacy navigation={navigation} />
+        <TermsAndPrivacy openTerms={openTerms} openPrivacy={openPrivacy} />
         <ErrorModal
           visible={isErrorModalOpen}
           onClose={() => setIsErrorModalOpen(false)}

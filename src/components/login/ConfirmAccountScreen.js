@@ -34,7 +34,6 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
     useContext(AppContext);
   const { directScaleUser } = useContext(LoginContext);
   const { emailAddress, primaryPhoneNumber } = directScaleUser;
-
   const { username } = route.params;
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -48,12 +47,12 @@ const ConfirmAccountScreen = ({ navigation, route }) => {
   const verificationInfo =
     selectedOption === 'email'
       ? emailAddress
-      : primaryPhoneNumber.replace(phoneRegex, '');
+      : primaryPhoneNumber?.replace(phoneRegex, '');
 
   const [validateUser, { loading }] = useMutation(LOGIN_VALIDATION_PROCESS, {
     variables: {
       method: method,
-      loginName: username,
+      loginName: username.toString(),
       verificationInfo: verificationInfo,
       language: deviceLanguage,
     },

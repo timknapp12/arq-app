@@ -20,6 +20,7 @@ import {
   CloseIcon,
   Header,
   PrimaryButton,
+  SecondaryButton,
   Subheader,
   H4Heavy,
   H5Heavy,
@@ -31,8 +32,9 @@ import {
 import { Localized } from '../../translations/Localized';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
+import TermsAndPrivacy from '../login/loginScreen/TermsAndPrivacy';
 import { findMarketId } from '../../utils/markets/findMarketId';
-import Constants from 'expo-constants';
+import VerifyDeleteAccount from './VerifyDeleteAccountModal';
 
 const HeaderButtonContainer = styled.View`
   width: 60px;
@@ -68,6 +70,9 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
 
   const [isSaveButtonVisisble, setIsSaveButtonVisisble] = useState(false);
 
+  const [isVerifyDeleteAccountModalOpen, setIsVerifyDeleteAccountModalOpen] =
+    useState(false);
+
   // we need to restructure the markets from the database into a structure that fits the dropdown picker
   const reshapedItems = markets?.map((item) => ({
     key: item?.countryId,
@@ -91,6 +96,17 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
     Analytics.logEvent('Sign_out_in_settings_tapped');
     signOutOfFirebase();
     navigation.navigate('Login Screen');
+  };
+
+  const [deleteAccountError, setDeleteAccountError] = useState('');
+  const deleteCurrentFirebaseUser = () => {
+    user
+      .delete()
+      .then(() => {
+        Analytics.logEvent('Delete_account_button_tapped');
+        signOut();
+      })
+      .catch((error) => setDeleteAccountError(error.message));
   };
 
   const defaultCountryId = findMarketId(selectedMarket, markets);
@@ -130,6 +146,23 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
     onSaveDefaultMarket();
     setIsSettingsModalOpen(false);
     Analytics.logEvent(`Save_default_market_id_${defaultCountryId}`);
+  };
+
+  const openTerms = (url) => {
+    setIsSettingsModalOpen(false);
+    navigation.navigate('Resources Asset Screen', {
+      title: Localized('Terms').toUpperCase(),
+      url: url,
+      contentType: 'pdf',
+    });
+  };
+  const openPrivacy = (url) => {
+    setIsSettingsModalOpen(false);
+    navigation.navigate('Resources Asset Screen', {
+      title: Localized('Privacy').toUpperCase(),
+      url: url,
+      contentType: 'pdf',
+    });
   };
 
   return (
@@ -250,10 +283,31 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     {Localized('Sign Out').toUpperCase()}
                   </PrimaryButton>
                 </View>
+                <View
+                  style={{
+                    width: '85%',
+                    marginTop: 40,
+                  }}
+                >
+                  <SecondaryButton
+                    testID="delete-account-button-in-settings"
+                    onPress={() => setIsVerifyDeleteAccountModalOpen(true)}
+                  >
+                    {Localized('Delete Account').toUpperCase()}
+                  </SecondaryButton>
+                </View>
               </Flexbox>
             </ScrollView>
           </KeyboardAvoidingView>
-          <H5Secondary>{`ARQ Version: ${Constants.manifest.version}`}</H5Secondary>
+          <TermsAndPrivacy openTerms={openTerms} openPrivacy={openPrivacy} />
+          {isVerifyDeleteAccountModalOpen && (
+            <VerifyDeleteAccount
+              visible={isVerifyDeleteAccountModalOpen}
+              onClose={() => setIsVerifyDeleteAccountModalOpen(false)}
+              onConfirm={deleteCurrentFirebaseUser}
+              deleteAccountError={deleteAccountError}
+            />
+          )}
         </ScreenContainer>
       </TouchableWithoutFeedback>
     </Modal>

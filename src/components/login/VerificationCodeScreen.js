@@ -26,7 +26,7 @@ const VerificationCodeScreen = ({ navigation, route }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const [confirmAccessCode, { loading }] = useMutation(CONFIRM_ACCESS_CODE, {
-    variables: { loginName: username, accessCode: code },
+    variables: { loginName: username.toString(), accessCode: code },
     onError: (error) => setErrorMessage(error.message),
     onCompleted: (data) => {
       const status = data?.loginValidationToken.status;
@@ -46,7 +46,7 @@ const VerificationCodeScreen = ({ navigation, route }) => {
     {
       variables: {
         method: method,
-        loginName: username,
+        loginName: username.toString(),
         verificationInfo: verificationInfo,
         language: deviceLanguage,
       },

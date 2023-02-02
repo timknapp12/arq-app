@@ -9,28 +9,9 @@ const termsOfServiceUrl =
   'https://firebasestorage.googleapis.com/v0/b/q-innovation-prod.appspot.com/o/legal%2F%5BQ%20Sciences%5D%20Terms%20of%20Service.pdf?alt=media&token=87c7d801-7b50-4e7b-a712-797a81536089';
 
 const privacyPolicyUrl =
-  'https://firebasestorage.googleapis.com/v0/b/q-innovation-prod.appspot.com/o/legal%2F%5BQ%20Sciences%5D%20Privacy%20Policy.pdf?alt=media&token=748056f7-c833-428e-bd0c-44e60954e71b';
+  'https://firebasestorage.googleapis.com/v0/b/q-innovation-prod.appspot.com/o/legal%2FQSI%20Holding%20Global%20Privacy%20Policy-FINAL-8.11.22.pdf?alt=media&token=e30fad87-2382-41ee-8af5-1269cef8b779';
 
-const TermsAndPrivacy = ({ navigation }) => {
-  const openTerms = () =>
-    navigation.navigate('App Stack', {
-      screen: 'Resources Asset Screen',
-      params: {
-        title: Localized('Terms').toUpperCase(),
-        url: termsOfServiceUrl,
-        contentType: 'pdf',
-      },
-    });
-  const openPrivacy = () =>
-    navigation.navigate('App Stack', {
-      screen: 'Resources Asset Screen',
-      params: {
-        title: Localized('Privacy').toUpperCase(),
-        url: privacyPolicyUrl,
-        contentType: 'pdf',
-      },
-    });
-
+const TermsAndPrivacy = ({ openTerms, openPrivacy }) => {
   return (
     <Flexbox justify="flex-start">
       <Flexbox
@@ -39,12 +20,15 @@ const TermsAndPrivacy = ({ navigation }) => {
         justify="center"
         direction="row"
       >
-        <TouchableOpacity onPress={openTerms} testID="terms-button">
+        <TouchableOpacity
+          onPress={() => openTerms(termsOfServiceUrl)}
+          testID="terms-button"
+        >
           <H4>{Localized('Terms')}</H4>
         </TouchableOpacity>
         <H4 style={{ marginStart: 8 }}>|</H4>
         <TouchableOpacity
-          onPress={openPrivacy}
+          onPress={() => openPrivacy(privacyPolicyUrl)}
           testID="privacy-button"
           style={{ marginStart: 8 }}
         >
@@ -57,7 +41,8 @@ const TermsAndPrivacy = ({ navigation }) => {
 };
 
 TermsAndPrivacy.propTypes = {
-  navigation: PropTypes.object.isRequired,
+  openTerms: PropTypes.func,
+  openPrivacy: PropTypes.func,
 };
 
 export default TermsAndPrivacy;

@@ -13,6 +13,7 @@ import { Flexbox, H5, LoadingSpinner, H6Secondary } from '../../common';
 import FilterIcon from '../../../../assets/icons/filter-icon.svg';
 import InfoIcon from '../../../../assets/icons/InfoIcon.svg';
 import AppContext from '../../../contexts/AppContext';
+import LoginContext from '../../../contexts/LoginContext';
 import LeaderboardFilterModal from './LeaderboardFilterModal';
 import LeaderboardTabs from './LeaderboardTabs';
 import RankLegend from './RankLegend';
@@ -20,9 +21,11 @@ import { LEADERBOARD } from '../../../graphql/queries';
 import StandingsCard from './StandingsCard';
 import { maxWidth } from '../../../styles/constants';
 import { Localized } from '../../../translations/Localized';
+import { findRankId } from '../../../utils/findRankInSlider';
 
 const LeaderboardView = ({ closeMenus, ...props }) => {
   const { theme } = useContext(AppContext);
+  const { ranks } = useContext(LoginContext);
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const [isRankLegendOpen, setIsRankLegendOpen] = useState(false);
@@ -32,7 +35,8 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
   const [selectedLeaderboardType, setSelectedLeaderboardType] = useState(
     'AMBASSADOR_ENROLLMENT',
   );
-  const [selectedRankId, setSelectedRankId] = useState('3');
+  const initialRankId = findRankId(ranks, 'Builder').toString();
+  const [selectedRankId, setSelectedRankId] = useState(initialRankId);
 
   const leaderboardTypeMap = {
     AMBASSADOR_ENROLLMENT: Localized('Ambassador Enrollments'),
@@ -207,6 +211,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
             setSelectedLeaderboardType={setSelectedLeaderboardType}
             selectedRankId={selectedRankId}
             setSelectedRankId={setSelectedRankId}
+            initialRankId={initialRankId}
           />
         )}
       </Flexbox>

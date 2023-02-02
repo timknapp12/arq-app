@@ -1,7 +1,7 @@
 import { Localized } from '../translations/Localized';
 
 // run this anytime login user mutation is called
-export const handleLoginUser = (status, navigation) => {
+export const handleLoginUser = (status, navigation, username) => {
   switch (status) {
     case 'SUCCESS':
       // send the user to the first screen in App Stack, which is the dashboard screen
@@ -9,6 +9,9 @@ export const handleLoginUser = (status, navigation) => {
       break;
     case 'NO_LOGIN':
       navigation.navigate('Enter Id Screen');
+      break;
+    case 'EMAIL_FOUND':
+      navigation.navigate('Confirm Account Screen', { username });
       break;
     case 'PREFERRED_CUSTOMER_FAILURE':
     case 'RETAIL_FAILURE':
@@ -23,7 +26,7 @@ export const handleLoginUser = (status, navigation) => {
     case 'AMBASSADOR_ARQ_YEARLY_FAILED':
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: `${Localized(
-          'It looks like there in an issue with your annual subscription',
+          'It looks like there in an issue with your annual ARQ subscription',
         )}. ${Localized('It is either expired or cancelled')}. ${Localized(
           'Contact support if you need further assistance',
         )}`,
@@ -34,7 +37,7 @@ export const handleLoginUser = (status, navigation) => {
     case 'AMBASSADOR_ARQ_MONTHLY_FAILED':
       navigation.navigate('Redirect Unauthorized User Screen', {
         message: `${Localized(
-          'It looks like there in an issue with your monthly subscription',
+          'It looks like there in an issue with your monthly ARQ subscription',
         )}. ${Localized('It is either expired or cancelled')}. ${Localized(
           'Contact support if you need further assistance',
         )}`,
