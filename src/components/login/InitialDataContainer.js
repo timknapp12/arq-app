@@ -106,15 +106,20 @@ const InitialDataContainer = ({ children }) => {
     setHasPermissionsToWrite(value);
   }, [userData]);
 
-  const [getProfile, { data: profileData, refetch: refetchProfile }] =
-    useLazyQuery(GET_PROFILE, {
-      variables: { associateId },
-      fetchPolicy: 'cache-and-network',
-      onError: (e) => console.log(`error in get profile`, e),
-    });
+  const [getProfile, { data: profileData }] = useLazyQuery(GET_PROFILE, {
+    variables: { associateId },
+    fetchPolicy: 'cache-and-network',
+    onError: (e) => console.log(`error in get profile`, e),
+  });
 
   const [updateProfile] = useMutation(UPDATE_USER, {
     onError: (e) => console.log(`error in update profile`, e),
+    refetchQueries: [
+      {
+        query: GET_PROFILE,
+        variables: { associateId },
+      },
+    ],
   });
 
   // get news by market
@@ -272,7 +277,6 @@ const InitialDataContainer = ({ children }) => {
         loadingUserData,
         userProfile: profileData?.associates?.[0],
         updateProfile,
-        refetchProfile,
         setMarketId,
         loadingNews,
         news,

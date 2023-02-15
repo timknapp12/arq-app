@@ -61,7 +61,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   const user = firebase.auth().currentUser;
   const email = user?.email;
 
-  const { markets, userProfile, updateProfile, refetchProfile, userMarket } =
+  const { markets, userProfile, updateProfile, userMarket } =
     useContext(LoginContext);
 
   const [selectedMarket, setSelectedMarket] = useState(
@@ -130,15 +130,13 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
     },
     defaultCountry: defaultCountryId,
   };
+  console.log('variables', variables);
 
   const onSaveDefaultMarket = () => {
     updateProfile({
       variables: variables,
-      onCompleted: (data) => {
-        console.log(`data`, data);
-        refetchProfile();
-      },
-      onError: (error) => console.log(`error`, error),
+      onError: (error) =>
+        console.log(`error in settings modal default market:`, error),
     });
   };
 
