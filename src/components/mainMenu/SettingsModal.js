@@ -113,24 +113,8 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
 
   const variables = {
     associateId: userProfile?.associateId,
-    profileUrl: userProfile?.profileUrl,
-    profileImageFileName: userProfile?.profileImageFileName,
-    firstName: userProfile?.firstName,
-    lastName: userProfile?.lastName,
-    displayName: userProfile?.displayName,
-    emailAddress: userProfile?.emailAddress,
-    primaryPhoneNumber: userProfile?.primaryPhoneNumber,
-    address: {
-      address1: userProfile?.address?.address1,
-      address2: userProfile?.address?.address2,
-      city: userProfile?.address?.city,
-      state: userProfile?.address?.state,
-      zip: userProfile?.address?.zip,
-      countryCode: userProfile?.address?.countryCode,
-    },
     defaultCountry: defaultCountryId,
   };
-  console.log('variables', variables);
 
   const onSaveDefaultMarket = () => {
     updateProfile({
