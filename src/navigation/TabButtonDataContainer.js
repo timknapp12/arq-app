@@ -30,6 +30,7 @@ const TabButtonDataContainer = ({ children }) => {
     refetchUserAccessCodes,
     alreadyHasTeam,
     hasPermissionsToWrite,
+    enabledMarket,
   } = useContext(LoginContext);
 
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
@@ -221,6 +222,7 @@ const TabButtonDataContainer = ({ children }) => {
   }, [selectedFolderName]);
 
   const handleMainAddButton = () => {
+    if (!enabledMarket) return handleAddProspect();
     showAddOptions ? closeAddOptions() : openAddOptions();
   };
 

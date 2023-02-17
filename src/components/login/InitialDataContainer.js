@@ -154,6 +154,12 @@ const InitialDataContainer = ({ children }) => {
 
   const news = newsData?.newsResources ?? [];
 
+  const enabledMarket =
+    userMarket?.countryCode === 'us' ||
+    userMarket?.countryCode === 'ca' ||
+    userMarket?.countryCode === 'au' ||
+    userMarket?.countryCode === 'nz';
+
   useEffect(() => {
     const count = calculateUnreadNews(news);
     setNewsNotificationCount(count);
@@ -297,6 +303,7 @@ const InitialDataContainer = ({ children }) => {
         shopQUrl,
         expoPushToken,
         isPushNotificationPermsGranted,
+        enabledMarket,
       }}
     >
       {children}

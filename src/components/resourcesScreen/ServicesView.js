@@ -12,6 +12,7 @@ import OnboardingIcon from '../../../assets/icons/OnboardingIcon.svg';
 import RequestChallengeIcon from '../../../assets/icons/RequestAChallengeIcon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
 import AppContext from '../../contexts/AppContext';
+import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 
 const Card = styled.View`
@@ -28,6 +29,7 @@ const Row = styled.View`
 
 const ServicesView = ({ closeMenus, isMenuOpen }) => {
   const { theme } = useContext(AppContext);
+  const { enabledMarket } = useContext(LoginContext);
 
   const navigation = useNavigation();
   const goToEnrollmentScreen = () => {
@@ -75,79 +77,77 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
   return (
     <MainScrollView>
       <View style={{ width: '100%' }}>
-        <H6Book>
-          {Localized('This feature is currently only supported in the USA')}
-        </H6Book>
-        <TouchableOpacity
-          activeOpacity={isMenuOpen ? 1 : 0.2}
-          onPress={() => {
-            goToEnrollmentScreen();
-            Analytics.logEvent('go_to_enrollment_from_services');
-          }}
-        >
-          <Card>
-            <Row>
-              <EnrollmentIcon
-                style={{
-                  height: 48,
-                  width: 48,
-                  color: theme.primaryTextColor,
-                  alignSelf: 'center',
-                }}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  marginStart: 8,
-                }}
-              >
-                <H4Book>{Localized('Ambassador Enrollments')}</H4Book>
-                <H6Book>
-                  {Localized('Help people enroll with Q Sciences today')}
-                </H6Book>
-              </View>
-            </Row>
-          </Card>
-        </TouchableOpacity>
+        {enabledMarket && (
+          <>
+            <TouchableOpacity
+              activeOpacity={isMenuOpen ? 1 : 0.2}
+              onPress={() => {
+                goToEnrollmentScreen();
+                Analytics.logEvent('go_to_enrollment_from_services');
+              }}
+            >
+              <Card>
+                <Row>
+                  <EnrollmentIcon
+                    style={{
+                      height: 48,
+                      width: 48,
+                      color: theme.primaryTextColor,
+                      alignSelf: 'center',
+                    }}
+                  />
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'flex-start',
+                      alignItems: 'flex-start',
+                      marginStart: 8,
+                    }}
+                  >
+                    <H4Book>{Localized('Ambassador Enrollments')}</H4Book>
+                    <H6Book>
+                      {Localized('Help people enroll with Q Sciences today')}
+                    </H6Book>
+                  </View>
+                </Row>
+              </Card>
+            </TouchableOpacity>
 
-        <H6Book>
-          {Localized('This feature is currently only supported in the USA')}
-        </H6Book>
-        <TouchableOpacity
-          activeOpacity={isMenuOpen ? 1 : 0.2}
-          onPress={() => {
-            goToShopQ();
-            Analytics.logEvent('go_to_shop_q');
-          }}
-        >
-          <Card>
-            <Row>
-              <ShopQIcon
-                style={{
-                  height: 48,
-                  width: 48,
-                  color: theme.primaryTextColor,
-                  alignSelf: 'center',
-                }}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  marginStart: 8,
-                }}
-              >
-                <H4Book>{Localized('Shopping')}</H4Book>
-                <H6Book>
-                  {Localized('Shop products and manage your subscription')}
-                </H6Book>
-              </View>
-            </Row>
-          </Card>
-        </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={isMenuOpen ? 1 : 0.2}
+              onPress={() => {
+                goToShopQ();
+                Analytics.logEvent('go_to_shop_q');
+              }}
+            >
+              <Card>
+                <Row>
+                  <ShopQIcon
+                    style={{
+                      height: 48,
+                      width: 48,
+                      color: theme.primaryTextColor,
+                      alignSelf: 'center',
+                    }}
+                  />
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'flex-start',
+                      alignItems: 'flex-start',
+                      marginStart: 8,
+                    }}
+                  >
+                    <H4Book>{Localized('Shopping')}</H4Book>
+                    <H6Book>
+                      {Localized('Shop products and manage your subscription')}
+                    </H6Book>
+                  </View>
+                </Row>
+              </Card>
+            </TouchableOpacity>
+          </>
+        )}
 
         <TouchableOpacity
           activeOpacity={isMenuOpen ? 1 : 0.2}

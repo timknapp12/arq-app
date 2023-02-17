@@ -215,7 +215,9 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     padding={12}
                   >
                     <RowContainer>
-                      <H5Secondary>{Localized('Username')}</H5Secondary>
+                      <H5Secondary>{`${Localized('Sign In')} ${Localized(
+                        'Email',
+                      )}`}</H5Secondary>
                       <H5 style={{ marginStart: 8 }}>{email}</H5>
                     </RowContainer>
 
