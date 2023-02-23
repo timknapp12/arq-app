@@ -171,11 +171,7 @@ const InitialDataContainer = ({ children }) => {
   // get notifications
   const [
     getProspectNotifications,
-    {
-      loading: loadingProspectNotifications,
-      data: prospectNotificationData,
-      refetch: refetchProspectsNotifications,
-    },
+    { loading: loadingProspectNotifications, data: prospectNotificationData },
   ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
     variables: { associateId },
     onError: (error) =>
@@ -200,7 +196,7 @@ const InitialDataContainer = ({ children }) => {
 
   useEffect(() => {
     if (subscriptionData) {
-      refetchProspectsNotifications();
+      getProspectNotifications();
     }
   }, [subscriptionData]);
 
