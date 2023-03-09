@@ -9,7 +9,6 @@ import {
   SecondaryButton,
   RadioButton,
   Flexbox,
-  H5Secondary,
 } from '../common';
 import EnrollmentScreenCard from './EnrollmentScreenCard';
 import LoginContext from '../../contexts/LoginContext';
@@ -63,9 +62,6 @@ const EnrollmentScreen = () => {
           paddingBottom: 100,
         }}
       >
-        <H5Secondary style={{ textAlign: 'center' }}>
-          {Localized('This feature is currently only supported in the USA')}
-        </H5Secondary>
         <Flexbox>
           <Flexbox align="flex-start">
             <RadioButton
@@ -102,7 +98,7 @@ const EnrollmentScreen = () => {
           </EnrollmentScreenCard>
           <EnrollmentScreenCard
             text={`${Localized(
-              'Open the enrollment form in Shop Q so you can help your prospect enroll',
+              'Open the enrollment form in qsciences.com so you can help your prospect enroll',
             )}:`}
           >
             <SecondaryButton
@@ -113,7 +109,7 @@ const EnrollmentScreen = () => {
                 );
               }}
             >
-              {Localized('Open in Shop Q').toUpperCase()}
+              {Localized('Open in qsciences.com').toUpperCase()}
             </SecondaryButton>
           </EnrollmentScreenCard>
           <EnrollmentScreenCard
