@@ -47,6 +47,7 @@ const AnimatedSmallButton = Animated.createAnimatedComponent(SmallAddButton);
 
 export const AnimatedAddButtonRow = () => {
   const { theme } = useContext(AppContext);
+  const { enabledMarket } = useContext(LoginContext);
   const {
     buttonScaleAnim,
     rowWidthAnim,
@@ -75,14 +76,16 @@ export const AnimatedAddButtonRow = () => {
         >
           <AddProspectIcon style={iconStyle} />
         </AnimatedSmallButton>
-        <AnimatedSmallButton
-          onPress={handleEnrollment}
-          style={{
-            transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
-          }}
-        >
-          <AddEnrollmentIcon style={iconStyle} />
-        </AnimatedSmallButton>
+        {enabledMarket && (
+          <AnimatedSmallButton
+            onPress={handleEnrollment}
+            style={{
+              transform: [{ scale: buttonScaleAnim }, { perspective: 1000 }],
+            }}
+          >
+            <AddEnrollmentIcon style={iconStyle} />
+          </AnimatedSmallButton>
+        )}
         {hasPermissionsToWrite && (
           <>
             <AnimatedSmallButton

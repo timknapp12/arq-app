@@ -52,7 +52,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
   const { theme } = useContext(AppContext);
   const {
     updateProfile,
-    refetchProfile,
     shopQUrl,
     userProfile: data = {
       profileUrl: '',
@@ -100,7 +99,6 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   const onCompleted = () => {
     setIsMyInfoModalOpen(false);
-    refetchProfile();
   };
 
   const variables = {
