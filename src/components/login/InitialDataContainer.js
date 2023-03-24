@@ -106,15 +106,20 @@ const InitialDataContainer = ({ children }) => {
     setHasPermissionsToWrite(value);
   }, [userData]);
 
-  const [getProfile, { data: profileData, refetch: refetchProfile }] =
-    useLazyQuery(GET_PROFILE, {
-      variables: { associateId },
-      fetchPolicy: 'cache-and-network',
-      onError: (e) => console.log(`error in get profile`, e),
-    });
+  const [getProfile, { data: profileData }] = useLazyQuery(GET_PROFILE, {
+    variables: { associateId },
+    fetchPolicy: 'cache-and-network',
+    onError: (e) => console.log(`error in get profile`, e),
+  });
 
   const [updateProfile] = useMutation(UPDATE_USER, {
     onError: (e) => console.log(`error in update profile`, e),
+    refetchQueries: [
+      {
+        query: GET_PROFILE,
+        variables: { associateId },
+      },
+    ],
   });
 
   // get news by market
@@ -149,6 +154,12 @@ const InitialDataContainer = ({ children }) => {
 
   const news = newsData?.newsResources ?? [];
 
+  const enabledMarket =
+    userMarket?.countryCode === 'us' ||
+    userMarket?.countryCode === 'ca' ||
+    userMarket?.countryCode === 'au' ||
+    userMarket?.countryCode === 'nz';
+
   useEffect(() => {
     const count = calculateUnreadNews(news);
     setNewsNotificationCount(count);
@@ -160,11 +171,7 @@ const InitialDataContainer = ({ children }) => {
   // get notifications
   const [
     getProspectNotifications,
-    {
-      loading: loadingProspectNotifications,
-      data: prospectNotificationData,
-      refetch: refetchProspectsNotifications,
-    },
+    { loading: loadingProspectNotifications, data: prospectNotificationData },
   ] = useLazyQuery(GET_PROSPECT_NOTIFICATIONS, {
     variables: { associateId },
     onError: (error) =>
@@ -189,7 +196,7 @@ const InitialDataContainer = ({ children }) => {
 
   useEffect(() => {
     if (subscriptionData) {
-      refetchProspectsNotifications();
+      getProspectNotifications();
     }
   }, [subscriptionData]);
 
@@ -272,7 +279,6 @@ const InitialDataContainer = ({ children }) => {
         loadingUserData,
         userProfile: profileData?.associates?.[0],
         updateProfile,
-        refetchProfile,
         setMarketId,
         loadingNews,
         news,
@@ -293,6 +299,7 @@ const InitialDataContainer = ({ children }) => {
         shopQUrl,
         expoPushToken,
         isPushNotificationPermsGranted,
+        enabledMarket,
       }}
     >
       {children}

@@ -61,7 +61,7 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
   const user = firebase.auth().currentUser;
   const email = user?.email;
 
-  const { markets, userProfile, updateProfile, refetchProfile, userMarket } =
+  const { markets, userProfile, updateProfile, userMarket } =
     useContext(LoginContext);
 
   const [selectedMarket, setSelectedMarket] = useState(
@@ -113,32 +113,14 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
 
   const variables = {
     associateId: userProfile?.associateId,
-    profileUrl: userProfile?.profileUrl,
-    profileImageFileName: userProfile?.profileImageFileName,
-    firstName: userProfile?.firstName,
-    lastName: userProfile?.lastName,
-    displayName: userProfile?.displayName,
-    emailAddress: userProfile?.emailAddress,
-    primaryPhoneNumber: userProfile?.primaryPhoneNumber,
-    address: {
-      address1: userProfile?.address?.address1,
-      address2: userProfile?.address?.address2,
-      city: userProfile?.address?.city,
-      state: userProfile?.address?.state,
-      zip: userProfile?.address?.zip,
-      countryCode: userProfile?.address?.countryCode,
-    },
     defaultCountry: defaultCountryId,
   };
 
   const onSaveDefaultMarket = () => {
     updateProfile({
       variables: variables,
-      onCompleted: (data) => {
-        console.log(`data`, data);
-        refetchProfile();
-      },
-      onError: (error) => console.log(`error`, error),
+      onError: (error) =>
+        console.log(`error in settings modal default market:`, error),
     });
   };
 
@@ -233,7 +215,9 @@ const SettingsModal = ({ setIsSettingsModalOpen, isSettingsModalOpen }) => {
                     padding={12}
                   >
                     <RowContainer>
-                      <H5Secondary>{Localized('Username')}</H5Secondary>
+                      <H5Secondary>{`${Localized('Sign In')} ${Localized(
+                        'Email',
+                      )}`}</H5Secondary>
                       <H5 style={{ marginStart: 8 }}>{email}</H5>
                     </RowContainer>
 
