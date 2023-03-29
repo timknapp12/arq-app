@@ -3,13 +3,13 @@ let uri = 'https://qservicesstaging-dev.azurewebsites.net/graphql';
 
 // Staging settings
 let appName = 'q-connect-pro-staging';
-let appVersion = '0.0.134';
+let appVersion = '0.0.135';
 let bundleIdent = 'com.qsciences.q-connect-pro-staging';
 let resClientID =
   'com.googleusercontent.apps.348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd';
 let googleServicesFileIos = './staging/GoogleService-Info.plist';
 let googleServicesFileAndroid = './staging/google-services.json';
-let versionCode = 134;
+let versionCode = 135;
 let androidPackage = 'com.qsciences.q_connect_pro_staging';
 let firebaseAPIKey = 'AIzaSyDLvs6kf7lAlma9v714M_yF4EqP_UDIc5g';
 let authDomain = 'q-connect-pro-staging.firebaseapp.com';
@@ -22,6 +22,10 @@ let facebookAppId = '319892812842607';
 let facebookSchemeId = 'fb319892812842607';
 let facebookDisplayName = 'Q ConnectPro';
 let easProjectId = 'f8465a09-c195-40a6-8cfa-218a5c13a19d';
+let androidClientId =
+  '348281014348-0u6a4j1blq7a2905595jjt8a0pvrvbv5.apps.googleusercontent.com';
+let iosClientId =
+  '348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd.apps.googleusercontent.com';
 
 if (process.env.DEPLOY_ENVIRONMENT === 'staging') {
   uri = 'https://qservicesstaging.azurewebsites.net/graphql';
@@ -50,6 +54,10 @@ if (process.env.DEPLOY_ENVIRONMENT === 'production') {
   facebookDisplayName = 'Ambassador Resources Q';
   easProjectId = '8548fd4f-00c1-4bd2-9b65-5ab910fcff21';
   uri = 'https://qservicesapi.azurewebsites.net/graphql';
+  androidClientId =
+    '558665444400-fs8g9bodrrik3olh9fcur1gktkcuqmb9.apps.googleusercontent.com';
+  iosClientId =
+    '558665444400-qg6odikk6of0p60c53bi97ok7v20sceh.apps.googleusercontent.com';
 }
 
 export default {
@@ -60,7 +68,7 @@ export default {
     owner: 'qsiholdingcompanyinc',
     orientation: 'portrait',
     icon: './assets/icon.png',
-    scheme: 'ambassador-resources-q',
+    scheme: bundleIdent,
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
@@ -172,12 +180,22 @@ export default {
           iCloudContainerEnvironment: 'Production',
         },
       ],
+      [
+        'expo-build-properties',
+        {
+          ios: {
+            useFrameworks: 'static',
+          },
+        },
+      ],
     ],
     extra: {
       uri: uri,
       eas: {
         projectId: easProjectId,
       },
+      androidClientId,
+      iosClientId,
     },
   },
 };
