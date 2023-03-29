@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import {
-  Flexbox,
-  H2,
-  GoogleLoginButton,
-  FacebookLoginButton,
-  AppleLoginButton,
-} from '../../common';
+import { Flexbox, H2, GoogleLoginButton, AppleLoginButton } from '../../common';
 
 const margin = 12;
 
-const SocialSignIn = ({
-  title,
-  googleSignIn,
-  facebookSignIn,
-  signInWithApple,
-}) => {
+const SocialSignIn = ({ title, googleSignIn, request, signInWithApple }) => {
   const [isAppleLoginAvailable, setIsAppleLoginAvailable] = useState(false);
 
   useEffect(() => {
@@ -26,10 +15,12 @@ const SocialSignIn = ({
   return (
     <Flexbox direction="row" justify="center" width="95%">
       <H2 style={{ marginEnd: margin }}>{title}</H2>
-      <GoogleLoginButton style={{ marginEnd: margin }} onPress={googleSignIn} />
-      <FacebookLoginButton
+      <GoogleLoginButton
         style={{ marginEnd: margin }}
-        onPress={facebookSignIn}
+        onPress={() => {
+          googleSignIn();
+        }}
+        disabled={!request}
       />
       {isAppleLoginAvailable && <AppleLoginButton onPress={signInWithApple} />}
     </Flexbox>
@@ -39,8 +30,8 @@ const SocialSignIn = ({
 SocialSignIn.propTypes = {
   title: PropTypes.string.isRequired,
   googleSignIn: PropTypes.func.isRequired,
-  facebookSignIn: PropTypes.func.isRequired,
   signInWithApple: PropTypes.func.isRequired,
+  request: PropTypes.object,
 };
 
 export default SocialSignIn;

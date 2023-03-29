@@ -4,13 +4,12 @@ import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase';
-import * as GoogleSignIn from 'expo-google-sign-in';
-import * as Facebook from 'expo-facebook';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import { useMutation } from '@apollo/client';
 import { Platform, Alert, View } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
 import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
@@ -24,12 +23,9 @@ import FindOutMore from './FindOutMore';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import ErrorModal from '../../errorModal/ErrorModal';
 import { checkIfUserIsLoggedIn } from '../../../utils/firebase/login';
-import {
-  facebookAppId,
-  facebookDisplayName,
-} from '../../../../firebase.config';
 import { LOGIN_USER } from '../../../graphql/mutations';
 import { handleLoginUser } from '../../../utils/handleLoginFlow';
+import Constants from 'expo-constants';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -37,6 +33,8 @@ const DividerLine = styled.View`
   flex: 1;
   background-color: ${(props) => props.theme.disabledTextColor};
 `;
+
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
@@ -177,82 +175,41 @@ const LoginScreen = ({ navigation }) => {
   };
 
   // login with google
-  // standalone app for google sign in https://docs.expo.io/versions/latest/sdk/google-sign-in/
-  // build https://docs.expo.io/distribution/building-standalone-apps/#building-standalone-apps
-  const signInWithGoogleAsync = async () => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: Constants.manifest.extra.androidClientId,
+    iosClientId: Constants.manifest.extra.iosClientId,
+    expoClientId:
+      '348281014348-96db6n78qgp5fbr1kd7nkld3rimt8flv.apps.googleusercontent.com',
+    scopes: ['email'],
+  });
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      loginWithGoogle(response);
+    }
+  }, [response]);
+
+  const loginWithGoogle = async (response) => {
     await signOutOfFirebase();
-    try {
-      await GoogleSignIn.initAsync();
-    } catch ({ message }) {
-      setErrorMessage(message);
-    }
-
-    try {
-      await GoogleSignIn.askForPlayServicesAsync();
-      const { type, user } = await GoogleSignIn.signInAsync();
-      if (type === 'success') {
-        const credential = firebase.auth.GoogleAuthProvider.credential(
-          user.auth.idToken,
-          user.auth.accessToken,
-        );
-        firebase
-          .auth()
-          .signInWithCredential(credential)
-          .then((userCredential) => {
-            var user = userCredential.user;
-            user
-              .getIdToken(/* forceRefresh */ true)
-              .then((idToken) => setToken(idToken))
-              .then(() => loginUser())
-              .then(() => loginAnalytics('google'))
-              .catch((error) => console.log(`error`, error));
-          })
-          .catch(function (error) {
-            console.error('Error with Firebase sign in ', error.message);
-          });
-      } else {
-        console.log(`type`, type);
-      }
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
-  };
-
-  // login with facebook
-  // https://docs.expo.io/guides/using-firebase/#user-authentication
-  // dev account dashboard https://developers.facebook.com/apps/319892812842607/dashboard/
-  // expo docs: https://docs.expo.io/versions/latest/sdk/facebook/
-  const loginWithFacebook = async () => {
-    await signOutOfFirebase();
-    await Facebook.initializeAsync({
-      appId: facebookAppId,
-      appName: facebookDisplayName,
-    });
-
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['email', 'public_profile'],
-    });
-
-    if (type === 'success') {
-      // Build Firebase credential with the Facebook access token.
-      const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      // Sign in with credential from the Facebook user.
-      firebase
-        .auth()
-        .signInWithCredential(credential)
-        .then((userCredential) => {
-          var user = userCredential.user;
-          user
-            .getIdToken(/* forceRefresh */ true)
-            .then((idToken) => setToken(idToken))
-            .then(() => loginUser())
-            .then(() => loginAnalytics('facebook'))
-            .catch((error) => console.log(`error`, error));
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-        });
-    }
+    const credential = firebase.auth.GoogleAuthProvider.credential(
+      null,
+      response.authentication.accessToken,
+    );
+    firebase
+      .auth()
+      .signInWithCredential(credential)
+      .then((userCredential) => {
+        var user = userCredential.user;
+        user
+          .getIdToken(/* forceRefresh */ true)
+          .then((idToken) => setToken(idToken))
+          .then(() => loginUser())
+          .then(() => loginAnalytics('google'))
+          .catch((error) => console.log(`error`, error));
+      })
+      .catch(function (error) {
+        console.error('Error with Firebase sign in ', error.message);
+      });
   };
 
   // login with apple
@@ -337,8 +294,8 @@ const LoginScreen = ({ navigation }) => {
       >
         <SocialSignIn
           title={Localized('Sign in with')}
-          googleSignIn={signInWithGoogleAsync}
-          facebookSignIn={loginWithFacebook}
+          googleSignIn={promptAsync}
+          request={request}
           signInWithApple={signInWithApple}
         />
 

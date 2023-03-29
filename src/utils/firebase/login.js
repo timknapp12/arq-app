@@ -52,7 +52,7 @@ const expoClientId =
 const iosClientId =
   '348281014348-2ngcdn7mdg881n0ac1vvrpri6pdpbhjd.apps.googleusercontent.com';
 const androidClientId =
-  '348281014348-vd0r29schjo24pg8a774r41ghoqflj3p.apps.googleusercontent.com';
+  '348281014348-0u6a4j1blq7a2905595jjt8a0pvrvbv5.apps.googleusercontent.com';
 const webClientId =
   '348281014348-lplk3ptkokcjse46og4uc5ektcnago28.apps.googleusercontent.com';
 

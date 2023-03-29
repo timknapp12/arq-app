@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase';
-import * as GoogleSignIn from 'expo-google-sign-in';
-import * as Facebook from 'expo-facebook';
+import * as Google from 'expo-auth-session/providers/google';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import { useMutation } from '@apollo/client';
@@ -22,9 +21,9 @@ import ErrorModal from '../errorModal/ErrorModal';
 import LoginContext from '../../contexts/LoginContext';
 import AppContext from '../../contexts/AppContext';
 import { Localized } from '../../translations/Localized';
-import { facebookAppId, facebookDisplayName } from '../../../firebase.config';
 import { LOGIN_USER } from '../../graphql/mutations';
 import { handleLoginUser } from '../../utils/handleLoginFlow';
+import Constants from 'expo-constants';
 
 const DividerLine = styled.View`
   height: 1px;
@@ -32,6 +31,8 @@ const DividerLine = styled.View`
   flex: 1;
   background-color: ${(props) => props.theme.disabledTextColor};
 `;
+
+WebBrowser.maybeCompleteAuthSession();
 
 const CreateAccountScreen = ({ navigation }) => {
   const { theme, setToken, signOutOfFirebase } = useContext(AppContext);
@@ -107,78 +108,41 @@ const CreateAccountScreen = ({ navigation }) => {
   };
 
   // login with google
-  const signInWithGoogleAsync = async () => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: Constants.manifest.extra.androidClientId,
+    iosClientId: Constants.manifest.extra.iosClientId,
+    expoClientId:
+      '348281014348-96db6n78qgp5fbr1kd7nkld3rimt8flv.apps.googleusercontent.com',
+    scopes: ['email'],
+  });
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      loginWithGoogle(response);
+    }
+  }, [response]);
+
+  const loginWithGoogle = async (response) => {
     await signOutOfFirebase();
-    try {
-      await GoogleSignIn.initAsync();
-    } catch ({ message }) {
-      setErrorMessage(message);
-    }
-
-    try {
-      await GoogleSignIn.askForPlayServicesAsync();
-      const { type, user } = await GoogleSignIn.signInAsync();
-      if (type === 'success') {
-        const credential = firebase.auth.GoogleAuthProvider.credential(
-          user.auth.idToken,
-          user.auth.accessToken,
-        );
-        firebase
-          .auth()
-          .signInWithCredential(credential)
-          .then((userCredential) => {
-            var user = userCredential.user;
-            user
-              .getIdToken(/* forceRefresh */ true)
-              .then((idToken) => setToken(idToken))
-              .then(() => loginUser())
-              .then(() => loginAnalytics('google'))
-              .catch((error) => console.log(`error`, error));
-          })
-          .catch(function (error) {
-            console.error('Error with Firebase sign in ', error.message);
-          });
-      } else {
-        console.log(`type`, type);
-      }
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
-  };
-
-  // login with facebook
-  const loginWithFacebook = async () => {
-    await signOutOfFirebase();
-    await Facebook.initializeAsync({
-      appId: facebookAppId,
-      appName: facebookDisplayName,
-    });
-
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['email', 'public_profile'],
-    });
-
-    if (type === 'success') {
-      // Build Firebase credential with the Facebook access token.
-      const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      console.log(`credential`, credential);
-      // Sign in with credential from the Facebook user.
-      firebase
-        .auth()
-        .signInWithCredential(credential)
-        .then((userCredential) => {
-          var user = userCredential.user;
-          user
-            .getIdToken(/* forceRefresh */ true)
-            .then((idToken) => setToken(idToken))
-            .then(() => loginUser())
-            .then(() => loginAnalytics('facebook'))
-            .catch((error) => console.log(`error`, error));
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-        });
-    }
+    const credential = firebase.auth.GoogleAuthProvider.credential(
+      null,
+      response.authentication.accessToken,
+    );
+    firebase
+      .auth()
+      .signInWithCredential(credential)
+      .then((userCredential) => {
+        var user = userCredential.user;
+        user
+          .getIdToken(/* forceRefresh */ true)
+          .then((idToken) => setToken(idToken))
+          .then(() => loginUser())
+          .then(() => loginAnalytics('google'))
+          .catch((error) => console.log(`error`, error));
+      })
+      .catch(function (error) {
+        console.error('Error with Firebase sign in ', error.message);
+      });
   };
 
   // login with apple
@@ -248,8 +212,8 @@ const CreateAccountScreen = ({ navigation }) => {
       >
         <SocialSignIn
           title={Localized('Sign up with')}
-          googleSignIn={signInWithGoogleAsync}
-          facebookSignIn={loginWithFacebook}
+          googleSignIn={promptAsync}
+          request={request}
           signInWithApple={signInWithApple}
         />
 

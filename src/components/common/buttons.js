@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { H4Book, Checkmark } from './texts';
-import FacebookLogo from '../../../assets/icons/facebook-logo.svg';
 import AppleIcon from '../../../assets/icons/apple-button.svg';
 import GoogleLogo from '../../../assets/icons/google-button.svg';
 import AppContext from '../../contexts/AppContext';
@@ -130,13 +129,6 @@ TertiaryButton.propTypes = {
 export const GoogleLoginButton = ({ ...props }) => (
   <TouchableOpacity {...props}>
     <GoogleLogo />
-  </TouchableOpacity>
-);
-
-// FACEBOOK LOGIN
-export const FacebookLoginButton = ({ ...props }) => (
-  <TouchableOpacity {...props}>
-    <FacebookLogo />
   </TouchableOpacity>
 );
 
