@@ -306,7 +306,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     <TextArea
                       inputStyle={{ paddingRight: 32 }}
                       testID="shopQ-website-input"
-                      label={Localized('ShopQ Website')}
+                      label={Localized('Qsciences Website')}
                       value={storeUrl}
                       editable={false}
                       multiline
