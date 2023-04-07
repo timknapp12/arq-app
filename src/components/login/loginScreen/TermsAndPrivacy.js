@@ -35,7 +35,7 @@ const TermsAndPrivacy = ({ openTerms, openPrivacy }) => {
           <H4>{Localized('Privacy')}</H4>
         </TouchableOpacity>
       </Flexbox>
-      <H5Secondary>{`ARQ Version: ${Constants.manifest.version}`}</H5Secondary>
+      <H5Secondary>{`ARQ Version: ${Constants.expoConfig.version}`}</H5Secondary>
     </Flexbox>
   );
 };

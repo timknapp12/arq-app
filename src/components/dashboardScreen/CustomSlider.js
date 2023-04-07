@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Proptypes from 'prop-types';
+import { Platform } from 'react-native';
 import Slider from '@react-native-community/slider';
 import AppContext from '../../contexts/AppContext';
 
@@ -7,25 +8,29 @@ import AppContext from '../../contexts/AppContext';
 // fork with fix for console warning: https://github.com/newn-team/react-native-slider
 const CustomSlider = ({
   value,
-  setValue,
   sliderWidth,
   maximumValue,
   onSlidingStart,
   onSlidingComplete,
 }) => {
   const { theme } = useContext(AppContext);
+  const trackColor =
+    Platform.OS === 'ios'
+      ? theme.sliderTrackColorIos
+      : theme.sliderTrackColorAndroid;
+
   return (
     <Slider
       step={1}
       minimumValue={0}
       maximumValue={maximumValue}
-      minimumTrackTintColor={theme.sliderTrackColor}
+      minimumTrackTintColor={trackColor}
+      maximumTrackTintColor={trackColor}
       thumbTintColor={theme.sliderThumbColor}
       style={{ width: sliderWidth, height: 60 }}
       value={value}
-      onValueChange={(value) => setValue(value)}
       onSlidingStart={onSlidingStart}
-      onSlidingComplete={onSlidingComplete}
+      onSlidingComplete={(val) => onSlidingComplete(val)}
     />
   );
 };
