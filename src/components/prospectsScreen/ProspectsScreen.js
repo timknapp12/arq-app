@@ -33,6 +33,7 @@ const ProspectsScreen = ({ navigation, route }) => {
   const linkUrl = route?.params?.url ?? '';
   const prospectLinkIsNeeded = route?.params?.prospectLinkIsNeeded ?? false;
   const fromEnrollmentScreen = route?.params?.fromEnrollmentScreen ?? false;
+  const omitUrlParams = route?.params?.omitUrlParams ?? false;
 
   const [isCalloutOpenFromParent, setIsCalloutOpenFromParent] = useState(false);
   const [isTouchDisabled, setIsTouchDisabled] = useState(false);
@@ -166,6 +167,7 @@ const ProspectsScreen = ({ navigation, route }) => {
               isFilterMenuOpen={isFilterMenuOpen}
               closeFilterMenu={closeFilterMenu}
               fromEnrollmentScreen={fromEnrollmentScreen}
+              omitUrlParams={omitUrlParams}
             />
           )}
           <AddButton

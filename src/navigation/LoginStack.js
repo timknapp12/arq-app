@@ -8,7 +8,7 @@ import VerificationCodeScreen from '../components/login/VerificationCodeScreen';
 import RedirectUnauthorizedUserScreen from '../components/login/RedirectUnauthorizedUserScreen';
 import AppStack from './AppStack';
 import AppContext from '../contexts/AppContext';
-import InitialDataContainer from '../components/login/InitialDataContainer';
+import LoginDataContainer from '../components/login/LoginDataContainer';
 import { Localized } from '../translations/Localized';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
@@ -27,7 +27,7 @@ const LoginStack = () => {
     headerTintColor: theme.primaryTextColor,
   };
   return (
-    <InitialDataContainer>
+    <LoginDataContainer>
       <Login.Navigator
         screenOptions={{
           headerBackTitleVisible: false,
@@ -90,7 +90,7 @@ const LoginStack = () => {
           }}
         />
       </Login.Navigator>
-    </InitialDataContainer>
+    </LoginDataContainer>
   );
 };
 

@@ -33,7 +33,7 @@ import {
 } from '../../utils/teamResources/findTeamResourceData';
 import { findRankId } from '../../utils/findRankInSlider';
 
-const InitialDataContainer = ({ children }) => {
+const LoginDataContainer = ({ children }) => {
   const { associateId, legacyId, deviceLanguage } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
@@ -303,8 +303,8 @@ const InitialDataContainer = ({ children }) => {
   );
 };
 
-InitialDataContainer.propTypes = {
+LoginDataContainer.propTypes = {
   children: PropTypes.any.isRequired,
 };
 
-export default InitialDataContainer;
+export default LoginDataContainer;

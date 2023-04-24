@@ -20,9 +20,13 @@ const EnrollmentScreen = () => {
   const slug = userProfile?.associateSlugs?.[0]?.slug;
   const [selectedOption, setSelectedOption] = useState('ambassador');
 
-  const url = `${shopQUrl}${slug}?type${encodeURIComponent(
+  const pcAndAmburl = `${shopQUrl}${slug}?type${encodeURIComponent(
     `=`,
   )}${selectedOption}`;
+
+  const retailUrl = `${shopQUrl}${slug}`;
+
+  const url = selectedOption === 'retail' ? retailUrl : pcAndAmburl;
 
   useEffect(() => {
     Analytics.logEvent('Enrollment_Screen_visited', {
@@ -33,7 +37,7 @@ const EnrollmentScreen = () => {
 
   const optionTitleMap = {
     pc: 'Preferred Customer Enrollment',
-    retail: 'Retail Customer Enrollment',
+    retail: 'shopping and browsing',
     ambassador: 'Ambassador Enrollments',
   };
 
@@ -49,6 +53,7 @@ const EnrollmentScreen = () => {
         url,
         prospectLinkIsNeeded: false,
         fromEnrollmentScreen: true,
+        omitUrlParams: selectedOption === 'retail',
       },
     });
   };
