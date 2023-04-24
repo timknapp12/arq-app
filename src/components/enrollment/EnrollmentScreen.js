@@ -18,7 +18,7 @@ import { Localized } from '../../translations/Localized';
 const EnrollmentScreen = () => {
   const { shopQUrl, userProfile } = useContext(LoginContext);
   const slug = userProfile?.associateSlugs?.[0]?.slug;
-  const [selectedOption, setSelectedOption] = useState('ambassador');
+  const [selectedOption, setSelectedOption] = useState('retail');
 
   const pcAndAmburl = `${shopQUrl}${slug}?type${encodeURIComponent(
     `=`,
@@ -71,6 +71,17 @@ const EnrollmentScreen = () => {
         <Flexbox>
           <Flexbox align="flex-start" padding={4}>
             <RadioButton
+              label={Localized('General Enrollment and Shopping')}
+              isSelected={selectedOption === 'retail'}
+              onPress={() => setSelectedOption('retail')}
+            />
+            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
+              {Localized(
+                'Use this link to send a prospect to qsciences.com to browse and shop',
+              )}
+            </H5>
+
+            <RadioButton
               label={Localized('Ambassador')}
               isSelected={selectedOption === 'ambassador'}
               onPress={() => setSelectedOption('ambassador')}
@@ -89,17 +100,6 @@ const EnrollmentScreen = () => {
             <H5 style={{ marginStart: 30, marginBottom: 6 }}>
               {Localized(
                 'Use this link when a prospect is ready to enroll as your Preferred Customer',
-              )}
-            </H5>
-
-            <RadioButton
-              label={Localized('Retail Customer')}
-              isSelected={selectedOption === 'retail'}
-              onPress={() => setSelectedOption('retail')}
-            />
-            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
-              {Localized(
-                'Use this link to send a prospect to qsciences.com to browse and shop',
               )}
             </H5>
           </Flexbox>
