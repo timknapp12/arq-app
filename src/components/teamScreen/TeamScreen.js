@@ -40,6 +40,8 @@ const TeamScreen = ({ navigation }) => {
   const [pane2SearchLevel, setPane2SearchLevel] = useState(0);
   const [pane3SearchLevel, setPane3SearchLevel] = useState(0);
 
+  const [isViewReset, setIsViewReset] = useState(false);
+
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
@@ -121,6 +123,19 @@ const TeamScreen = ({ navigation }) => {
       setLegacyAssociateId(legacyId);
       setLevelInTree(0);
     }
+    if (item.testID === 'visual_tree_button') {
+      setLegacyAssociateId(legacyId);
+      setLevelInTree(0);
+      setPane1SearchId(legacyId);
+      setPane1SearchLevel(0);
+      setPane2SearchId(0);
+      setPane2SearchLevel(0);
+      setPane3SearchId(0);
+      setPane3SearchLevel(0);
+      setSelectedVisualTreePane(1);
+      setSelectedMemberId(null);
+      setIsViewReset(true);
+    }
   };
 
   const paneSearchIdMap = {
@@ -188,6 +203,8 @@ const TeamScreen = ({ navigation }) => {
         viewInVisualTree,
         viewInNewPane,
         viewInMyTeamView,
+        isViewReset,
+        setIsViewReset,
       }}
     >
       <TouchableWithoutFeedback onPress={closeMenus}>

@@ -9,6 +9,7 @@ import {
   SecondaryButton,
   RadioButton,
   Flexbox,
+  H5,
 } from '../common';
 import EnrollmentScreenCard from './EnrollmentScreenCard';
 import LoginContext from '../../contexts/LoginContext';
@@ -63,22 +64,39 @@ const EnrollmentScreen = () => {
         }}
       >
         <Flexbox>
-          <Flexbox align="flex-start">
+          <Flexbox align="flex-start" padding={4}>
             <RadioButton
               label={Localized('Ambassador')}
               isSelected={selectedOption === 'ambassador'}
               onPress={() => setSelectedOption('ambassador')}
             />
+            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
+              {Localized(
+                'Use this link when a prospect is ready to join your team as a Q Sciences Ambassador',
+              )}
+            </H5>
+
             <RadioButton
               label={Localized('Preferred Customer')}
               isSelected={selectedOption === 'pc'}
               onPress={() => setSelectedOption('pc')}
             />
+            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
+              {Localized(
+                'Use this link when a prospect is ready to enroll as your Preferred Customer',
+              )}
+            </H5>
+
             <RadioButton
               label={Localized('Retail Customer')}
               isSelected={selectedOption === 'retail'}
               onPress={() => setSelectedOption('retail')}
             />
+            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
+              {Localized(
+                'Use this link to send a prospect to qsciences.com to browse and shop',
+              )}
+            </H5>
           </Flexbox>
           <EnrollmentScreenCard
             text={`${Localized(

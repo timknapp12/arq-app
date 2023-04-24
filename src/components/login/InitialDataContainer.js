@@ -154,11 +154,7 @@ const InitialDataContainer = ({ children }) => {
 
   const news = newsData?.newsResources ?? [];
 
-  const enabledMarket =
-    userMarket?.countryCode === 'us' ||
-    userMarket?.countryCode === 'ca' ||
-    userMarket?.countryCode === 'au' ||
-    userMarket?.countryCode === 'nz';
+  const enabledMarket = userMarket?.countryCode !== 'jp';
 
   useEffect(() => {
     const count = calculateUnreadNews(news);

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View } from 'react-native';
 import { DraxProvider } from 'react-native-drax';
 import { Flexbox } from '../../common';
@@ -20,6 +20,8 @@ const VisualTreeView = ({ ...props }) => {
     pane1SearchLevel,
     pane2SearchLevel,
     pane3SearchLevel,
+    isViewReset,
+    setIsViewReset,
   } = useContext(TeamScreenContext);
 
   const [pane1ActiveMember, setPane1ActiveMember] = useState(null);
@@ -35,6 +37,15 @@ const VisualTreeView = ({ ...props }) => {
     2: () => setPane2ActiveMember(null),
     3: () => setPane3ActiveMember(null),
   };
+
+  useEffect(() => {
+    if (!isViewReset) return;
+    setPane2ActiveMember(null);
+    setPane3ActiveMember(null);
+    setPane2HasContent(false);
+    setPane3HasContent(false);
+    setIsViewReset(false);
+  }, [isViewReset]);
 
   return (
     <Flexbox

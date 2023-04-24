@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../components/login/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/login/loginScreen/PasswordRecoveryScreen';
-import CreateAccountScreen from '../components/login/CreateAccountScreen';
 import EnterIdScreen from '../components/login/EnterIdScreen';
 import ConfirmAccountScreen from '../components/login/ConfirmAccountScreen';
 import VerificationCodeScreen from '../components/login/VerificationCodeScreen';
@@ -59,17 +58,6 @@ const LoginStack = () => {
               opacity: 0.83,
               fontFamily: 'Avenir-Light',
               letterSpacing: 1.43,
-            },
-          }}
-        />
-        <Login.Screen
-          name="Create Account Screen"
-          component={CreateAccountScreen}
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-            headerLeft: () => {
-              return null;
             },
           }}
         />

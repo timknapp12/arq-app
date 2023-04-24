@@ -10,6 +10,8 @@ import ShopQIcon from '../../../assets/icons/ShopQIcon.svg';
 import MyQFitIcon from '../../../assets/icons/MyQFITIcon.svg';
 import OnboardingIcon from '../../../assets/icons/OnboardingIcon.svg';
 import RequestChallengeIcon from '../../../assets/icons/RequestAChallengeIcon.svg';
+import FfmIcon from '../../../assets/icons/FFMIcon.svg';
+// import ChatIcon from '../../../assets/icons/ChatIcon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
@@ -27,9 +29,16 @@ const Row = styled.View`
   flex-direction: row;
 `;
 
+const TextWrapper = styled.View`
+  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 8px;
+`;
+
 const ServicesView = ({ closeMenus, isMenuOpen }) => {
   const { theme } = useContext(AppContext);
-  const { enabledMarket } = useContext(LoginContext);
+  const { enabledMarket, userMarket } = useContext(LoginContext);
 
   const navigation = useNavigation();
   const goToEnrollmentScreen = () => {
@@ -74,6 +83,31 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
     closeMenus();
   };
 
+  const goToFfmForm = () => {
+    if (isMenuOpen && Platform.OS === 'android') {
+      return;
+    }
+    WebBrowser.openBrowserAsync(
+      'https://docs.google.com/forms/d/e/1FAIpQLSf9xokMK-dsYSZT__oKmFD3bCk-8d7FK2g-X7AiTXmfCMX2DQ/viewform',
+    );
+    closeMenus();
+  };
+
+  // const goToLiveChat = () => {
+  //   if (isMenuOpen && Platform.OS === 'android') {
+  //     return;
+  //   }
+  //   WebBrowser.openBrowserAsync('https://info.qsciences.com/chat');
+  //   closeMenus();
+  // };
+
+  const iconStyle = {
+    height: 48,
+    width: 48,
+    color: theme.primaryTextColor,
+    alignSelf: 'center',
+  };
+
   return (
     <MainScrollView>
       <View style={{ width: '100%' }}>
@@ -88,27 +122,15 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
             >
               <Card>
                 <Row>
-                  <EnrollmentIcon
-                    style={{
-                      height: 48,
-                      width: 48,
-                      color: theme.primaryTextColor,
-                      alignSelf: 'center',
-                    }}
-                  />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'flex-start',
-                      alignItems: 'flex-start',
-                      marginStart: 8,
-                    }}
-                  >
-                    <H4Book>{Localized('Ambassador Enrollments')}</H4Book>
+                  <EnrollmentIcon style={iconStyle} />
+                  <TextWrapper>
+                    <H4Book>{Localized('Enrollment Links')}</H4Book>
                     <H6Book>
-                      {Localized('Help people enroll with Q Sciences today')}
+                      {Localized(
+                        'Growing your team? Everything they need to enroll is right here',
+                      )}
                     </H6Book>
-                  </View>
+                  </TextWrapper>
                 </Row>
               </Card>
             </TouchableOpacity>
@@ -122,27 +144,15 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
             >
               <Card>
                 <Row>
-                  <ShopQIcon
-                    style={{
-                      height: 48,
-                      width: 48,
-                      color: theme.primaryTextColor,
-                      alignSelf: 'center',
-                    }}
-                  />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'flex-start',
-                      alignItems: 'flex-start',
-                      marginStart: 8,
-                    }}
-                  >
+                  <ShopQIcon style={iconStyle} />
+                  <TextWrapper>
                     <H4Book>{Localized('Shopping')}</H4Book>
                     <H6Book>
-                      {Localized('Shop products and manage your subscription')}
+                      {Localized(
+                        'Shop the Q product suite and manage your Subscription on qsciences.com',
+                      )}
                     </H6Book>
-                  </View>
+                  </TextWrapper>
                 </Row>
               </Card>
             </TouchableOpacity>
@@ -166,21 +176,14 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
                   alignSelf: 'center',
                 }}
               />
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  marginStart: 8,
-                }}
-              >
+              <TextWrapper>
                 <H4Book>{Localized('MyQFit')}</H4Book>
                 <H6Book>
                   {Localized(
                     'Fitness and nutrition, tools & resources, support & community',
                   )}
                 </H6Book>
-              </View>
+              </TextWrapper>
             </Row>
           </Card>
         </TouchableOpacity>
@@ -194,25 +197,15 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
         >
           <Card>
             <Row>
-              <OnboardingIcon
-                style={{
-                  height: 48,
-                  width: 48,
-                  color: theme.primaryTextColor,
-                  alignSelf: 'center',
-                }}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  marginStart: 8,
-                }}
-              >
+              <OnboardingIcon style={iconStyle} />
+              <TextWrapper>
                 <H4Book>{Localized('MyQFit Ambassador Onboarding')}</H4Book>
-                <H6Book>{Localized('Join the MyQFIT app')}</H6Book>
-              </View>
+                <H6Book>
+                  {Localized(
+                    'Start your fitness journey now with the MyQFIT App',
+                  )}
+                </H6Book>
+              </TextWrapper>
             </Row>
           </Card>
         </TouchableOpacity>
@@ -226,32 +219,63 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
         >
           <Card>
             <Row>
-              <RequestChallengeIcon
-                style={{
-                  height: 48,
-                  width: 48,
-                  color: theme.primaryTextColor,
-                  alignSelf: 'center',
-                }}
-              />
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  marginStart: 8,
-                }}
-              >
+              <RequestChallengeIcon style={iconStyle} />
+              <TextWrapper>
                 <H4Book>{Localized('MyQFit Challenge Request')}</H4Book>
                 <H6Book>
                   {Localized(
-                    'Request a custom challenge for your team and customers',
+                    'Take your fitness and your business to the next level as a team ',
                   )}
                 </H6Book>
-              </View>
+              </TextWrapper>
             </Row>
           </Card>
         </TouchableOpacity>
+
+        {userMarket?.countryCode.toLowerCase() === 'us' && (
+          <TouchableOpacity
+            activeOpacity={isMenuOpen ? 1 : 0.2}
+            onPress={() => {
+              goToFfmForm();
+              Analytics.logEvent('open_ffm_form_in_services');
+            }}
+          >
+            <Card>
+              <Row>
+                <FfmIcon style={iconStyle} />
+                <TextWrapper>
+                  <H4Book>{Localized('FFM Coaching Sign-Up')}</H4Book>
+                  <H6Book>
+                    {Localized(
+                      'Get FREE financial advice from the Financial Freedom Movement experts',
+                    )}
+                  </H6Book>
+                </TextWrapper>
+              </Row>
+            </Card>
+          </TouchableOpacity>
+        )}
+        {/* <TouchableOpacity
+          activeOpacity={isMenuOpen ? 1 : 0.2}
+          onPress={() => {
+            goToLiveChat();
+            Analytics.logEvent('open_live_chat_in_services');
+          }}
+        >
+          <Card>
+            <Row>
+              <ChatIcon style={iconStyle} />
+              <TextWrapper>
+                <H4Book>{Localized('Live Chat')}</H4Book>
+                <H6Book>
+                  {Localized(
+                    'Chat with an Ambassador Success agent in real-time',
+                  )}
+                </H6Book>
+              </TextWrapper>
+            </Row>
+          </Card>
+        </TouchableOpacity> */}
       </View>
     </MainScrollView>
   );
