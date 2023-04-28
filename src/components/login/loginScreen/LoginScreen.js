@@ -1,42 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Analytics from 'expo-firebase-analytics';
 import firebase from 'firebase';
-import * as GoogleSignIn from 'expo-google-sign-in';
-import * as Facebook from 'expo-facebook';
-import * as AppleAuthentication from 'expo-apple-authentication';
-import * as Crypto from 'expo-crypto';
+import * as WebBrowser from 'expo-web-browser';
 import { useMutation } from '@apollo/client';
 import { Platform, Alert, View } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
-import { Flexbox, H4Secondary, PrimaryButton, AlertText } from '../../common';
+import { Flexbox, PrimaryButton, AlertText } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import { Localized } from '../../../translations/Localized';
 import LoadingScreen from '../../loadingScreen/LoadingScreen';
 import QLogoScreen from '../QLogoScreenContainer';
 import EmailForm from './EmailForm';
-import CreateAccountAndForgotPassword from './CreateAccountAndForgotPassword';
-import SocialSignIn from './SocialSignIn';
+import ForgotPassword from './ForgotPassword';
 import FindOutMore from './FindOutMore';
 import TermsAndPrivacy from './TermsAndPrivacy';
 import ErrorModal from '../../errorModal/ErrorModal';
 import { checkIfUserIsLoggedIn } from '../../../utils/firebase/login';
-import {
-  facebookAppId,
-  facebookDisplayName,
-} from '../../../../firebase.config';
 import { LOGIN_USER } from '../../../graphql/mutations';
 import { handleLoginUser } from '../../../utils/handleLoginFlow';
 
-const DividerLine = styled.View`
-  height: 1px;
-  margin: 0 8px;
-  flex: 1;
-  background-color: ${(props) => props.theme.disabledTextColor};
-`;
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const { theme, setToken, setAssociateId, setLegacyId, signOutOfFirebase } =
@@ -173,126 +158,29 @@ const LoginScreen = ({ navigation }) => {
           .then(() => loginAnalytics('email'))
           .catch((error) => console.log(`error`, error));
       })
-      .catch((error) => setErrorMessage(error.message));
-  };
-
-  // login with google
-  // standalone app for google sign in https://docs.expo.io/versions/latest/sdk/google-sign-in/
-  // build https://docs.expo.io/distribution/building-standalone-apps/#building-standalone-apps
-  const signInWithGoogleAsync = async () => {
-    await signOutOfFirebase();
-    try {
-      await GoogleSignIn.initAsync();
-    } catch ({ message }) {
-      setErrorMessage(message);
-    }
-
-    try {
-      await GoogleSignIn.askForPlayServicesAsync();
-      const { type, user } = await GoogleSignIn.signInAsync();
-      if (type === 'success') {
-        const credential = firebase.auth.GoogleAuthProvider.credential(
-          user.auth.idToken,
-          user.auth.accessToken,
-        );
-        firebase
-          .auth()
-          .signInWithCredential(credential)
-          .then((userCredential) => {
-            var user = userCredential.user;
-            user
-              .getIdToken(/* forceRefresh */ true)
-              .then((idToken) => setToken(idToken))
-              .then(() => loginUser())
-              .then(() => loginAnalytics('google'))
-              .catch((error) => console.log(`error`, error));
-          })
-          .catch(function (error) {
-            console.error('Error with Firebase sign in ', error.message);
-          });
-      } else {
-        console.log(`type`, type);
-      }
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
-  };
-
-  // login with facebook
-  // https://docs.expo.io/guides/using-firebase/#user-authentication
-  // dev account dashboard https://developers.facebook.com/apps/319892812842607/dashboard/
-  // expo docs: https://docs.expo.io/versions/latest/sdk/facebook/
-  const loginWithFacebook = async () => {
-    await signOutOfFirebase();
-    await Facebook.initializeAsync({
-      appId: facebookAppId,
-      appName: facebookDisplayName,
-    });
-
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['email', 'public_profile'],
-    });
-
-    if (type === 'success') {
-      // Build Firebase credential with the Facebook access token.
-      const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      // Sign in with credential from the Facebook user.
-      firebase
-        .auth()
-        .signInWithCredential(credential)
-        .then((userCredential) => {
-          var user = userCredential.user;
-          user
-            .getIdToken(/* forceRefresh */ true)
-            .then((idToken) => setToken(idToken))
-            .then(() => loginUser())
-            .then(() => loginAnalytics('facebook'))
-            .catch((error) => console.log(`error`, error));
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-        });
-    }
-  };
-
-  // login with apple
-  // https://medium.com/nerd-for-tech/apple-google-authentication-in-expo-apps-using-firebase-997125440032
-  // https://docs.expo.dev/versions/latest/sdk/apple-authentication/
-  const signInWithApple = () => {
-    const nonce = Math.random().toString(36).substring(2, 10);
-
-    return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, nonce)
-      .then((hashedNonce) =>
-        AppleAuthentication.signInAsync({
-          requestedScopes: [
-            AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-            AppleAuthentication.AppleAuthenticationScope.EMAIL,
-          ],
-          nonce: hashedNonce,
-        }),
-      )
-      .then((appleCredential) => {
-        const { identityToken } = appleCredential;
-        const provider = new firebase.auth.OAuthProvider('apple.com');
-        const credential = provider.credential({
-          idToken: identityToken,
-          rawNonce: nonce,
-        });
-        firebase
-          .auth()
-          .signInWithCredential(credential)
-          .then((userCredential) => {
-            var user = userCredential.user;
-            user
-              .getIdToken(/* forceRefresh */ true)
-              .then((idToken) => setToken(idToken))
-              .then(() => loginUser())
-              .then(() => loginAnalytics('apple'))
-              .catch((error) => console.log(`error`, error));
-          });
-      })
       .catch((error) => {
-        console.log(`error in apple login:`, error);
+        console.log('error.message', error.message);
+        if (
+          error.message.includes(
+            'There is no user record corresponding to this identifier. The user may have been deleted.',
+          )
+        ) {
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              var user = userCredential.user;
+              user
+                .getIdToken(/* forceRefresh */ true)
+                .then((idToken) => setToken(idToken))
+                .then(() => loginUser())
+                .then(() => loginAnalytics('email'))
+                .catch((error) => console.log(`error`, error));
+            })
+            .catch((error) => setErrorMessage(error.message));
+        } else {
+          setErrorMessage(error.message);
+        }
       });
   };
 
@@ -335,18 +223,7 @@ const LoginScreen = ({ navigation }) => {
           width: '85%',
         }}
       >
-        <SocialSignIn
-          title={Localized('Sign in with')}
-          googleSignIn={signInWithGoogleAsync}
-          facebookSignIn={loginWithFacebook}
-          signInWithApple={signInWithApple}
-        />
-
-        <Flexbox direction="row">
-          <DividerLine />
-          <H4Secondary>{Localized('or use your email')}</H4Secondary>
-          <DividerLine />
-        </Flexbox>
+        <View style={{ height: 40 }} />
 
         <Flexbox>
           <EmailForm onSubmit={onSubmit} />
@@ -376,10 +253,7 @@ const LoginScreen = ({ navigation }) => {
         </Flexbox>
 
         <Flexbox style={{ minWidth: '85%' }}>
-          <CreateAccountAndForgotPassword
-            navigateToScreen={() =>
-              navigation.navigate('Create Account Screen')
-            }
+          <ForgotPassword
             navigateToPasswordRecovery={() =>
               navigation.navigate('Password Recovery Screen')
             }

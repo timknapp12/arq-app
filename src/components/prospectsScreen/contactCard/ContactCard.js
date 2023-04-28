@@ -19,6 +19,7 @@ const ContactCard = ({
   isFilterMenuOpen = false,
   closeFilterMenu = () => {},
   fromEnrollmentScreen,
+  omitUrlParams,
   ...props
 }) => {
   const { associateId } = useContext(AppContext);
@@ -30,6 +31,7 @@ const ContactCard = ({
     redirectUrl,
     prospectLinkIsNeeded,
   } = useContext(ProspectsContext);
+
   const {
     prospectId = '',
     firstName = '',
@@ -162,8 +164,9 @@ const ContactCard = ({
     /\s/g,
     '',
   )}${encodeURIComponent(`&lastname=`)}${lastName.replace(/\s/g, '')}`;
-  const encoded = `${redirectUrl}${urlParams}`;
 
+  const withParams = `${redirectUrl}${urlParams}`;
+  const encoded = omitUrlParams ? redirectUrl : withParams;
   const enrollmentLink = `${defaultMessageIntro}${encoded}`;
 
   const sendEmail = async () => {
@@ -232,6 +235,7 @@ ContactCard.propTypes = {
   isFilterMenuOpen: PropTypes.bool,
   closeFilterMenu: PropTypes.func,
   fromEnrollmentScreen: PropTypes.bool,
+  omitUrlParams: PropTypes.bool,
 };
 
 export default ContactCard;

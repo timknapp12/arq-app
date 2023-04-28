@@ -14,6 +14,7 @@ const ProspectsView = ({
   isFilterMenuOpen,
   closeFilterMenu,
   fromEnrollmentScreen,
+  omitUrlParams,
 }) => {
   return (
     <MainScrollView>
@@ -44,6 +45,7 @@ const ProspectsView = ({
             isFilterMenuOpen={isFilterMenuOpen}
             closeFilterMenu={closeFilterMenu}
             fromEnrollmentScreen={fromEnrollmentScreen}
+            omitUrlParams={omitUrlParams}
           />
         ))}
       </View>
@@ -60,6 +62,7 @@ ProspectsView.propTypes = {
   isFilterMenuOpen: PropTypes.bool.isRequired,
   closeFilterMenu: PropTypes.func.isRequired,
   fromEnrollmentScreen: PropTypes.bool,
+  omitUrlParams: PropTypes.bool,
 };
 
 export default ProspectsView;

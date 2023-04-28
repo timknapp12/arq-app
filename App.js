@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { LogBox } from 'react-native';
+import { LogBox, View } from 'react-native';
 import AppContext from './src/contexts/AppContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
@@ -27,12 +27,12 @@ import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
 import { initLanguage } from './src/translations/Localized';
 import { useFonts } from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import { ApolloProvider } from '@apollo/client';
 // this allows apollo refetch queries to happen from apollo
 import 'core-js/features/promise';
 
-const firebaseConfig = Constants.manifest.web.config.firebase;
+const firebaseConfig = Constants.expoConfig.web.config.firebase;
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -49,21 +49,28 @@ LogBox.ignoreLogs([
   'AsyncStorage has been extracted from react-native',
   'EventEmitter.removeListener',
 ]);
-
+SplashScreen.preventAutoHideAsync();
 const App = () => {
   const [theme, setTheme] = useState(darkTheme);
   const [associateId, setAssociateId] = useState(null);
   const [legacyId, setLegacyId] = useState(null);
-
-  const [loaded] = useFonts({
+  const [deviceLanguage, setDeviceLanguage] = useState('en');
+  const [token, setToken] = useState('');
+  const [fontsLoaded] = useFonts({
     'Roboto-Regular': require('./assets/fonts/roboto/Roboto-Regular.ttf'),
     'Avenir-Light': require('./assets/fonts/avenir/AvenirLTStd-Light.otf'),
     'Avenir-Book': require('./assets/fonts/avenir/AvenirLTStd-Book.otf'),
     'Avenir-Heavy': require('./assets/fonts/avenir/AvenirLTStd-Heavy.otf'),
     'Avenir-Black': require('./assets/fonts/avenir/AvenirLTStd-Black.otf'),
   });
-  const [deviceLanguage, setDeviceLanguage] = useState('en');
-  const [token, setToken] = useState('');
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const signOutOfFirebase = () => {
     try {
@@ -74,22 +81,20 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const getLanguageCode = async () => {
-      const lang = await initLanguage();
-      setDeviceLanguage(lang);
-    };
-    getLanguageCode();
-  }, [initLanguage]);
+  const getLanguageCode = async () => {
+    const lang = await initLanguage();
+    setDeviceLanguage(lang);
+  };
+  getLanguageCode();
 
   // advanced http for apollo client https://www.apollographql.com/docs/react/networking/advanced-http-networking/#overriding-options
   const httpLink = new HttpLink({
-    uri: Constants.manifest.extra.uri,
+    uri: Constants.expoConfig.extra.uri,
     fetch,
   });
 
   const wsLink = new WebSocketLink({
-    uri: Constants.manifest.extra.uri,
+    uri: Constants.expoConfig.extra.uri,
     options: {
       reconnect: true,
     },
@@ -156,9 +161,10 @@ const App = () => {
     link: concat(authMiddleware, splitLink),
   });
 
-  if (!loaded) {
-    return <AppLoading />;
+  if (!fontsLoaded) {
+    return null;
   }
+
   return (
     <ApolloProvider client={client}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -177,13 +183,15 @@ const App = () => {
               signOutOfFirebase,
             }}
           >
-            <StatusBar
-              backgroundColor={theme.backgroundColor}
-              style={theme.statusBar}
-            />
-            <NavigationContainer>
-              <LoginStack />
-            </NavigationContainer>
+            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+              <StatusBar
+                backgroundColor={theme.backgroundColor}
+                style={theme.statusBar}
+              />
+              <NavigationContainer>
+                <LoginStack />
+              </NavigationContainer>
+            </View>
           </AppContext.Provider>
         </ThemeProvider>
       </GestureHandlerRootView>

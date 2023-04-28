@@ -1,17 +1,21 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, Linking, TouchableOpacity } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 import { LoadingSpinner, H6, H6Secondary, Flexbox, Gap } from '../../../common';
 import { useQuery } from '@apollo/client';
 import EmailIcon from '../../../../../assets/icons/email-icon.svg';
 import MessageIcon from '../../../../../assets/icons/message-icon.svg';
 import CallIcon from '../../../../../assets/icons/CallIcon.svg';
+import CopyIcon from '../../../../../assets/icons/CopytoClipboardIcon.svg';
 import { GET_PROFILE } from '../../../../graphql/queries';
 import AppContext from '../../../../contexts/AppContext';
 import { Localized } from '../../../../translations/Localized';
+import LoginContext from '../../../../contexts/LoginContext';
 
 const MyDownlineProfileCard = ({ associateId }) => {
   const { theme } = useContext(AppContext);
+  const { shopQUrl } = useContext(LoginContext);
   const { data, loading } = useQuery(GET_PROFILE, {
     variables: { associateId },
   });
@@ -25,6 +29,10 @@ const MyDownlineProfileCard = ({ associateId }) => {
 
   const sendText = () =>
     Linking.openURL(`sms:${associate?.primaryPhoneNumber}`);
+
+  const storeUrl = `${shopQUrl}${associate?.associateSlugs?.[0]?.slug}`;
+
+  const copyToClipboard = async () => await Clipboard.setStringAsync(storeUrl);
 
   const iconStyle = {
     height: 36,
@@ -94,6 +102,35 @@ const MyDownlineProfileCard = ({ associateId }) => {
       </H6>
 
       <Gap height={gapHeight} />
+
+      {associate?.associateType === 'AMBASSADOR' && (
+        <Flexbox direction="row">
+          <View>
+            <H6Secondary>{Localized('Qsciences Website')}</H6Secondary>
+            <H6>{storeUrl || Localized('Not found on file')}</H6>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={copyToClipboard}>
+              <CopyIcon style={iconStyle} />
+            </TouchableOpacity>
+          </View>
+        </Flexbox>
+      )}
+
+      <Gap height={gapHeight} />
+
+      {/* We can't get the data for uplineEnrollmentTreeNode from the getProfile Query. so will have to use a simpler version of TreeNodeFor to get this data */}
+      {/* {associate?.associateType === 'AMBASSADOR' && (
+        <>
+          <H6Secondary>{Localized('Sponsor')}</H6Secondary>
+          <H6>
+            {associate?.uplineEnrollmentTreeNode?.associate?.fullName ||
+              Localized('Not found on file')}
+          </H6>
+        </>
+      )}
+
+      <Gap height={gapHeight} /> */}
 
       <H6Secondary>{Localized('Address 1')}</H6Secondary>
       <H6>

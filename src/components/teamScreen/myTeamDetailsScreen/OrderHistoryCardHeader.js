@@ -23,7 +23,7 @@ const OrderHistoryCardHeader = ({ order, isExpanded, onPress }) => {
         onPress={onPress}
         activeOpacity={1}
       >
-        {order?.type?.toLowerCase() === 'autoship' ? (
+        {order?.type?.toLowerCase() === 'auto_ship' ? (
           <AutoshipIcon
             style={{
               height: 24,

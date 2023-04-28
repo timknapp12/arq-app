@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
-import { Flexbox, LoadingSpinner, H5 } from '../../common';
+import { LoadingSpinner, H5 } from '../../common';
 import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
 import AppContext from '../../../contexts/AppContext';
-import LoginContext from '../../../contexts/LoginContext';
+import TeamScreenContext from '../../../contexts/TeamScreenContext';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
@@ -25,7 +25,7 @@ const VisualTreePane = ({
   setPaneHasContent,
 }) => {
   const { theme } = useContext(AppContext);
-  const { user } = useContext(LoginContext);
+  const { isViewReset, setIsViewReset } = useContext(TeamScreenContext);
 
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
@@ -35,7 +35,6 @@ const VisualTreePane = ({
 
   const [treeData, setTreeData] = useState(null);
   const [focusedMember, setFocusedMember] = useState(null);
-  const [uplineMember, setUplineMember] = useState(null);
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
   const [levelOfFocusedMember, setLevelOfFocusedMember] = useState(0);
   const [horizontalOffset, setHorizontalOffset] = useState(0);
@@ -74,7 +73,6 @@ const VisualTreePane = ({
 
   useEffect(() => {
     if (!data) return;
-
     const filteredData = findMembersInDownlineOneLevel(
       data?.treeNodeFor?.childTreeNodes,
       'AMBASSADOR',
@@ -82,9 +80,8 @@ const VisualTreePane = ({
     setTreeData(filteredData);
     const topLevelMember = reshapeMember(data?.treeNodeFor);
     setFocusedMember(topLevelMember);
-    const upline = reshapeMember(data?.treeNodeFor?.uplineTreeNode);
-    setUplineMember(upline);
-  }, [data]);
+    setIsViewReset(false);
+  }, [data, isViewReset]);
 
   useEffect(() => {
     setIsOutsideBubbleEntering(focusedMember?.associate === idOfDraggedItem);
@@ -95,24 +92,6 @@ const VisualTreePane = ({
       setLevelOfFocusedMember(level);
     }
   }, [level]);
-
-  const onDragStart = (item, level) => {
-    setReceiveCirlceBorderColor(theme.primaryButtonBackgroundColor);
-    setIdOfDraggedItem(item?.legacyAssociateId);
-    setActiveBubbleMember({ ...item, level });
-    closeMenus();
-    Analytics.logEvent('visual_tree_bubble_tapped');
-  };
-
-  const onDragEnd = () => {
-    setReceiveCirlceBorderColor(theme.disabledTextColor);
-    setIdOfDraggedItem(null);
-  };
-
-  const onDragDrop = () => {
-    setReceiveCirlceBorderColor(theme.disabledTextColor);
-    setIdOfDraggedItem(null);
-  };
 
   const onDragStartFocused = (item, level) => {
     setIdOfDraggedItem(item?.legacyAssociateId);
@@ -129,9 +108,10 @@ const VisualTreePane = ({
     setIdOfDraggedItem(null);
   };
 
-  const isAValidDropToTopCirlce =
-    isLegacyAssociateIdInArray(treeData, idOfDraggedItem) ||
-    uplineMember?.legacyAssociateId === idOfDraggedItem;
+  const isAValidDropToTopCirlce = isLegacyAssociateIdInArray(
+    treeData,
+    idOfDraggedItem,
+  );
 
   const onReceiveDragDrop = (payload) => {
     if (!isAValidDropToTopCirlce) return;
@@ -140,11 +120,7 @@ const VisualTreePane = ({
         legacyAssociateId: payload?.legacyAssociateId,
       },
     });
-    if (payload?.legacyAssociateId === uplineMember?.legacyAssociateId) {
-      setLevelOfFocusedMember((state) => state - 1);
-    } else {
-      setLevelOfFocusedMember((state) => state + 1);
-    }
+    setLevelOfFocusedMember((state) => state + 1);
   };
 
   const scrollViewRef = useRef(null);
@@ -181,6 +157,7 @@ const VisualTreePane = ({
           style={{
             minHeight: '100%',
             zIndex: -1,
+            marginTop: 16,
           }}
           onScroll={({ nativeEvent }) => onHorizontalScroll(nativeEvent)}
           scrollEventThrottle={16}
@@ -189,33 +166,6 @@ const VisualTreePane = ({
         >
           <TouchableWithoutFeedback onPress={closeMenus}>
             <VisualTreeContainer onStartShouldSetResponder={() => true}>
-              {uplineMember && (
-                <Flexbox padding={20}>
-                  <VisualTreeBubble
-                    member={uplineMember}
-                    draggable={
-                      uplineMember?.legacyAssociateId !==
-                      user?.uplineTreeNode?.associate?.legacyAssociateId
-                    }
-                    onDragStart={() =>
-                      onDragStart(uplineMember, levelOfFocusedMember - 1)
-                    }
-                    onDragEnd={onDragEnd}
-                    onDragDrop={onDragDrop}
-                    payload={uplineMember}
-                    position="relative"
-                    isBeingDragged={
-                      idOfDraggedItem === uplineMember?.legacyAssociateId
-                    }
-                    level={levelOfFocusedMember - 1}
-                    horizontalOffset={horizontalOffset}
-                    selected={
-                      activeBubbleMember?.associateId ===
-                      uplineMember?.associateId
-                    }
-                  />
-                </Flexbox>
-              )}
               <ReceivingCircle
                 borderColor={receiveCirlceBorderColor}
                 receivingStyle={

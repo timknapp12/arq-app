@@ -37,8 +37,9 @@ const Slider = ({ rank, setRank, rankName, setRankName, isQualified }) => {
 
   const onSlidingStart = () => setIsQualifiedTextDisplayed(false);
 
-  const onSlidingComplete = () => {
-    setRank(findRankObject(ranklist, value));
+  const onSlidingComplete = (sliderValue) => {
+    setValue(sliderValue);
+    setRank(findRankObject(ranklist, sliderValue));
     setIsQualifiedTextDisplayed(true);
   };
 

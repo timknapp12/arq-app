@@ -156,7 +156,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
 
   const storeUrl = `${shopQUrl}${associateSlugs?.[0]?.slug}`;
 
-  const copyToClipboard = () => Clipboard.setString(storeUrl);
+  const copyToClipboard = async () => await Clipboard.setStringAsync(storeUrl);
 
   return (
     <Modal
@@ -306,7 +306,7 @@ const MyInfoModal = ({ setIsMyInfoModalOpen, isMyInfoModalOpen }) => {
                     <TextArea
                       inputStyle={{ paddingRight: 32 }}
                       testID="shopQ-website-input"
-                      label={Localized('ShopQ Website')}
+                      label={Localized('Qsciences Website')}
                       value={storeUrl}
                       editable={false}
                       multiline

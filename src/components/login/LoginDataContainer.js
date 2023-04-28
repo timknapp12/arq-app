@@ -33,7 +33,7 @@ import {
 } from '../../utils/teamResources/findTeamResourceData';
 import { findRankId } from '../../utils/findRankInSlider';
 
-const InitialDataContainer = ({ children }) => {
+const LoginDataContainer = ({ children }) => {
   const { associateId, legacyId, deviceLanguage } = useContext(AppContext);
 
   const [email, setEmail] = useState('');
@@ -154,11 +154,7 @@ const InitialDataContainer = ({ children }) => {
 
   const news = newsData?.newsResources ?? [];
 
-  const enabledMarket =
-    userMarket?.countryCode === 'us' ||
-    userMarket?.countryCode === 'ca' ||
-    userMarket?.countryCode === 'au' ||
-    userMarket?.countryCode === 'nz';
+  const enabledMarket = userMarket?.countryCode !== 'jp';
 
   useEffect(() => {
     const count = calculateUnreadNews(news);
@@ -307,8 +303,8 @@ const InitialDataContainer = ({ children }) => {
   );
 };
 
-InitialDataContainer.propTypes = {
+LoginDataContainer.propTypes = {
   children: PropTypes.any.isRequired,
 };
 
-export default InitialDataContainer;
+export default LoginDataContainer;

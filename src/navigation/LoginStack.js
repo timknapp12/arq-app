@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../components/login/loginScreen/LoginScreen';
 import PasswordRecoveryScreen from '../components/login/loginScreen/PasswordRecoveryScreen';
-import CreateAccountScreen from '../components/login/CreateAccountScreen';
 import EnterIdScreen from '../components/login/EnterIdScreen';
 import ConfirmAccountScreen from '../components/login/ConfirmAccountScreen';
 import VerificationCodeScreen from '../components/login/VerificationCodeScreen';
 import RedirectUnauthorizedUserScreen from '../components/login/RedirectUnauthorizedUserScreen';
 import AppStack from './AppStack';
 import AppContext from '../contexts/AppContext';
-import InitialDataContainer from '../components/login/InitialDataContainer';
+import LoginDataContainer from '../components/login/LoginDataContainer';
 import { Localized } from '../translations/Localized';
 
 // source for stack navigator: https://reactnavigation.org/docs/hello-react-navigation
@@ -28,7 +27,7 @@ const LoginStack = () => {
     headerTintColor: theme.primaryTextColor,
   };
   return (
-    <InitialDataContainer>
+    <LoginDataContainer>
       <Login.Navigator
         screenOptions={{
           headerBackTitleVisible: false,
@@ -63,17 +62,6 @@ const LoginStack = () => {
           }}
         />
         <Login.Screen
-          name="Create Account Screen"
-          component={CreateAccountScreen}
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-            headerLeft: () => {
-              return null;
-            },
-          }}
-        />
-        <Login.Screen
           name="Enter Id Screen"
           component={EnterIdScreen}
           options={onboardingScreenOptions}
@@ -102,7 +90,7 @@ const LoginStack = () => {
           }}
         />
       </Login.Navigator>
-    </InitialDataContainer>
+    </LoginDataContainer>
   );
 };
 
