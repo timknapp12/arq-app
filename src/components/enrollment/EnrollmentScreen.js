@@ -9,6 +9,7 @@ import {
   SecondaryButton,
   RadioButton,
   Flexbox,
+  H5,
 } from '../common';
 import EnrollmentScreenCard from './EnrollmentScreenCard';
 import LoginContext from '../../contexts/LoginContext';
@@ -17,11 +18,15 @@ import { Localized } from '../../translations/Localized';
 const EnrollmentScreen = () => {
   const { shopQUrl, userProfile } = useContext(LoginContext);
   const slug = userProfile?.associateSlugs?.[0]?.slug;
-  const [selectedOption, setSelectedOption] = useState('ambassador');
+  const [selectedOption, setSelectedOption] = useState('retail');
 
-  const url = `${shopQUrl}${slug}?type${encodeURIComponent(
+  const pcAndAmburl = `${shopQUrl}${slug}?type${encodeURIComponent(
     `=`,
   )}${selectedOption}`;
+
+  const retailUrl = `${shopQUrl}${slug}`;
+
+  const url = selectedOption === 'retail' ? retailUrl : pcAndAmburl;
 
   useEffect(() => {
     Analytics.logEvent('Enrollment_Screen_visited', {
@@ -32,7 +37,7 @@ const EnrollmentScreen = () => {
 
   const optionTitleMap = {
     pc: 'Preferred Customer Enrollment',
-    retail: 'Retail Customer Enrollment',
+    retail: 'shopping and browsing',
     ambassador: 'Ambassador Enrollments',
   };
 
@@ -48,6 +53,7 @@ const EnrollmentScreen = () => {
         url,
         prospectLinkIsNeeded: false,
         fromEnrollmentScreen: true,
+        omitUrlParams: selectedOption === 'retail',
       },
     });
   };
@@ -63,22 +69,39 @@ const EnrollmentScreen = () => {
         }}
       >
         <Flexbox>
-          <Flexbox align="flex-start">
+          <Flexbox align="flex-start" padding={4}>
+            <RadioButton
+              label={Localized('General Enrollment and Shopping')}
+              isSelected={selectedOption === 'retail'}
+              onPress={() => setSelectedOption('retail')}
+            />
+            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
+              {Localized(
+                'Use this link to send a prospect to qsciences.com to browse and shop',
+              )}
+            </H5>
+
             <RadioButton
               label={Localized('Ambassador')}
               isSelected={selectedOption === 'ambassador'}
               onPress={() => setSelectedOption('ambassador')}
             />
+            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
+              {Localized(
+                'Use this link when a prospect is ready to join your team as a Q Sciences Ambassador',
+              )}
+            </H5>
+
             <RadioButton
               label={Localized('Preferred Customer')}
               isSelected={selectedOption === 'pc'}
               onPress={() => setSelectedOption('pc')}
             />
-            <RadioButton
-              label={Localized('Retail Customer')}
-              isSelected={selectedOption === 'retail'}
-              onPress={() => setSelectedOption('retail')}
-            />
+            <H5 style={{ marginStart: 30, marginBottom: 6 }}>
+              {Localized(
+                'Use this link when a prospect is ready to enroll as your Preferred Customer',
+              )}
+            </H5>
           </Flexbox>
           <EnrollmentScreenCard
             text={`${Localized(
