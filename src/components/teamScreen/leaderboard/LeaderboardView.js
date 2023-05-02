@@ -29,7 +29,7 @@ const LeaderboardView = ({ closeMenus, ...props }) => {
 
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const [isRankLegendOpen, setIsRankLegendOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('ENTIRE_COMPANY');
+  const [selectedTab, setSelectedTab] = useState('MY_TEAM');
   const [selectedLeaderboardMonth, setSelectedLeaderboardMonth] =
     useState('CURRENT');
   const [selectedLeaderboardType, setSelectedLeaderboardType] = useState(
