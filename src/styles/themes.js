@@ -106,6 +106,7 @@ export const lightTheme = {
   dropZoneBackgroundColor: nero,
   paneHasContentButtonBackgroundColor: highlightWhite,
   leaderboardCountNumberBackgroundColor: palestinePurple,
+  placementContainerBackgroundColor: gray,
 };
 
 export const darkTheme = {
@@ -178,4 +179,5 @@ export const darkTheme = {
   dropZoneBackgroundColor: nero,
   paneHasContentButtonBackgroundColor: highlightWhite,
   leaderboardCountNumberBackgroundColor: palestinePurple,
+  placementContainerBackgroundColor: gray,
 };

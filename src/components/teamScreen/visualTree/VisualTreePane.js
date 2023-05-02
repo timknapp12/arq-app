@@ -7,13 +7,43 @@ import { LoadingSpinner, H5 } from '../../common';
 import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
-import AppContext from '../../../contexts/AppContext';
-import TeamScreenContext from '../../../contexts/TeamScreenContext';
+import PlacementsContainer from './PlacementsContainer';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
-import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
+import {
+  isWithinPlaceTime,
+  findMembersInDownlineOneLevel,
+} from '../../../utils/teamView/filterDownline';
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
+// Contexts
+import AppContext from '../../../contexts/AppContext';
+import TeamScreenContext from '../../../contexts/TeamScreenContext';
+import LoginContext from '../../../contexts/LoginContext';
+
+const getAssociatesEligibleForPlacement = (associateData) => {
+  if (
+    !associateData ||
+    !associateData.enrollmentChildTreeNodes ||
+    !associateData.childTreeNodes
+  ) {
+    return [];
+  }
+  const intersection = associateData.enrollmentChildTreeNodes.filter((obj1) =>
+    associateData.childTreeNodes.some(
+      (obj2) => obj2.associate.associateId === obj1.associate.associateId,
+    ),
+  );
+
+  const ambassadorsOnly = intersection.filter((obj1) => {
+    return obj1.associate.associateType.toLowerCase() === 'ambassador';
+  });
+
+  const recentEnough = ambassadorsOnly.filter((obj1) => {
+    return isWithinPlaceTime(obj1.associate.dateSignedUp);
+  });
+  return recentEnough;
+};
 
 const VisualTreePane = ({
   searchId,
@@ -26,6 +56,7 @@ const VisualTreePane = ({
 }) => {
   const { theme } = useContext(AppContext);
   const { isViewReset, setIsViewReset } = useContext(TeamScreenContext);
+  const { user } = useContext(LoginContext);
 
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
@@ -63,12 +94,14 @@ const VisualTreePane = ({
     associateType: item?.associate?.associateType,
     associateStatus: item?.associate?.associateStatus,
     uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
+    enrollerId: item?.uplineEnrollmentTreeNode?.associate?.legacyAssociateId,
     ovRankName: item?.rank?.rankName,
     ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
     cvRankId: item?.customerSalesRank?.customerSalesRankId,
     ov: item?.ov,
     cv: item?.cv,
+    dateSignedUp: item?.associate?.dateSignedUp,
   });
 
   useEffect(() => {
@@ -129,6 +162,9 @@ const VisualTreePane = ({
   const onHorizontalScroll = ({ contentOffset }) => {
     setHorizontalOffset(contentOffset.x);
   };
+
+  const associatesEligibleForPlacement =
+    getAssociatesEligibleForPlacement(user);
 
   if (loading) {
     return <LoadingSpinner style={{ marginTop: 20 }} size="large" />;
@@ -228,6 +264,10 @@ const VisualTreePane = ({
           {Localized('Search for a team member')}
         </H5>
       )}
+      <PlacementsContainer
+        associatesEligibleForPlacement={associatesEligibleForPlacement}
+        loading={loading}
+      />
     </DraxScrollView>
   );
 };

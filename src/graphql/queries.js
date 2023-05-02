@@ -5,7 +5,11 @@ export const GET_USER = gql`
     treeNodeFor(legacyAssociateId: $legacyAssociateId) {
       associateId
       uplineTreeNode {
-        uplineTreeNode {
+        associate {
+          associateId
+          legacyAssociateId
+        }
+        uplineEnrollmentTreeNode {
           associate {
             associateId
             legacyAssociateId
@@ -117,8 +121,25 @@ export const GET_USER = gql`
           totalDownlineEventTicketsSold
         }
       }
+      enrollmentChildTreeNodes {
+        associate {
+          associateId
+          legacyAssociateId
+          associateType
+          firstName
+          lastName
+          associateType
+          dateSignedUp
+        }
+      }
       childTreeNodes {
         uplineTreeNode {
+          associate {
+            associateId
+            legacyAssociateId
+          }
+        }
+        uplineEnrollmentTreeNode {
           associate {
             associateId
             legacyAssociateId
@@ -132,6 +153,7 @@ export const GET_USER = gql`
           profileUrl
           associateType
           associateStatus
+          dateSignedUp
         }
         rank {
           rankId
@@ -165,6 +187,12 @@ export const GET_USER = gql`
               legacyAssociateId
             }
           }
+          uplineEnrollmentTreeNode {
+            associate {
+              associateId
+              legacyAssociateId
+            }
+          }
           associate {
             associateId
             legacyAssociateId
@@ -173,6 +201,7 @@ export const GET_USER = gql`
             profileUrl
             associateType
             associateStatus
+            dateSignedUp
           }
           rank {
             rankId
@@ -552,6 +581,12 @@ export const SEARCH_TREE = gql`
         uplineTreeNode {
           associateId
           legacyAssociateId
+        }
+        uplineEnrollmentTreeNode {
+          associate {
+            associateId
+            legacyAssociateId
+          }
         }
         associateId
         legacyAssociateId

@@ -1,5 +1,15 @@
 import { Localized } from '../../translations/Localized';
 
+const placementDayLimit = 7;
+
+export const isWithinPlaceTime = (date) => {
+  const today = new Date();
+  const oneWeekAgo = new Date(
+    today.getTime() - placementDayLimit * 24 * 60 * 60 * 1000,
+  );
+  return new Date(date).getTime() >= oneWeekAgo.getTime();
+};
+
 export const findMembersInDownlineOneLevel = (array, firstType, secondType) => {
   return array?.filter(
     (member) =>

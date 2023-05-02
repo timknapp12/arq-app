@@ -4,7 +4,10 @@ import { View, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { H6Secondary } from '../../common';
 import AppContext from '../../../contexts/AppContext';
-import { filterMemberByStatusAndType } from '../../../utils/teamView/filterDownline';
+import {
+  isWithinPlaceTime,
+  filterMemberByStatusAndType,
+} from '../../../utils/teamView/filterDownline';
 import { LevelIndicator, Bubble } from './visualTree.styles';
 import RankIcons from './RankIcons';
 import VisualTreeBubbleStatBar from './VisualTreeBubbleStatBar';
@@ -33,9 +36,14 @@ const VisualTreeBubble = ({
   level,
   horizontalOffset,
   selected = false,
+  isInPlacementContainer = false,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
+
+  const isEligibleForPlacement =
+    isWithinPlaceTime(member?.dateSignedUp) &&
+    member?.uplineId === member?.enrollerId;
 
   const memberTypeColorMap = {
     activeAmbassador: theme.primaryButtonBackgroundColor,
@@ -50,8 +58,13 @@ const VisualTreeBubble = ({
     memberTypeColorMap,
   );
 
+  const accentColor =
+    isEligibleForPlacement || isInPlacementContainer
+      ? memberTypeColorMap.activeRetail
+      : color;
+
   const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
-  const baseVerticalOffset = -107;
+  const baseVerticalOffset = isInPlacementContainer ? -247 : -107;
   const baseHorizontalOffset = -51;
 
   return (
@@ -84,7 +97,10 @@ const VisualTreeBubble = ({
               left: baseHorizontalOffset - (horizontalOffset ?? 0),
             }}
           >
-            <VisualTreeBubbleStatBar member={member} />
+            <VisualTreeBubbleStatBar
+              member={member}
+              isInPlacementContainer={isInPlacementContainer}
+            />
             <VisualTreeBubble
               member={member}
               onDragStart={onDragStart}
@@ -97,6 +113,7 @@ const VisualTreeBubble = ({
               isDroppedItem={isDroppedItem}
               level={level}
               horizontalOffset={horizontalOffset}
+              isInPlacementContainer={isInPlacementContainer}
             />
           </View>
         )}
@@ -121,7 +138,7 @@ const VisualTreeBubble = ({
                 {properlyCaseName(member?.lastName)}
               </H6Secondary>
             </View>
-            <LevelIndicator color={color} />
+            <LevelIndicator color={accentColor} />
           </LinearGradient>
         </View>
       </Bubble>
@@ -142,6 +159,7 @@ VisualTreeBubble.propTypes = {
   level: PropTypes.number,
   horizontalOffset: PropTypes.number.isRequired,
   selected: PropTypes.bool,
+  isInPlacementContainer: PropTypes.bool,
 };
 
 export default VisualTreeBubble;

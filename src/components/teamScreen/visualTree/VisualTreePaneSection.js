@@ -191,6 +191,10 @@ const VisualTreePaneSection = ({
                 cvRankId: item?.customerSalesRank?.customerSalesRankId,
                 cv: item?.cv,
                 ov: item?.ov,
+                uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
+                enrollerId:
+                  item?.uplineEnrollmentTreeNode?.associate?.legacyAssociateId,
+                dateSignedUp: item?.associate?.dateSignedUp,
               }}
               draggable={
                 item?.associate?.legacyAssociateId !==
@@ -256,6 +260,12 @@ const VisualTreePaneSection = ({
               cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
               cv: insideItem?.cv,
               ov: insideItem?.ov,
+              uplineId:
+                insideItem?.uplineTreeNode?.associate?.legacyAssociateId,
+              enrollerId:
+                insideItem?.uplineEnrollmentTreeNode?.associate
+                  ?.legacyAssociateId,
+              dateSignedUp: insideItem?.associate?.dateSignedUp,
             }}
             draggable={
               insideItem?.associate?.legacyAssociateId !==
@@ -379,7 +389,7 @@ const VisualTreePaneSection = ({
           ) : (
             <OuterCircle
               // TODO adjust borderColor and receiving style when the functionailty for placement suite is ready
-              padding={outerCirclePadding}
+              padding={8}
               wrap="nowrap"
               borderColor={null}
               receivingStyle={
