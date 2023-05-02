@@ -30,6 +30,14 @@ export const GET_USER = gql`
         cv
         qoV
       }
+      associate {
+        associateId
+        legacyAssociateId
+        firstName
+        lastName
+        associateType
+        associateStatus
+      }
       orders {
         orderId
       }
