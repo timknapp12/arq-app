@@ -50,29 +50,26 @@ const VisualTreeBubbleStatBar = ({ member, isInPlacementContainer }) => {
   const ovWidth = member?.ov > 0 ? '100%' : '0%';
   const cvWidth = getPercentage(member?.cv, requiredCvForNextRank);
 
+  // the full width for <Bar/> should be 100, but is not working for some reason for placement suite and executive timeclock
+  // so the following adjusts it to 186 so the percentages show accurately
+  const adjustedFullWidth = 186 / 100;
   // PLACEMENT DAYS
-  console.log('member?.dateSignedUp', member?.dateSignedUp);
   const dateSignedUp = member?.dateSignedUp;
   const placementDiffInDays = getDiffInDays(dateSignedUp);
-
-  console.log('placementDiffInDays', placementDiffInDays);
   const placementMax = 7;
-  // show how many days left
   const daysLeftToPlace = placementMax - placementDiffInDays;
-  console.log('daysLeftToPlace', daysLeftToPlace);
-  // show percentage
-  const placementWidth = getPercentage(daysLeftToPlace, placementMax);
+  const transpiredPDays = placementMax - daysLeftToPlace;
+  const placementWidth =
+    getPercentage(transpiredPDays, placementMax) * adjustedFullWidth;
 
   // EXECUTIVE TIMECLOCK
   const executiveDeadline = getLastDayOfNextMonth(dateSignedUp);
   const daysLeftToExecutive = getDiffInDays(new Date(), executiveDeadline);
-  console.log('daysLeftToExecutive', daysLeftToExecutive);
   const executiveMax = getDiffInDays(dateSignedUp, executiveDeadline);
-  console.log('executiveMax', executiveMax);
+  const transpiredEDays = executiveMax - daysLeftToExecutive;
+  const executiveWidth =
+    getPercentage(transpiredEDays, executiveMax) * adjustedFullWidth;
 
-  const executiveWidth = getPercentage(daysLeftToExecutive, executiveMax);
-  console.log('executiveWidth', executiveWidth);
-  // days left to executive is backwards
   return (
     <VisualTreeStatsBarCard
       style={
@@ -86,7 +83,7 @@ const VisualTreeBubbleStatBar = ({ member, isInPlacementContainer }) => {
         <>
           <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
             'Days to place',
-          )}: ${stringify(member?.ov)}`}</H6Secondary>
+          )}: ${daysLeftToPlace}`}</H6Secondary>
           <Gap height="4px" />
           <BarContainer>
             <Bar width={placementWidth} color={theme.donut1primaryColor} />
@@ -94,10 +91,10 @@ const VisualTreeBubbleStatBar = ({ member, isInPlacementContainer }) => {
 
           <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
             'Executive Timeclock',
-          )}: ${stringify(member?.ov)}`}</H6Secondary>
+          )}: ${daysLeftToExecutive}`}</H6Secondary>
           <Gap height="4px" />
           <BarContainer>
-            <Bar width={executiveWidth} color={theme.donut1primaryColor} />
+            <Bar width={executiveWidth} color={theme.donut3primaryColor} />
           </BarContainer>
         </>
       ) : (

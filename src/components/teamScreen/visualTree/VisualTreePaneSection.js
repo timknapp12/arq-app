@@ -28,6 +28,8 @@ const VisualTreePaneSection = ({
   horizontalOffset,
   setActiveBubbleMember,
   activeBubbleMember,
+  fadeDown,
+  setHidePlacementContainer,
 }) => {
   const { theme } = useContext(AppContext);
 
@@ -97,6 +99,7 @@ const VisualTreePaneSection = ({
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
+    fadeDown();
     Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
@@ -117,6 +120,7 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
+    fadeDown();
     Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
@@ -141,6 +145,10 @@ const VisualTreePaneSection = ({
   const isAValidDropToBottomCirlce =
     isLegacyAssociateIdInArray(parentData, idOfDraggedItem) &&
     idOfDraggedItem !== droppedMember?.legacyAssociateId;
+
+  useEffect(() => {
+    setHidePlacementContainer(loading);
+  }, [loading]);
 
   if (loading) {
     return <LoadingSpinner style={{ marginTop: 20 }} size="large" />;
@@ -385,6 +393,8 @@ const VisualTreePaneSection = ({
               horizontalOffset={horizontalOffset}
               setActiveBubbleMember={setActiveBubbleMember}
               activeBubbleMember={activeBubbleMember}
+              fadeDown={fadeDown}
+              setHidePlacementContainer={setHidePlacementContainer}
             />
           ) : (
             <OuterCircle
@@ -428,6 +438,8 @@ VisualTreePaneSection.propTypes = {
   horizontalOffset: PropTypes.number.isRequired,
   setActiveBubbleMember: PropTypes.func.isRequired,
   activeBubbleMember: PropTypes.object,
+  fadeDown: PropTypes.func.isRequired,
+  setHidePlacementContainer: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;

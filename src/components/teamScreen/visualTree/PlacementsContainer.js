@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Animated, View } from 'react-native';
@@ -6,6 +6,7 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import VisualTreeBubble from './VisualTreeBubble';
 import { H4 } from '../../common';
 import AppContext from '../../../contexts/AppContext';
+import { Localized } from '../../../translations/Localized';
 
 const StyledContainer = styled.View`
   background-color: ${(props) => props.theme.placementContainerBackgroundColor};
@@ -49,6 +50,9 @@ const mock = [
     uplineId: 6,
     enrollerId: 8,
     dateSignedUp: '2023-04-28T22:56:47.000Z',
+    associate: {
+      associateId: 1,
+    },
   },
   {
     __typename: 'Associate',
@@ -68,39 +72,27 @@ const mock = [
     uplineId: 6,
     enrollerId: 8,
     dateSignedUp: '2023-04-30T22:56:47.000Z',
+    associate: {
+      associateId: 2,
+    },
   },
 ];
 
-const PlacementsContainer = ({ associatesEligibleForPlacement, loading }) => {
-  console.log('associatesEligibleForPlacement', associatesEligibleForPlacement);
+const PlacementsContainer = ({
+  associatesEligibleForPlacement,
+  isExpanded,
+  fadeAnim,
+  fadeUp,
+  fadeDown,
+}) => {
   const { theme } = useContext(AppContext);
-  const [isExpanded, setIsExpanded] = useState(false);
+  console.log('associatesEligibleForPlacement', associatesEligibleForPlacement);
 
   const Container = Animated.createAnimatedComponent(StyledContainer);
-  const initialValue = -64;
-  const fadeAnim = useRef(new Animated.Value(initialValue)).current;
-
-  const fadeUp = () => {
-    setIsExpanded(true);
-    Animated.timing(fadeAnim, {
-      toValue: 80,
-      duration: 700,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const fadeDown = () => {
-    setIsExpanded(false);
-    Animated.timing(fadeAnim, {
-      toValue: initialValue,
-      duration: 700,
-      useNativeDriver: false,
-    }).start();
-  };
 
   return (
     <Container style={{ bottom: fadeAnim }}>
-      <Handle onPress={isExpanded ? fadeDown : fadeUp}>
+      <Handle activeOpacity={1} onPress={isExpanded ? fadeDown : fadeUp}>
         <MaterialCommunityIcon
           name={isExpanded ? 'chevron-down' : 'chevron-up'}
           color={theme.primaryTextColor}
@@ -112,7 +104,7 @@ const PlacementsContainer = ({ associatesEligibleForPlacement, loading }) => {
           size={32}
         />
       </Handle>
-      {!loading && mock.length > 0 ? (
+      {mock.length > 0 ? (
         mock?.map((member) => (
           <View
             style={{ marginRight: 8, marginLeft: 8 }}
@@ -134,7 +126,7 @@ const PlacementsContainer = ({ associatesEligibleForPlacement, loading }) => {
           </View>
         ))
       ) : (
-        <H4>No one in placement suite</H4>
+        <H4>{Localized('No one in placement suite')}</H4>
       )}
     </Container>
   );
@@ -142,7 +134,10 @@ const PlacementsContainer = ({ associatesEligibleForPlacement, loading }) => {
 
 PlacementsContainer.propTypes = {
   associatesEligibleForPlacement: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
+  fadeAnim: PropTypes.object.isRequired,
+  fadeUp: PropTypes.func.isRequired,
+  fadeDown: PropTypes.func.isRequired,
 };
 
 export default PlacementsContainer;

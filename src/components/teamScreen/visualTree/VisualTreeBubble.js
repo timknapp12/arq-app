@@ -64,7 +64,8 @@ const VisualTreeBubble = ({
       : color;
 
   const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
-  const baseVerticalOffset = isInPlacementContainer ? -247 : -107;
+  const placementOffset = Platform.OS === 'android' ? -231 : -247;
+  const baseVerticalOffset = isInPlacementContainer ? placementOffset : -107;
   const baseHorizontalOffset = -51;
 
   return (

@@ -78,6 +78,7 @@ const VisualTreeView = ({ ...props }) => {
           setActiveBubbleMember={setPane1ActiveMember}
           activeBubbleMember={pane1ActiveMember}
           setPaneHasContent={setPane1HasContent}
+          paneHasContent={pane1HasContent}
         />
         <VisualTreePane
           style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
@@ -88,6 +89,7 @@ const VisualTreeView = ({ ...props }) => {
           setActiveBubbleMember={setPane2ActiveMember}
           activeBubbleMember={pane2ActiveMember}
           setPaneHasContent={setPane2HasContent}
+          paneHasContent={pane2HasContent}
         />
         <VisualTreePane
           style={{ display: selectedVisualTreePane === 3 ? 'flex' : 'none' }}
@@ -98,6 +100,7 @@ const VisualTreeView = ({ ...props }) => {
           setActiveBubbleMember={setPane3ActiveMember}
           activeBubbleMember={pane3ActiveMember}
           setPaneHasContent={setPane3HasContent}
+          paneHasContent={pane3HasContent}
         />
         <View />
       </DraxProvider>

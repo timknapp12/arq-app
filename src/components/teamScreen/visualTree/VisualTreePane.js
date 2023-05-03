@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
 import { LoadingSpinner, H5 } from '../../common';
@@ -53,6 +53,7 @@ const VisualTreePane = ({
   setActiveBubbleMember,
   activeBubbleMember,
   setPaneHasContent,
+  paneHasContent,
 }) => {
   const { theme } = useContext(AppContext);
   const { isViewReset, setIsViewReset } = useContext(TeamScreenContext);
@@ -130,6 +131,7 @@ const VisualTreePane = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setActiveBubbleMember({ ...item, level });
     closeMenus();
+    fadeDown();
     Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
@@ -165,6 +167,30 @@ const VisualTreePane = ({
 
   const associatesEligibleForPlacement =
     getAssociatesEligibleForPlacement(user);
+
+  // PLACEMENT SUITE
+  const [hidePlacementContainer, setHidePlacementContainer] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const initialValue = -64;
+  const fadeAnim = useRef(new Animated.Value(initialValue)).current;
+
+  const fadeUp = () => {
+    setIsExpanded(true);
+    Animated.timing(fadeAnim, {
+      toValue: 80,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const fadeDown = () => {
+    setIsExpanded(false);
+    Animated.timing(fadeAnim, {
+      toValue: initialValue,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
+  };
 
   if (loading) {
     return <LoadingSpinner style={{ marginTop: 20 }} size="large" />;
@@ -255,6 +281,8 @@ const VisualTreePane = ({
                 horizontalOffset={horizontalOffset}
                 setActiveBubbleMember={setActiveBubbleMember}
                 activeBubbleMember={activeBubbleMember}
+                fadeDown={fadeDown}
+                setHidePlacementContainer={setHidePlacementContainer}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
@@ -264,10 +292,15 @@ const VisualTreePane = ({
           {Localized('Search for a team member')}
         </H5>
       )}
-      <PlacementsContainer
-        associatesEligibleForPlacement={associatesEligibleForPlacement}
-        loading={loading}
-      />
+      {paneHasContent && !hidePlacementContainer && (
+        <PlacementsContainer
+          associatesEligibleForPlacement={associatesEligibleForPlacement}
+          isExpanded={isExpanded}
+          fadeAnim={fadeAnim}
+          fadeUp={fadeUp}
+          fadeDown={fadeDown}
+        />
+      )}
     </DraxScrollView>
   );
 };
@@ -280,6 +313,7 @@ VisualTreePane.propTypes = {
   setActiveBubbleMember: PropTypes.func.isRequired,
   activeBubbleMember: PropTypes.object,
   setPaneHasContent: PropTypes.func.isRequired,
+  paneHasContent: PropTypes.bool.isRequired,
 };
 
 export default VisualTreePane;
