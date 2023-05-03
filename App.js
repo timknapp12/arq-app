@@ -48,6 +48,7 @@ LogBox.ignoreLogs([
   'ViewPropTypes will be removed from React Native',
   'AsyncStorage has been extracted from react-native',
   'EventEmitter.removeListener',
+  'react_native_1.Dimensions.removeEventListener is not a function',
 ]);
 SplashScreen.preventAutoHideAsync();
 const App = () => {
