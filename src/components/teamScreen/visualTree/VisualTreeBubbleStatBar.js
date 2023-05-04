@@ -22,7 +22,7 @@ import {
   getLastDayOfNextMonth,
 } from '../../../utils/executiveTimeclock/executiveTimeclock';
 
-const VisualTreeBubbleStatBar = ({ member, isInPlacementContainer }) => {
+const VisualTreeBubbleStatBar = ({ member, showTimeclock }) => {
   const { theme } = useContext(AppContext);
   const { ranks } = useContext(LoginContext);
 
@@ -50,25 +50,20 @@ const VisualTreeBubbleStatBar = ({ member, isInPlacementContainer }) => {
   const ovWidth = member?.ov > 0 ? '100%' : '0%';
   const cvWidth = getPercentage(member?.cv, requiredCvForNextRank);
 
-  // the full width for <Bar/> should be 100, but is not working for some reason for placement suite and executive timeclock
-  // so the following adjusts it to 186 so the percentages show accurately
-  const adjustedFullWidth = 186 / 100;
   // PLACEMENT DAYS
   const dateSignedUp = member?.dateSignedUp;
   const placementDiffInDays = getDiffInDays(dateSignedUp);
   const placementMax = 7;
   const daysLeftToPlace = placementMax - placementDiffInDays;
   const transpiredPDays = placementMax - daysLeftToPlace;
-  const placementWidth =
-    getPercentage(transpiredPDays, placementMax) * adjustedFullWidth;
+  const placementWidth = `${getPercentage(transpiredPDays, placementMax)}%`;
 
   // EXECUTIVE TIMECLOCK
   const executiveDeadline = getLastDayOfNextMonth(dateSignedUp);
   const daysLeftToExecutive = getDiffInDays(new Date(), executiveDeadline);
   const executiveMax = getDiffInDays(dateSignedUp, executiveDeadline);
   const transpiredEDays = executiveMax - daysLeftToExecutive;
-  const executiveWidth =
-    getPercentage(transpiredEDays, executiveMax) * adjustedFullWidth;
+  const executiveWidth = `${getPercentage(transpiredEDays, executiveMax)}%`;
 
   return (
     <VisualTreeStatsBarCard
@@ -79,7 +74,7 @@ const VisualTreeBubbleStatBar = ({ member, isInPlacementContainer }) => {
         }
       }
     >
-      {isInPlacementContainer ? (
+      {showTimeclock ? (
         <>
           <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
             'Days to place',
@@ -128,7 +123,7 @@ const VisualTreeBubbleStatBar = ({ member, isInPlacementContainer }) => {
 
 VisualTreeBubbleStatBar.propTypes = {
   member: PropTypes.object.isRequired,
-  isInPlacementContainer: PropTypes.bool,
+  showTimeclock: PropTypes.bool,
 };
 
 export default VisualTreeBubbleStatBar;

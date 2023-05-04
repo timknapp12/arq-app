@@ -52,6 +52,12 @@ const mock = [
     dateSignedUp: '2023-04-28T22:56:47.000Z',
     associate: {
       associateId: 1,
+      legacyAssociateId: 1049922,
+    },
+    uplineTreeNode: {
+      associate: {
+        legacyAssociateId: 4,
+      },
     },
   },
   {
@@ -74,6 +80,12 @@ const mock = [
     dateSignedUp: '2023-04-30T22:56:47.000Z',
     associate: {
       associateId: 2,
+      legacyAssociateId: 1051430,
+    },
+    uplineTreeNode: {
+      associate: {
+        legacyAssociateId: 4,
+      },
     },
   },
 ];
@@ -84,10 +96,14 @@ const PlacementsContainer = ({
   fadeAnim,
   fadeUp,
   fadeDown,
+  onDragStartPlacement,
+  onDragEndPlacement,
+  onDragDropPlacement,
+  idOfDraggedItem,
 }) => {
   const { theme } = useContext(AppContext);
   console.log('associatesEligibleForPlacement', associatesEligibleForPlacement);
-
+  console.log('idOfDraggedItem', idOfDraggedItem);
   const Container = Animated.createAnimatedComponent(StyledContainer);
 
   return (
@@ -112,16 +128,20 @@ const PlacementsContainer = ({
           >
             <VisualTreeBubble
               member={member}
-              onDragStart={() => {}}
-              onDragEnd={() => {}}
-              onDragDrop={() => {}}
-              payload={member.legacyAssociateId}
+              onDragStart={() => onDragStartPlacement(member.associate)}
+              onDragEnd={onDragEndPlacement}
+              onDragDrop={onDragDropPlacement}
+              longPressDelay={200}
+              payload={{ ...member, toBePlaced: true }}
+              //   isBeingDragged={idOfDraggedItem === member?.legacyAssociateId}
               draggable={true}
               position="relative"
+              //   style={{ position: 'absolute', top: -70, marginLeft: 40 }}
               highlight={false}
               isDroppedItem={false}
               horizontalOffset={0}
               isInPlacementContainer={true}
+              //   selected={idOfDraggedItem === member?.legacyAssociateId}
             />
           </View>
         ))
@@ -138,6 +158,10 @@ PlacementsContainer.propTypes = {
   fadeAnim: PropTypes.object.isRequired,
   fadeUp: PropTypes.func.isRequired,
   fadeDown: PropTypes.func.isRequired,
+  onDragStartPlacement: PropTypes.func.isRequired,
+  onDragEndPlacement: PropTypes.func.isRequired,
+  onDragDropPlacement: PropTypes.func.isRequired,
+  idOfDraggedItem: PropTypes.number,
 };
 
 export default PlacementsContainer;

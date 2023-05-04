@@ -389,3 +389,19 @@ export const PROSPECT_NOTIFICATION_HAS_BEEN_VIEWED = gql`
     }
   }
 `;
+
+export const UPDATE_COMMISSION_TREE_NODE = gql`
+  mutation UpdateCommissionTreeNode(
+    $AssociateId: Int!
+    $NewUplineAssociateId: Int!
+  ) {
+    updateCommissionTreeNode(
+      input: {
+        associateId: $AssociateId
+        newUplineAssociateId: $NewUplineAssociateId
+      }
+    ) {
+      associateId
+    }
+  }
+`;

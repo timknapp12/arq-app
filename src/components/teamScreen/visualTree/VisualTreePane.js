@@ -169,6 +169,8 @@ const VisualTreePane = ({
     getAssociatesEligibleForPlacement(user);
 
   // PLACEMENT SUITE
+  const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
+    useState(theme.disabledTextColor);
   const [hidePlacementContainer, setHidePlacementContainer] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const initialValue = -64;
@@ -190,6 +192,25 @@ const VisualTreePane = ({
       duration: 700,
       useNativeDriver: false,
     }).start();
+  };
+
+  // PLACEMENT SUITE
+  const onDragStartPlacement = (item) => {
+    console.log('this is working');
+    console.log('item', item);
+    // setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
+    // setIdOfDraggedItem(item?.legacyAssociateId);
+    // setActiveBubbleMember({ ...item, level, uplineId });
+    closeMenus();
+    // Analytics.logEvent('placement_bubble_tapped');
+  };
+  const onDragEndPlacement = () => {
+    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
+    setIdOfDraggedItem(null);
+  };
+  const onDragDropPlacement = () => {
+    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
+    setIdOfDraggedItem(null);
   };
 
   if (loading) {
@@ -283,6 +304,13 @@ const VisualTreePane = ({
                 activeBubbleMember={activeBubbleMember}
                 fadeDown={fadeDown}
                 setHidePlacementContainer={setHidePlacementContainer}
+                outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
+                setOuterCircleReceiveBorderColor={
+                  setOuterCircleReceiveBorderColor
+                }
+                onDragStartPlacement={onDragStartPlacement}
+                onDragEndPlacement={onDragEndPlacement}
+                onDragDropPlacement={onDragDropPlacement}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
@@ -299,6 +327,10 @@ const VisualTreePane = ({
           fadeAnim={fadeAnim}
           fadeUp={fadeUp}
           fadeDown={fadeDown}
+          onDragStartPlacement={onDragStartPlacement}
+          onDragEndPlacement={onDragEndPlacement}
+          onDragDropPlacement={onDragDropPlacement}
+          idOfDraggedItem={idOfDraggedItem}
         />
       )}
     </DraxScrollView>

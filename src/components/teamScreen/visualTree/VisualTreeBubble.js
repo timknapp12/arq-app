@@ -100,7 +100,7 @@ const VisualTreeBubble = ({
           >
             <VisualTreeBubbleStatBar
               member={member}
-              isInPlacementContainer={isInPlacementContainer}
+              showTimeclock={isInPlacementContainer || isEligibleForPlacement}
             />
             <VisualTreeBubble
               member={member}

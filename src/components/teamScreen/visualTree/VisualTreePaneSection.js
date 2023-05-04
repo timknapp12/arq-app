@@ -30,14 +30,22 @@ const VisualTreePaneSection = ({
   activeBubbleMember,
   fadeDown,
   setHidePlacementContainer,
+  outerCircleReceiveBorderColor,
+  setOuterCircleReceiveBorderColor,
+  onDragStartPlacement,
+  onDragEndPlacement,
+  onDragDropPlacement,
 }) => {
   const { theme } = useContext(AppContext);
 
   const [treeData, setTreeData] = useState(null);
-  const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
-    useState(theme.disabledTextColor);
+  // const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
+  //   useState(theme.disabledTextColor);
+  const [outerCircleBackgroundColor, setOuterCircleBackgroundColor] =
+    useState('transparent');
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
   const [droppedMember, setDroppedMember] = useState(null);
+
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
   const [
     isBottomBubbleEnteringOuterCirlce,
@@ -134,7 +142,8 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(null);
   };
 
-  const onReceiveDragDropOuterCircle = () => {
+  const onReceiveDragDropOuterCircle = (payload) => {
+    console.log('payload in drag DROP', payload?.toBePlaced);
     if (idOfDraggedItem !== droppedMember?.legacyAssociateId) return;
     setIsBottomBubbleEnteringOuterCirlce(false);
     setTreeData(null);
@@ -157,11 +166,9 @@ const VisualTreePaneSection = ({
     <>
       <OuterCircle
         borderColor={outerCircleReceiveBorderColor}
-        receivingStyle={
-          droppedMember?.legacyAssociateId === idOfDraggedItem && {
-            backgroundColor: theme.dropZoneBackgroundColor,
-          }
-        }
+        backgroundColor={outerCircleBackgroundColor}
+        // See if this works
+        // receivingStyle={outerCircleBackgroundColor}
         padding={outsideList?.length > 11 ? outerCirclePadding : 0}
         wrap={outsideList?.length > 11 ? 'wrap' : 'nowrap'}
         style={{
@@ -179,12 +186,24 @@ const VisualTreePaneSection = ({
               ? 'center'
               : null,
         }}
-        onReceiveDragEnter={() =>
+        onReceiveDragEnter={({ dragged: { payload } }) => {
+          console.log('payload to bePlaced:', payload?.toBePlaced);
+          setOuterCircleBackgroundColor(theme.dropZoneBackgroundColor);
+
+          if (droppedMember?.legacyAssociateId === idOfDraggedItem) {
+            setOuterCircleBackgroundColor(theme.dropZoneBackgroundColor);
+          }
           idOfDraggedItem === droppedMember?.legacyAssociateId &&
-          setIsBottomBubbleEnteringOuterCirlce(true)
-        }
-        onReceiveDragExit={() => setIsBottomBubbleEnteringOuterCirlce(false)}
-        onReceiveDragDrop={onReceiveDragDropOuterCircle}
+            setIsBottomBubbleEnteringOuterCirlce(true);
+        }}
+        onReceiveDragExit={() => {
+          setOuterCircleBackgroundColor('transparent');
+          setIsBottomBubbleEnteringOuterCirlce(false);
+        }}
+        onReceiveDragDrop={({ dragged: { payload } }) => {
+          setOuterCircleBackgroundColor('transparent');
+          onReceiveDragDropOuterCircle(payload);
+        }}
       >
         {outsideList.length > 0 &&
           !isBottomBubbleEnteringOuterCirlce &&
@@ -395,6 +414,13 @@ const VisualTreePaneSection = ({
               activeBubbleMember={activeBubbleMember}
               fadeDown={fadeDown}
               setHidePlacementContainer={setHidePlacementContainer}
+              outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
+              setOuterCircleReceiveBorderColor={
+                setOuterCircleReceiveBorderColor
+              }
+              onDragStartPlacement={onDragStartPlacement}
+              onDragEndPlacement={onDragEndPlacement}
+              onDragDropPlacement={onDragDropPlacement}
             />
           ) : (
             <OuterCircle
@@ -440,6 +466,11 @@ VisualTreePaneSection.propTypes = {
   activeBubbleMember: PropTypes.object,
   fadeDown: PropTypes.func.isRequired,
   setHidePlacementContainer: PropTypes.func.isRequired,
+  outerCircleReceiveBorderColor: PropTypes.string.isRequired,
+  setOuterCircleReceiveBorderColor: PropTypes.func.isRequired,
+  onDragStartPlacement: PropTypes.func.isRequired,
+  onDragEndPlacement: PropTypes.func.isRequired,
+  onDragDropPlacement: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;
