@@ -11,8 +11,8 @@ import PlacementsContainer from './PlacementsContainer';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import {
-  isWithinPlaceTime,
   findMembersInDownlineOneLevel,
+  getAssociatesEligibleForPlacement,
 } from '../../../utils/teamView/filterDownline';
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
@@ -20,30 +20,6 @@ import { Localized } from '../../../translations/Localized';
 import AppContext from '../../../contexts/AppContext';
 import TeamScreenContext from '../../../contexts/TeamScreenContext';
 import LoginContext from '../../../contexts/LoginContext';
-
-const getAssociatesEligibleForPlacement = (associateData) => {
-  if (
-    !associateData ||
-    !associateData.enrollmentChildTreeNodes ||
-    !associateData.childTreeNodes
-  ) {
-    return [];
-  }
-  const intersection = associateData.enrollmentChildTreeNodes.filter((obj1) =>
-    associateData.childTreeNodes.some(
-      (obj2) => obj2.associate.associateId === obj1.associate.associateId,
-    ),
-  );
-
-  const ambassadorsOnly = intersection.filter((obj1) => {
-    return obj1.associate.associateType.toLowerCase() === 'ambassador';
-  });
-
-  const recentEnough = ambassadorsOnly.filter((obj1) => {
-    return isWithinPlaceTime(obj1.associate.dateSignedUp);
-  });
-  return recentEnough;
-};
 
 const VisualTreePane = ({
   searchId,

@@ -146,6 +146,8 @@ const mock = [
   },
 ];
 
+console.log('mock.length', mock.length);
+
 const PlacementsContainer = ({
   associatesEligibleForPlacement,
   isExpanded,
@@ -158,7 +160,6 @@ const PlacementsContainer = ({
   idOfDraggedItem,
 }) => {
   const { theme } = useContext(AppContext);
-  console.log('associatesEligibleForPlacement', associatesEligibleForPlacement);
   console.log('idOfDraggedItem', idOfDraggedItem);
   const Container = Animated.createAnimatedComponent(StyledContainer);
 
@@ -186,14 +187,14 @@ const PlacementsContainer = ({
         }}
         style={{ height: '100%' }}
       >
-        {mock.length > 0 ? (
-          mock?.map((member) => (
+        {associatesEligibleForPlacement.length > 0 ? (
+          associatesEligibleForPlacement?.map((member) => (
             <View
               style={{ marginRight: 8, marginLeft: 8 }}
               key={member?.associate?.associateId}
             >
               <VisualTreeBubble
-                member={member}
+                member={member.associate}
                 onDragStart={() => onDragStartPlacement(member.associate)}
                 onDragEnd={onDragEndPlacement}
                 onDragDrop={onDragDropPlacement}

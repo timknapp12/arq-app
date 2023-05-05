@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { H6Secondary } from '../../common';
+import { H6Secondary, H5 } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import {
   isWithinPlaceTime,
   filterMemberByStatusAndType,
+  getAssociatesEligibleForPlacement,
 } from '../../../utils/teamView/filterDownline';
-import { LevelIndicator, Bubble } from './visualTree.styles';
+import { LevelIndicator, Bubble, NumberToBePlaced } from './visualTree.styles';
 import RankIcons from './RankIcons';
 import VisualTreeBubbleStatBar from './VisualTreeBubbleStatBar';
 import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
@@ -45,6 +46,11 @@ const VisualTreeBubble = ({
     isWithinPlaceTime(member?.dateSignedUp) &&
     member?.uplineId === member?.enrollerId;
 
+  const associatesEligibleForPlacement =
+    getAssociatesEligibleForPlacement(member);
+
+  const numberToBePlaced = associatesEligibleForPlacement?.length || 0;
+
   const memberTypeColorMap = {
     activeAmbassador: theme.primaryButtonBackgroundColor,
     activePreferred: theme.customerAvatarAccent,
@@ -67,7 +73,7 @@ const VisualTreeBubble = ({
   const placementOffset = Platform.OS === 'android' ? -231 : -247;
   const baseVerticalOffset = isInPlacementContainer ? placementOffset : -107;
   const baseHorizontalOffset = -51;
-
+  console.log('numberToBePlaced', numberToBePlaced);
   return (
     <TouchableOpacity {...props} activeOpacity={1}>
       <Bubble
@@ -139,6 +145,11 @@ const VisualTreeBubble = ({
                 {properlyCaseName(member?.lastName)}
               </H6Secondary>
             </View>
+            {numberToBePlaced ? (
+              <NumberToBePlaced>
+                <H5>{numberToBePlaced}</H5>
+              </NumberToBePlaced>
+            ) : null}
             <LevelIndicator color={accentColor} />
           </LinearGradient>
         </View>

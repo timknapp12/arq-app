@@ -167,3 +167,16 @@ export const VisualTreeStatsBarCard = styled.View`
   border-radius: 5px;
   padding: 6px;
 `;
+
+const dimension = 24;
+export const NumberToBePlaced = styled.View`
+  background-color: ${(props) => props.theme.retailAvatarAccent};
+  width: ${dimension}px;
+  height: ${dimension}px;
+  border-radius: ${dimension / 2}px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 4px;
+  z-index: 2;
+`;
