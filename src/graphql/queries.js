@@ -582,12 +582,6 @@ export const SEARCH_TREE = gql`
           associateId
           legacyAssociateId
         }
-        uplineEnrollmentTreeNode {
-          associate {
-            associateId
-            legacyAssociateId
-          }
-        }
         associateId
         legacyAssociateId
         firstName

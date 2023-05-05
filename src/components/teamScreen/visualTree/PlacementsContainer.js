@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
-import { Animated, View } from 'react-native';
+import { Animated, View, ScrollView } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import VisualTreeBubble from './VisualTreeBubble';
 import { H4 } from '../../common';
@@ -88,6 +88,62 @@ const mock = [
       },
     },
   },
+  {
+    __typename: 'Associate',
+    associateId: 12,
+    associateStatus: 'ACTIVE',
+    associateType: 'AMBASSADOR',
+    cv: 0,
+    cvRankId: 1,
+    cvRankName: 'Ambassador',
+    firstName: 'Test3',
+    lastName: 'Billy',
+    legacyAssociateId: 13,
+    ov: 0,
+    ovRankId: 1,
+    ovRankName: 'Ambassador',
+    profileUrl: null,
+    uplineId: 6,
+    enrollerId: 8,
+    dateSignedUp: '2023-05-02T22:56:47.000Z',
+    associate: {
+      associateId: 12,
+      legacyAssociateId: 13,
+    },
+    uplineTreeNode: {
+      associate: {
+        legacyAssociateId: 4,
+      },
+    },
+  },
+  {
+    __typename: 'Associate',
+    associateId: 21,
+    associateStatus: 'ACTIVE',
+    associateType: 'AMBASSADOR',
+    cv: 0,
+    cvRankId: 1,
+    cvRankName: 'Ambassador',
+    firstName: 'Test4',
+    lastName: 'VanDyke',
+    legacyAssociateId: 22,
+    ov: 0,
+    ovRankId: 1,
+    ovRankName: 'Ambassador',
+    profileUrl: null,
+    uplineId: 6,
+    enrollerId: 8,
+    dateSignedUp: '2023-04-30T22:56:47.000Z',
+    associate: {
+      associateId: 22,
+      legacyAssociateId: 22,
+    },
+    uplineTreeNode: {
+      associate: {
+        legacyAssociateId: 4,
+      },
+    },
+  },
 ];
 
 const PlacementsContainer = ({
@@ -120,34 +176,45 @@ const PlacementsContainer = ({
           size={32}
         />
       </Handle>
-      {mock.length > 0 ? (
-        mock?.map((member) => (
-          <View
-            style={{ marginRight: 8, marginLeft: 8 }}
-            key={member?.associate?.associateId}
-          >
-            <VisualTreeBubble
-              member={member}
-              onDragStart={() => onDragStartPlacement(member.associate)}
-              onDragEnd={onDragEndPlacement}
-              onDragDrop={onDragDropPlacement}
-              longPressDelay={200}
-              payload={{ ...member, toBePlaced: true }}
-              //   isBeingDragged={idOfDraggedItem === member?.legacyAssociateId}
-              draggable={true}
-              position="relative"
-              //   style={{ position: 'absolute', top: -70, marginLeft: 40 }}
-              highlight={false}
-              isDroppedItem={false}
-              horizontalOffset={0}
-              isInPlacementContainer={true}
-              //   selected={idOfDraggedItem === member?.legacyAssociateId}
-            />
-          </View>
-        ))
-      ) : (
-        <H4>{Localized('No one in placement suite')}</H4>
-      )}
+      <ScrollView
+        horizontal
+        contentContainerStyle={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minWidth: '100%',
+        }}
+        style={{ height: '100%' }}
+      >
+        {mock.length > 0 ? (
+          mock?.map((member) => (
+            <View
+              style={{ marginRight: 8, marginLeft: 8 }}
+              key={member?.associate?.associateId}
+            >
+              <VisualTreeBubble
+                member={member}
+                onDragStart={() => onDragStartPlacement(member.associate)}
+                onDragEnd={onDragEndPlacement}
+                onDragDrop={onDragDropPlacement}
+                longPressDelay={200}
+                payload={{ ...member, toBePlaced: true }}
+                //   isBeingDragged={idOfDraggedItem === member?.legacyAssociateId}
+                draggable={false}
+                position="relative"
+                //   style={{ position: 'absolute', top: -70, marginLeft: 40 }}
+                highlight={false}
+                isDroppedItem={false}
+                horizontalOffset={0}
+                isInPlacementContainer={true}
+                //   selected={idOfDraggedItem === member?.legacyAssociateId}
+              />
+            </View>
+          ))
+        ) : (
+          <H4>{Localized('No one in placement suite')}</H4>
+        )}
+      </ScrollView>
     </Container>
   );
 };
