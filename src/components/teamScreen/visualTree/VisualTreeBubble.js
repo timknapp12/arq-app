@@ -73,7 +73,7 @@ const VisualTreeBubble = ({
   const placementOffset = Platform.OS === 'android' ? -231 : -247;
   const baseVerticalOffset = isInPlacementContainer ? placementOffset : -107;
   const baseHorizontalOffset = -51;
-  console.log('numberToBePlaced', numberToBePlaced);
+
   return (
     <TouchableOpacity {...props} activeOpacity={1}>
       <Bubble

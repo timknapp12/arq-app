@@ -5,6 +5,7 @@ import * as Analytics from 'expo-firebase-analytics';
 import { LoadingSpinner, H6 } from '../../common';
 import { GET_USER } from '../../../graphql/queries';
 import VisualTreeBubble from './VisualTreeBubble';
+import PlacementConfirmModal from './PlacementConfirmModal';
 import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
@@ -30,19 +31,18 @@ const VisualTreePaneSection = ({
   activeBubbleMember,
   fadeDown,
   setHidePlacementContainer,
-  outerCircleReceiveBorderColor,
-  setOuterCircleReceiveBorderColor,
-  onDragStartPlacement,
-  onDragEndPlacement,
-  onDragDropPlacement,
+  // isSelectedPane,
+  prevPlacementUpline,
+  setSelectedPlacementUpline,
+  setIsPlacementConfirmModalOpen,
+  isPlacementConfirmModalOpen,
+  selectedPlacementEnrolee,
 }) => {
   const { theme } = useContext(AppContext);
 
   const [treeData, setTreeData] = useState(null);
-  // const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
-  //   useState(theme.disabledTextColor);
-  const [outerCircleBackgroundColor, setOuterCircleBackgroundColor] =
-    useState('transparent');
+  const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
+    useState(theme.disabledTextColor);
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
   const [droppedMember, setDroppedMember] = useState(null);
 
@@ -53,6 +53,24 @@ const VisualTreePaneSection = ({
   ] = useState(false);
   // reloadSameData flag is when a bubble is dragged back up to the bigger outer circle and then immediately back down to the smaller receiving circle (because the data doesn't reset in this case)
   const [reloadSameData, setReloadSameData] = useState(false);
+
+  const [nextPlacementUpline, setNextPlacementUpline] = useState(null);
+  const setPlacementUplineData = (member) => {
+    const {
+      legacyAssociateId,
+      associateId,
+      firstName = '',
+      lastName = '',
+    } = member;
+    const data = {
+      legacyAssociateId,
+      associateId,
+      name: `${firstName} ${lastName}`,
+    };
+    setNextPlacementUpline(data);
+  };
+  console.log('prevPlacementUpline', prevPlacementUpline);
+  console.log('nextPlacementUpline', nextPlacementUpline);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
@@ -142,12 +160,13 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(null);
   };
 
-  const onReceiveDragDropOuterCircle = (payload) => {
-    console.log('payload in drag DROP', payload?.toBePlaced);
+  const onReceiveDragDropOuterCircle = () => {
     if (idOfDraggedItem !== droppedMember?.legacyAssociateId) return;
     setIsBottomBubbleEnteringOuterCirlce(false);
     setTreeData(null);
     setDroppedMember(null);
+    setSelectedPlacementUpline(prevPlacementUpline);
+    setNextPlacementUpline(null);
     Analytics.logEvent('visual_tree_bubble_dropped');
   };
 
@@ -166,9 +185,11 @@ const VisualTreePaneSection = ({
     <>
       <OuterCircle
         borderColor={outerCircleReceiveBorderColor}
-        backgroundColor={outerCircleBackgroundColor}
-        // See if this works
-        // receivingStyle={outerCircleBackgroundColor}
+        receivingStyle={
+          droppedMember?.legacyAssociateId === idOfDraggedItem && {
+            backgroundColor: theme.dropZoneBackgroundColor,
+          }
+        }
         padding={outsideList?.length > 11 ? outerCirclePadding : 0}
         wrap={outsideList?.length > 11 ? 'wrap' : 'nowrap'}
         style={{
@@ -186,24 +207,12 @@ const VisualTreePaneSection = ({
               ? 'center'
               : null,
         }}
-        onReceiveDragEnter={({ dragged: { payload } }) => {
-          console.log('payload to bePlaced:', payload?.toBePlaced);
-          setOuterCircleBackgroundColor(theme.dropZoneBackgroundColor);
-
-          if (droppedMember?.legacyAssociateId === idOfDraggedItem) {
-            setOuterCircleBackgroundColor(theme.dropZoneBackgroundColor);
-          }
+        onReceiveDragEnter={() =>
           idOfDraggedItem === droppedMember?.legacyAssociateId &&
-            setIsBottomBubbleEnteringOuterCirlce(true);
-        }}
-        onReceiveDragExit={() => {
-          setOuterCircleBackgroundColor('transparent');
-          setIsBottomBubbleEnteringOuterCirlce(false);
-        }}
-        onReceiveDragDrop={({ dragged: { payload } }) => {
-          setOuterCircleBackgroundColor('transparent');
-          onReceiveDragDropOuterCircle(payload);
-        }}
+          setIsBottomBubbleEnteringOuterCirlce(true)
+        }
+        onReceiveDragExit={() => setIsBottomBubbleEnteringOuterCirlce(false)}
+        onReceiveDragDrop={onReceiveDragDropOuterCircle}
       >
         {outsideList.length > 0 &&
           !isBottomBubbleEnteringOuterCirlce &&
@@ -371,6 +380,7 @@ const VisualTreePaneSection = ({
             });
             setReloadSameData(true);
             setDroppedMember(payload);
+            setPlacementUplineData(payload);
           }
           Analytics.logEvent('visual_tree_bubble_dropped');
         }}
@@ -414,13 +424,12 @@ const VisualTreePaneSection = ({
               activeBubbleMember={activeBubbleMember}
               fadeDown={fadeDown}
               setHidePlacementContainer={setHidePlacementContainer}
-              outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
-              setOuterCircleReceiveBorderColor={
-                setOuterCircleReceiveBorderColor
-              }
-              onDragStartPlacement={onDragStartPlacement}
-              onDragEndPlacement={onDragEndPlacement}
-              onDragDropPlacement={onDragDropPlacement}
+              // isSelectedPane={isSelectedPane}
+              prevPlacementUpline={nextPlacementUpline}
+              setSelectedPlacementUpline={setSelectedPlacementUpline}
+              isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
+              setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
+              selectedPlacementEnrolee={selectedPlacementEnrolee}
             />
           ) : (
             <OuterCircle
@@ -450,6 +459,18 @@ const VisualTreePaneSection = ({
           )}
         </>
       )}
+      {isPlacementConfirmModalOpen && (
+        <PlacementConfirmModal
+          visible={isPlacementConfirmModalOpen}
+          onClose={() => setIsPlacementConfirmModalOpen(false)}
+          onConfirm={() => {}}
+          confirmButtonDisabled={false}
+          selectedUpline={
+            nextPlacementUpline ? nextPlacementUpline : prevPlacementUpline
+          }
+          selectedPlacementEnrolee={selectedPlacementEnrolee}
+        />
+      )}
     </>
   );
 };
@@ -466,11 +487,12 @@ VisualTreePaneSection.propTypes = {
   activeBubbleMember: PropTypes.object,
   fadeDown: PropTypes.func.isRequired,
   setHidePlacementContainer: PropTypes.func.isRequired,
-  outerCircleReceiveBorderColor: PropTypes.string.isRequired,
-  setOuterCircleReceiveBorderColor: PropTypes.func.isRequired,
-  onDragStartPlacement: PropTypes.func.isRequired,
-  onDragEndPlacement: PropTypes.func.isRequired,
-  onDragDropPlacement: PropTypes.func.isRequired,
+  // isSelectedPane: PropTypes.bool.isRequired,
+  prevPlacementUpline: PropTypes.object,
+  setSelectedPlacementUpline: PropTypes.func.isRequired,
+  isPlacementConfirmModalOpen: PropTypes.bool.isRequired,
+  setIsPlacementConfirmModalOpen: PropTypes.func.isRequired,
+  selectedPlacementEnrolee: PropTypes.object,
 };
 
 export default VisualTreePaneSection;

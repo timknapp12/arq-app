@@ -7,7 +7,7 @@ import { LoadingSpinner, H5 } from '../../common';
 import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
-import PlacementsContainer from './PlacementsContainer';
+import PlacementsDrawer from './PlacementsDrawer';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
 import { GET_USER } from '../../../graphql/queries';
 import {
@@ -30,6 +30,9 @@ const VisualTreePane = ({
   activeBubbleMember,
   setPaneHasContent,
   paneHasContent,
+  // isSelectedPane,
+  // selectedPlacementUpline,
+  // setSelectedPlacementUpline,
 }) => {
   const { theme } = useContext(AppContext);
   const { isViewReset, setIsViewReset } = useContext(TeamScreenContext);
@@ -145,12 +148,35 @@ const VisualTreePane = ({
     getAssociatesEligibleForPlacement(user);
 
   // PLACEMENT SUITE
-  const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
-    useState(theme.disabledTextColor);
   const [hidePlacementContainer, setHidePlacementContainer] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const initialValue = -64;
+  const [selectedPlacementUpline, setSelectedPlacementUpline] = useState(null);
+  const [selectedPlacementEnrolee, setSelectedPlacementEnrolee] =
+    useState(null);
+
+  const [isPlacementConfirmModalOpen, setIsPlacementConfirmModalOpen] =
+    useState(false);
+
+  const initialValue = -128;
   const fadeAnim = useRef(new Animated.Value(initialValue)).current;
+
+  useEffect(() => {
+    if (focusedMember) {
+      const {
+        legacyAssociateId,
+        associateId,
+        firstName = '',
+        lastName = '',
+      } = focusedMember;
+      const data = {
+        legacyAssociateId,
+        associateId,
+        name: `${firstName} ${lastName}`,
+      };
+      setSelectedPlacementUpline(data);
+      console.log('focusedMember', focusedMember);
+    }
+  }, [focusedMember]);
 
   const fadeUp = () => {
     setIsExpanded(true);
@@ -168,25 +194,6 @@ const VisualTreePane = ({
       duration: 700,
       useNativeDriver: false,
     }).start();
-  };
-
-  // PLACEMENT SUITE
-  const onDragStartPlacement = (item) => {
-    console.log('this is working');
-    console.log('item', item);
-    // setOuterCircleReceiveBorderColor(theme.primaryButtonBackgroundColor);
-    // setIdOfDraggedItem(item?.legacyAssociateId);
-    // setActiveBubbleMember({ ...item, level, uplineId });
-    closeMenus();
-    // Analytics.logEvent('placement_bubble_tapped');
-  };
-  const onDragEndPlacement = () => {
-    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
-    setIdOfDraggedItem(null);
-  };
-  const onDragDropPlacement = () => {
-    setOuterCircleReceiveBorderColor(theme.disabledTextColor);
-    setIdOfDraggedItem(null);
   };
 
   if (loading) {
@@ -280,13 +287,12 @@ const VisualTreePane = ({
                 activeBubbleMember={activeBubbleMember}
                 fadeDown={fadeDown}
                 setHidePlacementContainer={setHidePlacementContainer}
-                outerCircleReceiveBorderColor={outerCircleReceiveBorderColor}
-                setOuterCircleReceiveBorderColor={
-                  setOuterCircleReceiveBorderColor
-                }
-                onDragStartPlacement={onDragStartPlacement}
-                onDragEndPlacement={onDragEndPlacement}
-                onDragDropPlacement={onDragDropPlacement}
+                // isSelectedPane={isSelectedPane}
+                prevPlacementUpline={selectedPlacementUpline}
+                setSelectedPlacementUpline={setSelectedPlacementUpline}
+                isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
+                setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
+                selectedPlacementEnrolee={selectedPlacementEnrolee}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
@@ -297,16 +303,14 @@ const VisualTreePane = ({
         </H5>
       )}
       {paneHasContent && !hidePlacementContainer && (
-        <PlacementsContainer
+        <PlacementsDrawer
           associatesEligibleForPlacement={associatesEligibleForPlacement}
           isExpanded={isExpanded}
           fadeAnim={fadeAnim}
           fadeUp={fadeUp}
           fadeDown={fadeDown}
-          onDragStartPlacement={onDragStartPlacement}
-          onDragEndPlacement={onDragEndPlacement}
-          onDragDropPlacement={onDragDropPlacement}
-          idOfDraggedItem={idOfDraggedItem}
+          setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
+          setSelectedPlacementEnrolee={setSelectedPlacementEnrolee}
         />
       )}
     </DraxScrollView>
@@ -322,6 +326,9 @@ VisualTreePane.propTypes = {
   activeBubbleMember: PropTypes.object,
   setPaneHasContent: PropTypes.func.isRequired,
   paneHasContent: PropTypes.bool.isRequired,
+  // isSelectedPane: PropTypes.bool.isRequired,
+  // selectedPlacementUpline: PropTypes.object,
+  // setSelectedPlacementUpline: PropTypes.func.isRequired,
 };
 
 export default VisualTreePane;

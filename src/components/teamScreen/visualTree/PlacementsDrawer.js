@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { Animated, View, ScrollView } from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import VisualTreeBubble from './VisualTreeBubble';
+import PlacementMember from './PlacementMember';
 import { H4 } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import { Localized } from '../../../translations/Localized';
@@ -11,20 +11,20 @@ import { Localized } from '../../../translations/Localized';
 const StyledContainer = styled.View`
   background-color: ${(props) => props.theme.placementContainerBackgroundColor};
   width: 100%;
-  height: 140px;
+  min-height: 204px;
   position: absolute;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  padding-bottom: 8px;
+  padding: 8px;
 `;
 
 const Handle = styled.TouchableOpacity`
   background-color: ${(props) => props.theme.placementContainerBackgroundColor};
   width: 70%;
-  height: 26px;
+  height: 32px;
   position: absolute;
-  top: -23px;
+  top: -27px;
   border-radius: 5px;
   flex-direction: row;
   justify-content: space-between;
@@ -40,8 +40,6 @@ const mock = [
     cv: 0,
     cvRankId: 1,
     cvRankName: 'Ambassador',
-    firstName: 'Test1',
-    lastName: 'Barney',
     legacyAssociateId: 1049922,
     ov: 0,
     ovRankId: 1,
@@ -49,8 +47,10 @@ const mock = [
     profileUrl: null,
     uplineId: 6,
     enrollerId: 8,
-    dateSignedUp: '2023-04-28T22:56:47.000Z',
     associate: {
+      firstName: 'Test1',
+      lastName: 'Barney',
+      dateSignedUp: '2023-04-28T22:56:47.000Z',
       associateId: 1,
       legacyAssociateId: 1049922,
     },
@@ -68,8 +68,6 @@ const mock = [
     cv: 0,
     cvRankId: 1,
     cvRankName: 'Ambassador',
-    firstName: 'Test2',
-    lastName: 'Vaden',
     legacyAssociateId: 1051430,
     ov: 0,
     ovRankId: 1,
@@ -77,8 +75,10 @@ const mock = [
     profileUrl: null,
     uplineId: 6,
     enrollerId: 8,
-    dateSignedUp: '2023-04-30T22:56:47.000Z',
     associate: {
+      firstName: 'Test2',
+      lastName: 'Vaden',
+      dateSignedUp: '2023-04-30T22:56:47.000Z',
       associateId: 2,
       legacyAssociateId: 1051430,
     },
@@ -96,8 +96,6 @@ const mock = [
     cv: 0,
     cvRankId: 1,
     cvRankName: 'Ambassador',
-    firstName: 'Test3',
-    lastName: 'Billy',
     legacyAssociateId: 13,
     ov: 0,
     ovRankId: 1,
@@ -105,10 +103,12 @@ const mock = [
     profileUrl: null,
     uplineId: 6,
     enrollerId: 8,
-    dateSignedUp: '2023-05-02T22:56:47.000Z',
     associate: {
+      firstName: 'Test3',
+      lastName: 'Billy',
       associateId: 12,
       legacyAssociateId: 13,
+      dateSignedUp: '2023-05-02T22:56:47.000Z',
     },
     uplineTreeNode: {
       associate: {
@@ -124,8 +124,6 @@ const mock = [
     cv: 0,
     cvRankId: 1,
     cvRankName: 'Ambassador',
-    firstName: 'Test4',
-    lastName: 'VanDyke',
     legacyAssociateId: 22,
     ov: 0,
     ovRankId: 1,
@@ -133,10 +131,12 @@ const mock = [
     profileUrl: null,
     uplineId: 6,
     enrollerId: 8,
-    dateSignedUp: '2023-04-30T22:56:47.000Z',
     associate: {
       associateId: 22,
       legacyAssociateId: 22,
+      firstName: 'Test4',
+      lastName: 'VanDyke',
+      dateSignedUp: '2023-04-30T22:56:47.000Z',
     },
     uplineTreeNode: {
       associate: {
@@ -148,19 +148,17 @@ const mock = [
 
 console.log('mock.length', mock.length);
 
-const PlacementsContainer = ({
+const PlacementsDrawer = ({
   associatesEligibleForPlacement,
   isExpanded,
   fadeAnim,
   fadeUp,
   fadeDown,
-  onDragStartPlacement,
-  onDragEndPlacement,
-  onDragDropPlacement,
-  idOfDraggedItem,
+  setIsPlacementConfirmModalOpen,
+  setSelectedPlacementEnrolee,
 }) => {
   const { theme } = useContext(AppContext);
-  console.log('idOfDraggedItem', idOfDraggedItem);
+  console.log('associatesEligibleForPlacement', associatesEligibleForPlacement);
   const Container = Animated.createAnimatedComponent(StyledContainer);
 
   return (
@@ -187,49 +185,42 @@ const PlacementsContainer = ({
         }}
         style={{ height: '100%' }}
       >
-        {associatesEligibleForPlacement.length > 0 ? (
-          associatesEligibleForPlacement?.map((member) => (
-            <View
-              style={{ marginRight: 8, marginLeft: 8 }}
-              key={member?.associate?.associateId}
-            >
-              <VisualTreeBubble
-                member={member.associate}
-                onDragStart={() => onDragStartPlacement(member.associate)}
-                onDragEnd={onDragEndPlacement}
-                onDragDrop={onDragDropPlacement}
-                longPressDelay={200}
-                payload={{ ...member, toBePlaced: true }}
-                //   isBeingDragged={idOfDraggedItem === member?.legacyAssociateId}
-                draggable={false}
-                position="relative"
-                //   style={{ position: 'absolute', top: -70, marginLeft: 40 }}
-                highlight={false}
-                isDroppedItem={false}
-                horizontalOffset={0}
-                isInPlacementContainer={true}
-                //   selected={idOfDraggedItem === member?.legacyAssociateId}
-              />
-            </View>
-          ))
-        ) : (
-          <H4>{Localized('No one in placement suite')}</H4>
+        {isExpanded && (
+          <>
+            {mock.length > 0 ? (
+              mock?.map((member) => (
+                <View
+                  onStartShouldSetResponder={() => true}
+                  style={{ marginRight: 8, marginLeft: 8 }}
+                  key={member?.associate?.associateId}
+                >
+                  <PlacementMember
+                    member={member.associate}
+                    setIsPlacementConfirmModalOpen={
+                      setIsPlacementConfirmModalOpen
+                    }
+                    setSelectedPlacementEnrolee={setSelectedPlacementEnrolee}
+                  />
+                </View>
+              ))
+            ) : (
+              <H4>{Localized('No one in placement suite')}</H4>
+            )}
+          </>
         )}
       </ScrollView>
     </Container>
   );
 };
 
-PlacementsContainer.propTypes = {
+PlacementsDrawer.propTypes = {
   associatesEligibleForPlacement: PropTypes.array.isRequired,
   isExpanded: PropTypes.bool.isRequired,
   fadeAnim: PropTypes.object.isRequired,
   fadeUp: PropTypes.func.isRequired,
   fadeDown: PropTypes.func.isRequired,
-  onDragStartPlacement: PropTypes.func.isRequired,
-  onDragEndPlacement: PropTypes.func.isRequired,
-  onDragDropPlacement: PropTypes.func.isRequired,
-  idOfDraggedItem: PropTypes.number,
+  setIsPlacementConfirmModalOpen: PropTypes.func.isRequired,
+  setSelectedPlacementEnrolee: PropTypes.func.isRequired,
 };
 
-export default PlacementsContainer;
+export default PlacementsDrawer;

@@ -19,7 +19,6 @@ export const OuterCircle = styled(DraxView)`
   border-width: 2px;
   border-color: ${(props) =>
     props.borderColor ? props.borderColor : props.theme.disabledTextColor};
-  background-color: ${(props) => props.backgroundColor};
   padding: 0 12px 12px 12px;
   position: relative;
   flex-direction: row;
@@ -179,4 +178,11 @@ export const NumberToBePlaced = styled.View`
   position: absolute;
   bottom: 4px;
   z-index: 2;
+`;
+
+export const PlacementCard = styled.View`
+  background-color: ${(props) => props.theme.cardBackgroundColor};
+  width: 200px;
+  border-radius: 5px;
+  padding: 6px;
 `;
