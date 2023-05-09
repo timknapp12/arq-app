@@ -32,8 +32,6 @@ const VisualTreeView = ({ ...props }) => {
   const [pane2HasContent, setPane2HasContent] = useState(false);
   const [pane3HasContent, setPane3HasContent] = useState(false);
 
-  // const [selectedPlacementUpline, setSelectedPlacementUpline] = useState(null);
-
   const resetActiveBubbleMap = {
     1: () => setPane1ActiveMember(null),
     2: () => setPane2ActiveMember(null),
@@ -48,10 +46,7 @@ const VisualTreeView = ({ ...props }) => {
     setPane3HasContent(false);
     setIsViewReset(false);
   }, [isViewReset]);
-  // console.log(
-  //   'selectedPlacementUpline.uplineName',
-  //   selectedPlacementUpline?.uplineName ?? 'none',
-  // );
+
   return (
     <Flexbox
       justify="flex-start"
@@ -84,9 +79,6 @@ const VisualTreeView = ({ ...props }) => {
           activeBubbleMember={pane1ActiveMember}
           setPaneHasContent={setPane1HasContent}
           paneHasContent={pane1HasContent}
-          // isSelectedPane={selectedVisualTreePane === 1}
-          // selectedPlacementUpline={selectedPlacementUpline}
-          // setSelectedPlacementUpline={setSelectedPlacementUpline}
         />
         <VisualTreePane
           style={{ display: selectedVisualTreePane === 2 ? 'flex' : 'none' }}
@@ -98,9 +90,6 @@ const VisualTreeView = ({ ...props }) => {
           activeBubbleMember={pane2ActiveMember}
           setPaneHasContent={setPane2HasContent}
           paneHasContent={pane2HasContent}
-          // isSelectedPane={selectedVisualTreePane === 2}
-          // selectedPlacementUpline={selectedPlacementUpline}
-          // setSelectedPlacementUpline={setSelectedPlacementUpline}
         />
         <VisualTreePane
           style={{ display: selectedVisualTreePane === 3 ? 'flex' : 'none' }}
@@ -112,9 +101,6 @@ const VisualTreeView = ({ ...props }) => {
           activeBubbleMember={pane3ActiveMember}
           setPaneHasContent={setPane3HasContent}
           paneHasContent={pane3HasContent}
-          // isSelectedPane={selectedVisualTreePane === 3}
-          // selectedPlacementUpline={selectedPlacementUpline}
-          // setSelectedPlacementUpline={setSelectedPlacementUpline}
         />
         <View />
       </DraxProvider>

@@ -31,7 +31,7 @@ const VisualTreePaneSection = ({
   activeBubbleMember,
   fadeDown,
   setHidePlacementContainer,
-  // isSelectedPane,
+  selectedPlacementUpline,
   prevPlacementUpline,
   setSelectedPlacementUpline,
   setIsPlacementConfirmModalOpen,
@@ -39,7 +39,6 @@ const VisualTreePaneSection = ({
   selectedPlacementEnrolee,
 }) => {
   const { theme } = useContext(AppContext);
-
   const [treeData, setTreeData] = useState(null);
   const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
     useState(theme.disabledTextColor);
@@ -68,9 +67,8 @@ const VisualTreePaneSection = ({
       name: `${firstName} ${lastName}`,
     };
     setNextPlacementUpline(data);
+    setSelectedPlacementUpline(data);
   };
-  console.log('prevPlacementUpline', prevPlacementUpline);
-  console.log('nextPlacementUpline', nextPlacementUpline);
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
@@ -424,7 +422,8 @@ const VisualTreePaneSection = ({
               activeBubbleMember={activeBubbleMember}
               fadeDown={fadeDown}
               setHidePlacementContainer={setHidePlacementContainer}
-              // isSelectedPane={isSelectedPane}
+              selectedPlacementUpline={selectedPlacementUpline}
+              // prevPlacementUpline is used for when the expanded bubbles are dragged backward up a level
               prevPlacementUpline={nextPlacementUpline}
               setSelectedPlacementUpline={setSelectedPlacementUpline}
               isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
@@ -433,7 +432,6 @@ const VisualTreePaneSection = ({
             />
           ) : (
             <OuterCircle
-              // TODO adjust borderColor and receiving style when the functionailty for placement suite is ready
               padding={8}
               wrap="nowrap"
               borderColor={null}
@@ -465,9 +463,7 @@ const VisualTreePaneSection = ({
           onClose={() => setIsPlacementConfirmModalOpen(false)}
           onConfirm={() => {}}
           confirmButtonDisabled={false}
-          selectedUpline={
-            nextPlacementUpline ? nextPlacementUpline : prevPlacementUpline
-          }
+          selectedPlacementUpline={selectedPlacementUpline}
           selectedPlacementEnrolee={selectedPlacementEnrolee}
         />
       )}
@@ -487,7 +483,7 @@ VisualTreePaneSection.propTypes = {
   activeBubbleMember: PropTypes.object,
   fadeDown: PropTypes.func.isRequired,
   setHidePlacementContainer: PropTypes.func.isRequired,
-  // isSelectedPane: PropTypes.bool.isRequired,
+  selectedPlacementUpline: PropTypes.object,
   prevPlacementUpline: PropTypes.object,
   setSelectedPlacementUpline: PropTypes.func.isRequired,
   isPlacementConfirmModalOpen: PropTypes.bool.isRequired,

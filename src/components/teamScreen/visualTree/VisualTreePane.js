@@ -30,9 +30,6 @@ const VisualTreePane = ({
   activeBubbleMember,
   setPaneHasContent,
   paneHasContent,
-  // isSelectedPane,
-  // selectedPlacementUpline,
-  // setSelectedPlacementUpline,
 }) => {
   const { theme } = useContext(AppContext);
   const { isViewReset, setIsViewReset } = useContext(TeamScreenContext);
@@ -150,6 +147,9 @@ const VisualTreePane = ({
   // PLACEMENT SUITE
   const [hidePlacementContainer, setHidePlacementContainer] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  // topLevelPlacementUpline is a place holder so if expanded bubbles are dragged back to the top level we know who is at the top and can set the selectedPlacementUpline to the correct person
+  const [topLevelPlacementUpline, setTopLevelPlacementUpline] = useState(null);
+  // this will be the person used when the PlaceMentConfirmModal is opened
   const [selectedPlacementUpline, setSelectedPlacementUpline] = useState(null);
   const [selectedPlacementEnrolee, setSelectedPlacementEnrolee] =
     useState(null);
@@ -174,7 +174,7 @@ const VisualTreePane = ({
         name: `${firstName} ${lastName}`,
       };
       setSelectedPlacementUpline(data);
-      console.log('focusedMember', focusedMember);
+      setTopLevelPlacementUpline(data);
     }
   }, [focusedMember]);
 
@@ -287,8 +287,9 @@ const VisualTreePane = ({
                 activeBubbleMember={activeBubbleMember}
                 fadeDown={fadeDown}
                 setHidePlacementContainer={setHidePlacementContainer}
-                // isSelectedPane={isSelectedPane}
-                prevPlacementUpline={selectedPlacementUpline}
+                selectedPlacementUpline={selectedPlacementUpline}
+                // prevPlacementUpline is used for when the expanded bubbles are dragged backward toward the top
+                prevPlacementUpline={topLevelPlacementUpline}
                 setSelectedPlacementUpline={setSelectedPlacementUpline}
                 isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
                 setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
@@ -326,9 +327,6 @@ VisualTreePane.propTypes = {
   activeBubbleMember: PropTypes.object,
   setPaneHasContent: PropTypes.func.isRequired,
   paneHasContent: PropTypes.bool.isRequired,
-  // isSelectedPane: PropTypes.bool.isRequired,
-  // selectedPlacementUpline: PropTypes.object,
-  // setSelectedPlacementUpline: PropTypes.func.isRequired,
 };
 
 export default VisualTreePane;

@@ -38,7 +38,7 @@ const PlacementConfirmModal = ({
   visible,
   onClose,
   onConfirm,
-  selectedUpline,
+  selectedPlacementUpline,
   selectedPlacementEnrolee,
 }) => {
   const [error, setError] = useState('');
@@ -48,12 +48,14 @@ const PlacementConfirmModal = ({
     {
       variables: {
         associateId: selectedPlacementEnrolee?.associateId,
-        newUplineAssociateId: selectedUpline?.associateId,
+        newUplineAssociateId: selectedPlacementUpline?.associateId,
       },
       refetchQueries: [
         {
           query: GET_USER,
-          variables: { legacyAssociateId: selectedUpline.legacyAssociateId },
+          variables: {
+            legacyAssociateId: selectedPlacementUpline.legacyAssociateId,
+          },
         },
       ],
       onCompleted: () => onClose(),
@@ -61,8 +63,6 @@ const PlacementConfirmModal = ({
     },
   );
   console.log('placeAmbassador', placeAmbassador);
-  console.log('selectedUpline', selectedUpline);
-  console.log('selectedPlacementEnrolee', selectedPlacementEnrolee);
   return (
     <Modal
       animationType="fade"
@@ -78,7 +78,7 @@ const PlacementConfirmModal = ({
           <Gap height="8px" />
           <Input
             label={Localized('Upline Ambassador')}
-            value={selectedUpline?.name}
+            value={selectedPlacementUpline?.name}
             disabled
           />
           <Gap height="8px" />
@@ -110,7 +110,7 @@ PlacementConfirmModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func,
-  selectedUpline: PropTypes.object.isRequired,
+  selectedPlacementUpline: PropTypes.object.isRequired,
   selectedPlacementEnrolee: PropTypes.object.isRequired,
 };
 
