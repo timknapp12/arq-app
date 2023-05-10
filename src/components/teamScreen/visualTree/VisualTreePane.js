@@ -57,9 +57,14 @@ const VisualTreePane = ({
   });
 
   const emptySearchId = 0;
+  const getTopLevelUser = () =>
+    getUser({
+      variables: { legacyAssociateId: searchId },
+      fetchPolicy: 'network-only',
+    });
   useEffect(() => {
     if (searchId !== emptySearchId) {
-      getUser({ variables: { legacyAssociateId: searchId } });
+      getTopLevelUser();
     }
   }, [searchId, level]);
 
@@ -141,10 +146,10 @@ const VisualTreePane = ({
     setHorizontalOffset(contentOffset.x);
   };
 
-  const associatesEligibleForPlacement =
-    getAssociatesEligibleForPlacement(user);
-
   // PLACEMENT SUITE
+  const initialPlacementList = getAssociatesEligibleForPlacement(user);
+  const [associatesEligibleForPlacement, setAssociatesEligibleForPlacement] =
+    useState(initialPlacementList);
   const [hidePlacementContainer, setHidePlacementContainer] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   // topLevelPlacementUpline is a place holder so if expanded bubbles are dragged back to the top level we know who is at the top and can set the selectedPlacementUpline to the correct person
@@ -153,9 +158,15 @@ const VisualTreePane = ({
   const [selectedPlacementUpline, setSelectedPlacementUpline] = useState(null);
   const [selectedPlacementEnrolee, setSelectedPlacementEnrolee] =
     useState(null);
-
   const [isPlacementConfirmModalOpen, setIsPlacementConfirmModalOpen] =
     useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const placementList = getAssociatesEligibleForPlacement(user);
+      setAssociatesEligibleForPlacement(placementList);
+    }
+  }, [user]);
 
   const initialValue = -128;
   const fadeAnim = useRef(new Animated.Value(initialValue)).current;
@@ -294,6 +305,7 @@ const VisualTreePane = ({
                 isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
                 setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
                 selectedPlacementEnrolee={selectedPlacementEnrolee}
+                getTopLevelUser={getTopLevelUser}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>

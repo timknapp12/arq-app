@@ -37,6 +37,7 @@ const VisualTreePaneSection = ({
   setIsPlacementConfirmModalOpen,
   isPlacementConfirmModalOpen,
   selectedPlacementEnrolee,
+  getTopLevelUser,
 }) => {
   const { theme } = useContext(AppContext);
   const [treeData, setTreeData] = useState(null);
@@ -436,6 +437,7 @@ const VisualTreePaneSection = ({
               isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
               setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
               selectedPlacementEnrolee={selectedPlacementEnrolee}
+              getTopLevelUser={getTopLevelUser}
             />
           ) : (
             <OuterCircle
@@ -472,6 +474,7 @@ const VisualTreePaneSection = ({
           confirmButtonDisabled={false}
           selectedPlacementUpline={selectedPlacementUpline}
           selectedPlacementEnrolee={selectedPlacementEnrolee}
+          getTopLevelUser={getTopLevelUser}
         />
       )}
     </>
@@ -496,6 +499,7 @@ VisualTreePaneSection.propTypes = {
   isPlacementConfirmModalOpen: PropTypes.bool.isRequired,
   setIsPlacementConfirmModalOpen: PropTypes.func.isRequired,
   selectedPlacementEnrolee: PropTypes.object,
+  getTopLevelUser: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;
