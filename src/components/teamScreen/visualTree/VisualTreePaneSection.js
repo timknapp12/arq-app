@@ -252,6 +252,9 @@ const VisualTreePaneSection = ({
                 cv: item?.cv,
                 ov: item?.ov,
                 uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
+                enrollerId:
+                  item?.uplineEnrollmentTreeNode?.associate?.legacyAssociateId,
+                dateSignedUp: item?.associate?.dateSignedUp,
               }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
@@ -324,6 +327,10 @@ const VisualTreePaneSection = ({
               ov: insideItem?.ov,
               uplineId:
                 insideItem?.uplineTreeNode?.associate?.legacyAssociateId,
+              enrollerId:
+                insideItem?.uplineEnrollmentTreeNode?.associate
+                  ?.legacyAssociateId,
+              dateSignedUp: insideItem?.associate?.dateSignedUp,
             }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId

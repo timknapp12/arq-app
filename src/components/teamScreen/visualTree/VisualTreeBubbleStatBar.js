@@ -4,6 +4,7 @@ import { H6Secondary, Gap } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import RankIcon from './RankIcon';
+import PlacementStatBar from './PlacementStatBar';
 import { BarContainer, Bar } from '../../teamScreen/myTeam/myTeamCard.styles';
 import {
   VisualTreeStatsBarCard,
@@ -17,10 +18,6 @@ import {
 import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 import { Localized } from '../../../translations/Localized';
 import { Platform } from 'react-native';
-import {
-  getDiffInDays,
-  getLastDayOfNextMonth,
-} from '../../../utils/executiveTimeclock/executiveTimeclock';
 
 const VisualTreeBubbleStatBar = ({ member, showTimeclock }) => {
   const { theme } = useContext(AppContext);
@@ -50,21 +47,6 @@ const VisualTreeBubbleStatBar = ({ member, showTimeclock }) => {
   const ovWidth = member?.ov > 0 ? '100%' : '0%';
   const cvWidth = getPercentage(member?.cv, requiredCvForNextRank);
 
-  // PLACEMENT DAYS
-  const dateSignedUp = member?.dateSignedUp;
-  const placementDiffInDays = getDiffInDays(dateSignedUp);
-  const placementMax = 7;
-  const daysLeftToPlace = placementMax - placementDiffInDays;
-  const transpiredPDays = placementMax - daysLeftToPlace;
-  const placementWidth = `${getPercentage(transpiredPDays, placementMax)}%`;
-
-  // EXECUTIVE TIMECLOCK
-  const executiveDeadline = getLastDayOfNextMonth(dateSignedUp);
-  const daysLeftToExecutive = getDiffInDays(new Date(), executiveDeadline);
-  const executiveMax = getDiffInDays(dateSignedUp, executiveDeadline);
-  const transpiredEDays = executiveMax - daysLeftToExecutive;
-  const executiveWidth = `${getPercentage(transpiredEDays, executiveMax)}%`;
-
   return (
     <VisualTreeStatsBarCard
       style={
@@ -75,23 +57,7 @@ const VisualTreeBubbleStatBar = ({ member, showTimeclock }) => {
       }
     >
       {showTimeclock ? (
-        <>
-          <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
-            'Days to place',
-          )}: ${daysLeftToPlace}`}</H6Secondary>
-          <Gap height="4px" />
-          <BarContainer>
-            <Bar width={placementWidth} color={theme.donut1primaryColor} />
-          </BarContainer>
-
-          <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
-            'Executive Timeclock',
-          )}: ${daysLeftToExecutive}`}</H6Secondary>
-          <Gap height="4px" />
-          <BarContainer>
-            <Bar width={executiveWidth} color={theme.donut3primaryColor} />
-          </BarContainer>
-        </>
+        <PlacementStatBar member={member} />
       ) : (
         <>
           <Row>

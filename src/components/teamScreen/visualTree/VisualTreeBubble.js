@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity, Platform } from 'react-native';
+import { useQuery } from '@apollo/client';
 import { LinearGradient } from 'expo-linear-gradient';
 import { H6Secondary, H5 } from '../../common';
 import AppContext from '../../../contexts/AppContext';
@@ -9,6 +10,7 @@ import {
   filterMemberByStatusAndType,
   getAssociatesEligibleForPlacement,
 } from '../../../utils/teamView/filterDownline';
+import { GET_USER } from '../../../graphql/queries';
 import { LevelIndicator, Bubble, NumberToBePlaced } from './visualTree.styles';
 import RankIcons from './RankIcons';
 import VisualTreeBubbleStatBar from './VisualTreeBubbleStatBar';
@@ -37,7 +39,6 @@ const VisualTreeBubble = ({
   level,
   horizontalOffset,
   selected = false,
-  isInPlacementContainer = false,
   ...props
 }) => {
   const { theme } = useContext(AppContext);
@@ -46,10 +47,22 @@ const VisualTreeBubble = ({
     isWithinPlaceTime(member?.dateSignedUp) &&
     member?.uplineId === member?.enrollerId;
 
-  const associatesEligibleForPlacement =
-    getAssociatesEligibleForPlacement(member);
+  const { data } = useQuery(GET_USER, {
+    variables: { legacyAssociateId: member?.legacyAssociateId },
+    onError: (error) =>
+      console.log('error in get user in VisualTreeBubble.js', error),
+  });
 
-  const numberToBePlaced = associatesEligibleForPlacement?.length || 0;
+  const [numb, setNumb] = useState(null);
+  useEffect(() => {
+    if (data) {
+      const associatesEligibleForPlacement = getAssociatesEligibleForPlacement(
+        data?.treeNodeFor,
+      );
+      const numberToBePlaced = associatesEligibleForPlacement?.length || 0;
+      setNumb(numberToBePlaced);
+    }
+  }, [data]);
 
   const memberTypeColorMap = {
     activeAmbassador: theme.primaryButtonBackgroundColor,
@@ -64,14 +77,12 @@ const VisualTreeBubble = ({
     memberTypeColorMap,
   );
 
-  const accentColor =
-    isEligibleForPlacement || isInPlacementContainer
-      ? memberTypeColorMap.activeRetail
-      : color;
+  const accentColor = isEligibleForPlacement
+    ? memberTypeColorMap.activeRetail
+    : color;
 
   const gradientStart = Platform.OS === 'android' ? 0.02 : 0.1;
-  const placementOffset = Platform.OS === 'android' ? -231 : -247;
-  const baseVerticalOffset = isInPlacementContainer ? placementOffset : -107;
+  const baseVerticalOffset = -107;
   const baseHorizontalOffset = -51;
 
   return (
@@ -106,7 +117,7 @@ const VisualTreeBubble = ({
           >
             <VisualTreeBubbleStatBar
               member={member}
-              showTimeclock={isInPlacementContainer || isEligibleForPlacement}
+              showTimeclock={isEligibleForPlacement}
             />
             <VisualTreeBubble
               member={member}
@@ -120,7 +131,6 @@ const VisualTreeBubble = ({
               isDroppedItem={isDroppedItem}
               level={level}
               horizontalOffset={horizontalOffset}
-              isInPlacementContainer={isInPlacementContainer}
             />
           </View>
         )}
@@ -145,9 +155,9 @@ const VisualTreeBubble = ({
                 {properlyCaseName(member?.lastName)}
               </H6Secondary>
             </View>
-            {numberToBePlaced ? (
+            {numb ? (
               <NumberToBePlaced>
-                <H5>{numberToBePlaced}</H5>
+                <H5>{numb}</H5>
               </NumberToBePlaced>
             ) : null}
             <LevelIndicator color={accentColor} />
@@ -171,7 +181,6 @@ VisualTreeBubble.propTypes = {
   level: PropTypes.number,
   horizontalOffset: PropTypes.number.isRequired,
   selected: PropTypes.bool,
-  isInPlacementContainer: PropTypes.bool,
 };
 
 export default VisualTreeBubble;

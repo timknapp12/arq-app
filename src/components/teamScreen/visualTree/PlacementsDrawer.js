@@ -31,123 +31,6 @@ const Handle = styled.TouchableOpacity`
   padding: 0 8px;
 `;
 
-const mock = [
-  {
-    __typename: 'Associate',
-    associateId: 402839,
-    associateStatus: 'ACTIVE',
-    associateType: 'AMBASSADOR',
-    cv: 0,
-    cvRankId: 1,
-    cvRankName: 'Ambassador',
-    legacyAssociateId: 1049922,
-    ov: 0,
-    ovRankId: 1,
-    ovRankName: 'Ambassador',
-    profileUrl: null,
-    uplineId: 6,
-    enrollerId: 8,
-    associate: {
-      firstName: 'Test1',
-      lastName: 'Barney',
-      dateSignedUp: '2023-04-28T22:56:47.000Z',
-      associateId: 1,
-      legacyAssociateId: 1049922,
-    },
-    uplineTreeNode: {
-      associate: {
-        legacyAssociateId: 4,
-      },
-    },
-  },
-  {
-    __typename: 'Associate',
-    associateId: 404094,
-    associateStatus: 'ACTIVE',
-    associateType: 'AMBASSADOR',
-    cv: 0,
-    cvRankId: 1,
-    cvRankName: 'Ambassador',
-    legacyAssociateId: 1051430,
-    ov: 0,
-    ovRankId: 1,
-    ovRankName: 'Ambassador',
-    profileUrl: null,
-    uplineId: 6,
-    enrollerId: 8,
-    associate: {
-      firstName: 'Test2',
-      lastName: 'Vaden',
-      dateSignedUp: '2023-04-30T22:56:47.000Z',
-      associateId: 2,
-      legacyAssociateId: 1051430,
-    },
-    uplineTreeNode: {
-      associate: {
-        legacyAssociateId: 4,
-      },
-    },
-  },
-  {
-    __typename: 'Associate',
-    associateId: 12,
-    associateStatus: 'ACTIVE',
-    associateType: 'AMBASSADOR',
-    cv: 0,
-    cvRankId: 1,
-    cvRankName: 'Ambassador',
-    legacyAssociateId: 13,
-    ov: 0,
-    ovRankId: 1,
-    ovRankName: 'Ambassador',
-    profileUrl: null,
-    uplineId: 6,
-    enrollerId: 8,
-    associate: {
-      firstName: 'Test3',
-      lastName: 'Billy',
-      associateId: 12,
-      legacyAssociateId: 13,
-      dateSignedUp: '2023-05-02T22:56:47.000Z',
-    },
-    uplineTreeNode: {
-      associate: {
-        legacyAssociateId: 4,
-      },
-    },
-  },
-  {
-    __typename: 'Associate',
-    associateId: 21,
-    associateStatus: 'ACTIVE',
-    associateType: 'AMBASSADOR',
-    cv: 0,
-    cvRankId: 1,
-    cvRankName: 'Ambassador',
-    legacyAssociateId: 22,
-    ov: 0,
-    ovRankId: 1,
-    ovRankName: 'Ambassador',
-    profileUrl: null,
-    uplineId: 6,
-    enrollerId: 8,
-    associate: {
-      associateId: 22,
-      legacyAssociateId: 22,
-      firstName: 'Test4',
-      lastName: 'VanDyke',
-      dateSignedUp: '2023-04-30T22:56:47.000Z',
-    },
-    uplineTreeNode: {
-      associate: {
-        legacyAssociateId: 4,
-      },
-    },
-  },
-];
-
-console.log('mock.length', mock.length);
-
 const PlacementsDrawer = ({
   associatesEligibleForPlacement,
   isExpanded,
@@ -158,7 +41,7 @@ const PlacementsDrawer = ({
   setSelectedPlacementEnrolee,
 }) => {
   const { theme } = useContext(AppContext);
-  console.log('associatesEligibleForPlacement', associatesEligibleForPlacement);
+
   const Container = Animated.createAnimatedComponent(StyledContainer);
 
   return (
@@ -187,8 +70,8 @@ const PlacementsDrawer = ({
       >
         {isExpanded && (
           <>
-            {mock.length > 0 ? (
-              mock?.map((member) => (
+            {associatesEligibleForPlacement.length > 0 ? (
+              associatesEligibleForPlacement?.map((member) => (
                 <View
                   onStartShouldSetResponder={() => true}
                   style={{ marginRight: 8, marginLeft: 8 }}

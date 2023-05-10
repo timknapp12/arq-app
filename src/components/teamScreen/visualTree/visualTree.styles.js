@@ -178,6 +178,7 @@ export const NumberToBePlaced = styled.View`
   position: absolute;
   bottom: 4px;
   z-index: 2;
+  opacity: 0.5;
 `;
 
 export const PlacementCard = styled.View`
