@@ -414,6 +414,7 @@
   "Executive Timeclock": "Executive Timeclock",
   "Confirm": "Confirm",
   "Confirm Placement": "Confirm Placement",
-  "Upline Ambassador": "Upline Ambassador",
-  "Enrollee": "Enrollee"
+  "Place enrollee under": "Place enrollee under",
+  "Enrollee": "Enrollee",
+  "You can not place enrollees under themselves": "You can not place enrollees under themselves"
 }

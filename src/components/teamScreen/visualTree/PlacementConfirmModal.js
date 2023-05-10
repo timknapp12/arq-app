@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import { useMutation } from '@apollo/client';
@@ -63,6 +63,19 @@ const PlacementConfirmModal = ({
     },
   );
   console.log('placeAmbassador', placeAmbassador);
+  const [disableConfirm, setDisableConfirm] = useState(false);
+
+  const isSamePerson =
+    selectedPlacementUpline.associateId ===
+    selectedPlacementEnrolee.associateId;
+
+  useEffect(() => {
+    setDisableConfirm(isSamePerson);
+    if (isSamePerson) {
+      setError('You can not place enrollees under themselves');
+    }
+  }, [isSamePerson]);
+
   return (
     <Modal
       animationType="fade"
@@ -77,13 +90,13 @@ const PlacementConfirmModal = ({
           <H6Secondary>{Localized('Confirm Placement')}</H6Secondary>
           <Gap height="8px" />
           <Input
-            label={Localized('Upline Ambassador')}
+            label={`${Localized('Place enrollee under')}:`}
             value={selectedPlacementUpline?.name}
             disabled
           />
           <Gap height="8px" />
           <Input
-            label={Localized('Enrollee')}
+            label={`${Localized('Enrollee')}:`}
             value={selectedPlacementEnrolee?.name}
             disabled
           />
@@ -94,7 +107,7 @@ const PlacementConfirmModal = ({
             <SaveButton
               testID="save-button-in-edit-modal"
               style={{ marginStart: 16 }}
-              disabled={loading}
+              disabled={loading || disableConfirm}
               onPress={onConfirm}
             >
               <H5Heavy>{Localized('Confirm').toUpperCase()}</H5Heavy>
