@@ -22,5 +22,6 @@
   "Confirm Placement": "Confirm Placement",
   "Place enrollee under": "Place enrollee under",
   "Enrollee": "Enrollee",
-  "You can not place enrollees under themselves": "You can not place enrollees under themselves"
+  "You can not place enrollees under themselves": "You can not place enrollees under themselves",
+  "Success! {name1} is now on the team of {name2}": "Success! {name1} is now on the team of {name2}"
 }

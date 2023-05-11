@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
 import { LoadingSpinner, H6 } from '../../common';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 import { GET_USER } from '../../../graphql/queries';
 import VisualTreeBubble from './VisualTreeBubble';
 import PlacementConfirmModal from './PlacementConfirmModal';
@@ -38,6 +39,8 @@ const VisualTreePaneSection = ({
   isPlacementConfirmModalOpen,
   selectedPlacementEnrolee,
   getTopLevelUser,
+  setPlacementSuccessData,
+  setIsPlacementSuccessModalOpen,
 }) => {
   const { theme } = useContext(AppContext);
   const [treeData, setTreeData] = useState(null);
@@ -65,7 +68,7 @@ const VisualTreePaneSection = ({
     const data = {
       legacyAssociateId,
       associateId,
-      name: `${firstName} ${lastName}`,
+      name: properlyCaseName(firstName, lastName),
     };
     setNextPlacementUpline(data);
     setSelectedPlacementUpline(data);
@@ -438,6 +441,8 @@ const VisualTreePaneSection = ({
               setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
               selectedPlacementEnrolee={selectedPlacementEnrolee}
               getTopLevelUser={getTopLevelUser}
+              setPlacementSuccessData={setPlacementSuccessData}
+              setIsPlacementSuccessModalOpen={setIsPlacementSuccessModalOpen}
             />
           ) : (
             <OuterCircle
@@ -475,6 +480,8 @@ const VisualTreePaneSection = ({
           selectedPlacementUpline={selectedPlacementUpline}
           selectedPlacementEnrolee={selectedPlacementEnrolee}
           getTopLevelUser={getTopLevelUser}
+          setPlacementSuccessData={setPlacementSuccessData}
+          setIsPlacementSuccessModalOpen={setIsPlacementSuccessModalOpen}
         />
       )}
     </>
@@ -500,6 +507,8 @@ VisualTreePaneSection.propTypes = {
   setIsPlacementConfirmModalOpen: PropTypes.func.isRequired,
   selectedPlacementEnrolee: PropTypes.object,
   getTopLevelUser: PropTypes.func.isRequired,
+  setPlacementSuccessData: PropTypes.func.isRequired,
+  setIsPlacementSuccessModalOpen: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;

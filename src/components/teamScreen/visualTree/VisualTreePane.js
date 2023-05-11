@@ -1,14 +1,17 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
+// Components
+import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { LoadingSpinner, H5 } from '../../common';
 import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
 import PlacementsDrawer from './PlacementsDrawer';
+import PlacementSuccessModal from './PlacementSuccessModal';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
+// Utils
 import { GET_USER } from '../../../graphql/queries';
 import {
   findMembersInDownlineOneLevel,
@@ -16,6 +19,7 @@ import {
 } from '../../../utils/teamView/filterDownline';
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 // Contexts
 import AppContext from '../../../contexts/AppContext';
 import TeamScreenContext from '../../../contexts/TeamScreenContext';
@@ -160,6 +164,12 @@ const VisualTreePane = ({
     useState(null);
   const [isPlacementConfirmModalOpen, setIsPlacementConfirmModalOpen] =
     useState(false);
+  const [isPlacementSuccessModalOpen, setIsPlacementSuccessModalOpen] =
+    useState(false);
+  const [placementSuccessData, setPlacementSuccessData] = useState({
+    uplineName: '',
+    enrolleeName: '',
+  });
 
   useEffect(() => {
     if (user) {
@@ -182,7 +192,7 @@ const VisualTreePane = ({
       const data = {
         legacyAssociateId,
         associateId,
-        name: `${firstName} ${lastName}`,
+        name: properlyCaseName(firstName, lastName),
       };
       setSelectedPlacementUpline(data);
       setTopLevelPlacementUpline(data);
@@ -306,6 +316,8 @@ const VisualTreePane = ({
                 setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
                 selectedPlacementEnrolee={selectedPlacementEnrolee}
                 getTopLevelUser={getTopLevelUser}
+                setIsPlacementSuccessModalOpen={setIsPlacementSuccessModalOpen}
+                setPlacementSuccessData={setPlacementSuccessData}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
@@ -324,6 +336,13 @@ const VisualTreePane = ({
           fadeDown={fadeDown}
           setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
           setSelectedPlacementEnrolee={setSelectedPlacementEnrolee}
+        />
+      )}
+      {isPlacementSuccessModalOpen && (
+        <PlacementSuccessModal
+          visible={isPlacementSuccessModalOpen}
+          onClose={() => setIsPlacementSuccessModalOpen(false)}
+          placementSuccessData={placementSuccessData}
         />
       )}
     </DraxScrollView>

@@ -41,6 +41,8 @@ const PlacementConfirmModal = ({
   selectedPlacementUpline,
   selectedPlacementEnrolee,
   getTopLevelUser,
+  setPlacementSuccessData,
+  setIsPlacementSuccessModalOpen,
 }) => {
   const [error, setError] = useState('');
   const [disableConfirm, setDisableConfirm] = useState(false);
@@ -72,8 +74,13 @@ const PlacementConfirmModal = ({
         },
       ],
       onCompleted: () => {
+        setPlacementSuccessData({
+          uplineName: selectedPlacementUpline?.name,
+          enrolleeName: selectedPlacementEnrolee?.name,
+        });
         getTopLevelUser();
         onClose();
+        setIsPlacementSuccessModalOpen(true);
       },
       onError: (err) => setError(err.message),
     },
@@ -112,11 +119,14 @@ const PlacementConfirmModal = ({
             </View>
           )}
           <Flexbox padding={10} direction="row" justify="flex-end">
-            <SaveButton testID="cancel-button-in-edit-modal" onPress={onClose}>
+            <SaveButton
+              testID="cancel-button-in-placement-modal"
+              onPress={onClose}
+            >
               <H5Heavy>{Localized('Cancel').toUpperCase()}</H5Heavy>
             </SaveButton>
             <SaveButton
-              testID="save-button-in-edit-modal"
+              testID="save-button-in-placement-modal"
               style={{ marginStart: 16 }}
               disabled={loading || disableConfirm}
               onPress={placeAmbassador}
@@ -136,6 +146,8 @@ PlacementConfirmModal.propTypes = {
   selectedPlacementUpline: PropTypes.object.isRequired,
   selectedPlacementEnrolee: PropTypes.object.isRequired,
   getTopLevelUser: PropTypes.func.isRequired,
+  setPlacementSuccessData: PropTypes.func.isRequired,
+  setIsPlacementSuccessModalOpen: PropTypes.func.isRequired,
 };
 
 export default PlacementConfirmModal;
