@@ -11,7 +11,7 @@ import MyQFitIcon from '../../../assets/icons/MyQFITIcon.svg';
 import OnboardingIcon from '../../../assets/icons/OnboardingIcon.svg';
 import RequestChallengeIcon from '../../../assets/icons/RequestAChallengeIcon.svg';
 import FfmIcon from '../../../assets/icons/FFMIcon.svg';
-// import ChatIcon from '../../../assets/icons/ChatIcon.svg';
+import ChatIcon from '../../../assets/icons/ChatIcon.svg';
 import { H4Book, H6Book, MainScrollView } from '../common';
 import AppContext from '../../contexts/AppContext';
 import LoginContext from '../../contexts/LoginContext';
@@ -93,13 +93,13 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
     closeMenus();
   };
 
-  // const goToLiveChat = () => {
-  //   if (isMenuOpen && Platform.OS === 'android') {
-  //     return;
-  //   }
-  //   WebBrowser.openBrowserAsync('https://info.qsciences.com/chat');
-  //   closeMenus();
-  // };
+  const goToLiveChat = () => {
+    if (isMenuOpen && Platform.OS === 'android') {
+      return;
+    }
+    WebBrowser.openBrowserAsync('https://info.qsciences.com/chat');
+    closeMenus();
+  };
 
   const iconStyle = {
     height: 48,
@@ -255,7 +255,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
             </Card>
           </TouchableOpacity>
         )}
-        {/* <TouchableOpacity
+        <TouchableOpacity
           activeOpacity={isMenuOpen ? 1 : 0.2}
           onPress={() => {
             goToLiveChat();
@@ -275,7 +275,7 @@ const ServicesView = ({ closeMenus, isMenuOpen }) => {
               </TextWrapper>
             </Row>
           </Card>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </MainScrollView>
   );
