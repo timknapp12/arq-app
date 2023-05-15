@@ -49,6 +49,7 @@ export const Input = React.forwardRef(
       validationError = false,
       onFocus = () => {},
       style,
+      disabled,
       ...props
     },
     ref,
@@ -94,6 +95,7 @@ export const Input = React.forwardRef(
               ref={ref || inputRef}
               secureTextEntry={secureTextEntry}
               onBlur={() => setIsFocused(false)}
+              editable={!disabled}
               onFocus={() => {
                 setIsFocused(true);
                 onFocus();
@@ -128,6 +130,7 @@ Input.propTypes = {
   // onFocus prop is used in AddFolderModal.js and UploadAssetModal.js
   onFocus: PropTypes.func,
   style: PropTypes.object,
+  disabled: PropTypes.bool,
 };
 
 // Animated Input where label animates
