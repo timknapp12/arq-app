@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { useLazyQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
 import { LoadingSpinner, H6 } from '../../common';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
 import { GET_USER } from '../../../graphql/queries';
 import VisualTreeBubble from './VisualTreeBubble';
+import PlacementConfirmModal from './PlacementConfirmModal';
 import reformatListForVisualTreeBubbles from '../../../utils/teamView/reformatListForVisualTreeBubbles';
 import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
@@ -28,14 +30,25 @@ const VisualTreePaneSection = ({
   horizontalOffset,
   setActiveBubbleMember,
   activeBubbleMember,
+  fadeDown,
+  setHidePlacementContainer,
+  selectedPlacementUpline,
+  prevPlacementUpline,
+  setSelectedPlacementUpline,
+  setIsPlacementConfirmModalOpen,
+  isPlacementConfirmModalOpen,
+  selectedPlacementEnrolee,
+  getTopLevelUser,
+  setPlacementSuccessData,
+  setIsPlacementSuccessModalOpen,
 }) => {
   const { theme } = useContext(AppContext);
-
   const [treeData, setTreeData] = useState(null);
   const [outerCircleReceiveBorderColor, setOuterCircleReceiveBorderColor] =
     useState(theme.disabledTextColor);
   const [idOfDraggedItem, setIdOfDraggedItem] = useState(null);
   const [droppedMember, setDroppedMember] = useState(null);
+
   const [isOutsideBubbleEntering, setIsOutsideBubbleEntering] = useState(false);
   const [
     isBottomBubbleEnteringOuterCirlce,
@@ -43,6 +56,23 @@ const VisualTreePaneSection = ({
   ] = useState(false);
   // reloadSameData flag is when a bubble is dragged back up to the bigger outer circle and then immediately back down to the smaller receiving circle (because the data doesn't reset in this case)
   const [reloadSameData, setReloadSameData] = useState(false);
+
+  const [nextPlacementUpline, setNextPlacementUpline] = useState(null);
+  const setPlacementUplineData = (member) => {
+    const {
+      legacyAssociateId,
+      associateId,
+      firstName = '',
+      lastName = '',
+    } = member;
+    const data = {
+      legacyAssociateId,
+      associateId,
+      name: properlyCaseName(firstName, lastName),
+    };
+    setNextPlacementUpline(data);
+    setSelectedPlacementUpline(data);
+  };
 
   const [getUser, { loading, data }] = useLazyQuery(GET_USER, {
     onError: (error) =>
@@ -97,6 +127,7 @@ const VisualTreePaneSection = ({
     setTopCirlceBorderColor(theme.primaryButtonBackgroundColor);
     setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
+    fadeDown();
     Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
@@ -117,6 +148,7 @@ const VisualTreePaneSection = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setActiveBubbleMember({ ...item, level, uplineId });
     closeMenus();
+    fadeDown();
     Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
@@ -135,12 +167,18 @@ const VisualTreePaneSection = ({
     setIsBottomBubbleEnteringOuterCirlce(false);
     setTreeData(null);
     setDroppedMember(null);
+    setSelectedPlacementUpline(prevPlacementUpline);
+    setNextPlacementUpline(null);
     Analytics.logEvent('visual_tree_bubble_dropped');
   };
 
   const isAValidDropToBottomCirlce =
     isLegacyAssociateIdInArray(parentData, idOfDraggedItem) &&
     idOfDraggedItem !== droppedMember?.legacyAssociateId;
+
+  useEffect(() => {
+    setHidePlacementContainer(loading);
+  }, [loading]);
 
   if (loading) {
     return <LoadingSpinner style={{ marginTop: 20 }} size="large" />;
@@ -191,6 +229,10 @@ const VisualTreePaneSection = ({
                 cvRankId: item?.customerSalesRank?.customerSalesRankId,
                 cv: item?.cv,
                 ov: item?.ov,
+                uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
+                enrollerId:
+                  item?.uplineEnrollmentTreeNode?.associate?.legacyAssociateId,
+                dateSignedUp: item?.associate?.dateSignedUp,
               }}
               draggable={
                 item?.associate?.legacyAssociateId !==
@@ -214,6 +256,9 @@ const VisualTreePaneSection = ({
                 cv: item?.cv,
                 ov: item?.ov,
                 uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
+                enrollerId:
+                  item?.uplineEnrollmentTreeNode?.associate?.legacyAssociateId,
+                dateSignedUp: item?.associate?.dateSignedUp,
               }}
               isBeingDragged={
                 idOfDraggedItem === item?.associate?.legacyAssociateId
@@ -256,6 +301,12 @@ const VisualTreePaneSection = ({
               cvRankId: insideItem?.customerSalesRank?.customerSalesRankId,
               cv: insideItem?.cv,
               ov: insideItem?.ov,
+              uplineId:
+                insideItem?.uplineTreeNode?.associate?.legacyAssociateId,
+              enrollerId:
+                insideItem?.uplineEnrollmentTreeNode?.associate
+                  ?.legacyAssociateId,
+              dateSignedUp: insideItem?.associate?.dateSignedUp,
             }}
             draggable={
               insideItem?.associate?.legacyAssociateId !==
@@ -280,6 +331,10 @@ const VisualTreePaneSection = ({
               ov: insideItem?.ov,
               uplineId:
                 insideItem?.uplineTreeNode?.associate?.legacyAssociateId,
+              enrollerId:
+                insideItem?.uplineEnrollmentTreeNode?.associate
+                  ?.legacyAssociateId,
+              dateSignedUp: insideItem?.associate?.dateSignedUp,
             }}
             isBeingDragged={
               idOfDraggedItem === insideItem?.associate?.legacyAssociateId
@@ -334,6 +389,7 @@ const VisualTreePaneSection = ({
             });
             setReloadSameData(true);
             setDroppedMember(payload);
+            setPlacementUplineData(payload);
           }
           Analytics.logEvent('visual_tree_bubble_dropped');
         }}
@@ -375,11 +431,22 @@ const VisualTreePaneSection = ({
               horizontalOffset={horizontalOffset}
               setActiveBubbleMember={setActiveBubbleMember}
               activeBubbleMember={activeBubbleMember}
+              fadeDown={fadeDown}
+              setHidePlacementContainer={setHidePlacementContainer}
+              selectedPlacementUpline={selectedPlacementUpline}
+              // prevPlacementUpline is used for when the expanded bubbles are dragged backward up a level
+              prevPlacementUpline={nextPlacementUpline}
+              setSelectedPlacementUpline={setSelectedPlacementUpline}
+              isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
+              setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
+              selectedPlacementEnrolee={selectedPlacementEnrolee}
+              getTopLevelUser={getTopLevelUser}
+              setPlacementSuccessData={setPlacementSuccessData}
+              setIsPlacementSuccessModalOpen={setIsPlacementSuccessModalOpen}
             />
           ) : (
             <OuterCircle
-              // TODO adjust borderColor and receiving style when the functionailty for placement suite is ready
-              padding={outerCirclePadding}
+              padding={8}
               wrap="nowrap"
               borderColor={null}
               receivingStyle={
@@ -404,6 +471,19 @@ const VisualTreePaneSection = ({
           )}
         </>
       )}
+      {isPlacementConfirmModalOpen && (
+        <PlacementConfirmModal
+          visible={isPlacementConfirmModalOpen}
+          onClose={() => setIsPlacementConfirmModalOpen(false)}
+          onConfirm={() => {}}
+          confirmButtonDisabled={false}
+          selectedPlacementUpline={selectedPlacementUpline}
+          selectedPlacementEnrolee={selectedPlacementEnrolee}
+          getTopLevelUser={getTopLevelUser}
+          setPlacementSuccessData={setPlacementSuccessData}
+          setIsPlacementSuccessModalOpen={setIsPlacementSuccessModalOpen}
+        />
+      )}
     </>
   );
 };
@@ -418,6 +498,17 @@ VisualTreePaneSection.propTypes = {
   horizontalOffset: PropTypes.number.isRequired,
   setActiveBubbleMember: PropTypes.func.isRequired,
   activeBubbleMember: PropTypes.object,
+  fadeDown: PropTypes.func.isRequired,
+  setHidePlacementContainer: PropTypes.func.isRequired,
+  selectedPlacementUpline: PropTypes.object,
+  prevPlacementUpline: PropTypes.object,
+  setSelectedPlacementUpline: PropTypes.func.isRequired,
+  isPlacementConfirmModalOpen: PropTypes.bool.isRequired,
+  setIsPlacementConfirmModalOpen: PropTypes.func.isRequired,
+  selectedPlacementEnrolee: PropTypes.object,
+  getTopLevelUser: PropTypes.func.isRequired,
+  setPlacementSuccessData: PropTypes.func.isRequired,
+  setIsPlacementSuccessModalOpen: PropTypes.func.isRequired,
 };
 
 export default VisualTreePaneSection;

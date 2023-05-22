@@ -53,6 +53,19 @@ PrimaryButton.propTypes = {
   children: PropTypes.string.isRequired,
 };
 
+export const PrimaryButtonSmall = ({ disabled, children, ...props }) => (
+  <ThemedButton style={{ minHeight: 20 }} disabled={disabled} {...props}>
+    <ThemedText style={{ fontSize: 16 }} disabled={disabled}>
+      {children}
+    </ThemedText>
+  </ThemedButton>
+);
+
+PrimaryButtonSmall.propTypes = {
+  disabled: PropTypes.bool,
+  children: PropTypes.string.isRequired,
+};
+
 // SECONDARY BUTTON
 const ThemedSecondaryButton = styled.TouchableOpacity`
   ${sharedCss};
