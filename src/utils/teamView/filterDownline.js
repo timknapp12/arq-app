@@ -1,5 +1,39 @@
 import { Localized } from '../../translations/Localized';
 
+const placementDayLimit = 7;
+
+export const isWithinPlaceTime = (date) => {
+  const today = new Date();
+  const oneWeekAgo = new Date(
+    today.getTime() - placementDayLimit * 24 * 60 * 60 * 1000,
+  );
+  return new Date(date).getTime() >= oneWeekAgo.getTime();
+};
+
+export const getAssociatesEligibleForPlacement = (associateData) => {
+  if (
+    !associateData ||
+    !associateData.enrollmentChildTreeNodes ||
+    !associateData.childTreeNodes
+  ) {
+    return [];
+  }
+  const intersection = associateData.enrollmentChildTreeNodes.filter((obj1) =>
+    associateData.childTreeNodes.some(
+      (obj2) => obj2.associate.associateId === obj1.associate.associateId,
+    ),
+  );
+
+  const ambassadorsOnly = intersection.filter((obj1) => {
+    return obj1.associate.associateType.toLowerCase() === 'ambassador';
+  });
+
+  const recentEnough = ambassadorsOnly.filter((obj1) => {
+    return isWithinPlaceTime(obj1.associate.dateSignedUp);
+  });
+  return recentEnough;
+};
+
 export const findMembersInDownlineOneLevel = (array, firstType, secondType) => {
   return array?.filter(
     (member) =>

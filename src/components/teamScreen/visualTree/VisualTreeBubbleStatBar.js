@@ -4,6 +4,7 @@ import { H6Secondary, Gap } from '../../common';
 import AppContext from '../../../contexts/AppContext';
 import LoginContext from '../../../contexts/LoginContext';
 import RankIcon from './RankIcon';
+import PlacementStatBar from './PlacementStatBar';
 import { BarContainer, Bar } from '../../teamScreen/myTeam/myTeamCard.styles';
 import {
   VisualTreeStatsBarCard,
@@ -18,7 +19,7 @@ import stringify from '../../../utils/roundDownAndAddCommas/stringify';
 import { Localized } from '../../../translations/Localized';
 import { Platform } from 'react-native';
 
-const VisualTreeBubbleStatBar = ({ member }) => {
+const VisualTreeBubbleStatBar = ({ member, showTimeclock }) => {
   const { theme } = useContext(AppContext);
   const { ranks } = useContext(LoginContext);
 
@@ -55,33 +56,40 @@ const VisualTreeBubbleStatBar = ({ member }) => {
         }
       }
     >
-      <Row>
-        <AmbassadorOVRankIcon />
-        <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
-          'Total OV',
-        )}: ${stringify(member?.ov)}`}</H6Secondary>
-      </Row>
-      <Gap height="4px" />
-      <BarContainer>
-        <Bar width={ovWidth} color={theme.donut1primaryColor} />
-      </BarContainer>
-      <Gap height="4px" />
-      <Row>
-        <AmbassadorCVRankIcon />
-        <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
-          'Total CV',
-        )}: ${stringify(member?.cv)}`}</H6Secondary>
-      </Row>
-      <Gap height="4px" />
-      <BarContainer>
-        <Bar width={`${cvWidth}%`} color={theme.donut3primaryColor} />
-      </BarContainer>
+      {showTimeclock ? (
+        <PlacementStatBar member={member} />
+      ) : (
+        <>
+          <Row>
+            <AmbassadorOVRankIcon />
+            <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
+              'Total OV',
+            )}: ${stringify(member?.ov)}`}</H6Secondary>
+          </Row>
+          <Gap height="4px" />
+          <BarContainer>
+            <Bar width={ovWidth} color={theme.donut1primaryColor} />
+          </BarContainer>
+          <Gap height="4px" />
+          <Row>
+            <AmbassadorCVRankIcon />
+            <H6Secondary style={{ marginStart: 6 }}>{`${Localized(
+              'Total CV',
+            )}: ${stringify(member?.cv)}`}</H6Secondary>
+          </Row>
+          <Gap height="4px" />
+          <BarContainer>
+            <Bar width={`${cvWidth}%`} color={theme.donut3primaryColor} />
+          </BarContainer>
+        </>
+      )}
     </VisualTreeStatsBarCard>
   );
 };
 
 VisualTreeBubbleStatBar.propTypes = {
   member: PropTypes.object.isRequired,
+  showTimeclock: PropTypes.bool,
 };
 
 export default VisualTreeBubbleStatBar;

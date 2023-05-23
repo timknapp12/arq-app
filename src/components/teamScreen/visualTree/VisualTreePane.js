@@ -1,19 +1,29 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import * as Analytics from 'expo-firebase-analytics';
+// Components
+import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { LoadingSpinner, H5 } from '../../common';
 import { DraxScrollView } from 'react-native-drax';
 import VisualTreeBubble from './VisualTreeBubble';
 import VisualTreePaneSection from './VisualTreePaneSection';
-import AppContext from '../../../contexts/AppContext';
-import TeamScreenContext from '../../../contexts/TeamScreenContext';
+import PlacementsDrawer from './PlacementsDrawer';
+import PlacementSuccessModal from './PlacementSuccessModal';
 import { VisualTreeContainer, ReceivingCircle } from './visualTree.styles';
+// Utils
 import { GET_USER } from '../../../graphql/queries';
-import { findMembersInDownlineOneLevel } from '../../../utils/teamView/filterDownline';
+import {
+  findMembersInDownlineOneLevel,
+  getAssociatesEligibleForPlacement,
+} from '../../../utils/teamView/filterDownline';
 import isLegacyAssociateIdInArray from '../../../utils/teamView/isLegacyAssociateIdInArray';
 import { Localized } from '../../../translations/Localized';
+import properlyCaseName from '../../../utils/properlyCaseName/properlyCaseName';
+// Contexts
+import AppContext from '../../../contexts/AppContext';
+import TeamScreenContext from '../../../contexts/TeamScreenContext';
+import LoginContext from '../../../contexts/LoginContext';
 
 const VisualTreePane = ({
   searchId,
@@ -23,9 +33,11 @@ const VisualTreePane = ({
   setActiveBubbleMember,
   activeBubbleMember,
   setPaneHasContent,
+  paneHasContent,
 }) => {
   const { theme } = useContext(AppContext);
   const { isViewReset, setIsViewReset } = useContext(TeamScreenContext);
+  const { user } = useContext(LoginContext);
 
   const [receiveCirlceBorderColor, setReceiveCirlceBorderColor] = useState(
     theme.disabledTextColor,
@@ -49,9 +61,14 @@ const VisualTreePane = ({
   });
 
   const emptySearchId = 0;
+  const getTopLevelUser = () =>
+    getUser({
+      variables: { legacyAssociateId: searchId },
+      fetchPolicy: 'network-only',
+    });
   useEffect(() => {
     if (searchId !== emptySearchId) {
-      getUser({ variables: { legacyAssociateId: searchId } });
+      getTopLevelUser();
     }
   }, [searchId, level]);
 
@@ -63,12 +80,14 @@ const VisualTreePane = ({
     associateType: item?.associate?.associateType,
     associateStatus: item?.associate?.associateStatus,
     uplineId: item?.uplineTreeNode?.associate?.legacyAssociateId,
+    enrollerId: item?.uplineEnrollmentTreeNode?.associate?.legacyAssociateId,
     ovRankName: item?.rank?.rankName,
     ovRankId: item?.rank?.rankId,
     cvRankName: item?.customerSalesRank?.rankName,
     cvRankId: item?.customerSalesRank?.customerSalesRankId,
     ov: item?.ov,
     cv: item?.cv,
+    dateSignedUp: item?.associate?.dateSignedUp,
   });
 
   useEffect(() => {
@@ -97,6 +116,7 @@ const VisualTreePane = ({
     setIdOfDraggedItem(item?.legacyAssociateId);
     setActiveBubbleMember({ ...item, level });
     closeMenus();
+    fadeDown();
     Analytics.logEvent('visual_tree_bubble_tapped');
   };
 
@@ -128,6 +148,73 @@ const VisualTreePane = ({
   // this is needed to keep track of when the user scrolls horizontally to adjust absolute position of bubbles if the scrollview is wider than 100% width
   const onHorizontalScroll = ({ contentOffset }) => {
     setHorizontalOffset(contentOffset.x);
+  };
+
+  // PLACEMENT SUITE
+  const initialPlacementList = getAssociatesEligibleForPlacement(user);
+  const [associatesEligibleForPlacement, setAssociatesEligibleForPlacement] =
+    useState(initialPlacementList);
+  const [hidePlacementContainer, setHidePlacementContainer] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  // topLevelPlacementUpline is a place holder so if expanded bubbles are dragged back to the top level we know who is at the top and can set the selectedPlacementUpline to the correct person
+  const [topLevelPlacementUpline, setTopLevelPlacementUpline] = useState(null);
+  // this will be the person used when the PlaceMentConfirmModal is opened
+  const [selectedPlacementUpline, setSelectedPlacementUpline] = useState(null);
+  const [selectedPlacementEnrolee, setSelectedPlacementEnrolee] =
+    useState(null);
+  const [isPlacementConfirmModalOpen, setIsPlacementConfirmModalOpen] =
+    useState(false);
+  const [isPlacementSuccessModalOpen, setIsPlacementSuccessModalOpen] =
+    useState(false);
+  const [placementSuccessData, setPlacementSuccessData] = useState({
+    uplineName: '',
+    enrolleeName: '',
+  });
+
+  useEffect(() => {
+    if (user) {
+      const placementList = getAssociatesEligibleForPlacement(user);
+      setAssociatesEligibleForPlacement(placementList);
+    }
+  }, [user]);
+
+  const initialValue = -128;
+  const fadeAnim = useRef(new Animated.Value(initialValue)).current;
+
+  useEffect(() => {
+    if (focusedMember) {
+      const {
+        legacyAssociateId,
+        associateId,
+        firstName = '',
+        lastName = '',
+      } = focusedMember;
+      const data = {
+        legacyAssociateId,
+        associateId,
+        name: properlyCaseName(firstName, lastName),
+      };
+      setSelectedPlacementUpline(data);
+      setTopLevelPlacementUpline(data);
+    }
+  }, [focusedMember]);
+
+  const fadeUp = () => {
+    setIsExpanded(true);
+    Animated.timing(fadeAnim, {
+      toValue: 80,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const fadeDown = () => {
+    setIsExpanded(false);
+    Animated.timing(fadeAnim, {
+      toValue: initialValue,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
   };
 
   if (loading) {
@@ -219,6 +306,18 @@ const VisualTreePane = ({
                 horizontalOffset={horizontalOffset}
                 setActiveBubbleMember={setActiveBubbleMember}
                 activeBubbleMember={activeBubbleMember}
+                fadeDown={fadeDown}
+                setHidePlacementContainer={setHidePlacementContainer}
+                selectedPlacementUpline={selectedPlacementUpline}
+                // prevPlacementUpline is used for when the expanded bubbles are dragged backward toward the top
+                prevPlacementUpline={topLevelPlacementUpline}
+                setSelectedPlacementUpline={setSelectedPlacementUpline}
+                isPlacementConfirmModalOpen={isPlacementConfirmModalOpen}
+                setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
+                selectedPlacementEnrolee={selectedPlacementEnrolee}
+                getTopLevelUser={getTopLevelUser}
+                setIsPlacementSuccessModalOpen={setIsPlacementSuccessModalOpen}
+                setPlacementSuccessData={setPlacementSuccessData}
               />
             </VisualTreeContainer>
           </TouchableWithoutFeedback>
@@ -227,6 +326,24 @@ const VisualTreePane = ({
         <H5 style={{ textAlign: 'center', marginTop: 16 }}>
           {Localized('Search for a team member')}
         </H5>
+      )}
+      {paneHasContent && !hidePlacementContainer && (
+        <PlacementsDrawer
+          associatesEligibleForPlacement={associatesEligibleForPlacement}
+          isExpanded={isExpanded}
+          fadeAnim={fadeAnim}
+          fadeUp={fadeUp}
+          fadeDown={fadeDown}
+          setIsPlacementConfirmModalOpen={setIsPlacementConfirmModalOpen}
+          setSelectedPlacementEnrolee={setSelectedPlacementEnrolee}
+        />
+      )}
+      {isPlacementSuccessModalOpen && (
+        <PlacementSuccessModal
+          visible={isPlacementSuccessModalOpen}
+          onClose={() => setIsPlacementSuccessModalOpen(false)}
+          placementSuccessData={placementSuccessData}
+        />
       )}
     </DraxScrollView>
   );
@@ -240,6 +357,7 @@ VisualTreePane.propTypes = {
   setActiveBubbleMember: PropTypes.func.isRequired,
   activeBubbleMember: PropTypes.object,
   setPaneHasContent: PropTypes.func.isRequired,
+  paneHasContent: PropTypes.bool.isRequired,
 };
 
 export default VisualTreePane;
