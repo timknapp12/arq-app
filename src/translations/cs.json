@@ -417,5 +417,6 @@
   "Place enrollee under": "Umístěte přihlášeného pod",
   "Enrollee": "Zapsaný",
   "You can not place enrollees under themselves": "Nemůžete umístit přihlášené pod sebe",
-  "Success! {name1} is now on the team of {name2}": "Úspěch! {name1} je nyní v týmu {name2}"
+  "Success! {name1} is now on the team of {name2}": "Úspěch! {name1} je nyní v týmu {name2}",
+  "Pay History": "Historie Plateb"
 }
