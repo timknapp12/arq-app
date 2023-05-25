@@ -139,7 +139,7 @@ const DashboardScreen = ({ navigation }) => {
             </Flexbox>
           ) : // Pay History has a FlatList which has issues being inside a ScrollView so we put it outside the ScrollView
           view.name === Localized('Pay History').toUpperCase() ? (
-            <View style={{ width: '100%' }}>
+            <View style={{ width: '100%', zIndex: -1 }}>
               <PayHistory />
             </View>
           ) : (
