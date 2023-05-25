@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+  Animated,
+  View,
+} from 'react-native';
 import 'firebase/firestore';
 import { useIsFocused } from '@react-navigation/native';
 import * as Analytics from 'expo-firebase-analytics';
@@ -16,6 +21,7 @@ import { Localized } from '../../translations/Localized';
 import Overview from './Overview';
 import Rank from './rank/Rank';
 import OVDetail from './OVDetail';
+import PayHistory from './PayHistory';
 import PopoutMenu from '../mainMenu/PopoutMenu';
 import MyInfoModal from '../mainMenu/MyInfoModal';
 import SettingsModal from '../mainMenu/SettingsModal';
@@ -45,6 +51,10 @@ const DashboardScreen = ({ navigation }) => {
     { name: Localized('Overview').toUpperCase(), testID: 'overview_button' },
     { name: Localized('Rank').toUpperCase(), testID: 'rank_button' },
     { name: Localized('OV Detail').toUpperCase(), testID: 'ov_detail_button' },
+    {
+      name: Localized('Pay History').toUpperCase(),
+      testID: 'pay_history_button',
+    },
   ];
 
   const [view, setView] = useState(tertiaryButtonText[0]);
@@ -127,6 +137,11 @@ const DashboardScreen = ({ navigation }) => {
             <Flexbox height="90%" justify="center">
               <LoadingSpinner size="large" />
             </Flexbox>
+          ) : // Pay History has a FlatList which has issues being inside a ScrollView so we put it outside the ScrollView
+          view.name === Localized('Pay History').toUpperCase() ? (
+            <View style={{ width: '100%' }}>
+              <PayHistory />
+            </View>
           ) : (
             <ScrollView
               contentContainerStyle={{
