@@ -37,7 +37,7 @@ const PayHistoryCard = ({ item }) => {
     deviceLanguage || 'en',
     options,
   );
-  // for some stupid reason the date was defaulting to German on first render, so putting it in a useEffect should make sure updates
+  // for some stupid reason the date was defaulting to German on first render, so putting it in a useEffect should make sure it updates
   const [date, setDate] = useState(initialDate);
   useEffect(() => {
     if (deviceLanguage && item.dateCreated) {
