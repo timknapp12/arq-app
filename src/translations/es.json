@@ -418,5 +418,6 @@
   "Enrollee": "Afiliado",
   "You can not place enrollees under themselves": "No se pueden colocar inscritos debajo de sí mismos.",
   "Success! {name1} is now on the team of {name2}": "¡Éxito! {name1} ahora está en el equipo de {name2}",
-  "Pay History": "Historial de Pago"
+  "Pay History": "Historial de Pago",
+  "No Pay History": "Sin historial de pago"
 }

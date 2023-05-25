@@ -418,5 +418,6 @@
   "Enrollee": "Registrert",
   "You can not place enrollees under themselves": "Du kan ikke plassere påmeldte under seg selv",
   "Success! {name1} is now on the team of {name2}": "Suksess! {name1} er nå i teamet til {name2}",
-  "Pay History": "Betalingshistorikk"
+  "Pay History": "Betalingshistorikk",
+  "No Pay History": "Ingen betalingshistorikk"
 }

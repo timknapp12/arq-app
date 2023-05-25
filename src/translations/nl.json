@@ -418,5 +418,6 @@
   "Enrollee": "Ingeschrevene",
   "You can not place enrollees under themselves": "U kunt ingeschrevenen niet onder zichzelf plaatsen",
   "Success! {name1} is now on the team of {name2}": "Succes! {name1} zit nu in het team van {name2}",
-  "Pay History": "Betaal Geschiedenis"
+  "Pay History": "Betaal Geschiedenis",
+  "No Pay History": "Geen betalingsgeschiedenis"
 }

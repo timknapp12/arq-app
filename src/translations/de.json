@@ -418,5 +418,6 @@
   "Enrollee": "Eingeschriebener",
   "You can not place enrollees under themselves": "Sie können Eingeschriebene nicht unter sich selbst einordnen",
   "Success! {name1} is now on the team of {name2}": "Erfolg! {name1} ist jetzt im Team von {name2}",
-  "Pay History": "Gehaltshistorie"
+  "Pay History": "Gehaltshistorie",
+  "No Pay History": "Keine Gehaltshistorie"
 }

@@ -418,5 +418,6 @@
   "Enrollee": "登録者",
   "You can not place enrollees under themselves": "登録者を自分の下に配置することはできません",
   "Success! {name1} is now on the team of {name2}": "成功！{name1} は現在 {name2} のチームに所属しています",
-  "Pay History": "支払い履歴"
+  "Pay History": "支払い履歴",
+  "No Pay History": "支払い履歴なし"
 }
