@@ -176,7 +176,7 @@ const VisualTreePane = ({
       const placementList = getAssociatesEligibleForPlacement(user);
       setAssociatesEligibleForPlacement(placementList);
     }
-  }, [user]);
+  }, [user, isPlacementSuccessModalOpen]);
 
   const initialValue = -128;
   const fadeAnim = useRef(new Animated.Value(initialValue)).current;
