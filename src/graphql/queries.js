@@ -670,3 +670,23 @@ export const LEADERBOARD = gql`
     }
   }
 `;
+
+export const GET_PAY_HISTORY = gql`
+  query {
+    associateTotalPayouts(order: { dateCreated: ASC }) {
+      associateId
+      totalDueThisPeriodUSD
+      dateCreated
+      isDisbursed
+      disbursements {
+        disbursementId
+        dateCreated
+        paymentToken
+        paymentStatus
+        currency
+        amountInCurrency
+        notes
+      }
+    }
+  }
+`;

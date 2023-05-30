@@ -16,8 +16,7 @@ import LoginContext from '../../contexts/LoginContext';
 import { Localized } from '../../translations/Localized';
 
 const EnrollmentScreen = () => {
-  const { shopQUrl, userProfile } = useContext(LoginContext);
-  const slug = userProfile?.associateSlugs?.[0]?.slug;
+  const { shopQUrl, slug } = useContext(LoginContext);
   const [selectedOption, setSelectedOption] = useState('retail');
 
   const pcAndAmburl = `${shopQUrl}${slug}?type${encodeURIComponent(

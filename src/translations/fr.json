@@ -417,5 +417,7 @@
   "Place enrollee under": "Placer l'inscrit sous",
   "Enrollee": "Inscrit",
   "You can not place enrollees under themselves": "Vous ne pouvez pas placer les inscrits sous eux-mêmes",
-  "Success! {name1} is now on the team of {name2}": "Succès! {name1} fait maintenant partie de l'équipe de {name2}"
+  "Success! {name1} is now on the team of {name2}": "Succès! {name1} fait maintenant partie de l'équipe de {name2}",
+  "Pay History": "Historique des Paiements",
+  "No Pay History": "Aucun historique de paie"
 }

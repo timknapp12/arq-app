@@ -475,7 +475,6 @@ const VisualTreePaneSection = ({
         <PlacementConfirmModal
           visible={isPlacementConfirmModalOpen}
           onClose={() => setIsPlacementConfirmModalOpen(false)}
-          onConfirm={() => {}}
           confirmButtonDisabled={false}
           selectedPlacementUpline={selectedPlacementUpline}
           selectedPlacementEnrolee={selectedPlacementEnrolee}

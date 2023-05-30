@@ -417,5 +417,7 @@
   "Place enrollee under": "Posiziona l'iscritto sotto",
   "Enrollee": "Iscritto",
   "You can not place enrollees under themselves": "Non puoi inserire gli iscritti sotto se stessi",
-  "Success! {name1} is now on the team of {name2}": "Successo! {name1} è ora nel team di {name2}"
+  "Success! {name1} is now on the team of {name2}": "Successo! {name1} è ora nel team di {name2}",
+  "Pay History": "Cronologia Pagamenti",
+  "No Pay History": "Nessuna cronologia delle retribuzioni"
 }

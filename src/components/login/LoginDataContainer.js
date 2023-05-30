@@ -252,6 +252,7 @@ const LoginDataContainer = ({ children }) => {
     findUsersOwnTeamInfo(associateId, userAccessCodesData?.accesses ?? '');
 
   const shopQUrl = 'https://qsciences.com/store/';
+  const slug = profileData?.associates?.[0]?.associateSlugs?.[0]?.slug;
 
   return (
     <LoginContext.Provider
@@ -293,6 +294,7 @@ const LoginDataContainer = ({ children }) => {
         usersTeamInfo,
         refetchUserAccessCodes,
         shopQUrl,
+        slug,
         expoPushToken,
         isPushNotificationPermsGranted,
         enabledMarket,
