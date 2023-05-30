@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Flexbox, H6, H6Heavy } from '../common';
 import AppContext from '../../contexts/AppContext';
 import getLocalDate from '../../translations/getLocalDate/getLocalDate';
+require('number-to-locale-string-polyfill');
 
 export const Container = styled.View`
   width: 100%;
@@ -24,6 +25,9 @@ const DateContainer = styled.View`
 `;
 
 const options = 'DD MMM YYYY';
+
+const stringify = (number) =>
+  number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 const PayHistoryCard = ({ item }) => {
   const { deviceLanguage } = useContext(AppContext);
@@ -61,6 +65,8 @@ const PayHistoryCard = ({ item }) => {
   };
 
   const total = formatCurrency(completed?.amountInCurrency);
+  const symbol = total.substring(0, 1);
+  const number = stringify(completed?.amountInCurrency.toFixed(2));
 
   return (
     <Container
@@ -72,7 +78,7 @@ const PayHistoryCard = ({ item }) => {
           <H6 style={{ opacity: 1 }}>{date}</H6>
         </DateContainer>
         <Flexbox style={{ flex: 1 }}>
-          <H6Heavy>{`${total} (${completed?.currency})`}</H6Heavy>
+          <H6Heavy>{`${symbol}${number} (${completed?.currency})`}</H6Heavy>
         </Flexbox>
       </Flexbox>
     </Container>
