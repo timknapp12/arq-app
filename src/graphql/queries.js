@@ -164,6 +164,14 @@ export const GET_USER = gql`
         pa
         cv
         ov
+        leg1
+        leg2
+        leg3
+        previousAmbassadorMonthlyRecord {
+          leg1
+          leg2
+          leg3
+        }
         teamAutoshipVolume
         customerSalesRank {
           customerSalesRankId
@@ -212,6 +220,14 @@ export const GET_USER = gql`
           pa
           cv
           ov
+          leg1
+          leg2
+          leg3
+          previousAmbassadorMonthlyRecord {
+            leg1
+            leg2
+            leg3
+          }
           teamAutoshipVolume
           customerSalesRank {
             customerSalesRankId
