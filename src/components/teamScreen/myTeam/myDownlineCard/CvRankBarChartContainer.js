@@ -36,6 +36,12 @@ const CvRankBarChartContainer = ({ member }) => {
     'minimumQoV',
   );
 
+  const nextRankName = findRequiredValueOfNextRank(
+    currentRankId,
+    ranks,
+    'rankName',
+  );
+
   const thisMonthCvWidth = getPercentage(cv, requiredCvForNextRank);
   const lastMonthCvWidth = getPercentage(
     previousAmbassadorMonthlyRecord?.preferredCustomerVolume ??
@@ -67,7 +73,7 @@ const CvRankBarChartContainer = ({ member }) => {
     <TouchableWithoutFeedback onPress={closeAllMenus}>
       <>
         <H5 style={{ textAlign: 'center' }}>
-          {Localized(`Progress towards next rank`)}
+          {`${Localized(`Progress towards next rank`)}: ${nextRankName}`}
         </H5>
         <Flexbox align="flex-start" width="100%">
           <H4>{Localized('Total CV')}</H4>
