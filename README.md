@@ -1,4 +1,7 @@
-# q-connect-pro-react-native
+# ARQ - React Native
+
+## Context
+I wrote 99% of the code in this repo while I worked at Q Sciences from 2021-2023. It became an app in Apple App Store and Google Play known as ARQ. There were tens of thousands of downloads and supported in several countries and languages.
 
 ## Description
 This project is for the frontend of Q Connect Pro mobile app for Q Sciences. It is built in React Native.
